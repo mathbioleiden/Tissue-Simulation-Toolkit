@@ -1,0 +1,48 @@
+# Parameter file for vasculogenesis, with long cells. Cf. Fig. 4
+# of Merks et al. 2006, Dev. Biol.
+# on small field (200x200).
+
+# Cellular Potts parameters
+T = 50
+target_area = 100
+target_length = 10
+lambda = 50
+lambda2 = 5.0
+Jtable = J.dat
+conn_diss = 2000
+vecadherinknockout = true
+chemotaxis = 1000
+extensiononly = false
+border_energy = 100
+
+# note: do not change the following parameters for "long" cells (lambda2>0)
+neighbours = 2
+periodic_boundaries = false
+
+# PDE parameters
+n_chem = 1
+diff_coeff = 1e-13
+decay_rate = 1.8e-4
+secr_rate = 1.8e-4
+saturation = 0.
+dt = 2.
+dx = 2e-6
+pde_its = 15
+
+# initial conditions (create a "blob" of cells in the middle)
+n_init_cells = 100
+size_init_cells = 10
+sizex = 200
+sizey = 200
+divisions = 0
+mcs = 10000
+rseed = -1
+subfield = 1
+relaxation = 0
+
+# output
+storage_stride = 10
+graphics = true
+store = false
+datadir = .
+

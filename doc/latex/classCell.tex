@@ -1,0 +1,1023 @@
+\section{Cell Class Reference}
+\label{classCell}\index{Cell@{Cell}}
+
+
+{\ttfamily \#include $<$cell.\-h$>$}
+
+
+
+Collaboration diagram for Cell\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{classCell__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Cell} (const {\bf Dish} \&who, int settau=1)
+\begin{DoxyCompactList}\small\item\em Constructor to insert a cell into \doxyref{Dish}{p.}{classDish} \char`\"{}who\char`\"{}. \end{DoxyCompactList}\item 
+{\bf Cell} (void)
+\item 
+{\bf $\sim$\-Cell} (void)
+\item 
+{\bf Cell} (const {\bf Cell} \&src)
+\begin{DoxyCompactList}\small\item\em Default copy constructor. \end{DoxyCompactList}\item 
+void {\bf Cell\-Birth} ({\bf Cell} \&{\bf mother})
+\begin{DoxyCompactList}\small\item\em Add a new cell to the dish. \end{DoxyCompactList}\item 
+{\bf Cell} \& {\bf operator=} (const {\bf Cell} \&src)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+bool {\bf Alive\-P} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns false if \doxyref{Cell}{p.}{classCell} has apoptosed (vanished). \end{DoxyCompactList}\item 
+int {\bf Colour} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns the cell colour. \end{DoxyCompactList}\item 
+void {\bf set\-Tau} (int settau)
+\begin{DoxyCompactList}\small\item\em Set cell type of this \doxyref{Cell}{p.}{classCell}. \end{DoxyCompactList}\item 
+int {\bf get\-Tau} (void)
+\begin{DoxyCompactList}\small\item\em Get cell type of this \doxyref{Cell}{p.}{classCell}. \end{DoxyCompactList}\item 
+int {\bf Set\-Colour} (const int new\-\_\-colour)
+\begin{DoxyCompactList}\small\item\em Set color of this cell to new\-\_\-colour, irrespective of type. \end{DoxyCompactList}\item 
+int {\bf Energy\-Difference} (const {\bf Cell} \&cell2) const 
+\item 
+int {\bf Area} () const 
+\begin{DoxyCompactList}\small\item\em Return \doxyref{Cell}{p.}{classCell}'s actual area. \end{DoxyCompactList}\item 
+int {\bf Target\-Area} () const 
+\begin{DoxyCompactList}\small\item\em Return \doxyref{Cell}{p.}{classCell}'s target area. \end{DoxyCompactList}\item 
+double {\bf Target\-Length} () const 
+\begin{DoxyCompactList}\small\item\em Return \doxyref{Cell}{p.}{classCell}'s target length. \end{DoxyCompactList}\item 
+double {\bf Set\-Target\-Length} (double l)
+\begin{DoxyCompactList}\small\item\em Set the \doxyref{Cell}{p.}{classCell}'s target length. \end{DoxyCompactList}\item 
+void {\bf Print\-Inertia} (void)
+\begin{DoxyCompactList}\small\item\em Debugging function used to print the cell's current inertia tensor (as used for calculations of the length ) \end{DoxyCompactList}\item 
+double {\bf Length} (void)
+\item 
+void {\bf Renorm\-Polar\-Vec} (void)
+\item 
+int {\bf Sigma} () const 
+\begin{DoxyCompactList}\small\item\em Returns the cell's cell identity number. \end{DoxyCompactList}\item 
+int {\bf Set\-Target\-Area} (const int new\-\_\-area)
+\begin{DoxyCompactList}\small\item\em Sets the target area of the cell. \end{DoxyCompactList}\item 
+void {\bf Apoptose} ()
+\begin{DoxyCompactList}\small\item\em Sends the current cell into apoptosis. \end{DoxyCompactList}\item 
+int {\bf Increment\-Target\-Area} ()
+\begin{DoxyCompactList}\small\item\em Decrement the cell's target area by one unit. \end{DoxyCompactList}\item 
+int {\bf Decrement\-Target\-Area} ()
+\begin{DoxyCompactList}\small\item\em Increment the cell's target area by one unit. \end{DoxyCompactList}\item 
+int {\bf Mother} (void) const 
+\begin{DoxyCompactList}\small\item\em \doxyref{Cell}{p.}{classCell} lineage tracking\-: get the cell's parent. \end{DoxyCompactList}\item 
+int {\bf Daughter} (void) const 
+\begin{DoxyCompactList}\small\item\em \doxyref{Cell}{p.}{classCell} lineage tracking\-: get the cell's daughter. \end{DoxyCompactList}\item 
+int {\bf Times\-Divided} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns a counter keeping track of the number of divisions. \end{DoxyCompactList}\item 
+int {\bf Date\-Of\-Birth} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns Monte Carlo Step (M\-C\-S) when this cell originated. \end{DoxyCompactList}\item 
+int {\bf Colour\-Of\-Birth} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns the cell type at the time of birth. \end{DoxyCompactList}\item 
+int {\bf Get\-J} (const {\bf Cell} \&c2) const 
+\begin{DoxyCompactList}\small\item\em Returns the bond energy J between this cell and cell c2. \end{DoxyCompactList}\item 
+double $\ast$ {\bf Set\-Grad} (double $\ast$g)
+\begin{DoxyCompactList}\small\item\em Set the current gradient of the cell to g. Currently not in use. \end{DoxyCompactList}\item 
+const double $\ast$ {\bf Get\-Grad} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns the cell's measured gradient. Currently not in use. \end{DoxyCompactList}\item 
+const double {\bf Grad\-X} () const 
+\begin{DoxyCompactList}\small\item\em Returns the cell's measured gradient. Currently not in use. \end{DoxyCompactList}\item 
+const double {\bf Grad\-Y} () const 
+\begin{DoxyCompactList}\small\item\em Returns the cell's measured gradient. Currently not in use. \end{DoxyCompactList}\item 
+double $\ast$ {\bf Add\-To\-Grad} (double $\ast$g)
+\begin{DoxyCompactList}\small\item\em Currently not in use (remove?) \end{DoxyCompactList}\item 
+void {\bf Clear\-Grad} (void)
+\begin{DoxyCompactList}\small\item\em Currently not in use (remove?) \end{DoxyCompactList}\item 
+void {\bf Measure\-Cell\-Size} ({\bf Cell} \&c)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void {\bf Clear\-J} (void)
+\begin{DoxyCompactList}\small\item\em Clears the table of J's. \end{DoxyCompactList}\item 
+static int {\bf Max\-Sigma} ()
+\begin{DoxyCompactList}\small\item\em Returns the maximum cell identity number in the \doxyref{Dish}{p.}{classDish}. This would normally be the number of cells in the \doxyref{Dish}{p.}{classDish}, although the number includes apoptosed cells. \end{DoxyCompactList}\item 
+static int {\bf Set\-J} (int t1, int t2, int val)
+\begin{DoxyCompactList}\small\item\em Sets bond energy J between cell type t1 and t2 to val. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double {\bf polarvec} [9]
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf colour}
+\item 
+bool {\bf alive}
+\item 
+int {\bf sigma}
+\item 
+int {\bf tau}
+\item 
+double {\bf length}
+\item 
+double {\bf target\-\_\-length}
+\item 
+int {\bf mother}
+\item 
+int {\bf daughter}
+\item 
+int {\bf times\-\_\-divided}
+\item 
+int {\bf date\-\_\-of\-\_\-birth}
+\item 
+int {\bf colour\-\_\-of\-\_\-birth}
+\item 
+int {\bf area}
+\item 
+int {\bf target\-\_\-area}
+\item 
+int {\bf growth\-\_\-threshold}
+\item 
+double {\bf v} [2]
+\item 
+int {\bf n\-\_\-copies}
+\item 
+double {\bf grad} [2]
+\item 
+double $\ast$ {\bf chem}
+\item 
+long int {\bf sum\-\_\-x}
+\item 
+long int {\bf sum\-\_\-y}
+\item 
+long int {\bf sum\-\_\-xx}
+\item 
+long int {\bf sum\-\_\-yy}
+\item 
+long int {\bf sum\-\_\-xy}
+\item 
+const {\bf Dish} $\ast$ {\bf owner}
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static int $\ast$$\ast$ {\bf J} =0
+\item 
+static int {\bf maxtau} =0
+\item 
+static int {\bf amount} =0
+\item 
+static int {\bf capacity} =0
+\item 
+static int {\bf maxsigma} =0
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bf Dish}
+\item 
+class {\bf Cellular\-Potts}
+\item 
+class {\bf Info}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Cell@{Cell}!Cell@{Cell}}
+\index{Cell@{Cell}!Cell@{Cell}}
+\subsubsection[{Cell}]{\setlength{\rightskip}{0pt plus 5cm}Cell\-::\-Cell (
+\begin{DoxyParamCaption}
+\item[{const {\bf Dish} \&}]{who, }
+\item[{int}]{settau = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a822aecd83d8aa95fab97641a88e60225}
+
+
+Constructor to insert a cell into \doxyref{Dish}{p.}{classDish} \char`\"{}who\char`\"{}. 
+
+Used to add a new \doxyref{Cell}{p.}{classCell} to the dish\-: new \doxyref{Cell}{p.}{classCell}(dish, celtype). 
+
+References owner.
+
+\index{Cell@{Cell}!Cell@{Cell}}
+\index{Cell@{Cell}!Cell@{Cell}}
+\subsubsection[{Cell}]{\setlength{\rightskip}{0pt plus 5cm}Cell\-::\-Cell (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_aab24f3f223f86c03968096edbd40a9f0}
+
+
+References chem, and Parameter\-::n\-\_\-chem.
+
+\index{Cell@{Cell}!$\sim$\-Cell@{$\sim$\-Cell}}
+\index{$\sim$\-Cell@{$\sim$\-Cell}!Cell@{Cell}}
+\subsubsection[{$\sim$\-Cell}]{\setlength{\rightskip}{0pt plus 5cm}Cell\-::$\sim$\-Cell (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classCell_a4206c923493126fb2f01c8cf53c78e69}
+\index{Cell@{Cell}!Cell@{Cell}}
+\index{Cell@{Cell}!Cell@{Cell}}
+\subsubsection[{Cell}]{\setlength{\rightskip}{0pt plus 5cm}Cell\-::\-Cell (
+\begin{DoxyParamCaption}
+\item[{const {\bf Cell} \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a8a36eee6405552ddb5a27d2ce1a7272c}
+
+
+Default copy constructor. 
+
+
+
+References alive, amount, area, chem, colour\-\_\-of\-\_\-birth, date\-\_\-of\-\_\-birth, daughter, growth\-\_\-threshold, length, mother, Parameter\-::n\-\_\-chem, n\-\_\-copies, owner, sigma, sum\-\_\-x, sum\-\_\-xx, sum\-\_\-xy, sum\-\_\-y, sum\-\_\-yy, target\-\_\-area, target\-\_\-length, tau, times\-\_\-divided, and v.
+
+
+
+\subsection{Member Function Documentation}
+\index{Cell@{Cell}!Add\-To\-Grad@{Add\-To\-Grad}}
+\index{Add\-To\-Grad@{Add\-To\-Grad}!Cell@{Cell}}
+\subsubsection[{Add\-To\-Grad}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ Cell\-::\-Add\-To\-Grad (
+\begin{DoxyParamCaption}
+\item[{double $\ast$}]{g}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a1f752d55345bfd01eed50f3f31759678}
+
+
+Currently not in use (remove?) 
+
+
+
+References grad.
+
+\index{Cell@{Cell}!Alive\-P@{Alive\-P}}
+\index{Alive\-P@{Alive\-P}!Cell@{Cell}}
+\subsubsection[{Alive\-P}]{\setlength{\rightskip}{0pt plus 5cm}bool Cell\-::\-Alive\-P (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_afcd8b017af857ae54f43c914d42ecef8}
+
+
+Returns false if \doxyref{Cell}{p.}{classCell} has apoptosed (vanished). 
+
+
+
+References alive.
+
+\index{Cell@{Cell}!Apoptose@{Apoptose}}
+\index{Apoptose@{Apoptose}!Cell@{Cell}}
+\subsubsection[{Apoptose}]{\setlength{\rightskip}{0pt plus 5cm}void Cell\-::\-Apoptose (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a2b598309713229d89b14d7c1aa7d151a}
+
+
+Sends the current cell into apoptosis. 
+
+
+
+References alive.
+
+\index{Cell@{Cell}!Area@{Area}}
+\index{Area@{Area}!Cell@{Cell}}
+\subsubsection[{Area}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Area (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a21aa74dfaf504ffb34d9ab3a85a02e81}
+
+
+Return \doxyref{Cell}{p.}{classCell}'s actual area. 
+
+
+
+References area.
+
+
+
+Referenced by Cellular\-Potts\-::\-Compactness(), Cellular\-Potts\-::\-Mean\-Cell\-Area(), Dish\-::\-Measure\-Chem\-Concentrations(), and Info\-::\-Menu().
+
+\index{Cell@{Cell}!Cell\-Birth@{Cell\-Birth}}
+\index{Cell\-Birth@{Cell\-Birth}!Cell@{Cell}}
+\subsubsection[{Cell\-Birth}]{\setlength{\rightskip}{0pt plus 5cm}void Cell\-::\-Cell\-Birth (
+\begin{DoxyParamCaption}
+\item[{{\bf Cell} \&}]{mother}
+\end{DoxyParamCaption}
+)}\label{classCell_a387af5e97fced410b231aa730d87dd33}
+
+
+Add a new cell to the dish. 
+
+Call it as\-: new \doxyref{Cell(parent, true)}{p.}{classCell}; mother will be modified for ancestry administration!
+
+
+\begin{DoxyParams}{Parameters}
+{\em settau} & \doxyref{Cell}{p.}{classCell} type of daughter cell. \\
+\hline
+\end{DoxyParams}
+
+
+References alive, chem, colour, daughter, grad, Parameter\-::n\-\_\-chem, owner, sigma, target\-\_\-length, tau, Dish\-::\-Time(), times\-\_\-divided, and v.
+
+\index{Cell@{Cell}!Clear\-Grad@{Clear\-Grad}}
+\index{Clear\-Grad@{Clear\-Grad}!Cell@{Cell}}
+\subsubsection[{Clear\-Grad}]{\setlength{\rightskip}{0pt plus 5cm}void Cell\-::\-Clear\-Grad (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a9c3fd8e71b9272d5229e3fad2761c321}
+
+
+Currently not in use (remove?) 
+
+
+
+References grad.
+
+\index{Cell@{Cell}!Clear\-J@{Clear\-J}}
+\index{Clear\-J@{Clear\-J}!Cell@{Cell}}
+\subsubsection[{Clear\-J}]{\setlength{\rightskip}{0pt plus 5cm}void Cell\-::\-Clear\-J (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classCell_a8baa793d28c592ee85d63ad52ac2fb7d}
+
+
+Clears the table of J's. 
+
+This is only important for a feature called \char`\"{}\-Dynamic\-J's\char`\"{}, where J-\/values depend on internal states of the cells (such as a genetic network; see e.\-g. Hogeweg et al. 2000). The current version of T\-S\-T does not include such functionality. 
+
+References E\-M\-P\-T\-Y.
+
+\index{Cell@{Cell}!Colour@{Colour}}
+\index{Colour@{Colour}!Cell@{Cell}}
+\subsubsection[{Colour}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Colour (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a90cb6d57ff7baac384ea61fe2874747b}
+
+
+Returns the cell colour. 
+
+
+
+References tau.
+
+
+
+Referenced by Info\-::\-Menu().
+
+\index{Cell@{Cell}!Colour\-Of\-Birth@{Colour\-Of\-Birth}}
+\index{Colour\-Of\-Birth@{Colour\-Of\-Birth}!Cell@{Cell}}
+\subsubsection[{Colour\-Of\-Birth}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Colour\-Of\-Birth (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_ae7905782540a639ddb1565e688106274}
+
+
+Returns the cell type at the time of birth. 
+
+
+
+References colour\-\_\-of\-\_\-birth.
+
+\index{Cell@{Cell}!Date\-Of\-Birth@{Date\-Of\-Birth}}
+\index{Date\-Of\-Birth@{Date\-Of\-Birth}!Cell@{Cell}}
+\subsubsection[{Date\-Of\-Birth}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Date\-Of\-Birth (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a315f8306c20cd71e1199c5c27b6d7cd6}
+
+
+Returns Monte Carlo Step (M\-C\-S) when this cell originated. 
+
+
+
+References date\-\_\-of\-\_\-birth.
+
+\index{Cell@{Cell}!Daughter@{Daughter}}
+\index{Daughter@{Daughter}!Cell@{Cell}}
+\subsubsection[{Daughter}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Daughter (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_afc0c6d621b71384ff00ece060eb2b8b5}
+
+
+\doxyref{Cell}{p.}{classCell} lineage tracking\-: get the cell's daughter. 
+
+
+
+References daughter.
+
+\index{Cell@{Cell}!Decrement\-Target\-Area@{Decrement\-Target\-Area}}
+\index{Decrement\-Target\-Area@{Decrement\-Target\-Area}!Cell@{Cell}}
+\subsubsection[{Decrement\-Target\-Area}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Decrement\-Target\-Area (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a9b90cf417c4fb1df8b4b005e6858a754}
+
+
+Increment the cell's target area by one unit. 
+
+
+
+References target\-\_\-area.
+
+\index{Cell@{Cell}!Energy\-Difference@{Energy\-Difference}}
+\index{Energy\-Difference@{Energy\-Difference}!Cell@{Cell}}
+\subsubsection[{Energy\-Difference}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Energy\-Difference (
+\begin{DoxyParamCaption}
+\item[{const {\bf Cell} \&}]{cell2}
+\end{DoxyParamCaption}
+) const}\label{classCell_a2e48645e8b7e78f2f6718fe59e171717}
+
+
+References sigma, and tau.
+
+\index{Cell@{Cell}!Get\-Grad@{Get\-Grad}}
+\index{Get\-Grad@{Get\-Grad}!Cell@{Cell}}
+\subsubsection[{Get\-Grad}]{\setlength{\rightskip}{0pt plus 5cm}const double$\ast$ Cell\-::\-Get\-Grad (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a33637f75f6f371eff9e9ddeb21e122e7}
+
+
+Returns the cell's measured gradient. Currently not in use. 
+
+
+
+References grad.
+
+\index{Cell@{Cell}!Get\-J@{Get\-J}}
+\index{Get\-J@{Get\-J}!Cell@{Cell}}
+\subsubsection[{Get\-J}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Get\-J (
+\begin{DoxyParamCaption}
+\item[{const {\bf Cell} \&}]{c2}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a1e3148b7392cc2b4bb8a1887d26536e1}
+
+
+Returns the bond energy J between this cell and cell c2. 
+
+
+
+References J, and sigma.
+
+\index{Cell@{Cell}!get\-Tau@{get\-Tau}}
+\index{get\-Tau@{get\-Tau}!Cell@{Cell}}
+\subsubsection[{get\-Tau}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::get\-Tau (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a9fbfdfe12c82591083e673987d35570a}
+
+
+Get cell type of this \doxyref{Cell}{p.}{classCell}. 
+
+
+
+References tau.
+
+\index{Cell@{Cell}!Grad\-X@{Grad\-X}}
+\index{Grad\-X@{Grad\-X}!Cell@{Cell}}
+\subsubsection[{Grad\-X}]{\setlength{\rightskip}{0pt plus 5cm}const double Cell\-::\-Grad\-X (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a173e84b97374593b5296a4a61b7c520b}
+
+
+Returns the cell's measured gradient. Currently not in use. 
+
+
+
+References grad.
+
+\index{Cell@{Cell}!Grad\-Y@{Grad\-Y}}
+\index{Grad\-Y@{Grad\-Y}!Cell@{Cell}}
+\subsubsection[{Grad\-Y}]{\setlength{\rightskip}{0pt plus 5cm}const double Cell\-::\-Grad\-Y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a6119f2bdff326bd7bbcdbcb8495f3c22}
+
+
+Returns the cell's measured gradient. Currently not in use. 
+
+
+
+References grad.
+
+\index{Cell@{Cell}!Increment\-Target\-Area@{Increment\-Target\-Area}}
+\index{Increment\-Target\-Area@{Increment\-Target\-Area}!Cell@{Cell}}
+\subsubsection[{Increment\-Target\-Area}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Increment\-Target\-Area (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a89086e3c8e2c7619030f86b0fcd2a0b2}
+
+
+Decrement the cell's target area by one unit. 
+
+
+
+References target\-\_\-area.
+
+
+
+Referenced by Dish\-::\-Cell\-Growth\-And\-Division().
+
+\index{Cell@{Cell}!Length@{Length}}
+\index{Length@{Length}!Cell@{Cell}}
+\subsubsection[{Length}]{\setlength{\rightskip}{0pt plus 5cm}double Cell\-::\-Length (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_ac038876b1cc38b8efea7338c853b98ca}
+
+
+References length.
+
+\index{Cell@{Cell}!Max\-Sigma@{Max\-Sigma}}
+\index{Max\-Sigma@{Max\-Sigma}!Cell@{Cell}}
+\subsubsection[{Max\-Sigma}]{\setlength{\rightskip}{0pt plus 5cm}static int Cell\-::\-Max\-Sigma (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\label{classCell_a8b1e24a10e09376d69e7e52a39c5fad1}
+
+
+Returns the maximum cell identity number in the \doxyref{Dish}{p.}{classDish}. This would normally be the number of cells in the \doxyref{Dish}{p.}{classDish}, although the number includes apoptosed cells. 
+
+
+
+References maxsigma.
+
+
+
+Referenced by Cellular\-Potts\-::\-Read\-Zygote\-Picture().
+
+\index{Cell@{Cell}!Measure\-Cell\-Size@{Measure\-Cell\-Size}}
+\index{Measure\-Cell\-Size@{Measure\-Cell\-Size}!Cell@{Cell}}
+\subsubsection[{Measure\-Cell\-Size}]{\setlength{\rightskip}{0pt plus 5cm}void Cell\-::\-Measure\-Cell\-Size (
+\begin{DoxyParamCaption}
+\item[{{\bf Cell} \&}]{c}
+\end{DoxyParamCaption}
+)}\label{classCell_a8e798cf1b3cacb03713a9e45bca961e1}
+After introducing a new \doxyref{Cell}{p.}{classCell} (e.\-g. with Grow\-In\-Cell) call this function to set the moments and areas right. 
+
+Referenced by Info\-::\-Menu().
+
+\index{Cell@{Cell}!Mother@{Mother}}
+\index{Mother@{Mother}!Cell@{Cell}}
+\subsubsection[{Mother}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Mother (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a1b0f0d4b8d528f76b55bccb1ecdabb2f}
+
+
+\doxyref{Cell}{p.}{classCell} lineage tracking\-: get the cell's parent. 
+
+
+
+References mother.
+
+\index{Cell@{Cell}!operator=@{operator=}}
+\index{operator=@{operator=}!Cell@{Cell}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Cell}\& Cell\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Cell} \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a1cd1d7177642c146770197ef0eb3b55c}
+
+
+Assignment operator. 
+
+Called if one cell is assigned to another. Remember to change both assignment operator and copy constructor when adding new attributes to \doxyref{Cell}{p.}{classCell}. 
+
+References alive, amount, area, chem, colour, length, Parameter\-::n\-\_\-chem, n\-\_\-copies, owner, sigma, sum\-\_\-x, sum\-\_\-xx, sum\-\_\-xy, sum\-\_\-y, sum\-\_\-yy, target\-\_\-area, target\-\_\-length, tau, and v.
+
+\index{Cell@{Cell}!Print\-Inertia@{Print\-Inertia}}
+\index{Print\-Inertia@{Print\-Inertia}!Cell@{Cell}}
+\subsubsection[{Print\-Inertia}]{\setlength{\rightskip}{0pt plus 5cm}void Cell\-::\-Print\-Inertia (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a4cdc14c24736d472c100a3382c3577c8}
+
+
+Debugging function used to print the cell's current inertia tensor (as used for calculations of the length ) 
+
+
+
+References area, sum\-\_\-x, sum\-\_\-xx, sum\-\_\-xy, sum\-\_\-y, and sum\-\_\-yy.
+
+\index{Cell@{Cell}!Renorm\-Polar\-Vec@{Renorm\-Polar\-Vec}}
+\index{Renorm\-Polar\-Vec@{Renorm\-Polar\-Vec}!Cell@{Cell}}
+\subsubsection[{Renorm\-Polar\-Vec}]{\setlength{\rightskip}{0pt plus 5cm}void Cell\-::\-Renorm\-Polar\-Vec (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classCell_aa7117746e515e58cddc97362a9e244b0}
+\index{Cell@{Cell}!Set\-Colour@{Set\-Colour}}
+\index{Set\-Colour@{Set\-Colour}!Cell@{Cell}}
+\subsubsection[{Set\-Colour}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Set\-Colour (
+\begin{DoxyParamCaption}
+\item[{const int}]{new\-\_\-colour}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_aeafe2f67bdc876223f8871eb9f3e16ef}
+
+
+Set color of this cell to new\-\_\-colour, irrespective of type. 
+
+
+
+References colour.
+
+\index{Cell@{Cell}!Set\-Grad@{Set\-Grad}}
+\index{Set\-Grad@{Set\-Grad}!Cell@{Cell}}
+\subsubsection[{Set\-Grad}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ Cell\-::\-Set\-Grad (
+\begin{DoxyParamCaption}
+\item[{double $\ast$}]{g}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a45ba19b4e704592fd0cdd5270912fce2}
+
+
+Set the current gradient of the cell to g. Currently not in use. 
+
+
+
+References grad.
+
+\index{Cell@{Cell}!Set\-J@{Set\-J}}
+\index{Set\-J@{Set\-J}!Cell@{Cell}}
+\subsubsection[{Set\-J}]{\setlength{\rightskip}{0pt plus 5cm}static int Cell\-::\-Set\-J (
+\begin{DoxyParamCaption}
+\item[{int}]{t1, }
+\item[{int}]{t2, }
+\item[{int}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\label{classCell_a98f324f5c5829e53188c589373dc9f98}
+
+
+Sets bond energy J between cell type t1 and t2 to val. 
+
+
+
+References J.
+
+\index{Cell@{Cell}!Set\-Target\-Area@{Set\-Target\-Area}}
+\index{Set\-Target\-Area@{Set\-Target\-Area}!Cell@{Cell}}
+\subsubsection[{Set\-Target\-Area}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Set\-Target\-Area (
+\begin{DoxyParamCaption}
+\item[{const int}]{new\-\_\-area}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a0f78f87720f0eca3520678bea6194b9f}
+
+
+Sets the target area of the cell. 
+
+
+
+References target\-\_\-area.
+
+
+
+Referenced by Cellular\-Potts\-::\-Grow\-And\-Divide\-Cells(), and Info\-::\-Menu().
+
+\index{Cell@{Cell}!Set\-Target\-Length@{Set\-Target\-Length}}
+\index{Set\-Target\-Length@{Set\-Target\-Length}!Cell@{Cell}}
+\subsubsection[{Set\-Target\-Length}]{\setlength{\rightskip}{0pt plus 5cm}double Cell\-::\-Set\-Target\-Length (
+\begin{DoxyParamCaption}
+\item[{double}]{l}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_af4cacfabcefaec22f4c875bf7566f67d}
+
+
+Set the \doxyref{Cell}{p.}{classCell}'s target length. 
+
+
+
+References target\-\_\-length.
+
+
+
+Referenced by Info\-::\-Menu(), and Cellular\-Potts\-::\-Reset\-Target\-Lengths().
+
+\index{Cell@{Cell}!set\-Tau@{set\-Tau}}
+\index{set\-Tau@{set\-Tau}!Cell@{Cell}}
+\subsubsection[{set\-Tau}]{\setlength{\rightskip}{0pt plus 5cm}void Cell\-::set\-Tau (
+\begin{DoxyParamCaption}
+\item[{int}]{settau}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_af3a3882fdf4e48130af67184cc70fe9d}
+
+
+Set cell type of this \doxyref{Cell}{p.}{classCell}. 
+
+
+
+References tau.
+
+
+
+Referenced by Info\-::\-Menu().
+
+\index{Cell@{Cell}!Sigma@{Sigma}}
+\index{Sigma@{Sigma}!Cell@{Cell}}
+\subsubsection[{Sigma}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Sigma (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a348e0b2e02d03aa5f1cd4ab3ca8d16f0}
+
+
+Returns the cell's cell identity number. 
+
+
+
+References sigma.
+
+
+
+Referenced by Info\-::\-Menu().
+
+\index{Cell@{Cell}!Target\-Area@{Target\-Area}}
+\index{Target\-Area@{Target\-Area}!Cell@{Cell}}
+\subsubsection[{Target\-Area}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Target\-Area (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a50535c6a42e2a462a44025129a72f93b}
+
+
+Return \doxyref{Cell}{p.}{classCell}'s target area. 
+
+
+
+References target\-\_\-area.
+
+
+
+Referenced by Info\-::\-Menu().
+
+\index{Cell@{Cell}!Target\-Length@{Target\-Length}}
+\index{Target\-Length@{Target\-Length}!Cell@{Cell}}
+\subsubsection[{Target\-Length}]{\setlength{\rightskip}{0pt plus 5cm}double Cell\-::\-Target\-Length (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_aac717d05dbf104463bcf51b9a8480843}
+
+
+Return \doxyref{Cell}{p.}{classCell}'s target length. 
+
+Length constraint is documented in Merks et al. 2006, Dev. Biol. 
+
+References target\-\_\-length.
+
+\index{Cell@{Cell}!Times\-Divided@{Times\-Divided}}
+\index{Times\-Divided@{Times\-Divided}!Cell@{Cell}}
+\subsubsection[{Times\-Divided}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::\-Times\-Divided (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classCell_a5ff760f8ace1a7d47813441dcce6f2fe}
+
+
+Returns a counter keeping track of the number of divisions. 
+
+
+
+References times\-\_\-divided.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\index{Cell@{Cell}!Cellular\-Potts@{Cellular\-Potts}}
+\index{Cellular\-Potts@{Cellular\-Potts}!Cell@{Cell}}
+\subsubsection[{Cellular\-Potts}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Cellular\-Potts}\hspace{0.3cm}{\ttfamily [friend]}}\label{classCell_ac0d1ad5d66ebb242178dd5da9c9d6fca}
+\index{Cell@{Cell}!Dish@{Dish}}
+\index{Dish@{Dish}!Cell@{Cell}}
+\subsubsection[{Dish}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Dish}\hspace{0.3cm}{\ttfamily [friend]}}\label{classCell_aed9cb4dbc4f47dbc026e3287f7c2831b}
+\index{Cell@{Cell}!Info@{Info}}
+\index{Info@{Info}!Cell@{Cell}}
+\subsubsection[{Info}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Info}\hspace{0.3cm}{\ttfamily [friend]}}\label{classCell_a4838ff865b8d8625c61d208a420f8212}
+
+
+\subsection{Member Data Documentation}
+\index{Cell@{Cell}!alive@{alive}}
+\index{alive@{alive}!Cell@{Cell}}
+\subsubsection[{alive}]{\setlength{\rightskip}{0pt plus 5cm}bool Cell\-::alive\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a516ed0ccc2782e870bfe6ba56d15d86b}
+
+
+Referenced by Alive\-P(), Apoptose(), Cell(), Cell\-Birth(), and operator=().
+
+\index{Cell@{Cell}!amount@{amount}}
+\index{amount@{amount}!Cell@{Cell}}
+\subsubsection[{amount}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::amount =0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\label{classCell_a92a252a4aec7850e2bea34fcfd6ec5f0}
+
+
+Referenced by Cell(), and operator=().
+
+\index{Cell@{Cell}!area@{area}}
+\index{area@{area}!Cell@{Cell}}
+\subsubsection[{area}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::area\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ab8c82c118a975064f24933950c225133}
+
+
+Referenced by Area(), Cell(), operator=(), and Print\-Inertia().
+
+\index{Cell@{Cell}!capacity@{capacity}}
+\index{capacity@{capacity}!Cell@{Cell}}
+\subsubsection[{capacity}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::capacity =0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\label{classCell_a13afbf7c2a81d591cc414e8cc6965ad4}
+\index{Cell@{Cell}!chem@{chem}}
+\index{chem@{chem}!Cell@{Cell}}
+\subsubsection[{chem}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ Cell\-::chem\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a67e85d8f9025fc82f44ce7e266021133}
+
+
+Referenced by Cell(), Cell\-Birth(), Dish\-::\-Measure\-Chem\-Concentrations(), and operator=().
+
+\index{Cell@{Cell}!colour@{colour}}
+\index{colour@{colour}!Cell@{Cell}}
+\subsubsection[{colour}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::colour\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a3a62f75d92e0a0225554c963e543f428}
+
+
+Referenced by Cell\-Birth(), operator=(), and Set\-Colour().
+
+\index{Cell@{Cell}!colour\-\_\-of\-\_\-birth@{colour\-\_\-of\-\_\-birth}}
+\index{colour\-\_\-of\-\_\-birth@{colour\-\_\-of\-\_\-birth}!Cell@{Cell}}
+\subsubsection[{colour\-\_\-of\-\_\-birth}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::colour\-\_\-of\-\_\-birth\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a7e116fda8ff80b6ebb03b9c43584a68c}
+
+
+Referenced by Cell(), and Colour\-Of\-Birth().
+
+\index{Cell@{Cell}!date\-\_\-of\-\_\-birth@{date\-\_\-of\-\_\-birth}}
+\index{date\-\_\-of\-\_\-birth@{date\-\_\-of\-\_\-birth}!Cell@{Cell}}
+\subsubsection[{date\-\_\-of\-\_\-birth}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::date\-\_\-of\-\_\-birth\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a9c97f4e44e305b2f39e953ba607e729a}
+
+
+Referenced by Cell(), and Date\-Of\-Birth().
+
+\index{Cell@{Cell}!daughter@{daughter}}
+\index{daughter@{daughter}!Cell@{Cell}}
+\subsubsection[{daughter}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::daughter\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a90a992f97f2316d043904caaffd7e439}
+
+
+Referenced by Cell(), Cell\-Birth(), and Daughter().
+
+\index{Cell@{Cell}!grad@{grad}}
+\index{grad@{grad}!Cell@{Cell}}
+\subsubsection[{grad}]{\setlength{\rightskip}{0pt plus 5cm}double Cell\-::grad[2]\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_aba7f037648153483d44f04d3cea7ef37}
+
+
+Referenced by Add\-To\-Grad(), Cell\-Birth(), Clear\-Grad(), Get\-Grad(), Grad\-X(), Grad\-Y(), and Set\-Grad().
+
+\index{Cell@{Cell}!growth\-\_\-threshold@{growth\-\_\-threshold}}
+\index{growth\-\_\-threshold@{growth\-\_\-threshold}!Cell@{Cell}}
+\subsubsection[{growth\-\_\-threshold}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::growth\-\_\-threshold\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ac0ec22ca2c2b77be00ade91ec2c176e2}
+
+
+Referenced by Cell().
+
+\index{Cell@{Cell}!J@{J}}
+\index{J@{J}!Cell@{Cell}}
+\subsubsection[{J}]{\setlength{\rightskip}{0pt plus 5cm}int $\ast$$\ast$ Cell\-::\-J =0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\label{classCell_a7c7fb58882da8d7185438d4dcf44b291}
+
+
+Referenced by Get\-J(), and Set\-J().
+
+\index{Cell@{Cell}!length@{length}}
+\index{length@{length}!Cell@{Cell}}
+\subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}double Cell\-::length\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a10a70197c4e757ad39177b146b5c2a67}
+
+
+Referenced by Cell(), Length(), and operator=().
+
+\index{Cell@{Cell}!maxsigma@{maxsigma}}
+\index{maxsigma@{maxsigma}!Cell@{Cell}}
+\subsubsection[{maxsigma}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::maxsigma =0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\label{classCell_ab423587adbfdc733ae4311c7e1ed3065}
+
+
+Referenced by Dish\-::\-Constructor\-Body(), and Max\-Sigma().
+
+\index{Cell@{Cell}!maxtau@{maxtau}}
+\index{maxtau@{maxtau}!Cell@{Cell}}
+\subsubsection[{maxtau}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::maxtau =0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\label{classCell_aca2b6fa3035757ea4c2cd8f30f7610ae}
+
+
+Referenced by Cellular\-Potts\-::\-Set\-Random\-Types().
+
+\index{Cell@{Cell}!mother@{mother}}
+\index{mother@{mother}!Cell@{Cell}}
+\subsubsection[{mother}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::mother\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a74435ead6958823c8c2f3e8f55d4429a}
+
+
+Referenced by Cell(), and Mother().
+
+\index{Cell@{Cell}!n\-\_\-copies@{n\-\_\-copies}}
+\index{n\-\_\-copies@{n\-\_\-copies}!Cell@{Cell}}
+\subsubsection[{n\-\_\-copies}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::n\-\_\-copies\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ac374476768b00e014877a8ff9097ebb8}
+
+
+Referenced by Cell(), and operator=().
+
+\index{Cell@{Cell}!owner@{owner}}
+\index{owner@{owner}!Cell@{Cell}}
+\subsubsection[{owner}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Dish}$\ast$ Cell\-::owner\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a5ba3270256dca27969f1888cd9eb7a35}
+
+
+Referenced by Cell(), Cell\-Birth(), operator=(), and Dish\-::\-Set\-Cell\-Owner().
+
+\index{Cell@{Cell}!polarvec@{polarvec}}
+\index{polarvec@{polarvec}!Cell@{Cell}}
+\subsubsection[{polarvec}]{\setlength{\rightskip}{0pt plus 5cm}double Cell\-::polarvec[9]}\label{classCell_ad740a0c567d6adc4f5a4446f6066aefa}
+\index{Cell@{Cell}!sigma@{sigma}}
+\index{sigma@{sigma}!Cell@{Cell}}
+\subsubsection[{sigma}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::sigma\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ab33b3a598d18d996805c9e9b255534af}
+
+
+Referenced by Cell(), Cell\-Birth(), Energy\-Difference(), Get\-J(), operator=(), and Sigma().
+
+\index{Cell@{Cell}!sum\-\_\-x@{sum\-\_\-x}}
+\index{sum\-\_\-x@{sum\-\_\-x}!Cell@{Cell}}
+\subsubsection[{sum\-\_\-x}]{\setlength{\rightskip}{0pt plus 5cm}long int Cell\-::sum\-\_\-x\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a353ab5a64fff6d6474053135faaa1b4f}
+
+
+Referenced by Cell(), operator=(), and Print\-Inertia().
+
+\index{Cell@{Cell}!sum\-\_\-xx@{sum\-\_\-xx}}
+\index{sum\-\_\-xx@{sum\-\_\-xx}!Cell@{Cell}}
+\subsubsection[{sum\-\_\-xx}]{\setlength{\rightskip}{0pt plus 5cm}long int Cell\-::sum\-\_\-xx\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ac2393f2cef20f69299d2d5554b65d1db}
+
+
+Referenced by Cell(), operator=(), and Print\-Inertia().
+
+\index{Cell@{Cell}!sum\-\_\-xy@{sum\-\_\-xy}}
+\index{sum\-\_\-xy@{sum\-\_\-xy}!Cell@{Cell}}
+\subsubsection[{sum\-\_\-xy}]{\setlength{\rightskip}{0pt plus 5cm}long int Cell\-::sum\-\_\-xy\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ab0045032513131a0aace38724fde0dbf}
+
+
+Referenced by Cell(), operator=(), and Print\-Inertia().
+
+\index{Cell@{Cell}!sum\-\_\-y@{sum\-\_\-y}}
+\index{sum\-\_\-y@{sum\-\_\-y}!Cell@{Cell}}
+\subsubsection[{sum\-\_\-y}]{\setlength{\rightskip}{0pt plus 5cm}long int Cell\-::sum\-\_\-y\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ac1e03d62523446833f65ea7644e7b349}
+
+
+Referenced by Cell(), operator=(), and Print\-Inertia().
+
+\index{Cell@{Cell}!sum\-\_\-yy@{sum\-\_\-yy}}
+\index{sum\-\_\-yy@{sum\-\_\-yy}!Cell@{Cell}}
+\subsubsection[{sum\-\_\-yy}]{\setlength{\rightskip}{0pt plus 5cm}long int Cell\-::sum\-\_\-yy\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a7d1d8b070b6359988a7a52ee5487a356}
+
+
+Referenced by Cell(), operator=(), and Print\-Inertia().
+
+\index{Cell@{Cell}!target\-\_\-area@{target\-\_\-area}}
+\index{target\-\_\-area@{target\-\_\-area}!Cell@{Cell}}
+\subsubsection[{target\-\_\-area}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::target\-\_\-area\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a8b499ccc349212bde880a1ebfcd61d31}
+
+
+Referenced by Cell(), Decrement\-Target\-Area(), Increment\-Target\-Area(), operator=(), Set\-Target\-Area(), and Target\-Area().
+
+\index{Cell@{Cell}!target\-\_\-length@{target\-\_\-length}}
+\index{target\-\_\-length@{target\-\_\-length}!Cell@{Cell}}
+\subsubsection[{target\-\_\-length}]{\setlength{\rightskip}{0pt plus 5cm}double Cell\-::target\-\_\-length\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a82397282c1f177eb3f1c52184b1a48a2}
+
+
+Referenced by Cell(), Cell\-Birth(), operator=(), Set\-Target\-Length(), and Target\-Length().
+
+\index{Cell@{Cell}!tau@{tau}}
+\index{tau@{tau}!Cell@{Cell}}
+\subsubsection[{tau}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::tau\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_a2126c6575810792e5d287223ca86c0f0}
+
+
+Referenced by Cell(), Cell\-Birth(), Colour(), Energy\-Difference(), get\-Tau(), operator=(), and set\-Tau().
+
+\index{Cell@{Cell}!times\-\_\-divided@{times\-\_\-divided}}
+\index{times\-\_\-divided@{times\-\_\-divided}!Cell@{Cell}}
+\subsubsection[{times\-\_\-divided}]{\setlength{\rightskip}{0pt plus 5cm}int Cell\-::times\-\_\-divided\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ab184f2651d0e764bf957b9a3f2e59df9}
+
+
+Referenced by Cell(), Cell\-Birth(), and Times\-Divided().
+
+\index{Cell@{Cell}!v@{v}}
+\index{v@{v}!Cell@{Cell}}
+\subsubsection[{v}]{\setlength{\rightskip}{0pt plus 5cm}double Cell\-::v[2]\hspace{0.3cm}{\ttfamily [protected]}}\label{classCell_ae2955e9ae15e9e549eaea9fb093fce33}
+
+
+Referenced by Cell(), Cell\-Birth(), and operator=().
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf cell.\-h}\item 
+{\bf cell.\-cpp}\end{DoxyCompactItemize}

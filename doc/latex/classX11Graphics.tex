@@ -1,0 +1,440 @@
+\section{X11\-Graphics Class Reference}
+\label{classX11Graphics}\index{X11\-Graphics@{X11\-Graphics}}
+
+
+X-\/\-Windows implementation of \doxyref{Graphics}{p.}{classGraphics} interface.  
+
+
+
+
+{\ttfamily \#include $<$x11graph.\-h$>$}
+
+
+
+Inheritance diagram for X11\-Graphics\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=118pt]{classX11Graphics__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for X11\-Graphics\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=118pt]{classX11Graphics__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf X11\-Graphics} (int xfield, int yfield, const char $\ast$movie\-\_\-file=0)
+\item 
+virtual {\bf $\sim$\-X11\-Graphics} (void)
+\item 
+virtual void {\bf Begin\-Scene} (void)
+\begin{DoxyCompactList}\small\item\em \doxyref{Begin\-Scene()}{p.}{classX11Graphics_af90168e2537eb714dd0d916a2c543f74} must be called before calling drawing functions. \end{DoxyCompactList}\item 
+virtual void {\bf End\-Scene} (void)
+\begin{DoxyCompactList}\small\item\em \doxyref{End\-Scene()}{p.}{classX11Graphics_aeafb2bf394ef9dfd3aa9b390d2b21d7a} must be called to flush the drawing buffer and display the scene. \end{DoxyCompactList}\item 
+void {\bf Flush} (void)
+\begin{DoxyCompactList}\small\item\em Flushes scene to window. Normally called by \doxyref{End\-Scene()}{p.}{classX11Graphics_aeafb2bf394ef9dfd3aa9b390d2b21d7a}. \end{DoxyCompactList}\item 
+virtual void {\bf Point} (int color, int x, int y)
+\begin{DoxyCompactList}\small\item\em Plot a point in the \doxyref{Graphics}{p.}{classGraphics} window. \end{DoxyCompactList}\item 
+virtual void {\bf Line} (int x1, int y1, int x2, int y2, int colour)
+\begin{DoxyCompactList}\small\item\em Draws a line (obviously... \-:-\/) \end{DoxyCompactList}\item 
+void {\bf Field} (const int $\ast$$\ast$r, int mag=1)
+\begin{DoxyCompactList}\small\item\em Plots a field of values given by $\ast$$\ast$f, using color coding given by colormap file. \end{DoxyCompactList}\item 
+virtual int {\bf Get\-X\-Y\-Coo} (int $\ast$X, int $\ast$Y)
+\begin{DoxyCompactList}\small\item\em Probes the Window for user interaction, with mouse or keyboard. \end{DoxyCompactList}\item 
+char $\ast$ {\bf Change\-Title} (const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Changes the title bar of the \doxyref{Graphics}{p.}{classGraphics} window. \end{DoxyCompactList}\item 
+void {\bf Recover\-Title} (void)
+\begin{DoxyCompactList}\small\item\em Recovers the title prior to the last call of \doxyref{Change\-Title()}{p.}{classX11Graphics_adcce6fa1eab8d9a059333e9b1cc8580e}. \end{DoxyCompactList}\item 
+{\bf Line\-Type} {\bf Crop\-Size} (void)
+\begin{DoxyCompactList}\small\item\em Returns the upper left and lower right coordinates of the area occupied by cells. \end{DoxyCompactList}\item 
+{\bf Coordinate} {\bf Replace\-Beast} ({\bf Coordinate} old\-\_\-size, {\bf Coordinate} new\-\_\-size)
+\begin{DoxyCompactList}\small\item\em This member function was part of functionality that enables interactive resizing of the Window and C\-P\-M field, and followed by interactive replacement of the \doxyref{Dish}{p.}{classDish}'s contents. The current version of C\-P\-M does not contain such functionality. \end{DoxyCompactList}\item 
+virtual int {\bf X\-Field} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns the width of the \doxyref{Graphics}{p.}{classGraphics} window, in pixels. \end{DoxyCompactList}\item 
+virtual int {\bf Y\-Field} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns the height of the \doxyref{Graphics}{p.}{classGraphics} window, in pixels. \end{DoxyCompactList}\item 
+virtual void {\bf Write} (char $\ast$fname, int quality=-\/1)
+\begin{DoxyCompactList}\small\item\em Writes the Image to a file. \end{DoxyCompactList}\item 
+void {\bf Clear\-Image} (void)
+\begin{DoxyCompactList}\small\item\em Clears all pixels in the Image. \end{DoxyCompactList}\item 
+virtual void {\bf Time\-Step} (void)
+\begin{DoxyCompactList}\small\item\em Implement this member function in your simulation code. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+X-\/\-Windows implementation of \doxyref{Graphics}{p.}{classGraphics} interface. 
+
+For A\-P\-I see documentation of base class \doxyref{Graphics}{p.}{classGraphics}.
+
+Has a number extra features\-: see below. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{X11\-Graphics@{X11\-Graphics}!X11\-Graphics@{X11\-Graphics}}
+\index{X11\-Graphics@{X11\-Graphics}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{X11\-Graphics}]{\setlength{\rightskip}{0pt plus 5cm}X11\-Graphics\-::\-X11\-Graphics (
+\begin{DoxyParamCaption}
+\item[{int}]{xfield, }
+\item[{int}]{yfield, }
+\item[{const char $\ast$}]{movie\-\_\-file = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{classX11Graphics_a3aacea46496509c62c7d5c351dd9ddae}
+
+
+References Parameter\-::graphics, and Parameter\-::store.
+
+\index{X11\-Graphics@{X11\-Graphics}!$\sim$\-X11\-Graphics@{$\sim$\-X11\-Graphics}}
+\index{$\sim$\-X11\-Graphics@{$\sim$\-X11\-Graphics}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{$\sim$\-X11\-Graphics}]{\setlength{\rightskip}{0pt plus 5cm}X11\-Graphics\-::$\sim$\-X11\-Graphics (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_a8231cf37901518bda06b8b6c3aafb8cf}
+
+
+\subsection{Member Function Documentation}
+\index{X11\-Graphics@{X11\-Graphics}!Begin\-Scene@{Begin\-Scene}}
+\index{Begin\-Scene@{Begin\-Scene}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Begin\-Scene}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-Begin\-Scene (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_af90168e2537eb714dd0d916a2c543f74}
+
+
+\doxyref{Begin\-Scene()}{p.}{classX11Graphics_af90168e2537eb714dd0d916a2c543f74} must be called before calling drawing functions. 
+
+
+
+Reimplemented from {\bf Graphics} \doxyref{}{p.}{classGraphics_afc5b72e258d26775418c72c78d078e4b}.
+
+\index{X11\-Graphics@{X11\-Graphics}!Change\-Title@{Change\-Title}}
+\index{Change\-Title@{Change\-Title}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Change\-Title}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ X11\-Graphics\-::\-Change\-Title (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}\label{classX11Graphics_adcce6fa1eab8d9a059333e9b1cc8580e}
+
+
+Changes the title bar of the \doxyref{Graphics}{p.}{classGraphics} window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & Text to display in title bar. \\
+\hline
+\end{DoxyParams}
+
+
+Referenced by Recover\-Title(), and Replace\-Beast().
+
+\index{X11\-Graphics@{X11\-Graphics}!Clear\-Image@{Clear\-Image}}
+\index{Clear\-Image@{Clear\-Image}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Clear\-Image}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-Clear\-Image (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classX11Graphics_a5191f505f8bc85fbe8c33992fa9fe4f1}
+
+
+Clears all pixels in the Image. 
+
+
+
+References Point().
+
+\index{X11\-Graphics@{X11\-Graphics}!Crop\-Size@{Crop\-Size}}
+\index{Crop\-Size@{Crop\-Size}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Crop\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Line\-Type} X11\-Graphics\-::\-Crop\-Size (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classX11Graphics_a71f50f8405a9ceae42e4035ab7d41451}
+
+
+Returns the upper left and lower right coordinates of the area occupied by cells. 
+
+\begin{DoxyReturn}{Returns}
+Bounding box as a Line\-Type structure \{int x1,int y1,int x2,int y2\}.
+\end{DoxyReturn}
+Warning\-: Assumes the window only displays cells (i.\-e. no \doxyref{P\-D\-E}{p.}{classPDE} fields etc.). If you need this, better implement it as a member function of class \doxyref{Cellular\-Potts}{p.}{classCellularPotts}. 
+
+References li\-::x1, li\-::x2, li\-::y1, and li\-::y2.
+
+\index{X11\-Graphics@{X11\-Graphics}!End\-Scene@{End\-Scene}}
+\index{End\-Scene@{End\-Scene}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{End\-Scene}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-End\-Scene (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_aeafb2bf394ef9dfd3aa9b390d2b21d7a}
+
+
+\doxyref{End\-Scene()}{p.}{classX11Graphics_aeafb2bf394ef9dfd3aa9b390d2b21d7a} must be called to flush the drawing buffer and display the scene. 
+
+
+
+Reimplemented from {\bf Graphics} \doxyref{}{p.}{classGraphics_a9f97b7c6506dcba845a1da457398fa90}.
+
+
+
+References Parameter\-::graphics, and Parameter\-::storage\-\_\-stride.
+
+
+
+Referenced by Field(), and Get\-X\-Y\-Coo().
+
+\index{X11\-Graphics@{X11\-Graphics}!Field@{Field}}
+\index{Field@{Field}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Field}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-Field (
+\begin{DoxyParamCaption}
+\item[{const int $\ast$$\ast$}]{f, }
+\item[{int}]{mag = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_a4ba01ab14685f860af345b4ac17f3339}
+
+
+Plots a field of values given by $\ast$$\ast$f, using color coding given by colormap file. 
+
+Only implemented in \doxyref{X11\-Graphics}{p.}{classX11Graphics}. No checks. Usage not recommended.
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & Double pointer to array of integers, giving color indices using standard colormap ('default.\-ctb'). \\
+\hline
+{\em mag} & magnification factor. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from {\bf Graphics} \doxyref{}{p.}{classGraphics_a22105e059337daabadfa68838811099f}.
+
+
+
+References End\-Scene(), Parameter\-::graphics, and Point().
+
+\index{X11\-Graphics@{X11\-Graphics}!Flush@{Flush}}
+\index{Flush@{Flush}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Flush}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-Flush (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classX11Graphics_af7dc9389d25610c90f8da7f33bf42ecb}
+
+
+Flushes scene to window. Normally called by \doxyref{End\-Scene()}{p.}{classX11Graphics_aeafb2bf394ef9dfd3aa9b390d2b21d7a}. 
+
+\index{X11\-Graphics@{X11\-Graphics}!Get\-X\-Y\-Coo@{Get\-X\-Y\-Coo}}
+\index{Get\-X\-Y\-Coo@{Get\-X\-Y\-Coo}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Get\-X\-Y\-Coo}]{\setlength{\rightskip}{0pt plus 5cm}int X11\-Graphics\-::\-Get\-X\-Y\-Coo (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{X, }
+\item[{int $\ast$}]{Y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_a2d3f6a3d4b3f0131dbfb9253d51f0ebc}
+
+
+Probes the Window for user interaction, with mouse or keyboard. 
+
+This function should return immediately, and return 0 if there was no user interaction.
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$\-X,$\ast$\-Y} & Pointer where the clicked coordinate will be stored. \\
+\hline
+\end{DoxyParams}
+
+
+Implements {\bf Graphics} \doxyref{}{p.}{classGraphics_a39257f929b38739ed42e8d463c4f42c3}.
+
+
+
+References End\-Scene(), Parameter\-::graphics, K\-E\-Y\-B\-U\-F\-S\-I\-Z\-E, M\-O\-T\-I\-O\-N, and R\-E\-S\-I\-Z\-E.
+
+
+
+Referenced by Replace\-Beast().
+
+\index{X11\-Graphics@{X11\-Graphics}!Line@{Line}}
+\index{Line@{Line}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Line}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-Line (
+\begin{DoxyParamCaption}
+\item[{int}]{x1, }
+\item[{int}]{y1, }
+\item[{int}]{x2, }
+\item[{int}]{y2, }
+\item[{int}]{colour}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_a8126d246d7925babf273df1fa948466d}
+
+
+Draws a line (obviously... \-:-\/) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x1,y1} & First coordinate pair. \\
+\hline
+{\em x2,y2} & Second coordinate pair. \\
+\hline
+{\em color} & Color of the line, as given in the colormap file \char`\"{}default.\-ctb\char`\"{}. \\
+\hline
+\end{DoxyParams}
+
+
+Implements {\bf Graphics} \doxyref{}{p.}{classGraphics_a8e049566ac4cf6168b04f0f8be7a9820}.
+
+
+
+References Point(), and S\-W\-A\-P.
+
+\index{X11\-Graphics@{X11\-Graphics}!Point@{Point}}
+\index{Point@{Point}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Point}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-Point (
+\begin{DoxyParamCaption}
+\item[{int}]{color, }
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_aac47663836332028e6a382af6a2c622c}
+
+
+Plot a point in the \doxyref{Graphics}{p.}{classGraphics} window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & Color index, as defined in colormap file \char`\"{}default.\-ctb\char`\"{}, which should be in the same directory as the executable. \\
+\hline
+{\em x,y} & Coordinate of point, in \doxyref{Graphics}{p.}{classGraphics} coordinates (typically twice as large as the cellular automata coordinates). \\
+\hline
+\end{DoxyParams}
+
+
+Implements {\bf Graphics} \doxyref{}{p.}{classGraphics_a123e1b2c757c39bf329517af332c24eb}.
+
+
+
+References Parameter\-::graphics.
+
+
+
+Referenced by Clear\-Image(), Field(), and Line().
+
+\index{X11\-Graphics@{X11\-Graphics}!Recover\-Title@{Recover\-Title}}
+\index{Recover\-Title@{Recover\-Title}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Recover\-Title}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-Recover\-Title (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classX11Graphics_a6b8fc3f7590a2f9ae5be1a3917b28cce}
+
+
+Recovers the title prior to the last call of \doxyref{Change\-Title()}{p.}{classX11Graphics_adcce6fa1eab8d9a059333e9b1cc8580e}. 
+
+
+
+References Change\-Title().
+
+
+
+Referenced by Replace\-Beast().
+
+\index{X11\-Graphics@{X11\-Graphics}!Replace\-Beast@{Replace\-Beast}}
+\index{Replace\-Beast@{Replace\-Beast}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Replace\-Beast}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Coordinate} X11\-Graphics\-::\-Replace\-Beast (
+\begin{DoxyParamCaption}
+\item[{{\bf Coordinate}}]{old\-\_\-size, }
+\item[{{\bf Coordinate}}]{new\-\_\-size}
+\end{DoxyParamCaption}
+)}\label{classX11Graphics_a934f355d684c9cb35542a6e63ff859be}
+
+
+This member function was part of functionality that enables interactive resizing of the Window and C\-P\-M field, and followed by interactive replacement of the \doxyref{Dish}{p.}{classDish}'s contents. The current version of C\-P\-M does not contain such functionality. 
+
+
+
+References Change\-Title(), Get\-X\-Y\-Coo(), M\-O\-T\-I\-O\-N, Recover\-Title(), T\-R\-U\-E, co\-::x, and co\-::y.
+
+\index{X11\-Graphics@{X11\-Graphics}!Time\-Step@{Time\-Step}}
+\index{Time\-Step@{Time\-Step}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Time\-Step}]{\setlength{\rightskip}{0pt plus 5cm}virtual void X11\-Graphics\-::\-Time\-Step (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_a44567816671f4055f76999432509d505}
+
+
+Implement this member function in your simulation code. 
+
+Include all actions that should be carried out during a simulation step, including \doxyref{P\-D\-E}{p.}{classPDE} and C\-P\-M simulation steps. See the included examples (\doxyref{vessel.\-cpp}{p.}{vessel_8cpp}, \doxyref{sorting.\-cpp}{p.}{sorting_8cpp}) for more information. 
+
+Reimplemented from {\bf Graphics} \doxyref{}{p.}{classGraphics_aa1b61fa6f6bc50aceff6f320ce5b9be2}.
+
+\index{X11\-Graphics@{X11\-Graphics}!Write@{Write}}
+\index{Write@{Write}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Write}]{\setlength{\rightskip}{0pt plus 5cm}void X11\-Graphics\-::\-Write (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{fname, }
+\item[{int}]{quality = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classX11Graphics_a82f63efbb9969b69a59c850356d219d3}
+
+
+Writes the Image to a file. 
+
+File format is inferred from file extension. Currently only P\-N\-G is supported by the X-\/\-Windows implementation; the Qt-\/implentation supports all formats supported by Qt.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fname} & File name with standard image file extension (e.\-g. png). \\
+\hline
+{\em quality} & Quality of J\-P\-E\-G images, defaults to -\/1 (no value provided). \\
+\hline
+\end{DoxyParams}
+
+
+Implements {\bf Graphics} \doxyref{}{p.}{classGraphics_af98a333b8be25817669e615b1cd6c73d}.
+
+\index{X11\-Graphics@{X11\-Graphics}!X\-Field@{X\-Field}}
+\index{X\-Field@{X\-Field}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{X\-Field}]{\setlength{\rightskip}{0pt plus 5cm}virtual int X11\-Graphics\-::\-X\-Field (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classX11Graphics_a16e04390d5a23f68e5556504460f55df}
+
+
+Returns the width of the \doxyref{Graphics}{p.}{classGraphics} window, in pixels. 
+
+
+
+Reimplemented from {\bf Graphics} \doxyref{}{p.}{classGraphics_a57a2d92f0744fe35be0a712803178a4f}.
+
+\index{X11\-Graphics@{X11\-Graphics}!Y\-Field@{Y\-Field}}
+\index{Y\-Field@{Y\-Field}!X11Graphics@{X11\-Graphics}}
+\subsubsection[{Y\-Field}]{\setlength{\rightskip}{0pt plus 5cm}virtual int X11\-Graphics\-::\-Y\-Field (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classX11Graphics_ab0b8df7d9fad28f5a377ca45894de113}
+
+
+Returns the height of the \doxyref{Graphics}{p.}{classGraphics} window, in pixels. 
+
+
+
+Reimplemented from {\bf Graphics} \doxyref{}{p.}{classGraphics_ad9df13b4bb136c8c5ca802ec8f382e47}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf x11graph.\-h}\item 
+{\bf x11graph.\-cpp}\end{DoxyCompactItemize}

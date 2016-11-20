@@ -1,0 +1,5 @@
+<map id="Cell" name="Cell">
+<area shape="rect" id="node2" href="$classDish.html" title="The virtual Petri dish. " alt="" coords="77,96,125,123"/>
+<area shape="rect" id="node3" href="$classCellularPotts.html" title="CellularPotts" alt="" coords="5,5,101,32"/>
+<area shape="rect" id="node4" href="$classPDE.html" title="PDE" alt="" coords="126,5,175,32"/>
+</map>
