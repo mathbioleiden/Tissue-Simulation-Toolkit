@@ -41,6 +41,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <QResizeEvent>
 #include "qtgraph.h"
 #include "parameter.h"
+#include "output.h"
 
 using namespace std;
 QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
@@ -219,7 +220,8 @@ void QtGraphics::Write(char *fname, int quality) {
 
     throw("QtGraphics::Write: empty filename!\n");
   }
-  
+
+    
     // replay the picture on image
     // and write it to fname
   QString imname(fname);
@@ -233,12 +235,14 @@ void QtGraphics::Write(char *fname, int quality) {
   } else {
     cerr << "Image " << imname.ascii() << " could not be written.\n";
     Q3StrList fmt = QImageWriter::supportedImageFormats();
-    cerr << "Please choose one of the following formats: ";
+      cerr << "Non-existing directory?" << endl;
+    cerr << "Or: Please choose one of the following formats: ";
     for (const char* f = fmt.first(); f; f = fmt.next()) {
       cerr << f << " ";
     }
     cerr << "\n";
-  } 
+      exit(1);
+  }
 }
   
 void QtGraphics::resizeEvent(QResizeEvent *event) {

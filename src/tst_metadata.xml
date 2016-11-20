@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MultiCellDS version="0.5.0">
+    <metadata>
+        <MultiCellDB>
+            <ID>S_1234567890</ID>
+            <name>Vasculogenesis simulation using Tissue Simulation Toolkit 0.1.4.1</name>
+        </MultiCellDB>
+        <description>
+            Snapshot of vasculogenesis simulations according to Merks et al. Dev. Biol. 289(1):44-56, 2006. doi:10.1016/j.ydbio.2005.10.003
+        </description>
+        <software>
+            <name>Tissue Simulation Toolkit</name>
+            <version>0.1.4.1</version>
+            <creator> <!-- This is who wrote the code -->
+                <orcid-identifier>
+                    <path>0000-0002-6152-687X</path>
+                    <given-names>Roeland M.H.</given-names>
+                    <family-name>Merks</family-name>
+                    <email>merks@cwi.nl</email>
+                    <url>http://tst.sourceforge.net</url>
+                    <organization-name>Centrum Wiskunde &amp; Informatica, Amsterdam, The Netherlands</organization-name>
+                    <department-name>Life Sciences group</department-name>
+                </orcid-identifier>
+            </creator>
+            <user> <!-- This is who ran the code -->
+                <orcid-identifier>
+                    <path>0000-0002-6152-687X</path>
+                    <given-names>Roeland M.H.</given-names>
+                    <family-name>Merks</family-name>
+                    <email>merks@cwi.nl</email>
+                    <url>http://biomodel.project.cwi.nl</url>
+                    <organization-name>Centrum Wiskunde &amp; Informatica, Amsterdam, The Netherlands</organization-name>
+                    <department-name>Life Sciences Group</department-name>
+                </orcid-identifier>
+            </user>
+        </software>
+        <rights>
+            <license>
+                <LicenseDocument>
+                    <name>CC-BY 4.0</name>
+                    <URL>https://creativecommons.org/licenses/by/4.0/</URL>
+                </LicenseDocument>
+            </license>
+        </rights>
+        <current_time units="minutes">5.0</current_time> <!-- Elapsed Simulation time -->
+        <current_runtime units="seconds">0.5</current_runtime> <!-- Elapsed wall clock time -->
+        <created>2016-11-20T02:43:00-08:00</created>
+        <last_modified>2016-11-20T02:43:00-08:00</last_modified>
+        <notes>
+            Simulation code is available from http://tst/sourceforge.net. Code version is TST0.1.4.1.
+        </notes>
+    </metadata>
+</MultiCellDS>

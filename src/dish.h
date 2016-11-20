@@ -107,6 +107,9 @@ public:
   void ClearGrads(void);
 
   void MeasureChemConcentrations(void);
+    
+    //! Rudimentary export to MultiCellDS format
+    void ExportMultiCellDS(const char *fname);
 protected:
   //! Assign a the cell to the current Dish
   void SetCellOwner(Cell &which_cell);

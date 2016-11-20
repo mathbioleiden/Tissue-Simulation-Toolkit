@@ -4,7 +4,7 @@ CONFIG += console
 CONFIG += release
 CONFIG -= debug
 CONFIG -= app_bundle
-
+#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 
 contains( GRAPHICS, qt ) {
   
@@ -12,6 +12,13 @@ contains( GRAPHICS, qt ) {
 
 TARGET = vessel
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
+libMCDS_DIR = /Users/roel/Projects/v0.5.0/libMCDS
+mcds_api = mcds_api_val
+libMultiCellDS_DIR = $$libMCDS_DIR/$$mcds_api
+XSDE_DIR = $$libMCDS_DIR/xsde_val/libxsde
+QMAKE_CXXFLAGS_RELEASE+= -I$$libMultiCellDS_DIR -I$$XSDE_DIR -m64 -std=c++11
+QMAKE_LFLAGS_RELEASE += $$libMultiCellDS_DIR/libmcds.a -L$$XSDE_DIR/xsde/ -l xsde -m64 # -std=c++11
+
 
 message( $$MAINFILE )
 message( $$TARGET )
@@ -68,7 +75,7 @@ contains( GRAPHICS, qt ) {
       system(rm $$TARGET.o)
    } 
    win32 {
-     QMAKE_LFLAGS += -L "\"C:\Program Files\GnuWin32\lib\"" -lpng -lz
+     QMAKE_LFLAGS += -L "\"C:\Program Files\GnuWin32\lib\"" -lpng -lzdll
      QMAKE_CXXFLAGS += -I "\"C:\Program Files\GnuWin32\include\""
    }
    #LIBS += -lpng
@@ -84,7 +91,7 @@ contains( GRAPHICS, qt3 ) {
       system(rm vessel.o)
    } 
    win32 {
-     QMAKE_LFLAGS += -L "C:\Program Files\GnuWin32\lib" -lpng -lz
+     QMAKE_LFLAGS += -L "C:\Program Files\GnuWin32\lib" -lpng -lzdll
      QMAKE_CXXFLAGS += -I "C:\Program Files\GnuWin32\include"
    }
    LIBS += -lpng

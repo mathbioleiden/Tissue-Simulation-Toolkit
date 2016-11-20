@@ -355,8 +355,9 @@ char *Chext(char *filename) {
       snprintf(fname, FNAMESIZE-1, "%s~",filename);
       rename(filename, fname);
     }
+      
     
-    return true;
+    return false;
   }
     
   // file does not exist, or user permits overwriting

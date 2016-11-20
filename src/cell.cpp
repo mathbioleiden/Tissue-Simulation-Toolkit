@@ -149,8 +149,10 @@ void Cell::ReadStaticJTable(const char *fname) {
 
   cerr << "Reading J's...\n";
   ifstream jtab(fname);
-  if (!jtab) 
+    if (!jtab) {
     perror(fname);
+        exit(1);
+    }
   
   int n; // number of taus
   jtab >> n;

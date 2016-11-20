@@ -394,8 +394,8 @@ private:
 
   //! \brief Calculates the length based on the given inertia tensor
   //components (used internally)
-  inline double Length(long int s_x,long int s_y,long int s_xx,
-				long int s_yy,long int s_xy,long int n) {
+  inline double Length(int s_x,int s_y,int s_xx,
+				int s_yy,int s_xy,int n) {
     
     // inertia tensor (constructed from the raw momenta, see notebook)
     double iyy=(double)s_xx-(double)s_x*s_x/(double)n;
@@ -469,6 +469,12 @@ private:
   static int MaxTau(void) {
     return maxtau;
   }
+    
+    inline void GetCentroid(double *cx, double *cy) {
+        
+        *cx = sum_x/area;
+        *cy = sum_y/area;
+    }
 
 protected:
   int colour;
@@ -519,11 +525,11 @@ protected:
   
   // N.B: N is area!
   
-  long int sum_x;
-  long int sum_y;
-  long int sum_xx;
-  long int sum_yy;
-  long int sum_xy;
+  int sum_x;
+  int sum_y;
+  int sum_xx;
+  int sum_yy;
+  int sum_xy;
   
   const Dish *owner; // pointer to owner of cell
 
