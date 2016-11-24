@@ -274,7 +274,21 @@ void Dish::ExportMultiCellDS (const char *fname) {
 
     // Create a list of individual cells for MultiCellDS
     cell::cell_population_individual *cpi = new cell::cell_population_individual;
-
+ 
+    //mesh::list_of_voxels = new mesh::list_of_voxels;
+    mesh::mesh *mesh = new mesh::mesh;
+    
+    // get pixels from cells
+    vector < list < pair< int, int > > > cellpixels(cell.size());
+    
+    for (int x=1;x<CPM->SizeX()-1;x++) {
+        for (int y=1;y<CPM->SizeY()-1;y++) {
+            int s;
+            if ((s=CPM->Sigma(x,y))) {
+                cellpixels[s].push_back(pair<int, int>(x,y));
+            }
+        }
+    }
     
     // For each individual cell ...
     for (vector<Cell>::iterator c=cell.begin();
@@ -333,6 +347,7 @@ void Dish::ExportMultiCellDS (const char *fname) {
         common::units_string *str = new common::units_string;
         common::units_double_list *udl = new common::units_double_list;
         
+        
         // Translate position from CPM to MultiCellDS
         double cx, cy, cz;
         cz=0.; // 2D
@@ -346,6 +361,51 @@ void Dish::ExportMultiCellDS (const char *fname) {
         udl->push_back(cx); udl->push_back(cy); udl->push_back(cz);
         udl->units("micron");
         state->position(udl);
+        
+        // add voxels to cell
+        //cell::population_vector *popvec = new cell::population_vector;
+        /*state::voxels *voxels = new state::voxels;
+        
+        for (list< pair<int, int> >::const_iterator v=cellpixels[c->Sigma()].begin();
+             v!=cellpixels[c->Sigma()].end();
+             v++) {
+            voxels->push_back((unsigned int)v->first);
+            voxels->push_back((unsigned int)v->second);
+            voxels->push_back(0);
+        }*/
+        
+        // add voxels to cell
+        //cell::population_vector *popvec = new cell::population_vector;
+        
+        /*mesh::int_list_xpath *voxels = new mesh::int_list_xpath;
+        
+        for (list< pair<int, int> >::const_iterator v=cellpixels[c->Sigma()].begin();
+             v!=cellpixels[c->Sigma()].end();
+             v++) {
+            voxels->push_back((unsigned int)v->first);
+            voxels->push_back((unsigned int)v->second);
+            voxels->push_back(0);
+            voxels->grouping_number(3); // How many numbers are grouped to make an index
+            voxels->xpath("/MultiCellDS/cellular_information/mesh/voxels/"); // Where to find the voxels that the index uses. Use XPATH to navigate through the XML tree.
+            
+        }*/
+        
+        
+     
+        //cell::population_vector = new cell::population_vector;
+        
+         mesh::int_list_xpath *voxels = new mesh::int_list_xpath;
+         for (list< pair<int, int> >::const_iterator v=cellpixels[c->Sigma()].begin();
+         v!=cellpixels[c->Sigma()].end();
+         v++) {
+         voxels->push_back((unsigned int)v->first);
+         voxels->push_back((unsigned int)v->second);
+         voxels->push_back(0);
+         voxels->grouping_number(3); // How many numbers are grouped to make an index
+         voxels->xpath("/MultiCellDS/cellular_information/mesh/voxels/"); // Where to find the voxels that the index uses. Use XPATH to navigate through the XML tree.
+         
+         }
+        state->voxels(voxels);
 
         cout << "(" << cx << ")" << endl;
         // Add state to the cell
@@ -357,7 +417,7 @@ void Dish::ExportMultiCellDS (const char *fname) {
         // Add the cell to the cell population list
         cpi->cell().push_back(mcds_cell);
         
-
+     
     }
     
     
@@ -370,9 +430,12 @@ void Dish::ExportMultiCellDS (const char *fname) {
     cell::cellular_information *ci = new cell::cellular_information;
     ci->cell_populations(cps);
     cout << "So far so good" << endl;
+    /*mesh->voxels(voxels);
+    ci->mesh(mesh);*/
     
     // Allow the root MultiCellDS element to have cellular information
     h->cellular_information(ci);
+    
     MCDS_type mcds_type;// = new MCDS_type;
     mcds_type.value(MCDS_type::value_type::snapshot_simulation); // This is a simulation snapshot (vs experiemnt or clinical)
     h->type(mcds_type); // Assign the type over to the MultiCellDS element
