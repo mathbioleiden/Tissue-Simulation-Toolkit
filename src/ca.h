@@ -35,6 +35,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 //#include "dish.h"
 #include "cell.h"
 
+// MultiCellDS stuff
+#include <MultiCellDS.hpp>
+#include <MultiCellDS-pimpl.hpp>
+#include <MultiCellDS-simpl.hpp>
+
 class Dish;
 
 class Dir {
@@ -72,6 +77,7 @@ public:
   // Every time AllocateSigma is called in the base class methods
   // the function belonging the actual type will be called
   virtual void AllocateSigma(int sx, int sy);
+    
   
   // destructor must also be virtual
   virtual ~CellularPotts();
@@ -256,6 +262,8 @@ public:
   double Compactness(double *res_compactness = 0, 
 		     double *res_area = 0, 
 		     double *res_cell_area = 0);
+
+    void SetMultiCellDSCell(cell::cell &c);
   
 private:
   void IndexShuffle(void);

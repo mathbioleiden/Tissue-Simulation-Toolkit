@@ -1,0 +1,83 @@
+<MultiCellDS type="snapshot/simulation" version="0.5.0">
+  <metadata>
+    <MultiCellDB>
+      <ID>S_1234567890</ID>
+      <name>Vasculogenesis simulation using Tissue Simulation Toolkit 0.1.4.1</name>
+    </MultiCellDB>
+    <description>
+            Snapshot of vasculogenesis simulations according to Merks et al. Dev. Biol. 289(1):44-56, 2006. doi:10.1016/j.ydbio.2005.10.003
+        </description>
+    <software>
+      <name>Tissue Simulation Toolkit</name>
+      <version>0.1.4.1</version>
+      <creator>
+        <orcid-identifier>
+          <path>0000-0002-6152-687X</path>
+          <given-names>Roeland M.H.</given-names>
+          <family-name>Merks</family-name>
+          <email>merks@cwi.nl</email>
+          <url>http://tst.sourceforge.net</url>
+          <organization-name>Centrum Wiskunde &amp; Informatica, Amsterdam, The Netherlands</organization-name>
+          <department-name>Life Sciences group</department-name>
+        </orcid-identifier>
+      </creator>
+      <user>
+        <orcid-identifier>
+          <path>0000-0002-6152-687X</path>
+          <given-names>Roeland M.H.</given-names>
+          <family-name>Merks</family-name>
+          <email>merks@cwi.nl</email>
+          <url>http://biomodel.project.cwi.nl</url>
+          <organization-name>Centrum Wiskunde &amp; Informatica, Amsterdam, The Netherlands</organization-name>
+          <department-name>Life Sciences Group</department-name>
+        </orcid-identifier>
+      </user>
+    </software>
+    <rights>
+      <license>
+        <LicenseDocument>
+          <name>CC-BY 4.0</name>
+          <URL>https://creativecommons.org/licenses/by/4.0/</URL>
+        </LicenseDocument>
+      </license>
+    </rights>
+    <current_time units="minutes">5</current_time>
+    <current_runtime units="seconds">0.5</current_runtime>
+    <created>2016-10-27T22:46:17+01:00</created>
+    <last_modified>2016-10-27T22:46:17+01:00</last_modified>
+    <notes>
+            Simulation code is available from http://tst/sourceforge.net. Code version is TST0.1.4.1.
+        </notes>
+  </metadata>
+  <cellular_information>
+    <mesh>
+      <x_coordinates units="micron">0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98</x_coordinates>
+      <y_coordinates units="micron">0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98</y_coordinates>
+      <z_coordinates units="micron">0</z_coordinates>
+    </mesh>
+    <cell_populations>
+      <cell_population>
+        <cell ID="1">
+          <phenotype_dataset>
+            <phenotype type="current">
+              <geometrical_properties>
+                <lengths>
+                  <major_axis units="micron">96</major_axis>
+                  <minor_axis units="micron">10.5</minor_axis>
+                </lengths>
+                <volumes>
+                  <total_volume units="square micron">400</total_volume>
+                </volumes>
+              </geometrical_properties>
+            </phenotype>
+          </phenotype_dataset>
+          <state>
+            <orientation formalism="Unit Vector" units="">-0.394454879543866 0.918915310572217</orientation>
+            <position units="micron">50 54 0</position>
+            <voxels grouping_number="3" xpath="/MultiCellDS/cellular_information/mesh/voxels/">16 43 0 17 43 0 18 41 0 18 42 0 18 43 0 19 37 0 19 38 0 19 39 0 19 40 0 19 41 0 19 42 0 19 43 0 19 44 0 20 34 0 20 35 0 20 36 0 20 37 0 20 38 0 20 39 0 20 40 0 20 41 0 20 42 0 20 43 0 21 33 0 21 34 0 21 35 0 21 36 0 21 37 0 21 38 0 21 39 0 21 40 0 21 41 0 21 42 0 21 43 0 22 33 0 22 34 0 22 38 0 22 39 0 22 40 0 22 41 0 23 30 0 23 31 0 23 32 0 23 33 0 23 37 0 23 38 0 24 29 0 24 30 0 24 31 0 25 28 0 25 29 0 25 30 0 26 28 0 26 29 0 27 24 0 27 25 0 27 26 0 27 27 0 27 28 0 28 22 0 28 23 0 28 24 0 29 12 0 29 13 0 29 14 0 29 20 0 29 21 0 29 22 0 30 10 0 30 11 0 30 12 0 30 13 0 30 14 0 30 15 0 30 16 0 30 17 0 30 18 0 30 19 0 30 20 0 30 21 0 30 22 0 31 10 0 31 11 0 31 12 0 31 13 0 31 14 0 31 15 0 31 16 0 31 17 0 31 18 0 31 19 0 32 10 0 32 11 0 32 14 0 32 15 0 32 16 0 32 17 0 32 18 0 33 14 0 33 15 0</voxels>
+          </state>
+        </cell>
+      </cell_population>
+    </cell_populations>
+  </cellular_information>
+</MultiCellDS>

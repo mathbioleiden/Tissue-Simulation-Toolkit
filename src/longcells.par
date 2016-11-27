@@ -29,19 +29,19 @@ dx = 2e-6
 pde_its = 15
 
 # initial conditions (create a "blob" of cells in the middle)
-n_init_cells = 100
+n_init_cells = 625
 size_init_cells = 10
-sizex = 200
-sizey = 200
+sizex = 500
+sizey = 500
 divisions = 0
-mcs = 1001
+mcs = 25001
 rseed = 14321
 subfield = 1
 relaxation = 0
 
 # output
-storage_stride = 200
-graphics = true
+storage_stride = 100
+graphics = false
 store = true
-datadir = longcells
+datadir = longcells2
 

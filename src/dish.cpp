@@ -24,6 +24,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <list>
 #include <algorithm>
 #include <fstream>
+#include <sstream>
 #include <string.h>
 #include <errno.h>
 #include <math.h>
@@ -45,24 +46,32 @@ extern Parameter par;
 
 using namespace std;
 
-Dish::Dish(void) {
 
-  ConstructorBody();
-  
-  CPM=new CellularPotts(&cell, par.sizex, par.sizey);
-  if (par.n_chem)
-    PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
-  
-  // Initial cell distribution is defined by user in INIT {} block
-  Init();
+
+
+Dish::Dish(const char *mcds_fname) {
     
-  if (par.target_area>0)
-    for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
-      c->SetTargetArea(par.target_area);
-    } 
-  
-  
+    ConstructorBody();
+
+    
+    if (mcds_fname)
+        SetMultiCellDSImport(mcds_fname);
+    
+    CPM=new CellularPotts(&cell, par.sizex, par.sizey);
+    if (par.n_chem)
+        PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
+    
+    // Initial cell distribution is defined by user in INIT {} block
+    Init();
+    
+    if (par.target_area>0)
+        for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
+            c->SetTargetArea(par.target_area);
+        } 
+    
+    
 }
+
 
 
 
@@ -92,6 +101,8 @@ void Dish::ConstructorBody() {
   
   CPM=0;
   PDEfield=0;
+    
+    h_mcds=0;
 
 }
 
@@ -267,6 +278,12 @@ void Dish::MeasureChemConcentrations(void) {
     
 }*/
 
+double round(double v, int n) {
+    double ten_pow_n=pow(10,n);
+    v*=ten_pow_n;
+    return round(v)/ten_pow_n;
+}
+
 void Dish::ExportMultiCellDS (const char *fname) {
     
     // Setup for MultiCellDS output
@@ -278,17 +295,72 @@ void Dish::ExportMultiCellDS (const char *fname) {
     //mesh::list_of_voxels = new mesh::list_of_voxels;
     mesh::mesh *mesh = new mesh::mesh;
     
-    // get pixels from cells
-    vector < list < pair< int, int > > > cellpixels(cell.size());
+    common::units_double_list *xcoo = new common::units_double_list;
+    common::units_double_list *ycoo = new common::units_double_list;
+    common::units_double_list *zcoo = new common::units_double_list;
+    xcoo->units("micron");
+    ycoo->units("micron");
+    zcoo->units("micron");
     
+    
+    for (int x=0;x<CPM->SizeX();x++) {
+        xcoo->push_back(round((double)x*par.dx*1e+6));
+    }
+    
+    for (int y=0;y<CPM->SizeY();y++) {
+        ycoo->push_back(round((double)y*par.dx*1e+6));
+    }
+
+    zcoo->push_back(round((double)0*par.dx*1e+6));
+    
+    mesh->x_coordinates(xcoo);
+    mesh->y_coordinates(ycoo);
+    mesh->z_coordinates(zcoo);
+    
+    /*mesh::bounding_box bb= new mesh::bounding_box;
+    mesh::double_list bb_udl=new mesh::units_double_list;
+    
+    common::units_decimal *bb_dec = new common::units_decimal;
+    bb_dec->units("micron");
+    bb_dec->base_value(sizex*par.dx);*/
+    
+    
+    // get pixels from cells and push to mesh
+    vector < list < pair< int, int > > > cellpixels(cell.size());
+    mesh::list_of_voxels *voxlist = new mesh::list_of_voxels;
+   // voxlist->choice_arm(mesh::list_of_voxels::voxel_tag);
     for (int x=1;x<CPM->SizeX()-1;x++) {
         for (int y=1;y<CPM->SizeY()-1;y++) {
-            int s;
-            if ((s=CPM->Sigma(x,y))) {
-                cellpixels[s].push_back(pair<int, int>(x,y));
+            
+            int ID=CPM->Sigma(x,y);
+            // add voxel to mesh
+            /*mesh::voxel *vox = new mesh::voxel;
+            common::units_double_list *center = new common::units_double_list;
+            center->units("micron");
+            center->push_back(x*par.dx*1e+6);
+            center->push_back(y*par.dx*1e+6);
+            center->push_back(0.);
+            vox->center(center);
+            static common::units_decimal_nonnegative *vol = new common::units_decimal_nonnegative;
+            vol->base_value(par.dx*par.dx*1e+12);
+            vol->units("micron cubed");
+            vox->volume(vol);
+            vox->ID(ID);*/
+            
+            
+            // HELP: how do I add the voxels to a voxellist?
+            //cerr << "trying to push_back voxel" << endl;
+  
+           // voxlist->voxel().push_back(vox);
+           
+            
+            // store the list of voxels per cell
+            if (ID) {
+                cellpixels[ID].push_back(pair<int, int>(x,y));
             }
         }
     }
+    //mesh->voxels(voxlist);
     
     // For each individual cell ...
     for (vector<Cell>::iterator c=cell.begin();
@@ -304,23 +376,43 @@ void Dish::ExportMultiCellDS (const char *fname) {
         phenotype_common::geometrical_properties *gp = new phenotype_common::geometrical_properties;
         
         // Translate cell radius from CPM to MultiCellDS
-        common::units_decimal *radius_dec = new common::units_decimal; // Setup a units_decimal element
+        common::units_decimal_nonnegative *major_axis_dec = new common::units_decimal_nonnegative; // Setup a units_decimal element
+        common::units_decimal_nonnegative *minor_axis_dec = new common::units_decimal_nonnegative; // Setup a units_decimal element
         phenotype_common::lengths *lengths_xml = new phenotype_common::lengths; // Setup up the parent container of radius
+       
+        double major_axis, minor_axis;
+        double ovx,ovy;
+        c->MajorMinorAxis(&major_axis, &minor_axis, &ovx, &ovy);
+       
+        // store major and minor axis
+        major_axis=round(major_axis*par.dx*1e+6,1);
+        minor_axis=round(minor_axis*par.dx*1e+6,1);
+        major_axis_dec->units("micron"); // Get and the units
+        major_axis_dec->base_value(major_axis); // Set the radius
+        lengths_xml->major_axis(major_axis_dec); // Place the radius in lengths
+        minor_axis_dec->units("micron"); // Get and the units
+        minor_axis_dec->base_value(minor_axis); // Set the radius
+        lengths_xml->minor_axis(minor_axis_dec); // Place the radius in lengths
         
-        cout << "Calculating radius... ";
-        double radius = (c->Length()*par.dx)*1e+6; // Take the cell length as radius for now
-        radius_dec->units("micron"); // Get and the units
-        radius_dec->base_value(radius); // Set the radius
-        lengths_xml->radius(radius_dec); // Place the radius in lengths
+        // store orientation
+        state::orientation *orientation=new state::orientation;
+        orientation->formalism(state::orientation_formalism::Unit_Vector);
+        
+        orientation->units("");
+        orientation->push_back(ovx);
+        orientation->push_back(ovy);
+        
+        
+
         gp->lengths(lengths_xml); // Place lengths in geometric properties
-        cout << radius << "\n" << endl;
+        //cout << radius << "\n" << endl;
         
         
         // Translate cell volume from CPM to MultiCellDS
         cout << "Calculating volume... ";
         common::units_decimal *volume_dec = new common::units_decimal;
         phenotype_common::volumes *volumes_xml = new phenotype_common::volumes;
-        double volume = (c->Area()*par.dx*par.dx)*1e+12; // convert to square microns
+        double volume = round((c->Area()*par.dx*par.dx)*1e+12); // convert to square microns
         volume_dec->units("square micron");
         volume_dec->base_value(volume);
         volumes_xml->total_volume(volume_dec);
@@ -355,42 +447,16 @@ void Dish::ExportMultiCellDS (const char *fname) {
 
         
         // convert from pixel to micron
-        cx=(cx*par.dx)*1e+6;
-        cy=(cy*par.dx)*1e+6;
+        cx=round((cx*par.dx)*1e+6,2);
+        cy=round((cy*par.dx)*1e+6,2);
         
         udl->push_back(cx); udl->push_back(cy); udl->push_back(cz);
         udl->units("micron");
         state->position(udl);
+        state->orientation(orientation);
+        // store orientation (calculated above in "MajorMinorAxis"
         
-        // add voxels to cell
-        //cell::population_vector *popvec = new cell::population_vector;
-        /*state::voxels *voxels = new state::voxels;
-        
-        for (list< pair<int, int> >::const_iterator v=cellpixels[c->Sigma()].begin();
-             v!=cellpixels[c->Sigma()].end();
-             v++) {
-            voxels->push_back((unsigned int)v->first);
-            voxels->push_back((unsigned int)v->second);
-            voxels->push_back(0);
-        }*/
-        
-        // add voxels to cell
-        //cell::population_vector *popvec = new cell::population_vector;
-        
-        /*mesh::int_list_xpath *voxels = new mesh::int_list_xpath;
-        
-        for (list< pair<int, int> >::const_iterator v=cellpixels[c->Sigma()].begin();
-             v!=cellpixels[c->Sigma()].end();
-             v++) {
-            voxels->push_back((unsigned int)v->first);
-            voxels->push_back((unsigned int)v->second);
-            voxels->push_back(0);
-            voxels->grouping_number(3); // How many numbers are grouped to make an index
-            voxels->xpath("/MultiCellDS/cellular_information/mesh/voxels/"); // Where to find the voxels that the index uses. Use XPATH to navigate through the XML tree.
-            
-        }*/
-        
-        
+       // state->orientation(
      
         //cell::population_vector = new cell::population_vector;
         
@@ -430,8 +496,8 @@ void Dish::ExportMultiCellDS (const char *fname) {
     cell::cellular_information *ci = new cell::cellular_information;
     ci->cell_populations(cps);
     cout << "So far so good" << endl;
-    /*mesh->voxels(voxels);
-    ci->mesh(mesh);*/
+    //mesh->voxels(voxels);
+    ci->mesh(mesh);
     
     // Allow the root MultiCellDS element to have cellular information
     h->cellular_information(ci);
@@ -467,7 +533,7 @@ void Dish::ExportMultiCellDS (const char *fname) {
     tm off_t = *std::gmtime(&offset_second);
     short timezone_hour = (off_t.tm_hour+12)%24-12, timezone_minute = off_t.tm_min;
     
-    xml_schema::date_time new_times(lt.tm_year, lt.tm_mon, lt.tm_mday, lt.tm_hour, lt.tm_min, lt.tm_sec, timezone_hour, timezone_minute);
+    xml_schema::date_time new_times(lt.tm_year+1900, lt.tm_mon, lt.tm_mday, lt.tm_hour, lt.tm_min, lt.tm_sec, timezone_hour, timezone_minute);
     h_meta->metadata().created(new_times); // Copy time over
     h_meta->metadata().last_modified(new_times); // Copy time over
     h->metadata(&h_meta->metadata()); // Copy metadata over. Could also use _clone()
@@ -503,7 +569,50 @@ void Dish::ExportMultiCellDS (const char *fname) {
     //MultiCellDS_s2.post ();
 }
 
- 
+
+void Dish::SetMultiCellDSImport (const char *fname) {
+    // Parse the MultiCellDS file
+    //
+    MultiCellDS_paggr MultiCellDS_p;
+    xml_schema::document_pimpl doc_p (MultiCellDS_p.root_parser (),
+                                      MultiCellDS_p.root_name ());
+    MultiCellDS_p.pre ();
+    
+    doc_p.parse(fname);
+    h_mcds = MultiCellDS_p.post ();
+    
+    // get grid size
+    int sx=h_mcds->cellular_information().mesh().x_coordinates().size();
+    int sy=h_mcds->cellular_information().mesh().y_coordinates().size();
+    int sz=h_mcds->cellular_information().mesh().z_coordinates().size();
+   
+    if (sz>1) {
+        cerr << "No 3D meshes supported. (Adapt implementation of ImportMultiCellDS to choose a slice)" << endl;
+    }
+  
+    par.sizex=sx;
+    par.sizey=sy;
+    
+}
+
+int Dish::SetMultiCellDSCells(void) {
+    
+    if (h_mcds) {
+    // loop over all cells
+    for (cell::cell_population_individual::cell_iterator c =
+         h_mcds->cellular_information().cell_populations().cell_population().cell().begin();
+         c != h_mcds->cellular_information().cell_populations().cell_population().cell().end();
+         c++) {
+        
+        CPM->SetMultiCellDSCell(*c);
+   
+        }
+        return 0;
+    }
+    return 1; // error
+}
+
+
 
 int Dish::SizeX(void) { return CPM->SizeX(); }
 int Dish::SizeY(void) { return CPM->SizeY(); }	

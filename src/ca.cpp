@@ -1451,3 +1451,21 @@ double CellularPotts::Compactness(double *res_compactness, double *res_area, dou
 
 }
 
+void CellularPotts::SetMultiCellDSCell(cell::cell &c) {
+    
+    //cout << "Cell::ID = " << c.ID() << endl;
+    // get cell state
+    state::state &state(c.state());
+    mesh::int_list_xpath &voxels(state.voxels());
+    int grouping_number=state.voxels().grouping_number();
+    //cout << "grouping_number = " << grouping_number << endl;
+    // write to CPM mesh
+    for (mesh::int_list_xpath::const_iterator v=voxels.begin();
+         v!=voxels.end();
+         v+=grouping_number) {
+        //cout << v[0] << " " << v[1] << endl;
+        sigma[v[0]][v[1]]=c.ID();
+    }
+  
+}
+

@@ -13,9 +13,9 @@ contains( GRAPHICS, qt ) {
 TARGET = vessel
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
 libMCDS_DIR = /Users/roel/Projects/v0.5.0/libMCDS
-mcds_api = mcds_api_val
+mcds_api = mcds_api
 libMultiCellDS_DIR = $$libMCDS_DIR/$$mcds_api
-XSDE_DIR = $$libMCDS_DIR/xsde_val/libxsde
+XSDE_DIR = $$libMCDS_DIR/xsde/libxsde
 QMAKE_CXXFLAGS_RELEASE+= -I$$libMultiCellDS_DIR -I$$XSDE_DIR -m64 -std=c++11
 QMAKE_LFLAGS_RELEASE += $$libMultiCellDS_DIR/libmcds.a -L$$XSDE_DIR/xsde/ -l xsde -m64 # -std=c++11
 

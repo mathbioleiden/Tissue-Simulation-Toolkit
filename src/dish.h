@@ -30,6 +30,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef CRITTER_H_
 #define CRITTER_H_
 #include <vector>
+#include <MultiCellDS.hpp>
+#include <MultiCellDS-pimpl.hpp>
+#include <MultiCellDS-simpl.hpp>
+
 #include "graph.h"
 #include "random.h"
 #include "pde.h"
@@ -45,7 +49,7 @@ class Dish {
   friend class Info;
 
 public:
-  Dish(void);
+  Dish(const char *mcds_fname=0);
   
   /*! \brief Init defines the initial state of the virtual
     cell culture.
@@ -65,7 +69,9 @@ public:
   Simply calls CPM->Plot.
   */
   void Plot(Graphics *g);
-
+    
+    //! \brief Erase all cells
+    void Erase(void);
   
   int ZygoteArea(void) const;
   
@@ -110,12 +116,18 @@ public:
     
     //! Rudimentary export to MultiCellDS format
     void ExportMultiCellDS(const char *fname);
+    
+    //! Set MultiCellDS import file
+    void SetMultiCellDSImport (const char *fname);
+    int SetMultiCellDSCells(void);
+
 protected:
   //! Assign a the cell to the current Dish
   void SetCellOwner(Cell &which_cell);
 
 private:
   bool CellLonelyP(const Cell &c, int **neighbours) const;
+    MultiCellDS* h_mcds;
 
 protected:
   //! The cells in the Petri dish; accessible to derived classes

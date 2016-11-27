@@ -45,14 +45,19 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 
 using namespace std;
+static Dish *dish;
+static Info *info;
 
 INIT {
 
   try {
     
+      SetMultiCellDSCells();
+      
     // Define initial distribution of cells
-    CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
-    CPM->ConstructInitCells(*this);
+   // CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+    
+      CPM->ConstructInitCells(*this);
     
     // If we have only one big cell and divide it a few times
     // we start with a nice initial clump of cells. 
@@ -75,10 +80,7 @@ TIMESTEP {
   try {
 
     static int i=0;
-  
-    static Dish *dish=new Dish();
-    static Info *info=new Info(*dish, *this);
-
+    info=new Info(*dish, *this);
     // slowly increase target length during the first time steps
     // to prevent cells from breaking apart
     // static double targetlength=par.target_length;
@@ -190,6 +192,8 @@ int main(int argc, char *argv[]) {
     
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
+    //dish=new Dish("testmcds.xml");
+      dish=new Dish();
     QtGraphics g(par.sizex*2,par.sizey*2);
     a.setMainWidget( &g );
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );

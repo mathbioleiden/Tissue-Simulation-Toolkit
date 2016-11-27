@@ -407,10 +407,7 @@ private:
     double lambda_b=rhs1+rhs2;
     //double lambda_a=rhs1-rhs2;
     
-    // according to Zajac et al. 2003:
-    //return 2*sqrt(lambda_b);
-    // Grumble, this is not right!!!
-    // Must divide by mass!!!!!!
+  
 
     // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
     //    cerr << "n = " << n << "\n";
@@ -419,6 +416,51 @@ private:
     // 2*sqrt(lambda_b/n) give semimajor axis. We want the length.
 
   }
+    //! \brief Calculates the major and minor axes based on the given inertia tensor
+    //components
+    inline void MajorMinorAxis(double *major_axis, double *minor_axis, double *v1, double *v2) {
+        
+        // inertia tensor (constructed from the raw momenta, see notebook)
+        double iyy=(double)sum_xx-(double)sum_x*sum_x/(double)area;
+        double ixx=(double)sum_yy-(double)sum_y*sum_y/(double)area;
+        double ixy=-(double)sum_xy+(double)sum_x*sum_y/(double)area;
+        
+        double rhs1=(ixx+iyy)/2., rhs2=sqrt( (ixx-iyy)*(ixx-iyy)+4*ixy*ixy )/2.;
+        
+        double lambda_b=rhs1+rhs2;
+        double lambda_a=rhs1-rhs2;
+        
+        
+        
+        // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
+        //    cerr << "n = " << n << "\n";
+        *major_axis=4*sqrt(lambda_b/area);
+        *minor_axis=4*sqrt(lambda_a/area);
+
+        
+        double trace=ixx+iyy;
+        double det=ixx*iyy-ixy*ixy;
+        
+        
+        if (ixy!=0) {
+            *v1=lambda_a-iyy;
+            *v2=ixy;
+        } else {
+            *v1=0;
+            *v2=1;
+        }
+        
+        // normalize vector
+        double norm = sqrt((*v1) * (*v1) + (*v2) * (*v2));
+        *v1/=norm;
+        *v2/=norm;
+        
+        
+        
+        // 2*sqrt(lambda_b/n) give semimajor axis. We want the length.
+        
+    }
+
   
   // return the new length that the cell would have
   // if site (x,y) were added.
