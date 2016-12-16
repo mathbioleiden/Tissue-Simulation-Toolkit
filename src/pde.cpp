@@ -29,6 +29,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "pde.h"
 #include "conrec.h"
 
+#include <MultiCellDS.hpp>
+#include <MultiCellDS-pimpl.hpp>
+#include <MultiCellDS-simpl.hpp>
+
 /* STATIC DATA MEMBER INITIALISATION */
 const int PDE::nx[9] = {0, 1, 1, 1, 0,-1,-1,-1, 0 };
 const int PDE::ny[9] = {0, 1, 0,-1,-1,-1, 0, 1, 1 };
@@ -371,3 +375,146 @@ void PDE::PlotVectorField(Graphics &g, int stride, int linelength, int first_gra
   }
   
 }
+
+
+mesh::mesh *PDE::CreateMultiCellDSMesh(void) {
+    
+    mesh::mesh *mesh = new mesh::mesh;
+    
+    common::units_double_list *xcoo = new common::units_double_list;
+    common::units_double_list *ycoo = new common::units_double_list;
+    common::units_double_list *zcoo = new common::units_double_list;
+    xcoo->units("micron");
+    ycoo->units("micron");
+    zcoo->units("micron");
+    
+    
+    for (int x=0;x<SizeX();x++) {
+        xcoo->push_back(round((double)x*par.dx*1e+6));
+    }
+    
+    for (int y=0;y<SizeY();y++) {
+        ycoo->push_back(round((double)y*par.dx*1e+6));
+    }
+    
+    zcoo->push_back(round((double)0*par.dx*1e+6));
+    
+    mesh->x_coordinates(xcoo);
+    mesh->y_coordinates(ycoo);
+    mesh->z_coordinates(zcoo);
+    
+    return mesh;
+}
+
+
+void PDE::AddToMultiCellDS(MultiCellDS *mcds) {
+    
+    microenvironment::microenvironment *me=new microenvironment::microenvironment;
+    mesh::mesh *mesh = CreateMultiCellDSMesh();
+   
+    microenvironment::domain *dom = new microenvironment::domain;
+    dom->mesh(mesh);
+    
+    variables::data *data = new variables::data;
+    for (int j=0;j<layers;j++) {
+        // Add data to domain
+        variables::data_vector *dv = new variables::data_vector;
+        for (int i=0;i<sizex*sizey;i++) {
+            dv->push_back(sigma[0][0][i]);
+        }
+        data->type(common::data_storage_formats::xml);
+        data->data_vector().push_back(dv);
+    }
+    dom->data(data);
+    
+    variables::list_of_variables *lov = new variables::list_of_variables;
+    variables::variable *var = new variables::variable;
+ 
+    // should become part of field definition on user's end:
+    var->name("VEGF");
+    
+    lov->variable().push_back(var);
+    dom->variables(lov);
+    me->domain().push_back(dom);
+    mcds->microenvironment(me);
+
+}
+
+int PDE::ReadFromMultiCellDS(MultiCellDS *mcds) {
+    
+    
+    if (mcds) {
+        
+        // get grid size & check
+        
+        int read_lay=0;
+        // loop over all domains
+        for (microenvironment::microenvironment::domain_iterator d = mcds->microenvironment().domain().begin();
+             d != mcds->microenvironment().domain().end();
+             d++) {
+            
+            int sx=d->mesh().x_coordinates().size();
+            int sy=d->mesh().y_coordinates().size();
+            int sz=d->mesh().z_coordinates().size();
+            
+            if (sx!=sizex || sy!=sizey) {
+                cerr << "PDE::ReadFromMultiCellDS: Mesh size of field (" << sx << " x " << sy << ") does not match mesh size of CPM model (" << sizex << " x " << sizey << ")" << endl;
+                exit(1);
+            } /*else {
+                 cerr << "PDE::ReadFromMultiCellDS - Success: Mesh size of field (" << sx << " x " << sy << ") matches mesh size of CPM model (" << sizex << " x " << sizey << ")" << endl;
+            }*/
+            // OKAY - ready to read
+            int pos=0;
+            if (read_lay>=layers) {
+                cerr << "PDE::ReadFromMultiCellDS error: insufficient PDE layers declared for MultiCellDS File" << endl;
+                exit(1);
+            }
+            for (variables::data::data_vector_iterator dv=d->data().data_vector().begin();
+                 dv !=d->data().data_vector().end();
+                 dv++) {
+                
+                for (variables::data_vector::const_iterator i=dv->begin();
+                    i !=dv->end();
+                    i++) {
+                    sigma[read_lay][0][pos++]=*i;
+                }
+                read_lay++;
+            }
+            
+        }
+    } else {
+        return 1; // error: no MCDS
+    }
+    
+        /*microenvironment::microenvironment *me=new microenvironment::microenvironment;
+         mesh::mesh *mesh = CreateMultiCellDSMesh();
+         
+         microenvironment::domain *dom = new microenvironment::domain;
+         dom->mesh(mesh);
+         
+         variables::data *data = new variables::data;
+         for (int j=0;j<layers;j++) {
+         // Add data to domain
+         variables::data_vector *dv = new variables::data_vector;
+         for (int i=0;i<sizex*sizey;i++) {
+         dv->push_back(sigma[0][0][i]);
+         }
+         data->type(common::data_storage_formats::xml);
+         data->data_vector().push_back(dv);
+         }
+         dom->data(data);
+         
+         variables::list_of_variables *lov = new variables::list_of_variables;
+         variables::variable *var = new variables::variable;
+         
+         // should become part of field definition on user's end:
+         var->name("VEGF");
+         
+         lov->variable().push_back(var);
+         dom->variables(lov);
+         me->domain().push_back(dom);
+         mcds->microenvironment(me);*/
+        
+}
+
+

@@ -284,6 +284,8 @@ double round(double v, int n) {
     return round(v)/ten_pow_n;
 }
 
+
+
 void Dish::ExportMultiCellDS (const char *fname) {
     
     // Setup for MultiCellDS output
@@ -293,29 +295,27 @@ void Dish::ExportMultiCellDS (const char *fname) {
     cell::cell_population_individual *cpi = new cell::cell_population_individual;
  
     //mesh::list_of_voxels = new mesh::list_of_voxels;
-    mesh::mesh *mesh = new mesh::mesh;
+    mesh::mesh *mesh = CPM->CreateMultiCellDSMesh();
     
-    common::units_double_list *xcoo = new common::units_double_list;
-    common::units_double_list *ycoo = new common::units_double_list;
-    common::units_double_list *zcoo = new common::units_double_list;
-    xcoo->units("micron");
-    ycoo->units("micron");
-    zcoo->units("micron");
+    // Create a phenotype for target areas and so forth
+    phenotype::phenotype *p; p = new phenotype::phenotype;
+    phenotype_base::phenotype_type pt = phenotype_base::phenotype_type::target; // Select the current phenotype instead of target or expected
+    p->type(pt); // Place the phenotype type into the phenotype
     
     
-    for (int x=0;x<CPM->SizeX();x++) {
-        xcoo->push_back(round((double)x*par.dx*1e+6));
-    }
-    
-    for (int y=0;y<CPM->SizeY();y++) {
-        ycoo->push_back(round((double)y*par.dx*1e+6));
-    }
+    /*phenotype_common::geometrical_properties *gp = new phenotype_common::geometrical_properties;
+    common::units_decimal_nonnegative *target_area_dec = new common::units_decimal_nonnegative;
+    phenotype_common::target_areas_3D *areas_xml = new phenotype_common::target_areas_3D;
+    double target_area = round(par.target_area*par.dx*par.dx)*1e+12); // convert to square microns
+    target_area_dec->units("square micron");
+    area_dec->base_value(area);
+    areas_xml->total_surface_area(area_dec);
+    cout << area << "\n";
 
-    zcoo->push_back(round((double)0*par.dx*1e+6));
+    gp->*/
     
-    mesh->x_coordinates(xcoo);
-    mesh->y_coordinates(ycoo);
-    mesh->z_coordinates(zcoo);
+    
+   // p->geometrical_properties(gp); // Place geometric properties in phenotype
     
     /*mesh::bounding_box bb= new mesh::bounding_box;
     mesh::double_list bb_udl=new mesh::units_double_list;
@@ -409,16 +409,26 @@ void Dish::ExportMultiCellDS (const char *fname) {
         
         
         // Translate cell volume from CPM to MultiCellDS
-        cout << "Calculating volume... ";
-        common::units_decimal *volume_dec = new common::units_decimal;
+       // cout << "Calculating volume... ";
+        common::units_decimal_nonnegative *volume_dec = new common::units_decimal_nonnegative;
         phenotype_common::volumes *volumes_xml = new phenotype_common::volumes;
         double volume = round((c->Area()*par.dx*par.dx)*1e+12); // convert to square microns
         volume_dec->units("square micron");
         volume_dec->base_value(volume);
         volumes_xml->total_volume(volume_dec);
-        cout << volume << "\n";
+        
+        /*cout << "Calculating area... ";
+        common::units_decimal_nonnegative *area_dec = new common::units_decimal_nonnegative;
+        phenotype_common::areas_3D *areas_xml = new phenotype_common::areas_3D;
+        double area = round((c->Area()*par.dx*par.dx)*1e+12); // convert to square microns
+        area_dec->units("square micron");
+        area_dec->base_value(area);
+        areas_xml->total_surface_area(area_dec);
+        cout << area << "\n";
+         */
 
         // Places volumes in geometric properties
+        //gp->areas(areas_xml);
         gp->volumes(volumes_xml);
         
         // Create a phenotype
@@ -506,6 +516,10 @@ void Dish::ExportMultiCellDS (const char *fname) {
     mcds_type.value(MCDS_type::value_type::snapshot_simulation); // This is a simulation snapshot (vs experiemnt or clinical)
     h->type(mcds_type); // Assign the type over to the MultiCellDS element
     h->version("0.5.0"); // State the MultiCellDS version number
+    
+    // Add PDE fields
+    cout << "Trying to add PDE field\n";
+    PDEfield->AddToMultiCellDS(h);
     
     //############################################################
     // Adding metadata. Read it in from a file. Easier than
@@ -607,6 +621,8 @@ int Dish::SetMultiCellDSCells(void) {
         CPM->SetMultiCellDSCell(*c);
    
         }
+    // Get fields
+        PDEfield->ReadFromMultiCellDS(h_mcds);
         return 0;
     }
     return 1; // error

@@ -150,6 +150,8 @@ public:
       return colour;
       else */
       return tau+1;
+      // Each cell an individual colour:
+      //return sigma==0?0:(sigma%151)+2;
     
   };
 

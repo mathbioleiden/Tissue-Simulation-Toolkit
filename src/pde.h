@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -26,6 +26,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <stdio.h>
 #include <float.h>
 #include "graph.h"
+
+#include <MultiCellDS.hpp>
+#include <MultiCellDS-pimpl.hpp>
+#include <MultiCellDS-simpl.hpp>
 
 class CellularPotts;
 class PDE {
@@ -223,7 +227,8 @@ class PDE {
        
   */
   void PlotVectorField(Graphics &g, int stride, int linelength, int first_grad_layer=1);
-
+  void AddToMultiCellDS(MultiCellDS *mcds);
+  int ReadFromMultiCellDS(MultiCellDS *mcds);
  protected:
 
   double ***sigma;
@@ -260,7 +265,10 @@ class PDE {
   */   
   virtual double ***AllocateSigma(const int layers, const int sx, const int sy);
  
- private:
+    mesh::mesh *CreateMultiCellDSMesh(void);
+ 
+
+private:
   static const int nx[9], ny[9];
   double thetime;
 

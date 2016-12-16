@@ -264,7 +264,8 @@ public:
 		     double *res_cell_area = 0);
 
     void SetMultiCellDSCell(cell::cell &c);
-  
+    mesh::mesh *CreateMultiCellDSMesh(void);
+    
 private:
   void IndexShuffle(void);
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);

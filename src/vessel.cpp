@@ -52,12 +52,12 @@ INIT {
 
   try {
     
-      SetMultiCellDSCells();
+    SetMultiCellDSCells();
       
     // Define initial distribution of cells
-   // CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+     //CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
     
-      CPM->ConstructInitCells(*this);
+     CPM->ConstructInitCells(*this);
     
     // If we have only one big cell and divide it a few times
     // we start with a nice initial clump of cells. 
@@ -112,7 +112,7 @@ TIMESTEP {
       // because the CPM medium is considered transparant
       //ClearImage();
       dish->Plot(this);
- 
+        //dish->PlotSigma(this);
       
       if (i>=par.relaxation)
       dish->PDEfield->ContourPlot(this,0,7);
@@ -135,16 +135,17 @@ TIMESTEP {
       dish->PDEfield->Plot(this,0);
       //ClearImage();
       dish->Plot(this);
-      if (i>=par.relaxation)
-      dish->PDEfield->ContourPlot(this,0,7);
+      /* if (i>=par.relaxation)
+      dish->PDEfield->ContourPlot(this,0,7);*/
    
       EndScene();
     
       Write(fname);
-     dish->ExportMultiCellDS(fname_mcds);
-      
+        if (!(i%(par.storage_stride*10)))
+            dish->ExportMultiCellDS(fname_mcds);
     }
-
+      
+      
     i++;
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -192,8 +193,8 @@ int main(int argc, char *argv[]) {
     
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
-    //dish=new Dish("testmcds.xml");
-      dish=new Dish();
+    dish=new Dish("testinit.xml");
+    //dish=new Dish();
     QtGraphics g(par.sizex*2,par.sizey*2);
     a.setMainWidget( &g );
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );

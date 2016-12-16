@@ -117,6 +117,9 @@ public:
     //! Rudimentary export to MultiCellDS format
     void ExportMultiCellDS(const char *fname);
     
+    //! Create a MultiCellDS mesh for this Dish
+    mesh::mesh *CreateMesh(void);
+    
     //! Set MultiCellDS import file
     void SetMultiCellDSImport (const char *fname);
     int SetMultiCellDSCells(void);

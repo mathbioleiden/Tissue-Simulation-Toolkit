@@ -1451,6 +1451,35 @@ double CellularPotts::Compactness(double *res_compactness, double *res_area, dou
 
 }
 
+mesh::mesh *CellularPotts::CreateMultiCellDSMesh(void) {
+ 
+    mesh::mesh *mesh = new mesh::mesh;
+    
+    common::units_double_list *xcoo = new common::units_double_list;
+    common::units_double_list *ycoo = new common::units_double_list;
+    common::units_double_list *zcoo = new common::units_double_list;
+    xcoo->units("micron");
+    ycoo->units("micron");
+    zcoo->units("micron");
+    
+    
+    for (int x=0;x<SizeX();x++) {
+        xcoo->push_back(round((double)x*par.dx*1e+6));
+    }
+    
+    for (int y=0;y<SizeY();y++) {
+        ycoo->push_back(round((double)y*par.dx*1e+6));
+    }
+    
+    zcoo->push_back(round((double)0*par.dx*1e+6));
+    
+    mesh->x_coordinates(xcoo);
+    mesh->y_coordinates(ycoo);
+    mesh->z_coordinates(zcoo);
+    
+    return mesh;
+}
+
 void CellularPotts::SetMultiCellDSCell(cell::cell &c) {
     
     //cout << "Cell::ID = " << c.ID() << endl;
