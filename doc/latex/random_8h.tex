@@ -1,0 +1,166 @@
+\section{random.\-h File Reference}
+\label{random_8h}\index{random.\-h@{random.\-h}}
+This graph shows which files directly or indirectly include this file\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{random_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf M\-B\-I\-G}~1000000000
+\item 
+\#define {\bf M\-S\-E\-E\-D}~161803398
+\item 
+\#define {\bf M\-Z}~0
+\item 
+\#define {\bf F\-A\-C}~(1.\-0/{\bf M\-B\-I\-G})
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double {\bf R\-A\-N\-D\-O\-M} ()
+\item 
+int {\bf Seed} (int seed)
+\item 
+long {\bf Random\-Number} (long {\bf max})
+\item 
+void {\bf Ask\-Seed} ()
+\item 
+int {\bf Randomize} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{random.\-h@{random.\-h}!F\-A\-C@{F\-A\-C}}
+\index{F\-A\-C@{F\-A\-C}!random.h@{random.\-h}}
+\subsubsection[{F\-A\-C}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-A\-C~(1.\-0/{\bf M\-B\-I\-G})}\label{random_8h_a8c3c7226e23b36189d1ec6b7d3504499}
+
+
+Referenced by R\-A\-N\-D\-O\-M().
+
+\index{random.\-h@{random.\-h}!M\-B\-I\-G@{M\-B\-I\-G}}
+\index{M\-B\-I\-G@{M\-B\-I\-G}!random.h@{random.\-h}}
+\subsubsection[{M\-B\-I\-G}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-B\-I\-G~1000000000}\label{random_8h_a31be5e3096afa10fc67bd629dd9332e7}
+
+
+Referenced by R\-A\-N\-D\-O\-M().
+
+\index{random.\-h@{random.\-h}!M\-S\-E\-E\-D@{M\-S\-E\-E\-D}}
+\index{M\-S\-E\-E\-D@{M\-S\-E\-E\-D}!random.h@{random.\-h}}
+\subsubsection[{M\-S\-E\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-S\-E\-E\-D~161803398}\label{random_8h_aa0e8039431bb68581133ef4c1dbbe71d}
+
+
+Referenced by R\-A\-N\-D\-O\-M().
+
+\index{random.\-h@{random.\-h}!M\-Z@{M\-Z}}
+\index{M\-Z@{M\-Z}!random.h@{random.\-h}}
+\subsubsection[{M\-Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-Z~0}\label{random_8h_a8dbc2223b1260b0fb5ab3d57bec0f74d}
+
+
+Referenced by R\-A\-N\-D\-O\-M().
+
+
+
+\subsection{Function Documentation}
+\index{random.\-h@{random.\-h}!Ask\-Seed@{Ask\-Seed}}
+\index{Ask\-Seed@{Ask\-Seed}!random.h@{random.\-h}}
+\subsubsection[{Ask\-Seed}]{\setlength{\rightskip}{0pt plus 5cm}void Ask\-Seed (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{random_8h_a34f7b93b23be476f43d1b1169cbab3c0}
+Interactively ask for the seed 
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+References Seed().
+
+\index{random.\-h@{random.\-h}!R\-A\-N\-D\-O\-M@{R\-A\-N\-D\-O\-M}}
+\index{R\-A\-N\-D\-O\-M@{R\-A\-N\-D\-O\-M}!random.h@{random.\-h}}
+\subsubsection[{R\-A\-N\-D\-O\-M}]{\setlength{\rightskip}{0pt plus 5cm}double R\-A\-N\-D\-O\-M (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{random_8h_af26e98955ff2eaaa6f4ee6b09ca07342}
+\begin{DoxyReturn}{Returns}
+A random double between 0 and 1 
+\end{DoxyReturn}
+\index{random.\-h@{random.\-h}!Randomize@{Randomize}}
+\index{Randomize@{Randomize}!random.h@{random.\-h}}
+\subsubsection[{Randomize}]{\setlength{\rightskip}{0pt plus 5cm}int Randomize (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{random_8h_ae21c32bc12a35221312b6ba099cfbfc3}
+Make a random seed based on the local time 
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+References Seed().
+
+
+
+Referenced by Seed().
+
+\index{random.\-h@{random.\-h}!Random\-Number@{Random\-Number}}
+\index{Random\-Number@{Random\-Number}!random.h@{random.\-h}}
+\subsubsection[{Random\-Number}]{\setlength{\rightskip}{0pt plus 5cm}long Random\-Number (
+\begin{DoxyParamCaption}
+\item[{long}]{max}
+\end{DoxyParamCaption}
+)}\label{random_8h_ab49f60b2bb33d03c1371c7a3fa46b1a6}
+Returns a random integer value between 1 and 'max' 
+\begin{DoxyParams}{Parameters}
+{\em The} & maximum value (long) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A random integer (long) 
+\end{DoxyReturn}
+
+
+References R\-A\-N\-D\-O\-M().
+
+
+
+Referenced by Cellular\-Potts\-::\-Grow\-In\-Cells(), Cellular\-Potts\-::\-Set\-Random\-Types(), and Cellular\-Potts\-::\-Throw\-In\-Cells().
+
+\index{random.\-h@{random.\-h}!Seed@{Seed}}
+\index{Seed@{Seed}!random.h@{random.\-h}}
+\subsubsection[{Seed}]{\setlength{\rightskip}{0pt plus 5cm}int Seed (
+\begin{DoxyParamCaption}
+\item[{int}]{seed}
+\end{DoxyParamCaption}
+)}\label{random_8h_a12de90ae172738036dbb252c0e72dc66}
+
+\begin{DoxyParams}{Parameters}
+{\em An} & integer random seed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the random seed 
+\end{DoxyReturn}
+
+
+References R\-A\-N\-D\-O\-M(), and Randomize().
+
+
+
+Referenced by Ask\-Seed(), and Randomize().
+

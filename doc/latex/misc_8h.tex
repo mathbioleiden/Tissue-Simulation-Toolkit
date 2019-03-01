@@ -1,0 +1,132 @@
+\section{misc.\-h File Reference}
+\label{misc_8h}\index{misc.\-h@{misc.\-h}}
+This graph shows which files directly or indirectly include this file\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=96pt]{misc_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf F\-A\-L\-S\-E}~0
+\item 
+\#define {\bf T\-R\-U\-E}~1
+\item 
+\#define {\bf O\-K}~1
+\item 
+\#define {\bf R\-E\-M\-A\-R\-K}~56
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf Read\-Number} (F\-I\-L\-E $\ast$file, int $\ast$number)
+\item 
+int {\bf Yes\-No\-P} (const char $\ast$message)
+\item 
+char $\ast$ {\bf Get\-File\-Name} (const char $\ast$message, const char $\ast$ftype)
+\item 
+int {\bf File\-Exists} (F\-I\-L\-E $\ast$$\ast$fp, const char $\ast$fname, const char $\ast$ftype)
+\item 
+int {\bf Read\-Double} (F\-I\-L\-E $\ast$file, double $\ast$number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{misc.\-h@{misc.\-h}!F\-A\-L\-S\-E@{F\-A\-L\-S\-E}}
+\index{F\-A\-L\-S\-E@{F\-A\-L\-S\-E}!misc.h@{misc.\-h}}
+\subsubsection[{F\-A\-L\-S\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-A\-L\-S\-E~0}\label{misc_8h_aa93f0eb578d23995850d61f7d61c55c1}
+
+
+Referenced by File\-Exists(), File\-Exists\-P(), Get\-File\-Name(), Open\-File\-And\-Check\-Existance(), Open\-Read\-File(), and Yes\-No\-P().
+
+\index{misc.\-h@{misc.\-h}!O\-K@{O\-K}}
+\index{O\-K@{O\-K}!misc.h@{misc.\-h}}
+\subsubsection[{O\-K}]{\setlength{\rightskip}{0pt plus 5cm}\#define O\-K~1}\label{misc_8h_aba51915c87d64af47fb1cc59348961c9}
+
+
+Referenced by Read\-Double(), and Read\-Number().
+
+\index{misc.\-h@{misc.\-h}!R\-E\-M\-A\-R\-K@{R\-E\-M\-A\-R\-K}}
+\index{R\-E\-M\-A\-R\-K@{R\-E\-M\-A\-R\-K}!misc.h@{misc.\-h}}
+\subsubsection[{R\-E\-M\-A\-R\-K}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\-E\-M\-A\-R\-K~56}\label{misc_8h_ace9fba7267bf6a9a92654ce7f25c5516}
+
+
+Referenced by Read\-Double(), and Read\-Number().
+
+\index{misc.\-h@{misc.\-h}!T\-R\-U\-E@{T\-R\-U\-E}}
+\index{T\-R\-U\-E@{T\-R\-U\-E}!misc.h@{misc.\-h}}
+\subsubsection[{T\-R\-U\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-R\-U\-E~1}\label{misc_8h_aa8cecfc5c5c054d2875c03e77b7be15d}
+
+
+Referenced by File\-Exists(), File\-Exists\-P(), Get\-File\-Name(), Open\-File\-And\-Check\-Existance(), Open\-Write\-File(), X11\-Graphics\-::\-Replace\-Beast(), and Yes\-No\-P().
+
+
+
+\subsection{Function Documentation}
+\index{misc.\-h@{misc.\-h}!File\-Exists@{File\-Exists}}
+\index{File\-Exists@{File\-Exists}!misc.h@{misc.\-h}}
+\subsubsection[{File\-Exists}]{\setlength{\rightskip}{0pt plus 5cm}int File\-Exists (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$$\ast$}]{fp, }
+\item[{const char $\ast$}]{fname, }
+\item[{const char $\ast$}]{ftype}
+\end{DoxyParamCaption}
+)}\label{misc_8h_ae59164878311b840e5846c64ae238126}
+
+
+References F\-A\-L\-S\-E, and T\-R\-U\-E.
+
+
+
+Referenced by Get\-File\-Name().
+
+\index{misc.\-h@{misc.\-h}!Get\-File\-Name@{Get\-File\-Name}}
+\index{Get\-File\-Name@{Get\-File\-Name}!misc.h@{misc.\-h}}
+\subsubsection[{Get\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Get\-File\-Name (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message, }
+\item[{const char $\ast$}]{ftype}
+\end{DoxyParamCaption}
+)}\label{misc_8h_afbd8290f9c5b53b8ec8b86a06bdd6ac0}
+
+
+References F\-A\-L\-S\-E, File\-Exists(), T\-R\-U\-E, and Yes\-No\-P().
+
+\index{misc.\-h@{misc.\-h}!Read\-Double@{Read\-Double}}
+\index{Read\-Double@{Read\-Double}!misc.h@{misc.\-h}}
+\subsubsection[{Read\-Double}]{\setlength{\rightskip}{0pt plus 5cm}int Read\-Double (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{file, }
+\item[{double $\ast$}]{number}
+\end{DoxyParamCaption}
+)}\label{misc_8h_a1065caf5bb7bf5a871c0bb6cce4e5d69}
+
+
+References O\-K, and R\-E\-M\-A\-R\-K.
+
+
+
+Referenced by Info\-::\-Menu().
+
+\index{misc.\-h@{misc.\-h}!Read\-Number@{Read\-Number}}
+\index{Read\-Number@{Read\-Number}!misc.h@{misc.\-h}}
+\subsubsection[{Read\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int Read\-Number (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{file, }
+\item[{int $\ast$}]{number}
+\end{DoxyParamCaption}
+)}\label{misc_8h_ab1000566635b3292ea889a41b92f12b2}
+P\-U\-B\-L\-I\-C 
+
+References O\-K, and R\-E\-M\-A\-R\-K.
+
+\index{misc.\-h@{misc.\-h}!Yes\-No\-P@{Yes\-No\-P}}
+\index{Yes\-No\-P@{Yes\-No\-P}!misc.h@{misc.\-h}}
+\subsubsection[{Yes\-No\-P}]{\setlength{\rightskip}{0pt plus 5cm}int Yes\-No\-P (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}\label{misc_8h_aa67ef0a1d41408ed07b342be6de4c37c}

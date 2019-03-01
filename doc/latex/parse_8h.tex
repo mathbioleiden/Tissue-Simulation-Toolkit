@@ -1,0 +1,265 @@
+\section{parse.\-h File Reference}
+\label{parse_8h}\index{parse.\-h@{parse.\-h}}
+This graph shows which files directly or indirectly include this file\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{parse_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ {\bf Parse\-Par} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, bool wrapflag)
+\item 
+int {\bf igetpar} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, bool wrapflag)
+\item 
+int {\bf igetpar} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, int default\-\_\-val, bool wrapflag)
+\item 
+float {\bf fgetpar} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, bool wrapflag)
+\item 
+float {\bf fgetpar} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, double default\-\_\-val, bool wrapflag)
+\item 
+double $\ast$ {\bf dgetparlist} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, int n, bool wrapflag)
+\item 
+char $\ast$ {\bf sgetpar} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, bool wrapflag)
+\item 
+char $\ast$ {\bf sgetpar} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, const char $\ast$default\-\_\-val, bool wrapflag)
+\item 
+bool {\bf bgetpar} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, bool wrapflag)
+\item 
+bool {\bf bgetpar} (F\-I\-L\-E $\ast$fp, char $\ast$parameter, int default\-\_\-val, bool wrapflag)
+\item 
+char $\ast$ {\bf Search\-Token} (F\-I\-L\-E $\ast$fp, char $\ast$token, bool wrapflag)
+\item 
+int {\bf Token\-In\-Line\-P} (char $\ast$line, char $\ast$token)
+\item 
+void {\bf Skip\-Token} (F\-I\-L\-E $\ast$fp, char $\ast$token, bool wrapflag)
+\item 
+void {\bf Skip\-Line} (F\-I\-L\-E $\ast$fp)
+\item 
+char $\ast$ {\bf bool\-\_\-str} (bool bool\-\_\-var)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{parse.\-h@{parse.\-h}!bgetpar@{bgetpar}}
+\index{bgetpar@{bgetpar}!parse.h@{parse.\-h}}
+\subsubsection[{bgetpar}]{\setlength{\rightskip}{0pt plus 5cm}bool bgetpar (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_ac55ee6bfbd2cfd686c71efb955ce5a49}
+
+
+References bgetpar().
+
+
+
+Referenced by bgetpar(), and Parameter\-::\-Read().
+
+\index{parse.\-h@{parse.\-h}!bgetpar@{bgetpar}}
+\index{bgetpar@{bgetpar}!parse.h@{parse.\-h}}
+\subsubsection[{bgetpar}]{\setlength{\rightskip}{0pt plus 5cm}bool bgetpar (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{int}]{default\-\_\-val, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_a2daef242a27a1c9fda431bc30a1ecfd3}
+
+
+References bool\-\_\-str(), error(), Parse\-Par(), and warning().
+
+\index{parse.\-h@{parse.\-h}!bool\-\_\-str@{bool\-\_\-str}}
+\index{bool\-\_\-str@{bool\-\_\-str}!parse.h@{parse.\-h}}
+\subsubsection[{bool\-\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ bool\-\_\-str (
+\begin{DoxyParamCaption}
+\item[{bool}]{bool\-\_\-var}
+\end{DoxyParamCaption}
+)}\label{parse_8h_a2328592dbd8b961b0417eedc0056e6c7}
+
+
+Referenced by bgetpar().
+
+\index{parse.\-h@{parse.\-h}!dgetparlist@{dgetparlist}}
+\index{dgetparlist@{dgetparlist}!parse.h@{parse.\-h}}
+\subsubsection[{dgetparlist}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ dgetparlist (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{int}]{n, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_a5e164cf1271fc5d2dd578b12702f097a}
+
+
+References error(), Parse\-Par(), and warning().
+
+
+
+Referenced by Parameter\-::\-Read().
+
+\index{parse.\-h@{parse.\-h}!fgetpar@{fgetpar}}
+\index{fgetpar@{fgetpar}!parse.h@{parse.\-h}}
+\subsubsection[{fgetpar}]{\setlength{\rightskip}{0pt plus 5cm}float fgetpar (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_a2299c4462e8fba3b6c8b1c4294fe2a94}
+
+
+References fgetpar().
+
+
+
+Referenced by fgetpar(), and Parameter\-::\-Read().
+
+\index{parse.\-h@{parse.\-h}!fgetpar@{fgetpar}}
+\index{fgetpar@{fgetpar}!parse.h@{parse.\-h}}
+\subsubsection[{fgetpar}]{\setlength{\rightskip}{0pt plus 5cm}float fgetpar (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{double}]{default\-\_\-val, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_a890000bfc36a5f1e6c66ca098e1f8eb5}
+
+
+References Parse\-Par(), and warning().
+
+\index{parse.\-h@{parse.\-h}!igetpar@{igetpar}}
+\index{igetpar@{igetpar}!parse.h@{parse.\-h}}
+\subsubsection[{igetpar}]{\setlength{\rightskip}{0pt plus 5cm}int igetpar (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_adf56eac548f104599e8a7cc51bf58aee}
+
+
+References igetpar().
+
+
+
+Referenced by igetpar(), and Parameter\-::\-Read().
+
+\index{parse.\-h@{parse.\-h}!igetpar@{igetpar}}
+\index{igetpar@{igetpar}!parse.h@{parse.\-h}}
+\subsubsection[{igetpar}]{\setlength{\rightskip}{0pt plus 5cm}int igetpar (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{int}]{default\-\_\-val, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_a6d3bbb1604d8f669171e426ac629a41d}
+
+
+References Parse\-Par(), and warning().
+
+\index{parse.\-h@{parse.\-h}!Parse\-Par@{Parse\-Par}}
+\index{Parse\-Par@{Parse\-Par}!parse.h@{parse.\-h}}
+\subsubsection[{Parse\-Par}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Parse\-Par (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_ad7e24aa69d628788949f9ac9b0474e1c}
+
+
+References error(), Search\-Token(), and warning().
+
+
+
+Referenced by bgetpar(), dgetparlist(), fgetpar(), igetpar(), and sgetpar().
+
+\index{parse.\-h@{parse.\-h}!Search\-Token@{Search\-Token}}
+\index{Search\-Token@{Search\-Token}!parse.h@{parse.\-h}}
+\subsubsection[{Search\-Token}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Search\-Token (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{token, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_a1446df70c82e543b3e786d17b4105a3a}
+
+
+References errno, error(), Read\-Line(), and warning().
+
+
+
+Referenced by Parse\-Par(), and Skip\-Token().
+
+\index{parse.\-h@{parse.\-h}!sgetpar@{sgetpar}}
+\index{sgetpar@{sgetpar}!parse.h@{parse.\-h}}
+\subsubsection[{sgetpar}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ sgetpar (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_adbecbe0b887fa03998389764e0394400}
+
+
+References sgetpar().
+
+
+
+Referenced by Parameter\-::\-Read(), and sgetpar().
+
+\index{parse.\-h@{parse.\-h}!sgetpar@{sgetpar}}
+\index{sgetpar@{sgetpar}!parse.h@{parse.\-h}}
+\subsubsection[{sgetpar}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ sgetpar (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{parameter, }
+\item[{const char $\ast$}]{default\-\_\-val, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_afd8452193c8594b6e97191174c12f63c}
+
+
+References Parse\-Par(), and warning().
+
+\index{parse.\-h@{parse.\-h}!Skip\-Line@{Skip\-Line}}
+\index{Skip\-Line@{Skip\-Line}!parse.h@{parse.\-h}}
+\subsubsection[{Skip\-Line}]{\setlength{\rightskip}{0pt plus 5cm}void Skip\-Line (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp}
+\end{DoxyParamCaption}
+)}\label{parse_8h_af032c357bf5040759c3a57073182be95}
+
+
+References Read\-Line().
+
+\index{parse.\-h@{parse.\-h}!Skip\-Token@{Skip\-Token}}
+\index{Skip\-Token@{Skip\-Token}!parse.h@{parse.\-h}}
+\subsubsection[{Skip\-Token}]{\setlength{\rightskip}{0pt plus 5cm}void Skip\-Token (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp, }
+\item[{char $\ast$}]{token, }
+\item[{bool}]{wrapflag}
+\end{DoxyParamCaption}
+)}\label{parse_8h_afc42a9f3ab59e8d07161aa1e2c9cbe83}
+
+
+References error(), and Search\-Token().
+
+\index{parse.\-h@{parse.\-h}!Token\-In\-Line\-P@{Token\-In\-Line\-P}}
+\index{Token\-In\-Line\-P@{Token\-In\-Line\-P}!parse.h@{parse.\-h}}
+\subsubsection[{Token\-In\-Line\-P}]{\setlength{\rightskip}{0pt plus 5cm}int Token\-In\-Line\-P (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{line, }
+\item[{char $\ast$}]{token}
+\end{DoxyParamCaption}
+)}\label{parse_8h_abc93274aa269efda64082d0a90cb32cf}

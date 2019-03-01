@@ -1,0 +1,113 @@
+\section{conrec.\-cpp File Reference}
+\label{conrec_8cpp}\index{conrec.\-cpp@{conrec.\-cpp}}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}graph.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}conrec.\-h\char`\"{}}\\*
+Include dependency graph for conrec.\-cpp\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=297pt]{conrec_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf xsect}(p1, p2)~(h[p2]$\ast$xh[p1]-\/h[p1]$\ast$xh[p2])/(h[p2]-\/h[p1])
+\item 
+\#define {\bf ysect}(p1, p2)~(h[p2]$\ast$yh[p1]-\/h[p1]$\ast$yh[p2])/(h[p2]-\/h[p1])
+\item 
+\#define {\bf min}(x, y)~(x$<$y?x\-:y)
+\item 
+\#define {\bf max}(x, y)~(x$>$y?x\-:y)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf conrec} (double $\ast$$\ast$d, int ilb, int iub, int jlb, int jub, double $\ast$x, double $\ast$y, int nc, double $\ast$z, {\bf Graphics} $\ast$g, int colour)
+\begin{DoxyCompactList}\small\item\em Paul Bourke's conrec algorithm to draw contour lines of \doxyref{P\-D\-E}{p.}{classPDE} fields. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{conrec.\-cpp@{conrec.\-cpp}!max@{max}}
+\index{max@{max}!conrec.cpp@{conrec.\-cpp}}
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}\#define max(
+\begin{DoxyParamCaption}
+\item[{}]{x, }
+\item[{}]{y}
+\end{DoxyParamCaption}
+)~(x$>$y?x\-:y)}\label{conrec_8cpp_ac39d9cef6a5e030ba8d9e11121054268}
+
+
+Referenced by conrec(), P\-D\-E\-::\-Contour\-Plot(), and P\-D\-E\-::\-Max().
+
+\index{conrec.\-cpp@{conrec.\-cpp}!min@{min}}
+\index{min@{min}!conrec.cpp@{conrec.\-cpp}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}\#define min(
+\begin{DoxyParamCaption}
+\item[{}]{x, }
+\item[{}]{y}
+\end{DoxyParamCaption}
+)~(x$<$y?x\-:y)}\label{conrec_8cpp_abb702d8b501669a23aa0ab3b281b9384}
+
+
+Referenced by conrec(), P\-D\-E\-::\-Contour\-Plot(), and P\-D\-E\-::\-Min().
+
+\index{conrec.\-cpp@{conrec.\-cpp}!xsect@{xsect}}
+\index{xsect@{xsect}!conrec.cpp@{conrec.\-cpp}}
+\subsubsection[{xsect}]{\setlength{\rightskip}{0pt plus 5cm}\#define xsect(
+\begin{DoxyParamCaption}
+\item[{}]{p1, }
+\item[{}]{p2}
+\end{DoxyParamCaption}
+)~(h[p2]$\ast$xh[p1]-\/h[p1]$\ast$xh[p2])/(h[p2]-\/h[p1])}\label{conrec_8cpp_a1945de04712b1719569931533875fddc}
+
+
+Referenced by conrec().
+
+\index{conrec.\-cpp@{conrec.\-cpp}!ysect@{ysect}}
+\index{ysect@{ysect}!conrec.cpp@{conrec.\-cpp}}
+\subsubsection[{ysect}]{\setlength{\rightskip}{0pt plus 5cm}\#define ysect(
+\begin{DoxyParamCaption}
+\item[{}]{p1, }
+\item[{}]{p2}
+\end{DoxyParamCaption}
+)~(h[p2]$\ast$yh[p1]-\/h[p1]$\ast$yh[p2])/(h[p2]-\/h[p1])}\label{conrec_8cpp_a9280aea3f72512414a0ac224816b2604}
+
+
+Referenced by conrec().
+
+
+
+\subsection{Function Documentation}
+\index{conrec.\-cpp@{conrec.\-cpp}!conrec@{conrec}}
+\index{conrec@{conrec}!conrec.cpp@{conrec.\-cpp}}
+\subsubsection[{conrec}]{\setlength{\rightskip}{0pt plus 5cm}int conrec (
+\begin{DoxyParamCaption}
+\item[{double $\ast$$\ast$}]{d, }
+\item[{int}]{ilb, }
+\item[{int}]{iub, }
+\item[{int}]{jlb, }
+\item[{int}]{jub, }
+\item[{double $\ast$}]{x, }
+\item[{double $\ast$}]{y, }
+\item[{int}]{nc, }
+\item[{double $\ast$}]{z, }
+\item[{{\bf Graphics} $\ast$}]{g, }
+\item[{int}]{colour = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}\label{conrec_8cpp_a6e7a0b7c5669bfd7cd8b598d97a599c4}
+
+
+Paul Bourke's conrec algorithm to draw contour lines of \doxyref{P\-D\-E}{p.}{classPDE} fields. 
+
+C-\/code Copyright (c) 1996-\/1997 Nicholas Yue. 
+
+References max, min, Graphics\-::\-Point(), xsect, and ysect.
+
+
+
+Referenced by P\-D\-E\-::\-Contour\-Plot().
+

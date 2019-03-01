@@ -1,0 +1,85 @@
+\section{x11graph.\-cpp File Reference}
+\label{x11graph_8cpp}\index{x11graph.\-cpp@{x11graph.\-cpp}}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$X11/\-Xlib.\-h$>$}\\*
+{\ttfamily \#include $<$X11/\-Xutil.\-h$>$}\\*
+{\ttfamily \#include $<$X11/keysym.\-h$>$}\\*
+{\ttfamily \#include $<$X11/cursorfont.\-h$>$}\\*
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include $<$malloc.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$sys/types.\-h$>$}\\*
+{\ttfamily \#include $<$sys/stat.\-h$>$}\\*
+{\ttfamily \#include $<$fcntl.\-h$>$}\\*
+{\ttfamily \#include $<$cstring$>$}\\*
+{\ttfamily \#include $<$errno.\-h$>$}\\*
+{\ttfamily \#include $<$png.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}sticky.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}x11graph.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}parameter.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}output.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+Include dependency graph for x11graph.\-cpp\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{x11graph_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf N\-O\-P\-V\-M}
+\item 
+\#define {\bf K\-E\-Y\-B\-U\-F\-S\-I\-Z\-E}~10
+\item 
+\#define {\bf S\-W\-A\-P}(a, b)~tmpswap = a; a = b; b = tmpswap;
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Parameter} {\bf par}
+\item 
+int {\bf errno}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{x11graph.\-cpp@{x11graph.\-cpp}!K\-E\-Y\-B\-U\-F\-S\-I\-Z\-E@{K\-E\-Y\-B\-U\-F\-S\-I\-Z\-E}}
+\index{K\-E\-Y\-B\-U\-F\-S\-I\-Z\-E@{K\-E\-Y\-B\-U\-F\-S\-I\-Z\-E}!x11graph.cpp@{x11graph.\-cpp}}
+\subsubsection[{K\-E\-Y\-B\-U\-F\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-Y\-B\-U\-F\-S\-I\-Z\-E~10}\label{x11graph_8cpp_a5058042f8d2b0be49f10f8c46b19a46a}
+
+
+Referenced by X11\-Graphics\-::\-Get\-X\-Y\-Coo().
+
+\index{x11graph.\-cpp@{x11graph.\-cpp}!N\-O\-P\-V\-M@{N\-O\-P\-V\-M}}
+\index{N\-O\-P\-V\-M@{N\-O\-P\-V\-M}!x11graph.cpp@{x11graph.\-cpp}}
+\subsubsection[{N\-O\-P\-V\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\-O\-P\-V\-M}\label{x11graph_8cpp_affeb851a50e0fe35fa29a8b04113bcf1}
+\index{x11graph.\-cpp@{x11graph.\-cpp}!S\-W\-A\-P@{S\-W\-A\-P}}
+\index{S\-W\-A\-P@{S\-W\-A\-P}!x11graph.cpp@{x11graph.\-cpp}}
+\subsubsection[{S\-W\-A\-P}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\-W\-A\-P(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~tmpswap = a; a = b; b = tmpswap;}\label{x11graph_8cpp_aac9153aee4bdb92701df902e06a74eb3}
+
+
+Referenced by X11\-Graphics\-::\-Line().
+
+
+
+\subsection{Variable Documentation}
+\index{x11graph.\-cpp@{x11graph.\-cpp}!errno@{errno}}
+\index{errno@{errno}!x11graph.cpp@{x11graph.\-cpp}}
+\subsubsection[{errno}]{\setlength{\rightskip}{0pt plus 5cm}int errno}\label{x11graph_8cpp_ad65a8842cc674e3ddf69355898c0ecbf}
+
+
+Referenced by Check\-File(), Read\-Line(), and Search\-Token().
+
+\index{x11graph.\-cpp@{x11graph.\-cpp}!par@{par}}
+\index{par@{par}!x11graph.cpp@{x11graph.\-cpp}}
+\subsubsection[{par}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Parameter} par}\label{x11graph_8cpp_aa11a52593a908c20a7259a3e72c0b348}
