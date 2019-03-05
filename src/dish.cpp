@@ -133,7 +133,7 @@ void Dish::CellGrowthAndDivision(void) {
       
     }
     
-    if ( (c->TargetArea() > 2 * mem_area ) ) {
+    if ( (c->Area() > 2 * mem_area ) ) {
       which_cells[c->Sigma()]=true;
       cell_division++;
     }

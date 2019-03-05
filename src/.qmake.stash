@@ -40,3 +40,8 @@ QMAKE_CXX.COMPILER_MACROS = \
     QMAKE_GCC_PATCH_VERSION
 QMAKE_XCODE_DEVELOPER_PATH = /Applications/Xcode.app/Contents/Developer
 QMAKE_XCODE_VERSION = 10.1
+QMAKE_MAC_SDK.macosx.Path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
+QMAKE_MAC_SDK.macosx.PlatformPath = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform
+QMAKE_MAC_SDK.macosx.SDKVersion = 10.14
+QMAKE_MAC_SDK.macx-clang.macosx.QMAKE_LINK_C = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
+QMAKE_MAC_SDK.macx-clang.macosx.QMAKE_LINK_C_SHLIB = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
