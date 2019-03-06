@@ -310,8 +310,8 @@ protected:
 
 private:
   bool frozen;
-  static const int nx[25], ny[25];
-  static const int nbh_level[5];
+  static const int nx[21], ny[21];
+  static const int nbh_level[4];
   int *edgelist;
   int *orderedgelist;
   int sizeedgelist;

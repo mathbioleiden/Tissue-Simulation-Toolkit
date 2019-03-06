@@ -57,10 +57,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 double copyprob[BOLTZMANN]; 
 
 
-const int CellularPotts::nx[25] = {0, 0, 1, 0,-1, 1, 1,-1,-1, 0, 2, 0, -2, 1, 2, 2, 1,-1,-2,-2,-1, 0, 2, 0,-2 };
-const int CellularPotts::ny[25] = {0,-1, 0, 1, 0,-1, 1, 1,-1,-2, 0, 2,  0,-2,-1, 1, 2, 2, 1,-1,-2,-2, 0, 2, 0 };
+const int CellularPotts::nx[21] = {0, 0, 1, 0,-1, 1, 1,-1,-1, 0, 2, 0, -2, 1, 2, 2, 1,-1,-2,-2,-1};
+const int CellularPotts::ny[21] = {0,-1, 0, 1, 0,-1, 1, 1,-1,-2, 0, 2,  0,-2,-1, 1, 2, 2, 1,-1,-2};
 
-const int CellularPotts::nbh_level[5] = { 0, 4, 8, 20, 24 };
+const int CellularPotts::nbh_level[4] = { 0, 4, 8, 20};
 int CellularPotts::shuffleindex[9]={0,1,2,3,4,5,6,7,8};
 
 extern Parameter par;
