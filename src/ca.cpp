@@ -1451,3 +1451,29 @@ double CellularPotts::Compactness(double *res_compactness, double *res_area, dou
 
 }
 
+
+void CellularPotts::SetBoundingBox(void) {
+    
+    int min_x=sizex+2, max_x=0;
+    int min_y=sizey+2, max_y=0;
+    for (int x=1;x<=sizex-2;x++) {
+        for (int y=1;y<=sizey-2;y++) {
+            if (sigma[x][y]) {
+                if (x<min_x) {
+                    min_x=x;
+                }
+                if (x>max_x) {
+                    max_x=x;
+                }
+                if (y<min_y) {
+                    min_y=y;
+                }
+                if (y>max_y) {
+                    max_y=y;
+                }
+            }
+        }
+    }
+    cout << "( (" << min_x << ", " << min_y << ") , (" << max_x << "," << max_y  << " ) )" << endl;
+}
+

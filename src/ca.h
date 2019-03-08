@@ -103,6 +103,8 @@ public:
     }
     return mass;
   }
+    
+    void SetBoundingBox(void);
 
   /*! Plot the cells according to their cell identity, not their type.
     
