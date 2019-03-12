@@ -4,7 +4,7 @@ target_area = 50
 target_length = 0
 lambda = 50
 lambda2 = 0
-Jtable = Jpepperandsalt.dat
+Jtable = Jengulf.dat
 conn_diss = 0
 vecadherinknockout = true
 chemotaxis = 0
@@ -32,14 +32,14 @@ sizex = 200
 sizey = 200
 divisions = 7
 mcs = 1000000
-rseed = -1
+rseed = 93478
 subfield = 1.0
 relaxation = 0
 
 # output
 storage_stride = 100
-graphics = true
-store = false
-datadir = data_film2
+graphics = false
+store = true
+datadir = data100_orig
 
 
