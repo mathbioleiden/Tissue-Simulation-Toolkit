@@ -88,10 +88,9 @@ public:
   int **SearchNandPlot(Graphics *g=0, bool get_neighbours=true);
   
   //! Plot the dish to Graphics window g
-    void Plot(Graphics *g);
-  /*inline void Plot(Graphics *g) {
+  inline void Plot(Graphics *g) {
     SearchNandPlot(g, false);
-  }*/
+  }
   
   //! Searches the cells' neighbors without plotting
   inline int **SearchNeighbours(void) {

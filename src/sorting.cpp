@@ -83,22 +83,22 @@ TIMESTEP {
     static Dish *dish=new Dish();
     static Info *info=new Info(*dish, *this);
 
-		/* ofstream myfile;
-		myfile.open("Data.txt", std::ofstream::out | std::ofstream::app);
+		/*ofstream myfile;
+		myfile.open("Data_original.txt", std::ofstream::out | std::ofstream::app);
 		myfile << i <<",";
 		myfile.close();
 
-		dish->CPM->WriteData();   */
+		dish->CPM->WriteData();    */
     dish->CPM->AmoebaeMove(dish->PDEfield);
 	
-    //cerr << "Done\n";
+
     if (par.graphics && !(i%par.storage_stride)) {
-        cerr << "i=" << i << endl;
+      
       
       BeginScene();
       ClearImage();
-     //dish->CPM->   PlotSigma(this);
-        dish->Plot(this);
+      dish->Plot(this);
+
       //char title[400];
       //snprintf(title,399,"CellularPotts: %d MCS",i);
       //ChangeTitle(title);
