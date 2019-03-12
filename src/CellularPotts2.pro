@@ -4,7 +4,7 @@ CONFIG += console
 CONFIG += release
 QT += widgets
 QT += gui
-CONFIG -= debug
+CONFIG += debug
 CONFIG -= app_bundle
 
 

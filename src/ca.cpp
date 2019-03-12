@@ -444,6 +444,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield){
 	int xn, yn; //neighbour cells
     
 	loop = sizeedgelist;
+   
   for (int i; i<loop;i++){
 		positionedge = (int)(RANDOM()*sizeedgelist); // take a entry of the edgelist
 		targetedge = orderedgelist[positionedge];
@@ -471,7 +472,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield){
 				yp=yp-sizey+2;
 		}
 	 	kp=sigma[xp][yp]; //by construction of the edgelist, xp,yp can't be a boundary state.
-		
+     // cerr << "( (" << x << "," << y << ") (" << xp << ", " << yp << ") )" << endl;
 		// connectivity dissipation:
 		H_diss=0;
 		if (!ConnectivityPreservedP(x,y)) 
@@ -499,7 +500,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield){
 				  if (yn>=sizey-1)
 						yn=yn-sizey+2;
 				} 
-				if (xn>0 || yn>0 || xn<sizex-1 || yn<sizey-1){//if the neighbour site is within the lattice
+				if (xn>0 && yn>0 && xn<sizex-1 && yn<sizey-1){//if the neighbour site is within the lattice
 					if (edgelist[edgeadjusting] == -1 && sigma[xn][yn] != sigma[x][y]) //if we should add the edge to the edgelist, add it
 						AddEdgeToEdgelist(edgeadjusting);
 					if (edgelist[edgeadjusting] != -1 && sigma[xn][yn] == sigma[x][y])//if the sites have the same celltype and they have an edge, remove it
@@ -507,8 +508,8 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield){
 				}
 			}
 			SumDH+=D_H;			
-		}
-	}
+        }
+  }
 	return SumDH;  
 }
 
@@ -522,6 +523,34 @@ void CellularPotts::AddEdgeToEdgelist(int edge) {
 	edgelist[counteredge] = sizeedgelist;
 	orderedgelist[sizeedgelist] = counteredge;
 	sizeedgelist++;
+}
+
+void CellularPotts::WriteData(void){
+		int RedRedSurface = 0;
+		int RedYellowSurface = 0;
+		int YellowYellowSurface = 0;
+	for (int x = 1; x<sizex-1; x++)
+	for (int y = 1; y<sizey-1; y++){
+		for (int i = 1; i<=4; i++){
+			int x2,y2;
+			x2=x+nx[i]; y2=y+ny[i];
+			if (sigma[x][y] != sigma[x2][y2]){
+				if ((*cell)[sigma[x][y]].getTau() == 1 && (*cell)[sigma[x2][y2]].getTau() == 1)	RedRedSurface ++;
+				if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1)	RedYellowSurface ++;
+				if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1)	YellowYellowSurface ++;
+			
+			}
+		}
+	}
+	//cout << "Red-red surface = " << RedRedSurface << endl;
+	//cout << "Red-yellow surface = " << RedYellowSurface << endl;
+	//cout << "Yellow-yellow surface = " << YellowYellowSurface << endl;
+
+	ofstream myfile;
+	myfile.open("Data.txt", std::ofstream::out | std::ofstream::app);
+	myfile << RedYellowSurface <<endl;
+	myfile.close();
+
 }
 
 void CellularPotts::RemoveEdgeFromEdgelist(int edge) { //remove the site from the edgelist and rearrange a bit if needed
@@ -647,12 +676,74 @@ void CellularPotts::PlotSigma(Graphics *g, int mag) {
   
   for (int x=0;x<sizex;x++) 
     for (int y=0;y<sizey;y++) {
-      for (int xm=0;xm<mag;xm++)
-	for (int ym=0;ym<mag;ym++)
-      g->Point( sigma[x][y], mag*x+xm, mag*y+ym);
+        for (int xm=0;xm<mag;xm++) {
+            for (int ym=0;ym<mag;ym++){
+                int colour=sigma[x][y];
+                if (colour<=0) {
+                    colour=0;
+                }
+      g->Point( colour, mag*x+xm, mag*y+ym);
   }
-  
+        }
+    }
 }
+
+void CellularPotts::Plot(Graphics *g)
+{
+    int i, j,q;
+   
+    
+    for ( i = 0; i < sizex-1; i++ )
+        for ( j = 0; j < sizey-1; j++ ) {
+            
+            
+            int colour;
+            if (sigma[i][j]<=0) {
+                colour=0;
+            } else {
+                colour = (*cell)[sigma[i][j]].Colour();
+                //colour = sigma[i][j];
+            }
+            
+            if (g && sigma[i][j]>0)  /* if draw */
+                g->Point( colour, 2*i, 2*j);
+            
+            if ( sigma[i][j] != sigma[i+1][j] )  /* if cellborder */ /* etc. etc. */
+            {
+                if (g)
+                    g->Point( 1, 2*i+1, 2*j );
+            }
+            else
+                if (g && sigma[i][j]>0)
+                    g->Point( colour, 2*i+1, 2*j );
+            
+            
+            if ( sigma[i][j] != sigma[i][j+1] ) {
+                
+                if (g)
+                    g->Point( 1, 2*i, 2*j+1 );
+                
+            }
+            else
+                if (g && sigma[i][j]>0)
+                    g->Point( colour, 2*i, 2*j+1 );
+            
+            /* Cells that touch eachother's corners are NO neighbours */
+            
+            if (sigma[i][j]!=sigma[i+1][j+1]
+                || sigma[i+1][j]!=sigma[i][j+1] ) {
+                if (g)
+                    g->Point( 1, 2*i+1, 2*j+1 );
+            }
+            else
+                if (g && sigma[i][j]>0)
+                    g->Point( colour, 2*i+1, 2*j+1 );
+        }
+    
+    //    return 0;
+    
+}
+
 
 int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
 {
@@ -718,8 +809,8 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
 		  if (neighbours[sigma[i+1][j]][q]==sigma[i][j]) 
 		    break;
 	    }
-	  }
-	} 
+      }
+    }
       else
         if (g && sigma[i][j]>0) 
           g->Point( colour, 2*i+1, 2*j );
@@ -753,7 +844,7 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
 		if (neighbours[sigma[i][j+1]][q]==sigma[i][j]) 
 		  break;
 	  }
-	}
+    }
       } 
       else
         if (g && sigma[i][j]>0) 

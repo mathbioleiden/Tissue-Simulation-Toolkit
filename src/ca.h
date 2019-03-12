@@ -88,9 +88,10 @@ public:
   int **SearchNandPlot(Graphics *g=0, bool get_neighbours=true);
   
   //! Plot the dish to Graphics window g
-  inline void Plot(Graphics *g) {
+    void Plot(Graphics *g);
+  /*inline void Plot(Graphics *g) {
     SearchNandPlot(g, false);
-  }
+  }*/
   
   //! Searches the cells' neighbors without plotting
   inline int **SearchNeighbours(void) {
@@ -111,6 +112,8 @@ public:
   The black lines are omitted.
   */
   void PlotSigma(Graphics *g, int mag=2);
+	void WriteData(void);
+
 
   
   //! Divide all cells.
