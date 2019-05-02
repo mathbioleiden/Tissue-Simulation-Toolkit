@@ -203,7 +203,8 @@ public:
   */
   int GrowInCells(int n_cells, int cellsize, double subfield=1.);
   int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y);
-  
+    int ScratchAssay(int n_cells, int cell_size, double fraction_of_scratch);
+    
   //! \brief Adds a new Cell and returns a reference to it.
   inline Cell &AddCell(Dish &beast) {
     cell->push_back(Cell(beast));
@@ -236,6 +237,15 @@ public:
   Jtable in parameter file).
   */
   void SetRandomTypes(void);
+    
+    /*! \brief Give each cell a random cell type.
+     
+     The number of cell types is defined by the J parameter file. (See
+     Jtable in parameter file).
+     
+     The probabilities for each cell type are given in vector<double> probs (non-cumulative)
+     */
+    void SetRandomProbTypes(vector<double> &probs);
 
   /*! Cells grow until twice their original target_length, then
     divide, with rate "growth_rate"

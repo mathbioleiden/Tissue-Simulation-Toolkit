@@ -7,7 +7,7 @@ lambda2 = 5.0
 Jtable = J.dat
 conn_diss = 2000
 vecadherinknockout = true
-chemotaxis = 1000
+chemotaxis = 2000
 extensiononly = false
 border_energy = 100
 

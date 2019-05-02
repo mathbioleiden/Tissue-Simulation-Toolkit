@@ -263,7 +263,8 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
 
   /* Chemotaxis */
   if (PDEfield && (par.vecadherinknockout || (sxyp==0 || sxy==0))) {
-    
+      if ((*cell)[sxyp].getTau()==1 ||
+          ( (*cell)[sxy].getTau()==1) && (*cell)[sxyp].getTau()!=2) {
     // copying from (xp, yp) into (x,y)
     // If par.extensiononly == true, apply CompuCell's method, i.e.
     // only chemotactic extensions contribute to energy change
@@ -272,6 +273,7 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
     
       DH-=DDH;
     }
+      }
   }
 
   
@@ -1071,6 +1073,102 @@ int CellularPotts::ThrowInCells(int n,int cellsize) {
   return cellnum;
 } 
 
+int CellularPotts::ScratchAssay(int n_cells, int cell_size, double fraction_of_scratch) {
+    
+    // fraction_of_scratch gives the width of the scratch as a percentage of the horizontal field size
+    // step 1: calculate locations of the two regions that will contain the cells
+    if (fraction_of_scratch < 0. || fraction_of_scratch > 1.0) {
+        throw "Scratch Assay: fraction_of_scratch must be between 0 and 1";
+        return 1;
+    }
+    int scratch_width = fraction_of_scratch * (sizex-2);
+    int offset_x1=1;
+    int sx=(sizex-2-scratch_width)/2; // width of regions containing cells
+    int offset_x2=sizex-2-sx;
+
+    cerr << "Scratch: " << sx << " " << offset_x1 << " " << offset_x2 << endl;
+    
+    
+    // make initial cells using Eden Growth
+    
+    int **new_sigma=(int **)malloc(sizex*sizeof(int *));
+    if (new_sigma==NULL)
+        MemoryWarning();
+    
+    new_sigma[0]=(int *)malloc(sizex*sizey*sizeof(int));
+    if (new_sigma[0]==NULL)
+        MemoryWarning();
+    
+    for (int i=1;i<sizex;i++)
+        new_sigma[i]=new_sigma[i-1]+sizey;
+    
+    /* Clear CA plane */
+    { for (int i=0;i<sizex*sizey;i++)
+        new_sigma[0][i]=0;
+    }
+    
+    
+    // scatter initial points, or place a cell in the middle
+    // if only one cell is desired
+    int cellnum=cell->size()-1;
+    
+    {
+       // Region 1
+        { for (int i=0;i<n_cells/2;i++) {
+            
+            sigma[RandomNumber(sx)+offset_x1][RandomNumber(sizey-2)+1]=++cellnum;
+            
+        }}
+        
+        // Region 2
+        { for (int i=0;i<n_cells/2;i++) {
+            
+            sigma[RandomNumber(sx)+offset_x2][RandomNumber(sizey-2)+1]=++cellnum;
+            
+        }}
+        
+    }
+    
+    // Do Eden growth for a number of time steps
+    {for (int i=0;i<cell_size;i++) {
+        for (int x=1;x<sizex-1;x++)
+            for (int y=1;y<sizey-1;y++) {
+                
+                if (sigma[x][y]==0) {
+                    // take a random neighbour
+                    int xyp=(int)(8*RANDOM()+1);
+                    int xp = nx[xyp]+x;
+                    int yp = ny[xyp]+y;
+                    int kp;
+                    //  NB removing this border test yields interesting effects :-)
+                    // You get a ragged border, which you may like!
+                    if ((kp=sigma[xp][yp])!=-1)
+                        if (kp>(cellnum-n_cells))
+                            new_sigma[x][y]=kp;
+                        else
+                            new_sigma[x][y]=0;
+                        else
+                            new_sigma[x][y]=0;
+                    
+                } else {
+                    new_sigma[x][y]=sigma[x][y];
+                }
+            }
+        
+        // copy sigma to new_sigma, but do not touch the border!
+        {  for (int x=1;x<sizex-1;x++) {
+            for (int y=1;y<sizey-1;y++) {
+                sigma[x][y]=new_sigma[x][y];
+            }
+        }
+        }}}
+    free(new_sigma[0]);
+    free(new_sigma);
+    
+    return cellnum;
+ 
+    
+}
   
 int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield) {
 
@@ -1292,6 +1390,40 @@ void CellularPotts::SetRandomTypes(void) {
   
 }
 
+void CellularPotts::SetRandomProbTypes(vector<double> &probs) {
+    
+    // each cell gets a random type 1..maxtau
+    vector<double> cumprobs(probs.size());
+    double sum=0.;
+    for (auto i=probs.begin(), j=cumprobs.begin(); i!=probs.end(); i++, j++) {
+        sum+=*i;
+        *j=sum;
+    }
+    if (fabs(sum-1.0) > 1e-10) {
+        throw "SetRandomProbTypes probs vector must sum up to 1";
+        exit(1);
+    }
+    
+    auto c=cell->begin(); ++c;
+    
+    for (;
+         c!=cell->end();
+         c++) {
+        
+        double p=RANDOM();
+        int celltype=0;
+        for (auto i=cumprobs.begin();i!=cumprobs.end();i++) {
+            celltype++;
+            if (*i>p) {
+                break;
+            }
+        }
+        c->setTau(celltype);
+        
+    }
+    
+}
+
 void CellularPotts::GrowAndDivideCells(int growth_rate) {
 
   vector<Cell>::iterator c=cell->begin(); ++c;
@@ -1302,7 +1434,7 @@ void CellularPotts::GrowAndDivideCells(int growth_rate) {
        c++) {
 
     // only tumor cells grow and divide
-    if (c->getTau()==2) {
+    if (c->getTau()==1) {
      
       c->SetTargetArea(c->TargetArea()+growth_rate);
     
@@ -1312,9 +1444,9 @@ void CellularPotts::GrowAndDivideCells(int growth_rate) {
 	which_cells[c->Sigma()]=false;
       }
 
-      if (c->chem[1]<0.9) { //arbitrary oxygen threshold for the moment
+     /* if (c->chem[1]<0.9) { //arbitrary oxygen threshold for the moment
 	c->setTau(3);
-      }
+      }*/
     } else {
       which_cells[c->Sigma()]=false;
     }
