@@ -31,6 +31,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <math.h>
 #include <cstdlib>
 #include <cstring>
+#include <random>
 #include "sticky.h"
 #include "random.h"
 #include "ca.h"
@@ -262,12 +263,12 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
 
 
   /* Chemotaxis */
-  if (PDEfield && (par.vecadherinknockout || (sxyp==0 || sxy==0))) {
-      if ((*cell)[sxyp].getTau()==1 ||
-          ( (*cell)[sxy].getTau()==1) && (*cell)[sxyp].getTau()!=2) {
-    // copying from (xp, yp) into (x,y)
-    // If par.extensiononly == true, apply CompuCell's method, i.e.
-    // only chemotactic extensions contribute to energy change
+    if (PDEfield && (par.vecadherinknockout || (sxyp==0 || sxy==0))) {
+        if ((*cell)[sxyp].getTau()==1 ||
+            ( (*cell)[sxy].getTau()==1) /* && (*cell)[sxyp].getTau()!=2 */) {
+            // copying from (xp, yp) into (x,y)
+            // If par.extensiononly == true, apply CompuCell's method, i.e.
+            // only chemotactic extensions contribute to energy change
     if (!( par.extensiononly && sxyp==0)) {
       int DDH=(int)(par.chemotaxis*(sat(PDEfield->Sigma(0,x,y))-sat(PDEfield->Sigma(0,xp,yp))));
     
@@ -1169,8 +1170,9 @@ int CellularPotts::ScratchAssay(int n_cells, int cell_size, double fraction_of_s
  
     
 }
-  
-int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield) {
+
+
+int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield, CellularPotts::CellDistribution cell_distribution) {
 
   
   int sx = (int)((sizex-2)/subfield);
@@ -1180,13 +1182,13 @@ int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield) {
   int offset_y = (sizey-2-sy)/2;
   
   if (n_cells==1) {
-    return GrowInCells(1, cell_size, sizex/2, sizey/2, 0, 0);
+    return GrowInCells(1, cell_size, sizex/2, sizey/2, 0, 0,cell_distribution);
   } else {
-    return GrowInCells(n_cells, cell_size, sx, sy, offset_x, offset_y);
+    return GrowInCells(n_cells, cell_size, sx, sy, offset_x, offset_y, cell_distribution);
   }
 }
 
-int CellularPotts::GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y) {
+int CellularPotts::GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y, CellularPotts::CellDistribution cell_distribution) {
   
   // make initial cells using Eden Growth
   
@@ -1214,12 +1216,28 @@ int CellularPotts::GrowInCells(int n_cells, int cell_size, int sx, int sy, int o
   if (n_cells>1) {
     
     
-    
-    { for (int i=0;i<n_cells;i++) {
-      
-      sigma[RandomNumber(sx)+offset_x][RandomNumber(sy)+offset_y]=++cellnum;
-      
-    }}
+    if (cell) {
+        
+        if (cell_distribution == CellularPotts::Uniform) {
+            // generate uniform distribution of cells
+            for (int i=0;i<n_cells;i++) {
+                sigma[RandomNumber(sx)+offset_x][RandomNumber(sy)+offset_y]=++cellnum;
+            }
+        } else if (cell_distribution == CellularPotts::Normal) {
+            // generate normal distribution of cells
+            std::default_random_engine generator;
+            std::normal_distribution<double> dist_x((double)sx/2+offset_x,sx/2.);
+            std::normal_distribution<double> dist_y((double)sy/2+offset_y,sy/2.);
+            
+            for (int i=0;i<n_cells;i++) {
+                int rx = (int)dist_x(generator);
+                int ry = (int)dist_y(generator);
+                
+                if (rx>0 && rx<sizex && ry>0 && ry<sizey)
+                    sigma[rx][ry]=++cellnum;
+            }
+        }
+    }
   } else {
     sigma[sx][sy]=++cellnum;
 

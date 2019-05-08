@@ -194,15 +194,18 @@ public:
     a cellsize^2 square.*/
   int ThrowInCells(int n, int cellsize);
 
+    enum CellDistribution {Uniform, Normal};
+    
   /*! \brief Initialize the CA plane with n cells using an Eden growth algorithm.
 
   \param n: Number of cells.
   \param cellsize: Number of Eden growth iterations.
-  \param subfield: Defines a centered frame of size (size/subfield)^2 in which all cell will be positioned. 
+  \param subfield: Defines a centered frame of size (size/subfield)^2 in which all cell will be positioned.
+   \param CellDistribution: Has value "Uniform" or "Normal" to indicate the type of distribution that will be used to position the initial cells
   \return Index of last cell inserted.
   */
-  int GrowInCells(int n_cells, int cellsize, double subfield=1.);
-  int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y);
+    int GrowInCells(int n_cells, int cellsize, double subfield=1., CellularPotts::CellDistribution cell_distribution=CellularPotts::Uniform);
+  int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y, CellularPotts::CellDistribution cell_distribution=CellularPotts::Uniform);
     int ScratchAssay(int n_cells, int cell_size, double fraction_of_scratch);
     
   //! \brief Adds a new Cell and returns a reference to it.
@@ -268,6 +271,8 @@ public:
   double Compactness(double *res_compactness = 0, 
 		     double *res_area = 0, 
 		     double *res_cell_area = 0);
+    
+
   
 private:
   void IndexShuffle(void);
