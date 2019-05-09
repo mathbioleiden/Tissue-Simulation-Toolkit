@@ -265,7 +265,7 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
   /* Chemotaxis */
     if (PDEfield && (par.vecadherinknockout || (sxyp==0 || sxy==0))) {
         if ((*cell)[sxyp].getTau()==1 ||
-            ( (*cell)[sxy].getTau()==1) /* && (*cell)[sxyp].getTau()!=2 */) {
+            ( (*cell)[sxy].getTau()==1) /* && (*cell)[sxyp].getTau()!=2 */){
             // copying from (xp, yp) into (x,y)
             // If par.extensiononly == true, apply CompuCell's method, i.e.
             // only chemotactic extensions contribute to energy change
