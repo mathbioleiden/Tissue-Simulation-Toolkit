@@ -57,6 +57,8 @@ public:
    */
   void WriteCOM(int cell_id, std::ostream &out=std::cout);
 
+  void WriteTheta(std::ostream &out=std::cout);
+
  // writes center of mass for all cells
   void WriteCOMs(std::ostream &out=std::cout);
 // writes center of mass for all cells and keeps track of cells crossing a border

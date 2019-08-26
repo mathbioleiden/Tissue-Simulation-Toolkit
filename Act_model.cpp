@@ -53,13 +53,14 @@ INIT {
 
     // Define initial distribution of cells
     cout<< "Initialization"<< endl;
-//    CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
-
-// 		CPM->ConstructInitCells(*this);
-CPM->ReadZygotePicture();
+    // cout << "Pillar present " << CPM->AnyPillar() << endl;
+   CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+// cout << "Pillar present " << CPM->AnyPillar() << endl;
+// CPM->ReadZygotePicture();
   CPM->ConstructInitCells(*this, 1, par.target_area, par.target_perimeter);
-
-
+// cout << "Pillar present " << CPM->AnyPillar() << endl;
+// cout << "Pillar nearby (0,0)" << CPM->IsPillar(0,0)<< endl;
+CPM->InitializeEdgeList();
   } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
@@ -86,11 +87,14 @@ TIMESTEP {
     int number_of_cells=dish->CountCells();
     for (int s=1;s<number_of_cells+1;s++){
       // cout << "compute cell matrix adhesion" << endl;
-      int new_area=dish->CPM->ComputeCellMatrixAdhesion(s,dish->PDEfield);
-      dish->getCell(s).SetAdhesiveArea(new_area);
+
+      //for matrix adhesion
+      // int new_area=dish->CPM->ComputeCellMatrixAdhesion(s,dish->PDEfield);
+      // dish->getCell(s).SetAdhesiveArea(new_area);
+
       // cout << "compute act vector" << endl;
       // schooling vector
-      dish->CPM->ComputeActVector(dish->getCell(s),dish->PDEfield);
+      // dish->CPM->ComputeActVector(dish->getCell(s),dish->PDEfield);
 
     }
       // cout << "Cell 1, cell 2 neighbours: " << dish->CPM->GetNeighbourMatrix()[1][2] << endl;
@@ -107,10 +111,13 @@ TIMESTEP {
     dish->CPM->AmoebaeMove(dish->PDEfield);
   //  cout << dish->getCell(1).AdhesiveArea() << ", " << dish->CPM->ComputeCellMatrixAdhesion(1,dish->PDEfield)<< endl;
    // cout << "Fails after here" << endl;
-    dish->PDEfield->AgeLayer(2,1.,dish->CPM, dish);
-    dish->PDEfield->MILayerCA(3,1.,dish->CPM, dish);
+   if (par.max_Act){
+    dish->PDEfield->AgeLayer(2,1.,dish->CPM, dish);}
+    if (par.lambda_persistence){
+    dish->CPM->ChangeThetas(dish);}
+    // dish->PDEfield->MILayerCA(3,1.,dish->CPM, dish);
     // schooling vector
-      dish->CPM->ComputeActVector(dish->getCell(1),dish->PDEfield);
+      // dish->CPM->ComputeActVector(dish->getCell(1),dish->PDEfield);
 
     // cout << "Updated pdefiels" << endl;
 
@@ -121,14 +128,16 @@ TIMESTEP {
  	//cout<<buffAsStdStr<<"\n";
    	 std::ofstream out(buff, ios::app);
          info->WriteCOMsTorus(out);
+
+         // cout << "Pillar present " << dish->CPM->AnyPillar() << endl;
          // cout << "COMs written" << endl;
- // //Writing center of mass and area of each cell
- //     char buff2[400];
- //   	 snprintf(buff2, sizeof(buff2), "%s/cellcenter2.txt",par.datadir);
- //   	 std::string buffAsStdStr2 = buff2;
- //  	//cout<<buffAsStdStr<<"\n";
- //    	 std::ofstream out2(buff2, ios::app);
- //          info->WriteCOMsTorusFresh(out2);
+ //Writing theta of each cell
+     char buff2[400];
+   	 snprintf(buff2, sizeof(buff2), "%s/celltheta.txt",par.datadir);
+   	 std::string buffAsStdStr2 = buff2;
+  	//cout<<buffAsStdStr<<"\n";
+    	 std::ofstream out2(buff2, ios::app);
+          info->WriteTheta(out2);
  //
  //  //Writing center of mass and area of each cell
  //      char buff3[400];
@@ -139,18 +148,18 @@ TIMESTEP {
  //           info->WriteCOMs(out3);
 
 //writing neighbours of each cell
-char fname[400];
- sprintf(fname, "%s/neighbours.txt",par.datadir);
- ofstream pFile;
- pFile.open (fname, ios::app);
-
-int **neighbours=dish->CPM->SearchNeighbours();
-for (int k=0; k<number_of_cells+1; k++){
-for (int j=0; j<=number_of_cells+1; j++){
-  if (neighbours[k][j]>0)
-pFile << dish->CPM->Time()-1 << " " << k << " " << neighbours[k][j] << endl;
-}}
-pFile.close();
+// char fname[400];
+//  sprintf(fname, "%s/neighbours.txt",par.datadir);
+//  ofstream pFile;
+//  pFile.open (fname, ios::app);
+//
+// int **neighbours=dish->CPM->SearchNeighbours();
+// for (int k=0; k<number_of_cells+1; k++){
+// for (int j=0; j<=number_of_cells+1; j++){
+//   if (neighbours[k][j]>0)
+// pFile << dish->CPM->Time()-1 << " " << k << " " << neighbours[k][j] << endl;
+// }}
+// pFile.close();
   // cout << "Neighbours written " << endl;
 // int **newneighbours=dish->CPM->SearchNeigbhoursMatrix();
 //     for (int i = 0; i < number_of_cells+1; ++i)
@@ -214,7 +223,7 @@ pFile.close();
       BeginScene();
 
 
-    //  dish->PDEfield->PlotInCells (this, dish->CPM, 2);
+      dish->PDEfield->PlotInCells (this, dish->CPM, 2);
  ClearImage();
       dish->PDEfield->PlotInCells (this, dish->CPM, 2);
      dish->CPM->SearchNandPlotClear(this);
@@ -271,18 +280,32 @@ void PDE::InitializeAgeLayer(int l,double value,CellularPotts *cpm){
     }
 }
 
+void CellularPotts::ChangeThetas(Dish *dish){
+  int number_of_cells=dish->CountCells();
+  double dt=0.1*par.tau;
+  for (int s=1;s<number_of_cells+1;s++){
+    dish->getCell(s).SetTheta(dish->getCell(s).theta + sqrt(2.0/par.tau)*generateGaussianNoise(0, sqrt(2*dt/par.tau)));
+  }
+}
+
 
 void PDE::AgeLayer(int l,double value,CellularPotts *cpm, Dish *dish){
-for (int x=0;x<sizex;x++)
-    for (int y=0;y<sizey;y++){
+// for (const auto& elem: cpm->alivePixels) {
+//     /* ... process elem ... */
+//     int x= elem[0];
+//     int y= elem[1];
+//     if(sigma[l][x][y]>0.)
+//       sigma[l][x][y]-=value;
+//     // // do not allow young lattice sites outside the T cells
+//     // if (dish->getCell(cpm->Sigma(x,y)).getTau() ==0 )
+//     //   sigma[l][x][y]= 0.;
+//   }
+  for (const auto elem: cpm->actPixels){
+    /* ... process elem ... */
+    if(elem.second>0.)
+      cpm->actPixels[elem.first]-=value;
+  }
 
-    if(sigma[l][x][y]>0.)
-      sigma[l][x][y]-=value;
-    // do not allow young lattice sites outside the T cells
-    if (dish->getCell(cpm->Sigma(x,y)).getTau() ==0 )
-      sigma[l][x][y]= 0.;
-
-    }
 
 }
 

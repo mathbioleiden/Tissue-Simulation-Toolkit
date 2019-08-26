@@ -242,8 +242,8 @@ void Info::WriteCOM(int cell_id, std::ostream &out) {
       }
     }
 
-  com_x/=(double)n;
-  com_y/=(double)n;
+  com_x/=n;
+  com_y/=n;
 
   out << t++ << " " << cell_id << " " << com_x << " " << com_y << "\n";
 
@@ -284,13 +284,29 @@ void Info::WriteCOMsTorus(std::ostream &out) {
   int cell_number=par.n_init_cells;
   static int t;
   for (int s=1;s<cell_number+1;s++){
-  double com_x= (double)dish->getCell(s).sum_x/(double) dish->getCell(s).area;
-  double com_y= (double)dish->getCell(s).sum_y/(double) dish->getCell(s).area;
-  double vector_x=dish->getCell(s).getVectorActX();
-  double vector_y=dish->getCell(s).getVectorActY();
+  double com_x= dish->getCell(s).sum_x/(double) dish->getCell(s).area;
+  double com_y= dish->getCell(s).sum_y/(double) dish->getCell(s).area;
+  // double vector_x=dish->getCell(s).getVectorActX();
+  // double vector_y=dish->getCell(s).getVectorActY();
   int n =dish->getCell(s).Area();
+  int p =dish->getCell(s).Perimeter();
 
-  out << t << " " << s << " " << com_x << " " << com_y << " " << n <<  " " << vector_x << " " << vector_y << "\n";}
+  out << t << " " << s << " " << com_x << " " << com_y << " " << n <<  " " << p << "\n";}
+  t++;
+
+}
+
+void Info::WriteTheta(std::ostream &out) {
+
+  // Write the center of mass to "out" based on the internal COMs
+  int cell_number=par.n_init_cells;
+  static int t;
+  for (int s=1;s<cell_number+1;s++){
+  double th = dish->getCell(s).getTheta();
+  double vx =dish->getCell(s).getVectorX();
+  double vy =dish->getCell(s).getVectorY();
+
+  out << t << " " << s << " " << th << " " << vx << " " << vy << "\n";}
   t++;
 
 }
@@ -367,16 +383,16 @@ void Info::WriteCOMsTorusFresh(std::ostream &out) {
         }
       }}
   if (right_row==true && left_row && true){
-    com_x=(double)(com_x_left+com_x_right+n_left*dish->SizeX())/(double)(n_left+n_right);
+    com_x=(com_x_left+com_x_right+n_left*dish->SizeX())/(n_left+n_right);
   }
   else{
-    com_x=(double)(com_x_left+com_x_right)/(double)(n_left+n_right);
+    com_x=(com_x_left+com_x_right)/(n_left+n_right);
   }
   if (top_row==true && bottom_row && true){
-    com_y=(double)(com_y_top+com_y_bottom+n_bottom*dish->SizeY())/(double)(n_top+n_bottom);
+    com_y=(com_y_top+com_y_bottom+n_bottom*dish->SizeY())/(n_top+n_bottom);
   }
   else{
-    com_y=(double)(com_y_top+com_y_bottom)/(double)(n_top+n_bottom);
+    com_y=(com_y_top+com_y_bottom)/(n_top+n_bottom);
   }
 
   if (abs(dish->getCell(s).getCenterX()-com_x)>10){

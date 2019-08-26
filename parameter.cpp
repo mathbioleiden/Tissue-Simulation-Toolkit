@@ -88,7 +88,15 @@ Parameter::Parameter() {
 	double eden_p = 0.25;
   double lambda_schooling = 0.0;
   int J_pol = 0;
+  double pillar_r = 0;
+  double pillar_distance = 0;
+  double pillar_radius = 0;
+  int pillar_energy =0;
+  int pillar_energy_odd =0;
+  bool checkerboard = false;
   double lambda_persistence = 0;
+  int tau = 0;
+
 
 }
 
@@ -187,9 +195,14 @@ void Parameter::Read(const char *filename) {
 	eden_p = fgetpar(fp,"eden_p", 0.25, true);
   lambda_schooling = fgetpar( fp, "lambda_schooling", 0, true);
   J_pol = igetpar( fp,"J_pol", 0 , true);
-  lambda_persistence = fgetpar(fp, "lambda_persistence", 0, true);
-
-
+  pillar_r = fgetpar(fp, "pillar_r",0,true);
+  pillar_distance = fgetpar(fp, "pillar_distance", 0,true);
+  pillar_radius = fgetpar(fp, "pillar_radius", 0 ,true);
+  pillar_energy = igetpar(fp, "pillar_energy", 0, true);
+  pillar_energy_odd = igetpar(fp, "pillar_energy_odd", 0, true);
+  checkerboard = bgetpar(fp, "checkerboard", 0, true);
+  lambda_persistence = fgetpar(fp, "lambda_persistence", 0 , true);
+  tau = igetpar(fp, "tau", 0, true);
 
 
 }

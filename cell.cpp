@@ -214,6 +214,7 @@ void Cell::ConstructorBody(int settau) {
   border=0;
   vec_act_x=0.0;
   vec_act_y=0.0;
+  theta=0.0;
 
   //  growth_threshold=par.dthres;
   growth_threshold=0;
@@ -265,6 +266,8 @@ int Cell::EnergyDifference(const Cell &cell2) const
 
   if (sigma==cell2.sigma)
     return 0;
+  if (cell2.sigma==-2 or sigma==-2)
+    cout << "-2 sigma encountered" << endl;
 
   return J[tau][cell2.tau];
 

@@ -88,6 +88,14 @@ class Parameter {
  double eden_p;
  double lambda_schooling;
  int J_pol;
+ double pillar_r;
+ double pillar_distance;
+ double pillar_radius;
+ int pillar_energy;
+ int pillar_energy_odd;
+ bool checkerboard;
+ double lambda_persistence;
+ int tau;
 
 
  private:

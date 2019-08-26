@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -25,6 +25,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <sys/timeb.h>
 #include <iostream>
 #include "random.h"
+#include <cstdlib>
+#include <cmath>
+#include <limits>
 
 static int idum = -1;
 
@@ -122,13 +125,13 @@ void AskSeed(void)
 **/
 
 int Randomize(void) {
-  
+
   // Set the seed according to the local time
   struct timeb t;
   int seed;
 
   ftime(&t);
-  
+
   seed=abs((int)((t.time*t.millitm)%655337));
   Seed(seed);
   fprintf(stderr,"Random seed is %d\n",seed);
@@ -136,3 +139,28 @@ int Randomize(void) {
 }
 
 
+double generateGaussianNoise(double mu, double sigma)
+{
+	static const double epsilon = std::numeric_limits<double>::min();
+	static const double two_pi = 2.0*3.14159265358979323846;
+
+	thread_local double z1;
+	thread_local bool generate;
+	generate = !generate;
+
+	if (!generate)
+	   return z1 * sigma + mu;
+
+	double u1, u2;
+	do
+	 {
+	   u1 = RANDOM();
+	   u2 = RANDOM();
+	 }
+	while ( u1 <= epsilon );
+
+	double z0;
+	z0 = sqrt(-2.0 * log(u1)) * cos(two_pi * u2);
+	z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2);
+	return z0 * sigma + mu;
+}

@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -30,10 +30,4 @@ int Seed(int seed);
 long RandomNumber(long max);
 void AskSeed();
 int Randomize(void);
-
-
-
-
-
-
-
+double generateGaussianNoise(double mu, double sigma);
