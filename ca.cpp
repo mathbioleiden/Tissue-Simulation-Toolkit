@@ -557,14 +557,29 @@ DH +=DH_perimeter;
      	Act_retracting= pow(Act_retracting, 1./nret);
 
 
-	if( (*cell)[sxyp].AliveP()){
+	if( (*cell)[sxyp].sigma>0){
+      double strength = 1;
+      double adhesion_fraction = ((double)(*cell)[sxyp].AdhesiveArea()-(double)(*cell)[sxyp].area)/(double)(*cell)[sxyp].area;
 
-			DH_act-= par.lambda_Act/par.max_Act * Act_expanding;
+      if (adhesion_fraction>0.25){
+        strength = std::max(-1.0*adhesion_fraction+1.25,0.0);
+      }
+      else{
+        strength= std::max(4.0*adhesion_fraction,0.0);
+      }
+            cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<endl;
+			DH_act-= (par.lambda_Act * strength)/par.max_Act * Act_expanding;
 	}
-  if( (*cell)[sxy].AliveP()){
-
-	   DH_act+= par.lambda_Act/par.max_Act * Act_retracting;
-
+  if( (*cell)[sxy].sigma>0){
+    double strength =1;
+    double adhesion_fraction = ((*cell)[sxy].AdhesiveArea()-(*cell)[sxy].area)/(*cell)[sxy].area;
+    if (adhesion_fraction>0.25){
+      strength = -1.0*adhesion_fraction+1.25;
+    }
+    else{
+      strength=4.0*adhesion_fraction;
+    }
+	   DH_act+= (par.lambda_Act * strength)/par.max_Act * Act_retracting;
 		}
 }
 DH+=DH_act;
@@ -1086,16 +1101,28 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
             alivePixels.insert({x,y});
             }
           }
-            else{
-              std::unordered_set<std::array<int,2>>::const_iterator it =(alivePixels.find({x,y}));
-              if (it!=alivePixels.end()){
-              alivePixels.erase({x,y});
-              }
-              std::unordered_map<std::array<int,2>, int>::const_iterator ap =(actPixels.find({x,y}));
-              if (ap!=actPixels.end()){
-                actPixels.erase({x,y});
-              }
+          else{
+            std::unordered_set<std::array<int,2>>::const_iterator it =(alivePixels.find({x,y}));
+            if (it!=alivePixels.end()){
+            alivePixels.erase({x,y});
             }
+            std::unordered_map<std::array<int,2>, int>::const_iterator ap =(actPixels.find({x,y}));
+            if (ap!=actPixels.end()){
+              actPixels.erase({x,y});
+            }
+          }
+          //Update adhesive areas
+          if (kp == 0){
+            getCell(k).DecrementAdhesiveArea(PDEfield->Sigma(3,x,y));
+          }
+          else if (k==0){
+            getCell(kp).IncrementAdhesiveArea(1);
+          }
+          else {
+            getCell(k).DecrementAdhesiveArea(PDEfield->Sigma(3,x,y));
+            getCell(kp).IncrementAdhesiveArea(1);
+          }
+
       		if (par.lambda_matrix>0){
             // Update matrix interaction field
       			if (sigma[x][y]>0){

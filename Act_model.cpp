@@ -89,8 +89,9 @@ TIMESTEP {
       // cout << "compute cell matrix adhesion" << endl;
 
       //for matrix adhesion
-      // int new_area=dish->CPM->ComputeCellMatrixAdhesion(s,dish->PDEfield);
-      // dish->getCell(s).SetAdhesiveArea(new_area);
+      int new_area=dish->CPM->ComputeCellMatrixAdhesion(s,dish->PDEfield);
+      dish->getCell(s).SetAdhesiveArea(new_area);
+      // cout << dish->getCell(s).AdhesiveArea() << endl;
 
       // cout << "compute act vector" << endl;
       // schooling vector
@@ -115,7 +116,7 @@ TIMESTEP {
     dish->PDEfield->AgeLayer(2,1.,dish->CPM, dish);}
     if (par.lambda_persistence){
     dish->CPM->ChangeThetas(dish);}
-    // dish->PDEfield->MILayerCA(3,1.,dish->CPM, dish);
+    dish->PDEfield->MILayerCA(3,1.,dish->CPM, dish);
     // schooling vector
       // dish->CPM->ComputeActVector(dish->getCell(1),dish->PDEfield);
 
@@ -222,11 +223,21 @@ TIMESTEP {
 
       BeginScene();
 
-
-      dish->PDEfield->PlotInCells (this, dish->CPM, 2);
  ClearImage();
       dish->PDEfield->PlotInCells (this, dish->CPM, 2);
+           dish->CPM->SearchNandPlotClear(this);
+
+ EndScene();
+
+ Write(fname);
+
+ char fnamematrix[200];
+ sprintf(fnamematrix,"%s/matrix%05d.png",par.datadir,i);
+       BeginScene();
+            ClearImage();
+      dish->PDEfield->PlotInCells (this, dish->CPM, 3);
      dish->CPM->SearchNandPlotClear(this);
+
 
       // dish->CPM->PlotVectors(this);
 
@@ -238,7 +249,7 @@ TIMESTEP {
 
       EndScene();
 
-      Write(fname);
+      Write(fnamematrix);
 
     }
     // cout << "after graphics" << endl;
@@ -358,72 +369,75 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
 }}
 
 	//Do Eden growth
-   for (int x=1;x<sizex-1;x++)
-    for (int y=1;y<sizey-1;y++) {
-	new_sigma[x][y]=sigma[l][x][y];
-	int k;
+for (int x=1;x<sizex-1;x++)
+for (int y=1;y<sizey-1;y++) {
+new_sigma[x][y]=sigma[l][x][y];
+int k;
 
-	if (sigma[l][x][y]==1) {
-	  // take a random neighbour
-	  int xyp=(int)(8*RANDOM()+1);
-	  int xp = nx[xyp]+x;
-	  int yp = ny[xyp]+y;
-	  int kp;
+if (sigma[l][x][y]==1) {
+  // take a random neighbour
+  int xyp=(int)(8*RANDOM()+1);
+  int xp = nx[xyp]+x;
+  int yp = ny[xyp]+y;
+  int kp;
 
-	//Check if both sites are part of the same cell
-	if (dish->getCell(cpm->Sigma(x,y)).getTau()==dish->getCell(cpm->Sigma(xp,yp)).getTau()){
-	  //  NB removing this border test yields interesting effects :-)
-	  // You get a ragged border, which you may like!
-		if ((kp=sigma[l][xp][yp])!=-1){
-			if (kp>1){
-			//Make site part of adhesion complex if next to adhesion complex
-		// Probabililty depends on number of 'old' neighbours
-		int old_neighbours=0;
-     	for (int i1=-1;i1<=1;i1++)
-     		for (int i2=-1;i2<=1;i2++){
-			if (sigma[l][x+i1][y+i2]>1)
-				old_neighbours+=1;}
+  //Check if both sites are part of the same cell
+  if (dish->getCell(cpm->Sigma(x,y)).getTau()==dish->getCell(cpm->Sigma(xp,yp)).getTau()){
+    //  NB removing this border test yields interesting effects :-)
+    // You get a ragged border, which you may like!
+    if ((kp=sigma[l][xp][yp])!=-1){
+      if (kp>1){
+        //Make site part of adhesion complex if next to adhesion complex
+        // Probabililty depends on number of 'old' neighbours
+        int old_neighbours=0;
+        for (int i1=-1;i1<=1;i1++)
+          for (int i2=-1;i2<=1;i2++){
+            if (sigma[l][x+i1][y+i2]>1)
+              old_neighbours+=1;}
 
-				double random_double=rand()/double(RAND_MAX);
-				if (random_double<par.eden_p){//old_neighbours){
-	      			new_sigma[x][y]=2;}}
-	    		else{
-	     			new_sigma[x][y]=1;
-}}
-		else{
-			//cout<< x <<", " << y << " border"<< endl;
-			new_sigma[x][y]=1;}
-	}
-	//spontaneous formation of new adhesion
-	double rand_spon = rand()/double(RAND_MAX);
-	if (rand_spon < par.spontaneous_p){
-		new_sigma[x][y]=2;}
+        double random_double=rand()/double(RAND_MAX);
+        if (random_double<par.eden_p){//old_neighbours){
+          new_sigma[x][y]=2;}}
+
+      else{
+        new_sigma[x][y]=1;
+    }}
+
+    else{
+      //cout<< x <<", " << y << " border"<< endl;
+      new_sigma[x][y]=1;}
+  }
+  //spontaneous formation of new adhesion
+  double rand_spon = rand()/double(RAND_MAX);
+  if (rand_spon < par.spontaneous_p){
+    new_sigma[x][y]=2;}
 
 }
 
-	else if ((k=sigma[l][x][y])>1){//cpm->Sigma(x,y)>0){
-		if (k<par.max_matrix-1){
-		//cout << "1 " << new_sigma[x][y] << endl;
-		new_sigma[x][y]=k+value;}
-		//cout << "2 " << new_sigma[x][y] << endl;
+else if ((k=sigma[l][x][y])>1){//cpm->Sigma(x,y)>0){
+  if (k<par.max_matrix-1){
+    //cout << "1 " << new_sigma[x][y] << endl;
+    new_sigma[x][y]=k+value;}
+    //cout << "2 " << new_sigma[x][y] << endl;
 
-		int young_neighbours=0;
-     	for (int i1=-1;i1<=1;i1++)
-     		for (int i2=-1;i2<=1;i2++){
-			if (sigma[l][x+i1][y+i2]==1)
-				young_neighbours+=1;}
+  int young_neighbours=0;
+  for (int i1=-1;i1<=1;i1++)
+    for (int i2=-1;i2<=1;i2++){
+      if (sigma[l][x+i1][y+i2]==1)
+        young_neighbours+=1;}
 
-	if (young_neighbours>0){	//cout<< x <<", " << y << " in cell old"<< endl;
-		double rand_double=rand()/double(RAND_MAX);
-		//cout << rand_double << endl;
-		if (rand_double<par.decay_p){
-			//cout<< x <<", " << y << " rejuvenate"<< endl;
-			new_sigma[x][y]=1;}
-		//else{
-			//cout<< x <<", " << y << " stay the same"<< endl;
-		//	new_sigma[x][y]= sigma[l][x][y]+1;}
-	}}
-      }
+  if (young_neighbours>0){	//cout<< x <<", " << y << " in cell old"<< endl;
+    double rand_double=rand()/double(RAND_MAX);
+    //cout << rand_double << endl;
+    if (rand_double<par.decay_p){
+    //cout<< x <<", " << y << " rejuvenate"<< endl;
+      new_sigma[x][y]=1;}
+    //else{
+    //cout<< x <<", " << y << " stay the same"<< endl;
+    //	new_sigma[x][y]= sigma[l][x][y]+1;}
+}}
+}
+
     // copy sigma to new_sigma, but do not touch the border!
 	  {  for (int x=1;x<sizex-1;x++) {
       for (int y=1;y<sizey-1;y++) {
@@ -449,23 +463,23 @@ int PDE::MapColour(double val) {
 }
 
 
-// int PDE::MapColour3(double val, int l) {
-// 	int step=0;
-// 	if (l==2){
-// 	step = (768-256)/par.max_Act;
-//   return (int)(768-val*step);}
-// 	else if (l==3){
-// 	step = (256)/par.max_matrix;
-//   return (int)(768+val*step);}
-// 	else
-// 	return 0;
-//
-// }
-//
 int PDE::MapColour3(double val, int l) {
-	int step = (240)/par.max_Act;
-  return (int)(256-val*step-1);
+	int step=0;
+	if (l==2){
+	step = (240)/par.max_Act;
+  return (int)(256-val*step-1);}
+	else if (l==3 && val>1){
+	step = (256)/par.max_matrix;
+  return (int)(500+val*step);}
+	else
+	return 0;
+
 }
+
+// int PDE::MapColour3(double val, int l) {
+// 	int step = (240)/par.max_Act;
+//   return (int)(256-val*step-1);
+// }
 //
 // int PDE::MapColour4(double val, int l){
 // 	int step = (256)/par.max_Act;

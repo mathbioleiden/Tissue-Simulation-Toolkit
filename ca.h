@@ -316,6 +316,7 @@ public:
 
   std::unordered_set<std::array<int,2>> alivePixels;
   std::unordered_map<std::array<int,2>,int> actPixels;
+  std::unordered_map<std::array<int,2>,int> matrixPixels;
   bool AnyPillar();
   bool IsPillar(int x, int y);
   int WhichPillar(int x, int y);
