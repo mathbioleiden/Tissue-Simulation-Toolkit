@@ -22,11 +22,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 */
 #ifndef _QTGRAPH_H_
 #define _QTGRAPH_H_
-#include <qwidget.h>
+#include <QWidget>
 #include <qlabel.h>
 #include <qpainter.h>
-#include <q3picture.h>
-#include <qpixmap.h>
+//#include <q3picture.h>
+// #include <qpixmap.h>
+#include <QPicture>
+#include <QPixmap>
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QPaintEvent>
@@ -41,8 +43,9 @@ class QtGraphics : public QWidget, public Graphics {
 
     public:
   QtGraphics(int xfield, int yfield, const char *movie_file=0);
-  QtGraphics(QWidget *parent, const char *name, int xfield, int yfield, const char *movie_file=0) : QWidget(parent, name) {
+  QtGraphics(QWidget *parent, const char *name, int xfield, int yfield, const char *movie_file=0) : QWidget(parent, 0) {
     QtGraphics(xfield, yfield, movie_file);
+      // set name here somewhere
   }
   
   virtual ~QtGraphics(void);
@@ -84,7 +87,7 @@ class QtGraphics : public QWidget, public Graphics {
   void mouseReleaseEvent( QMouseEvent *e);
   QPainter *picture;
   QLabel *label;
-  Q3Picture pic;
+  QPicture pic;
   QPen *pens;
   QTimer *timer;
   QPixmap *pixmap;
@@ -97,7 +100,7 @@ class QtGraphics : public QWidget, public Graphics {
 	int init_size_y;
 	
 	double mag;
-  Qt::ButtonState mouse_button;
+  Qt::MouseButton mouse_button;
 
   // private methods
   void ReadColorTable(QPen *pens);

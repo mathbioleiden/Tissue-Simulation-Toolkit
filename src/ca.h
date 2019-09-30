@@ -205,7 +205,7 @@ public:
   \param subfield: Defines a centered frame of size (size/subfield)^2 in which all cell will be positioned. 
   \return Index of last cell inserted.
   */
-  int GrowInCells(int n_cells, int cellsize, double subfield=1.);
+  int GrowInCells(int n_cells, int cellsize, double subfield=1., int posx=-1, int posy=-1);
   int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y);
   
   //! \brief Adds a new Cell and returns a reference to it.

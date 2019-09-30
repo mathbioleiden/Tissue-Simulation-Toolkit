@@ -189,14 +189,24 @@ void PDE::Diffuse(int repeat) {
   const double dx2=par.dx*par.dx;
 
   for (int r=0;r<repeat;r++) {
+    
+      
     //NoFluxBoundaries();
+      if (par.gradient) {
+          NoFluxBoundaries();
+          for (int i=0;i<sizex;i++) {
+              sigma[0][i][0]=0.;
+              sigma[0][i][sizey-1]=1.;
+          }
+      } else {
+      
     if (par.periodic_boundaries) {
       PeriodicBoundaries();
     } else {
       AbsorbingBoundaries();
       //NoFluxBoundaries();
     }
-    
+      }
     for (int l=0;l<layers;l++) {
       for (int x=1;x<sizex-1;x++)
 	for (int y=1;y<sizey-1;y++) {
@@ -377,6 +387,11 @@ void PDE::PlotVectorField(Graphics &g, int stride, int linelength, int first_gra
 }
 
 
+void PDE::SetSpeciesName(int l, const char *name) {
+    species_names[l]=string(name);
+}
+
+
 mesh::mesh *PDE::CreateMultiCellDSMesh(void) {
     
     mesh::mesh *mesh = new mesh::mesh;
@@ -416,6 +431,8 @@ void PDE::AddToMultiCellDS(MultiCellDS *mcds) {
     dom->mesh(mesh);
     
     variables::data *data = new variables::data;
+    variables::list_of_variables *lov = new variables::list_of_variables;
+
     for (int j=0;j<layers;j++) {
         // Add data to domain
         variables::data_vector *dv = new variables::data_vector;
@@ -424,16 +441,18 @@ void PDE::AddToMultiCellDS(MultiCellDS *mcds) {
         }
         data->type(common::data_storage_formats::xml);
         data->data_vector().push_back(dv);
+        
+        variables::variable *var = new variables::variable;
+        var->name("VEGF");
+        
+        lov->variable().push_back(var);
     }
     dom->data(data);
     
-    variables::list_of_variables *lov = new variables::list_of_variables;
-    variables::variable *var = new variables::variable;
+    
  
     // should become part of field definition on user's end:
-    var->name("VEGF");
-    
-    lov->variable().push_back(var);
+   
     dom->variables(lov);
     me->domain().push_back(dom);
     mcds->microenvironment(me);
@@ -517,4 +536,13 @@ int PDE::ReadFromMultiCellDS(MultiCellDS *mcds) {
         
 }
 
+void PDE::InitLinearYGradient(int spec, double conc_top, double conc_bottom) {
+    for (int y=0;y<sizey;y++) {
+        double val=(double)conc_top+y*((double)(conc_bottom-conc_top)/(double)sizey);
+    for (int x=0;x<sizex;x++) {
+        sigma[spec][x][y]=val;
+        }
+        cerr << y << " " << val << endl;
+    }
+}
 

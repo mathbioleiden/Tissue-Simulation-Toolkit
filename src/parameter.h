@@ -46,6 +46,7 @@ class Parameter {
   int border_energy;
   int neighbours;
   bool periodic_boundaries;
+  bool gradient;
   int n_chem;
   double * diff_coeff;
   double * decay_rate;

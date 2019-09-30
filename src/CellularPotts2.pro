@@ -1,23 +1,24 @@
 TEMPLATE = app 
 GRAPHICS = qt
 CONFIG += console 
-CONFIG += release
-CONFIG -= debug
+CONFIG -= release
+CONFIG += debug
 CONFIG -= app_bundle
 #QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+QT += widgets
 
 contains( GRAPHICS, qt ) {
   
 }	
 
-TARGET = vessel
+TARGET = migration
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
 libMCDS_DIR = /Users/roel/Projects/v0.5.0/libMCDS
 mcds_api = mcds_api
 libMultiCellDS_DIR = $$libMCDS_DIR/$$mcds_api
 XSDE_DIR = $$libMCDS_DIR/xsde/libxsde
-QMAKE_CXXFLAGS_RELEASE+= -I$$libMultiCellDS_DIR -I$$XSDE_DIR -m64 -std=c++11
-QMAKE_LFLAGS_RELEASE += $$libMultiCellDS_DIR/libmcds.a -L$$XSDE_DIR/xsde/ -l xsde -m64 # -std=c++11
+QMAKE_CXXFLAGS += -I$$libMultiCellDS_DIR -I$$XSDE_DIR -m64 -std=c++11
+QMAKE_LFLAGS += $$libMultiCellDS_DIR/libmcds.a -L$$XSDE_DIR/xsde/ -l xsde -m64 # -std=c++11
 
 
 message( $$MAINFILE )
@@ -70,7 +71,7 @@ contains( GRAPHICS, qt ) {
    HEADERS += qtgraph.h
    QMAKE_CXXFLAGS_RELEASE += -DQTGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DQTGRAPHICS 
-   QT += qt3support
+#   QT += qt3support
    unix {
       system(rm $$TARGET.o)
    } 

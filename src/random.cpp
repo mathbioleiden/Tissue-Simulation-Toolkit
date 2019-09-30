@@ -26,12 +26,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <iostream>
 #include "random.h"
 
-static int idum = -1;
+static long idum = -1;
 
 /*! \return A random double between 0 and 1
 **/
 double RANDOM(void)
-/* Knuth's substrative method, see Numerical Recipes */
+/* Knuth's substractive method, see Numerical Recipes */
 {
   static int inext,inextp;
   static long ma[56];
@@ -41,7 +41,8 @@ double RANDOM(void)
 
   if (idum < 0 || iff == 0) {
     iff=1;
-    mj=MSEED-(idum < 0 ? -idum : idum);
+   // mj=MSEED-(idum < 0 ? -idum : idum);
+    mj=labs(MSEED-labs(idum));
     mj %= MBIG;
     ma[55]=mj;
     mk=1;
@@ -76,16 +77,17 @@ double RANDOM(void)
 /*! \param An integer random seed
   \return the random seed
 **/
-int Seed(int seed)
+long Seed(long seed)
 {
   if (seed < 0) {
 	  std::cerr << "Randomizing random generator, seed is ";
-    int rseed=Randomize();
+    long rseed=Randomize();
     std::cerr << rseed << "\n";
     return rseed;
   } else {
+    int rseed=(seed%(MBIG-1));
     int i;
-    idum = -seed;
+    idum = -rseed;
     for (i=0; i <100; i++)
       RANDOM();
     return seed;
@@ -121,7 +123,7 @@ void AskSeed(void)
 \return void
 **/
 
-int Randomize(void) {
+long Randomize(void) {
   
   // Set the seed according to the local time
   struct timeb t;

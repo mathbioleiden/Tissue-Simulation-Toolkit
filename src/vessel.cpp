@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
     
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
-    dish=new Dish("testinit.xml");
+    dish=new Dish("longcells-tmp/extend02000.xml");
     //dish=new Dish();
     QtGraphics g(par.sizex*2,par.sizey*2);
     a.setMainWidget( &g );

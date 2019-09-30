@@ -46,6 +46,7 @@ Parameter::Parameter() {
   border_energy = 100;
   neighbours = 2;
   periodic_boundaries = false;
+  gradient = false;
   n_chem = 1;
   diff_coeff = new double[1];
   diff_coeff[0] = 1e-13;
@@ -124,6 +125,7 @@ void Parameter::Read(const char *filename) {
   border_energy = igetpar(fp, "border_energy", 100, true);
   neighbours = igetpar(fp, "neighbours", 2, true);
   periodic_boundaries = bgetpar(fp, "periodic_boundaries", false, true);
+  gradient  = bgetpar(fp, "gradient", false, true);
   n_chem = igetpar(fp, "n_chem", 1, true);
   diff_coeff = dgetparlist(fp, "diff_coeff", n_chem, true);
   decay_rate = dgetparlist(fp, "decay_rate", n_chem, true);
@@ -176,6 +178,7 @@ void Parameter::Write(ostream &os) const {
   os << " border_energy = " << border_energy << endl;
   os << " neighbours = " << neighbours << endl;
   os << " periodic_boundaries = " << sbool(periodic_boundaries) << endl;
+  os << " gradient = " << sbool(gradient) << endl;
   os << " n_chem = " << n_chem << endl;
   os << " diff_coeff = "<< diff_coeff[0] << endl;
   os << " decay_rate = "<< decay_rate[0] << endl;

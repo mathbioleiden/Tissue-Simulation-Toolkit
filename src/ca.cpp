@@ -1072,7 +1072,7 @@ int CellularPotts::ThrowInCells(int n,int cellsize) {
 } 
 
   
-int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield) {
+int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield, int posx, int posy) {
 
   
   int sx = (int)((sizex-2)/subfield);
@@ -1082,7 +1082,10 @@ int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield) {
   int offset_y = (sizey-2-sy)/2;
   
   if (n_cells==1) {
-    return GrowInCells(1, cell_size, sizex/2, sizey/2, 0, 0);
+      if (posx<0) posx=sizex/2;
+      if (posy<0) posy=sizey/2;
+      
+      return GrowInCells(1, cell_size, posx, posy, 0, 0);
   } else {
     return GrowInCells(n_cells, cell_size, sx, sy, offset_x, offset_y);
   }

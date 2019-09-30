@@ -26,10 +26,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #define FAC (1.0/MBIG)
 
 double RANDOM();
-int Seed(int seed);
+long Seed(long seed);
 long RandomNumber(long max);
 void AskSeed();
-int Randomize(void);
+long Randomize(void);
 
 
 

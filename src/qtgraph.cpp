@@ -24,7 +24,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qpainter.h>
-#include <q3picture.h>
+//#include <q3picture.h>
+#include <QPicture>
 #include <QPalette>
 //Added by qt3to4:
 #include <QMouseEvent>
@@ -37,11 +38,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <qtimer.h>
 #include <qpixmap.h>
 #include <qimage.h>
-#include <q3strlist.h>
+//#include <q3strlist.h>
 #include <QResizeEvent>
 #include "qtgraph.h"
 #include "parameter.h"
-#include "output.h"
 
 using namespace std;
 QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
@@ -220,29 +220,26 @@ void QtGraphics::Write(char *fname, int quality) {
 
     throw("QtGraphics::Write: empty filename!\n");
   }
-
-    
+  
     // replay the picture on image
     // and write it to fname
   QString imname(fname);
   
   // Get file extension to infer desired image format
-  QString extension = imname.section( '.', -1).upper();
-  
+  QString extension_str = imname.section( '.', -1).toUpper();
+    const char *extension = extension_str.toLocal8Bit().constData();
   //cerr << "Extension is: " << extension << "\n";
   if (pixmap->save(imname,extension,quality)) {
-    cerr << "Image " << imname.ascii() << " was succesfully written.\n";
+    cerr << "Image " << imname.toLocal8Bit().constData() << " was succesfully written.\n";
   } else {
-    cerr << "Image " << imname.ascii() << " could not be written.\n";
-    Q3StrList fmt = QImageWriter::supportedImageFormats();
-      cerr << "Non-existing directory?" << endl;
-    cerr << "Or: Please choose one of the following formats: ";
-    for (const char* f = fmt.first(); f; f = fmt.next()) {
-      cerr << f << " ";
+    cerr << "Image " << imname.toLocal8Bit().constData() << " could not be written.\n";
+    QList< QByteArray > fmt = QImageWriter::supportedImageFormats();
+    cerr << "Please choose one of the following formats: ";
+      for (QList< QByteArray >::ConstIterator f=fmt.begin(); f!=fmt.end(); f++) {
+      cerr << f->constData() << " ";
     }
     cerr << "\n";
-      exit(1);
-  }
+  } 
 }
   
 void QtGraphics::resizeEvent(QResizeEvent *event) {
