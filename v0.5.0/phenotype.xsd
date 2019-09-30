@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MultiCellXML Version v0.3.9 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified"
+    targetNamespace="phenotype" xmlns="phenotype" xmlns:pcomm="phenotype_common"
+    xmlns:common="common" xmlns:cc="cell_cycle" 
+    xmlns:pbase="phenotype_base">
+
+    <xs:import namespace="common" schemaLocation="common.xsd"/>
+    <xs:import namespace="cell_cycle" schemaLocation="cell_cycle.xsd"/>
+    <xs:import namespace="phenotype_base" schemaLocation="phenotype_base.xsd" />
+
+    <xs:complexType name="phenotype_elements">
+        <xs:complexContent>
+            <xs:extension base="cc:cycles_and_deaths">
+                <xs:sequence>
+                    <xs:group ref="pbase:phenotype_base_elements"/>
+                    <!--                    <xs:element name="cell_part" type="cell_part" minOccurs="0" maxOccurs="unbounded" /> -->
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+<!--  This is an unused complexType. Commenting out to make OWL files better
+    <xs:complexType name="phenotype_elements_label">
+        <xs:complexContent>
+            <xs:extension base="phenotype_elements">
+                <xs:attribute name="name" use="required" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType> -->
+
+    <xs:complexType name="phenotype">
+        <xs:complexContent>
+            <xs:extension base="phenotype_elements">
+                <xs:attributeGroup ref="pbase:phenotype_type" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>

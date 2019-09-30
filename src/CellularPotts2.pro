@@ -13,7 +13,7 @@ contains( GRAPHICS, qt ) {
 
 TARGET = migration
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
-libMCDS_DIR = /Users/roel/Projects/v0.5.0/libMCDS
+libMCDS_DIR = ../v0.5.0/libMCDS
 mcds_api = mcds_api
 libMultiCellDS_DIR = $$libMCDS_DIR/$$mcds_api
 XSDE_DIR = $$libMCDS_DIR/xsde/libxsde

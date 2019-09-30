@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MultiCellXML Version v0.3.9 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="common"
+  attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:dcl="cell_line"
+  xmlns:meta="metadata" 
+  xmlns:menv="microenvironment"  
+  xmlns:cell="cell"
+  xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  >
+  <!-- xmlns="http://multicellds.org/ont/MultiCellDS" -->
+  <!-- targetNamespace="http://multicellds.org/ont/MultiCellDS" -->
+  
+  <!-- To be used for snapshots -->
+  <!-- xmlns:cell="cell" -->
+  <!-- targetNamespace="MultiCellDS" -->
+  <!--   xmlns="MultiCellDS" -->
+
+  <xs:import namespace="common" schemaLocation="common.xsd"/>
+  <xs:import namespace="metadata" schemaLocation="metadata.xsd"/>
+  <xs:import namespace="cell_line" schemaLocation="cell_line.xsd"/>
+  <!-- To be used for snapshots -->
+  <xs:import namespace="cell" schemaLocation="cell.xsd" />
+  <xs:import namespace="microenvironment" schemaLocation="microenvironment.xsd" />
+  <!--
+  xmlns:snap="snapshot" 
+  <xs:import namespace="snapshot" schemaLocation="snapshot.xsd"/>
+  -->
+  
+  <!-- xs:element name="MultiCellDS" / -->
+
+
+
+  <xs:complexType name="MultiCellDS">
+    <xs:annotation>
+      <xs:appinfo>
+        <ontology_definition>
+          <oboInOwl:id>MCDS:0000001</oboInOwl:id>
+          <dc:description>Multicellular root element type.</dc:description>
+          <rdfs:label>MultiCellDS</rdfs:label>
+        </ontology_definition>
+      </xs:appinfo>        
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="cell_line" type="dcl:cell_line" minOccurs="0" maxOccurs="unbounded" >
+        <xs:key name="phenotype_dataset_ID_key">
+          <xs:selector xpath="phenotype_dataset"></xs:selector>
+          <xs:field xpath="@ID"></xs:field>
+        </xs:key>
+      </xs:element>
+      <xs:element name="metadata" type="meta:metadata" minOccurs="0" />
+      <xs:element name="microenvironment" type="menv:microenvironment" minOccurs="0" />
+      <!-- To be used for snapshots -->
+      <xs:element name="cellular_information" type="cell:cellular_information" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="version" type="xs:string"/>
+    <xs:attribute name="type" type="MCDS_type"/>
+  </xs:complexType>
+  
+  <xs:simpleType name="MCDS_type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="cell_line" />
+      <xs:enumeration value="snapshot/simulation" />
+      <xs:enumeration value="snapshot/experiment" />
+      <xs:enumeration value="snapshot/clinical" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:element name="MultiCellDS" type="MultiCellDS">    
+    <xs:annotation>
+      <xs:appinfo>
+        <xs:appinfo xmlns="">
+          <ontology_definition>
+            <oboInOwl:id>MCDS:0000001</oboInOwl:id>
+            <dc:description>Multicellular root element type.</dc:description>
+            <rdfs:label>MultiCellDS</rdfs:label>
+          </ontology_definition>
+        </xs:appinfo>        
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  
+  
+
+<!--
+  <xs:group name="DCLs">
+    <xs:annotation>
+      <xs:appinfo>
+        <ontology_definition xmlns="">
+          MCDS:0000002
+        </ontology_definition>
+      </xs:appinfo>
+      <xs:documentation>
+        <TeXML>
+          Collection of digital cell lines
+        </TeXML>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="cell_line" type="dcl:cell_line" maxOccurs="unbounded" >
+        <xs:key name="phenotype_dataset_ID_key">
+          <xs:selector xpath="phenotype_dataset"></xs:selector>
+          <xs:field xpath="@ID"></xs:field>
+        </xs:key>
+      </xs:element>
+      
+      
+    </xs:sequence>
+  </xs:group>
+  
+  <xs:group name="snapshot">
+    <xs:sequence>
+      <xs:element name="metadata" type="meta:metadata" />
+      <xs:element name="microenvironment" type="menv:microenvironment" />
+      <xs:element name="cellular_information" type="cell:cellular_information" />
+    </xs:sequence>
+  </xs:group>
+  
+  -->
+
+  <!-- ############################################################ -->
+  <!--  Elements for cell_lines => cell_line  -->
+  <!-- ############################################################ -->
+
+
+  <!-- ############################################################ -->
+  <!--  Elements for cell_lines => cell_line  -->
+  <!-- ############################################################ -->
+
+  <!--xs:element name="cell_lines">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="cell_line" type="dcl:cell_line" maxOccurs="unbounded"> </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element-->
+
+  <!--############################################################-->
+  <!-- Elements for cell_lines => cell => CellState -->
+  <!--############################################################-->
+  <!-- <xs:element name="cell_part" type="phenotype_elements_label" /> -->
+  <!--  <xs:complexType name="cell_part">
+    <xs:complexContent>
+      <xs:extension base="cell_part_base">
+        <xs:attribute name="name" use="required" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType> -->
+
+  <!--  <xs:complexType name="cell_part_base">
+    <xs:complexContent>
+      <xs:extension base="p:phenotype_base_elements">
+        <xs:sequence minOccurs="0">
+          <xs:element name="cell_part" type="cell_part" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent> -->
+  <!--    <xs:sequence>
+      <xs:element name="metadata" type="meta:metadata" minOccurs="0" />
+      <xs:element name="phenotype_dataset" type="phenotype_dataset" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="phenotype" minOccurs="0" />
+      <xs:element name="cell_part" type="cell_part" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence> -->
+  <!--  </xs:complexType> -->
+
+</xs:schema>

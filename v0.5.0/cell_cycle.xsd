@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MultiCellXML Version v0.3.9 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="cell_cycle" xmlns="cell_cycle" 
+    xmlns:common="common" xmlns:pbase="phenotype_base" xmlns:var="variables" 
+    attributeFormDefault="unqualified"> 
+    
+    <xs:import namespace="common" schemaLocation="common.xsd" />
+    <xs:import namespace="variables" schemaLocation="variables.xsd" />      
+    <xs:import namespace="phenotype_base" schemaLocation="phenotype_base.xsd" />
+    
+    <xs:group name="summary_elements_group">
+        <xs:sequence>
+            <xs:element name="birth_rate" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="duration" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="death_rate" type="death_rate_type" minOccurs="0" maxOccurs="3" />
+            <xs:element name="net_birth_rate" type="common:units_decimal" minOccurs="0" />
+            <xs:element name="population_doubling_time" type="common:units_decimal_nonnegative" minOccurs="0" />
+        </xs:sequence>
+    </xs:group>
+    
+    <xs:complexType name="death_rate_type"> <!-- Extend units_decimal -->
+        <xs:simpleContent>
+            <xs:extension base="common:units_decimal_nonnegative">
+                <xs:attribute name="type" type="death_type" use="required" /> <!-- Add atrribute type and make it required -->
+                <xs:anyAttribute />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:complexType name="cell_cycle_arrest">
+        <xs:sequence>
+            <xs:element name="condition" type="arrest_condition" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="transition">
+        <xs:sequence>
+            <xs:element name="checkpoint_failure_probability" type="common:units_decimal"  minOccurs="0"/>            
+            <xs:element name="subsequent_phase" type="xs:unsignedLong" minOccurs="0" />
+            <xs:element name="threshold" type="var:transition_threshold" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="transition_rate" type="common:units_decimal" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+ 
+    <xs:complexType name="cell_cycle_phase">
+        <xs:sequence>
+            <xs:group ref="summary_elements_group" /> <!-- minOccurs="0" is not here because it makes the C++ API harder. Also, all elements in summary_elements are optional. -->
+            <xs:element name="cell_cycle_arrest" type="cell_cycle_arrest" minOccurs="0" />
+            <xs:element name="transition" type="transition" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="cell_part" type="pbase:cell_parts" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="name" use="required" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    We should insert either Schematron or XML Schema 1.1 to verify that the name is part of the containing cell cycle model 
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ID" type="xs:unsignedLong">
+            <xs:annotation>
+                <xs:documentation>
+                    The ID attribute SHOULD be used. It may become required in future versions of the Schema. It requires a unique ID in each XML file.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute />
+    </xs:complexType>
+    
+    <xs:complexType name="summary_elements">
+        <xs:group ref="summary_elements_group" />
+    </xs:complexType>
+    
+    <xs:complexType name="cell_cycle">
+        <xs:sequence>
+            <xs:element name="cell_cycle_phase" type="cell_cycle_phase" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="cell_death" type="cell_death"  minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="summary_elements" type="summary_elements" minOccurs="0" />
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="model" use="required" type="xs:string" />
+        <xs:attribute name="ID" type="xs:unsignedLong">
+            <xs:annotation>
+                <xs:documentation>
+                    The ID attribute SHOULD be used. It may become required in future versions of the Schema. It requires a unique ID in each XML file.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute />
+    </xs:complexType>
+    
+    
+    
+    <xs:complexType name="cell_death">
+        <xs:sequence>
+            <xs:element name="duration" type="common:units_decimal" />
+            <xs:element name="cell_part" type="pbase:cell_parts" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="type" type="death_type" use="required" />
+        <xs:attribute name="ID" type="xs:unsignedLong" />
+        <xs:anyAttribute />
+    </xs:complexType>
+    
+    
+    <xs:simpleType name="death_type">
+        <xs:restriction base="xs:string"> <!-- Restrict permitted values -->
+            <xs:enumeration value="apoptosis" />
+            <xs:enumeration value="necrosis" />
+            <xs:enumeration value="autophagy" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+    <xs:complexType name="arrest_condition">
+        <xs:simpleContent>
+            <xs:extension base="common:units_decimal">
+                <xs:attribute name="type" type="arrest_type"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:simpleType name="arrest_type">
+        <xs:restriction base="xs:string">
+            <!-- Add more types in future -->
+            <xs:enumeration value="maximum_cell_density" />
+            <xs:enumeration value="maximum_cell_surface_density" />
+            <xs:enumeration value="maximum_cell_volume_density" />
+            <xs:enumeration value="maximum_cell_number" />
+            <xs:enumeration value="maximum_volume_fraction" />
+            <xs:enumeration value="maximum_area_fraction" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:complexType name="cycles_and_deaths">
+        <xs:sequence>
+            <xs:element name="cell_cycle" type="cell_cycle"  minOccurs="0" maxOccurs="unbounded">
+                <xs:key name="cell_cycle_phase_ID_key">
+                    <xs:selector xpath="cell_cycle_phase"></xs:selector>
+                    <xs:field xpath="@ID"></xs:field>
+                </xs:key>
+                <xs:key name="cell_cycle_death_ID_key">
+                    <xs:selector xpath="cell_death" />
+                    <xs:field xpath="@ID" />
+                </xs:key>
+            </xs:element>
+            <xs:element name="cell_death" type="cell_death"  minOccurs="0" maxOccurs="unbounded" />            
+        </xs:sequence>
+    </xs:complexType>
+        
+</xs:schema>
