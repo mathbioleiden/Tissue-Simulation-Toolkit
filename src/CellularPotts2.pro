@@ -13,13 +13,13 @@ contains( GRAPHICS, qt ) {
 
 TARGET = sorting
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
-libMCDS_DIR = ../v0.5.0/libMCDS
+libMCDS_DIR = ../v1.0.0/libMCDS
 mcds_api = mcds_api
 libMultiCellDS_DIR = $$libMCDS_DIR/$$mcds_api
 XSDE_DIR = $$libMCDS_DIR/xsde/libxsde
 QMAKE_CXXFLAGS += -I$$libMultiCellDS_DIR -I$$XSDE_DIR -m64 -std=c++11
-QMAKE_LFLAGS += $$libMultiCellDS_DIR/libmcds.a -L$$XSDE_DIR/xsde/ -l xsde -m64 # -std=c++11
-
+QMAKE_LFLAGS += -m64  -std=c++11
+LIBS += $$libMultiCellDS_DIR/libmcds.a -L$$XSDE_DIR/xsde/ -l xsde 
 
 message( $$MAINFILE )
 message( $$TARGET )
