@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MultiCellDS version="0.3" type="cell_line" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MultiCellXML.xsd">
+	<cell_line MultiCellDB_ID="1" ID="0" MultiCellDB_name="DCIS_ACP2011_8">
+		<metadata>
+			<description>Digital cell line for ductal carcinoma in situ of the breast, anonymized case 8, from Edgerton et al., Analytical Cellular Pathology (2011). DCIS pathologic sub-type is cribriform.</description>
+			<citation>
+				<text> 
+					Whatever paul wants here
+				</text>
+				<URL>http://MathCancer.org</URL>
+				<notes>Friedman SH et al., Recording microenvironment-dependent cell phenotypes as digital cell lines with MultiCellDS, Bioinformatics (2015, in preparation)</notes>
+			</citation>
+			<curation curated="true">  
+				<!-- need something about active curation --> 
+				<created>2015-05-14T16:11:00-07:00</created>
+				<last_modified>2015-05-20T11:10:00-07:00</last_modified>
+				<version>1.0</version>
+				<creator>  
+					<orcid-identifier>
+						<path>0000-0002-9359-8800</path>
+						<given-names>Ahmadreza</given-names>		
+						<family-name>Ghaffarizadeh</family-name>
+						<email>aghaffar@usc.edu</email>
+						<url>http://MathCancer.org</url>
+						<organization-name>University of Southern California</organization-name>
+						<department-name>Center for Applied Molecular Medicine</department-name>
+					</orcid-identifier>
+				</creator>
+				<current_contact>  
+					<orcid-identifier>
+						<path>0000-0002-9925-0151</path>
+						<given-names>Paul</given-names>		
+						<family-name>Macklin</family-name>
+						<email>Paul.Macklin@usc.edu</email>
+						<url>http://MathCancer.org</url>
+						<organization-name>University of Southern California</organization-name>
+						<department-name>Center for Applied Molecular Medicine</department-name>
+					</orcid-identifier>
+				</current_contact>
+				<curator>  
+					<orcid-identifier>
+						<path>0000-0002-9925-0151</path>
+						<given-names>Paul</given-names>		
+						<family-name>Macklin</family-name>
+						<email>Paul.Macklin@usc.edu</email>
+						<url>http://MathCancer.org</url>
+						<organization-name>University of Southern California</organization-name>
+						<department-name>Center for Applied Molecular Medicine</department-name>
+					</orcid-identifier>
+				</curator>
+				<last_modified_by>  
+					<orcid-identifier>
+						<path>0000-0002-9359-8800</path>
+						<given-names>Ahmadreza</given-names>		
+						<family-name>Ghaffarizadeh</family-name>
+						<email>aghaffar@usc.edu</email>
+						<url>http://MathCancer.org</url>
+						<organization-name>University of Southern California</organization-name>
+						<department-name>Center for Applied Molecular Medicine</department-name>
+					</orcid-identifier>
+				</last_modified_by>
+			</curation>
+			<data_origins> 
+				<data_origin>
+					<citation>
+						<DOI>10.3233/ACP-2011-0019</DOI>
+						<URL>http://content.iospress.com/articles/analytical-cellular-pathology/acp0019b</URL>
+						<URL>http://MathCancer.org/Publications.php#edgerton11_ACP</URL>
+						<PMID>21988888</PMID>
+					</citation>
+				</data_origin>
+			</data_origins>
+			<data_analysis> 
+				<URL>http://MathCancer.org</URL> <!-- URL to the actual script --> 
+				<citation> <!-- where that script was peer reviewed, etc. --> 
+					<DOI>10.1016/j.jtbi.2012.10.017</DOI>
+					<URL>http://www.sciencedirect.com/science/article/pii/S0022519312005504</URL>
+					<URL>http://MathCancer.org/Publications.php#hyun13_jtb</URL>
+					<PMID>23084996</PMID>
+				</citation>
+			</data_analysis>
+			<notes>
+				<!-- Information NOT about where data came from in plain text -->
+			</notes>
+		</metadata>	
+		<phenotype_dataset ID="0" keywords="viable">
+			<microenvironment>
+				<domain>
+					<variables>
+						<variable type="concentration" ChEBI_ID="25806" name="oxygen" units="mmHg">
+							<material_amount measurement_type="inferred">10.8</material_amount>
+						</variable>
+						<variable type="surface_density" name="DCIS_cell_density(2D)" units="1/micron^2">
+							<material_amount measurement_type="direct" standard_deviation="5.80e-04" >4.77e-03</material_amount>
+						</variable>
+						<variable type="area_fraction" name="DCIS_cell_area_fraction" units="dimensionless" >
+							<material_amount measurement_type="inferred">0.80</material_amount> 
+						</variable>
+						<variable type="volume_fraction" name="DCIS_cell_volume_fraction" units="dimensionless" >
+							<material_amount measurement_type="inferred">0.80</material_amount> 
+						</variable>
+					</variables>
+				</domain>
+			</microenvironment>			
+			<phenotype type="expected">
+				<cell_cycle model="Ki67_advanced" ID="0">
+					<cell_cycle_phase name="Ki67_premitotic" ID="0">
+						<duration units="hours" measurement_type="estimated">9.0</duration> 
+					</cell_cycle_phase>
+					<cell_cycle_phase name="Ki67_postmitotic" ID="1">
+						<duration units="hours" measurement_type="estimated">9.0</duration> 
+						<transition>
+							<checkpoint_failure_probability>0.0</checkpoint_failure_probability> 
+						</transition>
+					</cell_cycle_phase>
+					<cell_cycle_phase name="quiescient" ID="2">
+						<duration units="hours" measurement_type="inferred">253.5</duration> 
+						<death_rate type="apoptosis" units="1/hour" measurement_type="inferred">4.13e-04</death_rate>
+					</cell_cycle_phase>
+				</cell_cycle>
+				<cell_death type="apoptosis">
+					<duration units="hours" measurement_type="estimated">8.6</duration>
+				</cell_death>
+				<!-- <cell_cycle model=""></cell_cycle>-->
+				<geometrical_properties>
+					<lengths>
+						<radius units="microns" measurement_type="inferred">7.3</radius>
+					</lengths>
+					<areas>
+						<total_surface_area units="microns^2" measurement_type="inferred">6.71e+02</total_surface_area>
+					</areas>
+					<volumes>
+						<total_volume units="microns^3" measurement_type="inferred">1.63e+03</total_volume>
+					</volumes>
+				</geometrical_properties>
+			</phenotype>
+		</phenotype_dataset>
+		<phenotype_dataset ID="1" keywords="normoxic">
+			<microenvironment>
+				<domain>
+					<variables>
+						<variable type="concentration" ChEBI_ID="25806" name="oxygen" units="mmHg" >
+							<material_amount measurement_type="estimated">50.0</material_amount>
+						</variable>
+						<variable type="surface_density" name="DCIS_cell_density(2D)" units="1/micron^2">
+							<material_amount measurement_type="inferred" standard_deviation="5.80e-04" units="1/micron^2">4.77e-03</material_amount>
+						</variable>
+						<variable type="area_fraction" name="DCIS_cell_area_fraction" units="dimensionless">
+							<material_amount measurement_type="inferred">0.80</material_amount> 
+						</variable>
+						<variable type="volume_fraction" name="DCIS_cell_volume_fraction" units="dimensionless">
+							<material_amount measurement_type="inferred">0.80</material_amount> 
+						</variable>
+					</variables>
+				</domain>
+			</microenvironment>			
+			<phenotype type="expected">
+				<cell_cycle model="Ki67_advanced" ID="0">
+					<cell_cycle_phase name="Ki67_premitotic" ID="0">
+						<duration units="hours" measurement_type="estimated">9.0</duration> 
+					</cell_cycle_phase>
+					<cell_cycle_phase name="Ki67_postmitotic" ID="1">
+						<duration units="hours" measurement_type="estimated">9.0</duration> 
+						<transition>
+							<checkpoint_failure_probability>0.0</checkpoint_failure_probability> 
+						</transition>
+					</cell_cycle_phase>
+					<cell_cycle_phase name="quiescient" ID="2">
+						<duration units="hours" measurement_type="inferred">32.5</duration> 
+						<death_rate type="apoptosis" units="1/hour" measurement_type="inferred">4.13e-04</death_rate>
+					</cell_cycle_phase>
+				</cell_cycle>
+				<cell_death type="apoptosis">
+					<duration units="hours" measurement_type="estimated">8.6</duration>
+				</cell_death>
+				<geometrical_properties>
+					<lengths>
+						<radius units="microns" measurement_type="inferred">7.3</radius>
+					</lengths>
+					<areas>
+						<total_surface_area units="microns^2" measurement_type="inferred">6.71e+02</total_surface_area>
+					</areas>
+					<volumes>
+						<total_volume units="microns^3" measurement_type="inferred">1.63e+03</total_volume>
+					</volumes>
+				</geometrical_properties>
+			</phenotype>
+		</phenotype_dataset>
+		<phenotype_dataset ID="2" keywords="hypoxic">
+			<microenvironment>
+				<domain>
+					<variables>
+						<variable type="concentration" ChEBI_ID="25806" name="oxygen" units="mmHg" >
+							<material_amount measurement_type="estimated">8.0</material_amount>
+						</variable>
+						<variable type="surface_density" name="DCIS_cell_density(2D)" units="1/micron^2" >
+							<material_amount measurement_type="inferred" standard_deviation="5.80e-04" >4.77e-03</material_amount>
+						</variable>
+						<variable type="area_fraction" name="DCIS_cell_area_fraction" units="dimensionless" >
+							<material_amount measurement_type="inferred">0.80</material_amount> 
+						</variable>
+						<variable type="volume_fraction" name="DCIS_cell_volume_fraction" units="dimensionless" >
+							<material_amount measurement_type="inferred">0.80</material_amount> 
+						</variable>
+					</variables>
+				</domain>
+			</microenvironment>		
+			<phenotype type="expected">
+				<cell_cycle model="Ki67_advanced" ID="0">
+					<cell_cycle_phase name="Ki67_premitotic" ID="0">
+						<duration units="hours" measurement_type="estimated">9.0</duration> 
+					</cell_cycle_phase>
+					<cell_cycle_phase name="Ki67_postmitotic" ID="1">
+						<duration units="hours" measurement_type="estimated">9.0</duration> 
+						<transition>
+							<checkpoint_failure_probability>0.0</checkpoint_failure_probability>
+						</transition>
+					</cell_cycle_phase>
+					<cell_cycle_phase name="quiescient" ID="2">
+						<duration units="hours" measurement_type="inferred">487.6</duration> 
+						<death_rate type="apoptosis" units="1/hour" measurement_type="inferred">4.13e-04</death_rate>
+					</cell_cycle_phase>
+				</cell_cycle>
+				<cell_death type="apoptosis">
+					<duration units="hours" measurement_type="estimated">8.6</duration>
+				</cell_death>
+				<geometrical_properties>
+					<lengths>
+					<radius units="microns" measurement_type="inferred">7.3</radius>
+					</lengths>
+					<areas>
+						<total_surface_area units="microns^2" measurement_type="inferred">6.71e+02</total_surface_area>
+					</areas>
+					<volumes>
+						<total_volume units="microns^3" measurement_type="inferred">1.63e+03</total_volume>
+					</volumes>
+				</geometrical_properties>
+			</phenotype>
+		</phenotype_dataset>
+		<phenotype_dataset ID="3" keywords="necrotic">
+			<microenvironment>
+				<domain>
+					<variables>
+						<variable type="concentration" ChEBI_ID="25806" name="oxygen" units="mmHg" >
+							<material_amount measurement_type="estimated">5.0</material_amount>
+						</variable>
+					</variables>
+				</domain>
+			</microenvironment>			
+			<phenotype type="expected">
+				<cell_cycle model="Ki67_advanced" ID="0">
+					<cell_cycle_phase name="Ki67_premitotic" ID="0">
+						<duration units="hours" measurement_type="estimated">9.0</duration> 
+						<!-- <death_rate death_type="necrosis" units="1/hour" measurement_type="estimated">9e9</death_rate> -->
+					</cell_cycle_phase>
+					<cell_cycle_phase name="Ki67_postmitotic" ID="1">
+						<duration units="hours" measurement_type="estimated">9.0</duration> 
+						<!-- <death_rate death_type="necrosis" units="1/hour" measurement_type="estimated">9e9</death_rate> -->
+					</cell_cycle_phase>
+					<cell_cycle_phase name="quiescient" ID="2">
+						<duration units="hours" measurement_type="inferred">3.0e+38</duration> 
+						<death_rate type="necrosis" units="1/hour" measurement_type="estimated">3.0e+38</death_rate>
+					</cell_cycle_phase>
+				</cell_cycle>
+				<cell_death type="necrosis">
+					<duration units="hours" measurement_type="estimated">1000.0</duration>
+				</cell_death>
+			</phenotype>
+		</phenotype_dataset>
+	</cell_line>
+</MultiCellDS>
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+
+    <xs:complexType name="collection">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="notes" type="xs:string" minOccurs="0" />
+            <xs:element name="Digital_Cell_Lines" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="Snapshots" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="Collections" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="version" type="xs:string" />
+        <xs:attribute name="type" type="xs:string" />
+    </xs:complexType>
+
+    <xs:element name="MultiCellDS" type="collection" />
+</xs:schema>

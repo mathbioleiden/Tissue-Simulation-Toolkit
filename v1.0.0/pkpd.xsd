@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified"
+    xmlns:common="common" targetNamespace="pkpd" xmlns:var="variables" xmlns="pkpd"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" 	
+    >
+
+    <xs:import namespace="common" schemaLocation="common.xsd"/>
+    <xs:import namespace="variables" schemaLocation="variables.xsd"/>
+
+    <xs:annotation>
+        <xs:documentation>
+            PKPD.xsd Version 0.5
+            
+            This file contains information about the pharmacokinetics and pharmacodynamics elements of MultiCellDS.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:complexType name="pharmacokinetics">
+        <xs:sequence>
+            <xs:element name="inactivation_rate" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="half_life" type="common:units_decimal" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:attributeGroup name="drug_properties">
+        <xs:attributeGroup ref="var:variable_base_properties"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <!-- Should make this required for the case of variable, but not for a drug in PKPD -->
+        <xs:attribute name="units" type="xs:string"/>
+        <!-- Should make this required for the case of variable, but not for a drug in PKPD -->
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="drug_properties_id">
+        <xs:attribute name="ID" type="xs:unsignedShort"/>
+        <xs:attributeGroup ref="drug_properties"/>
+    </xs:attributeGroup>
+
+    <xs:complexType name="drug">
+        <xs:choice>
+            <xs:element name="dose" type="dose"/>
+            <xs:element name="pharmacokinetics" type="pharmacokinetics"/>
+        </xs:choice>
+        <xs:anyAttribute processContents="skip"/>
+    </xs:complexType>  
+
+    <xs:complexType name="drug_dose">
+        <xs:sequence>
+            <xs:element name="dose" type="dose"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="drug_properties_id" />
+    </xs:complexType>
+    
+    <xs:complexType name="drug_pk">
+        <xs:sequence>
+            <xs:element name="pharmacokinetics" type="pharmacokinetics" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="drug_properties_id" />
+    </xs:complexType>
+
+    <xs:complexType name="dose">
+        <xs:simpleContent>
+            <xs:extension base="common:units_decimal">
+                <xs:attribute name="type" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="therapy">
+        <xs:sequence>
+            <xs:element name="drug" type="drug_dose" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="response">
+        <xs:sequence>
+            <xs:element name="maximum_birth_inhibition" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="maximum_birth_inhibition_time" type="common:units_decimal"
+                minOccurs="0"/>
+            <xs:element name="birth_inhibition_recovery_rate" type="common:units_decimal"
+                minOccurs="0"/>
+            <xs:element name="maximum_death_rate" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="maximum_death_time" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="death_recovery_rate" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="response_observation" type="response_observation" minOccurs="0" maxOccurs="unbounded">
+                <xs:unique name="response_observation_times">
+                    <xs:selector xpath="response_observation" />
+                    <xs:field xpath="time" />
+                </xs:unique>
+            </xs:element>
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="response_observation">
+        <xs:annotation>
+            <xs:documentation>
+                notes xmlns="">
+                    Birth rate and death rate elements are measurements for the "live_apoptotic" cell cycle model.
+                    Net birth rate and net death rate elements are measurements for the "total cell" cell cycle model.
+                /notes>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="time" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="birth_rate" type="common:units_decimal_nonnegative" minOccurs="0"/>
+            <xs:element name="death_rate" type="common:units_decimal_nonnegative" minOccurs="0"/>
+            <xs:element name="net_birth_rate" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="net_death_rate" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="apoptotic_duration" type="common:units_decimal" minOccurs="0"/>
+            <xs:element name="percent_cell_viability" type="common:units_decimal" minOccurs="0">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <ontology_definition xmlns="">
+                            <rdfs:isDefinedBy>BAO:0000202</rdfs:isDefinedBy>
+                        </ontology_definition>
+                    </xs:appinfo>
+                    <xs:documentation>
+                        <!--<blah xmlns="">
+                        <blah>hiya!</blah>
+                        Ooga booga
+                        </blah>-->
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="custom" type="common:custom" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="pharmacodynamics">
+        <xs:sequence>
+            <xs:element name="therapy_measurement_set" type="therapy_measurement_set" maxOccurs="unbounded">
+                <xs:key name="therapy_measurement_set_ID_key">
+                    <xs:selector xpath="therapy_measurement_set"></xs:selector>
+                    <xs:field xpath="@ID"></xs:field>
+                </xs:key>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="therapy_measurement_set">
+        <xs:sequence>
+            <xs:element name="therapy" type="therapy">
+ <!--               <xs:keyref refer="drug" name="unique_drugs">
+                    <xs:selector xpath=""></xs:selector>
+                    <xs:field xpath=""></xs:field>
+                </xs:keyref> -->
+            </xs:element>
+            <xs:element name="response" type="response">
+                <xs:annotation>
+                    <xs:documentation>
+                        There should only be one response for a given therapy.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="ID" type="xs:unsignedShort"/>
+        <xs:anyAttribute/>
+    </xs:complexType>
+
+    <xs:complexType name="PKPD">
+        <xs:sequence>
+            <xs:element name="drug" type="drug_pk" minOccurs="0" maxOccurs="unbounded"/>            
+            <xs:element name="pharmacodynamics" type="pharmacodynamics" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+</xs:schema>

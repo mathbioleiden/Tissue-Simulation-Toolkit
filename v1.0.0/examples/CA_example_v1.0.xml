@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MultiCellDS version="0.5" type="snapshot/simulation">
+    <metadata>
+        <MultiCellDB>
+            <ID>S_12344567890</ID>
+            <name>Sample CE</name>
+        </MultiCellDB>
+        <rights>
+            <license>
+                <LicenseDocument>
+                    <name>CC-BY 4.0</name>
+                    <URL>https://creativecommons.org/licenses/by/4.0/</URL>
+                </LicenseDocument>
+            </license>
+        </rights>
+    </metadata>
+    <microenvironment>
+        <domain>
+            <variables>
+                <variable name="oxygen" ChEBI_ID="15379" />
+            </variables>
+        </domain>
+    </microenvironment>
+    <cellular_information>
+        <cell_populations>
+            <cell_population>
+                <cell ID="0">
+                    <phenotype_dataset>
+                        <phenotype type="current">
+                            <transport_processes>
+                                <variable name="oxygen" ChEBI_ID="15379">
+                                    <import_rate units="nM/hr">
+                                        0.5
+                                    </import_rate>
+                                </variable>
+                            </transport_processes>
+                        </phenotype>
+                    </phenotype_dataset>
+                    <state>
+                        <position units="micron">1.0 2.0 3.0</position>
+                        <phase>
+                            <model_name>
+                                Ki67_basic
+                            </model_name>
+                            <phase_name>
+                                Ki67_positive
+                            </phase_name>
+                            <elapsed_time units="hour">
+                                6.0
+                            </elapsed_time>
+                        </phase>
+                    </state>
+                </cell>
+            </cell_population>
+        </cell_populations>
+    </cellular_information>
+</MultiCellDS>

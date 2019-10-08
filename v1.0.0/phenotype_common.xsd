@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MultiCellXML Version v0.3.9 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="phenotype_common" xmlns="phenotype_common"
+    xmlns:common="common" xmlns:var="variables"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#"
+    
+    > 
+    
+    <xs:import namespace="common" schemaLocation="common.xsd" />
+    <xs:import namespace="variables" schemaLocation="variables.xsd"/>
+
+    <!-- ############################################################ -->
+    <!--  Elements for cell_line => phenotype_dataset => phenotype => cell_cycle -->
+    <!-- ############################################################ -->
+    
+    
+    <!--
+        <xs:annotation>
+            <xs:documentation>
+                We may want to rename this element to mechanical_properties as it would match the CBO better.
+            </xs:documentation>
+        </xs:annotation>
+        -->
+    
+    <xs:complexType name="adhesion">
+        <xs:annotation>
+            <xs:documentation>
+                These elements deal with adhesion.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="adhesion_bond_breaking_rate" type="common:units_decimal" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is also known as the dissocation rate
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="adhesion_bond_formation_rate" type="common:units_decimal" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is also known as the bimolecular association rate
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="adhesion_spring_constant" type="common:units_decimal_nonnegative" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Hook-ian spring constant for a binding molecule.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="adhesion_receptor_density" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="surface_binding_energy" type="common:units_decimal"  minOccurs="0"/>
+            <xs:element name="number_of_adhered_cells" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="maximum_number_of_adhered_cells" type="common:units_unsignedShort" minOccurs="0" />
+            <xs:element name="adhered_surface_area" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="maximum_adhered_surface_area" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="adhesion_force_per_surface_area" type="common:units_decimal" minOccurs="0" />
+            <xs:element name="adhesion_probability" type="common:units_fraction" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+                        This is a coarser model of adhesion bond formation rate (or the association rate)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="detachment_proability" type="common:units_fraction" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+                        This is a coarser model of adhesion bond breaking rate (or the dissociation rate)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="rolling_observation" type="rolling_observation" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>    
+    </xs:complexType>
+    
+    <xs:complexType name="rolling_observation">
+        <xs:sequence>
+            <xs:element name="rolling_velocity" type="common:units_decimal" />
+            <xs:element name="shear_stress" type="common:units_decimal" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:group name="mechanics_observations">
+        <xs:sequence>
+            <xs:element name="poisson_ratio" type="common:units_decimal"  minOccurs="0" />
+            <xs:element name="youngs_modulus" type="common:units_decimal"  minOccurs="0">
+                <xs:annotation>
+                    <xs:appinfo xmlns="">
+                        <ontology_definition>
+                            <rdfs:isDefinedBy>CBO:YoungsModulus</rdfs:isDefinedBy>
+                            <rdfs:label>Youngs Modulus</rdfs:label>
+                            <oboInOwl:exact_synonym>Elastic Modulus</oboInOwl:exact_synonym>
+                        </ontology_definition>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:group>
+    
+    <xs:complexType name="friction">
+        <xs:sequence>
+            <xs:element name="compression" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="ECM" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="shear" type="common:units_decimal_nonnegative" minOccurs="0" />
+        </xs:sequence>    
+    </xs:complexType>
+    
+    
+        <xs:complexType name="mechanics">
+            <xs:sequence>                
+                <xs:element name="friction" type="friction" minOccurs="0" />
+                <xs:element name="maximum_cell_deformation" type="common:units_decimal"  minOccurs="0"/>
+                <xs:element name="mechanical_pressure" type="common:units_decimal" minOccurs="0" />
+                <xs:element name="indentation_observation" type="indentation_observation" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:group ref="mechanics_observations" /> <!-- minOccurs="0" removed to make API better. Plus all elements in group are already optional -->
+                <xs:element name="custom" type="common:custom" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+
+        <xs:complexType name="indentation_observation">
+            <xs:sequence>
+                <xs:element name="depth" type="common:units_decimal" />
+                <xs:group ref="mechanics_observations" /> <!-- minOccurs="0" removed to make API better. Plus all elements in group are already optional -->
+            </xs:sequence>
+        </xs:complexType>
+    
+        <xs:complexType name="motility">
+            <xs:sequence>
+                <xs:element name="unrestricted" type="motility_types" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="restricted" type="motility_types" minOccurs="0" maxOccurs="unbounded" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            Need to insert requirement that restricted requires the element restriction.
+                            Should be a key constraint. Something like 
+                            xs:key name="required"
+                                xs:selector xpath="restriction" /
+                                xs:field xpath="ID" /
+                            /xs:key
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>    
+    
+        <xs:complexType name="motility_types"> 
+            <xs:sequence>
+                <xs:element name="timescale" type="timescale" minOccurs="0" />
+                <xs:element name="restriction" type="var:experimental_conditions" minOccurs="0" />
+                <xs:element name="net_displacement" type="common:units_decimal"  minOccurs="0"/>
+                <xs:element name="total_displacement" type="common:units_decimal_nonnegative" minOccurs="0" />
+                <xs:element name="mean_square_displacement" type="common:units_decimal_nonnegative"  minOccurs="0"/>
+                <xs:element name="mean_speed" type="common:units_decimal" minOccurs="0" />
+                <xs:element name="net_speed" type="common:units_decimal" minOccurs="0" />
+                <xs:element name="persistence" type="common:units_decimal" minOccurs="0" />
+                <xs:element name="mean_path_length" type="common:units_decimal" minOccurs="0" />
+                <xs:element name="diffusion_coefficient" type="common:units_decimal" minOccurs="0" />
+                <xs:element name="custom" type="common:custom" minOccurs="0" />
+            </xs:sequence>
+            <xs:attribute name="ID" type="xs:unsignedInt" />
+        </xs:complexType>
+
+        <xs:complexType name="timescale">
+            <xs:simpleContent>
+                <xs:extension base="common:units_decimal">
+                    <xs:attribute name="mitotic" type="xs:boolean"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+
+        <xs:complexType name="transport_processes">
+            <xs:annotation>
+                <xs:documentation>
+                    This is known as transport processes in NCIT C21079
+                </xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+                <xs:element name="variable" type="transport_variable" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+
+    <xs:complexType name="transport_variable">
+        <xs:all minOccurs="0" >
+            <xs:element name="export_rate" type="common:units_decimal" minOccurs="0"  />
+            <xs:element name="export_rate_per_unit_surface_area" type="common:units_decimal" minOccurs="0" />
+            <xs:element name="import_rate" type="common:units_decimal" minOccurs="0" />
+            <xs:element name="import_rate_per_unit_surface_area" type="common:units_decimal" minOccurs="0"  />
+            <xs:element name="saturation_density" type="common:units_decimal" minOccurs="0" />
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:all>
+        <xs:attributeGroup ref="var:variable_properties" />
+    </xs:complexType>
+
+    <!-- Orphaned. Consider depricating
+    <xs:complexType name="cell_flux">
+        <xs:annotation>
+            <xs:documentation>
+                This is about ANY process (active or passive) that causes material to enter or exit a cell.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element name="variable" type="var:variable" />
+                <xs:element name="rate" type="common:units_decimal" />
+            </xs:sequence>
+        </xs:sequence>
+    </xs:complexType> -->
+    
+    
+    <xs:complexType name="geometrical_parameters">
+        <xs:all>
+            <xs:element name="aspect_ratio" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="circularity" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="eccentricity" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="sphericity" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:all>
+        <xs:attributeGroup ref="common:units_ag" />
+    </xs:complexType>
+
+    <xs:complexType name="lengths">                        
+        <xs:all>
+            <xs:element name="diameter" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="major_axis" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="minor_axis" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="perimeter" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="radius" type="common:units_decimal_nonnegative"  minOccurs="0"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0" />                        
+        </xs:all>
+        <xs:attributeGroup ref="common:units_ag" />
+    </xs:complexType>
+    
+    <xs:complexType name="areas_3D">
+        <xs:all>
+            <xs:element name="free_surface_area" type="common:units_decimal_nonnegative"  minOccurs="0"/>
+            <xs:element name="total_surface_area" type="common:units_decimal_nonnegative"  minOccurs="0"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:all>
+        <xs:attributeGroup ref="common:units_ag" />
+    </xs:complexType>
+    
+    <xs:complexType name="areas_2D">
+        <xs:all>
+            <xs:element name="total_area" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:all>
+        <xs:attributeGroup ref="common:units_ag" />
+    </xs:complexType>
+    
+    <xs:complexType name="volumes">
+        <xs:all>
+            <xs:element name="fluid_volume" type="common:units_decimal_nonnegative"  minOccurs="0"/>
+            <xs:element name="fluid_volume_fraction" type="common:units_fraction"  minOccurs="0"/>
+            <xs:element name="solid_calcified_volume" type="common:units_decimal_nonnegative"  minOccurs="0"/>
+            <xs:element name="solid_volume" type="common:units_decimal_nonnegative"  minOccurs="0"/>
+            <xs:element name="solid_volume_fraction" type="common:units_fraction"  minOccurs="0"/>
+            <xs:element name="total_volume" type="common:units_decimal_nonnegative"  minOccurs="0"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:all>
+        <xs:attributeGroup ref="common:units_ag" />
+    </xs:complexType>
+    
+
+    <xs:complexType name="geometrical_properties">
+        <xs:sequence>
+            <xs:element name="parameters" type="geometrical_parameters" minOccurs="0" />            
+            <xs:element name="lengths" type="lengths" minOccurs="0" />
+            <xs:element name="areas" type="areas_3D" minOccurs="0" />            
+            <xs:element name="volumes" type="volumes" minOccurs="0" />
+            <xs:element name="cross_section" type="cross_section" minOccurs="0" maxOccurs="unbounded" />            
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="cross_section">
+        <xs:sequence>
+            <xs:element name="parameters" type="geometrical_parameters" minOccurs="0" />            
+            <xs:element name="lengths" type="lengths" minOccurs="0" />
+            <xs:element name="areas" type="areas_2D" minOccurs="0" />            
+            <xs:element name="custom" type="common:custom" minOccurs="0" />            
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:attributeGroup name="cell_part_group">
+        <xs:annotation>
+            <xs:documentation>
+                Only one of these attributes is allowed. Need to add Schematron.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" use="required" type="xs:string"/>
+        <xs:attribute name="ID" type="xs:unsignedInt" />
+    </xs:attributeGroup>
+    
+    <xs:complexType name="mass">
+        <xs:all>
+            <xs:element name="biomass" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="fluid_mass" type="common:units_decimal_nonnegative" minOccurs="0" />
+            <xs:element name="total_mass" type="common:units_decimal_nonnegative" minOccurs="0" />
+        </xs:all>
+    </xs:complexType>
+    
+</xs:schema>

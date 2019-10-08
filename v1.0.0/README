@@ -1,0 +1,92 @@
+How to perform Schema validation:
+
+1) Using xmllint (XML Schema V1.0 Validator tool)
+
+xmllint --nowarning --noout --schema MultiCellDS.xsd temp.xml
+
+Make sure that all XSD files are in the same directory as
+MultiCellXML.xsd. 
+
+2) Using Schematron (using xsltproc, an XSLT 1.0 engine)
+
+First, you will need to obtain the ISO Schematron XSLT 1.0
+stylesheets. They are available at:
+
+http://www.schematron.com/tmp/iso-schematron-xslt1.zip
+
+
+Second, extract the Schematron commands from the XSD files. There are
+multiple XSLT 1.0 engines available. We have chosen xsltproc as our
+example XSLT 1.0 engine. Other readily available XSLT 1.0 engines
+include Xalan, Saxon HE, and MSXML (Windows only).
+
+xsltproc -o MultiCellDS.sch ExtractSchFromXSD.xsl path/to/MultiCellDS.xsd
+
+where you will need to replace path/to/ with the path from the XSL
+file to the local copy of MultiCellDS.xsd.
+
+Third, there are a sequence of transforms to perform to transform the
+extracted Schematron code into a validation XSLT file. These commands
+are roughly the same as those appearing the in Schematron readme.txt
+file. The first three commands transform extracted schematron code 
+
+xsltproc -o test1.sch iso_dsdl_include.xsl MultiCellDS.sch
+xsltproc -o test2.sch iso_abstract_expand.xsl test1.sch
+xsltproc -o test.xsl iso_svrl_for_xslt2.xsl test2.sch
+
+The last XSLT command does the Schematron validation on the XML file:
+
+xsltproc -o temp.svrlt test.xsl path/to/temp.xml
+
+where you will need to replace path/to/ with the path from the XSL
+file to the XML file which needs validating. As long as the
+MultiCellDS XSD files' Schematron code does not change, there is not
+need to regenerate test.xsl and test.xsl can be reused to perform
+multiple validations.
+
+3) Installing MultiCellDS C++ API
+
+There are two versions of the MultiCellDS C++ API: with and without
+serialization validation. Using validation makes the code slower but
+makes it easier to debug. Without validtion, code is faster, but
+debugging may be harder. To use validation, follow the appropriate
+instructions:
+
+Step 1: Create the XSD/e library.
+We have extracted a subset of CodeSynthesis' XSD/e and include this
+with the MultiCellDS C++ API package.
+
+Without validation:
+cd v0.5.0/libMCDS/xsde
+make
+
+With validation
+cd v0.5.0/libMCDS/xsde_val
+make
+
+Step 2: Create the C++ API.
+
+Return to the base directory and run the commands:
+
+Without validation:
+cd v0.5.0/
+make objects
+
+With validation:
+cd v0.5.0/
+make objects_val
+
+Step 3: Link the library to your application.
+
+We have a sample code that transforms DCIS simulation results and
+transforms it into MultiCellDS.
+
+cd v0.5.0/libMCDS/DCIS
+make
+
+Currently, the Makefile for DCIS uses validation. To use the non-
+validating code, change the following variables:
+
+mcds_api := mcds_api
+XSDE_DIR := ../xsde/libxsde
+

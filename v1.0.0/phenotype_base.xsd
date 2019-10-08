@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MultiCellXML Version v0.3.9 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified"
+    targetNamespace="phenotype_base" xmlns="phenotype_base" xmlns:pcomm="phenotype_common"
+    xmlns:common="common" xmlns:pkpd="pkpd" xmlns:var="variables">
+    
+    <xs:import namespace="phenotype_common" schemaLocation="phenotype_common.xsd"/>
+    <xs:import namespace="common" schemaLocation="common.xsd"/>
+    <xs:import namespace="pkpd" schemaLocation="pkpd.xsd"/>   
+    <xs:import namespace="variables" schemaLocation="variables.xsd" />
+        
+    <xs:complexType name="phenotype_base">
+        <xs:group ref="phenotype_base_elements" />
+        <xs:attributeGroup ref="phenotype_type" />
+    </xs:complexType>
+    
+    <xs:group name="phenotype_base_elements">
+        <xs:sequence id="phenotype_base_elements_seq">
+            <xs:element name="adhesion" type="pcomm:adhesion" minOccurs="0"/>
+            <xs:element name="geometrical_properties" type="pcomm:geometrical_properties"
+                minOccurs="0"/>
+            <xs:element name="mass" type="pcomm:mass" minOccurs="0" />
+            <xs:element name="mechanics" type="pcomm:mechanics" minOccurs="0"/>
+            <xs:element name="motility" type="pcomm:motility" minOccurs="0"/>
+            <xs:element name="PKPD" type="pkpd:PKPD" minOccurs="0">
+                <xs:key name="PKPD_drug_list">
+                    <xs:selector xpath="drug"/>
+                    <xs:field xpath="@ID"/>
+                </xs:key>
+                <xs:keyref refer="PKPD_drug_list" name="PKPD_drug_therapies">
+                    <xs:selector xpath="pharmacodynamics/therapy_measurement_set/therapy/drug"/>
+                    <xs:field xpath="@ID"/>
+                </xs:keyref>
+            </xs:element>
+            <xs:element name="timescale" type="expected_timescale" minOccurs="0" nillable="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        This element needs to be nillable, not have any "text" content, so as to permit use by only attributes
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="transport_processes" type="pcomm:transport_processes" minOccurs="0"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0"/>
+        </xs:sequence>
+    </xs:group>
+    
+    <xs:complexType name="expected_timescale" >
+        <xs:simpleContent>
+            <xs:extension base="common:units_decimal_nonnegative">
+                <xs:attribute name="cell_cycle_ID" type="xs:unsignedInt" />
+                <xs:attribute name="cell_cycle_phase_ID" type="xs:unsignedInt" />
+                <xs:attribute name="cell_death_ID" type="xs:unsignedInt" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:complexType name="cell_parts">
+        <xs:sequence>
+            <xs:element name="phenotype" type="phenotype_base" minOccurs="0" maxOccurs="3"/>
+            <xs:element name="cell_part" type="cell_parts" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="pcomm:cell_part_group" />
+    </xs:complexType>
+        
+    <xs:attributeGroup name="phenotype_type">
+        <xs:attribute name="type" type="phenotype_type">
+            <xs:annotation>
+                <xs:documentation>
+                    Current is default assumed value
+                </xs:documentation>
+            </xs:annotation> 
+        </xs:attribute>        
+    </xs:attributeGroup>
+    
+    <xs:simpleType name="phenotype_type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="expected"/>
+            <xs:enumeration value="current"/>
+            <xs:enumeration value="target" />
+        </xs:restriction>
+    </xs:simpleType>
+        
+</xs:schema>

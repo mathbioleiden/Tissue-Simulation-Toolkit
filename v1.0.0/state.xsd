@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="state"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="state"
+    elementFormDefault="unqualified" vc:minVersion="1.0" vc:maxVersion="1.1"
+    xmlns:common="common" xmlns:pc="phenotype_common" xmlns:mesh="mesh">
+    
+    <xs:import namespace="common" schemaLocation="common.xsd" />
+    <xs:import namespace="phenotype_common" schemaLocation="phenotype_common.xsd" />
+    <xs:import namespace="mesh" schemaLocation="mesh.xsd" />
+    
+    <xs:complexType name="phase">
+        <xs:all>
+            <xs:element name="model_name" type="xs:string" minOccurs="0" />
+            <xs:element name="phase_name" type="phase_name" minOccurs="0" />
+            <xs:element name="cell_cycle_model_index" type="xs:unsignedShort"  minOccurs="0" />
+            <xs:element name="cell_cycle_phase_index" type="xs:unsignedShort" minOccurs="0" />
+            <xs:element name="elapsed_time" type="common:units_decimal" minOccurs="0" />
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="phase_name">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <!-- Consider moving GO_ID to common.xsd -->
+                <xs:attribute name="GO_ID" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="orientation">
+        <xs:simpleContent>
+            <xs:extension base="common:units_double_list">
+                <xs:annotation>
+                    <xs:documentation>
+                        Dimensionality is handled via //domain//dimensionality
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="formalism" type="orientation_formalism" />    
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:simpleType name="orientation_formalism">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="axis-angle" />
+            <xs:enumeration value="quaternion" />
+            <xs:enumeration value="Euler Angles" />
+            <xs:enumeration value="Tait-Bryan" />
+            <xs:enumeration value="polar" />
+            <xs:enumeration value="Polar" />
+            <xs:enumeration value="Unit Vector" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:group name="state_base">
+        <xs:sequence>
+            <xs:element name="orientation" type="orientation" minOccurs="0"  />
+            <xs:element name="position" type="common:units_double_list" minOccurs="0" />
+            <xs:element name="velocity" type="common:units_double_list" minOccurs="0" />
+            <xs:element name="voxels" type="mesh:int_list_xpath" minOccurs="0" />
+        </xs:sequence>
+    </xs:group>
+
+    <xs:complexType name="cell_parts">
+        <xs:sequence>
+            <xs:group ref="state_base" />
+            <xs:element name="cell_part" type="cell_parts" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>
+        <xs:attributeGroup ref="pc:cell_part_group"></xs:attributeGroup>        
+    </xs:complexType>
+        
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:group ref="state_base" />
+            <xs:element name="cell_part" type="cell_parts" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="phase" type="phase" minOccurs="0" />
+            <xs:element name="adhered_cells" type="list_of_adhered_cells" minOccurs="0" />
+            <xs:element name="custom" type="common:custom" minOccurs="0" />                    
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="adhered_cell">
+        <xs:sequence>
+            <xs:element name="ID" type="xs:unsignedInt" /> <!-- Add key stuff -->
+            <xs:element name="contact_area" type="common:units_decimal_nonnegative" />
+            <xs:element name="contact" type="pc:cross_section" />
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="list_of_adhered_cells">
+        <xs:sequence>
+            <xs:element name="adhered_cell" type="adhered_cell" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="custom" type="common:custom" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>
+    
