@@ -11,7 +11,7 @@ contains( GRAPHICS, qt ) {
   
 }	
 
-TARGET = migration
+TARGET = sorting
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
 libMCDS_DIR = ../v0.5.0/libMCDS
 mcds_api = mcds_api

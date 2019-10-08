@@ -28,6 +28,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <string.h>
 #include <errno.h>
 #include <math.h>
+#include <ctime>
 #include "dish.h"
 #include "sticky.h"
 #include "parameter.h"
