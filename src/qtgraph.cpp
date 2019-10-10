@@ -46,6 +46,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 using namespace std;
 QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
 {
+	//cout << "INSTANT widget\n";
 	mag = 1.;
 	if (movie_file) {
     throw("QtGraphics in qtgraph.cc: Sorry, movie writing not (yet) implemented\n");
@@ -88,6 +89,7 @@ QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
   
 
   mouse_button=Qt::NoButton;
+  key=-1;
   // changed by RM for porting to Win Qt4
 	pixmap=new QPixmap(xfield,yfield);
   //pixmap->fill(pens[0].color());
@@ -96,12 +98,14 @@ QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
 }
 
 QtGraphics::~QtGraphics() {
+  //cout << "DESTROY WIDGET\n";
   delete picture;
   //delete paint2;
   delete pixmap;
 }
 
 void QtGraphics::Point(int colour, int i, int j) {
+  //cout << "POINT: " << colour << " i: " << i << " j: " << j << "\n"; 
 
   picture->setPen( pens[colour] );
   picture->drawPoint( i, j);
@@ -109,25 +113,25 @@ void QtGraphics::Point(int colour, int i, int j) {
 }
 
 void QtGraphics::BeginScene(void) {
-
+  //cout << "BEGINSCENE\n";
   picture->begin(pixmap);
 	//picture->scale(mag);
 }
 
 void QtGraphics::EndScene(void) {
-  
+  //cout << "ENDSCENE\n";
   picture->end();
   update();
 }
 
 void QtGraphics::Line( int x1, int y1,int x2,int y2,int colour ) {
-  picture->setPen( pens[colour] );
+   picture->setPen( pens[colour] );
   picture->drawLine( x1, y1, x2, y2);
 }
 
 void QtGraphics::ReadColorTable(QPen *pens)
 {
-  
+  //cout << "READCOLOURTABLE\n";
   char name[50];
   sprintf(name,"default.ctb");
    
@@ -161,6 +165,7 @@ void QtGraphics::ReadColorTable(QPen *pens)
 //on screen. This is taken care of by the
 void QtGraphics::paintEvent( QPaintEvent* )
 {
+	//cout << "PAINTEVENT\n";
 //  bitBlt(this, 0, 0, pixmap);
 	QPainter win(this);
 	win.scale(mag,mag);
@@ -178,9 +183,17 @@ void QtGraphics::mouseReleaseEvent( QMouseEvent *) {
   mouse_button=Qt::NoButton;
 }
 
+void QtGraphics::keyPressEvent( QKeyEvent *e) {
+  key = e->key();
+}
+
+void QtGraphics::keyReleaseEvent( QKeyEvent *e) {
+  key=-1;
+}
+
 void QtGraphics::TimeStepWrap(void) {
-  
-  //  picture->begin(pixmap);
+  //cout << "TIMESTEPWRAP\n";
+   //picture->begin(pixmap);
   static int t=0;
   TimeStep();
   t++;
@@ -196,26 +209,30 @@ int QtGraphics::GetXYCoo(int *X, int *Y)
 {
   *X = mouse_x;
   *Y = mouse_y;
+  if (mouse_button != Qt::NoButton){
   switch (mouse_button) {
-  
-  case Qt::LeftButton:
-    return 1;
-    break;
-  case Qt::MidButton:
-    return 2;
-    break;
-  case Qt::RightButton:
-    return 3;
-    break;
-  default:
-    return 0;
-    break;
+      case Qt::LeftButton:
+        return 1;
+        break;
+      case Qt::MidButton:
+        return 2;
+        break;
+      case Qt::RightButton:
+        return 3;
+        break;
+      default:
+        return 0;
+        break;
+      }
   }
+  if (key != Qt::Key_No){
+    return key;
+    }
   return 0;
 }
 
 void QtGraphics::Write(char *fname, int quality) {
-  
+  //cout << "WRITE\n";
   if (fname==0) {
 
     throw("QtGraphics::Write: empty filename!\n");
