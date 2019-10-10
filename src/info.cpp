@@ -42,12 +42,18 @@ Info::Info(Dish &d, Graphics &g, std::ostream &out) {
   dish=&d;
   graphics=&g;
   os=&out;
+  ispaused = false;
+  prev_key = -1;
   
   /*
   g=&graphics;
   beast=&dish;
   os=&out;*/
 }
+
+bool Info::IsPaused(){
+	return ispaused;
+	}
 
 void Info::Menu() {
 
@@ -56,7 +62,9 @@ void Info::Menu() {
   
   int x,y;
   char key=(char)graphics->GetXYCoo(&x,&y);
+  //cout << "keyint: " << (int) key << "Keychar:" << key << endl;
   
+  if (prev_key != key){
   switch (key) {
   
     /*  case RESIZE:
@@ -74,7 +82,7 @@ void Info::Menu() {
     }
     break;
 
-  case 'v':
+  case 'A':
     {
       cout << "Areas and deviations from target area:\n";
 
@@ -92,6 +100,12 @@ void Info::Menu() {
       *os << "Mean deviation from target: " << (double)t/((double)dish->cell.size()-1) << "\n";
     }
     break;
+  case (char) 32:
+	if(ispaused){
+		ispaused = false;}
+	else{
+		ispaused = true;}
+		break;
      
   case 'V':
    
@@ -119,9 +133,14 @@ void Info::Menu() {
       *os << "lambda = " << par.lambda << "\n";
     }
     break;
-  
-
-  case 'o':
+    
+  case 'S':
+  {
+	cout << "Saving to: " << par.xmloutput << endl;
+	dish->ExportMultiCellDS(par.xmloutput);
+	  }
+	  break;
+  case 'O':
     { 
       printf("Click cell to dump... Click Medium to quit.\n");
     
@@ -139,7 +158,7 @@ void Info::Menu() {
     }
     break;
 
-  case 'c':
+  case 'C':
     {
       printf("Introduce tumor cell into the grid...\n");
       fflush(stdin);
@@ -184,7 +203,7 @@ void Info::Menu() {
     break;
     
 
-  case 'A':
+  case 'B':
     {
       vector<Cell>::const_iterator i;
       for ( (i=dish->cell.begin(),i++);
@@ -206,11 +225,12 @@ void Info::Menu() {
     }
     break;
     
-  case 'q':
-    if (YesNoP("Quit: are you sure?")) 
+  case 'Q':
       throw "Exiting program";
     break;
   }
+  }
+  prev_key = key;
 
   //  AuxMenu(key);
 }

@@ -61,6 +61,8 @@ public:
    */
   Cell &ClickCell(Graphics *g);
   
+  bool IsPaused(void);
+  
 private:
   Info(void);
 
@@ -69,4 +71,6 @@ private:
   Graphics *graphics;
   Dish *dish;
   std::ostream *os;
+  char prev_key;
+  bool ispaused;
 };
