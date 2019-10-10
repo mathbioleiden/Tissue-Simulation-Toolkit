@@ -78,11 +78,24 @@ TIMESTEP {
   try {
 
     static int i=0;
-  
-    static Dish *dish=new Dish();
+    static Dish *dish;
+    if (i == 0){
+    if (par.xmlinput && par.load_xml){
+		cout << "TRYING TO OPEN FILE\n";
+    dish=new Dish(par.xmlinput);
+    dish->SetMultiCellDSCells();
+    }
+    else{
+    dish=new Dish();
+	}}
+    
     static Info *info=new Info(*dish, *this);
     
+    
+    
+    if (!info->IsPaused()){
     dish->CPM->AmoebaeMove(dish->PDEfield);
+    }
     
     //cerr << "Done\n";
     if (par.graphics && !(i%par.storage_stride)) {
@@ -100,6 +113,7 @@ TIMESTEP {
      
     }
   
+ 
     if (par.store && !(i%par.storage_stride)) {
       char fname[200];
       sprintf(fname,"%s/extend%05d.png",par.datadir,i);
@@ -113,8 +127,9 @@ TIMESTEP {
       Write(fname);
         
     }
-
+    if (!info->IsPaused()){
     i++;
+	}
   } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
