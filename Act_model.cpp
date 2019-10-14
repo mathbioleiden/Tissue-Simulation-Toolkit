@@ -368,9 +368,11 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
     if (cpm->Sigma(x,y)<=0){
       cpm->matrixPixels.erase({x,y});}
     //Make adhesions
+    else{
+    int adh_area = 0;
     int new_sigma=elem.second;
     int k=elem.second;
-    if(cpm->matrixPixels[{x,y}]==1){
+    if(cpm->matrixPixels[{x,y}]==0){
       // //Do Eden growth
       // // take a random neighbour
       // int xyp=(int)(8*RANDOM()+1);
@@ -437,10 +439,10 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
         // if (rand_spon < par.spontaneous_p+extra_p){
         if (rand_spon < act_p){
           // cout << "Act_neighourhood_product " << Act_neighourhood_product << endl;
-          new_sigma=2;}
+          new_sigma=1;}
       }
     //Rejuvenate adhesions or age them further or do eden growth
-      else if (k>1){
+      else if (k>0){
 
         // if(cpm->matrixPixels[{x,y}]==1){
           //Do Eden growth
@@ -454,11 +456,11 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
           if (cpm->Sigma(x,y)==cpm->Sigma(xp,yp)){
             // if (kp=cpm->GetMatrixLevel(xp,yp)!=-1){
               // cout << "neighbour in cell" << endl;
-              if (kp=1){
+              if (kp=0){
                 //Make site part of adhesion complex if next to adhesion complex
                 double random_double=rand()/double(RAND_MAX);
                 if (random_double<par.eden_p){
-                cpm->matrixPixels[{xp,yp}]=2;}}
+                cpm->matrixPixels[{xp,yp}]=1;}}
               //   else{
               //     new_sigma_p=1;
               // }
@@ -466,22 +468,25 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
               // else{
               //   new_sigma=1;}
             }
-        if (k<par.max_matrix-1){
-          new_sigma=k+value;}
+        // aging, an abandoned idea
+        // if (k<par.max_matrix-1){
+        //   new_sigma=k+value;}
 
         int young_neighbours=0;
         for (int i1=-1;i1<=1;i1++)
           for (int i2=-1;i2<=1;i2++){
-            if (cpm->GetMatrixLevel(x+i1,y+i2)<=1)
+            if (cpm->GetMatrixLevel(x+i1,y+i2)<1)
               young_neighbours+=1;}
 
         if (young_neighbours>0){
           double rand_double=rand()/double(RAND_MAX);
           if (rand_double<par.decay_p){
-            new_sigma=1;}
+            new_sigma=0;}
       }}
       cpm->matrixPixels[{x,y}]=new_sigma;
-    }}
+      adh_area+=new_sigma;
+      dish->getCell(cpm->Sigma(x,y)).SetAdhesiveArea(adh_area);
+    }}}
 //
 //   {int new_sigma[sizex][sizey];
 //     for (int x=1;x<sizex-1;x++)

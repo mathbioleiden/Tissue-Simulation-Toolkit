@@ -559,17 +559,17 @@ DH +=DH_perimeter;
 
 	if( (*cell)[sxyp].sigma>0){
       double strength = 1;
-      double adhesion_fraction = ((double)(*cell)[sxyp].AdhesiveArea()-(double)(*cell)[sxyp].area)/(double)(*cell)[sxyp].area;
+      double adhesion_fraction = ((double)(*cell)[sxyp].AdhesiveArea()/(double)(*cell)[sxyp].area;
 
-      if (adhesion_fraction>0.25){
-        strength = 1;
+      if (adhesion_fraction>0.1){
+        strength = 2;
         // strength = std::max(-1.0*adhesion_fraction+1.25,0.0);
       }
       else{
-        strength= 1+4*adhesion_fraction;
+        strength= 1+4.0*adhesion_fraction;
         // strength= std::max(4.0*adhesion_fraction,0.0);
       }
-            // cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<endl;
+            cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<endl;
 			DH_act-= (par.lambda_Act * strength)/par.max_Act * Act_expanding;
 	}
   if( (*cell)[sxy].sigma>0){
@@ -1128,7 +1128,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
       		if (par.lambda_matrix>0){
             // Update matrix interaction field
       			if (sigma[x][y]>0){
-      			matrixPixels[{x,y}]=1;}
+      			matrixPixels[{x,y}]=0;}
       			else {
       			matrixPixels.erase({x,y});}}
 
