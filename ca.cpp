@@ -559,14 +559,16 @@ DH +=DH_perimeter;
 
 	if( (*cell)[sxyp].sigma>0){
       double strength = 1;
-      // double adhesion_fraction = ((double)(*cell)[sxyp].AdhesiveArea()-(double)(*cell)[sxyp].area)/(double)(*cell)[sxyp].area;
-      //
-      // if (adhesion_fraction>0.25){
-      //   strength = std::max(-1.0*adhesion_fraction+1.25,0.0);
-      // }
-      // else{
-      //   strength= std::max(4.0*adhesion_fraction,0.0);
-      // }
+      double adhesion_fraction = ((double)(*cell)[sxyp].AdhesiveArea()-(double)(*cell)[sxyp].area)/(double)(*cell)[sxyp].area;
+
+      if (adhesion_fraction>0.25){
+        strength = 1;
+        // strength = std::max(-1.0*adhesion_fraction+1.25,0.0);
+      }
+      else{
+        strength= 1+4*adhesion_fraction;
+        // strength= std::max(4.0*adhesion_fraction,0.0);
+      }
             // cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<endl;
 			DH_act-= (par.lambda_Act * strength)/par.max_Act * Act_expanding;
 	}
@@ -1129,7 +1131,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
       			matrixPixels[{x,y}]=1;}
       			else {
       			matrixPixels.erase({x,y});}}
-          
+
         }
     }
   }}}

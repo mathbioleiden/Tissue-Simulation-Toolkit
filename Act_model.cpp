@@ -403,7 +403,8 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
         // double w=par.spontaneous_p;
         //option i
         // extra_p=w*cpm->GetActLevel(x,y)/par.max_Act;
-        double Act_neighbourhood=1;
+        double Act_neighourhood_product=1;
+        double Act_neighourhood_sum=0;
         int nxp =0;
 
 
@@ -411,17 +412,18 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
           		for (int i2=-1;i2<=1;i2++){
 
             		if (cpm->Sigma(x+i1,y+i2)>=0 && cpm->Sigma(x+i1,y+i2)== cpm->Sigma(x,y) ){
-            			Act_neighbourhood *= cpm->GetActLevel(x+i1, y+i2);
+            			Act_neighourhood_product *= cpm->GetActLevel(x+i1, y+i2);
+                  Act_neighourhood_sum += cpm->GetActLevel(x+i1, y+i2);
             			nxp++;
-            		}
-                	Act_neighbourhood= pow(Act_neighbourhood, 1./nxp);
-}
+            		}}
+                	Act_neighourhood_product= pow(Act_neighourhood_product, 1./nxp);
+
         //circular
-        // double act_p=par.spontaneous_p*(1-std::sqrt(1-(Act_neighbourhood/par.max_Act)*(Act_neighbourhood/par.max_Act)));
+        // double act_p=par.spontaneous_p*(1-std::sqrt(1-(Act_neighourhood_product/par.max_Act)*(Act_neighourhood_product/par.max_Act)));
         //sigmoid
-        // double act_p=par.spontaneous_p*(std::exp(Act_neighbourhood/par.max_Act-0.5))/(std::exp(Act_neighbourhood/par.max_Act-0.5)+1);
+        // double act_p=par.spontaneous_p*(std::exp(Act_neighourhood_product/par.max_Act-0.5))/(std::exp(Act_neighourhood_product/par.max_Act-0.5)+1);
         //step neighbourhood
-        double act_p=par.spontaneous_p*((Act_neighbourhood/par.max_Act>0.75)?1:0);
+        double act_p=par.spontaneous_p*((Act_neighourhood_product/par.max_Act>0.75)?1:0);
         //step pixel
         // double act_p=par.spontaneous_p*((cpm->GetActLevel(x,y)/par.max_Act>0.75)?1:0);
 
@@ -434,7 +436,7 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
         double rand_spon = rand()/double(RAND_MAX);
         // if (rand_spon < par.spontaneous_p+extra_p){
         if (rand_spon < act_p){
-          // cout << "Act_neighbourhood " << Act_neighbourhood << endl;
+          // cout << "Act_neighourhood_product " << Act_neighourhood_product << endl;
           new_sigma=2;}
       }
     //Rejuvenate adhesions or age them further or do eden growth
