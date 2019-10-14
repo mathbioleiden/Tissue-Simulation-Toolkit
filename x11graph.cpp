@@ -618,11 +618,46 @@ void X11Graphics::Point( int color, int x, int y)
 
   //  (image_data)[i+j*xfield] = (char)color;
   //} else {
-  if (color<0) color=0;
-  // cout << colors[color].red << " " << colors[color].green << " " << colors[color].blue << endl;
+  if (color<0)
+  { color=0;
+  cout << colors[color].red << " " << colors[color].green << " " << colors[color].blue << endl;
+}
   if (par.graphics)
     XPutPixel(image,x,y,colors[color].pixel);
   movie_data[x+y*xfield]=(unsigned char)color;
+  //}
+}
+
+void X11Graphics::PointAlpha( int alpha, int x, int y)
+{
+  // The following is not necessary for 8-bits graphics
+  // therefore I commented it out.
+  // if (pseudoCol8) {
+
+  //  (image_data)[i+j*xfield] = (char)color;
+  //} else {
+  // if (color<0) color=0;
+  // cout << "start" << endl;
+  float frac_alpha= alpha/255.0;
+  XColor original_pixel;
+  // cout << "getting pixel value" << x << " " << y << endl;
+  original_pixel.pixel=movie_data[x+y*xfield];
+  // cout <<  "setting pixel value to variable"<< endl;
+  // original_pixel.pixel=XGetPixel(image, x, y);
+  // cout << "set values" << endl;
+  XColor overlay;
+  // overlay.red=(int)(1-frac_alpha)*original_pixel.red+alpha;
+  // overlay.green=(int)(1-frac_alpha)*original_pixel.green+alpha;
+  // overlay.blue=(int)(1-frac_alpha)*original_pixel.blue+alpha;
+  overlay.red=2;//(1-alpha)*original_pixel.red;
+  overlay.green=2;//(1-alpha)*original_pixel.green;
+  overlay.blue=2;//(1-alpha)*original_pixel.blue;
+
+  // cout << "here" << endl;
+  // cout << colors[color].red << " " << colors[color].green << " " << colors[color].blue << endl;
+  if (par.graphics)
+    XPutPixel(image,x,y,overlay.pixel);
+  movie_data[x+y*xfield]=(unsigned char)overlay.pixel;
   //}
 }
 

@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -62,30 +62,30 @@ QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
   //but to the QPicture object:
   //picture->drawRect( 20, 20, 160, 160 );
   //picture->end();
-  
+
   //Save what has been drawn to the QPicture
   //object to a file, called file.pic. When
   //you have run this program, a file with this
   //name will be created (in the directory which
   //this program is located in).
   //  pic.save( "file.png" );
-  
+
   // Allocate colors
   pens = new QPen[256];
-	
-  
+
+
   ReadColorTable(pens);
- 
+
 	// Set background color of widget (i.e. the color outside the Pixmap that
 	// will be shown after resizing the window)
 	QPalette pal = palette();
 	pal.setColor(backgroundRole(), pens[0].color());
 	setPalette(pal);
-	
+
   timer = new QTimer( this );
   connect( timer, SIGNAL(timeout()), SLOT(TimeStepWrap()) );
   timer->start( 0 );
-  
+
 
   mouse_button=Qt::NoButton;
   // changed by RM for porting to Win Qt4
@@ -108,6 +108,15 @@ void QtGraphics::Point(int colour, int i, int j) {
 
 }
 
+void QtGraphics::PointAlpha(int alpha, int i, int j) {
+
+  picture->setPen( QPen(0,0,0,alpha) );
+  picture->drawPoint( i, j);
+
+}
+
+QPen p(QColor(r,g,b));
+
 void QtGraphics::BeginScene(void) {
 
   picture->begin(pixmap);
@@ -115,7 +124,7 @@ void QtGraphics::BeginScene(void) {
 }
 
 void QtGraphics::EndScene(void) {
-  
+
   picture->end();
   update();
 }
@@ -127,24 +136,24 @@ void QtGraphics::Line( int x1, int y1,int x2,int y2,int colour ) {
 
 void QtGraphics::ReadColorTable(QPen *pens)
 {
-  
+
   char name[50];
   sprintf(name,"default.ctb");
-   
+
   FILE *fpc;
   if ((fpc = fopen(name,"r")) == NULL) {
-     
+
     char *message=new char[2000];
     if (message==0) {
       throw "Memory panic in QtGraphics::ReadColorTable\n";
     }
-     
+
     sprintf(message,"QtGraphics::ReadColorTable: Colormap '%s' not found.",name);
-     
+
     throw(message);
-     
+
   }
-   
+
   int r,g,b;
   int i;
   while (fscanf(fpc,"%d",&i) != EOF) {
@@ -152,7 +161,7 @@ void QtGraphics::ReadColorTable(QPen *pens)
     QPen p(QColor(r,g,b));
     pens[i]=p;
   }
-   
+
   fclose(fpc);
 
 }
@@ -164,7 +173,7 @@ void QtGraphics::paintEvent( QPaintEvent* )
 //  bitBlt(this, 0, 0, pixmap);
 	QPainter win(this);
 	win.scale(mag,mag);
-	win.drawPixmap(QPoint(0,0),*pixmap);  
+	win.drawPixmap(QPoint(0,0),*pixmap);
   //painter.drawPixmap(QRect(0,0,
 }
 
@@ -179,7 +188,7 @@ void QtGraphics::mouseReleaseEvent( QMouseEvent *) {
 }
 
 void QtGraphics::TimeStepWrap(void) {
-  
+
   //  picture->begin(pixmap);
   static int t=0;
   TimeStep();
@@ -197,7 +206,7 @@ int QtGraphics::GetXYCoo(int *X, int *Y)
   *X = mouse_x;
   *Y = mouse_y;
   switch (mouse_button) {
-  
+
   case Qt::LeftButton:
     return 1;
     break;
@@ -215,16 +224,16 @@ int QtGraphics::GetXYCoo(int *X, int *Y)
 }
 
 void QtGraphics::Write(char *fname, int quality) {
-  
+
   if (fname==0) {
 
     throw("QtGraphics::Write: empty filename!\n");
   }
-  
+
     // replay the picture on image
     // and write it to fname
   QString imname(fname);
-  
+
   // Get file extension to infer desired image format
   QString extension_str = imname.section( '.', -1).toUpper();
     const char *extension = extension_str.toLocal8Bit().constData();
@@ -239,20 +248,20 @@ void QtGraphics::Write(char *fname, int quality) {
       cerr << f->constData() << " ";
     }
     cerr << "\n";
-  } 
+  }
 }
-  
+
 void QtGraphics::resizeEvent(QResizeEvent *event) {
 	qreal old_width=event->oldSize().width();
-	qreal old_heigth=event->oldSize().height();	
-	qreal new_width=event->size().width(); 
+	qreal old_heigth=event->oldSize().height();
+	qreal new_width=event->size().width();
 	qreal new_height=event->size().height();
-	
+
 	if (new_width > new_height) {
 		mag = (double)new_height / (double)init_size_y;
 	} else {
 		mag = (double)new_width / (double)init_size_x;
 	}
-	
-	
+
+
 }

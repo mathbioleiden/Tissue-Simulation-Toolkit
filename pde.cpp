@@ -179,24 +179,24 @@ void PDE::PlotInCells (Graphics *g, CellularPotts *cpm, const int l) {
       // to fit with the CPM plane
       	if( cpm->Sigma(x,y)>0){
 
-          if (par.lambda_Act>0 && l==2){
+          if (par.lambda_Act>0){
                g->Point(MapColour3(cpm->actPixels[{x,y}],l),2*x,2*y);
                g->Point(MapColour3(cpm->actPixels[{x,y}],l),2*x+1,2*y);
                g->Point(MapColour3(cpm->actPixels[{x,y}],l),2*x,2*y+1);
                g->Point(MapColour3(cpm->actPixels[{x,y}],l),2*x+1,2*y+1);}
+         else {
+           		g->Point(255,2*x,2*y);
+           		g->Point(255,2*x+1,2*y);
+           		g->Point(255,2*x,2*y+1);
+           		g->Point(255,2*x+1,2*y+1);}
+        if (par.lambda_matrix>0){
+            if (cpm->matrixPixels[{x,y}]>1){
+            		g->PointAlpha(100,2*x,2*y);
+            		g->PointAlpha(100,2*x+1,2*y);
+            		g->PointAlpha(100,2*x,2*y+1);
+            		g->PointAlpha(100,2*x+1,2*y+1);}
+              }}
 
-      		else if (par.lambda_matrix>0 && l==3){
-            		g->Point(MapColour3(sigma[l][x][y],l),2*x,2*y);
-            		g->Point(MapColour3(sigma[l][x][y],l),2*x+1,2*y);
-            		g->Point(MapColour3(sigma[l][x][y],l),2*x,2*y+1);
-            		g->Point(MapColour3(sigma[l][x][y],l),2*x+1,2*y+1);}
-
-      		else {
-            		g->Point(255,2*x,2*y);
-            		g->Point(255,2*x+1,2*y);
-            		g->Point(255,2*x,2*y+1);
-            		g->Point(255,2*x+1,2*y+1);}
-      				}
     else {if (cpm->Sigma(x,y)==-2){
       g->Point(10,2*x,2*y);
       g->Point(10,2*x+1,2*y);

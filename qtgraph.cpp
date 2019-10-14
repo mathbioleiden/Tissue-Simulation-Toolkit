@@ -106,6 +106,12 @@ void QtGraphics::Point(int colour, int i, int j) {
   picture->drawPoint( i, j);
 
 }
+void QtGraphics::PointAlpha(int alpha, int i, int j) {
+
+  picture->setPen( QPen(QColor(0,0,0,alpha)) );
+  picture->drawPoint( i, j);
+
+}
 
 void QtGraphics::BeginScene(void) {
 

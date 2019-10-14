@@ -429,9 +429,9 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
   else if (par.area_constraint_type == 2){
 	if (sxyp == MEDIUM ) {
 		DH_area+= (int)(par.lambda * (1. -2.*(double)((*cell)[sxy].Area())) +
-    par.lambda_c*((double)((*cell)[sxy].ReferenceAdhesiveArea()*PDEfield->Sigma(3,x,y))/
+    par.lambda_c*((double)((*cell)[sxy].ReferenceAdhesiveArea()*GetMatrixLevel(x,y))/
     (((double)((*cell)[sxy].ReferenceAdhesiveArea()+(double)((*cell)[sxy].AdhesiveArea())-
-    PDEfield->Sigma(3,x,y)))*((double)((*cell)[sxy].ReferenceAdhesiveArea()+
+    GetMatrixLevel(x,y)))*((double)((*cell)[sxy].ReferenceAdhesiveArea()+
     (*cell)[sxy].AdhesiveArea() )))));
 	}
 	else if (sxy == MEDIUM ) {
@@ -446,9 +446,9 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
     (double)((*cell)[sxy].Area())) - par.lambda_c*((double)((*cell)[sxyp].ReferenceAdhesiveArea())/
     (((double)((*cell)[sxyp].ReferenceAdhesiveArea()+(double)((*cell)[sxyp].AdhesiveArea()+1)))*
     ((double)((*cell)[sxyp].ReferenceAdhesiveArea()+(double)((*cell)[sxyp].AdhesiveArea())))) -
-    (double)((*cell)[sxy].ReferenceAdhesiveArea()*PDEfield->Sigma(3,x,y))/
+    (double)((*cell)[sxy].ReferenceAdhesiveArea()*GetMatrixLevel(x,y))/
     (((double)((*cell)[sxy].ReferenceAdhesiveArea()+(double)((*cell)[sxy].AdhesiveArea()-
-    PDEfield->Sigma(3,x,y))))*((double)((*cell)[sxy].ReferenceAdhesiveArea()+
+    GetMatrixLevel(x,y))))*((double)((*cell)[sxy].ReferenceAdhesiveArea()+
     (double)((*cell)[sxy].AdhesiveArea())))    )));
   }
 DH+=DH_area;
@@ -559,26 +559,26 @@ DH +=DH_perimeter;
 
 	if( (*cell)[sxyp].sigma>0){
       double strength = 1;
-      double adhesion_fraction = ((double)(*cell)[sxyp].AdhesiveArea()-(double)(*cell)[sxyp].area)/(double)(*cell)[sxyp].area;
-
-      if (adhesion_fraction>0.25){
-        strength = std::max(-1.0*adhesion_fraction+1.25,0.0);
-      }
-      else{
-        strength= std::max(4.0*adhesion_fraction,0.0);
-      }
-            cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<endl;
+      // double adhesion_fraction = ((double)(*cell)[sxyp].AdhesiveArea()-(double)(*cell)[sxyp].area)/(double)(*cell)[sxyp].area;
+      //
+      // if (adhesion_fraction>0.25){
+      //   strength = std::max(-1.0*adhesion_fraction+1.25,0.0);
+      // }
+      // else{
+      //   strength= std::max(4.0*adhesion_fraction,0.0);
+      // }
+            // cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<endl;
 			DH_act-= (par.lambda_Act * strength)/par.max_Act * Act_expanding;
 	}
   if( (*cell)[sxy].sigma>0){
     double strength =1;
-    double adhesion_fraction = ((*cell)[sxy].AdhesiveArea()-(*cell)[sxy].area)/(*cell)[sxy].area;
-    if (adhesion_fraction>0.25){
-      strength = -1.0*adhesion_fraction+1.25;
-    }
-    else{
-      strength=4.0*adhesion_fraction;
-    }
+    // double adhesion_fraction = ((*cell)[sxy].AdhesiveArea()-(*cell)[sxy].area)/(*cell)[sxy].area;
+    // if (adhesion_fraction>0.25){
+    //   strength = -1.0*adhesion_fraction+1.25;
+    // }
+    // else{
+    //   strength=4.0*adhesion_fraction;
+    // }
 	   DH_act+= (par.lambda_Act * strength)/par.max_Act * Act_retracting;
 		}
 }
@@ -768,7 +768,7 @@ if (par.lambda_persistence)
      		for (int i2=-1;i2<=1;i2++){
 
        		if (sigma[x+i1][y+i2]>=0 && sigma[x+i1][y+i2] == sigma[x][y]){
-       			matrix_retracting *= PDEfield->Sigma(3,x+i1,y+i2);
+       			matrix_retracting *= GetMatrixLevel(x+i1,y+i2);
 						nret++;
        		}
        	}
@@ -788,7 +788,7 @@ if (par.lambda_persistence)
 		}
 }
 	else {if( (*cell)[sxy].AliveP()){
-	   DH+= par.lambda_matrix *pow( PDEfield->Sigma(3,x,y)/par.max_matrix,par.single_site_power);}}
+	   DH+= par.lambda_matrix *pow( GetMatrixLevel(x,y)/par.max_matrix,par.single_site_power);}}
 
 
 }
@@ -796,7 +796,7 @@ if (par.lambda_persistence)
 /****** Matrix interaction retraction yield energy ****/
 int DH_matrix_interaction=0;
 	if ( sxyp == MEDIUM && par.lambda_matrix){// should be done for all retractions, I assume.
-	DH_matrix_interaction+=par.lambda_matrix * (PDEfield->Sigma(3,x,y)-1)/(par.age_saturation + PDEfield->Sigma(3,x,y));
+	DH_matrix_interaction+=par.lambda_matrix * (GetMatrixLevel(x,y)-1);//(par.age_saturation + GetMatrixLevel(x,y));
 	}
 DH+=DH_matrix_interaction;
 
@@ -1110,26 +1110,26 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
             if (ap!=actPixels.end()){
               actPixels.erase({x,y});
             }
-          }
+          }}
           //Update adhesive areas
           if (kp == 0){
-            getCell(k).DecrementAdhesiveArea(PDEfield->Sigma(3,x,y));
+            getCell(k).DecrementAdhesiveArea(GetMatrixLevel(x,y));
           }
           else if (k==0){
             getCell(kp).IncrementAdhesiveArea(1);
           }
           else {
-            getCell(k).DecrementAdhesiveArea(PDEfield->Sigma(3,x,y));
+            getCell(k).DecrementAdhesiveArea(GetMatrixLevel(x,y));
             getCell(kp).IncrementAdhesiveArea(1);
           }
 
       		if (par.lambda_matrix>0){
             // Update matrix interaction field
       			if (sigma[x][y]>0){
-      			PDEfield->setValue(3, x, y, 1);}
+      			matrixPixels[{x,y}]=1;}
       			else {
-      			PDEfield->setValue(3,x,y,0);}}
-          }
+      			matrixPixels.erase({x,y});}}
+          
         }
     }
   }}}
@@ -1457,6 +1457,15 @@ if (it!=actPixels.end()){
   return(0);
   }
  }
+
+ int CellularPotts::GetMatrixLevel(int x, int y){
+ std::unordered_map<std::array<int,2>,int>::const_iterator it =(matrixPixels.find({x,y}));
+ if (it!=matrixPixels.end()){
+   return(it->second);}
+   else{
+   return(0);
+   }
+  }
 
 int CellularPotts:: GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
 
@@ -2797,9 +2806,9 @@ bool CellularPotts::NearbyAdhesionSite(int x, int y, int r, PDE *PDEfield) {
 			int ny = j*pow(-1,s2)+y;
       if (nx>0 && nx<sizex && ny>0 && ny<sizey){
 			int nsxy= sigma[nx][ny];
-			//cout << i<< ", " << j << " ," << s1 << ", " << s2 << ", " << nsxy << ", " << PDEfield->Sigma(3,nx,ny)<< endl;
+			//cout << i<< ", " << j << " ," << s1 << ", " << s2 << ", " << nsxy << ", " << GetMatrixLevel(nx,ny)<< endl;
 			if (sxy==nsxy){
-				if (PDEfield->Sigma(3,nx,ny)>=2){
+				if (GetMatrixLevel(nx,ny)>=2){
 					nearbyadhesion=true;
 
 					//goto stop;
@@ -2823,13 +2832,21 @@ double CellularPotts::CellDensity(void) const {
 
 }
 
-int CellularPotts::ComputeCellMatrixAdhesion( int sxy, PDE *PDEfield) {
+int CellularPotts::ComputeCellMatrixAdhesion( int sxy){//}, PDE *PDEfield) {
 	int age_sum = 0;
-	for (int x=1;x<sizex-1;x++) {
-	for (int y=1;y<sizey-1;y++) {
-			if (Sigma(x,y) == sxy) {
-				age_sum=age_sum +PDEfield->Sigma(3,x,y);}}}
-	return(age_sum);
+	// for (int x=1;x<sizex-1;x++) {
+	// for (int y=1;y<sizey-1;y++) {
+	// 		if (Sigma(x,y) == sxy) {
+	// 			age_sum=age_sum +PDEfield->Sigma(3,x,y);}}}
+	// return(age_sum);
+
+  for (const auto elem: matrixPixels){
+    int x=elem.first[0];
+    int y =elem.first[1];
+    if(Sigma(x,y)==sxy){
+      age_sum+= elem.second;
+    }}
+  return(age_sum);
 }
 
 

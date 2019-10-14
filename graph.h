@@ -51,6 +51,7 @@ class Graphics {
   \param x,y: Coordinate of point, in Graphics coordinates (typically twice as large as the cellular automata coordinates).
   */
   virtual void Point( int color, int x, int y)=0;
+  virtual void PointAlpha( int alpha, int x, int y)=0;
 
   /*! \brief Draws a line (obviously... :-)
 

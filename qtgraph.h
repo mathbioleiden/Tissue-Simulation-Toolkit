@@ -53,6 +53,7 @@ class QtGraphics : public QWidget, public Graphics {
     XFlush(display);
     } */
   virtual void Point( int colour, int i, int j);
+  virtual void PointAlpha( int alpha, int i, int j);
   virtual void Line ( int x1, int y1,int x2,int y2,int colour );
   virtual void Arrow (int x1, int y1, int x2, int y2, int colour);
   /*void Field (const int **r, int mag=1);

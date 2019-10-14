@@ -88,6 +88,7 @@ public:
   }
 
   virtual void Point( int color, int x, int y);
+  virtual void PointAlpha( int color, int x, int y);
   virtual void Line ( int x1, int y1,int x2,int y2,int colour );
   virtual void Arrow( int x1, int y1,int x2,int y2,int colour );
   void Field (const int **r, int mag=1);

@@ -313,7 +313,8 @@ class CellularPotts {
   friend class Morphometry;
 
 public:
-
+  int GetMatrixLevel(int x, int y);
+  int GetActLevel(int x, int y);
   std::unordered_set<std::array<int,2>> alivePixels;
   std::unordered_map<std::array<int,2>,int> actPixels;
   std::unordered_map<std::array<int,2>,int> matrixPixels;
@@ -504,7 +505,7 @@ public:
 
 
   //! \brief Returns the summed age of matrix interactions of specific cell.
-  int ComputeCellMatrixAdhesion( int sxy, PDE *PDEfield);
+  int ComputeCellMatrixAdhesion( int sxy);//, PDE *PDEfield);
 
   //! \brief Returns the mean area of the cells.
   double MeanCellArea(void) const;
@@ -557,7 +558,7 @@ private:
   void SprayMedium(void);
   int CopyvProb(int DH,  double stiff);
   void FreezeAmoebae(void);
-  int GetActLevel(int x, int y);
+
   void MeasureCellSizes(void);
   void MeasureCellSize(Cell &c);
   void CopyProb(double T);

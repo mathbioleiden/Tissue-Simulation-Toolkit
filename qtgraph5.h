@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -47,7 +47,7 @@ class QtGraphics : public QWidget, public Graphics {
     QtGraphics(xfield, yfield, movie_file);
       // set name here somewhere
   }
-  
+
   virtual ~QtGraphics(void);
   virtual void BeginScene(void);
   virtual void EndScene(void);
@@ -55,10 +55,11 @@ class QtGraphics : public QWidget, public Graphics {
     XFlush(display);
     } */
   virtual void Point( int colour, int i, int j);
+  virtual void PointAlpha( int alpha, int i, int j);
   virtual void Line ( int x1, int y1,int x2,int y2,int colour );
   /*void Field (const int **r, int mag=1);
     void PlotNumber(int number, int x, int y);*/
-  
+
   virtual int GetXYCoo(int *X,int *Y);
   /*char *ChangeTitle (const char *message);
   void RecoverTitle(void);*/
@@ -72,7 +73,7 @@ class QtGraphics : public QWidget, public Graphics {
 
     pixmap->fill(pens[0].color());
   }
-  
+
   virtual void TimeStep(void);
 	virtual void resizeEvent( QResizeEvent *event);
   public slots:
@@ -95,19 +96,19 @@ class QtGraphics : public QWidget, public Graphics {
 
   int mouse_x;
   int mouse_y;
-	
+
 	int init_size_x;
 	int init_size_y;
-	
+
 	double mag;
   Qt::MouseButton mouse_button;
 
   // private methods
   void ReadColorTable(QPen *pens);
   QTimer *t;
-  
-  
-  
+
+
+
 };
 
 #include <qapplication.h>
