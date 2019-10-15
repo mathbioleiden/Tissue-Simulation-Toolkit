@@ -290,6 +290,7 @@ void Info::WriteCOMsTorus(std::ostream &out) {
   // double vector_y=dish->getCell(s).getVectorActY();
   int n =dish->getCell(s).Area();
   int p =dish->getCell(s).Perimeter();
+  int a = dish->getCell(s).AdhesiveArea();
 
   out << t << " " << s << " " << com_x << " " << com_y << " " << n <<  " " << p << "\n";}
   t++;

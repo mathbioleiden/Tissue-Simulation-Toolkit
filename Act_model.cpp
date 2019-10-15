@@ -481,7 +481,7 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
 
         if (young_neighbours>0){
           double rand_double=rand()/double(RAND_MAX);
-          if (rand_double<par.decay_p*young_neighbours){
+          if (rand_double<par.decay_p*young_neighbours*young_neighbours/8.0){
             new_sigma=0;}
       }}
       cpm->matrixPixels[{x,y}]=new_sigma;

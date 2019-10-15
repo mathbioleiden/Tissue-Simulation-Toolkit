@@ -798,7 +798,7 @@ if (par.lambda_persistence)
 /****** Matrix interaction retraction yield energy ****/
 int DH_matrix_interaction=0;
 	if ( sxyp == MEDIUM && par.lambda_matrix){// should be done for all retractions, I assume.
-	DH_matrix_interaction+=par.lambda_matrix * (GetMatrixLevel(x,y)-1);//(par.age_saturation + GetMatrixLevel(x,y));
+	DH_matrix_interaction+=par.lambda_matrix * (GetMatrixLevel(x,y));//(par.age_saturation + GetMatrixLevel(x,y));
 	}
 DH+=DH_matrix_interaction;
 
@@ -1118,11 +1118,11 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
             getCell(k).DecrementAdhesiveArea(GetMatrixLevel(x,y));
           }
           else if (k==0){
-            getCell(kp).IncrementAdhesiveArea(1);
+            // getCell(kp).IncrementAdhesiveArea(1);
           }
           else {
             getCell(k).DecrementAdhesiveArea(GetMatrixLevel(x,y));
-            getCell(kp).IncrementAdhesiveArea(1);
+            // getCell(kp).IncrementAdhesiveArea(1);
           }
 
       		if (par.lambda_matrix>0){
