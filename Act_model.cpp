@@ -456,7 +456,7 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
           if (cpm->Sigma(x,y)==cpm->Sigma(xp,yp)){
             // if (kp=cpm->GetMatrixLevel(xp,yp)!=-1){
               // cout << "neighbour in cell" << endl;
-              if (kp=0){
+              if (kp=cpm->GetMatrixLevel(xp,yp)==0){
                 //Make site part of adhesion complex if next to adhesion complex
                 double random_double=rand()/double(RAND_MAX);
                 if (random_double<par.eden_p){
@@ -468,6 +468,7 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
               // else{
               //   new_sigma=1;}
             }
+          // }
         // aging, an abandoned idea
         // if (k<par.max_matrix-1){
         //   new_sigma=k+value;}
