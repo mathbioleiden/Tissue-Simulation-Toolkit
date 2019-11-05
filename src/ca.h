@@ -206,8 +206,14 @@ public:
   */
     int GrowInCells(int n_cells, int cellsize, double subfield=1., CellularPotts::CellDistribution cell_distribution=CellularPotts::Uniform);
   int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y, CellularPotts::CellDistribution cell_distribution=CellularPotts::Uniform);
-    int ScratchAssay(int n_cells, int cell_size, double fraction_of_scratch);
+
+    /* \brief Initialize the CA plane at random with n_states states - useful to demonstrate large-q-Potts algorithm
+     \param n_states: Number of states
+     */
+    int RandomSigma(int n_states);
     
+    int ScratchAssay(int n_cells, int cell_size, double fraction_of_scratch);
+    int GrowCellsInRegion(int n_cells, int cell_size, int sx, int sy, int  offset_x, int offset_y);
   //! \brief Adds a new Cell and returns a reference to it.
   inline Cell &AddCell(Dish &beast) {
     cell->push_back(Cell(beast));

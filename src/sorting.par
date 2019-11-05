@@ -2,7 +2,7 @@
 T = 50
 target_area = 50
 target_length = 0
-lambda = 50
+lambda = 0
 lambda2 = 0
 Jtable = Jengulf.dat
 conn_diss = 0
@@ -28,8 +28,8 @@ pde_its = 15
 # initial conditions (create a "blob" of cells in the middle)
 n_init_cells = 1
 size_init_cells = 50
-sizex = 1000
-sizey = 1000
+sizex = 100
+sizey = 100
 divisions = 7
 mcs = 1000000
 rseed = 93478
@@ -38,8 +38,8 @@ relaxation = 0
 
 # output
 storage_stride = 100
-graphics = false
-store = true
+graphics = true
+store = false
 datadir = data100_orig
 
 

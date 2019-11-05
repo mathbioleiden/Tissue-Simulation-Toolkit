@@ -1,7 +1,7 @@
 TEMPLATE = app 
 GRAPHICS = qt
 CONFIG += console 
-CONFIG += release
+CONFIG += debug
 QT += widgets
 QT += gui
 CONFIG -= debug
@@ -12,7 +12,8 @@ contains( GRAPHICS, qt ) {
   
 }	
 
-TARGET = pacemaker
+#TARGET = pacemaker
+TARGET = qPotts
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
 
 message( $$MAINFILE )
@@ -55,7 +56,7 @@ SOURCES += ca.cpp \
 SOURCES += $$MAINFILE
        
 #QMAKE_CXXFLAGS_RELEASE += -fexceptions
-#QMAKE_CXXFLAGS_DEBUG += -fexceptions
+QMAKE_CXXFLAGS_DEBUG += -fexceptions -g
 #QMAKE_LFLAGS_RELEASE += -O4 
 #QMAKE_CXXFLAGS_RELEASE += -O4
 
