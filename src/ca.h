@@ -90,6 +90,9 @@ public:
     SearchNandPlot(g, false);
   }
   
+    //! Special plotting for Ising model
+    void PlotIsing(Graphics *g, int mag);
+  
   //! Searches the cells' neighbors without plotting
   inline int **SearchNeighbours(void) {
     return SearchNandPlot(0, true);
@@ -103,15 +106,15 @@ public:
     }
     return mass;
   }
-    
-    void SetBoundingBox(void);
 
   /*! Plot the cells according to their cell identity, not their type.
     
   The black lines are omitted.
   */
+    
   void PlotSigma(Graphics *g, int mag=2);
-
+/*! A simple method to count all sigma's and write the output to an ostream */
+    void CountSigma(std::ostream &os);
   
   //! Divide all cells.
     void DivideCells(void) {
@@ -133,7 +136,22 @@ public:
       \return Total energy change during MCS.
     */
     int AmoebaeMove(PDE *PDEfield=0);
+    
+    /*! Implements the core CPM algorithm with Kawasaki dynamics. Carries out one MCS.
+     \return Total energy change during MCS.
+     */
+    int KawasakiMove(PDE *PDEfield=0);
   
+    /*! Implements Metropolis dynamics for the Ising model. Carries out one MCS.
+     \return Total energy change during MCS.
+     */
+    int IsingMove(PDE *PDEfield=0);
+    
+     /*! Implements standard large q-Potts model. Carries out one MCS.
+      \return Total energy change during MCS.
+      */
+    int PottsMove(PDE *PDEfield=0);
+    
     /*! \brief Read initial cell shape from XPM file.
       Reads the initial cell shape from an 
       include xpm picture called "ZYGXPM(ZYGOTE)",
@@ -194,26 +212,20 @@ public:
     a cellsize^2 square.*/
   int ThrowInCells(int n, int cellsize);
 
-    enum CellDistribution {Uniform, Normal};
-    
   /*! \brief Initialize the CA plane with n cells using an Eden growth algorithm.
 
   \param n: Number of cells.
   \param cellsize: Number of Eden growth iterations.
-  \param subfield: Defines a centered frame of size (size/subfield)^2 in which all cell will be positioned.
-   \param CellDistribution: Has value "Uniform" or "Normal" to indicate the type of distribution that will be used to position the initial cells
+  \param subfield: Defines a centered frame of size (size/subfield)^2 in which all cell will be positioned. 
   \return Index of last cell inserted.
   */
-    int GrowInCells(int n_cells, int cellsize, double subfield=1., CellularPotts::CellDistribution cell_distribution=CellularPotts::Uniform);
-  int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y, CellularPotts::CellDistribution cell_distribution=CellularPotts::Uniform);
-
-    /* \brief Initialize the CA plane at random with n_states states - useful to demonstrate large-q-Potts algorithm
-     \param n_states: Number of states
-     */
-    int RandomSigma(int n_states);
+  int GrowInCells(int n_cells, int cellsize, double subfield=1.);
+  int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y);
+    int RandomSpins(double prob);
     
-    int ScratchAssay(int n_cells, int cell_size, double fraction_of_scratch);
-    int GrowCellsInRegion(int n_cells, int cell_size, int sx, int sy, int  offset_x, int offset_y);
+int SquareCell(int sig, int cx, int cy, int size);
+
+  
   //! \brief Adds a new Cell and returns a reference to it.
   inline Cell &AddCell(Dish &beast) {
     cell->push_back(Cell(beast));
@@ -246,15 +258,6 @@ public:
   Jtable in parameter file).
   */
   void SetRandomTypes(void);
-    
-    /*! \brief Give each cell a random cell type.
-     
-     The number of cell types is defined by the J parameter file. (See
-     Jtable in parameter file).
-     
-     The probabilities for each cell type are given in vector<double> probs (non-cumulative)
-     */
-    void SetRandomProbTypes(vector<double> &probs);
 
   /*! Cells grow until twice their original target_length, then
     divide, with rate "growth_rate"
@@ -277,14 +280,20 @@ public:
   double Compactness(double *res_compactness = 0, 
 		     double *res_area = 0, 
 		     double *res_cell_area = 0);
-    
-
+    int RandomSigma(int n_cells);
   
 private:
   void IndexShuffle(void);
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+int KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+int IsingDeltaH(int x,int y, PDE *PDEfield=0);
+    int PottsDeltaH(int x,int y, int new_state);
+    
+    
   bool Probability(int DH);
   void ConvertSpin(int x,int y,int xp,int yp);
+    void ExchangeSpin(int x,int y,int xp,int yp);
+    
   void SprayMedium(void);
   int CopyvProb(int DH,  double stiff);
   void FreezeAmoebae(void);
@@ -312,8 +321,8 @@ protected:
 
 private:
   bool frozen;
-  static const int nx[21], ny[21];
-  static const int nbh_level[4];
+  static const int nx[25], ny[25];
+  static const int nbh_level[5];
   static int shuffleindex[9];
   std::vector<Cell> *cell;
   int zygote_area;
