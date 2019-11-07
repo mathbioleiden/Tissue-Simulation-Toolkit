@@ -152,6 +152,11 @@ public:
       */
     int PottsMove(PDE *PDEfield=0);
     
+    /*! Implements standard large q-Potts model via Neighbor copies.  Carries out one MCS.
+     \return Total energy change during MCS.
+     */
+    int PottsNeighborMove(PDE *PDEfield);
+    
     /*! \brief Read initial cell shape from XPM file.
       Reads the initial cell shape from an 
       include xpm picture called "ZYGXPM(ZYGOTE)",

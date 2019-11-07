@@ -889,6 +889,79 @@ int CellularPotts::IsingMove(PDE *PDEfield)
                           }
                           
 
+//! Monte Carlo Step. Returns summed energy change
+int CellularPotts::PottsNeighborMove(PDE *PDEfield)
+{
+    
+    int loop,p;
+    //int updated=0;
+    thetime++;
+    int SumDH=0;
+    
+    loop=(sizex-2)*(sizey-2);
+    
+    for (int i=0;i<loop;i++) {
+        
+        // take a random site
+        int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
+        int x = xy%(sizex-2)+1;
+        int y = xy/(sizex-2)+1;
+        // take a random neighbour
+        int xyp=(int)(n_nb*RANDOM()+1);
+        int xp = nx[xyp]+x;
+        int yp = ny[xyp]+y;
+        
+        int k=sigma[x][y];
+        
+        int kp;
+        if (par.periodic_boundaries) {
+            
+            // since we are asynchronic, we cannot just copy the borders once
+            // every MCS
+            
+            
+            if (xp<=0)
+                xp=sizex-2+xp;
+            if (yp<=0)
+                yp=sizey-2+yp;
+            if (xp>=sizex-1)
+                xp=xp-sizex+2;
+            if (yp>=sizey-1)
+                yp=yp-sizey+2;
+            
+            kp=sigma[xp][yp];
+            
+            
+        } else {
+            
+            if (xp<=0 || yp<=0
+                || xp>=sizex-1 || yp>=sizey-1)
+                kp=-1;
+            else
+                kp=sigma[xp][yp];
+            
+        }
+        
+        int new_state=(int)(RANDOM()*par.n_init_cells);
+        int D_H=PottsDeltaH(x,y,kp);
+        // cerr << "D_H = " << D_H << endl;
+        if (D_H<0 || (p=CopyvProb(D_H,0)>0)) {
+            
+            sigma[x][y]=kp;
+            //cerr << "[ " << x << ", " << y << "]";
+            SumDH+=D_H;
+            
+        }
+        //std::cerr << "[ " << D_H << ", p = " << p << " ]";
+        
+    }
+    
+    
+    return SumDH;
+    
+}
+
+
 /** A simple method to plot all sigma's in window
     without the black lines */
 void CellularPotts::PlotSigma(Graphics *g, int mag) {
