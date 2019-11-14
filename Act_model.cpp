@@ -54,9 +54,9 @@ INIT {
     // Define initial distribution of cells
     cout<< "Initialization"<< endl;
     // cout << "Pillar present " << CPM->AnyPillar() << endl;
-   CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+   // CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
 // cout << "Pillar present " << CPM->AnyPillar() << endl;
-// CPM->ReadZygotePicture();
+CPM->ReadZygotePicture();
   CPM->ConstructInitCells(*this, 1, par.target_area, par.target_perimeter);
 // cout << "Pillar present " << CPM->AnyPillar() << endl;
 // cout << "Pillar nearby (0,0)" << CPM->IsPillar(0,0)<< endl;
@@ -91,7 +91,6 @@ TIMESTEP {
       //for matrix adhesion
       int new_area=dish->CPM->ComputeCellMatrixAdhesion(s);//,dish->PDEfield);
       dish->getCell(s).SetAdhesiveArea(new_area);
-      // cout << dish->getCell(s).AdhesiveArea() << endl;
 
       // cout << "compute act vector" << endl;
       // schooling vector
@@ -112,7 +111,9 @@ TIMESTEP {
   //  cout << dish->getCell(1).AdhesiveArea() << ", " << dish->CPM->ComputeCellMatrixAdhesion(1,dish->PDEfield)<< endl;
   if (par.max_Act && par.lambda_Act){
     dish->PDEfield->MILayerCA(3,1.,dish->CPM, dish);
-    dish->PDEfield->AgeLayer(2,1.,dish->CPM, dish);}
+    dish->PDEfield->AgeLayer(2,1.,dish->CPM, dish);
+    for (int s=1;s<number_of_cells+1;s++){
+  int new_area=dish->CPM->ComputeCellMatrixAdhesion(s);}}
     if (par.lambda_persistence){
     dish->CPM->ChangeThetas(dish);}
 
@@ -369,7 +370,7 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
       cpm->matrixPixels.erase({x,y});}
     //Make adhesions
     else{
-    int adh_area = 0;
+    // int adh_area = 0;
     int new_sigma=elem.second;
     int k=elem.second;
     if(cpm->matrixPixels[{x,y}]==0){
@@ -485,8 +486,8 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
             new_sigma=0;}
       }}
       cpm->matrixPixels[{x,y}]=new_sigma;
-      adh_area+=new_sigma;
-      dish->getCell(cpm->Sigma(x,y)).SetAdhesiveArea(adh_area);
+      // adh_area+=new_sigma;
+      // dish->getCell(cpm->Sigma(x,y)).SetAdhesiveArea(adh_area);
     }}}
 //
 //   {int new_sigma[sizex][sizey];

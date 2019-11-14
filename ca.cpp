@@ -563,24 +563,23 @@ DH +=DH_perimeter;
       double threshold=0.1;
       if (adhesion_fraction>threshold){
         strength = 2;
-        // strength = std::max(-1.0*adhesion_fraction+1.25,0.0);
-      }
+        }
       else{
         strength= 1+(1.0/threshold)*adhesion_fraction;
-        // strength= std::max(4.0*adhesion_fraction,0.0);
       }
             // cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<" "<< adhesion_fraction <<endl;
 			DH_act-= (par.lambda_Act * strength)/par.max_Act * Act_expanding;
 	}
   if( (*cell)[sxy].sigma>0){
     double strength =1;
-    // double adhesion_fraction = ((*cell)[sxy].AdhesiveArea()-(*cell)[sxy].area)/(*cell)[sxy].area;
-    // if (adhesion_fraction>0.25){
-    //   strength = -1.0*adhesion_fraction+1.25;
-    // }
-    // else{
-    //   strength=4.0*adhesion_fraction;
-    // }
+    double threshold=0.1;
+    double adhesion_fraction = ((*cell)[sxy].AdhesiveArea()-(*cell)[sxy].area)/(*cell)[sxy].area;
+    if (adhesion_fraction>threshold){
+      strength = 2;
+    }
+    else{
+      strength= 1+(1.0/threshold)*adhesion_fraction;
+    }
 	   DH_act+= (par.lambda_Act * strength)/par.max_Act * Act_retracting;
 		}
 }
