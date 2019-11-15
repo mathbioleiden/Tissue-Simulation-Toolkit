@@ -213,6 +213,27 @@ void CellularPotts::AllocateSigma(int sx, int sy) {
 
 }
 
+void CellularPotts::InitializeMatrix(Dish &beast){
+  // sizex; sizey=sy;
+
+  matrix=(int **)malloc(sizex*sizeof(int *));
+  if (matrix==NULL)
+    MemoryWarning();
+
+  matrix[0]=(int *)malloc(sizex*sizey*sizeof(int));
+  if (matrix[0]==NULL)
+    MemoryWarning();
+
+
+  {for (int i=1;i<sizex;i++)
+    matrix[i]=matrix[i-1]+sizey;}
+
+  /* Clear CA plane */
+   {for (int i=0;i<sizex*sizey;i++)
+     matrix[0][i]=0; }
+
+}
+
 void CellularPotts::IndexShuffle() {
 
   int i;
@@ -1129,7 +1150,9 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
       			if (sigma[x][y]>0){
       			matrixPixels[{x,y}]=0;}
       			else {
-      			matrixPixels.erase({x,y});}}
+      			matrixPixels.erase({x,y});}
+
+          }
 
         }
     }
@@ -1458,15 +1481,22 @@ if (it!=actPixels.end()){
   return(0);
   }
  }
-
- int CellularPotts::GetMatrixLevel(int x, int y){
- std::unordered_map<std::array<int,2>,int>::const_iterator it =(matrixPixels.find({x,y}));
- if (it!=matrixPixels.end()){
-   return(it->second);}
-   else{
-   return(0);
-   }
-  }
+//matrixPixels Implementation
+ // int CellularPotts::GetMatrixLevel(int x, int y){
+ // std::unordered_map<std::array<int,2>,int>::const_iterator it =(matrixPixels.find({x,y}));
+ // if (it!=matrixPixels.end()){
+ //   return(it->second);}
+ //   else{
+ //   return(0);
+ //   }
+ //  }
+ //matrix array implementation
+  int CellularPotts::GetMatrixLevel(int x, int y){
+  if (matrix[x][y]>0){
+    return(matrix[x][y]);}
+  else{
+    return(0);
+  }}
 
 int CellularPotts:: GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
 
@@ -2832,24 +2862,40 @@ double CellularPotts::CellDensity(void) const {
   return (double)sum/(double)(sizex*sizey);
 
 }
+//
+// int CellularPotts::ComputeCellMatrixAdhesion( int sxy){//}, PDE *PDEfield) {
+// 	int age_sum = 0;
+// 	// for (int x=1;x<sizex-1;x++) {
+// 	// for (int y=1;y<sizey-1;y++) {
+// 	// 		if (Sigma(x,y) == sxy) {
+// 	// 			age_sum=age_sum +PDEfield->Sigma(3,x,y);}}}
+// 	// return(age_sum);
+//
+//   for (const auto elem: matrixPixels){
+//     int x=elem.first[0];
+//     int y =elem.first[1];
+//     if(Sigma(x,y)==sxy){
+//       age_sum+= elem.second;
+//     }}
+//   return(age_sum);
+// }
 
 int CellularPotts::ComputeCellMatrixAdhesion( int sxy){//}, PDE *PDEfield) {
 	int age_sum = 0;
-	// for (int x=1;x<sizex-1;x++) {
-	// for (int y=1;y<sizey-1;y++) {
-	// 		if (Sigma(x,y) == sxy) {
-	// 			age_sum=age_sum +PDEfield->Sigma(3,x,y);}}}
-	// return(age_sum);
+	for (int x=1;x<sizex-1;x++) {
+	for (int y=1;y<sizey-1;y++) {
+			if (Sigma(x,y) == sxy) {
+				age_sum+=matrix[x][y];}}}
+	return(age_sum);
 
-  for (const auto elem: matrixPixels){
-    int x=elem.first[0];
-    int y =elem.first[1];
-    if(Sigma(x,y)==sxy){
-      age_sum+= elem.second;
-    }}
-  return(age_sum);
+  // for (const auto elem: matrixPixels){
+  //   int x=elem.first[0];
+  //   int y =elem.first[1];
+  //   if(Sigma(x,y)==sxy){
+  //     age_sum+= elem.second;
+  //   }}
+  // return(age_sum);
 }
-
 
 double CellularPotts::MeanCellArea(void) const {
 

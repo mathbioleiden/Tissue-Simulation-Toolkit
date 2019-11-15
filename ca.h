@@ -317,6 +317,7 @@ public:
   int GetActLevel(int x, int y);
   std::unordered_set<std::array<int,2>> alivePixels;
   std::unordered_map<std::array<int,2>,int> actPixels;
+  int **matrix;
   std::unordered_map<std::array<int,2>,int> matrixPixels;
   bool AnyPillar();
   bool IsPillar(int x, int y);
@@ -336,6 +337,7 @@ public:
   // Every time AllocateSigma is called in the base class methods
   // the function belonging the actual type will be called
   virtual void AllocateSigma(int sx, int sy);
+  virtual void InitializeMatrix(Dish &beast);
 
   // destructor must also be virtual
   virtual ~CellularPotts();

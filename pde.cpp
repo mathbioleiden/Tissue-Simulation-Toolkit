@@ -190,7 +190,7 @@ void PDE::PlotInCells (Graphics *g, CellularPotts *cpm, const int l) {
            		g->Point(255,2*x,2*y+1);
            		g->Point(255,2*x+1,2*y+1);}
         if (par.lambda_matrix>0){
-            if (cpm->matrixPixels[{x,y}]>0){
+            if (cpm->matrix[x][y]>0){
             		g->PointAlpha(100,2*x,2*y);
             		g->PointAlpha(100,2*x+1,2*y);
             		g->PointAlpha(100,2*x,2*y+1);
