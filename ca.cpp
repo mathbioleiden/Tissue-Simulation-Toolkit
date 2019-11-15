@@ -1148,9 +1148,13 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
       		if (par.lambda_matrix>0){
             // Update matrix interaction field
       			if (sigma[x][y]>0){
-      			matrixPixels[{x,y}]=0;}
+      			// matrixPixels[{x,y}]=0;
+            matrix[x][y]=0;
+            }
       			else {
-      			matrixPixels.erase({x,y});}
+      			// matrixPixels.erase({x,y});
+            matrix[x][y]=0;
+          }
 
           }
 

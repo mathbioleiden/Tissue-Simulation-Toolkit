@@ -85,19 +85,20 @@ TIMESTEP {
 		//	dish->PDEfield->InitializeAgeLayer(2,0.,dish->CPM);
 			//dish->PDEfield->InitializeMILayer(3,1.,dish->CPM);
 	//	}
-    int number_of_cells=dish->CountCells();
-    for (int s=1;s<number_of_cells+1;s++){
+    // int number_of_cells=dish->CountCells();
+    // for (int s=1;s<number_of_cells+1;s++){
       // cout << "compute cell matrix adhesion" << endl;
 
       //for matrix adhesion
-      int new_area=dish->CPM->ComputeCellMatrixAdhesion(s);//,dish->PDEfield);
-      dish->getCell(s).SetAdhesiveArea(new_area);
-
+      // cout << "before " << dish->getCell(s).GetAdhesiveArea() << endl;
+      // int new_area=dish->CPM->ComputeCellMatrixAdhesion(s);//,dish->PDEfield);
+      // dish->getCell(s).SetAdhesiveArea(new_area);
+      // cout << "after " << dish->getCell(s).GetAdhesiveArea() << endl;
       // cout << "compute act vector" << endl;
       // schooling vector
       // dish->CPM->ComputeActVector(dish->getCell(s),dish->PDEfield);
 
-    }
+    // }
       // cout << "Cell 1, cell 2 neighbours: " << dish->CPM->GetNeighbourMatrix()[1][2] << endl;
       // cout << "Cell 2, cell 1 neighbours: " << dish->CPM->GetNeighbourMatrix()[2][1] << endl;}
       // for (int i=0;i<=number_of_cells;i++){
@@ -113,8 +114,9 @@ TIMESTEP {
   if (par.max_Act && par.lambda_Act){
     dish->PDEfield->MILayerCA(3,1.,dish->CPM, dish);
     dish->PDEfield->AgeLayer(2,1.,dish->CPM, dish);
-    for (int s=1;s<number_of_cells+1;s++){
-  int new_area=dish->CPM->ComputeCellMatrixAdhesion(s);}}
+  //   for (int s=1;s<number_of_cells+1;s++){
+  // int new_area=dish->CPM->ComputeCellMatrixAdhesion(s);}
+}
     if (par.lambda_persistence){
     dish->CPM->ChangeThetas(dish);}
 
@@ -371,6 +373,7 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
     // //Make adhesions
     // else{
     // int adh_area = 0;
+    int sigma_c=cpm->Sigma(x,y);
     int new_sigma=cpm->matrix[x][y];//elem.second;
     int k=cpm->matrix[x][y];//elem.second;
     if(cpm->GetMatrixLevel(x,y)==0){
@@ -410,13 +413,14 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
                 double random_double=rand()/double(RAND_MAX);
                 if (random_double<par.eden_p){
                 cpm->matrix[xp][yp]=1;
+                cpm->getCell(sigma_c).IncrementAdhesiveArea(1);
                 }}
             }
 
         int young_neighbours=0;
         for (int i1=-1;i1<=1;i1++)
           for (int i2=-1;i2<=1;i2++){
-            if (cpm->GetMatrixLevel(x+i1,y+i2)<1 && cpm->Sigma(x,y)==cpm->Sigma(x+i2,y+i2))
+            if (cpm->GetMatrixLevel(x+i1,y+i2)<1)// && cpm->Sigma(x,y)==cpm->Sigma(x+i2,y+i2))
               young_neighbours+=1;}
 
         if (young_neighbours>0){
@@ -425,6 +429,10 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
             new_sigma=0;}
       }}
       cpm->matrix[x][y]=new_sigma;
+      if (new_sigma==0 && k>0)
+        cpm->getCell(sigma_c).DecrementAdhesiveArea(k);
+      if (new_sigma>0 && k==0)
+        cpm->getCell(sigma_c).IncrementAdhesiveArea(new_sigma);
     }}
 
 

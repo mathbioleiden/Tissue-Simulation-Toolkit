@@ -178,6 +178,10 @@ public:
     return adhesive_area=new_area;
   }
 
+  inline int GetAdhesiveArea() {
+    return adhesive_area;
+  }
+
   inline void SetBorderNumber(double n){
     border=n;
   }
@@ -437,6 +441,15 @@ al. 2000). The current version of TST does not include such functionality.
   */
   void MeasureCellSize(Cell &c);
 
+  //! Increments the cell's actual adhesive area by 1 unit.
+    inline int IncrementAdhesiveArea(int increment) {
+      return adhesive_area=adhesive_area+increment;
+    }
+
+  //! Decrement the cell's actual adhesive area by 1 unit.
+    inline int DecrementAdhesiveArea(int decrement) {
+      return adhesive_area=adhesive_area-decrement;
+    }
 
 
 
@@ -551,6 +564,7 @@ private:
   double GetNewLengthIfXYWereRemoved(int x, int y);
 
 
+
 private:
 //! Increments the cell's actual area by 1 unit.
   inline int IncrementArea() {
@@ -569,15 +583,7 @@ private:
 
 
 
-//! Increments the cell's actual adhesive area by 1 unit.
-  inline int IncrementAdhesiveArea(int increment) {
-    return adhesive_area=adhesive_area+increment;
-  }
 
-//! Decrement the cell's actual adhesive area by 1 unit.
-  inline int DecrementAdhesiveArea(int decrement) {
-    return adhesive_area=adhesive_area-decrement;
-  }
 
  //! Increments the cell's actual perimeter by 1 unit.
   inline int IncrementPerimeter(){
