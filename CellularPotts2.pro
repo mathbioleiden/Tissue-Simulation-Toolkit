@@ -1,7 +1,7 @@
 TEMPLATE = app
 GRAPHICS = qt
 CONFIG += console
-CONFIG -= release
+CONFIG += release
 CONFIG += debug
 CONFIG -= app_bundle
 

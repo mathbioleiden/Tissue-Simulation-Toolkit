@@ -1478,13 +1478,17 @@ return perim;
 }
 
 int CellularPotts::GetActLevel(int x, int y){
-std::unordered_map<std::array<int,2>,int>::const_iterator it =(actPixels.find({x,y}));
-if (it!=actPixels.end()){
-  return(it->second);}
-  else{
-  return(0);
-  }
- }
+if (sigma[x][y]>0)
+  return(actPixels[{x,y}]);
+else
+  return(0);}
+// std::unordered_map<std::array<int,2>,int>::const_iterator it =(actPixels.find({x,y}));
+// if (it!=actPixels.end()){
+//   return(it->second);}
+//   else{
+//   return(0);
+//   }
+//  }
 //matrixPixels Implementation
  // int CellularPotts::GetMatrixLevel(int x, int y){
  // std::unordered_map<std::array<int,2>,int>::const_iterator it =(matrixPixels.find({x,y}));
