@@ -376,26 +376,37 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
     int sigma_c=cpm->Sigma(x,y);
     int new_sigma=cpm->matrix[x][y];//elem.second;
     int k=cpm->matrix[x][y];//elem.second;
+    //add new matrix adhesion at sites with locally high enough Act,
+    //first also check current pixel Act, because if lower than 0.075*par.max_Act
+    //the geometric mean will never be higher than 0.75*max_Act
     if(cpm->GetMatrixLevel(x,y)==0){
+      if (cpm->GetActLevel(x,y)>0.075*par.max_Act){
         double Act_neighourhood_product=1;
-        double Act_neighourhood_sum=0;
+        // double Act_neighourhood_sum=0;
         int nxp =0;
-
-
-          	for (int i1=-1;i1<=1;i1++)
-          		for (int i2=-1;i2<=1;i2++){
-
+        bool insufficient_act=false;
+      	for (int i1=-1;i1<=1;i1++){
+          if (insufficient_act==true){
+            break;
+          }
+        		for (int i2=-1;i2<=1;i2++){
             		if (cpm->Sigma(x+i1,y+i2)>=0 && cpm->Sigma(x+i1,y+i2)== cpm->Sigma(x,y) ){
-            			Act_neighourhood_product *= cpm->GetActLevel(x+i1, y+i2);
-                  Act_neighourhood_sum += cpm->GetActLevel(x+i1, y+i2);
+                  double current_act=cpm->GetActLevel(x+i1,y+i2);
+                  insufficient_act=(current_act<0.075*par.max_Act);
+                  if (insufficient_act==true){
+                    break;
+                  }
+            			Act_neighourhood_product *= current_act;
+                  // Act_neighourhood_sum += cpm->GetActLevel(x+i1, y+i2);
             			nxp++;
-            		}}
-                	Act_neighourhood_product= pow(Act_neighourhood_product, 1./nxp);
+            		}}}
+        if (insufficient_act==false){
+      	Act_neighourhood_product= pow(Act_neighourhood_product, 1./nxp);
         double act_p=par.spontaneous_p*((Act_neighourhood_product/par.max_Act>0.75)?1:0);
         double rand_spon = rand()/double(RAND_MAX);
         if (rand_spon < act_p){
           new_sigma=1;}
-      }
+      }}}
       else if (k>0){
           //Do Eden growth
           // take a random neighbour
