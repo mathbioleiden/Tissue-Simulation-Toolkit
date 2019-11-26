@@ -594,7 +594,7 @@ DH +=DH_perimeter;
   if( (*cell)[sxy].sigma>0){
     double strength =1;
     double threshold=0.1;
-    double adhesion_fraction = ((*cell)[sxy].AdhesiveArea()-(*cell)[sxy].area)/(*cell)[sxy].area;
+    double adhesion_fraction = (double)(*cell)[sxy].AdhesiveArea()/(double)(*cell)[sxy].area;
     if (adhesion_fraction>threshold){
       strength = 2;
     }
