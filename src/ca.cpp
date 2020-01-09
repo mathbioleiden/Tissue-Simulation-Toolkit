@@ -304,7 +304,7 @@ int CellularPotts::PottsDeltaH(int x,int y, int new_state)
         }
         
         if (neigh_sxy==-1) { // border
-            cerr << "Only periodic boundaries implemented for Kawasaki dynamics sofar.\n";
+            cerr << "Only periodic boundaries implemented for Potts dynamics sofar.\n";
             exit(1);
             //  DH += (sxyp==0?0:par.border_energy)-
             //  (sxy==0?0:par.border_energy);
@@ -849,7 +849,7 @@ int CellularPotts::IsingMove(PDE *PDEfield)
 }
                           
 
-                          //! Monte Carlo Step. Returns summed energy change
+//! Monte Carlo Step. Returns summed energy change
                           int CellularPotts::PottsMove(PDE *PDEfield)
             {
                 
@@ -1854,6 +1854,7 @@ void CellularPotts::SetRandomTypes(void) {
        c++) {
     
     int celltype = RandomNumber(Cell::maxtau);
+      cerr << "Setting celltype " << celltype << endl;
     c->setTau(celltype);
     
   } 

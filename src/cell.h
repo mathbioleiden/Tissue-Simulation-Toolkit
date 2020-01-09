@@ -397,6 +397,10 @@ private:
   inline double Length(long int s_x,long int s_y,long int s_xx,
 				long int s_yy,long int s_xy,long int n) {
     
+      // prevent NaN when last pixel is deleted
+      if (n==0) {
+          return 0.;
+      }
     // inertia tensor (constructed from the raw momenta, see notebook)
     double iyy=(double)s_xx-(double)s_x*s_x/(double)n;
     double ixx=(double)s_yy-(double)s_y*s_y/(double)n;
