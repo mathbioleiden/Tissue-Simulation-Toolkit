@@ -50,9 +50,9 @@ INIT {
   try {
 
     // Define initial distribution of cells
-    //CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+    CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
       cerr << "About to RandomSigma\n";
-      CPM->RandomSigma(par.n_init_cells);
+     // CPM->RandomSigma(par.n_init_cells);
       cerr << "About to ConstructInitCells\n";
       
     CPM->ConstructInitCells(*this);

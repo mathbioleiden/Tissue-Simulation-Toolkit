@@ -1233,7 +1233,7 @@ void CellularPotts::ConstructInitCells (Dish &beast) {
   // set all cell areas to the mean area
   {
     for (vector<Cell>::iterator c=cell->begin();c!=cell->end();c++) {
-      if (par.target_area) {
+      if (par.target_area>=0) {
 	c->SetTargetArea(par.target_area);
       } else	 {
 	c->SetTargetArea(mean_area);

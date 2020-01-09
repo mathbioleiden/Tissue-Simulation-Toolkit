@@ -97,7 +97,7 @@ TIMESTEP {
       //ChangeTitle(title);
       EndScene();
       info->Menu();
-         dish->CPM->SetBoundingBox();
+         //dish->CPM->SetBoundingBox();
     }
   
     if (par.store && !(i%par.storage_stride)) {
