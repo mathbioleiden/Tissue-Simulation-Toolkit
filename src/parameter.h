@@ -71,7 +71,7 @@ class Parameter {
   char * datadir;
   char * xmloutput;
   char * xmlinput;
-  
+  bool useopencl; 
  private:
 };
 
