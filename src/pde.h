@@ -301,8 +301,11 @@ private:
   cl::Buffer buffer_sigmacell;
   cl::Buffer buffer_sigmapdeA;
   cl::Buffer buffer_sigmapdeB;
+  cl::Buffer buffer_diff_coeff;
   cl::Kernel kernel_SecreteAndDiffuse;
 };
+
+
 
 
 #endif
