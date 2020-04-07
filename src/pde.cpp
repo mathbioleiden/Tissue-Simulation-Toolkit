@@ -284,12 +284,19 @@ void PDE::SetupOpenCL(){
     }
   
   //Secretion and diffusion variables
-  const double dt=par.dt;
-  const double dx2=par.dx*par.dx;
-  const int btype = 1; 
-
-  for (int x = 0; x < layers; x++){
-  cout << "DIFFCOEFF: "<< par.diff_coeff[x] << endl;
+  double dt=par.dt;
+  double dx2=par.dx*par.dx;
+  int btype; 
+  
+  //determine boundary type
+  if (par.gradient){
+    btype=1;
+  }
+  else if(par.periodic_boundaries){
+    btype=2;
+  }
+  else{
+  btype = 3;
   }
 
   //Allocate memory on the GPU
