@@ -291,11 +291,17 @@ private:
    
   //Setup OpenCL for the Diffuse() function
    void SetupOpenCL();
+  
   //OpenCL variables
   bool openclsetup = false;
   cl::Context context;
   cl::Program program;
   cl::Device default_device;  
+  cl::CommandQueue queue;
+  cl::Buffer buffer_sigmacell;
+  cl::Buffer buffer_sigmapdeA;
+  cl::Buffer buffer_sigmapdeB;
+  cl::Kernel kernel_SecreteAndDiffuse;
 };
 
 
