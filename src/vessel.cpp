@@ -43,11 +43,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "x11graph.h"
 #endif
 
-//time measurements
-#include <chrono> 
-using namespace std::chrono; 
-
-
 
 using namespace std;
 static Dish *dish;
@@ -60,9 +55,8 @@ INIT {
     SetMultiCellDSCells();
       
     // Define initial distribution of cells
-     if (!par.load_xml){
-     CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
-     }
+     //CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+    
      CPM->ConstructInitCells(*this);
     
     // If we have only one big cell and divide it a few times
@@ -94,21 +88,15 @@ TIMESTEP {
     // secretion and chemotaxis only starts
     // after relaxation of initial condition
     if (i>=par.relaxation) {
-	auto start = high_resolution_clock::now();
-      if(par.useopencl)  dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);
-      else
       for (int r=0;r<par.pde_its;r++) {
+	
 	dish->PDEfield->Secrete(dish->CPM);
-        dish->PDEfield->Diffuse(1);}
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    cout <<  "Diffuse + Secrete: " << duration.count() << endl;
+	dish->PDEfield->Diffuse(1);
+
+      }
     }
-    auto start = high_resolution_clock::now(); 
     dish->CPM->AmoebaeMove(dish->PDEfield);
-    auto stop = high_resolution_clock::now(); 
-    auto duration = duration_cast<microseconds>(stop - start); 
-    cout <<  "Amoebamove: " << duration.count() << endl; 
+    
     
     if (par.graphics && !(i%par.storage_stride)) {
       
@@ -169,9 +157,10 @@ TIMESTEP {
 void PDE::Secrete(CellularPotts *cpm) {
 
   const double dt=par.dt;
+
   for (int x=0;x<sizex;x++)
     for (int y=0;y<sizey;y++) {
-      // inside cellsconst double dx2=par.dx*par.dx;
+      // inside cells
       if (cpm->Sigma(x,y)) {
 	
 	sigma[0][x][y]+=par.secr_rate[0]*dt;
@@ -204,14 +193,10 @@ int main(int argc, char *argv[]) {
     
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
-    if (par.load_xml){
-        dish=new Dish(par.xmlinput);
-        }
-    else{
-        dish=new Dish();
-        }
+    dish=new Dish("longcells-tmp/extend02000.xml");
+    //dish=new Dish();
     QtGraphics g(par.sizex*2,par.sizey*2);
-    //a.setMainWidget( &g );
+    a.setMainWidget( &g );
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
 
     if (par.graphics)

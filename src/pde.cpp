@@ -20,11 +20,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA
 
 */
-
-
-#include <fstream>
-#include <iostream>
-#include <sstream> 
 #include <stdio.h>
 #include <math.h>
 #include <cstdlib>
@@ -38,15 +33,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <MultiCellDS-pimpl.hpp>
 #include <MultiCellDS-simpl.hpp>
 
-#include <CL/cl.hpp>
-
-
 /* STATIC DATA MEMBER INITIALISATION */
 const int PDE::nx[9] = {0, 1, 1, 1, 0,-1,-1,-1, 0 };
 const int PDE::ny[9] = {0, 1, 0,-1,-1,-1, 0, 1, 1 };
 
 extern Parameter par;
-
 
 /** PRIVATE **/
 
@@ -60,6 +51,7 @@ PDE::PDE(const int l, const int sx, const int sy) {
   
   sigma=AllocateSigma(l,sx,sy);
   alt_sigma=AllocateSigma(l,sx,sy);
+  
 }
 
 
@@ -182,212 +174,6 @@ void PDE::ContourPlot(Graphics *g, int l, int colour) {
   
   
  
-}
-
-
-
-void PDE::SecreteAndDiffuse(CellularPotts *cpm, int repeat){
-  //Secrete
-  for (int re = 0; re < repeat; re++){
-  const double dt=par.dt;
-  const double dx2=par.dx*par.dx;
-  
-  for (int x=0;x<sizex;x++)
-    for (int y=0;y<sizey;y++) {
-      // inside cells
-      if (cpm->Sigma(x,y)) {
-
-        sigma[0][x][y]+=par.secr_rate[0]*dt;
-
-      } else {
-      // outside cells
-        sigma[0][x][y]-=par.decay_rate[0]*dt*sigma[0][x][y];
-      }
-    } 
-  //Diffuse
-  if (par.gradient) {
-          NoFluxBoundaries();
-          for (int i=0;i<sizex;i++) {
-              sigma[0][i][0]=0.;
-              sigma[0][i][sizey-1]=1.;
-          }
-      } else {
-
-    if (par.periodic_boundaries) {
-      PeriodicBoundaries();
-    } else {
-      AbsorbingBoundaries();
-      //NoFluxBoundaries();
-    }
-      }
-    for (int l=0;l<layers;l++) {
-      for (int x=1;x<sizex-1;x++)
-        for (int y=1;y<sizey-1;y++) {
-
-          double sum=0.;
-          sum+=sigma[l][x+1][y];
-          sum+=sigma[l][x-1][y];
-          sum+=sigma[l][x][y+1];
-          sum+=sigma[l][x][y-1];
-
-          sum-=4*sigma[l][x][y];
-          alt_sigma[l][x][y]=sigma[l][x][y]+sum*dt*par.diff_coeff[l]/dx2;
-
-        }
-    }
-    double ***tmp;
-    tmp=sigma;
-    sigma=alt_sigma;
-    alt_sigma=tmp;
-
-    thetime+=dt;
-    }  
-}
-
-
-void PDE::SetupOpenCL(){
-  openclsetup = true;
-//get all platforms (drivers)
-  std::vector<cl::Platform> all_platforms;
-  cl::Platform::get(&all_platforms);
-  if(all_platforms.size()==0){
-      std::cout<<" No platforms found. Check OpenCL installation!\n";
-      exit(1);
-  }
-  cl::Platform default_platform=all_platforms[0];
-  std::cout << "Using platform: "<< default_platform.getInfo<CL_PLATFORM_NAME>()<<"\n";  
-
-  //get default device of the default platform
-  std::vector<cl::Device> all_devices;
-  default_platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
-  if(all_devices.size()==0){
-      std::cout<<" No devices found. Check OpenCL installation!\n";
-      exit(1);
-  }
-
-  default_device=all_devices[0];
-  std::cout<< "Using device: "<<default_device.getInfo<CL_DEVICE_NAME>()<<"\n";  
-  context = cl::Context({default_device});
-  cl::Program::Sources sources;
- 
-
-
-  std::ifstream inFile;
-  inFile.open("pdeCLcore.c"); //open the input file
-
-  std::stringstream strStream;
-  strStream << inFile.rdbuf(); //read the file
-  std::string kernel_code  = strStream.str(); //str holds the content of the file
-  std::cout << kernel_code << "\n";
-
-  sources.push_back({kernel_code.c_str(),kernel_code.length()});
-  program =  cl::Program(context,sources);
-  if(program.build({default_device})!=CL_SUCCESS){
-        std::cout<<" Error building: "<<program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device)<<"\n";
-        exit(1);
-    }
-}
-
-
-void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat){
-   if (!openclsetup  ){this->SetupOpenCL();}
-   const double dt=par.dt;
-   const double dx2=par.dx*par.dx;
-   int step = 0;
-   int AB = 1;   
-  //for (int index = 0; index < repeat; index ++){
-    int errorcode = 0;
-    cl::CommandQueue queue = cl::CommandQueue(context,default_device);
-    cl::Buffer buffer_sigmacell   (context, CL_MEM_READ_WRITE, sizeof(int)*sizex*sizey); 
-    cl::Buffer buffer_sigmapdeA  (context, CL_MEM_READ_WRITE, sizeof(double)*sizex*sizey*layers);
-    cl::Buffer buffer_sigmapdeB (context, CL_MEM_READ_WRITE, sizeof(double)*sizex*sizey*layers);
-    int test[] = {1,2,3};
-   /* 
-    for (int x=0;x<sizex;x++){
-      for (int y = 0; y<sizey; y++){
-      sigma[0][x][y] = (double) y;
-      cout << sigma[0][x][y] << " ";
-      }
-     }*/
-    queue.enqueueWriteBuffer(buffer_sigmacell,   CL_TRUE, 0, sizeof(int)*sizex*sizey, cpm->getSigma()[0]);
-    queue.enqueueWriteBuffer(buffer_sigmapdeA,  CL_TRUE, 0, sizeof(double)*sizex*sizey*layers, sigma[0][0]);
-
-    cl::Kernel kernel_SecreteAndDiffuse(program,"SecreteAndDiffuse");    
-    
-     
-    kernel_SecreteAndDiffuse.setArg(0, buffer_sigmacell);
-   // kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeA);
-   // kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeB);
-    kernel_SecreteAndDiffuse.setArg(3, sizeof(int), &sizex);
-    kernel_SecreteAndDiffuse.setArg(4, sizeof(int), &sizey);
-    kernel_SecreteAndDiffuse.setArg(5, sizeof(int), &layers);
-    kernel_SecreteAndDiffuse.setArg(6, sizeof(double), par.decay_rate);
-    kernel_SecreteAndDiffuse.setArg(7, sizeof(double), &dt);
-    kernel_SecreteAndDiffuse.setArg(8, sizeof(double), &dx2);
-    kernel_SecreteAndDiffuse.setArg(9, sizeof(double), par.diff_coeff);
-    kernel_SecreteAndDiffuse.setArg(10,sizeof(double), par.secr_rate);
-
-    
-  // Step 1 Secrete
-    errorcode = kernel_SecreteAndDiffuse.setArg(11, sizeof(int),  &step);
-    for (int index = 0; index < repeat; index ++){
-    if (AB == 1) AB = 0;
-    else AB = 1; 
-    //kernel_SecreteAndDiffuse.setArg(12, sizeof(int),  &AB);
-    if(AB == 0){ 
-    kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeA);
-    kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeB); 
-    }
-    else{
-    kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeB);
-    kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeA);
-    }
-    errorcode = queue.enqueueNDRangeKernel(kernel_SecreteAndDiffuse, cl::NullRange, cl::NDRange(sizex*sizey*layers), cl::NullRange);   
-    errorcode = queue.finish();
-    if (errorcode != 0){printf("OH SHIT ERROR IN SECRETE SHIT FUCK OMG"); exit(0);}
-
-    }
-
-    //Step 2 diffuse
-    step = 1;
-    kernel_SecreteAndDiffuse.setArg(11, sizeof(int),  &step);
-
-    if (AB == 1) AB = 0;
-    else AB = 1;
-
-    for (int index = 0; index < repeat; index ++){
-    if (AB == 1) AB = 0;
-    else AB = 1;
-    if(AB == 0){
-    kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeA);
-    kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeB);
-    }
-    else{
-    kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeB);
-    kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeA);
-    }
-    errorcode = queue.enqueueNDRangeKernel(kernel_SecreteAndDiffuse, cl::NullRange, cl::NDRange(sizex*sizey*layers), cl::NullRange);
-    errorcode = queue.finish();
-    if (errorcode != 0){printf("OH SHIT ERROR IN DIFFUSE SHIT FUCK OMG");}
-    }
-    
-    if (AB == 0) queue.enqueueReadBuffer(buffer_sigmapdeB,CL_TRUE,0,sizeof(double)*sizex*sizey*layers, sigma[0][0]);
-    else queue.enqueueReadBuffer(buffer_sigmapdeA,CL_TRUE,0,sizeof(double)*sizex*sizey*layers, sigma[0][0]);
-   
-    if (errorcode != CL_SUCCESS){
-      cout << "error:" << errorcode << endl;
-    }
-    
-    thetime += dt;
-    /*for (int x=0;x<sizex;x++){
-      for (int y = 0; y<sizey; y++){
-      cout << sigma[0][x][y] << " ";
-      }
-    cout << "\n";
-  /
-    }
-   }*/
-
 }
 
 

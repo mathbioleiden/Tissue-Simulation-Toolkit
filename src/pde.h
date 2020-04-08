@@ -29,11 +29,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <string>
 #include "graph.h"
 
+
 #include <MultiCellDS.hpp>
 #include <MultiCellDS-pimpl.hpp>
 #include <MultiCellDS-simpl.hpp>
-
-#include <CL/cl.hpp>
 
 class CellularPotts;
 class PDE {
@@ -157,12 +156,6 @@ class PDE {
     return min;
   }
   
- 
-  //Combination of the Secrete and diffuse functions
-  void SecreteAndDiffuse(CellularPotts *cpm, int repeat);
-  //Secrete and diffuse functions accelerated by OpenCL (Use SetupOpenCL function first)
-  void SecreteAndDiffuseCL(CellularPotts *cpm, int repeat);
-
   /*! \brief Carry out $n$ diffusion steps for all PDE planes.
     
   We use a forward Euler method here. Can be replaced for better algorithm.
@@ -242,7 +235,7 @@ class PDE {
   void PlotVectorField(Graphics &g, int stride, int linelength, int first_grad_layer=1);
   void AddToMultiCellDS(MultiCellDS *mcds);
   int ReadFromMultiCellDS(MultiCellDS *mcds);
-  void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
+    void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
     
  protected:
 
@@ -288,14 +281,7 @@ private:
   static const int nx[9], ny[9];
   double thetime;
     std::vector<std::string> species_names;
-   
-  //Setup OpenCL for the Diffuse() function
-   void SetupOpenCL();
-  //OpenCL variables
-  bool openclsetup = false;
-  cl::Context context;
-  cl::Program program;
-  cl::Device default_device;  
+
 };
 
 

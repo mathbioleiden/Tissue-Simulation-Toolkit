@@ -74,7 +74,6 @@ Parameter::Parameter() {
   datadir = strdup("data_film");
   xmloutput = strdup("outstate.xml");
   xmlinput = strdup("false");
-  useopencl = true;
 }
 
 Parameter::~Parameter() {
@@ -154,7 +153,7 @@ void Parameter::Read(const char *filename) {
   datadir = sgetpar(fp, "datadir", "data_film", true);
   xmloutput = sgetpar(fp, "xmloutput", "outstate.xml", true);
   xmlinput = sgetpar(fp, "xmlinput", "outstate.xml", true);
-  useopencl = bgetpar(fp, "useopencl", true, true);
+
 }
 
 const char *sbool(const bool &p) {
@@ -209,7 +208,6 @@ void Parameter::Write(ostream &os) const {
   os << " load_xml = " << sbool(load_xml) << endl;
   os << " xmloutput = " << xmloutput << endl;
   os << " xmlinput = " << xmlinput << endl;
-  os << " useopencl = " << useopencl << endl;
   
 
   if (datadir) 
