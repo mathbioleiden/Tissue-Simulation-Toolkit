@@ -11,7 +11,7 @@ contains( GRAPHICS, qt ) {
   
 }	
 
-TARGET = vessel
+TARGET = sorting
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
 libMCDS_DIR = ../v1.0.0/libMCDS
 mcds_api = mcds_api
