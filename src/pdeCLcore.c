@@ -1,7 +1,7 @@
 void kernel SecreteAndDiffuse(
 global const int* sigmacells, 
-global const double* sigmaA,  
-global double* sigmaB, 
+global const double* sigma,  
+global double* sigmaout, 
 int xsize, 
 int ysize,
 int layers,
@@ -10,7 +10,7 @@ double dt,
 double dx2, 
 double diff_coeff,
 double secr_rate,
-int boundtype )
+int step )
 {
   int id = get_global_id(0);
   int size = get_global_size(0);
@@ -20,31 +20,34 @@ int boundtype )
   int zpos = id/layersize;
   int ypos = (id - (zpos * layersize)) /xsize;
   int xpos = id - ypos * xsize - zpos * layersize; 
-
-
-  double value = sigmaA[id];
-   if (zpos == 0){
+//Secrete
+   if (step == 0){
      if (sigmacells[id] > 0){
-       value = value + secr_rate * dt;
+       sigmaout[id] = sigma[id] + secr_rate * dt;
      }
-     else{
-       value = value - decay_rate*dt*value;
+   else{
+       sigmaout[id] = sigma[id] - decay_rate*dt*sigma[id];
        }
    }
-
+   else{   
+  //Diffuse
     double sum =0.;
 
 
     if (xpos == 0 || ypos == 0 || xpos == xsize || ypos == ysize){
-    value = .0;
+    sigmaout[id] = .0;
     }
     else{
-    sum += sigmaA[id-1];
-    sum += sigmaA[id+1];
-    sum += sigmaA[id-xsize];
-    sum += sigmaA[id+xsize];
-    sum-=4*value;
-    sigmaB[id]= value+sum*dt*diff_coeff/dx2;
+    sum += sigma[id-1];
+    sum += sigma[id+1];
+    sum += sigma[id-xsize];
+    sum += sigma[id+xsize];
+    sum-=4*sigma[id];
+    //sum *= 20;
+    //if (sigma[id] > 0.)
+    //printf("sigma:%f n: %f xpos: %d ypos: %d, zpos: %d\n", sigma[id], sum, xpos, ypos, zpos);//}
+    sigmaout[id]= sigma[id]+sum*dt*diff_coeff/dx2;
+    }
     }
 
 }

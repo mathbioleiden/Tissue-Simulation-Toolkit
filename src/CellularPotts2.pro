@@ -20,8 +20,6 @@ XSDE_DIR = $$libMCDS_DIR/xsde/libxsde
 QMAKE_CXXFLAGS += -I$$libMultiCellDS_DIR -I$$XSDE_DIR -m64 -std=c++11
 QMAKE_LFLAGS += -m64  -std=c++11
 LIBS += $$libMultiCellDS_DIR/libmcds.a -L$$XSDE_DIR/xsde/ -l xsde 
-LIBS += -lOpenCL 
-
 
 message( $$MAINFILE )
 message( $$TARGET )
