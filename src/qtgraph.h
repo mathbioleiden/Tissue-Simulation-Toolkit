@@ -58,7 +58,10 @@ class QtGraphics : public QWidget, public Graphics {
   virtual void Line ( int x1, int y1,int x2,int y2,int colour );
   /*void Field (const int **r, int mag=1);
     void PlotNumber(int number, int x, int y);*/
-  
+ 
+  virtual void keyReleaseEvent( QKeyEvent *e);
+  virtual void keyPressEvent( QKeyEvent *e);
+ 
   virtual int GetXYCoo(int *X,int *Y);
   /*char *ChangeTitle (const char *message);
   void RecoverTitle(void);*/
@@ -96,10 +99,12 @@ class QtGraphics : public QWidget, public Graphics {
   int mouse_x;
   int mouse_y;
 	
-	int init_size_x;
-	int init_size_y;
+  int init_size_x;
+  int init_size_y;
+
+  int key;
 	
-	double mag;
+  double mag;
   Qt::MouseButton mouse_button;
 
   // private methods
