@@ -44,8 +44,7 @@ class QtGraphics : public QWidget, public Graphics {
     public:
   QtGraphics(int xfield, int yfield, const char *movie_file=0);
   QtGraphics(QWidget *parent, const char *name, int xfield, int yfield, const char *movie_file=0) : QWidget(parent, 0) {
-  QtGraphics(xfield, yfield, movie_file);
-  
+    QtGraphics(xfield, yfield, movie_file);
       // set name here somewhere
   }
   
@@ -86,8 +85,6 @@ class QtGraphics : public QWidget, public Graphics {
   void paintEvent( QPaintEvent* );
   void mousePressEvent( QMouseEvent *e);
   void mouseReleaseEvent( QMouseEvent *e);
-  void keyPressEvent( QKeyEvent *e);
-  void keyReleaseEvent( QKeyEvent *e);
   QPainter *picture;
   QLabel *label;
   QPicture pic;
@@ -101,8 +98,6 @@ class QtGraphics : public QWidget, public Graphics {
 	
 	int init_size_x;
 	int init_size_y;
-  
-  int key;
 	
 	double mag;
   Qt::MouseButton mouse_button;
