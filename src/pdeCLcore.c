@@ -20,6 +20,7 @@ int btype )
   int zpos = id/layersize;
   int xpos = (id - (zpos * layersize)) /ysize;
   int ypos = id - xpos * ysize - zpos * layersize; 
+  btype = 2;
   //Boundaries
   double sum =0.;
   if (xpos == 0 || ypos == 0 || xpos == xsize-1 || ypos == ysize-1){
