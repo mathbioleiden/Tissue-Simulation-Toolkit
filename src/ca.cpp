@@ -86,7 +86,9 @@ CellularPotts::CellularPotts(vector<Cell> *cells,
   frozen=false;
   thetime=0;
   zygote_area=0;
-
+	
+  edgelist = nullptr;
+  orderedgelist = nullptr;
   
   BaseInitialisation(cells);
   sizex=sx;
@@ -118,6 +120,9 @@ CellularPotts::CellularPotts(void) {
   frozen=false;
   thetime=0;
   zygote_area=0;
+	
+  edgelist = nullptr;
+  orderedgelist = nullptr;
 
   CopyProb(par.T);
 
@@ -142,6 +147,14 @@ CellularPotts::~CellularPotts(void) {
     free(sigma[0]);
     free(sigma);
     sigma=0;
+  }
+	
+  if(edgelist) {
+      delete edgelist;
+  }
+
+  if(orderedgelist) {
+      delete orderedgelist;
   }
 }
 
