@@ -258,7 +258,12 @@ public:
   double Compactness(double *res_compactness = 0, 
 		     double *res_area = 0, 
 		     double *res_cell_area = 0);
-  
+ 
+  //Return Sigma Array for use on GPU
+  inline int** getSigma(){
+    return sigma;
+  }
+ 
 private:
   void IndexShuffle(void);
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);

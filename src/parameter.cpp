@@ -70,6 +70,7 @@ Parameter::Parameter() {
   graphics = true;
   store = false;
   datadir = strdup("data_film");
+  useopencl = true;
 }
 
 Parameter::~Parameter() {
@@ -145,7 +146,7 @@ void Parameter::Read(const char *filename) {
   graphics = bgetpar(fp, "graphics", true, true);
   store = bgetpar(fp, "store", false, true);
   datadir = sgetpar(fp, "datadir", "data_film", true);
-
+  useopencl = bgetpar(fp, "useopencl", true, true);
 }
 
 const char *sbool(const bool &p) {
@@ -196,7 +197,7 @@ void Parameter::Write(ostream &os) const {
   os << " storage_stride = " << storage_stride << endl;
   os << " graphics = " << sbool(graphics) << endl;
   os << " store = " << sbool(store) << endl;
-
+  os << " useopencl = " << useopencl << endl;
   if (datadir) 
     os << " datadir = " << datadir << endl;
 }

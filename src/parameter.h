@@ -67,6 +67,7 @@ class Parameter {
   bool graphics;
   bool store;
   char * datadir;
+  bool useopencl;
  private:
 };
 

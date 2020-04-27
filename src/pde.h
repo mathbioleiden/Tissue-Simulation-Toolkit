@@ -27,6 +27,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <float.h>
 #include "graph.h"
 
+#include <CL/cl.hpp>
+
 class CellularPotts;
 class PDE {
 
@@ -184,6 +186,9 @@ class PDE {
   */
   void Secrete(CellularPotts *cpm);
 
+  //Secrete and diffuse functions accelerated by OpenCL (Use SetupOpenCL function first)
+  void SecreteAndDiffuseCL(CellularPotts *cpm, int repeat);
+
   /*! \brief Returns cumulative "simulated" time,
     i.e. number of time steps * dt. */
   inline double TheTime(void) const {
@@ -263,6 +268,20 @@ class PDE {
  private:
   static const int nx[9], ny[9];
   double thetime;
+ 
+  void SetupOpenCL(); 
+  //OpenCL variables
+  bool openclsetup = false;
+  cl::Context context;
+  cl::Program program;
+  cl::Device default_device;
+  cl::CommandQueue queue;
+  cl::Buffer buffer_sigmacell;
+  cl::Buffer buffer_sigmapdeA;
+  cl::Buffer buffer_sigmapdeB;
+  cl::Buffer buffer_diff_coeff;
+  cl::Kernel kernel_SecreteAndDiffuse;
+
 
 };
 

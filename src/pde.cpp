@@ -23,11 +23,15 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <stdio.h>
 #include <math.h>
 #include <cstdlib>
+#include <fstream>
+#include <sstream>
 #include "crash.h"
 #include "parameter.h"
 #include "ca.h"
 #include "pde.h"
 #include "conrec.h"
+
+#include <CL/cl.hpp>
 
 /* STATIC DATA MEMBER INITIALISATION */
 const int PDE::nx[9] = {0, 1, 1, 1, 0,-1,-1,-1, 0 };
@@ -58,6 +62,7 @@ PDE::PDE(void) {
   sizex=0; sizey=0; layers=0;
   thetime=0;
   
+  if (par.useopencl){this->SetupOpenCL();}
 }
 
 // destructor (virtual)
@@ -172,6 +177,148 @@ void PDE::ContourPlot(Graphics *g, int l, int colour) {
  
 }
 
+
+
+
+void PDE::SetupOpenCL(){
+  openclsetup = true;
+  //Basic OpenCL Setup
+  std::vector<cl::Platform> all_platforms;
+  cl::Platform::get(&all_platforms);
+  if(all_platforms.size()==0){
+      std::cout<<" No platforms found. Check OpenCL installation!\n";
+      exit(1);
+  }
+  cl::Platform default_platform=all_platforms[0];
+  std::cout << "Using platform: "<< default_platform.getInfo<CL_PLATFORM_NAME>()<<"\n";  
+
+  std::vector<cl::Device> all_devices;
+  default_platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
+  if(all_devices.size()==0){
+      std::cout<<" No devices found. Check OpenCL installation!\n";
+      exit(1);
+  }
+
+  default_device=all_devices[0];
+  std::cout<< "Using device: "<<default_device.getInfo<CL_DEVICE_NAME>()<<"\n";  
+  context = cl::Context({default_device});
+  cl::Program::Sources sources;
+
+  //Use file pdeCLcore.cl as Kernel
+  std::ifstream inFile;
+  inFile.open("pdeCLcore.cl"); 
+  std::stringstream strStream;
+  strStream << inFile.rdbuf(); 
+  std::string kernel_code  = strStream.str();
+  //std::cout << kernel_code << "\n";
+
+  sources.push_back({kernel_code.c_str(),kernel_code.length()});
+  program =  cl::Program(context,sources);
+  if(program.build({default_device})!=CL_SUCCESS){
+        std::cout<<" Error building: "<<program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device)<<"\n";
+        exit(1);
+    }
+  
+  //Secretion and diffusion variables
+  double dt=par.dt;
+  double dx2=par.dx*par.dx;
+  int btype; 
+  
+  //determine boundary type
+  //if (par.gradient){
+  //  btype=1;
+  //}
+  //else 
+  if(par.periodic_boundaries){
+    btype=2;
+  }
+  else{
+    btype = 3;
+  }
+
+  //Allocate memory on the GPU
+  queue = cl::CommandQueue(context,default_device);
+  buffer_sigmacell = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(int)*sizex*sizey); 
+  buffer_sigmapdeA = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(double)*sizex*sizey*layers);
+  buffer_sigmapdeB = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(double)*sizex*sizey*layers); 
+  buffer_diff_coeff = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(double)*layers);
+
+
+  //Making kernel and setting arguments
+  kernel_SecreteAndDiffuse = cl::Kernel(program,"SecreteAndDiffuse");      
+
+  kernel_SecreteAndDiffuse.setArg(0, buffer_sigmacell);
+  kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeA);
+  kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeB);
+  kernel_SecreteAndDiffuse.setArg(3, sizeof(int), &sizex);
+  kernel_SecreteAndDiffuse.setArg(4, sizeof(int), &sizey);
+  kernel_SecreteAndDiffuse.setArg(5, sizeof(int), &layers);
+  kernel_SecreteAndDiffuse.setArg(6, sizeof(double), par.decay_rate);
+  kernel_SecreteAndDiffuse.setArg(7, sizeof(double), &dt);
+  kernel_SecreteAndDiffuse.setArg(8, sizeof(double), &dx2);
+  kernel_SecreteAndDiffuse.setArg(9, buffer_diff_coeff);
+  kernel_SecreteAndDiffuse.setArg(10,sizeof(double), par.secr_rate);
+  kernel_SecreteAndDiffuse.setArg(11, sizeof(int),  &btype);
+ 
+  queue.enqueueWriteBuffer(buffer_diff_coeff,
+    CL_TRUE, 0, sizeof(double)*layers, par.diff_coeff);
+       
+}
+
+
+
+
+
+void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat){
+    if (!openclsetup  ){this->SetupOpenCL();}
+    //A B scheme used to keep arrays on GPU
+    int AB = 1;
+    int errorcode = 0;
+
+    //Write the cellSigma array to GPU for secretion
+    queue.enqueueWriteBuffer(buffer_sigmacell,
+    CL_TRUE, 0, sizeof(int)*sizex*sizey, cpm->getSigma()[0]);
+
+    //Writing pdefield sigma is only necessary if modified outside of kernel
+    //queue.enqueueWriteBuffer(buffer_sigmapdeA,  CL_TRUE, 0, sizeof(double)*sizex*sizey*layers, sigma[0][0]);
+
+
+    //Main loop executing kernel and switching between A and B arrays
+    for (int index = 0; index < repeat; index ++){
+      if (AB == 1) AB = 0;
+      else AB = 1;
+      kernel_SecreteAndDiffuse.setArg(12, sizeof(int),  &AB);
+      if(AB == 0){
+        kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeA);
+        kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeB);
+      }
+      else{
+        kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeB);
+        kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeA);
+      }
+      errorcode = queue.enqueueNDRangeKernel(kernel_SecreteAndDiffuse,
+                  cl::NullRange, cl::NDRange(sizex*sizey*layers), cl::NullRange);
+      errorcode = queue.finish();
+      if (errorcode != 0){
+        printf("Error during secretion and diffusion");
+        exit(0);}
+      }
+
+
+    //Reading from correct array containing the output
+    if (AB == 0)
+    queue.enqueueReadBuffer(buffer_sigmapdeB,CL_TRUE,0,
+                            sizeof(double)*sizex*sizey*layers, sigma[0][0]);
+    else
+    queue.enqueueReadBuffer(buffer_sigmapdeA,CL_TRUE,0,
+                            sizeof(double)*sizex*sizey*layers, sigma[0][0]);
+
+    if (errorcode != CL_SUCCESS){
+      cout << "error:" << errorcode << endl;
+    }
+    thetime += par.dt;
+
+}
 
 
 // public
