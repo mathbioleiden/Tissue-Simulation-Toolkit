@@ -70,6 +70,8 @@ void WriteCOMsTorusFresh(std::ostream &out);
   //writes
   void WriteCellLocations(int cell_id, int field_id, std::ostream &out=std::cout);
 
+  void WriteAdhesionsLocationsPerCell(int cell_id, int field_id, std::ostream &out=std::cout);
+
   /*! \brief Waits until the user clicks a cell and returns a reference to it.
    */
   Cell &ClickCell(Graphics *g);

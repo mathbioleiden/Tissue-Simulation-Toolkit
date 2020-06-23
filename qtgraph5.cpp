@@ -38,9 +38,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <qtimer.h>
 #include <qpixmap.h>
 #include <qimage.h>
+#include <cmath>
 //#include <q3strlist.h>
 #include <QResizeEvent>
-#include "qtgraph.h"
+#include "qtgraph5.h"
 #include "parameter.h"
 
 using namespace std;
@@ -95,6 +96,54 @@ QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
 	picture=new QPainter();
 }
 
+// QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
+// {
+// 	mag = 1.;
+//   resize( xfield * mag, yfield  * mag);
+// 	init_size_x = xfield;
+// 	init_size_y = yfield;
+//
+//   //Instead of painting in the window,
+//   //we choose to output to the QPicture
+//   //object:
+//   //picture->begin( &pic );
+//   //We draw a rectangle. Not to the screen,
+//   //but to the QPicture object:
+//   //picture->drawRect( 20, 20, 160, 160 );
+//   //picture->end();
+//
+//   //Save what has been drawn to the QPicture
+//   //object to a file, called file.pic. When
+//   //you have run this program, a file with this
+//   //name will be created (in the directory which
+//   //this program is located in).
+//   //  pic.save( "file.png" );
+//
+//   // Allocate colors
+//   pens = new QPen[256];
+//
+//
+//   ReadColorTable(pens);
+//
+// 	// Set background color of widget (i.e. the color outside the Pixmap that
+// 	// will be shown after resizing the window)
+// 	QPalette pal = palette();
+// 	pal.setColor(backgroundRole(), pens[0].color());
+// 	setPalette(pal);
+//
+//   timer = new QTimer( this );
+//   connect( timer, SIGNAL(timeout()), SLOT(TimeStepWrap()) );
+//   timer->start( 0 );
+//
+//
+//   mouse_button=Qt::NoButton;
+//   // changed by RM for porting to Win Qt4
+// 	pixmap=new QPixmap(xfield,yfield);
+//   //pixmap->fill(pens[0].color());
+// 	//ClearImage();
+// 	picture=new QPainter();
+// }
+
 QtGraphics::~QtGraphics() {
   delete picture;
   //delete paint2;
@@ -109,13 +158,12 @@ void QtGraphics::Point(int colour, int i, int j) {
 }
 
 void QtGraphics::PointAlpha(int alpha, int i, int j) {
-
-  picture->setPen( QPen(0,0,0,alpha) );
+  picture->setPen( QPen(QColor(0,0,0,alpha)) );
   picture->drawPoint( i, j);
 
 }
 
-QPen p(QColor(r,g,b));
+// QPen p(QColor(r,g,b));
 
 void QtGraphics::BeginScene(void) {
 
@@ -132,6 +180,17 @@ void QtGraphics::EndScene(void) {
 void QtGraphics::Line( int x1, int y1,int x2,int y2,int colour ) {
   picture->setPen( pens[colour] );
   picture->drawLine( x1, y1, x2, y2);
+}
+
+void QtGraphics::Arrow( int x1, int y1,int x2,int y2,int colour ) {
+  picture->setPen( pens[colour] );
+  picture->drawLine( x1, y1, x2, y2);
+	int b1=(int) 2*std::sqrt(2)*(x1-x2-y1+y2)/((std::sqrt(std::pow(x2-x1,2)+std::pow(y2-y1,2))));
+	int b2=(int) 2*std::sqrt(2)*(x1-x2+y1-y2)/((std::sqrt(std::pow(x2-x1,2)+std::pow(y2-y1,2))));
+	int c1=(int) 2*std::sqrt(2)*(x1-x2+y1-y2)/((std::sqrt(std::pow(x2-x1,2)+std::pow(y2-y1,2))));
+	int c2=(int) 2*std::sqrt(2)*(-x1+x2+y1-y2)/((std::sqrt(std::pow(x2-x1,2)+std::pow(y2-y1,2))));
+	picture->drawLine(x2,y2,x2+b1,y2+b2);
+	picture->drawLine(x2,y2,x2+c1,y2+c2);
 }
 
 void QtGraphics::ReadColorTable(QPen *pens)

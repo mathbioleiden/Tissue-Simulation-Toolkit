@@ -420,3 +420,26 @@ void Info::WriteCellLocations(int cell_id, int field_id, std::ostream &out){
 		}}
 	t++;
 }
+
+void Info::WriteAdhesionsLocationsPerCell(int cell_id, int field_id, std::ostream &out){
+	static int t=0;
+  out << t*par.adhesion_storage_stride << ";";
+  bool first = true;
+	for (int x=1;x<dish->SizeX()-1;x++)
+	    for (int y=1;y<dish->SizeY()-1;y++) {
+	       if (dish->CPM->Sigma(x,y)==cell_id && dish->CPM->matrix[x][y]>0) {
+            if (first){
+              out << "[";
+              first=false;
+            }
+            else{
+              out << ",";
+            }
+			      out << "(" << x << "," << y << ")";
+		}}
+    if (first==false){
+      out << "]";
+    }
+    out << "\n";
+	t++;
+}

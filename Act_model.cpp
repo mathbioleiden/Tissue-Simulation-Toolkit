@@ -39,7 +39,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "sqr.h"
 
 #ifdef QTGRAPHICS
-#include "qtgraph.h"
+#include "qtgraph5.h"
 #else
 #include "x11graph.h"
 #endif
@@ -136,12 +136,20 @@ TIMESTEP {
          // cout << "Pillar present " << dish->CPM->AnyPillar() << endl;
          // cout << "COMs written" << endl;
  //Writing theta of each cell
-     char buff2[400];
-   	 snprintf(buff2, sizeof(buff2), "%s/celltheta.txt",par.datadir);
-   	 std::string buffAsStdStr2 = buff2;
-  	//cout<<buffAsStdStr<<"\n";
-    	 std::ofstream out2(buff2, ios::app);
-          info->WriteTheta(out2);
+    //  char buff2[400];
+   	//  snprintf(buff2, sizeof(buff2), "%s/celltheta.txt",par.datadir);
+   	//  std::string buffAsStdStr2 = buff2;
+  	// //cout<<buffAsStdStr<<"\n";
+    // 	 std::ofstream out2(buff2, ios::app);
+    //       info->WriteTheta(out2);
+
+  if (!(i%par.storage_stride)) {
+    char buff3[400];
+  	 snprintf(buff3, sizeof(buff3), "%s/celladhesion.txt",par.datadir);
+  	 std::string buffAsStdStr3 = buff3;
+   	 std::ofstream out3(buff3, ios::app);
+         info->WriteAdhesionsLocationsPerCell(1, 1, out3);
+       }
  //
  //  //Writing center of mass and area of each cell
  //      char buff3[400];
@@ -719,7 +727,11 @@ int main(int argc, char *argv[]) {
   try {
 
 #ifdef QTGRAPHICS
+    // cout<< argv[0] <<" "<< argv[1] <<" "<< argv[2] << endl;
+    // argv=
     QApplication a(argc, argv);
+    // cout<< argv[0] <<" "<< argv[1] <<" "<< argv[2] << endl;
+    // setlocale(LC_NUMERIC, "C");
 #endif
     // Read parameters
     par.Read(argv[1]);
@@ -731,7 +743,7 @@ int main(int argc, char *argv[]) {
 
     QtGraphics g(par.sizex*2,par.sizey*2);
 		// cout<< "After  QtGraphics g(par.sizex*2,par.sizey*2);"<< endl;
-    a.setMainWidget( &g );
+    // a.setMainWidget( &g );
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
 
     if (par.graphics)

@@ -70,6 +70,7 @@ Parameter::Parameter() {
   subfield = 1.0;
   relaxation = 0;
   storage_stride = 10;
+  adhesion_storage_stride=mcs+1;
   graphics = true;
   store = false;
   datadir = strdup("data_film");
@@ -96,6 +97,8 @@ Parameter::Parameter() {
   bool checkerboard = false;
   double lambda_persistence = 0;
   int tau = 0;
+  double threshold = 0.1;
+  double start_level = 0.1;
 
 
 }
@@ -175,6 +178,7 @@ void Parameter::Read(const char *filename) {
   subfield = fgetpar(fp, "subfield", 1.0, true);
   relaxation = igetpar(fp, "relaxation", 0, true);
   storage_stride = igetpar(fp, "storage_stride", 10, true);
+  adhesion_storage_stride = igetpar(fp, "storage_stride", mcs+1, true);
   graphics = bgetpar(fp, "graphics", true, true);
   store = bgetpar(fp, "store", false, true);
   datadir = sgetpar(fp, "datadir", "data_film", true);
@@ -203,6 +207,8 @@ void Parameter::Read(const char *filename) {
   checkerboard = bgetpar(fp, "checkerboard", 0, true);
   lambda_persistence = fgetpar(fp, "lambda_persistence", 0 , true);
   tau = igetpar(fp, "tau", 0, true);
+  threshold = fgetpar(fp, "threshold", 0 , true);
+  start_level = fgetpar(fp, "start_level", 0, true);
 
 
 }
@@ -257,6 +263,7 @@ void Parameter::Write(ostream &os) const {
   os << " subfield = " << subfield << endl;
   os << " relaxation = " << relaxation << endl;
   os << " storage_stride = " << storage_stride << endl;
+  os << " adhesion_storage_stride = " << adhesion_storage_stride << endl;
   os << " graphics = " << sbool(graphics) << endl;
   os << " store = " << sbool(store) << endl;
 	//Act model

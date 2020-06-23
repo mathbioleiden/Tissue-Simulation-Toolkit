@@ -45,7 +45,6 @@ class QtGraphics : public QWidget, public Graphics {
   QtGraphics(int xfield, int yfield, const char *movie_file=0);
   QtGraphics(QWidget *parent, const char *name, int xfield, int yfield, const char *movie_file=0) : QWidget(parent, 0) {
     QtGraphics(xfield, yfield, movie_file);
-      // set name here somewhere
   }
 
   virtual ~QtGraphics(void);
@@ -57,6 +56,7 @@ class QtGraphics : public QWidget, public Graphics {
   virtual void Point( int colour, int i, int j);
   virtual void PointAlpha( int alpha, int i, int j);
   virtual void Line ( int x1, int y1,int x2,int y2,int colour );
+  virtual void Arrow (int x1, int y1, int x2, int y2, int colour);
   /*void Field (const int **r, int mag=1);
     void PlotNumber(int number, int x, int y);*/
 

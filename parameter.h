@@ -68,6 +68,7 @@ class Parameter {
   double subfield;
   int relaxation;
   int storage_stride;
+  int adhesion_storage_stride;
   bool graphics;
   bool store;
   char * datadir;
@@ -96,6 +97,8 @@ class Parameter {
  bool checkerboard;
  double lambda_persistence;
  int tau;
+ double threshold;
+ double start_level;
 
 
  private:
