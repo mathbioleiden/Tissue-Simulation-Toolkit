@@ -143,7 +143,7 @@ TIMESTEP {
     // 	 std::ofstream out2(buff2, ios::app);
     //       info->WriteTheta(out2);
 
-  if (!(i%par.storage_stride)) {
+  if (!(i%par.adhesion_storage_stride)) {
     char buff3[400];
   	 snprintf(buff3, sizeof(buff3), "%s/celladhesion.txt",par.datadir);
   	 std::string buffAsStdStr3 = buff3;

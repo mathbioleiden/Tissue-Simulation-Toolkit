@@ -178,7 +178,7 @@ void Parameter::Read(const char *filename) {
   subfield = fgetpar(fp, "subfield", 1.0, true);
   relaxation = igetpar(fp, "relaxation", 0, true);
   storage_stride = igetpar(fp, "storage_stride", 10, true);
-  adhesion_storage_stride = igetpar(fp, "storage_stride", mcs+1, true);
+  adhesion_storage_stride = igetpar(fp, "adhesion_storage_stride", mcs+1, true);
   graphics = bgetpar(fp, "graphics", true, true);
   store = bgetpar(fp, "store", false, true);
   datadir = sgetpar(fp, "datadir", "data_film", true);
