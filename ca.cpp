@@ -578,27 +578,28 @@ DH +=DH_perimeter;
      	Act_retracting= pow(Act_retracting, 1./nret);
 
   double threshold=par.threshold;
-  double strength =par.start_level;
+  double base =par.start_level;
+  double strength;
 	if( (*cell)[sxyp].sigma>0){
       double adhesion_fraction = (double)(*cell)[sxyp].AdhesiveArea()/(double)(*cell)[sxyp].area;
-      if (adhesion_fraction>threshold){
+      if (adhesion_fraction>=threshold){
         strength = 1;
         }
       else{
-        strength= strength+((1-strength)/threshold)*adhesion_fraction;
+        strength= base+((1-base)/threshold)*adhesion_fraction;
       }
             // cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<" "<< adhesion_fraction <<endl;
 			DH_act-= (par.lambda_Act * strength)/par.max_Act * Act_expanding;
 	}
-  threshold=par.threshold;
-  strength =par.start_level;
+  // threshold=par.threshold;
+  // strength =par.start_level;
   if( (*cell)[sxy].sigma>0){
     double adhesion_fraction = (double)(*cell)[sxy].AdhesiveArea()/(double)(*cell)[sxy].area;
-    if (adhesion_fraction>threshold){
+    if (adhesion_fraction>=threshold){
       strength = 1;
     }
     else{
-      strength= strength+((1-strength)/threshold)*adhesion_fraction;
+      strength= base+((1-base)/threshold)*adhesion_fraction;
     }
 	   DH_act+= (par.lambda_Act * strength)/par.max_Act * Act_retracting;
 		}
