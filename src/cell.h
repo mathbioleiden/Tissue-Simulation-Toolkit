@@ -484,6 +484,9 @@ private:
 
   }
 
+  inline void setSigma(int nsigma){
+    sigma = nsigma;
+  }
   
 private:
 //! Increments the cell's actual area by 1 unit.

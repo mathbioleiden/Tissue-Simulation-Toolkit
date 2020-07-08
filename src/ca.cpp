@@ -1483,7 +1483,7 @@ mesh::mesh *CellularPotts::CreateMultiCellDSMesh(void) {
     return mesh;
 }
 
-void CellularPotts::SetMultiCellDSCell(cell::cell &c) {
+void  CellularPotts::SetMultiCellDSCell(cell::cell &c) {
     
     //cout << "Cell::ID = " << c.ID() << endl;
     // get cell state
@@ -1496,7 +1496,7 @@ void CellularPotts::SetMultiCellDSCell(cell::cell &c) {
          v!=voxels.end();
          v+=grouping_number) {
         //cout << v[0] << " " << v[1] << endl;
-        sigma[v[0]][v[1]]=c.ID();
+        sigma[v[0]][v[1]]= c.ID();;
     }
   
 }

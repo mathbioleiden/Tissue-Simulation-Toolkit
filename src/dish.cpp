@@ -64,7 +64,9 @@ Dish::Dish(const char *mcds_fname) {
         PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
     
     // Initial cell distribution is defined by user in INIT {} block
-    Init();
+    if (!par.load_xml){
+      Init();
+    }
     
     if (par.target_area>0)
         for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
@@ -376,7 +378,8 @@ void Dish::ExportMultiCellDS (const char *fname) {
         // Setup for obtaining different aspects of cellular data
         phenotype_dataset::phenotype_dataset *pds = new phenotype_dataset::phenotype_dataset;
         phenotype_common::geometrical_properties *gp = new phenotype_common::geometrical_properties;
-        
+       
+        pds->ID(c->tau); 
         // Translate cell radius from CPM to MultiCellDS
         common::units_decimal_nonnegative *major_axis_dec = new common::units_decimal_nonnegative; // Setup a units_decimal element
         common::units_decimal_nonnegative *minor_axis_dec = new common::units_decimal_nonnegative; // Setup a units_decimal element
@@ -606,8 +609,8 @@ void Dish::SetMultiCellDSImport (const char *fname) {
         cerr << "No 3D meshes supported. (Adapt implementation of ImportMultiCellDS to choose a slice)" << endl;
     }
   
-    par.sizex=sx;
-    par.sizey=sy;
+par.sizex=sx;
+par.sizey=sy;
     
 }
 
@@ -619,12 +622,18 @@ int Dish::SetMultiCellDSCells(void) {
          h_mcds->cellular_information().cell_populations().cell_population().cell().begin();
          c != h_mcds->cellular_information().cell_populations().cell_population().cell().end();
          c++) {
-        
+        Cell * n_cell = new  Cell(*this, c->phenotype_dataset().ID());
+        n_cell->setSigma(c->ID());
+        cout << "CellID: " << c->ID() << endl; 
+        cell.push_back(*n_cell);
         CPM->SetMultiCellDSCell(*c);
-   
+        n_cell->setTau(0);
+        n_cell->SetTargetArea(par.target_area); 
+        //n_cell->MeasureCellSize(*n_cell);
         }
     // Get fields
         PDEfield->ReadFromMultiCellDS(h_mcds);
+        CPM->MeasureCellSizes();
         return 0;
     }
     return 1; // error

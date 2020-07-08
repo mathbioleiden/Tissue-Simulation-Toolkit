@@ -266,6 +266,8 @@ public:
     void SetMultiCellDSCell(cell::cell &c);
     mesh::mesh *CreateMultiCellDSMesh(void);
     
+    void MeasureCellSizes(void);
+
 private:
   void IndexShuffle(void);
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
@@ -274,7 +276,6 @@ private:
   void SprayMedium(void);
   int CopyvProb(int DH,  double stiff);
   void FreezeAmoebae(void);
-  void MeasureCellSizes(void);
   void MeasureCellSize(Cell &c);
   void CopyProb(double T);
   bool ConnectivityPreservedP(int x, int y);
