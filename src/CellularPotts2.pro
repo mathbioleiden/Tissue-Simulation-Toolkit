@@ -13,7 +13,7 @@ contains( GRAPHICS, qt ) {
 
 TARGET = sorting
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
-libMCDS_DIR = ../v1.0.0/libMCDS
+libMCDS_DIR = ../lib/MultiCellDS/v1.0/v1.0.0/libMCDS
 mcds_api = mcds_api
 libMultiCellDS_DIR = $$libMCDS_DIR/$$mcds_api
 XSDE_DIR = $$libMCDS_DIR/xsde/libxsde

@@ -1,6 +1,0 @@
-This packaging of XSDE 3.2.0 has been modified.
-
-1) We have received permission from CodeSynthesis to include the FLOSSE for GPLv2.
-2) The options in config/config.make have been updated to better reflect MultiCellDS' needs.
-3) We have removed the tests and examples so as to make compiling faster.
-   MultiCellDS only needs a runtime library.  Hence, we package only what we need.
