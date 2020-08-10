@@ -267,6 +267,11 @@ public:
     mesh::mesh *CreateMultiCellDSMesh(void);
     
     void MeasureCellSizes(void);
+    
+    inline int** getSigma(){
+      return sigma;
+    }
+
 
 private:
   void IndexShuffle(void);
