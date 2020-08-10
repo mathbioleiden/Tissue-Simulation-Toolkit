@@ -49,7 +49,7 @@ class Dish {
   friend class Info;
 
 public:
-  Dish(const char *mcds_fname=0);
+  Dish();
   
   /*! \brief Init defines the initial state of the virtual
     cell culture.

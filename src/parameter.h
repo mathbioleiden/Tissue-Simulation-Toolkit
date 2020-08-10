@@ -67,10 +67,10 @@ class Parameter {
   int storage_stride;
   bool graphics;
   bool store;
-  bool load_xml;
+  bool load_mcds;
   char * datadir;
-  char * xmloutput;
-  char * xmlinput;
+  char * mcds_output;
+  char * mcds_input;
   
  private:
 };

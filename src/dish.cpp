@@ -51,29 +51,21 @@ using namespace std;
 
 
 
-Dish::Dish(const char *mcds_fname) {
+Dish::Dish() {
     
     ConstructorBody();
 
-    
-    if (mcds_fname)
-        SetMultiCellDSImport(mcds_fname);
-    
     CPM=new CellularPotts(&cell, par.sizex, par.sizey);
     if (par.n_chem)
         PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
     
     // Initial cell distribution is defined by user in INIT {} block
-    if (!par.load_xml){
       Init();
-    }
     
     if (par.target_area>0)
         for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
             c->SetTargetArea(par.target_area);
         } 
-    
-    
 }
 
 

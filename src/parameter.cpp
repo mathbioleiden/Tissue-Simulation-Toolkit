@@ -70,10 +70,10 @@ Parameter::Parameter() {
   storage_stride = 10;
   graphics = true;
   store = false;
-  load_xml = false;
+  load_mcds = false;
   datadir = strdup("data_film");
-  xmloutput = strdup("outstate.xml");
-  xmlinput = strdup("false");
+  mcds_output = strdup("outstate.xml");
+  mcds_input = strdup("false");
 }
 
 Parameter::~Parameter() {
@@ -149,10 +149,10 @@ void Parameter::Read(const char *filename) {
   storage_stride = igetpar(fp, "storage_stride", 10, true);
   graphics = bgetpar(fp, "graphics", true, true);
   store = bgetpar(fp, "store", false, true);
-  load_xml = bgetpar(fp, "load_xml", false, true);
+  load_mcds = bgetpar(fp, "load_xml", false, true);
   datadir = sgetpar(fp, "datadir", "data_film", true);
-  xmloutput = sgetpar(fp, "xmloutput", "outstate.xml", true);
-  xmlinput = sgetpar(fp, "xmlinput", "outstate.xml", true);
+  mcds_output = sgetpar(fp, "xmloutput", "outstate.xml", true);
+  mcds_input = sgetpar(fp, "xmlinput", "outstate.xml", true);
 
 }
 
@@ -205,9 +205,9 @@ void Parameter::Write(ostream &os) const {
   os << " storage_stride = " << storage_stride << endl;
   os << " graphics = " << sbool(graphics) << endl;
   os << " store = " << sbool(store) << endl;
-  os << " load_xml = " << sbool(load_xml) << endl;
-  os << " xmloutput = " << xmloutput << endl;
-  os << " xmlinput = " << xmlinput << endl;
+  os << " load_xml = " << sbool(load_mcds) << endl;
+  os << " xmloutput = " << mcds_output << endl;
+  os << " xmlinput = " << mcds_input << endl;
   
 
   if (datadir) 

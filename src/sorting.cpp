@@ -48,7 +48,6 @@ using namespace std;
 INIT {
 
   try {
-   // if(!(par.xmlinput && par.load_xml)){
     // Define initial distribution of cells
     CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
     CPM->ConstructInitCells(*this);
@@ -80,14 +79,7 @@ TIMESTEP {
     static int i=0;
     static Dish *dish;
     if (i == 0){
-      if (par.xmlinput && par.load_xml){
-        cout << "TRYING TO OPEN FILE\n";
-        dish=new Dish(par.xmlinput);
-        dish->SetMultiCellDSCells();
-      }
-      else{
         dish=new Dish();
-      }
     }
     
     static Info *info=new Info(*dish, *this);
