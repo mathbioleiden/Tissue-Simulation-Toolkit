@@ -51,9 +51,8 @@ QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
 	if (movie_file) {
     throw("QtGraphics in qtgraph.cc: Sorry, movie writing not (yet) implemented\n");
   }
-  resize( xfield * mag, yfield  * mag);
-	init_size_x = xfield;
-	init_size_y = yfield;
+
+  Resize(xfield, yfield);
 
   //Instead of painting in the window,
   //we choose to output to the QPicture

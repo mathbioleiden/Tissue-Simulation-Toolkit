@@ -105,6 +105,8 @@ class Graphics {
   virtual void Field(const int **f, int mag=1) {
     throw "Graphics::Field not implemented. Try X11 graphics.\n";
   }
+
+  virtual void Resize(int xfield, int yfield) {};
   
 };
 

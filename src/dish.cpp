@@ -88,6 +88,10 @@ Dish::~Dish() {
 void Dish::Plot(Graphics *g) {
     if (CPM)
       CPM->Plot(g);
+    if (sizechange){
+      sizechange = false;
+      g->Resize(par.sizex*2, par.sizey*2);
+    }
  }
 
 
@@ -361,7 +365,8 @@ void Dish::ImportMultiCellDS(const char *fname){
 
   par.sizex = (mcds.get_highest_x() - mcds.get_lowest_x()) * 1.2;
   par.sizey =  (mcds.get_highest_y() - mcds.get_lowest_y()) * 1.2;
-
+  sizechange = true;
+  
   int id_add = 0;
   CPM=new CellularPotts(&cell, par.sizex, par.sizey);
     if (par.n_chem)
