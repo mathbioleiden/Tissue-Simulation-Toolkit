@@ -292,14 +292,15 @@ void Dish::add_poly(MCDS_io mcds, int face_id, int id, int id_add){
   int offsety = (par.sizey / 2) - (mcds.get_highest_y() - ((mcds.get_highest_y() - mcds.get_lowest_y())/2));
   io_face face = mcds.face_by_id(face_id);
   int** sigma = CPM->getSigma();
+  double intersection_points[face.edge_ids.size()+1];
   for (int y = face.lowest_y; y < face.highest_y; y++){
     double ym = y+0.5;
     double lowest;
     double highest;
-    vector<double> intersection_points;
+    int evenodd = 0;
+    int point_index = 0;
     for (int edge_id : face.edge_ids){
         io_edge edge = mcds.edge_by_id(edge_id);
-        vector<double> points;
         if(y > edge.lowest_y  && y < edge.highest_y ){
           double x1 = mcds.node_by_id(edge.node_ids[0]).x;
           double x2 = mcds.node_by_id(edge.node_ids[1]).x;
@@ -315,15 +316,16 @@ void Dish::add_poly(MCDS_io mcds, int face_id, int id, int id_add){
           if (edge_id == *face.edge_ids.begin()){lowest = res; highest = res;}
           if (res < lowest){ lowest = res;}
           if (res > highest){ highest = res;}  
-          intersection_points.push_back(res);
+          intersection_points[point_index] = res;
+          point_index++;
         }
       }
-    for (int x = lowest; x < highest; x++){
+    intersection_points[point_index+1] = -1;
+    for (int x = lowest; x <= highest; x++){
       double xm = x + 0.5;
       int evenodd = 0;
-      for (double point : intersection_points){
-          //std::cout << "xm-point: " << xm - point << std::endl;
-          if ((xm - point) > 0){
+      for (int index =0; index < point_index && intersection_points[index] != -1; index++){ 
+         if ((xm - intersection_points[index]) > 0){
             evenodd++;
           }
       }
