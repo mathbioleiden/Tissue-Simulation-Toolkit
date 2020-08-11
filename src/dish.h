@@ -126,9 +126,9 @@ public:
     // Shape based MCDS Import
     void ImportMultiCellDS(const char *fname);
 
-    void add_poly(MCDS_io mcds, int face_id, int id); 
+    void add_poly(MCDS_io mcds, int face_id, int id, int id_add); 
 
-    void MCDS_import_cell(MCDS_io mcds, int cell_id);
+    void MCDS_import_cell(MCDS_io mcds, int cell_id, int id_add);
 
     //! Set MultiCellDS import file
     void SetMultiCellDSImport (const char *fname);
