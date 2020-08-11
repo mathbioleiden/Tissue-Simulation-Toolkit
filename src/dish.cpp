@@ -292,41 +292,46 @@ void Dish::add_poly(MCDS_io mcds, int face_id, int id, int id_add){
   int offsety = (par.sizey / 2) - (mcds.get_highest_y() - ((mcds.get_highest_y() - mcds.get_lowest_y())/2));
   io_face face = mcds.face_by_id(face_id);
   int** sigma = CPM->getSigma();
-  //std::cout << "Face: " <<  face_id << " lowest_x: " << face.lowest_x << " highest x: " << face.highest_x << " lowest_y: " << face.lowest_y << " highest y: " << face.highest_y << std::endl;
   for (int y = face.lowest_y; y < face.highest_y; y++){
     double ym = y+0.5;
-    for (int x = face.lowest_x; x < face.highest_x; x++){
-      double xm = x + 0.5;
-        
-      int evenodd = 0;
-      int relevant = 0;
-      for (int edge_id : face.edge_ids){
+    double lowest;
+    double highest;
+    vector<double> intersection_points;
+    for (int edge_id : face.edge_ids){
         io_edge edge = mcds.edge_by_id(edge_id);
-        //std::cout << "Edge_lowest_y: " << edge.lowest_y << " edge_highest_y: " << edge.highest_y << std::endl;
         vector<double> points;
         if(y > edge.lowest_y  && y < edge.highest_y ){
-          //std::cout << "edge_id: " << edge_id << std::endl;
           double x1 = mcds.node_by_id(edge.node_ids[0]).x;
           double x2 = mcds.node_by_id(edge.node_ids[1]).x;
           double y1 = mcds.node_by_id(edge.node_ids[0]).y;
           double y2 = mcds.node_by_id(edge.node_ids[1]).y;
+
           double f = (y1-y2)/(x1-x2);
           double a = y1 - x1*f ;
-          //std::cout << "X:" << x << "Y: " << y << " x1: " << x1 << " x2: " << x2 << " y1: " << y1 << " y2: " << y2 << " res: "<<  ((ym-a)/((y1-y2)/(x1-x2))) << std::endl;
-          
-          if ((xm - ((ym-a)/((y2-y1)/(x2-x1)))) > 0){
-           // std::cout << "evenodd ++" << std::endl;
-            evenodd++;
-          }
-         // std::cout << "evenodd: " << evenodd << std::endl;
+          double res = (ym-a)/((y2-y1)/(x2-x1));
+     
+          if (res < face.lowest_x){ res = face.lowest_x;}
+          if (res > face.highest_x){ res = face.highest_x;}
+          if (edge_id == *face.edge_ids.begin()){lowest = res; highest = res;}
+          if (res < lowest){ lowest = res;}
+          if (res > highest){ highest = res;}  
+          intersection_points.push_back(res);
         }
       }
+    for (int x = lowest; x < highest; x++){
+      double xm = x + 0.5;
+      int evenodd = 0;
+      for (double point : intersection_points){
+          //std::cout << "xm-point: " << xm - point << std::endl;
+          if ((xm - point) > 0){
+            evenodd++;
+          }
+      }
       if (evenodd%2 == 1){
-        //std::cout << "Writing sigma: x: " << x << " y: " << y << " id: "  << id << std::endl;
-        int fx = x +offsetx;
+        int fx = x + offsetx;
         int fy = y + offsety;
         if (fx < 0 || fy < 0 || fx > par.sizex-1 || fy > par.sizey-1){ 
-            std::cout << "OOPS tried to write outside of sigma!" ;continue;} 
+            std::cout << "OOPS tried to write outside of sigma!" << std::endl ;continue;} 
         sigma[fx][fy] = id + id_add;
         cell[id + id_add].IncrementTargetArea();
         cell[id + id_add].IncrementArea();
@@ -334,21 +339,16 @@ void Dish::add_poly(MCDS_io mcds, int face_id, int id, int id_add){
       } 
     }
   }
-  cout << "Setting area: " << cell[id + id_add].Area() << endl; 
 }
+
 
 void Dish::MCDS_import_cell(MCDS_io mcds, int cell_id, int id_add){
   io_cell iocell = mcds.cell_by_id(cell_id);
-  //std::cout << "phenotype id: " << iocell.mcds_obj->phenotype_dataset().ID() << std::endl;
   Cell * n_cell = new  Cell(*this, iocell.mcds_obj->phenotype_dataset().ID());
   n_cell->setSigma(iocell.mcds_obj->ID() + id_add);
   cell.push_back(*n_cell);
   n_cell->setTau(0);
-  //double tarea = iocell.mcds_obj->phenotype_dataset().phenotype()[0].geometrical_properties().volumes().total_volume();
-  //std::cout <<  "Target area:" << tarea << std::endl; 
-  int tarea = 0;
-  n_cell->SetTargetArea(tarea);
-  std::cout << "Adding cell: " << cell_id << std::endl;
+  n_cell->SetTargetArea(0);
   for (int face_id: iocell.face_ids) {
     add_poly(mcds, face_id, cell_id, id_add); 
   }
