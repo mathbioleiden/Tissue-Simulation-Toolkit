@@ -40,7 +40,8 @@ HEADERS += ca.h \
            sqr.h \
            sticky.h \
        	   crash.h \
-	   warning.h 
+	   warning.h \
+           mcds_io.h
 
         
 SOURCES += ca.cpp \
@@ -56,7 +57,8 @@ SOURCES += ca.cpp \
            pde.cpp \
            random.cpp \
            crash.cpp \
-           warning.cpp 
+           warning.cpp \
+           mcds_io.cpp 
 
 SOURCES += $$MAINFILE
        

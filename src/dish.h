@@ -40,6 +40,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell.h"
 #include "ca.h"
 
+#include "mcds_io.h"
+
 namespace ColourMode {
   enum { State,CellType,Sigma,Auxilliary };
 }
@@ -120,8 +122,17 @@ public:
     //! Create a MultiCellDS mesh for this Dish
     mesh::mesh *CreateMesh(void);
     
+
+    // Shape based MCDS Import
+    void ImportMultiCellDS(const char *fname);
+
+    void add_poly(MCDS_io mcds, int face_id, int id); 
+
+    void MCDS_import_cell(MCDS_io mcds, int cell_id);
+
     //! Set MultiCellDS import file
     void SetMultiCellDSImport (const char *fname);
+    
     int SetMultiCellDSCells(void);
 
 protected:

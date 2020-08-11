@@ -78,7 +78,7 @@ TIMESTEP {
 
     static int i=0;
     static Dish *dish;
-    if (i == 0){
+    if (i == 0 ){
         dish=new Dish();
     }
     
@@ -86,9 +86,7 @@ TIMESTEP {
     
     
     
-    if (!info->IsPaused()){
-    dish->CPM->AmoebaeMove(dish->PDEfield);
-    }
+    
     
     //cerr << "Done\n";
     if (par.graphics && !(i%par.storage_stride)) {
@@ -105,8 +103,15 @@ TIMESTEP {
       info->Menu();
      
     }
-  
- 
+    
+    if (i == 0){ 
+    info->setPaused();
+    i++;}
+   
+    if (!info->IsPaused()){
+      dish->CPM->AmoebaeMove(dish->PDEfield);
+    }  
+
     if (par.store && !(i%par.storage_stride)) {
       char fname[200];
       sprintf(fname,"%s/extend%05d.png",par.datadir,i);
