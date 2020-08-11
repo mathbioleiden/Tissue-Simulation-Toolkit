@@ -36,6 +36,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "crash.h"
 #include "pde.h"
 
+#include <thread>
 
 //#include <MultiCellDS-pimpl.hpp>
 //#include <MultiCellDS-simpl.hpp>
@@ -287,12 +288,13 @@ double round(double v, int n) {
 }
 
 
-void Dish::add_poly(MCDS_io mcds, int face_id, int id, int id_add){
-  int offsetx = (par.sizex / 2) - (mcds.get_highest_x() - ((mcds.get_highest_x() - mcds.get_lowest_x())/2));
-  int offsety = (par.sizey / 2) - (mcds.get_highest_y() - ((mcds.get_highest_y() - mcds.get_lowest_y())/2));
-  io_face face = mcds.face_by_id(face_id);
+void Dish::add_poly(MCDS_io * mcds, int face_id, int id_add){
+  int offsetx = (par.sizex / 2) - (mcds->get_highest_x() - ((mcds->get_highest_x() - mcds->get_lowest_x())/2));
+  int offsety = (par.sizey / 2) - (mcds->get_highest_y() - ((mcds->get_highest_y() - mcds->get_lowest_y())/2));
+  io_face face = mcds->face_by_id(face_id);
   int** sigma = CPM->getSigma();
   double intersection_points[face.edge_ids.size()+1];
+  int id = mcds->face_by_id(face_id).cell_ids[0];
   for (int y = face.lowest_y; y < face.highest_y; y++){
     double ym = y+0.5;
     double lowest;
@@ -300,12 +302,12 @@ void Dish::add_poly(MCDS_io mcds, int face_id, int id, int id_add){
     int evenodd = 0;
     int point_index = 0;
     for (int edge_id : face.edge_ids){
-        io_edge edge = mcds.edge_by_id(edge_id);
+        io_edge edge = mcds->edge_by_id(edge_id);
         if(y > edge.lowest_y  && y < edge.highest_y ){
-          double x1 = mcds.node_by_id(edge.node_ids[0]).x;
-          double x2 = mcds.node_by_id(edge.node_ids[1]).x;
-          double y1 = mcds.node_by_id(edge.node_ids[0]).y;
-          double y2 = mcds.node_by_id(edge.node_ids[1]).y;
+          double x1 = mcds->node_by_id(edge.node_ids[0]).x;
+          double x2 = mcds->node_by_id(edge.node_ids[1]).x;
+          double y1 = mcds->node_by_id(edge.node_ids[0]).y;
+          double y2 = mcds->node_by_id(edge.node_ids[1]).y;
 
           double f = (y1-y2)/(x1-x2);
           double a = y1 - x1*f ;
@@ -344,41 +346,37 @@ void Dish::add_poly(MCDS_io mcds, int face_id, int id, int id_add){
 }
 
 
-void Dish::MCDS_import_cell(MCDS_io mcds, int cell_id, int id_add){
-  io_cell iocell = mcds.cell_by_id(cell_id);
+void Dish::MCDS_import_cell(MCDS_io *mcds, int cell_id, int id_add){
+  io_cell iocell = mcds->cell_by_id(cell_id);
   Cell * n_cell = new  Cell(*this, iocell.mcds_obj->phenotype_dataset().ID());
   n_cell->setSigma(iocell.mcds_obj->ID() + id_add);
   cell.push_back(*n_cell);
   n_cell->setTau(0);
-  n_cell->SetTargetArea(0);
-  for (int face_id: iocell.face_ids) {
-    add_poly(mcds, face_id, cell_id, id_add); 
-  }
+  n_cell->SetTargetArea(0);  
 }
 
 void Dish::ImportMultiCellDS(const char *fname){
   MCDS_io mcds(fname);
   mcds.map_cellshape();
 
-  int sizex = (mcds.get_highest_x() - mcds.get_lowest_x()) * 1.2;
-  int sizey =  (mcds.get_highest_y() - mcds.get_lowest_y()) * 1.2;
-
-  par.sizex = sizex;
-  par.sizey = sizey;
+  par.sizex = (mcds.get_highest_x() - mcds.get_lowest_x()) * 1.2;
+  par.sizey =  (mcds.get_highest_y() - mcds.get_lowest_y()) * 1.2;
 
   int id_add = 0;
-  
   CPM=new CellularPotts(&cell, par.sizex, par.sizey);
     if (par.n_chem)
       PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
   
   std::map<int, io_cell*>* cells = mcds.get_cells();
+  int t_num = 0;
   for (auto iocell : *cells){
     if (iocell.first == 0){ id_add = 1;}
     int cell_id = iocell.second->mcds_obj->ID();
-    MCDS_import_cell(mcds, cell_id, id_add);
+    MCDS_import_cell( &mcds, cell_id, id_add);
+    for (int face_id : iocell.second->face_ids){
+      add_poly(&mcds, face_id, id_add);
+    }
   }
-  
 }
 
 void Dish::ExportMultiCellDS (const char *fname) {

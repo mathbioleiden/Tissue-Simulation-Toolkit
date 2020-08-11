@@ -126,9 +126,6 @@ public:
     // Shape based MCDS Import
     void ImportMultiCellDS(const char *fname);
 
-    void add_poly(MCDS_io mcds, int face_id, int id, int id_add); 
-
-    void MCDS_import_cell(MCDS_io mcds, int cell_id, int id_add);
 
     //! Set MultiCellDS import file
     void SetMultiCellDSImport (const char *fname);
@@ -140,6 +137,9 @@ protected:
   void SetCellOwner(Cell &which_cell);
 
 private:
+  void MCDS_import_cell(MCDS_io * mcds, int cell_id, int id_add);
+  void add_poly(MCDS_io * mcds, int face_id, int id_add); 
+
   bool CellLonelyP(const Cell &c, int **neighbours) const;
     MultiCellDS* h_mcds;
 
