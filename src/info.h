@@ -62,6 +62,7 @@ public:
   Cell &ClickCell(Graphics *g);
   
   bool IsPaused(void);
+  void setPaused(){ispaused = true;};
   
 private:
   Info(void);

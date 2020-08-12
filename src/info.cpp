@@ -102,10 +102,14 @@ void Info::Menu() {
     break;
   case (char) 32:
 	if(ispaused){
-		ispaused = false;}
+                std::cout <<  "Unpausing" << std::endl;
+		ispaused = false;
+        }
 	else{
-		ispaused = true;}
-		break;
+                std::cout <<  "Pausing" << std::endl;
+		ispaused = true;
+        }
+	break;
      
   case 'V':
    
@@ -136,8 +140,8 @@ void Info::Menu() {
     
   case 'S':
   {
-	cout << "Saving to: " << par.xmloutput << endl;
-	dish->ExportMultiCellDS(par.xmloutput);
+	cout << "Saving to: " << par.mcds_output << endl;
+	dish->ExportMultiCellDS(par.mcds_output);
 	  }
 	  break;
   case 'O':
