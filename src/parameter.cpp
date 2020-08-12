@@ -149,10 +149,10 @@ void Parameter::Read(const char *filename) {
   storage_stride = igetpar(fp, "storage_stride", 10, true);
   graphics = bgetpar(fp, "graphics", true, true);
   store = bgetpar(fp, "store", false, true);
-  load_mcds = bgetpar(fp, "load_xml", false, true);
+  load_mcds = bgetpar(fp, "load_mcds", false, true);
   datadir = sgetpar(fp, "datadir", "data_film", true);
-  mcds_output = sgetpar(fp, "xmloutput", "outstate.xml", true);
-  mcds_input = sgetpar(fp, "xmlinput", "outstate.xml", true);
+  mcds_output = sgetpar(fp, "mcds_output", "outstate.xml", true);
+  mcds_input = sgetpar(fp, "mcds_input", "outstate.xml", true);
 
 }
 
@@ -205,9 +205,9 @@ void Parameter::Write(ostream &os) const {
   os << " storage_stride = " << storage_stride << endl;
   os << " graphics = " << sbool(graphics) << endl;
   os << " store = " << sbool(store) << endl;
-  os << " load_xml = " << sbool(load_mcds) << endl;
-  os << " xmloutput = " << mcds_output << endl;
-  os << " xmlinput = " << mcds_input << endl;
+  os << " load_mcds = " << sbool(load_mcds) << endl;
+  os << " mcds_output = " << mcds_output << endl;
+  os << " mcds_input = " << mcds_input << endl;
   
 
   if (datadir) 
