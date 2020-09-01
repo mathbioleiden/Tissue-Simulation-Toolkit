@@ -39,7 +39,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell.h"
 // #include <boost/container_hash/hash.hpp>
 #include <array>
-#include <boost/array.hpp>
+//#include <boost/array.hpp>
 // #include "pickset.hpp"
 // #include <tr1/unordered_set>
 // #include <tr1/array>
@@ -49,6 +49,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <cstddef>
 #include <functional>
 // #include <unordered_set>
+
+using namespace std;
 
 namespace std
 {

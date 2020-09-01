@@ -44,8 +44,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "crash.h"
 #include "hull.h"
 #include <tuple>
-#include <boost/functional/hash.hpp>
-#include <boost/array.hpp>
+//#include <boost/functional/hash.hpp>
+//#include <boost/array.hpp>
 #include <algorithm>
 // #include "pickset.hpp"
 

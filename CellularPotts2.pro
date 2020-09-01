@@ -2,7 +2,9 @@ TEMPLATE = app
 GRAPHICS = qt
 CONFIG += console
 CONFIG += release
-CONFIG += debug
+QT += widgets
+QT += gui
+CONFIG -= debug
 CONFIG -= app_bundle
 
 
@@ -62,11 +64,11 @@ contains( GRAPHICS, qt ) {
 
 
    message( "Building Qt executable" )
-   SOURCES += qtgraph.cpp
-   HEADERS += qtgraph.h
+   SOURCES += qtgraph5.cpp
+   HEADERS += qtgraph5.h
    QMAKE_CXXFLAGS_RELEASE += -DQTGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DQTGRAPHICS
-   QT += qt3support
+   #QT += qt3support
    unix {
       QMAKE_LFLAGS= -no-pie
       system(rm $${TARGET}.o)
