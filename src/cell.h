@@ -330,6 +330,10 @@ al. 2000). The current version of TST does not include such functionality.
   */
   void MeasureCellSize(Cell &c);
 
+  void setArea(int n_area){
+    area = n_area;
+  }
+
 private:
   /*! \brief Read a table of static Js.
     First line: number of types (including medium)
@@ -398,7 +402,9 @@ private:
   //components (used internally)
   inline double Length(int s_x,int s_y,int s_xx,
 				int s_yy,int s_xy,int n) {
-    
+    if (n==0) {
+      return 0.;
+    }
     // inertia tensor (constructed from the raw momenta, see notebook)
     double iyy=(double)s_xx-(double)s_x*s_x/(double)n;
     double ixx=(double)s_yy-(double)s_y*s_y/(double)n;
@@ -518,7 +524,7 @@ private:
   }
     
     inline void GetCentroid(double *cx, double *cy) {
-        
+        std::cout << "Area: " << area << std::endl;
         *cx = sum_x/area;
         *cy = sum_y/area;
     }

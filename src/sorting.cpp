@@ -85,9 +85,6 @@ TIMESTEP {
     static Info *info=new Info(*dish, *this);
     
     
-    
-    
-    
     //cerr << "Done\n";
     if (par.graphics && !(i%par.storage_stride)) {
       
@@ -103,11 +100,19 @@ TIMESTEP {
       info->Menu();
      
     }
-    
     if (i == 0){ 
-    info->setPaused();
+      info->setPaused();
     i++;}
-   
+  
+    if (par.graphics && info->IsPaused()) {
+      BeginScene();
+      ClearImage();
+      dish->Plot(this);
+      EndScene();
+      info->Menu();
+    }
+
+
     if (!info->IsPaused()){
       dish->CPM->AmoebaeMove(dish->PDEfield);
     }  

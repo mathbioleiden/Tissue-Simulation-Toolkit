@@ -89,11 +89,9 @@ QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
 
   mouse_button=Qt::NoButton;
   key=-1;
-  // changed by RM for porting to Win Qt4
-	pixmap=new QPixmap(xfield,yfield);
   //pixmap->fill(pens[0].color());
 	//ClearImage();
-	picture=new QPainter();
+  picture=new QPainter();
 }
 
 QtGraphics::~QtGraphics() {
@@ -159,6 +157,22 @@ void QtGraphics::ReadColorTable(QPen *pens)
   fclose(fpc);
 
 }
+
+void QtGraphics::Resize(int xfield, int yfield)
+{
+   resize( xfield * mag, yfield  * mag);
+   init_size_x = xfield;
+   init_size_y = yfield;
+   
+   if (xfield > yfield) {
+                mag = (double)yfield / (double)init_size_y;
+        } else {
+                mag = (double)xfield / (double)init_size_x;
+   }
+   pixmap=new QPixmap(xfield,yfield);
+}
+
+
 
 //Of course, we also want to see the image
 //on screen. This is taken care of by the

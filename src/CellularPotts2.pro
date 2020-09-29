@@ -64,8 +64,8 @@ SOURCES += $$MAINFILE
        
 #QMAKE_CXXFLAGS_RELEASE += -fexceptions
 #QMAKE_CXXFLAGS_DEBUG += -fexceptions
-#QMAKE_LFLAGS_RELEASE += -O4 
-#QMAKE_CXXFLAGS_RELEASE += -O4
+#QMAKE_LFLAGS_RELEASE += -O1 
+#QMAKE_CXXFLAGS_RELEASE += -O1
 
 contains( GRAPHICS, qt ) {
    message( "Building Qt executable" )

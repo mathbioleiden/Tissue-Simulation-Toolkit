@@ -3,6 +3,7 @@
 #include <string>
 #include <chrono>
 #include <ctime>
+#include <string>
 
 #include "mcds_io.h"
 #include "MultiCellDS.hpp"
@@ -40,6 +41,120 @@ void MCDS_io::add_metadata(std::string filename){
 }
 
 
+
+io_cell * MCDS_io::get_new_cell(int id){
+  if (cells.find(id) == cells.end())
+    cells[id] = io_cell();
+  return &cells[id];
+}
+
+io_face * MCDS_io::get_new_face(int id){
+  if (faces.find(id) == faces.end())
+    faces[id] = io_face();
+  return &faces[id];
+}
+
+io_edge * MCDS_io::get_new_edge(int id){
+  if (edges.find(id) == edges.end())
+    edges[id] = io_edge();
+  return &edges[id];
+}
+
+
+io_node * MCDS_io::get_new_node(int id){
+  if (nodes.find(id) == nodes.end())
+    nodes[id] = io_node();
+  return &nodes[id];
+}
+
+int MCDS_io::get_new_edge_uniq(int node1, int node2){
+      std::string key;
+      int id;
+      if (node1 > node2) {
+        key = std::to_string(node2) + std::to_string(node1);
+      }
+      else {
+        key = std::to_string(node1) + std::to_string(node2);
+      }
+      if (edge_by_nodes.find(key) == edge_by_nodes.end()){
+        id = edges.size();
+        edge_by_nodes[key] = id;
+	edges[id] = io_edge();
+	edges[id].node_ids.push_back(node1);
+        edges[id].node_ids.push_back(node2);
+      }
+      else{
+        id = edge_by_nodes[key];
+      }
+      return id;
+    }
+
+void MCDS_io::finalize_cellshapes(){
+  cell::cell_population_individual * cell_population_individual = new cell::cell_population_individual;
+  cell::cellular_information * cellular_information = new  cell::cellular_information;
+  multicellds->cellular_information(cellular_information);
+  cell::cell_populations * cell_populations = new cell::cell_populations;
+  cellular_information->cell_populations(cell_populations);
+  cell_populations->cell_population(cell_population_individual); 
+
+  for(auto cell_it : cells){
+    std::cout << "Cell: " << cell_it.first << std::endl;
+    //int cell_id = cell_it.first;
+    io_cell cell = cell_it.second;
+    //if (cell.node_ids.size() ==0) continue;
+    cell::cell * cell_ds = cell.mcds_obj;
+    cell_population_individual->cell().push_back(cell_ds);
+    state::state * state = new state::state;
+    cell_ds->state(state);
+    mesh::nodes_edges_faces * shape_ds = new mesh::nodes_edges_faces; 
+    state->shape(shape_ds);
+    mesh::faces * faces_ds = new mesh::faces;
+    mesh::edges * edges_ds = new mesh::edges;
+    mesh::nodes * nodes_ds = new mesh::nodes;
+    
+    // BUG 
+    std::string * test_nds = new std::string("TEST!");
+    common::custom * custom_node = new common::custom;
+    custom_node->custom_data().push_back((void *) (test_nds));
+    nodes_ds->custom(custom_node);
+    shape_ds->faces(faces_ds);
+    shape_ds->nodes(nodes_ds);
+    shape_ds->edges(edges_ds);
+    std::cout << "Cell face id size: " << cell.face_ids.size() << std::endl;
+    
+    for(int cell_node_id : cell.node_ids ){
+      io_node node = nodes[cell_node_id];
+      std::cout << " cell_node_id: " << cell_node_id << std::endl;
+      mesh::node * node_ds = new mesh::node;
+      node_ds->ID(cell_node_id);
+      common::units_double_list * node_position = new common::units_double_list;
+      node_position->push_back(node.x);
+      node_position->push_back(node.y);
+      node_ds->position(node_position);
+      nodes_ds->node().push_back(node_ds);
+    }
+    for(int cell_edge_id : cell.edge_ids ){
+      mesh::edge * edge_ds = new mesh::edge;
+      edge_ds->ID(cell_edge_id);
+      std::cout << " cell_edge_id: " << cell_edge_id << std::endl;
+      edge_ds->node_ID().push_back(edges[cell_edge_id].node_ids[0]);
+      edge_ds->node_ID().push_back(edges[cell_edge_id].node_ids[1]);
+      edges_ds->edge().push_back(edge_ds);
+    }
+    
+    for(int face_id : cell.face_ids ){
+      io_face face = faces[face_id];
+      std::cout << " face_id: " << face_id << std::endl;
+      mesh::face * face_ds = new mesh::face;
+      face_ds->ID(face_id);
+      faces_ds->face().push_back(face_ds);
+      for (int edge_id : face.edge_ids){
+        face_ds->edge_ID().push_back(edge_id);	
+      }
+    } 
+  }
+}
+
 void MCDS_io::add_time(){
   std::time_t t = std::time(NULL);
   struct tm lt = *std::localtime(&t);
@@ -62,6 +177,7 @@ void MCDS_io::write(std::string filename){
   MultiCellDS_s.post (); 
 }
 
+
 void MCDS_io::map_cellshape(){
   for (cell::cell_population_individual::cell_iterator cell_ds = 
        multicellds->cellular_information().cell_populations().cell_population().cell().begin();
@@ -79,17 +195,15 @@ void MCDS_io::map_cellshape(){
         node->cell_ids.push_back(cell_id);
         node->x = node_ds->position()[0];
         node->y = node_ds->position()[1];
-        //std::cout <<"node ID: "<< node_id << " node X: " << node->x << " node Y: " << node->y << std::endl;
         if (node_ds == cell_ds->state().shape().nodes().node().begin() && cell_ds == 
             multicellds->cellular_information().cell_populations().cell_population().cell().begin()){
           lowest_x = node->x; lowest_y = node->y; highest_x = node->x; highest_y = node->y;
         }
-        //std::cout << "low: "<< lowest_y << " high: "<<  highest_y << std::endl;
 	if (node->x < lowest_x ) lowest_x = node->x;
         if (node->y < lowest_y ) lowest_y = node->y;
         if (node->x > highest_x ) highest_x = node->x;
         if (node->y > highest_y ) highest_y = node->y;
-        nodes[node_id] = node;
+        nodes[node_id] = * node;
       }
     }
     for ( mesh::edges::edge_iterator edge_ds = cell_ds->state().shape().edges().edge().begin(); 
@@ -98,26 +212,23 @@ void MCDS_io::map_cellshape(){
         io_edge * edge = new io_edge;
         int edge_id = edge_ds->ID();
         edge->mcds_obj = &(*edge_ds);
-        edges[edge_id] = edge;
+        edges[edge_id] = * edge;
         edge->cell_ids.push_back(cell_id);
         for (int edge_node_index = 0; edge_node_index < 2; edge_node_index ++){
           int edge_node_id = edge_ds->node_ID()[edge_node_index];
-          //std::cout << "edge node ID: " << edge_node_id << std::endl;
           edge->node_ids.push_back(edge_node_id);
-          io_node * edge_node = nodes[edge_node_id];
+          io_node * edge_node = &nodes[edge_node_id];
           edge_node->edge_ids.push_back(edge_id);
-          //std::cout << "Node_edge: id: " << edge_node_id << " x: "<< edge_node->x << " y: " << edge_node->y << std::endl;
           if ( edge_node_index == 0){
             edge->lowest_x = edge_node->x; edge->lowest_y = edge_node->y; edge->highest_x = edge_node->x; edge->highest_y = edge_node->y;
 
           }
-          //std::cout << "Edge: low: "<< edge->lowest_y << " high: "<< edge->highest_y << std::endl; 
           if (edge_node->x < edge->lowest_x ) edge->lowest_x = edge_node->x;
           if (edge_node->y < edge->lowest_y ) edge->lowest_y = edge_node->y;
           if (edge_node->x > edge->highest_x ) edge->highest_x = edge_node->x;
           if (edge_node->y > edge->highest_y ) edge->highest_y = edge_node->y;
         }   
-        edges[edge_id] = edge;
+        edges[edge_id] = * edge;
       } 
     }
     for (mesh::faces::face_iterator face_ds = cell_ds->state().shape().faces().face().begin();
@@ -127,20 +238,17 @@ void MCDS_io::map_cellshape(){
         int face_id = face_ds->ID();
         face->mcds_obj = &(*face_ds);
         face->cell_ids.push_back(cell_id);
-        faces[face_id] = face;
+        faces[face_id] = * face;
         cell->face_ids.push_back(face_id);
-       // std::cout  << "FaceIndx: " << face_id << std::endl;
         for(unsigned int face_edge_index = 0; face_edge_index < face_ds->edge_ID().size(); 
             face_edge_index++){
           int face_edge_id = face_ds->edge_ID()[face_edge_index];
-          //std::cout << "face egde index: " << face_edge_index << std::endl;
           face->edge_ids.push_back(face_edge_id);
-          edges[face_edge_id]->face_ids.push_back(face_id);
+          edges[face_edge_id].face_ids.push_back(face_id);
           for (int face_edge_node_index = 0; face_edge_node_index < 2; face_edge_node_index ++){
             
-            io_node * face_edge_node = nodes[edges[face_edge_id]->node_ids[face_edge_node_index]];
+            io_node * face_edge_node = &nodes[edges[face_edge_id].node_ids[face_edge_node_index]];
             face_edge_node->edge_ids.push_back(face_edge_id);
-            //std::cout << "Node_face: id: " << edges[face_edge_id]->node_ids[face_edge_node_index] << " x: "  << face_edge_node->x << " y: " << face_edge_node->y << std::endl; 
             if (face_ds == cell_ds->state().shape().faces().face().begin() && face_edge_index == 0 && face_edge_node_index == 0){
               face->lowest_x = face_edge_node->x;
               face->lowest_y = face_edge_node->y;
@@ -153,10 +261,10 @@ void MCDS_io::map_cellshape(){
             if (face_edge_node->y > face->highest_y ) face->highest_y = face_edge_node->y;
           }
         }
-        faces[face_id] = face;
+        faces[face_id] = * face;
       }
     }
-    cells[cell_id] = cell;
+    cells[cell_id] = *cell;
   }
   mapped = true;
 }

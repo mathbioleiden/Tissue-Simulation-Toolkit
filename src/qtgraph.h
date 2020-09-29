@@ -75,13 +75,7 @@ class QtGraphics : public QWidget, public Graphics {
     pixmap->fill(pens[0].color());
   }
 
-  virtual void Resize(int xfield, int yfield){
-   xfield = xfield ;
-   yfield = yfield ; 
-   resize( xfield * mag, yfield  * mag);
-        init_size_x = xfield;
-        init_size_y = yfield;
-  }
+  virtual void Resize(int xfield, int yfield);
   
 
   virtual void TimeStep(void);
