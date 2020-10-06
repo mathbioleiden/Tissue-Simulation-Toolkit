@@ -340,7 +340,7 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
 
 
 /** PUBLIC **/
-int CellularPotts::CopyvProb(int DH,  double stiff) {
+int CellularPotts::CopyvProb(int DH,  double stiff, bool anneal) {
 
   double dd; 
   int s;
@@ -348,7 +348,9 @@ int CellularPotts::CopyvProb(int DH,  double stiff) {
   if (DH<=-s) return 2;
   
   // if DH becomes extremely large, calculate probability on-the-fly
-  if (DH+s > BOLTZMANN-1)
+  if(anneal)
+    dd=exp( -( (double)(DH+s)/0 ));
+  else if (DH+s > BOLTZMANN-1)
     dd=exp( -( (double)(DH+s)/par.T ));
   else
     dd=copyprob[DH+s]; 
@@ -372,7 +374,7 @@ void CellularPotts::FreezeAmoebae(void)
 
 #include <fstream>
 //! Monte Carlo Step. Returns summed energy change
-int CellularPotts::AmoebaeMove(PDE *PDEfield)
+int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
 {
   
   int loop,p;
@@ -433,10 +435,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
     // periodic boundaries)
     if (kp!=-1) {  
       // Don't even think of copying the special border state into you!
-    
-     
       if ( k  != kp ) {
-
 	/* Try to copy if sites do not belong to the same cell */
 	
 	// connectivity dissipation:
@@ -445,8 +444,8 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
 	
 	
 	int D_H=DeltaH(x,y,xp,yp,PDEfield);
-	
-	if ((p=CopyvProb(D_H,H_diss))>0) {
+        	
+	if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
 	  ConvertSpin ( x,y,xp,yp );
 	  SumDH+=D_H;
 	}

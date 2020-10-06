@@ -136,7 +136,8 @@ public:
     /*! Implements the core CPM algorithm. Carries out one MCS.
       \return Total energy change during MCS.
     */
-    int AmoebaeMove(PDE *PDEfield=0);
+    
+    int AmoebaeMove(PDE *PDEfield=0, bool anneal = false);
   
     /*! \brief Read initial cell shape from XPM file.
       Reads the initial cell shape from an 
@@ -279,7 +280,7 @@ private:
   bool Probability(int DH);
   void ConvertSpin(int x,int y,int xp,int yp);
   void SprayMedium(void);
-  int CopyvProb(int DH,  double stiff);
+  int CopyvProb(int DH,  double stiff, bool anneal);
   void FreezeAmoebae(void);
   void MeasureCellSize(Cell &c);
   void CopyProb(double T);

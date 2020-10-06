@@ -141,8 +141,9 @@ private:
   void MCDS_export_faces(MCDS_io * mcds);
   //void MCDS_add_nodes_cell(MCDS_io * mcds, io_cell * cell);
   void MCDS_denoise_CPM(int ** sigma_in, int ** sigma_out);
+  int ** MCDS_AllocateTmpSigma();
   bool sizechange = false;
-
+  
 
   bool CellLonelyP(const Cell &c, int **neighbours) const;
     MultiCellDS* h_mcds;

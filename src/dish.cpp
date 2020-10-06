@@ -682,7 +682,7 @@ void Dish::MCDS_denoise_CPM(int ** sigma_in, int ** sigma_out){
 	}
       }
       std::cout << "Ratio: " << (float)count[most] / 9 << std::endl;
-      if(((float)count[most] / count.size()) > 0.5 && most != sigma_in[x][y] && most != -1){
+      if(most != -1){
         std::cout << "Replacing with most!" << std::endl;
         sigma_out[x][y] = most;
       } 
@@ -694,23 +694,47 @@ void Dish::MCDS_denoise_CPM(int ** sigma_in, int ** sigma_out){
   }
 }
 
+
+
+int** Dish::MCDS_AllocateTmpSigma(){
+  int ** sigma;
+
+  int sizex=par.sizex; int sizey=par.sizey;
+
+  sigma=(int **)malloc(sizex*sizeof(int *));
+  if (sigma==NULL)
+    MemoryWarning();
+
+  sigma[0]=(int *)malloc(sizex*sizey*sizeof(int));
+  if (sigma[0]==NULL)
+    MemoryWarning();
+
+
+  {for (int i=1;i<sizex;i++)
+    sigma[i]=sigma[i-1]+sizey;}
+  return sigma;
+}
+
 void Dish::ExportMultiCellDS(const char *fname){
   int ** sigma = CPM->getSigma();
-  MCDS_denoise_CPM(sigma, sigma ); 
-  MCDS_denoise_CPM(sigma, sigma );
+  int ** tmpsigma = MCDS_AllocateTmpSigma();
+  for (int i = 0; i < 30; i++)
+    CPM->AmoebaeMove(0, true); 
+  MCDS_denoise_CPM(sigma, tmpsigma); 
+  MCDS_denoise_CPM(tmpsigma, sigma);
   MCDS_io mcds;
   for (vector<Cell>::iterator c = cell.begin()+1; c != cell.end(); c++){
     MCDS_export_cell( &mcds, &(*c));
   }
   MCDS_export_nodes(&mcds, sigma);
-  for (auto cell_test: (*mcds.get_cells())){
-    std::cout << "Cell: " << cell_test.first << std::endl;
-    for (int node_id: cell_test.second.node_ids){
-     io_node * node = mcds.node_by_id(node_id);
-     std::cout << "node: " << node_id << " x: " << node->x << " y: " << node->y << std::endl;
-    }
-  }
-  //MCDS_export_edges_faces(&mcds, sigma); 
+  //for (auto cell_test: (*mcds.get_cells())){
+  //  std::cout << "Cell: " << cell_test.first << std::endl;
+  //  for (int node_id: cell_test.second.node_ids){
+  //   io_node * node = mcds.node_by_id(node_id);
+  //   std::cout << "node: " << node_id << " x: " << node->x << " y: " << node->y << std::endl;
+  //  }
+  //}
+  MCDS_export_edges_faces(&mcds, sigma); 
   MCDS_export_edges(&mcds, sigma);
   MCDS_export_faces(&mcds);
   mcds.finalize_cellshapes(); 
@@ -718,6 +742,8 @@ void Dish::ExportMultiCellDS(const char *fname){
   mcds.add_time();
   mcds.write(fname);
   std::cout << "Done exporting!" << std::endl; 
+  //sigma = tmpsigma;
+  delete tmpsigma;
 }
 
 //void OLDExportMultiCellDS (const char *fname) {
