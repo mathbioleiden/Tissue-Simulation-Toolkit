@@ -734,7 +734,7 @@ void Dish::ExportMultiCellDS(const char *fname){
   //   std::cout << "node: " << node_id << " x: " << node->x << " y: " << node->y << std::endl;
   //  }
   //}
-  MCDS_export_edges_faces(&mcds, sigma); 
+  //MCDS_export_edges_faces(&mcds, sigma); 
   MCDS_export_edges(&mcds, sigma);
   MCDS_export_faces(&mcds);
   mcds.finalize_cellshapes(); 
