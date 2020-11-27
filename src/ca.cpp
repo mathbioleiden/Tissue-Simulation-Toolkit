@@ -346,11 +346,9 @@ int CellularPotts::CopyvProb(int DH,  double stiff, bool anneal) {
   int s;
   s=(int)stiff;
   if (DH<=-s) return 2;
-  
+  if(anneal) return 0;
   // if DH becomes extremely large, calculate probability on-the-fly
-  if(anneal)
-    dd=exp( -( (double)(DH+s)/0 ));
-  else if (DH+s > BOLTZMANN-1)
+  if (DH+s > BOLTZMANN-1)
     dd=exp( -( (double)(DH+s)/par.T ));
   else
     dd=copyprob[DH+s]; 
@@ -430,7 +428,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
 
     }
     
-    
+    //std::cout << "p1: " << k << " p2: " << kp << std::endl; 
     // test for border state (relevant only if we do not use 
     // periodic boundaries)
     if (kp!=-1) {  

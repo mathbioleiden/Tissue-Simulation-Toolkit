@@ -83,7 +83,7 @@ Dish::~Dish() {
 void Dish::Plot(Graphics *g) {
     if (sizechange){
       sizechange = false;
-      std::cout << "Changing window size" << std::endl;
+      std::cout << "Changing window size to: X: " << par.sizex*2 << " Y: " << par.sizey*2  << std::endl;
       g->Resize(par.sizex*2, par.sizey*2);
     }
     if (CPM)
@@ -356,7 +356,6 @@ void Dish::MCDS_import_poly(MCDS_io * mcds, int face_id, int id_add){
 
 
 void Dish::MCDS_import_cell(MCDS_io *mcds, int cell_id, int id_add){
-  std::cout << "Cell: " << cell_id << std::endl; 
   io_cell * iocell = mcds->cell_by_id(cell_id);
   Cell * n_cell = new  Cell(*this, iocell->mcds_obj->phenotype_dataset().ID());
   n_cell->setSigma(iocell->mcds_obj->ID() + id_add);
@@ -367,7 +366,7 @@ void Dish::MCDS_import_cell(MCDS_io *mcds, int cell_id, int id_add){
 
 void Dish::ImportMultiCellDS(const char *fname){
   MCDS_io mcds(fname);
-  mcds.map_cellshape();
+  mcds.map_cellshapes();
   par.sizex = (mcds.get_highest_x() - mcds.get_lowest_x()) * 1.5;
   par.sizey =  (mcds.get_highest_y() - mcds.get_lowest_y()) * 1.5;
   
@@ -378,10 +377,13 @@ void Dish::ImportMultiCellDS(const char *fname){
   
   std::map<int, io_cell>* cells = mcds.get_cells();
   for (auto iocell : *cells){
+    //std::cout << "import cell: " << iocell.first << std::endl;
     if (iocell.first == 0){ id_add = 1;}
     int cell_id = iocell.second.mcds_obj->ID();
     MCDS_import_cell( &mcds, cell_id, id_add);
+    //std::cout << "FACEIDSSIZE: " << iocell.second.face_ids.size() << std::endl;
     for (int face_id : iocell.second.face_ids){
+	    //std::cout << "ADDING FACE!" << std::endl;
       MCDS_import_poly(&mcds, face_id, id_add);
     }
   }
@@ -391,170 +393,15 @@ void Dish::ImportMultiCellDS(const char *fname){
 
 void Dish::MCDS_export_cell(MCDS_io *mcds, Cell * cell){
   int cell_id = cell->Sigma();
-  std::cout << "Cell_id: " << cell_id << std::endl;
   io_cell * iocell  = mcds->get_new_cell(cell_id);
-  
-  cell::cell * cell_ds = new cell::cell; 
-  phenotype_dataset::phenotype_dataset * p_set = new phenotype_dataset::phenotype_dataset();
-  p_set->ID(cell->tau);
- 
-  phenotype_base::phenotype_type pt = phenotype_base::phenotype_type::current;
-
-  phenotype::phenotype * p = new phenotype::phenotype ;
-  p->type(pt);
-  phenotype_common::geometrical_properties *gp = new phenotype_common::geometrical_properties; 
- 
-  common::units_decimal_nonnegative *volume = new common::units_decimal_nonnegative;
-  phenotype_common::volumes *volumes = new phenotype_common::volumes; 
-
-  volume->units("square micron");
-  volume->base_value(cell->TargetArea());
-  volumes->total_volume(volume); 
-  gp->volumes(volumes);
- 
-  phenotype_common::lengths * lengths = new phenotype_common::lengths();
-  common::units_decimal_nonnegative * ma_ax = new common::units_decimal_nonnegative;
-  common::units_decimal_nonnegative * mi_ax = new common::units_decimal_nonnegative; 
-  ma_ax->units("micron");
-  mi_ax->units("micron");
-
-  double major_axis, minor_axis;
+  iocell->type = cell->tau;  
+  iocell->target_area = cell->TargetArea();
+  iocell->area = cell->area;
+  cell->GetCentroid(&iocell->centroid_x, &iocell->centroid_y);  
   double ovx,ovy;
-  cell->MajorMinorAxis(&major_axis, &minor_axis, &ovx, &ovy);  
-  ma_ax->base_value(major_axis);
-  mi_ax->base_value(minor_axis);
-  lengths->major_axis(ma_ax);
-  lengths->minor_axis(mi_ax);
-
-  gp->lengths(lengths);
-
-  p->geometrical_properties(gp);
-  p_set->phenotype().push_back(p);
-  cell_ds->phenotype_dataset(p_set);
-  cell_ds->ID(cell_id); 
-  iocell->mcds_obj = cell_ds;
+  cell->MajorMinorAxis(&iocell->major_axis, &iocell->minor_axis, &ovx, &ovy);
 }
 
-int Dish::MCDS_get_next_node(MCDS_io * mcds, int ** sigma,  vector<int> * nodes, int current, int prev, int startnode, int cell_id){
-  io_node * curnode = mcds->node_by_id(current);
-  int lowest = -1;
-  int lowest_id = -1;
-  bool first_round = true;
-  //startnode = false;
-  int count = 0;
-  std::cout << "nodes size: " << nodes->size()  << std::endl;
-  for (unsigned long int index = 0; index < nodes->size() + 1; index++){
-    count ++;
-    if(count > 1000){std::cout << "Loop!" << std::endl; exit(1);}
-    int node_id;
-    if (index == nodes->size()){
-      if (lowest_id == -1){
-        node_id = startnode;
-      }
-      else{
-        break;
-      }
-      //startnode = true;
-    }
-    else{ 
-      node_id = (*nodes)[index];
-    }
-    std::cout << "Node: " << node_id << std::endl;
-    io_node * node = mcds->node_by_id(node_id);
-    io_node * prevnode = mcds->node_by_id(prev);
-    int dxprev = curnode->x - prevnode->x;
-    int dyprev = curnode->y - prevnode->y;
-    int startx = curnode->x + 0.5;
-    int starty = curnode->y + 0.5; 
-    int stopx = node->x + 0.5;
-    int stopy = node->y + 0.5;
-    int dx = startx - stopx;
-    int dy = starty - stopy;
-    int xstep = 1, ystep = 1,  addx = 0, addy = 0;
-    std::cout << "startx: " << startx << " stopx: " << stopx << " starty: " << starty << " stopy: " << stopy << " xstep: " << xstep << " ystep: "<< ystep  << std::endl;
-    if (dx > 0){ if(dxprev > 0){continue;} xstep = -1; addx = -1;}
-    if (dy > 0){ if(dyprev > 0){continue;} ystep = -1; addy = -1;}
-    if(dxprev < 0 && dx < 0){continue;}
-    if(dyprev < 0 && dy < 0){continue;}
-    dx = abs(dx);
-    dy = abs(dy);
-    bool found = false;
-    if (dx && !dy){
-      found = true;
-      for(int xpos = startx + addx; xpos != stopx+addx; xpos+=xstep){ 
-        int a = sigma[xpos][starty];
-        int b = sigma[xpos][starty-1];
-        std::cout << "CheckingX: x: " << xpos << " Y: " << starty << " a: " << a << " b: " << b << std::endl;
-        if( a == b || !( a == cell_id || b == cell_id )){found = false; std::cout << "Nope!" << std::endl; break;}
-      }
-    }
-    else if (!dx && dy){
-      found = true;
-      for(int ypos = starty + addy; ypos != stopy+addy; ypos+=ystep){
-        int a = sigma[startx][ypos];
-        int b = sigma[startx-1][ypos];
-        std::cout << "Checking: x: " << startx << " Y: " << ypos << " a: " << a << " b: " << b <<  std::endl;
-        if(a == b || !(a == cell_id || b == cell_id)){found = false; std::cout << "Nope!" << std::endl;break;}
-      }
-    }
-    if (found){
-      std::cout << "dx: " << dx << " dy: " << dy << " lowest: " << lowest << std::endl; 
-      if (first_round || ((dx + dy) < lowest)){std::cout << "Updated values!" << std::endl; lowest = dx+dy; lowest_id = node_id; first_round = false;}
-    }
-  }
-  if (lowest_id == -1){std::cout << "Failed to find connecting node! Most likely caused by strange geometry." << std::endl; exit(1);}
-  return lowest_id;
-}
-
-
-void Dish::MCDS_export_edges_faces(MCDS_io * mcds, int ** sigma){
-  int face_id = 0;
-  //int amount = 0;
-  for (auto cell_it : (*mcds->get_cells())){
-    io_cell * cell = mcds->cell_by_id(cell_it.first);
-    vector<int> cell_nodes = cell->node_ids;
-    vector<int> cell_nodes_track = cell->node_ids;
-    std::cout << "==============Cell: " << cell_it.first << " size: " << cell_nodes.size() << std::endl; 
-    if(cell_nodes.size() == 0){continue;}
-    int startnode = cell_nodes[0];
-    std::cout << "Starting node: " << startnode << std::endl; 
-    cell_nodes.erase(std::remove(cell_nodes.begin(), cell_nodes.end(), startnode), cell_nodes.end());
-    cell_nodes_track.erase(std::remove(cell_nodes_track.begin(), cell_nodes_track.end(), startnode), cell_nodes_track.end());
-    int prev = startnode;
-    int curnode = -1;
-    io_face * face = mcds->get_new_face(face_id);
-    cell->face_ids.push_back(face_id);
-    face_id++;
-    bool startnode_connected = false; 
-    while(cell_nodes.size() > 0  || !startnode_connected){
-      if (cell_nodes.size() == 0){startnode_connected = true;}
-      if (curnode == startnode){
-          startnode = cell_nodes[0];
-	  curnode = startnode;
-	  cell_nodes_track = cell->node_ids;
-          cell_nodes_track.erase(std::remove(cell_nodes_track.begin(), cell_nodes_track.end(), startnode), cell_nodes_track.end());
-	  cell_nodes.erase(std::remove(cell_nodes.begin(), cell_nodes.end(), startnode), cell_nodes.end());
-	  face = mcds->get_new_face(face_id);
-          face_id++;
-          cell->face_ids.push_back(face_id);
-	  std::cout << "=======Face: " << face_id << std::endl;
-	  std::cout << "New starting node: " << startnode << std::endl;
-      }
-      if (curnode == -1){curnode = startnode;}
-      std::cout << "Processing node: " << curnode << std::endl;
-      int nextnode = MCDS_get_next_node(mcds, sigma, &cell_nodes_track, curnode, prev, startnode, cell_it.first);
-      std::cout << "Next node: " << nextnode << std::endl;
-      int edge_id = mcds->get_new_edge_uniq(curnode, nextnode);
-      face->edge_ids.push_back(edge_id);
-      prev = curnode;
-      curnode = nextnode; 
-      cell_nodes.erase(std::remove(cell_nodes.begin(), cell_nodes.end(), curnode), cell_nodes.end());
-      cell_nodes_track.erase(std::remove(cell_nodes_track.begin(), cell_nodes_track.end(), curnode), cell_nodes_track.end());
-      //amount ++;
-      //if(amount > 1000){std::cout << "Exit due to possible loop" << std::endl; exit(0);};
-    } 
-  }
-}
 
 void Dish::MCDS_export_nodes(MCDS_io * mcds, int ** sigma){
   int node_id = 0;
@@ -567,8 +414,8 @@ void Dish::MCDS_export_nodes(MCDS_io * mcds, int ** sigma){
       if (x > 0 && y < par.sizey){        c = sigma[x-1][y];}
       if (x < par.sizex && y < par.sizey){d = sigma[x][y];}
       if (a > 0 || b > 0 || c > 0 || d > 0){
-      std::cout << "X: " << x << " Y: " << y << " A: " << a << " B: " << b << " C: " << c << " D: " << d << std::endl;
-      std::cout << " [ "<< a <<"\t] [ " << b << "\t]\n [ " << c << "\t] [ " << d << "\t]\n";}
+      //std::cout << "X: " << x << " Y: " << y << " A: " << a << " B: " << b << " C: " << c << " D: " << d << std::endl;
+      //std::cout << " [ "<< a <<"\t] [ " << b << "\t]\n [ " << c << "\t] [ " << d << "\t]\n";}
       set<int> cells;
       if(a>0) {cells.insert(a);}    
       if(b>0) {cells.insert(b);}
@@ -589,6 +436,7 @@ void Dish::MCDS_export_nodes(MCDS_io * mcds, int ** sigma){
           }
           node->cell_ids = vector<int>(cells.begin(), cells.end()); 
           node_id ++;
+	  }
         }
       }
     }
@@ -664,11 +512,8 @@ void Dish::MCDS_export_faces(MCDS_io * mcds){
 }
 
 void Dish::MCDS_denoise_CPM(int ** sigma_in, int ** sigma_out){
-  std::cout << "sizex: " << par.sizex << " sizey: " << par.sizey << std::endl;
   for (int y = 0; y < par.sizey; y++){
     for (int x = 0; x < par.sizex; x++){
-      std::cout << "denoise x: " << x << " y: " << y << std::endl;
-      std::cout << sigma_in[x][y] << std::endl;
       int most = 0;
       std::map<int, int> count;
       for (int y_eye = y-1; y_eye <= y+1; y_eye++){
@@ -681,35 +526,25 @@ void Dish::MCDS_denoise_CPM(int ** sigma_in, int ** sigma_out){
 	  if (count[val] >= count[most]){most = val;}
 	}
       }
-      std::cout << "Ratio: " << (float)count[most] / 9 << std::endl;
-      if(most != -1){
-        std::cout << "Replacing with most!" << std::endl;
+      if(most != -1 && most != sigma_in[x][y] && count[most] > 5){
         sigma_out[x][y] = most;
       } 
       else{
-	std::cout << "Leaving it!" << std::endl;
         sigma_out[x][y] = sigma_in[x][y];
       }
     }
   }
 }
 
-
-
 int** Dish::MCDS_AllocateTmpSigma(){
   int ** sigma;
-
   int sizex=par.sizex; int sizey=par.sizey;
-
   sigma=(int **)malloc(sizex*sizeof(int *));
   if (sigma==NULL)
     MemoryWarning();
-
   sigma[0]=(int *)malloc(sizex*sizey*sizeof(int));
   if (sigma[0]==NULL)
     MemoryWarning();
-
-
   {for (int i=1;i<sizex;i++)
     sigma[i]=sigma[i-1]+sizey;}
   return sigma;
@@ -727,14 +562,13 @@ void Dish::ExportMultiCellDS(const char *fname){
     MCDS_export_cell( &mcds, &(*c));
   }
   MCDS_export_nodes(&mcds, sigma);
-  //for (auto cell_test: (*mcds.get_cells())){
-  //  std::cout << "Cell: " << cell_test.first << std::endl;
-  //  for (int node_id: cell_test.second.node_ids){
-  //   io_node * node = mcds.node_by_id(node_id);
-  //   std::cout << "node: " << node_id << " x: " << node->x << " y: " << node->y << std::endl;
-  //  }
-  //}
-  //MCDS_export_edges_faces(&mcds, sigma); 
+  for (auto cell_test: (*mcds.get_cells())){
+    std::cout << "Cell: " << cell_test.first << std::endl;
+    for (int node_id: cell_test.second.node_ids){
+     io_node * node = mcds.node_by_id(node_id);
+     std::cout << "node: " << node_id << " x: " << node->x << " y: " << node->y << std::endl;
+    }
+  }
   MCDS_export_edges(&mcds, sigma);
   MCDS_export_faces(&mcds);
   mcds.finalize_cellshapes(); 

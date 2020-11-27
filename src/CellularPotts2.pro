@@ -11,15 +11,19 @@ contains( GRAPHICS, qt ) {
   
 }	
 
+LIBDIR = ../lib
 TARGET = sorting
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
-libMCDS_DIR = ../lib/MultiCellDS/v1.0/v1.0.0/libMCDS
-mcds_api = mcds_api
-libMultiCellDS_DIR = $$libMCDS_DIR/$$mcds_api
-XSDE_DIR = $$libMCDS_DIR/xsde/libxsde
-QMAKE_CXXFLAGS += -I$$libMultiCellDS_DIR -I$$XSDE_DIR -m64 -std=c++11
+
+MCDS_DIR  = $$LIBDIR/MultiCellDS/v1.0/v1.0.0/libMCDS
+XSDE_DIR  = $$MCDS_DIR/xsde/libxsde
+LIBCS_DIR = $$LIBDIR/libCellShape
+
+LIBS += -L$$LIBCS_DIR -lcellshape -L$$MCDS_DIR/mcds_api -lmcds -L$$XSDE_DIR/xsde/ -lxsde 
+
+QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api -I$$XSDE_DIR -I -m64 -std=c++11
 QMAKE_LFLAGS += -m64  -std=c++11
-LIBS += $$libMultiCellDS_DIR/libmcds.a -L$$XSDE_DIR/xsde/ -l xsde 
+
 
 message( $$MAINFILE )
 message( $$TARGET )
@@ -41,7 +45,6 @@ HEADERS += ca.h \
            sticky.h \
        	   crash.h \
 	   warning.h \
-           mcds_io.h
 
         
 SOURCES += ca.cpp \
@@ -58,7 +61,6 @@ SOURCES += ca.cpp \
            random.cpp \
            crash.cpp \
            warning.cpp \
-           mcds_io.cpp 
 
 SOURCES += $$MAINFILE
        
