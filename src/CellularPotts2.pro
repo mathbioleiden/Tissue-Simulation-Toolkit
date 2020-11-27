@@ -21,7 +21,7 @@ LIBCS_DIR = $$LIBDIR/libCellShape
 
 LIBS += -L$$LIBCS_DIR -lcellshape -L$$MCDS_DIR/mcds_api -lmcds -L$$XSDE_DIR/xsde/ -lxsde 
 
-QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api -I$$XSDE_DIR -I -m64 -std=c++11
+QMAKE_CXXFLAGS += -I$$LIBCS_DIR -I$$MCDS_DIR/mcds_api -I$$XSDE_DIR -I -m64 -std=c++11
 QMAKE_LFLAGS += -m64  -std=c++11
 
 
