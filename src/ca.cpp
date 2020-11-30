@@ -716,7 +716,7 @@ void CellularPotts::MeasureCellSizes(void) {
   // calculate the area of the cells
   for (int x=1;x<sizex-1;x++) {
     for (int y=1;y<sizey-1;y++) {
-      if (sigma[x][y]) {
+      if (sigma[x][y] > 0) {
 	(*cell)[sigma[x][y]].IncrementTargetArea();
 	(*cell)[sigma[x][y]].IncrementArea();
 	(*cell)[sigma[x][y]].AddSiteToMoments(x,y);
