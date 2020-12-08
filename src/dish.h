@@ -119,7 +119,6 @@ public:
   //MultiCellDS Functions
   void ExportMultiCellDS(const char *fname);
   void ImportMultiCellDS(const char *fname);
-  
 
   //! Set MultiCellDS import file
   //void SetMultiCellDSImport (const char *fname);
@@ -131,22 +130,12 @@ protected:
 
 private:
   
-  void MCDS_import_cell(MCDS_io * mcds, int cell_id, int id_add);
-  void MCDS_import_poly(MCDS_io * mcds, int face_id, int id_add); 
+  void MCDS_import_cell(MCDS_io * mcds, int cell_id);
   void MCDS_export_cell(MCDS_io *mcds, Cell * cell);
-  void MCDS_export_nodes(MCDS_io * mcds, int ** sigma);
-  void MCDS_export_edges_faces(MCDS_io * mcds, int ** sigma);
-  int MCDS_get_next_node(MCDS_io * mcds, int ** sigma, vector<int> *  nodes,  int current, int prev,  int startnode ,int cell_id);
-  void MCDS_export_edges(MCDS_io * mcds, int ** sigma); 
-  void MCDS_export_faces(MCDS_io * mcds);
-  //void MCDS_add_nodes_cell(MCDS_io * mcds, io_cell * cell);
-  void MCDS_denoise_CPM(int ** sigma_in, int ** sigma_out);
-  int ** MCDS_AllocateTmpSigma();
   bool sizechange = false;
-  
-
+  void anneal(int count); 
   bool CellLonelyP(const Cell &c, int **neighbours) const;
-    MultiCellDS* h_mcds;
+
 
 protected:
   //! The cells in the Petri dish; accessible to derived classes
