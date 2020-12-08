@@ -13,17 +13,17 @@ CXXFLAGS += -O3
 CXXFLAGS += -g
 
 LIB_NAME = $(TARGET_NAME).a
-SOURCES  = $(shell find . -name *.cpp)
+SOURCES  = $(wildcard *.cpp)
 OBJECTS  = $(SOURCES:.cpp=.o)
 
 all: $(LIB_NAME)
 
-$(OBJECTS):
-	$(CXX) -c $(SOURCES) -o $(OBJECTS) $(CXXFLAGS) $(INCLUDES) $(LIBS) 
+%.o : %.cpp
+	$(CXX) $< -o $@ $(CXXFLAGS) $(INCLUDES) $(LIBS) -c 
 
 $(LIB_NAME): $(OBJECTS)
 	ar -rcs $(LIB_NAME) $(OBJECTS)
 
 clean:
-	rm *.o
-	rm *.a
+	rm -f *.o
+	rm -f *.a
