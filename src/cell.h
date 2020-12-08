@@ -524,7 +524,6 @@ private:
   }
     
     inline void GetCentroid(double *cx, double *cy) {
-        std::cout << "Area: " << area << std::endl;
         *cx = sum_x/area;
         *cy = sum_y/area;
     }
