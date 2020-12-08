@@ -35,7 +35,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 //#include "dish.h"
 #include "cell.h"
 
-// MultiCellDS stuff
+// MultiCellDS 
 #include <MultiCellDS.hpp>
 #include <MultiCellDS-pimpl.hpp>
 #include <MultiCellDS-simpl.hpp>
@@ -273,6 +273,8 @@ public:
       return sigma;
     }
 
+  void anneal(int steps);
+  int ** get_annealed_sigma(int steps);
 
 private:
   void IndexShuffle(void);

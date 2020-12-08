@@ -185,7 +185,6 @@ void CellularPotts::IndexShuffle() {
   }
 }
 
-
 double sat(double x) {
   
   return x/(par.saturation*x+1.);
@@ -1481,7 +1480,6 @@ mesh::mesh *CellularPotts::CreateMultiCellDSMesh(void) {
 }
 
 void  CellularPotts::SetMultiCellDSCell(cell::cell &c) {
-    
     //cout << "Cell::ID = " << c.ID() << endl;
     // get cell state
     state::state &state(c.state());
@@ -1496,5 +1494,21 @@ void  CellularPotts::SetMultiCellDSCell(cell::cell &c) {
         sigma[v[0]][v[1]]= c.ID();;
     }
   
+}
+
+void CellularPotts::anneal(int steps){
+  for (int i = 0; i < steps; i++)
+    AmoebaeMove(0, true);
+}
+
+int ** CellularPotts::get_annealed_sigma(int steps){
+  int ** tmp_a = sigma;
+  int ** tmp_b;
+  AllocateSigma(par.sizex, par.sizey);
+  std::copy(*tmp_a, (*tmp_a)+(par.sizex*par.sizey), *sigma);
+  anneal(steps);
+  tmp_b = sigma;
+  sigma = tmp_a;
+  return tmp_b;
 }
 
