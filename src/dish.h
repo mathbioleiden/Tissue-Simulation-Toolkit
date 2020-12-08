@@ -120,10 +120,6 @@ public:
   void ExportMultiCellDS(const char *fname);
   void ImportMultiCellDS(const char *fname);
 
-  //! Set MultiCellDS import file
-  //void SetMultiCellDSImport (const char *fname);
-  //int SetMultiCellDSCells(void);
-
 protected:
   //! Assign a the cell to the current Dish
   void SetCellOwner(Cell &which_cell);
