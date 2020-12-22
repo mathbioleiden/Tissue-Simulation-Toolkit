@@ -312,7 +312,7 @@ void Dish::MCDS_export_cell(MCDS_io *mcds, Cell * cell){
 }
 
 void Dish::ExportMultiCellDS(const char *fname){
-  int ** sigma = CPM->get_annealed_sigma(30);
+  int ** sigma = CPM->get_annealed_sigma(par.mcds_anneal_steps);
   MCDS_io mcds;
   for (vector<Cell>::iterator c = cell.begin()+1; c != cell.end(); c++){
     MCDS_export_cell( &mcds, &(*c));
@@ -320,7 +320,7 @@ void Dish::ExportMultiCellDS(const char *fname){
   mcds.set_lattice(sigma, par.sizex, par.sizey);
   mcds.set_unit_mult(par.dx);
   mcds.set_unit_name("micron");
-  mcds.denoise(2);
+  mcds.denoise(par.mcds_denoise_steps);
   mcds.vector_from_lattice();
   mcds.finalize_cellshapes(); 
   mcds.add_metadata("tst_metadata.xml");

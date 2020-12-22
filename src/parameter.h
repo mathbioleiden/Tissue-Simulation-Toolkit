@@ -71,7 +71,9 @@ class Parameter {
   char * datadir;
   char * mcds_output;
   char * mcds_input;
-  
+  int mcds_anneal_steps;
+  int mcds_denoise_steps;
+  bool pause_on_start; 
  private:
 };
 

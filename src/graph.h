@@ -107,7 +107,10 @@ class Graphics {
   }
 
   virtual void Resize(int xfield, int yfield) {};
-  
+ 
+  virtual void set_Paused(){};
+  virtual void set_unPaused(){};
+
 };
 
 

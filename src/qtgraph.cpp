@@ -209,7 +209,8 @@ void QtGraphics::TimeStepWrap(void) {
    //picture->begin(pixmap);
   static int t=0;
   TimeStep();
-  t++;
+  if (!paused)
+    t++;
   // check number of timesteps
   extern Parameter par;
   if (t==par.mcs) {

@@ -74,6 +74,9 @@ Parameter::Parameter() {
   datadir = strdup("data_film");
   mcds_output = strdup("outstate.xml");
   mcds_input = strdup("false");
+  mcds_anneal_steps = 0;
+  mcds_denoise_steps = 0; 
+  pause_on_start = false;
 }
 
 Parameter::~Parameter() {
@@ -153,6 +156,10 @@ void Parameter::Read(const char *filename) {
   datadir = sgetpar(fp, "datadir", "data_film", true);
   mcds_output = sgetpar(fp, "mcds_output", "outstate.xml", true);
   mcds_input = sgetpar(fp, "mcds_input", "outstate.xml", true);
+  mcds_anneal_steps = igetpar(fp, "mcds_anneal_steps", true);
+  mcds_denoise_steps = igetpar(fp, "mcds_denoise_steps", true);
+  pause_on_start = bgetpar(fp, "pause_on_start", true);
+
 
 }
 
@@ -208,8 +215,9 @@ void Parameter::Write(ostream &os) const {
   os << " load_mcds = " << sbool(load_mcds) << endl;
   os << " mcds_output = " << mcds_output << endl;
   os << " mcds_input = " << mcds_input << endl;
-  
-
+  os << " mcds_anneal_steps = " << mcds_anneal_steps << endl;
+  os << " mcds_denoise_steps = " << mcds_denoise_steps << endl;
+  os << " pause_on_start = " << pause_on_start << endl; 
   if (datadir) 
     os << " datadir = " << datadir << endl;
 }

@@ -77,6 +77,8 @@ class QtGraphics : public QWidget, public Graphics {
 
   virtual void Resize(int xfield, int yfield);
   
+  virtual void set_Paused(){paused = true;}
+  virtual void set_unPaused(){paused = false;}
 
   virtual void TimeStep(void);
 	virtual void resizeEvent( QResizeEvent *event);
@@ -105,6 +107,8 @@ class QtGraphics : public QWidget, public Graphics {
   int init_size_y;
 
   int key;
+
+  bool paused = false;
 	
   double mag;
   Qt::MouseButton mouse_button;

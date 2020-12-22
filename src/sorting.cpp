@@ -70,6 +70,7 @@ INIT {
     exit(1);
   }
 
+  void mouseReleaseEvent( QMouseEvent *e);
 }
 
 TIMESTEP { 
@@ -84,15 +85,11 @@ TIMESTEP {
     
     static Info *info=new Info(*dish, *this);
     
-    
     //cerr << "Done\n";
     if (par.graphics && !(i%par.storage_stride)) {
-      
-      
       BeginScene();
       ClearImage();
       dish->Plot(this);
-
       //char title[400];
       //snprintf(title,399,"CellularPotts: %d MCS",i);
       //ChangeTitle(title);
@@ -100,8 +97,8 @@ TIMESTEP {
       info->Menu();
      
     }
-    if (i == 0){ 
-      info->setPaused();
+    if (i == 0 && par.pause_on_start){ 
+      info->set_Paused();
     i++;}
   
     if (par.graphics && info->IsPaused()) {
@@ -112,27 +109,25 @@ TIMESTEP {
       info->Menu();
     }
 
-
     if (!info->IsPaused()){
       dish->CPM->AmoebaeMove(dish->PDEfield);
     }  
 
-    if (par.store && !(i%par.storage_stride)) {
+    if ( i == par.mcs){
+      dish->ExportMultiCellDS(par.mcds_output);
+    }
+
+    if (par.store && !(i%par.storage_stride) && !info->IsPaused()) {
       char fname[200];
       sprintf(fname,"%s/extend%05d.png",par.datadir,i);
-    
       BeginScene();
-    
       dish->Plot(this);
-      
       EndScene();
-    
       Write(fname);
-        
     }
     if (!info->IsPaused()){
-    i++;
-	}
+      i++;
+    }
   } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";

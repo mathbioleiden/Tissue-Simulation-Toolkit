@@ -103,11 +103,11 @@ void Info::Menu() {
   case (char) 32:
 	if(ispaused){
                 std::cout <<  "Unpausing" << std::endl;
-		ispaused = false;
+		set_unPaused();
         }
 	else{
                 std::cout <<  "Pausing" << std::endl;
-		ispaused = true;
+		set_Paused();
         }
 	break;
      
@@ -273,4 +273,12 @@ void Info::WriteCOM(int cell_id, std::ostream &out) {
   
 }
 
+void Info::set_Paused(){
+  graphics->set_Paused();
+  ispaused = true;
+}
 
+void Info::set_unPaused(){
+  graphics->set_unPaused();
+  ispaused = false;
+}
