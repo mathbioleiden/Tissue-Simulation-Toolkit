@@ -54,7 +54,7 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 //     starts from zero (0)
 //
 //=============================================================================
-int conrec(double **d,
+int conrec(PDEFIELD_TYPE **d,
 	   int ilb,
 	   int iub,
 	   int jlb,

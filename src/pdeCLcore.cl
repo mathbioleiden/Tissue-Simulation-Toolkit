@@ -1,20 +1,22 @@
+#include "pdetype.h"
+
 void kernel SecreteAndDiffuse(
 global const int* sigmacells, 
-global const double* sigmaA,  
-global double* sigmaB, 
+global const PDEFIELD_TYPE* sigmaA,  
+global PDEFIELD_TYPE* sigmaB, 
 int xsize, 
 int ysize,
 int layers,
-double decay_rate, 
-double dt, 
-double dx2, 
-global const double* diff_coeff,
-double secr_rate,
+PDEFIELD_TYPE decay_rate, 
+PDEFIELD_TYPE dt, 
+PDEFIELD_TYPE dx2, 
+global const PDEFIELD_TYPE* diff_coeff,
+PDEFIELD_TYPE secr_rate,
 int btype )
 {
   //ID is used for position in array
   int id = get_global_id(0); 
-  
+  // test b 
   //Calculate position in aray
   int layersize = xsize * ysize;
   int zpos = id/layersize;
@@ -22,7 +24,7 @@ int btype )
   int ypos = id - xpos * ysize - zpos * layersize; 
  
   //Boundaries
-  double sum =0.;
+  PDEFIELD_TYPE sum =0.;
   if (xpos == 0 || ypos == 0 || xpos == xsize-1 || ypos == ysize-1){
     switch(btype){
     case 1:
@@ -47,20 +49,20 @@ int btype )
     } 
   }
   else{
-  //Retrieve current value in array
-  double value = sigmaA[id];
-  
- //Secretion
-  if (btype != 1){
-    if (zpos == 0){
-      if (sigmacells[id] > 0){
-        value = value + secr_rate * dt;
-      }
-      else{
-         value = value - decay_rate*dt*value;
+    //Retrieve current value in array
+    PDEFIELD_TYPE value = sigmaA[id];
+    
+    //Secretion
+    if (btype != 1){
+      if (zpos == 0){
+        if (sigmacells[id] > 0){
+          value = value + secr_rate * dt;
+        }
+        else{
+           value = value - decay_rate*dt*value;
+        }
       }
     }
-  }
     //Diffusion
     sum += sigmaA[id-1];
     sum += sigmaA[id+1];
@@ -68,8 +70,7 @@ int btype )
     sum += sigmaA[id+xsize];
     sum-=4*value;
     sigmaB[id]= value+sum*dt*diff_coeff[zpos]/dx2;
+   //printf("X: %d, Y: %d, ID: %d, Val: %f, New: %f, Dec: %f, Sec: %f, DT: %f, diff_coeff: %0.20f \n", xpos, ypos, id, value, sigmaB[id], decay_rate, secr_rate, dt, diff_coeff[zpos]);
   }
-//if (xpos == xsize -1 && ypos == ysize-1){sigmaB[id] = 1.;}
-
 }
 

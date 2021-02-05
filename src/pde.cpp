@@ -81,24 +81,24 @@ PDE::~PDE(void) {
   }
 }
 
-double ***PDE::AllocateSigma(const int layers, const int sx, const int sy) {
+PDEFIELD_TYPE ***PDE::AllocateSigma(const int layers, const int sx, const int sy) {
   
-  double ***mem;
+  PDEFIELD_TYPE ***mem;
   sizex=sx; sizey=sy;
   
-  mem=(double ***)malloc(layers*sizeof(double **));
+  mem=(PDEFIELD_TYPE ***)malloc(layers*sizeof(PDEFIELD_TYPE **));
   
   if (mem==NULL)
     MemoryWarning();
   
-  mem[0]=(double **)malloc(layers*sizex*sizeof(double *));
+  mem[0]=(PDEFIELD_TYPE **)malloc(layers*sizex*sizeof(PDEFIELD_TYPE *));
   if (mem[0]==NULL)  
       MemoryWarning();
   
   {  for (int i=1;i<layers;i++) 
     mem[i]=mem[i-1]+sizex;}
   
-  mem[0][0]=(double *)malloc(layers*sizex*sizey*sizeof(double));
+  mem[0][0]=(PDEFIELD_TYPE *)malloc(layers*sizex*sizey*sizeof(PDEFIELD_TYPE));
   if (mem[0][0]==NULL)  
     MemoryWarning();
 
@@ -220,8 +220,10 @@ void PDE::SetupOpenCL(){
     }
   
   //Secretion and diffusion variables
-  double dt=par.dt;
-  double dx2=par.dx*par.dx;
+  PDEFIELD_TYPE dt = (PDEFIELD_TYPE) par.dt;
+  PDEFIELD_TYPE dx2 = (PDEFIELD_TYPE) par.dx*par.dx;
+  PDEFIELD_TYPE decay_rate = (PDEFIELD_TYPE) * par.decay_rate;
+  PDEFIELD_TYPE secr_rate = (PDEFIELD_TYPE) * par.secr_rate;
   int btype; 
   
   //determine boundary type
@@ -239,9 +241,9 @@ void PDE::SetupOpenCL(){
   //Allocate memory on the GPU
   queue = cl::CommandQueue(context,default_device);
   buffer_sigmacell = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(int)*sizex*sizey); 
-  buffer_sigmapdeA = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(double)*sizex*sizey*layers);
-  buffer_sigmapdeB = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(double)*sizex*sizey*layers); 
-  buffer_diff_coeff = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(double)*layers);
+  buffer_sigmapdeA = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers);
+  buffer_sigmapdeB = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers); 
+  buffer_diff_coeff = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*layers);
 
 
   //Making kernel and setting arguments
@@ -253,15 +255,21 @@ void PDE::SetupOpenCL(){
   kernel_SecreteAndDiffuse.setArg(3, sizeof(int), &sizex);
   kernel_SecreteAndDiffuse.setArg(4, sizeof(int), &sizey);
   kernel_SecreteAndDiffuse.setArg(5, sizeof(int), &layers);
-  kernel_SecreteAndDiffuse.setArg(6, sizeof(double), par.decay_rate);
-  kernel_SecreteAndDiffuse.setArg(7, sizeof(double), &dt);
-  kernel_SecreteAndDiffuse.setArg(8, sizeof(double), &dx2);
+  kernel_SecreteAndDiffuse.setArg(6, sizeof(PDEFIELD_TYPE), &decay_rate);
+  kernel_SecreteAndDiffuse.setArg(7, sizeof(PDEFIELD_TYPE), &dt);
+  kernel_SecreteAndDiffuse.setArg(8, sizeof(PDEFIELD_TYPE), &dx2);
   kernel_SecreteAndDiffuse.setArg(9, buffer_diff_coeff);
-  kernel_SecreteAndDiffuse.setArg(10,sizeof(double), par.secr_rate);
+  kernel_SecreteAndDiffuse.setArg(10,sizeof(PDEFIELD_TYPE), &secr_rate);
   kernel_SecreteAndDiffuse.setArg(11, sizeof(int),  &btype);
- 
+
+  PDEFIELD_TYPE diff_coeff[layers];
+
+  for (int index = 0; index < layers; index++){
+    diff_coeff[index] = (PDEFIELD_TYPE) par.diff_coeff[index];
+  }
+
   queue.enqueueWriteBuffer(buffer_diff_coeff,
-    CL_TRUE, 0, sizeof(double)*layers, par.diff_coeff);
+    CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*layers, diff_coeff);
        
 }
 
@@ -280,7 +288,7 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat){
     CL_TRUE, 0, sizeof(int)*sizex*sizey, cpm->getSigma()[0]);
 
     //Writing pdefield sigma is only necessary if modified outside of kernel
-    //queue.enqueueWriteBuffer(buffer_sigmapdeA,  CL_TRUE, 0, sizeof(double)*sizex*sizey*layers, sigma[0][0]);
+    //queue.enqueueWriteBuffer(buffer_sigmapdeA,  CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
 
 
     //Main loop executing kernel and switching between A and B arrays
@@ -308,10 +316,10 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat){
     //Reading from correct array containing the output
     if (AB == 0)
     queue.enqueueReadBuffer(buffer_sigmapdeB,CL_TRUE,0,
-                            sizeof(double)*sizex*sizey*layers, sigma[0][0]);
+                            sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
     else
     queue.enqueueReadBuffer(buffer_sigmapdeA,CL_TRUE,0,
-                            sizeof(double)*sizex*sizey*layers, sigma[0][0]);
+                            sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
 
     if (errorcode != CL_SUCCESS){
       cout << "error:" << errorcode << endl;
@@ -328,8 +336,8 @@ void PDE::Diffuse(int repeat) {
   // (We're ignoring the problem of how to cope with moving cell
   // boundaries right now)
   
-  const double dt=par.dt;
-  const double dx2=par.dx*par.dx;
+  const PDEFIELD_TYPE dt=par.dt;
+  const PDEFIELD_TYPE dx2=par.dx*par.dx;
 
   for (int r=0;r<repeat;r++) {
     //NoFluxBoundaries();
@@ -344,7 +352,7 @@ void PDE::Diffuse(int repeat) {
       for (int x=1;x<sizex-1;x++)
 	for (int y=1;y<sizey-1;y++) {
 	  
-	  double sum=0.;
+	  PDEFIELD_TYPE sum=0.;
 	  sum+=sigma[l][x+1][y];
 	  sum+=sigma[l][x-1][y];
 	  sum+=sigma[l][x][y+1];
@@ -355,7 +363,7 @@ void PDE::Diffuse(int repeat) {
 
 	}
     }
-    double ***tmp;
+    PDEFIELD_TYPE ***tmp;
     tmp=sigma;
     sigma=alt_sigma;
     alt_sigma=tmp;
