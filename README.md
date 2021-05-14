@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 # Tissue-Simulation-Toolkit
-=======
-# README #
-
-### Tissue Simulation Toolkit, v0.1.4.2 ###
 
 Welcome to the Tissue Simulation Toolkit, a library for
 two-dimensional simulations of Glazier and Graner's Cellular Potts
@@ -122,4 +117,3 @@ Linux and MacOSX:
 ### Who do I talk to? ###
 
 * Roeland Merks
->>>>>>> MCDS/MultiCellDS
