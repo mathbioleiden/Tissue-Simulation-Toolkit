@@ -24,6 +24,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <list>
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <string.h>
 #include <errno.h>
 #include <math.h>
@@ -40,42 +41,42 @@ extern Parameter par;
 
 using namespace std;
 
-Dish::Dish(void) {
+Dish::Dish() {
+    ConstructorBody();
 
-  ConstructorBody();
-  
-  CPM=new CellularPotts(&cell, par.sizex, par.sizey);
-  if (par.n_chem)
-    PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
-  
-  // Initial cell distribution is defined by user in INIT {} block
-  Init();
-    
-  if (par.target_area>0)
-    for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
-      c->SetTargetArea(par.target_area);
+    if (par.load_mcds){
+      ImportMultiCellDS(par.mcds_input);
+    }
+    else{
+    // Initial cell distribution is defined by user in INIT {} block
+      CPM=new CellularPotts(&cell, par.sizex, par.sizey);
+      if (par.n_chem)
+        PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
+      Init();
+      if (par.target_area>0)
+        for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
+            c->SetTargetArea(par.target_area);
+        }
     } 
-  
-  
 }
-
 
 
 Dish::~Dish() {
     cell.clear();
-    
     delete CPM;
-	
  }
 
 void Dish::Plot(Graphics *g) {
+    if (sizechange){
+      sizechange = false;
+      g->Resize(par.sizex*2, par.sizey*2);
+    }
     if (CPM)
       CPM->Plot(g);
  }
 
 
 void Dish::ConstructorBody() {
-  
   Cell::maxsigma=0;
   
   // Allocate the first "cell": this is the medium (tau=0)
@@ -87,12 +88,10 @@ void Dish::ConstructorBody() {
   
   CPM=0;
   PDEfield=0;
-
 }
 
 
 bool Dish::CellLonelyP(const Cell &c, int **neighbours) const {
-
   int i;
 
   for (i=0;i<(int)cell.size();i++) {
@@ -104,14 +103,11 @@ bool Dish::CellLonelyP(const Cell &c, int **neighbours) const {
   }
   
   return true;
-  
 }
-
 
 
 // Based on code by Paulien Hogeweg.
 void Dish::CellGrowthAndDivision(void) {
-  
   vector<bool> which_cells(cell.size());
 
   static int mem_area=0;
@@ -130,10 +126,9 @@ void Dish::CellGrowthAndDivision(void) {
     
     if ( (c->Area()-c->TargetArea())>c->GrowthThreshold() ) {
       c->IncrementTargetArea();
-      
     }
     
-    if ( (c->Area() > 2 * mem_area ) ) {
+    if ( (c->TargetArea() > 2 * mem_area ) ) {
       which_cells[c->Sigma()]=true;
       cell_division++;
     }
@@ -143,7 +138,6 @@ void Dish::CellGrowthAndDivision(void) {
   if (cell_division) {
     CPM->DivideCells(which_cells);
   }
-
 }
 
 
@@ -247,6 +241,70 @@ void Dish::MeasureChemConcentrations(void) {
 	c->chem[ch]/=(double)c->Area();
     }
 
+}
+
+double round(double v, int n) {
+    double ten_pow_n=pow(10,n);
+    v*=ten_pow_n;
+    return round(v)/ten_pow_n;
+}
+
+
+void Dish::MCDS_import_cell(MCDS_io *mcds, int cell_id){
+  io_cell * iocell = mcds->cell_by_id(cell_id);
+  Cell * n_cell = new  Cell(*this, iocell->mcds_obj->phenotype_dataset().ID());
+  n_cell->setSigma(iocell->mcds_obj->ID());
+  cell.push_back(*n_cell);
+  n_cell->setTau(0);
+  n_cell->SetTargetArea(0); 
+}
+
+void Dish::ImportMultiCellDS(const char *fname){
+  MCDS_io mcds(fname);
+  mcds.process_cellshapes();
+  mcds.lattice_from_vector();
+  par.sizex = mcds.get_size_x();
+  par.sizey = mcds.get_size_y();
+  delete CPM;
+  CPM = new CellularPotts(&cell, par.sizex, par.sizey);
+    if (par.n_chem) PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
+  int ** sigma = CPM->getSigma();
+  int ** lattice = mcds.get_lattice();
+  std::copy(*lattice, (*lattice)+(par.sizex*par.sizey), *sigma); 
+  for (auto iocell : *mcds.get_cells()){
+    MCDS_import_cell(&mcds, iocell.second.mcds_obj->ID());
+  }
+  CPM->MeasureCellSizes();
+  sizechange = true;
+}
+
+void Dish::MCDS_export_cell(MCDS_io *mcds, Cell * cell){
+  int cell_id = cell->Sigma();
+  io_cell * iocell  = mcds->get_new_cell(cell_id);
+  iocell->type = cell->tau;  
+  iocell->target_area = cell->TargetArea();
+  iocell->area = cell->area;
+  cell->GetCentroid(&iocell->centroid_x, &iocell->centroid_y);  
+  double ovx,ovy;
+  cell->MajorMinorAxis(&iocell->major_axis, &iocell->minor_axis, &ovx, &ovy);
+}
+
+void Dish::ExportMultiCellDS(const char *fname){
+  int ** sigma = CPM->get_annealed_sigma(par.mcds_anneal_steps);
+  MCDS_io mcds;
+  for (vector<Cell>::iterator c = cell.begin()+1; c != cell.end(); c++){
+    MCDS_export_cell( &mcds, &(*c));
+  }
+  mcds.set_lattice(sigma, par.sizex, par.sizey);
+  mcds.set_unit_mult(par.dx);
+  mcds.set_unit_name("micron");
+  mcds.denoise(par.mcds_denoise_steps);
+  mcds.vector_from_lattice();
+  mcds.finalize_cellshapes(); 
+  mcds.add_metadata("tst_metadata.xml");
+  mcds.add_time();
+  mcds.write(fname);
+  std::cout << "Done exporting!" << std::endl; 
 }
 
 int Dish::SizeX(void) { return CPM->SizeX(); }

@@ -46,6 +46,7 @@ Parameter::Parameter() {
   border_energy = 100;
   neighbours = 2;
   periodic_boundaries = false;
+  gradient = false;
   n_chem = 1;
   diff_coeff = new double[1];
   diff_coeff[0] = 1e-13;
@@ -69,17 +70,19 @@ Parameter::Parameter() {
   storage_stride = 10;
   graphics = true;
   store = false;
+  load_mcds = false;
   datadir = strdup("data_film");
+  mcds_output = strdup("outstate.xml");
+  mcds_input = strdup("false");
+  mcds_anneal_steps = 0;
+  mcds_denoise_steps = 0; 
+  pause_on_start = false;
 }
 
 Parameter::~Parameter() {
-  
   // destruct parameter object
-
   // free string parameter
-
   CleanUp();
-
 }
 
 void Parameter::CleanUp(void) {
@@ -93,11 +96,9 @@ void Parameter::CleanUp(void) {
      free(secr_rate);
   if (datadir) 
      free(datadir);
-
 }
 
 void Parameter::Read(const char *filename) {
-  
   static bool ReadP=false;
 
   if (ReadP) {
@@ -124,6 +125,7 @@ void Parameter::Read(const char *filename) {
   border_energy = igetpar(fp, "border_energy", 100, true);
   neighbours = igetpar(fp, "neighbours", 2, true);
   periodic_boundaries = bgetpar(fp, "periodic_boundaries", false, true);
+  gradient  = bgetpar(fp, "gradient", false, true);
   n_chem = igetpar(fp, "n_chem", 1, true);
   diff_coeff = dgetparlist(fp, "diff_coeff", n_chem, true);
   decay_rate = dgetparlist(fp, "decay_rate", n_chem, true);
@@ -145,7 +147,13 @@ void Parameter::Read(const char *filename) {
   graphics = bgetpar(fp, "graphics", true, true);
   store = bgetpar(fp, "store", false, true);
   datadir = sgetpar(fp, "datadir", "data_film", true);
-
+  load_mcds = bgetpar(fp, "load_mcds", false, true);
+  datadir = sgetpar(fp, "datadir", "data_film", true);
+  mcds_output = sgetpar(fp, "mcds_output", "outstate.xml", true);
+  mcds_input = sgetpar(fp, "mcds_input", "outstate.xml", true);
+  mcds_anneal_steps = igetpar(fp, "mcds_anneal_steps", true);
+  mcds_denoise_steps = igetpar(fp, "mcds_denoise_steps", true);
+  pause_on_start = bgetpar(fp, "pause_on_start", true);
 }
 
 const char *sbool(const bool &p) {
@@ -176,6 +184,7 @@ void Parameter::Write(ostream &os) const {
   os << " border_energy = " << border_energy << endl;
   os << " neighbours = " << neighbours << endl;
   os << " periodic_boundaries = " << sbool(periodic_boundaries) << endl;
+  os << " gradient = " << sbool(gradient) << endl;
   os << " n_chem = " << n_chem << endl;
   os << " diff_coeff = "<< diff_coeff[0] << endl;
   os << " decay_rate = "<< decay_rate[0] << endl;
@@ -196,7 +205,12 @@ void Parameter::Write(ostream &os) const {
   os << " storage_stride = " << storage_stride << endl;
   os << " graphics = " << sbool(graphics) << endl;
   os << " store = " << sbool(store) << endl;
-
+  os << " load_mcds = " << sbool(load_mcds) << endl;
+  os << " mcds_output = " << mcds_output << endl;
+  os << " mcds_input = " << mcds_input << endl;
+  os << " mcds_anneal_steps = " << mcds_anneal_steps << endl;
+  os << " mcds_denoise_steps = " << mcds_denoise_steps << endl;
+  os << " pause_on_start = " << pause_on_start << endl; 
   if (datadir) 
     os << " datadir = " << datadir << endl;
 }

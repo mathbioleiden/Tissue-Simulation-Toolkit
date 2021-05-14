@@ -42,12 +42,18 @@ Info::Info(Dish &d, Graphics &g, std::ostream &out) {
   dish=&d;
   graphics=&g;
   os=&out;
+  ispaused = false;
+  prev_key = -1;
   
   /*
   g=&graphics;
   beast=&dish;
   os=&out;*/
 }
+
+bool Info::IsPaused(){
+	return ispaused;
+	}
 
 void Info::Menu() {
 
@@ -57,6 +63,7 @@ void Info::Menu() {
   int x,y;
   char key=(char)graphics->GetXYCoo(&x,&y);
   
+  if (prev_key != key){
   switch (key) {
   
     /*  case RESIZE:
@@ -74,7 +81,7 @@ void Info::Menu() {
     }
     break;
 
-  case 'v':
+  case 'A':
     {
       cout << "Areas and deviations from target area:\n";
 
@@ -92,7 +99,16 @@ void Info::Menu() {
       *os << "Mean deviation from target: " << (double)t/((double)dish->cell.size()-1) << "\n";
     }
     break;
-     
+  case (char) 32:
+	if(ispaused){
+                std::cout <<  "Unpausing" << std::endl;
+		set_unPaused();
+        }
+	else{
+                std::cout <<  "Pausing" << std::endl;
+		set_Paused();
+        }
+	break;
   case 'V':
    
     {
@@ -119,9 +135,13 @@ void Info::Menu() {
       *os << "lambda = " << par.lambda << "\n";
     }
     break;
-  
-
-  case 'o':
+  case 'S':
+  {
+    cout << "Saving to: " << par.mcds_output << endl;
+    dish->ExportMultiCellDS(par.mcds_output);
+  }
+  break;
+  case 'O':
     { 
       printf("Click cell to dump... Click Medium to quit.\n");
     
@@ -138,8 +158,7 @@ void Info::Menu() {
       } while (dumpcell->Sigma()!=0);
     }
     break;
-
-  case 'c':
+  case 'C':
     {
       printf("Introduce tumor cell into the grid...\n");
       fflush(stdin);
@@ -182,9 +201,7 @@ void Info::Menu() {
   case '#':
     printf("number of (living) cells = %d \n",dish->CountCells());
     break;
-    
-
-  case 'A':
+  case 'B':
     {
       vector<Cell>::const_iterator i;
       for ( (i=dish->cell.begin(),i++);
@@ -205,20 +222,15 @@ void Info::Menu() {
       }
     }
     break;
-    
-  case 'q':
-    if (YesNoP("Quit: are you sure?")) 
+  case 'Q':
       throw "Exiting program";
     break;
   }
-
-  //  AuxMenu(key);
+  prev_key = key;
+  }
 }
-
-
  
 Cell &Info::ClickCell(Graphics *graphics) {
-
   int x,y;
   while (graphics->GetXYCoo(&x,&y)!=1);
   return dish->cell[dish->CPM->Sigma(x/2,y/2)];
@@ -249,4 +261,12 @@ void Info::WriteCOM(int cell_id, std::ostream &out) {
   
 }
 
+void Info::set_Paused(){
+  graphics->set_Paused();
+  ispaused = true;
+}
 
+void Info::set_unPaused(){
+  graphics->set_unPaused();
+  ispaused = false;
+}

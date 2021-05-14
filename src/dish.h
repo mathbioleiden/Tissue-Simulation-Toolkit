@@ -30,11 +30,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef CRITTER_H_
 #define CRITTER_H_
 #include <vector>
+#include "mcds_io.h"
 #include "graph.h"
 #include "random.h"
 #include "pde.h"
 #include "cell.h"
 #include "ca.h"
+
 
 namespace ColourMode {
   enum { State,CellType,Sigma,Auxilliary };
@@ -45,8 +47,7 @@ class Dish {
   friend class Info;
 
 public:
-  Dish(void);
-  
+  Dish();
   /*! \brief Init defines the initial state of the virtual
     cell culture.
     
@@ -65,7 +66,9 @@ public:
   Simply calls CPM->Plot.
   */
   void Plot(Graphics *g);
-
+    
+  //! \brief Erase all cells
+  void Erase(void);
   
   int ZygoteArea(void) const;
   
@@ -107,12 +110,21 @@ public:
   void ClearGrads(void);
 
   void MeasureChemConcentrations(void);
+    
+  //MultiCellDS Functions
+  void ExportMultiCellDS(const char *fname);
+  void ImportMultiCellDS(const char *fname);
+
 protected:
   //! Assign a the cell to the current Dish
   void SetCellOwner(Cell &which_cell);
 
 private:
   bool CellLonelyP(const Cell &c, int **neighbours) const;
+  void MCDS_import_cell(MCDS_io * mcds, int cell_id);
+  void MCDS_export_cell(MCDS_io *mcds, Cell * cell);
+  bool sizechange = false;
+  void anneal(int count); 
 
 protected:
   //! The cells in the Petri dish; accessible to derived classes

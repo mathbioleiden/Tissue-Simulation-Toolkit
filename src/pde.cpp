@@ -181,41 +181,31 @@ void PDE::Diffuse(int repeat) {
   // (We're ignoring the problem of how to cope with moving cell
   // boundaries right now)
   
-  const double dt=par.dt;
-  const double dx2=par.dx*par.dx;
+    const double dt=par.dt;
+    const double dx2=par.dx*par.dx;
 
-  for (int r=0;r<repeat;r++) {
-    //NoFluxBoundaries();
-    if (par.periodic_boundaries) {
-      PeriodicBoundaries();
-    } else {
-      AbsorbingBoundaries();
+    for (int r=0;r<repeat;r++) {
       //NoFluxBoundaries();
+        if (par.gradient) {
+            NoFluxBoundaries();
+            for (int i=0;i<sizex;i++) {
+                sigma[0][i][0]=0.;
+                sigma[0][i][sizey-1]=1.;
+            }
+        } else {
+      if (par.periodic_boundaries) {
+        PeriodicBoundaries();
+      } else {
+        AbsorbingBoundaries();
+        //NoFluxBoundaries();
+      }
+      double ***tmp;
+      tmp=sigma;
+      sigma=alt_sigma;
+      alt_sigma=tmp;
+      thetime+=dt;
     }
-    
-    for (int l=0;l<layers;l++) {
-      for (int x=1;x<sizex-1;x++)
-	for (int y=1;y<sizey-1;y++) {
-	  
-	  double sum=0.;
-	  sum+=sigma[l][x+1][y];
-	  sum+=sigma[l][x-1][y];
-	  sum+=sigma[l][x][y+1];
-	  sum+=sigma[l][x][y-1];
-      
-	  sum-=4*sigma[l][x][y];
-	  alt_sigma[l][x][y]=sigma[l][x][y]+sum*dt*par.diff_coeff[l]/dx2;
-
-	}
-    }
-    double ***tmp;
-    tmp=sigma;
-    sigma=alt_sigma;
-    alt_sigma=tmp;
-  
-    thetime+=dt;
   }
-
 }
 
 double PDE::GetChemAmount(const int layer) {
@@ -241,7 +231,6 @@ double PDE::GetChemAmount(const int layer) {
       }
   } 
   return sum;
-  
 }
 
 // private
@@ -370,4 +359,20 @@ void PDE::PlotVectorField(Graphics &g, int stride, int linelength, int first_gra
     }
   }
   
+}
+
+
+void PDE::SetSpeciesName(int l, const char *name) {
+    species_names[l]=string(name);
+}
+
+
+void PDE::InitLinearYGradient(int spec, double conc_top, double conc_bottom) {
+    for (int y=0;y<sizey;y++) {
+        double val=(double)conc_top+y*((double)(conc_bottom-conc_top)/(double)sizey);
+    for (int x=0;x<sizex;x++) {
+        sigma[spec][x][y]=val;
+        }
+        cerr << y << " " << val << endl;
+    }
 }

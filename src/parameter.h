@@ -46,6 +46,7 @@ class Parameter {
   int border_energy;
   int neighbours;
   bool periodic_boundaries;
+  bool gradient;
   int n_chem;
   double * diff_coeff;
   double * decay_rate;
@@ -67,6 +68,12 @@ class Parameter {
   bool graphics;
   bool store;
   char * datadir;
+  bool load_mcds;
+  char * mcds_output;
+  char * mcds_input;
+  int mcds_anneal_steps;
+  int mcds_denoise_steps;
+  bool pause_on_start; 
  private:
 };
 

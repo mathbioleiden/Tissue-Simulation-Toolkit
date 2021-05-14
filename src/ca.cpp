@@ -57,10 +57,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 double copyprob[BOLTZMANN]; 
 
 
-const int CellularPotts::nx[21] = {0, 0, 1, 0,-1, 1, 1,-1,-1, 0, 2, 0, -2, 1, 2, 2, 1,-1,-2,-2,-1};
-const int CellularPotts::ny[21] = {0,-1, 0, 1, 0,-1, 1, 1,-1,-2, 0, 2,  0,-2,-1, 1, 2, 2, 1,-1,-2};
+const int CellularPotts::nx[25] = {0, 0, 1, 0,-1, 1, 1,-1,-1, 0, 2, 0, -2, 1, 2, 2, 1,-1,-2,-2,-1, 0, 2, 0,-2 };
+const int CellularPotts::ny[25] = {0,-1, 0, 1, 0,-1, 1, 1,-1,-2, 0, 2,  0,-2,-1, 1, 2, 2, 1,-1,-2,-2, 0, 2, 0 };
 
-const int CellularPotts::nbh_level[4] = { 0, 4, 8, 20};
+const int CellularPotts::nbh_level[5] = { 0, 4, 8, 20, 24 };
 int CellularPotts::shuffleindex[9]={0,1,2,3,4,5,6,7,8};
 
 extern Parameter par;
@@ -184,7 +184,6 @@ void CellularPotts::IndexShuffle() {
 
   }
 }
-
 
 double sat(double x) {
   
@@ -340,13 +339,13 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
 
 
 /** PUBLIC **/
-int CellularPotts::CopyvProb(int DH,  double stiff) {
+int CellularPotts::CopyvProb(int DH,  double stiff, bool anneal) {
 
   double dd; 
   int s;
   s=(int)stiff;
   if (DH<=-s) return 2;
-  
+  if(anneal) return 0;
   // if DH becomes extremely large, calculate probability on-the-fly
   if (DH+s > BOLTZMANN-1)
     dd=exp( -( (double)(DH+s)/par.T ));
@@ -372,7 +371,7 @@ void CellularPotts::FreezeAmoebae(void)
 
 #include <fstream>
 //! Monte Carlo Step. Returns summed energy change
-int CellularPotts::AmoebaeMove(PDE *PDEfield)
+int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
 {
   
   int loop,p;
@@ -428,35 +427,26 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
 
     }
     
-    
+    //std::cout << "p1: " << k << " p2: " << kp << std::endl; 
     // test for border state (relevant only if we do not use 
     // periodic boundaries)
     if (kp!=-1) {  
       // Don't even think of copying the special border state into you!
-    
-     
       if ( k  != kp ) {
-
 	/* Try to copy if sites do not belong to the same cell */
 	
 	// connectivity dissipation:
 	int H_diss=0;
 	if (!ConnectivityPreservedP(x,y)) H_diss=par.conn_diss;
-	
-	
 	int D_H=DeltaH(x,y,xp,yp,PDEfield);
-	
-	if ((p=CopyvProb(D_H,H_diss))>0) {
+	if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
 	  ConvertSpin ( x,y,xp,yp );
 	  SumDH+=D_H;
 	}
-	
       }
     } 
   }
-   
   return SumDH;
-  
 }
 
 /** A simple method to plot all sigma's in window
@@ -598,9 +588,6 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
 
 
 void CellularPotts::ReadZygotePicture(void) {
- 
-  
-
   int pix,cells,i,j,c,p,checkx,checky;
   char **pixelmap;
   char pixel[3];
@@ -652,10 +639,8 @@ void CellularPotts::ReadZygotePicture(void) {
 	    sigma[offs_x+i][offs_y+j]+=(Cell::MaxSigma()-1);
 	  }
 	}
-	
       }
     }
-
   free(pixelmap[0]);
   free(pixelmap);
 }
@@ -719,11 +704,10 @@ void CellularPotts::MeasureCellSizes(void) {
   // calculate the area of the cells
   for (int x=1;x<sizex-1;x++) {
     for (int y=1;y<sizey-1;y++) {
-      if (sigma[x][y]) {
+      if (sigma[x][y] > 0) {
 	(*cell)[sigma[x][y]].IncrementTargetArea();
 	(*cell)[sigma[x][y]].IncrementArea();
 	(*cell)[sigma[x][y]].AddSiteToMoments(x,y);
-
       }
     }
   }
@@ -1072,8 +1056,7 @@ int CellularPotts::ThrowInCells(int n,int cellsize) {
 } 
 
   
-int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield) {
-
+int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield, int posx, int posy) {
   
   int sx = (int)((sizex-2)/subfield);
   int sy = (int)((sizey-2)/subfield);
@@ -1082,7 +1065,10 @@ int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield) {
   int offset_y = (sizey-2-sy)/2;
   
   if (n_cells==1) {
-    return GrowInCells(1, cell_size, sizex/2, sizey/2, 0, 0);
+      if (posx<0) posx=sizex/2;
+      if (posy<0) posy=sizey/2;
+      
+      return GrowInCells(1, cell_size, posx, posy, 0, 0);
   } else {
     return GrowInCells(n_cells, cell_size, sx, sy, offset_x, offset_y);
   }
@@ -1451,7 +1437,6 @@ double CellularPotts::Compactness(double *res_compactness, double *res_area, dou
 
 }
 
-
 void CellularPotts::SetBoundingBox(void) {
     
     int min_x=sizex+2, max_x=0;
@@ -1475,5 +1460,21 @@ void CellularPotts::SetBoundingBox(void) {
         }
     }
     cout << "( (" << min_x << ", " << min_y << ") , (" << max_x << "," << max_y  << " ) )" << endl;
+}
+
+void CellularPotts::anneal(int steps){
+  for (int i = 0; i < steps; i++)
+    AmoebaeMove(0, true);
+}
+
+int ** CellularPotts::get_annealed_sigma(int steps){
+  int ** tmp_a = sigma;
+  int ** tmp_b;
+  AllocateSigma(par.sizex, par.sizey);
+  std::copy(*tmp_a, (*tmp_a)+(par.sizex*par.sizey), *sigma);
+  anneal(steps);
+  tmp_b = sigma;
+  sigma = tmp_a;
+  return tmp_b;
 }
 

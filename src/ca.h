@@ -35,6 +35,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 //#include "dish.h"
 #include "cell.h"
 
+// MultiCellDS 
+#include <MultiCellDS.hpp>
+#include <MultiCellDS-pimpl.hpp>
+#include <MultiCellDS-simpl.hpp>
+
 class Dish;
 
 class Dir {
@@ -104,7 +109,7 @@ public:
     return mass;
   }
     
-    void SetBoundingBox(void);
+  void SetBoundingBox(void);
 
   /*! Plot the cells according to their cell identity, not their type.
     
@@ -132,7 +137,8 @@ public:
     /*! Implements the core CPM algorithm. Carries out one MCS.
       \return Total energy change during MCS.
     */
-    int AmoebaeMove(PDE *PDEfield=0);
+    
+    int AmoebaeMove(PDE *PDEfield=0, bool anneal = false);
   
     /*! \brief Read initial cell shape from XPM file.
       Reads the initial cell shape from an 
@@ -201,7 +207,7 @@ public:
   \param subfield: Defines a centered frame of size (size/subfield)^2 in which all cell will be positioned. 
   \return Index of last cell inserted.
   */
-  int GrowInCells(int n_cells, int cellsize, double subfield=1.);
+  int GrowInCells(int n_cells, int cellsize, double subfield=1., int posx=-1, int posy=-1);
   int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y);
   
   //! \brief Adds a new Cell and returns a reference to it.
@@ -259,15 +265,23 @@ public:
 		     double *res_area = 0, 
 		     double *res_cell_area = 0);
   
+  void MeasureCellSizes(void);
+    
+  inline int** getSigma(){
+    return sigma;
+  }
+
+  void anneal(int steps);
+  int ** get_annealed_sigma(int steps);
+
 private:
   void IndexShuffle(void);
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
   bool Probability(int DH);
   void ConvertSpin(int x,int y,int xp,int yp);
   void SprayMedium(void);
-  int CopyvProb(int DH,  double stiff);
+  int CopyvProb(int DH,  double stiff, bool anneal);
   void FreezeAmoebae(void);
-  void MeasureCellSizes(void);
   void MeasureCellSize(Cell &c);
   void CopyProb(double T);
   bool ConnectivityPreservedP(int x, int y);
@@ -291,8 +305,8 @@ protected:
 
 private:
   bool frozen;
-  static const int nx[21], ny[21];
-  static const int nbh_level[4];
+  static const int nx[25], ny[25];
+  static const int nbh_level[5];
   static int shuffleindex[9];
   std::vector<Cell> *cell;
   int zygote_area;

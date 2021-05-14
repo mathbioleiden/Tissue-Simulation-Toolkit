@@ -145,12 +145,12 @@ public:
   
   //! Returns the cell colour.
   inline int Colour(void) const {
-   
     /* if (par.dynamicJ) 
       return colour;
       else */
       return tau+1;
-    
+      // Each cell an individual colour:
+      //return sigma==0?0:(sigma%151)+2;
   };
 
   //! Set cell type of this Cell.
@@ -301,12 +301,12 @@ al. 2000). The current version of TST does not include such functionality.
   } 
   
   //! Returns the cell's measured gradient. Currently not in use.
-  inline double GradX() const {
+  inline const double GradX() const {
     return grad[0];
   }
 
   //! Returns the cell's measured gradient. Currently not in use.
-  inline double GradY() const {
+  inline const double GradY() const {
     return grad[1];
   }
 
@@ -327,6 +327,10 @@ al. 2000). The current version of TST does not include such functionality.
     call this function to set the moments and areas right.
   */
   void MeasureCellSize(Cell &c);
+
+  void setArea(int n_area){
+    area = n_area;
+  }
 
 private:
   /*! \brief Read a table of static Js.
@@ -396,14 +400,10 @@ private:
   //components (used internally)
   inline double Length(long int s_x,long int s_y,long int s_xx,
 				long int s_yy,long int s_xy,long int n) {
-
-
-
-      // prevent NaN when last pixel is deleted
-      if (n==0) {
-          return 0.;
-      }
-    
+    // prevent NaN when last pixel is deleted
+    if (n==0) {
+        return 0.;
+    }
     // inertia tensor (constructed from the raw momenta, see notebook)
     double iyy=(double)s_xx-(double)s_x*s_x/(double)n;
     double ixx=(double)s_yy-(double)s_y*s_y/(double)n;
@@ -418,7 +418,6 @@ private:
     //return 2*sqrt(lambda_b);
     // Grumble, this is not right!!!
     // Must divide by mass!!!!!!
-
     // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
     //    cerr << "n = " << n << "\n";
     return 4*sqrt(lambda_b/n);
@@ -426,6 +425,50 @@ private:
     // 2*sqrt(lambda_b/n) give semimajor axis. We want the length.
 
   }
+    //! \brief Calculates the major and minor axes based on the given inertia tensor
+    //components
+    inline void MajorMinorAxis(double *major_axis, double *minor_axis, double *v1, double *v2) {
+        
+        // inertia tensor (constructed from the raw momenta, see notebook)
+        double iyy=(double)sum_xx-(double)sum_x*sum_x/(double)area;
+        double ixx=(double)sum_yy-(double)sum_y*sum_y/(double)area;
+        double ixy=-(double)sum_xy+(double)sum_x*sum_y/(double)area;
+        
+        double rhs1=(ixx+iyy)/2., rhs2=sqrt( (ixx-iyy)*(ixx-iyy)+4*ixy*ixy )/2.;
+        
+        double lambda_b=rhs1+rhs2;
+        double lambda_a=rhs1-rhs2;
+        
+        
+        
+        // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
+        //    cerr << "n = " << n << "\n";
+        *major_axis=4*sqrt(lambda_b/area);
+        *minor_axis=4*sqrt(lambda_a/area);
+
+        
+        double trace=ixx+iyy;
+        double det=ixx*iyy-ixy*ixy;
+        
+        
+        if (ixy!=0) {
+            *v1=lambda_a-iyy;
+            *v2=ixy;
+        } else {
+            *v1=0;
+            *v2=1;
+        }
+        
+        // normalize vector
+        double norm = sqrt((*v1) * (*v1) + (*v2) * (*v2));
+        *v1/=norm;
+        *v2/=norm;
+        
+        
+        
+        // 2*sqrt(lambda_b/n) give semimajor axis. We want the length.
+        
+    }
   
   // return the new length that the cell would have
   // if site (x,y) were added.
@@ -447,6 +490,9 @@ private:
 
   }
 
+  inline void setSigma(int nsigma){
+    sigma = nsigma;
+  }
   
 private:
 //! Increments the cell's actual area by 1 unit.
@@ -475,6 +521,11 @@ private:
   // (depends on Jtable)
   static int MaxTau(void) {
     return maxtau;
+  }
+    
+  inline void GetCentroid(double *cx, double *cy) {
+      *cx = sum_x/area;
+      *cy = sum_y/area;
   }
 
 protected:
@@ -526,11 +577,11 @@ protected:
   
   // N.B: N is area!
   
-  long int sum_x;
-  long int sum_y;
-  long int sum_xx;
-  long int sum_yy;
-  long int sum_xy;
+  int sum_x;
+  int sum_y;
+  int sum_xx;
+  int sum_yy;
+  int sum_xy;
   
   const Dish *owner; // pointer to owner of cell
 

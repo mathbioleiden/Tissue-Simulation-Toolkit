@@ -48,7 +48,6 @@ using namespace std;
 INIT {
 
   try {
-
     // Define initial distribution of cells
     CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
     CPM->ConstructInitCells(*this);
@@ -64,75 +63,71 @@ INIT {
     
     // Assign a random type to each of the cells
     CPM->SetRandomTypes();
-    
   } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
     exit(1);
   }
-
 }
 
 TIMESTEP { 
- 
   try {
 
     static int i=0;
-  
-    static Dish *dish=new Dish();
+    static Dish *dish;
+    if (i == 0 ){
+        dish=new Dish();
+    }
+    
     static Info *info=new Info(*dish, *this);
     
-    dish->CPM->AmoebaeMove(dish->PDEfield);
-    
-    //cerr << "Done\n";
     if (par.graphics && !(i%par.storage_stride)) {
-      
-      
       BeginScene();
       ClearImage();
       dish->Plot(this);
-
-      //char title[400];
-      //snprintf(title,399,"CellularPotts: %d MCS",i);
-      //ChangeTitle(title);
       EndScene();
       info->Menu();
-         dish->CPM->SetBoundingBox();
+       dish->CPM->SetBoundingBox();
     }
-  
+    
+    if (i == 0 && par.pause_on_start){ 
+      info->set_Paused();
+    i++;}
+
+    if (!info->IsPaused()){
+      dish->CPM->AmoebaeMove(dish->PDEfield);
+    }  
+
+    if ( i == par.mcs){
+      dish->ExportMultiCellDS(par.mcds_output);
+    }
+
     if (par.store && !(i%par.storage_stride)) {
       char fname[200];
       sprintf(fname,"%s/extend%07d.png",par.datadir,i);
-    
       BeginScene();
       ClearImage();    
       dish->Plot(this);
-      
       EndScene();
-    
       Write(fname);
-    
-        
     }
 
-    i++;
+    if (!info->IsPaused()){
+      i++;
+    }
   } catch(const char* error) {
-    cerr << "Caught exception\n";
-    std::cerr << error << "\n";
-    exit(1);
+      cerr << "Caught exception\n";
+      std::cerr << error << "\n";
+      exit(1);
   }
 }
 
 int PDE::MapColour(double val) {
-  
   return (((int)((val/((val)+1.))*100))%100)+155;
 }
 
 int main(int argc, char *argv[]) {
-  
-	
   try {
-
 #ifdef QTGRAPHICS
     QApplication a(argc, argv);
 #endif
@@ -144,7 +139,6 @@ int main(int argc, char *argv[]) {
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
     QtGraphics g(par.sizex*2,par.sizey*2);
-    //a.setMainWidget( &g );
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
 
     if (par.graphics)
@@ -154,14 +148,10 @@ int main(int argc, char *argv[]) {
 #else
     X11Graphics g(par.sizex*2,par.sizey*2);
     int t;
-
     for (t=0;t<par.mcs;t++) {
-
       g.TimeStep();
-    
     }
 #endif
-    
   } catch(const char* error) {
     std::cerr << error << "\n";
     exit(1);

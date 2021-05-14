@@ -1,4 +1,5 @@
-/* 
+/*
+>>>>>>> MCDS/MultiCellDS
 
 Copyright 1996-2006 Roeland Merks
 
@@ -26,6 +27,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <stdio.h>
 #include <float.h>
 #include "graph.h"
+#include <vector>
+#include <string>
+#include "graph.h"
+
+
+#include <MultiCellDS.hpp>
+#include <MultiCellDS-pimpl.hpp>
+#include <MultiCellDS-simpl.hpp>
 
 class CellularPotts;
 class PDE {
@@ -84,7 +93,10 @@ class PDE {
   inline int Layers() const {
     return layers;
   }
-
+    
+  //! \brief Set the \param name of the species in layer \param l
+  void SetSpeciesName(int l, const char *name);
+    
   /*! \brief Returns the value of grid point x,y of PDE plane "layer".
     
   Warning, no range checking done.
@@ -223,7 +235,8 @@ class PDE {
        
   */
   void PlotVectorField(Graphics &g, int stride, int linelength, int first_grad_layer=1);
-
+  void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
+    
  protected:
 
   double ***sigma;
@@ -260,10 +273,10 @@ class PDE {
   */   
   virtual double ***AllocateSigma(const int layers, const int sx, const int sy);
  
- private:
+private:
   static const int nx[9], ny[9];
   double thetime;
-
+    std::vector<std::string> species_names;
 };
 
 

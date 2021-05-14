@@ -2,18 +2,22 @@ TEMPLATE = app
 GRAPHICS = qt
 CONFIG += console 
 CONFIG += release
-QT += widgets
-QT += gui
-CONFIG -= debug
 CONFIG -= app_bundle
+#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+QT += widgets
 
-
-contains( GRAPHICS, qt ) {
-  
-}	
-
+LIBDIR = ../lib
 TARGET = sorting
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
+
+MCDS_DIR  = $$LIBDIR/MultiCellDS/v1.0/v1.0.0/libMCDS
+XSDE_DIR  = $$MCDS_DIR/xsde/libxsde
+LIBCS_DIR = $$LIBDIR/libCellShape
+
+LIBS += -L$$LIBCS_DIR -lcellshape -L$$MCDS_DIR/mcds_api -lmcds -L$$XSDE_DIR/xsde/ -lxsde 
+
+QMAKE_CXXFLAGS += -I$$LIBCS_DIR -I$$MCDS_DIR/mcds_api -I$$XSDE_DIR -I -m64 -std=c++11
+QMAKE_LFLAGS += -m64  -std=c++11
 
 message( $$MAINFILE )
 message( $$TARGET )
@@ -35,7 +39,6 @@ HEADERS += ca.h \
            sticky.h \
        	   crash.h \
 	   warning.h 
-
         
 SOURCES += ca.cpp \
 	   hull.cpp \
@@ -54,18 +57,12 @@ SOURCES += ca.cpp \
 
 SOURCES += $$MAINFILE
        
-#QMAKE_CXXFLAGS_RELEASE += -fexceptions
-#QMAKE_CXXFLAGS_DEBUG += -fexceptions
-#QMAKE_LFLAGS_RELEASE += -O4 
-#QMAKE_CXXFLAGS_RELEASE += -O4
-
 contains( GRAPHICS, qt ) {
    message( "Building Qt executable" )
    SOURCES += qtgraph.cpp
    HEADERS += qtgraph.h
    QMAKE_CXXFLAGS_RELEASE += -DQTGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DQTGRAPHICS 
-#   QT += qt3support
    unix {
       system(rm $$TARGET.o)
    } 
@@ -73,7 +70,6 @@ contains( GRAPHICS, qt ) {
      QMAKE_LFLAGS += -L "\"C:\Program Files\GnuWin32\lib\"" -lpng -lzdll
      QMAKE_CXXFLAGS += -I "\"C:\Program Files\GnuWin32\include\""
    }
-   #LIBS += -lpng
 }
 
 contains( GRAPHICS, qt3 ) {
@@ -107,7 +103,3 @@ contains( GRAPHICS, x11 ) {
    CONFIG += x11
    unix:LIBS += -lpng
 }
-
-
-#The following line was inserted by qt3to4
-QT +=  

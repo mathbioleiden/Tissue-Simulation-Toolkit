@@ -58,7 +58,10 @@ class QtGraphics : public QWidget, public Graphics {
   virtual void Line ( int x1, int y1,int x2,int y2,int colour );
   /*void Field (const int **r, int mag=1);
     void PlotNumber(int number, int x, int y);*/
-  
+ 
+  virtual void keyReleaseEvent( QKeyEvent *e);
+  virtual void keyPressEvent( QKeyEvent *e);
+ 
   virtual int GetXYCoo(int *X,int *Y);
   /*char *ChangeTitle (const char *message);
   void RecoverTitle(void);*/
@@ -69,10 +72,14 @@ class QtGraphics : public QWidget, public Graphics {
 
   virtual void Write(char *fname, int quality=-1);
   inline void ClearImage(void) {
-
     pixmap->fill(pens[0].color());
   }
   
+  virtual void Resize(int xfield, int yfield);
+  
+  virtual void set_Paused(){paused = true;}
+  virtual void set_unPaused(){paused = false;}
+
   virtual void TimeStep(void);
 	virtual void resizeEvent( QResizeEvent *event);
   public slots:
@@ -96,18 +103,19 @@ class QtGraphics : public QWidget, public Graphics {
   int mouse_x;
   int mouse_y;
 	
-	int init_size_x;
-	int init_size_y;
+  int init_size_x;
+  int init_size_y;
+
+  int key;
+
+  bool paused = false;
 	
-	double mag;
+  double mag;
   Qt::MouseButton mouse_button;
 
   // private methods
   void ReadColorTable(QPen *pens);
   QTimer *t;
-  
-  
-  
 };
 
 #include <qapplication.h>
