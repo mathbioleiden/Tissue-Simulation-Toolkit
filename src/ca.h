@@ -267,13 +267,14 @@ public:
   
   void MeasureCellSizes(void);
     
-  inline int** getSigma(){
-    return sigma;
-  }
-
   void anneal(int steps);
   int ** get_annealed_sigma(int steps);
 
+  //Return Sigma Array for use on GPU
+  inline int** getSigma(){
+    return sigma;
+  }
+ 
 private:
   void IndexShuffle(void);
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);

@@ -7,14 +7,14 @@ CONFIG -= app_bundle
 QT += widgets
 
 LIBDIR = ../lib
-TARGET = sorting
+TARGET = vessel
 MAINFILE = $$join(TARGET, " ", , ".cpp" )
 
 MCDS_DIR  = $$LIBDIR/MultiCellDS/v1.0/v1.0.0/libMCDS
 XSDE_DIR  = $$MCDS_DIR/xsde/libxsde
 LIBCS_DIR = $$LIBDIR/libCellShape
 
-LIBS += -L$$LIBCS_DIR -lcellshape -L$$MCDS_DIR/mcds_api -lmcds -L$$XSDE_DIR/xsde/ -lxsde 
+LIBS += -L$$LIBCS_DIR -lcellshape -L$$MCDS_DIR/mcds_api -lmcds -L$$XSDE_DIR/xsde/ -lxsde -lOpenCL
 
 QMAKE_CXXFLAGS += -I$$LIBCS_DIR -I$$MCDS_DIR/mcds_api -I$$XSDE_DIR -I -m64 -std=c++11
 QMAKE_LFLAGS += -m64  -std=c++11

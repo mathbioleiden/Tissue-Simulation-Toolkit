@@ -1,5 +1,4 @@
 /*
->>>>>>> MCDS/MultiCellDS
 
 Copyright 1996-2006 Roeland Merks
 
@@ -22,6 +21,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
+#include "pdetype.h" 
+
 #ifndef _PDE_HH_
 #define _PDE_HH_
 #include <stdio.h>
@@ -35,6 +36,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <MultiCellDS.hpp>
 #include <MultiCellDS-pimpl.hpp>
 #include <MultiCellDS-simpl.hpp>
+
+#include <CL/cl.hpp>
 
 class CellularPotts;
 class PDE {
@@ -104,7 +107,7 @@ class PDE {
   \param layer: the PDE plane to probe.
   \param x, y: grid point to probe.
   */
-  inline double Sigma(const int layer, const int x, const int y) const {
+  inline PDEFIELD_TYPE Sigma(const int layer, const int x, const int y) const {
     return sigma[layer][x][y];
   }
   
@@ -115,7 +118,7 @@ class PDE {
   \param value: new contents
   
   */
-  inline void setValue(const int layer, const int x, const int y, const double value) {
+  inline void setValue(const int layer, const int x, const int y, const PDEFIELD_TYPE value) {
     sigma[layer][x][y]=value;
   }
   
@@ -125,7 +128,7 @@ class PDE {
   \param x, y: grid point
   \param value: value to add
   */
-  inline void addtoValue(const int layer, const int x, const int y, const double value) {
+  inline void addtoValue(const int layer, const int x, const int y, const PDEFIELD_TYPE value) {
     sigma[layer][x][y]+=value;
   }
 
@@ -134,8 +137,8 @@ class PDE {
   \param l: layer
   \return Maximum value in layer l.
   */
-  inline double Max(int l) {
-    double max=sigma[l][0][0];
+  inline PDEFIELD_TYPE Max(int l) {
+    PDEFIELD_TYPE max=sigma[l][0][0];
     int loop=sizex*sizey;
     for (int i=1;i<loop;i++)
       if (sigma[l][0][i]>max) {
@@ -148,8 +151,8 @@ class PDE {
   \param l: layer
   \return Minimum value in layer l.
   */
-  inline double Min(int l) {
-    double min=sigma[l][0][0];
+  inline PDEFIELD_TYPE Min(int l) {
+    PDEFIELD_TYPE min=sigma[l][0][0];
     int loop=sizex*sizey;
     for (int i=1;i<loop;i++)
       if (sigma[l][0][i]<min) {
@@ -196,6 +199,9 @@ class PDE {
   */
   void Secrete(CellularPotts *cpm);
 
+  //Secrete and diffuse functions accelerated by OpenCL (Use SetupOpenCL function first)
+  void SecreteAndDiffuseCL(CellularPotts *cpm, int repeat);
+
   /*! \brief Returns cumulative "simulated" time,
     i.e. number of time steps * dt. */
   inline double TheTime(void) const {
@@ -239,14 +245,14 @@ class PDE {
     
  protected:
 
-  double ***sigma;
+  PDEFIELD_TYPE ***sigma;
   
   // Used as temporary memory in the diffusion step
   // (addresses will be swapped for every time step, so
   // never directly use them!!! Access is guaranteed to be correct
   // through user interface)
 
-  double ***alt_sigma;
+  PDEFIELD_TYPE ***alt_sigma;
  
   int sizex;
   int sizey;
@@ -271,12 +277,26 @@ class PDE {
   For internal use, can be reimplemented in derived class to change
   method of memory allocation.
   */   
-  virtual double ***AllocateSigma(const int layers, const int sx, const int sy);
+  virtual PDEFIELD_TYPE ***AllocateSigma(const int layers, const int sx, const int sy);
  
 private:
   static const int nx[9], ny[9];
   double thetime;
-    std::vector<std::string> species_names;
+  std::vector<std::string> species_names;
+ 
+  void SetupOpenCL(); 
+  //OpenCL variables
+  bool openclsetup = false;
+  cl::Context context;
+  cl::Program program;
+  cl::Device default_device;
+  cl::CommandQueue queue;
+  cl::Buffer buffer_sigmacell;
+  cl::Buffer buffer_sigmapdeA;
+  cl::Buffer buffer_sigmapdeB;
+  cl::Buffer buffer_diff_coeff;
+  cl::Kernel kernel_SecreteAndDiffuse;
+
 };
 
 

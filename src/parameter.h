@@ -74,6 +74,7 @@ class Parameter {
   int mcds_anneal_steps;
   int mcds_denoise_steps;
   bool pause_on_start; 
+  bool useopencl;
  private:
 };
 

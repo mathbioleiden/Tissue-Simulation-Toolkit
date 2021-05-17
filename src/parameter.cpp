@@ -77,6 +77,7 @@ Parameter::Parameter() {
   mcds_anneal_steps = 0;
   mcds_denoise_steps = 0; 
   pause_on_start = false;
+  useopencl = true;
 }
 
 Parameter::~Parameter() {
@@ -154,6 +155,7 @@ void Parameter::Read(const char *filename) {
   mcds_anneal_steps = igetpar(fp, "mcds_anneal_steps", true);
   mcds_denoise_steps = igetpar(fp, "mcds_denoise_steps", true);
   pause_on_start = bgetpar(fp, "pause_on_start", true);
+  useopencl = bgetpar(fp, "useopencl", true, true);
 }
 
 const char *sbool(const bool &p) {
@@ -211,6 +213,7 @@ void Parameter::Write(ostream &os) const {
   os << " mcds_anneal_steps = " << mcds_anneal_steps << endl;
   os << " mcds_denoise_steps = " << mcds_denoise_steps << endl;
   os << " pause_on_start = " << pause_on_start << endl; 
+  os << " useopencl = " << useopencl << endl;
   if (datadir) 
     os << " datadir = " << datadir << endl;
 }
