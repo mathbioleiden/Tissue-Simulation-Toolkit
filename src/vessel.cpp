@@ -85,10 +85,16 @@ TIMESTEP {
 
     // secretion and chemotaxis only starts
     // after relaxation of initial condition
-    if (i>=par.relaxation) {
-      for (int r=0;r<par.pde_its;r++) {
-	dish->PDEfield->Secrete(dish->CPM);
-	dish->PDEfield->Diffuse(1);
+    
+    if (par.useopencl){
+      dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);
+    }
+    else{
+      if (i>=par.relaxation) {
+        for (int r=0;r<par.pde_its;r++) {
+	  dish->PDEfield->Secrete(dish->CPM);
+	  dish->PDEfield->Diffuse(1);
+        }
       }
     }
     dish->CPM->AmoebaeMove(dish->PDEfield);
