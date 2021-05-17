@@ -51,7 +51,6 @@ static Info *info;
 INIT {
 
   try {
-    SetMultiCellDSCells();
       
     // Define initial distribution of cells
      //CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
@@ -187,7 +186,7 @@ int main(int argc, char *argv[]) {
     
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
-    dish=new Dish("longcells-tmp/extend02000.xml");
+    dish=new Dish();
     QtGraphics g(par.sizex*2,par.sizey*2);
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
 
