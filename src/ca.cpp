@@ -1459,7 +1459,8 @@ void CellularPotts::SetBoundingBox(void) {
             }
         }
     }
-    cout << "( (" << min_x << ", " << min_y << ") , (" << max_x << "," << max_y  << " ) )" << endl;
+    
+    //cout << "( (" << min_x << ", " << min_y << ") , (" << max_x << "," << max_y  << " ) )" << endl;
 }
 
 void CellularPotts::anneal(int steps){
