@@ -98,7 +98,6 @@ TIMESTEP {
       int tx,ty;
       BeginScene();
             
-      std::cout << "OUT! " << i << std::endl;
       dish->PDEfield->Plot(this,0);
       // You need to call "ClearImage" if no PDE field is plotted,
       // because the CPM medium is considered transparant
