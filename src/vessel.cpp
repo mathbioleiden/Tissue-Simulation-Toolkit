@@ -53,7 +53,7 @@ INIT {
   try {
       
     // Define initial distribution of cells
-     //CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+     CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
     
      CPM->ConstructInitCells(*this);
     
@@ -87,25 +87,19 @@ TIMESTEP {
     // after relaxation of initial condition
     if (i>=par.relaxation) {
       for (int r=0;r<par.pde_its;r++) {
-	
 	dish->PDEfield->Secrete(dish->CPM);
 	dish->PDEfield->Diffuse(1);
-
       }
     }
     dish->CPM->AmoebaeMove(dish->PDEfield);
     
     
     if (par.graphics && !(i%par.storage_stride)) {
-      
-  
       int tx,ty;
-      
       BeginScene();
             
-     
+      std::cout << "OUT! " << i << std::endl;
       dish->PDEfield->Plot(this,0);
-      
       // You need to call "ClearImage" if no PDE field is plotted,
       // because the CPM medium is considered transparant
       //ClearImage();
@@ -113,14 +107,13 @@ TIMESTEP {
       
       if (i>=par.relaxation)
       dish->PDEfield->ContourPlot(this,0,7);
-    
       char title[400];
       snprintf(title,399,"CellularPotts: %.2f hr",dish->PDEfield->TheTime()/3600);
       //snprintf(title,399,"CellularPotts: %d MCS",i);
       //ChangeTitle(title);
       EndScene();
       info->Menu();
-      
+      dish->CPM->SetBoundingBox();
     }
     if (par.store && !(i%par.storage_stride)) {
       char fname[200],fname_mcds[200];
