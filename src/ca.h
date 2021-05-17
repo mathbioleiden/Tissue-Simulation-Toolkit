@@ -72,6 +72,8 @@ public:
   // (necessary for derivation)
   CellularPotts(void);
 
+  void InitializeEdgeList(void); //Set the initial edgelist which are eligible to change
+
   // Keyword virtual means, that derived classed (cppvmCellularPotts) can override
   // this function and carry out the memory allocation in their preferred way
   // Every time AllocateSigma is called in the base class methods
@@ -116,8 +118,8 @@ public:
   The black lines are omitted.
   */
   void PlotSigma(Graphics *g, int mag=2);
+  void WriteData(void);
 
-  
   //! Divide all cells.
     void DivideCells(void) {
 	  std::vector<bool> tmp;
@@ -137,7 +139,6 @@ public:
     /*! Implements the core CPM algorithm. Carries out one MCS.
       \return Total energy change during MCS.
     */
-    
     int AmoebaeMove(PDE *PDEfield=0, bool anneal = false);
   
     /*! \brief Read initial cell shape from XPM file.
@@ -283,6 +284,9 @@ private:
   void SprayMedium(void);
   int CopyvProb(int DH,  double stiff, bool anneal);
   void FreezeAmoebae(void);
+  void AddEdgeToEdgelist(int edge);
+  void RemoveEdgeFromEdgelist(int edge);
+  int CounterEdge(int edge);
   void MeasureCellSize(Cell &c);
   void CopyProb(double T);
   bool ConnectivityPreservedP(int x, int y);
@@ -308,6 +312,9 @@ private:
   bool frozen;
   static const int nx[25], ny[25];
   static const int nbh_level[5];
+  int *edgelist;
+  int *orderedgelist;
+  int sizeedgelist;
   static int shuffleindex[9];
   std::vector<Cell> *cell;
   int zygote_area;

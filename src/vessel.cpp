@@ -51,10 +51,8 @@ static Info *info;
 INIT {
 
   try {
-      
     // Define initial distribution of cells
      CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
-    
      CPM->ConstructInitCells(*this);
     
     // If we have only one big cell and divide it a few times
@@ -64,6 +62,8 @@ INIT {
     for (int i=0;i<par.divisions;i++) {
       CPM->DivideCells();
     }
+
+    CPM->InitializeEdgeList();
         
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -78,7 +78,9 @@ TIMESTEP {
   try {
 
     static int i=0;
-    info=new Info(*dish, *this);
+    static Dish *dish=new Dish();
+    static Info *info=new Info(*dish, *this);
+
     // slowly increase target length during the first time steps
     // to prevent cells from breaking apart
     // static double targetlength=par.target_length;
@@ -136,7 +138,6 @@ TIMESTEP {
       if (!(i%(par.storage_stride*10)))
         dish->ExportMultiCellDS(fname_mcds);
     }
-      
     i++;
   } catch(const char* error) {
     cerr << "Caught exception\n";

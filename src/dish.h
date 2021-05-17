@@ -37,7 +37,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell.h"
 #include "ca.h"
 
-
 namespace ColourMode {
   enum { State,CellType,Sigma,Auxilliary };
 }

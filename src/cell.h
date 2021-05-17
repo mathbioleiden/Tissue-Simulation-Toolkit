@@ -149,8 +149,6 @@ public:
       return colour;
       else */
       return tau+1;
-      // Each cell an individual colour:
-      //return sigma==0?0:(sigma%151)+2;
   };
 
   //! Set cell type of this Cell.
@@ -404,6 +402,7 @@ private:
     if (n==0) {
         return 0.;
     }
+    
     // inertia tensor (constructed from the raw momenta, see notebook)
     double iyy=(double)s_xx-(double)s_x*s_x/(double)n;
     double ixx=(double)s_yy-(double)s_y*s_y/(double)n;
@@ -418,6 +417,7 @@ private:
     //return 2*sqrt(lambda_b);
     // Grumble, this is not right!!!
     // Must divide by mass!!!!!!
+
     // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
     //    cerr << "n = " << n << "\n";
     return 4*sqrt(lambda_b/n);
@@ -577,11 +577,11 @@ protected:
   
   // N.B: N is area!
   
-  int sum_x;
-  int sum_y;
-  int sum_xx;
-  int sum_yy;
-  int sum_xy;
+  long int sum_x;
+  long int sum_y;
+  long int sum_xx;
+  long int sum_yy;
+  long int sum_xy;
   
   const Dish *owner; // pointer to owner of cell
 

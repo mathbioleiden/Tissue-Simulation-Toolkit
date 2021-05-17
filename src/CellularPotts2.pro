@@ -63,13 +63,6 @@ contains( GRAPHICS, qt ) {
    HEADERS += qtgraph.h
    QMAKE_CXXFLAGS_RELEASE += -DQTGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DQTGRAPHICS 
-   unix {
-      system(rm $$TARGET.o)
-   } 
-   win32 {
-     QMAKE_LFLAGS += -L "\"C:\Program Files\GnuWin32\lib\"" -lpng -lzdll
-     QMAKE_CXXFLAGS += -I "\"C:\Program Files\GnuWin32\include\""
-   }
 }
 
 contains( GRAPHICS, qt3 ) {
@@ -103,3 +96,4 @@ contains( GRAPHICS, x11 ) {
    CONFIG += x11
    unix:LIBS += -lpng
 }
+

@@ -178,8 +178,6 @@ void PDE::ContourPlot(Graphics *g, int l, int colour) {
 }
 
 
-
-
 void PDE::SetupOpenCL(){
   openclsetup = true;
   //Basic OpenCL Setup
@@ -381,7 +379,6 @@ double PDE::GetChemAmount(const int layer) {
     for (int l=0;l<layers;l++) {
       for (int x=1;x<sizex-1;x++)
 	for (int y=1;y<sizey-1;y++) {
-	  
 	  sum+=sigma[l][x][y];
 	}
       

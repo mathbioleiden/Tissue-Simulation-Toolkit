@@ -86,7 +86,9 @@ CellularPotts::CellularPotts(vector<Cell> *cells,
   frozen=false;
   thetime=0;
   zygote_area=0;
-
+	
+  edgelist = nullptr;
+  orderedgelist = nullptr;
   
   BaseInitialisation(cells);
   sizex=sx;
@@ -118,6 +120,9 @@ CellularPotts::CellularPotts(void) {
   frozen=false;
   thetime=0;
   zygote_area=0;
+	
+  edgelist = nullptr;
+  orderedgelist = nullptr;
 
   CopyProb(par.T);
 
@@ -142,6 +147,14 @@ CellularPotts::~CellularPotts(void) {
     free(sigma[0]);
     free(sigma);
     sigma=0;
+  }
+	
+  if(edgelist) {
+      delete edgelist;
+  }
+
+  if(orderedgelist) {
+      delete orderedgelist;
   }
 }
 
@@ -183,6 +196,56 @@ void CellularPotts::IndexShuffle() {
     shuffleindex[index2]=temp;
 
   }
+}
+
+void CellularPotts::InitializeEdgeList(void){
+	edgelist= new int[(par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]];
+	orderedgelist= new int[(par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]];
+	sizeedgelist = 0;
+	int pixel;
+	int neighbour;
+	int x, y;
+	int xp, yp;
+	int c, cp;
+	for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
+		edgelist[k] = -1;
+		orderedgelist[k] = -1;
+	}
+	for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
+		pixel = k/nbh_level[par.neighbours];
+		neighbour = k%nbh_level[par.neighbours]+1;		
+		x = pixel%(sizex-2)+1;
+		y = pixel/(sizex-2)+1;
+		c = sigma[x][y];			
+		xp = nx[neighbour]+x;
+		yp = ny[neighbour]+y;
+			
+		if (par.periodic_boundaries) {
+      
+      // since we are asynchronic, we cannot just copy the borders once 
+      // every MCS      
+         
+			if (xp<=0)
+				xp=sizex-2+xp;
+    	if (yp<=0)
+				yp=sizey-2+yp;
+   	  if (xp>=sizex-1)
+				xp=xp-sizex+2;
+   	  if (yp>=sizey-1)
+				yp=yp-sizey+2;
+      
+      cp=sigma[xp][yp];
+      }
+		else if (xp<=0 || yp<=0 || xp>=sizex-1 || yp>=sizey-1)
+			cp=-1;
+    else
+			cp=sigma[xp][yp];
+    if (cp != c && cp != -1){				
+			edgelist [k] = sizeedgelist;	
+			orderedgelist[sizeedgelist] = k;
+			sizeedgelist ++;
+		}
+	}	
 }
 
 double sat(double x) {
@@ -319,11 +382,9 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
   int tmpcell;
   if ( (tmpcell=sigma[x][y]) ) { // if tmpcell is not MEDIUM
     (*cell)[tmpcell].DecrementArea();
-    (*cell)[tmpcell].RemoveSiteFromMoments(x,y);
-        
+    (*cell)[tmpcell].RemoveSiteFromMoments(x,y);    
     if (!(*cell)[tmpcell].Area()) {
       (*cell)[tmpcell].Apoptose();
-      cerr << "Cell " << tmpcell << " apoptosed\n";
     }
   }
   
@@ -340,7 +401,6 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
 
 /** PUBLIC **/
 int CellularPotts::CopyvProb(int DH,  double stiff, bool anneal) {
-
   double dd; 
   int s;
   s=(int)stiff;
@@ -373,7 +433,6 @@ void CellularPotts::FreezeAmoebae(void)
 //! Monte Carlo Step. Returns summed energy change
 int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
 {
-  
   int loop,p;
   //int updated=0;
   thetime++;
@@ -382,72 +441,249 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
   if (frozen) 
     return 0;
 
-  loop=(sizex-2)*(sizey-2);
- 
-  for (int i=0;i<loop;i++) {  
-    
-    // take a random site
-    int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
-    int x = xy%(sizex-2)+1;
-    int y = xy/(sizex-2)+1; 
-    
-    // take a random neighbour
-    int xyp=(int)(n_nb*RANDOM()+1);
-    int xp = nx[xyp]+x;
-    int yp = ny[xyp]+y;
-    
-    int k=sigma[x][y];
-    
-    int kp;
-    if (par.periodic_boundaries) {
-      
-      // since we are asynchronic, we cannot just copy the borders once 
-      // every MCS
-      
-         
-      if (xp<=0)
-	xp=sizex-2+xp;
-      if (yp<=0)
-	yp=sizey-2+yp;
-      if (xp>=sizex-1)
-	xp=xp-sizex+2;
-      if (yp>=sizey-1)
-	yp=yp-sizey+2;
-      
-      kp=sigma[xp][yp];
-      
-      
-    } else {
-      
-      if (xp<=0 || yp<=0 
-	  || xp>=sizex-1 || yp>=sizey-1)
-	kp=-1;
-      else
-	kp=sigma[xp][yp];
+	int positionedge;
+	int targetedge;
+	int targetsite;
+	int targetneighbour;
+	int x,y;
+	int xp,yp;
+	int k,kp;
 
-    }
+	int H_diss;
+	int D_H;
+
+	int edgeadjusting;
+	int xn, yn; //neighbour cells
     
-    //std::cout << "p1: " << k << " p2: " << kp << std::endl; 
-    // test for border state (relevant only if we do not use 
-    // periodic boundaries)
-    if (kp!=-1) {  
-      // Don't even think of copying the special border state into you!
-      if ( k  != kp ) {
-	/* Try to copy if sites do not belong to the same cell */
-	
-	// connectivity dissipation:
-	int H_diss=0;
-	if (!ConnectivityPreservedP(x,y)) H_diss=par.conn_diss;
-	int D_H=DeltaH(x,y,xp,yp,PDEfield);
-	if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
-	  ConvertSpin ( x,y,xp,yp );
-	  SumDH+=D_H;
+	loop = sizeedgelist / n_nb * 1.2;
+  for (int i = 0; i < loop; i++){
+		positionedge = (int)(RANDOM()*sizeedgelist); // take a entry of the edgelist
+		targetedge = orderedgelist[positionedge];
+		targetsite = targetedge / n_nb;
+		targetneighbour = (targetedge % n_nb)+1;
+
+		x = targetsite%(sizex-2)+1;
+		y = targetsite/(sizex-2)+1; 
+		k=sigma[x][y];
+
+		xp = nx[targetneighbour]+x;
+		yp = ny[targetneighbour]+y;
+		if (par.periodic_boundaries) {
+		    
+		   // since we are asynchronic, we cannot just copy the borders once 
+		   // every MCS
+		    		      
+			if (xp<=0)
+				xp=sizex-2+xp;
+		  if (yp<=0)
+				yp=sizey-2+yp;
+		  if (xp>=sizex-1)
+				xp=xp-sizex+2;
+		  if (yp>=sizey-1)
+				yp=yp-sizey+2;
+		}
+	 	kp=sigma[xp][yp]; //by construction of the edgelist, xp,yp can't be a boundary state.
+		
+		// connectivity dissipation:
+		H_diss=0;
+		if (!ConnectivityPreservedP(x,y)) 
+			H_diss=par.conn_diss;
+
+		D_H=DeltaH(x,y,xp,yp,PDEfield);
+
+		if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
+			ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
+		
+			for (int j = 1; j <= n_nb; j++){
+				xn = nx[j]+x; 
+				yn = ny[j]+y;
+				edgeadjusting = targetsite*n_nb+j-1; 
+			
+				if (par.periodic_boundaries) {	
+					 	// since we are asynchronic, we cannot just copy the borders once 
+					 	// every MCS
+					if (xn<=0)
+						xn=sizex-2+xn;
+					if(yn<=0)
+						yn=sizey-2+yn;
+					if (xn>=sizex-1)
+						xn=xn-sizex+2;
+				  if (yn>=sizey-1)
+						yn=yn-sizey+2;
+				} 
+				if (xn>0 && yn>0 && xn<sizex-1 && yn<sizey-1){//if the neighbour site is within the lattice
+					if (edgelist[edgeadjusting] == -1 && sigma[xn][yn] != sigma[x][y]){ //if we should add the edge to the edgelist, add it
+						AddEdgeToEdgelist(edgeadjusting);
+						loop += (double)2/n_nb;
+					}
+					if (edgelist[edgeadjusting] != -1 && sigma[xn][yn] == sigma[x][y]){//if the sites have the same celltype and they have an edge, remove it						
+						RemoveEdgeFromEdgelist(edgeadjusting); 
+						loop -= (double)2/n_nb;		
+					}							
+				}
+			}
+			SumDH+=D_H;			
+		}
 	}
-      }
-    } 
-  }
-  return SumDH;
+	return SumDH;  
 }
+
+void CellularPotts::AddEdgeToEdgelist(int edge) {
+	int counteredge = CounterEdge(edge);	
+
+	edgelist[edge] = sizeedgelist;
+	orderedgelist[sizeedgelist] = edge;
+	sizeedgelist++;
+
+	edgelist[counteredge] = sizeedgelist;
+	orderedgelist[sizeedgelist] = counteredge;
+	sizeedgelist++;
+}
+
+void CellularPotts::WriteData(void){
+		int RedRedSurface = 0;
+		int RedYellowSurface = 0;
+		int YellowYellowSurface = 0;
+	for (int x = 1; x<sizex-1; x++)
+	for (int y = 1; y<sizey-1; y++){
+		for (int i = 1; i<=4; i++){
+			int x2,y2;
+			x2=x+nx[i]; y2=y+ny[i];
+			if (sigma[x][y] != sigma[x2][y2]){
+				if ((*cell)[sigma[x][y]].getTau() == 1 && (*cell)[sigma[x2][y2]].getTau() == 1)	RedRedSurface ++;
+				if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1)	RedYellowSurface ++;
+				if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1)	YellowYellowSurface ++;
+			
+			}
+		}
+	}
+	//cout << "Red-red surface = " << RedRedSurface << endl;
+	//cout << "Red-yellow surface = " << RedYellowSurface << endl;
+	//cout << "Yellow-yellow surface = " << YellowYellowSurface << endl;
+
+	ofstream myfile;
+	myfile.open("Data_original.txt", std::ofstream::out | std::ofstream::app);
+	myfile << RedYellowSurface <<endl;
+	myfile.close();
+
+}
+
+void CellularPotts::RemoveEdgeFromEdgelist(int edge) { //remove the site from the edgelist and rearrange a bit if needed
+	int counteredge = CounterEdge(edge);	
+
+	if(edgelist[edge] != sizeedgelist-1){ //if edge is not last one in edgelist
+		orderedgelist[edgelist[edge]] = orderedgelist[sizeedgelist-1];
+		edgelist[orderedgelist[sizeedgelist-1]] = edgelist[edge];
+	}
+	edgelist[edge] = -1;
+	orderedgelist[sizeedgelist-1] = -1;
+	sizeedgelist--;
+	if(edgelist[counteredge] != sizeedgelist-1){ //if counteredge is not last one in edgelist
+		orderedgelist[edgelist[counteredge]] = orderedgelist[sizeedgelist-1];
+		edgelist[orderedgelist[sizeedgelist-1]] = edgelist[counteredge];
+	}
+	edgelist[counteredge] = -1;
+	orderedgelist[sizeedgelist-1] = -1;
+	sizeedgelist--;
+
+
+
+}
+
+int CellularPotts::CounterEdge(int edge){
+	int which_site = edge / n_nb;
+	int which_neighbour = edge % n_nb + 1;
+	int counterneighbour;
+
+	int x = which_site%(sizex-2)+1;
+	int y = which_site/(sizex-2)+1; 
+
+	int xp = nx[which_neighbour]+x; 
+	int yp = ny[which_neighbour]+y;	
+
+	if (par.periodic_boundaries) {	
+		// since we are asynchronic, we cannot just copy the borders once 
+		// every MCS
+		if (xp<=0)
+			xp=sizex-2+xp;
+		if(yp<=0)
+			yp=sizey-2+yp;
+		if (xp>=sizex-1)
+			xp=xp-sizex+2;
+		if (yp>=sizey-1)
+			yp=yp-sizey+2;
+	}
+
+	int neighbourlocation = xp-1 + (yp-1)*(par.sizex-2);
+	switch (which_neighbour){
+		case 1:
+			counterneighbour = 3;
+			break;
+		case 2:
+			counterneighbour = 4;
+			break;
+		case 3:
+			counterneighbour = 1;
+			break;
+		case 4:
+			counterneighbour = 2;
+			break;
+		case 5:
+			counterneighbour = 7;
+			break;
+		case 6:
+			counterneighbour = 8;
+			break;
+		case 7:
+			counterneighbour = 5;
+			break;
+		case 8:
+			counterneighbour = 6;
+			break;
+		case 9:
+			counterneighbour = 11;
+			break;
+		case 10:
+			counterneighbour = 12;
+			break;
+		case 11:
+			counterneighbour = 9;
+			break;
+		case 12:
+			counterneighbour = 10;
+			break;
+		case 13:
+			counterneighbour = 17;
+			break;
+		case 14:
+			counterneighbour = 18;
+			break;
+		case 15:
+			counterneighbour = 19;
+			break;
+		case 16:
+			counterneighbour = 20;
+			break;
+		case 17:
+			counterneighbour = 13;
+			break;
+		case 18:
+			counterneighbour = 14;
+			break;
+		case 19:
+			counterneighbour = 15;
+			break;
+		case 20:
+			counterneighbour = 16;
+			break;	
+	}
+
+
+	int counteredge = neighbourlocation * n_nb + counterneighbour-1;
+
+	return counteredge;
+}
+
 
 /** A simple method to plot all sigma's in window
     without the black lines */
@@ -633,7 +869,6 @@ void CellularPotts::ReadZygotePicture(void) {
       for (c=0;c<cells;c++) {
 	if (!(strcmp(pixelmap[c],pixel))) {
 	  if ( (sigma[offs_x+i][offs_y+j]=c) ) {
-	
 	    // if c is _NOT_ medium (then c=0)
 	    // assign pixel values from "sigmamax"
 	    sigma[offs_x+i][offs_y+j]+=(Cell::MaxSigma()-1);
@@ -722,9 +957,7 @@ void CellularPotts::MeasureCellSizes(void) {
 }
 
 void CellularPotts::MeasureCellSize(Cell &c) {
-  
   c.CleanMoments();
-  
   // calculate the area of the cell
   for (int x=1;x<sizex-1;x++) {
     for (int y=1;y<sizey-1;y++) {
@@ -732,18 +965,9 @@ void CellularPotts::MeasureCellSize(Cell &c) {
 	(*cell)[sigma[x][y]].IncrementTargetArea();
 	(*cell)[sigma[x][y]].IncrementArea();
 	(*cell)[sigma[x][y]].AddSiteToMoments(x,y);
-
       }
     }
   }
-  
-//   // set the actual area to the target area
-//   {
-//   for (vector<Cell>::iterator c=cell->begin();c!=cell->end();c++) {
-//     c->SetAreaToTarget();
-
-//   }
-
 }
 
 Dir *CellularPotts::FindCellDirections(void) const
@@ -1057,7 +1281,6 @@ int CellularPotts::ThrowInCells(int n,int cellsize) {
 
   
 int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield, int posx, int posy) {
-  
   int sx = (int)((sizex-2)/subfield);
   int sy = (int)((sizey-2)/subfield);
   
@@ -1067,7 +1290,6 @@ int CellularPotts::GrowInCells(int n_cells, int cell_size, double subfield, int 
   if (n_cells==1) {
       if (posx<0) posx=sizex/2;
       if (posy<0) posy=sizey/2;
-      
       return GrowInCells(1, cell_size, posx, posy, 0, 0);
   } else {
     return GrowInCells(n_cells, cell_size, sx, sy, offset_x, offset_y);
@@ -1478,4 +1700,3 @@ int ** CellularPotts::get_annealed_sigma(int steps){
   sigma = tmp_a;
   return tmp_b;
 }
-

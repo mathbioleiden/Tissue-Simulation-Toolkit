@@ -63,6 +63,8 @@ INIT {
     
     // Assign a random type to each of the cells
     CPM->SetRandomTypes();
+    CPM->InitializeEdgeList();
+    
   } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
@@ -127,6 +129,7 @@ int PDE::MapColour(double val) {
 }
 
 int main(int argc, char *argv[]) {
+<<<<<<< HEAD
   try {
 #ifdef QTGRAPHICS
     QApplication a(argc, argv);
@@ -143,7 +146,6 @@ int main(int argc, char *argv[]) {
 
     if (par.graphics)
       g.show();
-    
     a.exec();
 #else
     X11Graphics g(par.sizex*2,par.sizey*2);

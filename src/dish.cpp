@@ -105,7 +105,6 @@ bool Dish::CellLonelyP(const Cell &c, int **neighbours) const {
   return true;
 }
 
-
 // Based on code by Paulien Hogeweg.
 void Dish::CellGrowthAndDivision(void) {
   vector<bool> which_cells(cell.size());
@@ -127,7 +126,6 @@ void Dish::CellGrowthAndDivision(void) {
     if ( (c->Area()-c->TargetArea())>c->GrowthThreshold() ) {
       c->IncrementTargetArea();
     }
-    
     if ( (c->TargetArea() > 2 * mem_area ) ) {
       which_cells[c->Sigma()]=true;
       cell_division++;
@@ -142,7 +140,6 @@ void Dish::CellGrowthAndDivision(void) {
 
 
 int Dish::CountCells(void) const {
-  
   int amount=0;
   vector<Cell>::const_iterator i;
   for ( (i=cell.begin(),i++); i!=cell.end(); i++) {
@@ -193,7 +190,6 @@ int Dish::TargetArea(void) const {
 void Dish::SetCellOwner(Cell &which_cell) {
   which_cell.owner=this;
 }
-
 
 
 void Dish::ClearGrads(void) {

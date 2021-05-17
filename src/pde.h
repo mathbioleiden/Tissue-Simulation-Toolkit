@@ -1,4 +1,4 @@
-/*
+/* 
 
 Copyright 1996-2006 Roeland Merks
 
@@ -22,7 +22,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 */
 
 #include "pdetype.h" 
-
 #ifndef _PDE_HH_
 #define _PDE_HH_
 #include <stdio.h>
@@ -31,7 +30,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <vector>
 #include <string>
 #include "graph.h"
-
 
 #include <MultiCellDS.hpp>
 #include <MultiCellDS-pimpl.hpp>
@@ -296,7 +294,6 @@ private:
   cl::Buffer buffer_sigmapdeB;
   cl::Buffer buffer_diff_coeff;
   cl::Kernel kernel_SecreteAndDiffuse;
-
 };
 
 
