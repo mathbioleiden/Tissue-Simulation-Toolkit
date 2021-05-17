@@ -210,7 +210,7 @@ int QtGraphics::GetXYCoo(int *X, int *Y)
       case Qt::LeftButton:
         return 1;
         break;
-      case Qt::MidButton:
+      case Qt::MiddleButton:
         return 2;
         break;
       case Qt::RightButton:

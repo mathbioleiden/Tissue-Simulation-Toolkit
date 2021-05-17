@@ -43,7 +43,7 @@ class QtGraphics : public QWidget, public Graphics {
 
     public:
   QtGraphics(int xfield, int yfield, const char *movie_file=0);
-  QtGraphics(QWidget *parent, const char *name, int xfield, int yfield, const char *movie_file=0) : QWidget(parent, 0) {
+  QtGraphics(QWidget *parent, const char *name, int xfield, int yfield, const char *movie_file=0) : QWidget(parent) {
     QtGraphics(xfield, yfield, movie_file);
       // set name here somewhere
   }
