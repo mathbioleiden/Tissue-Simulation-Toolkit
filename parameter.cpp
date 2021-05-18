@@ -79,26 +79,12 @@ Parameter::Parameter() {
 	int max_Act = 0;
 	//lymphocyte matrix interaction
 	double lambda_matrix =0;
-	int max_matrix = 0;
-	int age_saturation = 1;
-	bool geometric_mean = false;
-	double single_site_power = 1;
-	lambda_c = 600;
 	double spontaneous_p = 0.001;
 	double decay_p = 0.02;
 	double eden_p = 0.25;
-  double lambda_schooling = 0.0;
   int J_pol = 0;
-  double pillar_r = 0;
-  double pillar_distance = 0;
-  double pillar_radius = 0;
-  int pillar_energy =0;
-  int pillar_energy_odd =0;
-  bool checkerboard = false;
-  double lambda_persistence = 0;
-  int tau = 0;
-  double threshold = 0.1;
-  double start_level = 0.1;
+  double threshold = 0;
+  double start_level = 1;
 
 
 }
@@ -189,26 +175,12 @@ void Parameter::Read(const char *filename) {
 	target_perimeter = igetpar(fp, "target_perimeter", 0, true);
 	//lymphocyte matrix interaction
 	lambda_matrix = fgetpar(fp, "lambda_matrix", 0, true);
-	max_matrix = igetpar(fp, "max_matrix", 0, true);
-	age_saturation = igetpar(fp, "age_saturation", 1, true);
-	geometric_mean = bgetpar(fp, "geometric_mean", false, true);
-	single_site_power = fgetpar(fp, "single_site_power", 1, true);
-	lambda_c = fgetpar(fp, "lambda_c" , 600, true);
 	spontaneous_p = fgetpar(fp, "spontaneous_p", 0.001, true);
 	decay_p = fgetpar(fp,"decay_p", 0.02, true);
 	eden_p = fgetpar(fp,"eden_p", 0.25, true);
-  lambda_schooling = fgetpar( fp, "lambda_schooling", 0, true);
   J_pol = igetpar( fp,"J_pol", 0 , true);
-  pillar_r = fgetpar(fp, "pillar_r",0,true);
-  pillar_distance = fgetpar(fp, "pillar_distance", 0,true);
-  pillar_radius = fgetpar(fp, "pillar_radius", 0 ,true);
-  pillar_energy = igetpar(fp, "pillar_energy", 0, true);
-  pillar_energy_odd = igetpar(fp, "pillar_energy_odd", 0, true);
-  checkerboard = bgetpar(fp, "checkerboard", 0, true);
-  lambda_persistence = fgetpar(fp, "lambda_persistence", 0 , true);
-  tau = igetpar(fp, "tau", 0, true);
   threshold = fgetpar(fp, "threshold", 0 , true);
-  start_level = fgetpar(fp, "start_level", 0, true);
+  start_level = fgetpar(fp, "start_level", 1, true);
 
 
 }
@@ -273,15 +245,9 @@ void Parameter::Write(ostream &os) const {
 	os << " target_perimeter = " << target_perimeter << endl;
 	//lymphocyte matrix interaction
 	os << " lambda_matrix = " << lambda_matrix << endl;
-	os << " max_matrix = " << max_matrix << endl;
-	os << " age_saturation = " << age_saturation << endl;
-	os << " geometric_mean = " << geometric_mean << endl;
-	os << " single_site_power = " << single_site_power << endl;
-	os << " lambda_c = " << lambda_c << endl;
 os << " spontaneous_p = " << spontaneous_p << endl;
 os << " decay_p = " << decay_p << endl;
 os << " eden_p = " << eden_p << endl;
-  os << " lambda_schooling = " << lambda_schooling << endl;
   os << " J_pol = " << J_pol << endl;
 
   if (datadir)

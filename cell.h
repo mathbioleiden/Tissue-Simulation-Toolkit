@@ -88,9 +88,6 @@ public:
     sum_yy=src.sum_yy;
     sum_xy=src.sum_xy;
     border=src.border;
-    vec_act_x=src.vec_act_x;
-    vec_act_y=src.vec_act_y;
-    theta=src.theta;
     owner=src.owner;
 
     chem = new double[par.n_chem];
@@ -135,9 +132,6 @@ public:
     sum_yy=src.sum_yy;
     sum_xy=src.sum_xy;
     border=src.border;
-    vec_act_x=src.vec_act_x;
-    vec_act_y=src.vec_act_y;
-    theta=src.theta;
 
     length=src.length;
     target_length=src.target_length;
@@ -194,23 +188,6 @@ public:
   inline void DecrementBorderNumber(double n){
     border-=n;
   }
-
-  inline void SetVectorAct(double vx, double vy) {
-    vec_act_x=vx;
-    vec_act_y=vy;
-  }
-
-  inline double getVectorActX(void) {return vec_act_x;}
-  inline double getVectorActY(void) {return vec_act_y;}
-
-  inline void SetTheta(double new_theta) {
-    theta=new_theta;
-  }
-
-  inline double getTheta(void){return theta;}
-
-  inline double getVectorX(void) {return std::cos(theta);}
-  inline double getVectorY(void) {return std::sin(theta);}
 
   //! Get cell type of this Cell.
   inline int getTau(void) {
@@ -679,9 +656,6 @@ protected:
   long int sum_yy;
   long int sum_xy;
   double border;
-  double vec_act_x;
-  double vec_act_y;
-  double theta;
 
   const Dish *owner; // pointer to owner of cell
 

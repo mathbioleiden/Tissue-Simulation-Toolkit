@@ -57,18 +57,12 @@ public:
    */
   void WriteCOM(int cell_id, std::ostream &out=std::cout);
 
-  void WriteTheta(std::ostream &out=std::cout);
-
  // writes center of mass for all cells
   void WriteCOMs(std::ostream &out=std::cout);
 // writes center of mass for all cells and keeps track of cells crossing a border
 void WriteCOMsTorus(std::ostream &out);
 
-void WriteCOMsTorusFresh(std::ostream &out);
-
-	// should write all the pixels of the cell and the age of those pixels
-  //writes
-  void WriteCellLocations(int cell_id, int field_id, std::ostream &out=std::cout);
+	// should write all the pixels containing adhesions
 
   void WriteAdhesionsLocationsPerCell(int cell_id, int field_id, std::ostream &out=std::cout);
 

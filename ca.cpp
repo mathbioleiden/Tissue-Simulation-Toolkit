@@ -44,14 +44,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "crash.h"
 #include "hull.h"
 #include <tuple>
-//#include <boost/functional/hash.hpp>
-//#include <boost/array.hpp>
-#include <algorithm>
-// #include "pickset.hpp"
-
-template <typename T> int sgn(T val) {
-    return (T(0) < val) - (val < T(0));
-}
 
 #define ZYGFILE(Z) <Z.xpm>
 #define XPM(Z) Z ## _xpm
@@ -118,21 +110,6 @@ CellularPotts::CellularPotts(vector<Cell> *cells,
     sigma[sizex-1][y]=-1;
   }
 
-  for (int x=0;x<sizex;x++){
-    for (int y=0;y<sizey;y++){
-      if (par.checkerboard == true){
-        int which_pillar=WhichPillar(x,y);
-        if (which_pillar==0){
-          sigma[x][y]=-2;}
-        else if (which_pillar!=-2){
-          sigma[x][y]=-3;}
-      }
-      else{
-      if (IsPillar(x,y)){
-        sigma[x][y]=-2;}
-      }
-    }
-  }
 
   if (par.neighbours>=1 && par.neighbours<=4)
     n_nb=nbh_level[par.neighbours];
@@ -158,22 +135,6 @@ CellularPotts::CellularPotts(void) {
   for (int y=0;y<sizey;y++) {
     sigma[0][y]=-1;
     sigma[sizex-1][y]=-1;
-  }
-
-  for (int x=0;x<sizex;x++){
-    for (int y=0;y<sizey;y++){
-      if (par.checkerboard==true){
-        int which_pillar=WhichPillar(x,y);
-        if (which_pillar==0){
-          sigma[x][y]=-2;}
-        else if (which_pillar==1){
-          sigma[x][y]=-3;}
-      }
-      else{
-      if (IsPillar(x,y)){
-        sigma[x][y]=-2;}
-      }
-    }
   }
 
   if (par.neighbours>=1 && par.neighbours<=4)
@@ -252,68 +213,6 @@ void CellularPotts::IndexShuffle() {
   }
 }
 
-void CellularPotts::InitializeEdgeList(void){
-  // unordered_set<long long int> edgeSet;
-	int neighbour;
-	int x,y, xp, yp;
-	int c, cp;
-  int xstart =0;
-  int xend=sizex-1;
-  int ystart=0;
-  int yend=sizey-1;
-
-  bool init_single_cell_center=true;
-
-  if (init_single_cell_center && sizex>200 && sizey>200){
-    xstart=(sizex-1)/2-100;
-    xend=(sizex-1)/2+100;
-    ystart=(sizey-1)/2-100;
-    yend=(sizey-1)/2+100;
-  }
-
-	for (x=xstart; x< xend; x++){
-    for ( y=ystart; y<yend; y++){
-      for (int nb=1; nb<=n_nb; nb++){
-    		c = sigma[x][y];
-    		xp = nx[nb]+x;
-    		yp = ny[nb]+y;
-
-		      if (par.periodic_boundaries) {
-
-          // since we are asynchronic, we cannot just copy the borders once
-          // every MCS
-
-    			if (xp<=0)
-    				xp=sizex-2+xp;
-        	if (yp<=0)
-    				yp=sizey-2+yp;
-       	  if (xp>=sizex-1)
-    				xp=xp-sizex+2;
-       	  if (yp>=sizey-1)
-    				yp=yp-sizey+2;
-
-          cp=sigma[xp][yp];
-          }
-    		else if (xp<=0 || yp<=0 || xp>=sizex-1 || yp>=sizey-1)
-    			cp=-1;
-        else
-    			cp=sigma[xp][yp];
-    if (cp != c && cp != -1 && c!=-1 && sgn(cp)+sgn(c)>=0){
-      edgeSetpair.insert({x,y,xp,yp});
-      edgeSetVector.insert({x,y,xp,yp});
-      // cout << edgeSetVector.subset_size() <<endl;
-      // edgeSetVector.push_back({x,y,xp,yp});
-      // edgeSetVector.insert_in_subset(edgeSetVector.subset_size());
-      // cout << edgeSetVector.subset_size() << endl;
-      edgeSetpair.insert({xp,yp,x,y});
-      edgeSetVector.insert({xp,yp,x,y});
-      // edgeSetVector.push_back({xp,yp,x,y});
-      // edgeSetVector.insert_in_subset(edgeSetVector.subset_size());
-      // edgeVector.push_back({x,y,xp,yp});
-		}
-	}
-}}
-}
 
 double sat(double x) {
 
@@ -329,7 +228,6 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
 
   /* Compute energydifference *IF* the copying were to occur */
   int DH_adhesive_energy =0;
-  int DH_polarised_adhesive_energy =0;
   sxy = sigma[x][y];
   sxyp = sigma[xp][yp];
   if (sxyp<=-1){sxyp=0;}//allow for medium to copy in from box border or pillars
@@ -356,6 +254,8 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
 	yp2=yp2-sizey+2;
 
       neighsite=sigma[xp2][yp2];
+
+
     } else {
 
       if (xp2<=0 || yp2<=0
@@ -365,41 +265,22 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
 	neighsite=sigma[xp2][yp2];
 
     }
-
     if (neighsite==-1) { // border
       DH_adhesive_energy += (sxyp==0?0:par.border_energy)-
 	(sxy==0?0:par.border_energy);
     }
-    else { if (neighsite<=-2){//pillar
-      if (neighsite==-2){
-  DH_adhesive_energy += (sxyp>0?par.pillar_energy:0)-
-(sxy>0?par.pillar_energy:0);
-    }
-    if (neighsite==-3 & par.checkerboard == true){
-      DH_adhesive_energy += (sxyp>0?par.pillar_energy_odd:0)-
-	(sxy>0?par.pillar_energy_odd:0);
-    }}
     else{
       DH_adhesive_energy += (*cell)[sxyp].EnergyDifference((*cell)[neighsite])
 	- (*cell)[sxy].EnergyDifference((*cell)[neighsite]);
-    if (par.J_pol && par.max_Act){
-      DH_polarised_adhesive_energy += PolarizedAdhesiveEnergy(par.max_Act,sxyp,GetActLevel(xp2,yp2), neighsite) -PolarizedAdhesiveEnergy(GetActLevel(x,y), sxy, GetActLevel(xp2,yp2), neighsite) ;}
   if (i<=4 | par.extended_neighbour_border){
     if (neighsite!=sxy)
     xy_neighbour_changes[neighsite]-=1;
     if (neighsite!=sxyp)
     xyp_neighbour_changes[neighsite]+=1;
   }}}
-  }
-  DH+=DH_adhesive_energy+DH_polarised_adhesive_energy;
-  //
-  // for (int i=1;i<=cell->size();i++){
-  //   if (sxy==1)
-  //   cout << sxy << " " << i << " " << NB[sxy][i] << " " << xy_neighbour_changes[i] << endl;
-  //   // cout << sxyp << " " << i << " " << NB[sxyp][i] << " " << xyp_neighbour_changes[i] << endl;
-  // }
-//cout << "cell id" << (*cell)[sxy].Sigma();
-//cout << ", matrix_adhesion = " << ComputeCellMatrixAdhesion( (*cell)[sxy], PDEfield) << "\n";
+
+  DH+=DH_adhesive_energy;
+
   // lambda is determined by chemical 0
   int DH_area=0;
   if (par.area_constraint_type == 0){
@@ -417,61 +298,7 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
 			       (  (*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea()
 			       - (*cell)[sxy].Area() + (*cell)[sxy].TargetArea() )) );
 }
-  else if (par.area_constraint_type == 1){
-	if (sxyp == MEDIUM ) {
-		//cout << "Cell adhesive area " << (*cell)[sxy].ReferenceAdhesiveArea() << endl;
-		int dh =(int)(par.lambda * (1. -2.*(double)((*cell)[sxy].Area())) +
-    par.lambda_c*((double)((*cell)[sxy].ReferenceAdhesiveArea())/
-    (((double)((*cell)[sxy].ReferenceAdhesiveArea()+
-    (double)((*cell)[sxy].Area()-1)))*((double)((*cell)[sxy].ReferenceAdhesiveArea()+
-    (*cell)[sxy].Area() )))));
-		DH_area += dh;
-		//cout << "retraction, DH adhesion " << dh << endl;
-	}
-	else if (sxy == MEDIUM ) {
-		//cout << "Cell adhesive area " << (*cell)[sxyp].ReferenceAdhesiveArea() << endl;
-		DH_area += (int)(par.lambda * (1. +2.*(double)((*cell)[sxyp].Area())) -
-    par.lambda_c*((double)((*cell)[sxyp].ReferenceAdhesiveArea())/
-    (((double)((*cell)[sxyp].ReferenceAdhesiveArea()+
-    (double)((*cell)[sxyp].Area()+1)))*((double)((*cell)[sxyp].ReferenceAdhesiveArea()+
-    (double)((*cell)[sxyp].Area()))))));
-	}
-	else
-		DH_area += (int)(2.*par.lambda * (1. + (double)((*cell)[sxyp].Area()) -
-    (double)((*cell)[sxy].Area())) - par.lambda_c*((double)((*cell)[sxyp].ReferenceAdhesiveArea())/
-    (((double)((*cell)[sxyp].ReferenceAdhesiveArea()+(double)((*cell)[sxyp].Area()+1)))*
-    ((double)((*cell)[sxyp].ReferenceAdhesiveArea()+(double)((*cell)[sxyp].Area())))) -
-    (double)((*cell)[sxy].ReferenceAdhesiveArea())/(((double)((*cell)[sxy].ReferenceAdhesiveArea()+
-    (double)((*cell)[sxy].Area()-1)))*((double)((*cell)[sxy].ReferenceAdhesiveArea()+
-    (double)((*cell)[sxy].Area()))))    ));
 
-}
-
-  else if (par.area_constraint_type == 2){
-	if (sxyp == MEDIUM ) {
-		DH_area+= (int)(par.lambda * (1. -2.*(double)((*cell)[sxy].Area())) +
-    par.lambda_c*((double)((*cell)[sxy].ReferenceAdhesiveArea()*GetMatrixLevel(x,y))/
-    (((double)((*cell)[sxy].ReferenceAdhesiveArea()+(double)((*cell)[sxy].AdhesiveArea())-
-    GetMatrixLevel(x,y)))*((double)((*cell)[sxy].ReferenceAdhesiveArea()+
-    (*cell)[sxy].AdhesiveArea() )))));
-	}
-	else if (sxy == MEDIUM ) {
-		DH_area+= (int)(par.lambda * (1. +2.*(double)((*cell)[sxyp].Area())) -
-    par.lambda_c*((double)((*cell)[sxyp].ReferenceAdhesiveArea())/
-    (((double)((*cell)[sxyp].ReferenceAdhesiveArea()+
-    (double)((*cell)[sxyp].AdhesiveArea()+1)))*((double)((*cell)[sxyp].ReferenceAdhesiveArea()+
-    (double)((*cell)[sxyp].AdhesiveArea()))))));
-	}
-	else
-		DH_area+= (int)(2.*par.lambda * (1. + (double)((*cell)[sxyp].Area()) -
-    (double)((*cell)[sxy].Area())) - par.lambda_c*((double)((*cell)[sxyp].ReferenceAdhesiveArea())/
-    (((double)((*cell)[sxyp].ReferenceAdhesiveArea()+(double)((*cell)[sxyp].AdhesiveArea()+1)))*
-    ((double)((*cell)[sxyp].ReferenceAdhesiveArea()+(double)((*cell)[sxyp].AdhesiveArea())))) -
-    (double)((*cell)[sxy].ReferenceAdhesiveArea()*GetMatrixLevel(x,y))/
-    (((double)((*cell)[sxy].ReferenceAdhesiveArea()+(double)((*cell)[sxy].AdhesiveArea()-
-    GetMatrixLevel(x,y))))*((double)((*cell)[sxy].ReferenceAdhesiveArea()+
-    (double)((*cell)[sxy].AdhesiveArea())))    )));
-  }
 DH+=DH_area;
 
 
@@ -547,7 +374,7 @@ DH +=DH_perimeter;
   /************************The Act model****************/
  // let the cell extend with
  int DH_act=0;
-	if (par.lambda_Act)// && NearbyAdhesionSite(x,y,10,PDEfield))
+	if (par.lambda_Act)
 {
 	 double Act_expanding=1, Act_retracting=1;
    int nxp =0,nret =0;
@@ -577,6 +404,10 @@ DH +=DH_perimeter;
      	Act_expanding= pow(Act_expanding, 1./nxp);
      	Act_retracting= pow(Act_retracting, 1./nret);
 
+  // Act model activation dependent on total adhesion area of the cell
+  // If adhesion area exceeds threshold, Act model is fully functional,
+  // otherwise, it starts at base*lambda_Act and for increasing adhesion areas
+  // it increases linearly to lambda_Act.
   double threshold=par.threshold;
   double base =par.start_level;
   double strength;
@@ -588,11 +419,9 @@ DH +=DH_perimeter;
       else{
         strength= base+((1-base)/threshold)*adhesion_fraction;
       }
-            // cout << (*cell)[sxyp].AdhesiveArea() << " " <<(*cell)[sxyp].area <<" " << strength <<" "<< adhesion_fraction <<endl;
 			DH_act-= (par.lambda_Act * strength)/par.max_Act * Act_expanding;
 	}
-  // threshold=par.threshold;
-  // strength =par.start_level;
+
   if( (*cell)[sxy].sigma>0){
     double adhesion_fraction = (double)(*cell)[sxy].AdhesiveArea()/(double)(*cell)[sxy].area;
     if (adhesion_fraction>=threshold){
@@ -606,237 +435,14 @@ DH +=DH_perimeter;
 }
 DH+=DH_act;
 
-
-/************************The vector based persistence model****************/
-// let the cell extend with
-int DH_persistence=0;
-if (par.lambda_persistence)
-{
-  if (sxyp>0){
- //
- int reference_x, reference_y;
- if (par.periodic_boundaries){
-   reference_x = x+(int) (round((((double)(*cell)[sxyp].getSumX()/(double) (*cell)[sxyp].Area())-x)/ sizex) * sizex);
-   reference_y = y+(int) (round((((double)(*cell)[sxyp].getSumY()/(double) (*cell)[sxyp].Area())-y)/ sizey) * sizey);
- }
- else{
-   reference_x=x;
-   reference_y=y;
- }
- double vx=(*cell)[sxyp].getVectorX();
- double vy=(*cell)[sxyp].getVectorY();
- double th=(*cell)[sxyp].getTheta();
- double x_displacement=(double)((*cell)[sxyp].getSumX()+reference_x)/(double)((*cell)[sxyp].Area()+1)-(double)(*cell)[sxyp].getSumX()/(double)(*cell)[sxyp].Area();
- double y_displacement=(double)((*cell)[sxyp].getSumY()+reference_y)/(double)((*cell)[sxyp].Area()+1)-(double)(*cell)[sxyp].getSumY()/(double)(*cell)[sxyp].Area();
-
- double norm_inner_product=(x_displacement*(*cell)[sxyp].getVectorX()+y_displacement*(*cell)[sxyp].getVectorY())/
-(sqrt(pow((*cell)[sxyp].getVectorX(),2)+pow((*cell)[sxyp].getVectorY(),2))*sqrt(pow(x_displacement,2)+pow(y_displacement,2)));
- double alpha=std::acos(norm_inner_product);
- DH_persistence=(int)-par.lambda_persistence*std::cos(alpha);
- // cout << x_displacement <<"," << y_displacement <<","<<  vx <<"," << vy <<"," << th<< "," << norm_inner_product << ", " << DH_persistence << endl;
-}}
-
- DH+=DH_persistence;
-
-  /************************Act-based vector alignment****************/
- //  ///*schooling vector
- //  int DH_alignment=0;
- //  int A=0;
- //  int B=0;
- //  int C=0;
- //  int D=0;
- //  int E=0;
- //  int F=0;
- //  // cout << (thetime>100) << endl;
- //  if (par.lambda_Act && par.lambda_schooling && (thetime>100)){
- //  //Compute the relevant before and after inner products:
- //  //Compute contact surface of sxy and sxyp
- //
- //    int contact_sxy=0;
- //    int contact_sxy_change=0;
- //    std::vector<double> vxy(3);
- //    if (sxy>0){
- //    ComputeActVectorRemoveSite(x,y,(*cell)[sxy],PDEfield,vxy);}
- //    // cout << "after remove site vector calculation" << endl;
- //  int contact_sxyp=0;
- //  int contact_sxyp_change=0;
- //    std::vector<double> vxyp(3);
- //  if(sxyp>0){
- //  ComputeActVectorAddSite(x,y,(*cell)[sxyp],PDEfield,vxyp);}
- //  // cout << "after add site vector calculation" << endl;
- //  // for (int i=1;i<cell->size();++i){
- //  //   if (sxy>0){
- //  //   contact_sxy+=NB[sxy][i];
- //  //   if (i!=sxyp)
- //  //   contact_sxy_change+=NB[sxy][i]+xy_neighbour_changes[i];
- //  //   else
- //  //   contact_sxy_change+=NB[sxy][i]+xy_neighbour_changes[i]+xyp_neighbour_changes[sxy];}
- //  //   if (sxyp>0){
- //  //   contact_sxyp+=NB[sxyp][i];
- //  //   if (i!=sxy)
- //  //   contact_sxyp_change+=NB[sxyp][i]+xyp_neighbour_changes[i];
- //  //   else
- //  //   contact_sxyp_change+=NB[sxyp][i]+xyp_neighbour_changes[i]+xy_neighbour_changes[sxyp];}
- //  // }
- // // cout << "contacts established" << endl;
- //  // if (sxy>0 & contact_sxy<=0){
- //  // cout << "current cell has no contacts" << endl;
- //  // for (int i=1; i<cell->size();++i){
- //    // cout << NB[sxy][i] << " ";
- //  // }
- //  // cout << endl;
- //  // }
- //  // if (sxy>0 & contact_sxy_change<=0){
- //  // cout << "future cell "<< sxy <<" has no contacts by taking sigma" << sxyp<< " " << contact_sxy_change << endl;
- //  // for (i=0;i<=n_nb;i++) {
- //    // int xp2,yp2;
- //    // xp2=x+nx[i]; yp2=y+ny[i];
- //    // cout << nx[i] << " " << ny[i] << " " << sigma[xp2][yp2] << endl;}
- //    // cout << endl;
- //  // for (int i=1; i<cell->size();++i){
- //  //   cout << i << " " << NB[sxy][i] << " ";
- //  //   if (i==sxyp)
- //  //   cout << xy_neighbour_changes[i]+xyp_neighbour_changes[sxy] <<endl;
- //  //   else
- //  //   cout << xy_neighbour_changes[i] <<endl;
- //  // }
- //  // }
- //  for (int j=1; j<cell->size();++j){
- //  //   //Part A & C cell sxy
- //    double vxy_norm_x=vxy[0]/sqrt(vxy[0]*vxy[0]+vxy[1]*vxy[1]);//vxy[2])/sqrt((vxy[0]/vxy[2])*(vxy[0]/vxy[2])+(vxy[1]/vxy[2])*(vxy[1]/vxy[2]));
- //    double vxy_norm_y=vxy[1]/sqrt(vxy[0]*vxy[0]+vxy[1]*vxy[1]);
- //    double vxyp_norm_x=vxyp[0]/sqrt(vxyp[0]*vxyp[0]+vxyp[1]*vxyp[1]);
- //    double vxyp_norm_y=vxyp[1]/sqrt(vxyp[0]*vxyp[0]+vxyp[1]*vxyp[1]);
- //    double jxy_norm_x=((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())/sqrt(((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())*((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())+((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber())*((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber()));
- //    double jxy_norm_y=((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber())/sqrt(((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())*((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())+((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber())*((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber()));
- //    double sxy_norm_x=((*cell)[sxy].getVectorActX()/(*cell)[sxy].GetBorderNumber())/sqrt(((*cell)[sxy].getVectorActX()/(*cell)[sxy].GetBorderNumber())*((*cell)[sxy].getVectorActX()/(*cell)[sxy].GetBorderNumber())+((*cell)[sxy].getVectorActY()/(*cell)[sxy].GetBorderNumber())*((*cell)[sxy].getVectorActY()/(*cell)[sxy].GetBorderNumber()));
- //    double sxy_norm_y=((*cell)[sxy].getVectorActY()/(*cell)[sxy].GetBorderNumber())/sqrt(((*cell)[sxy].getVectorActX()/(*cell)[sxy].GetBorderNumber())*((*cell)[sxy].getVectorActX()/(*cell)[sxy].GetBorderNumber())+((*cell)[sxy].getVectorActY()/(*cell)[sxy].GetBorderNumber())*((*cell)[sxy].getVectorActY()/(*cell)[sxy].GetBorderNumber()));
- //    double sxyp_norm_x=((*cell)[sxyp].getVectorActX()/(*cell)[sxyp].GetBorderNumber())/sqrt(((*cell)[sxyp].getVectorActX()/(*cell)[sxyp].GetBorderNumber())*((*cell)[sxyp].getVectorActX()/(*cell)[sxyp].GetBorderNumber())+((*cell)[sxyp].getVectorActY()/(*cell)[sxyp].GetBorderNumber())*((*cell)[sxyp].getVectorActY()/(*cell)[sxyp].GetBorderNumber()));
- //    double sxyp_norm_y=((*cell)[sxyp].getVectorActY()/(*cell)[sxyp].GetBorderNumber())/sqrt(((*cell)[sxyp].getVectorActX()/(*cell)[sxyp].GetBorderNumber())*((*cell)[sxyp].getVectorActX()/(*cell)[sxyp].GetBorderNumber())+((*cell)[sxyp].getVectorActY()/(*cell)[sxyp].GetBorderNumber())*((*cell)[sxyp].getVectorActY()/(*cell)[sxyp].GetBorderNumber()));
- //    if (sxy>0){
- //      if (j!=sxy){
- //        if (j!=sxyp){
- //          if (NB[sxy][j]+xy_neighbour_changes[j]>0){
- //            // A-=par.lambda_schooling*(((NB[sxy][j]+xy_neighbour_changes[j])/contact_sxy_change)*(vxy[0] * ((*cell)[j].getVectorActX())+vxy[1]*(*cell)[j].getVectorActY()));
- //            // A-=par.lambda_schooling * (NB[sxy][j]+xy_neighbour_changes[j])*(vxy[0] * ((*cell)[j].getVectorActX())+vxy[1]*(*cell)[j].getVectorActY());}
- //            // cout << vxy[0] << " " << vxy[2] << " " <<(*cell)[j].getVectorActX() << " " << (*cell)[j].GetBorderNumber() << endl;
- //            // cout << (vxy[0]/vxy[2]) * ((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())<< endl;
- //              // A-=par.lambda_schooling *((vxy[0]/vxy[2]) * ((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())+(vxy[1]/vxy[2])*((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber()));
- //            A-=par.lambda_schooling *((vxy_norm_x) * (jxy_norm_x)+(vxy_norm_y)*(jxy_norm_y));}
- //          if (NB[sxy][j]>0){
- //            //bereken voor bekende vector het inproduct, vermenigvuldig met contactoppervlak gedeeld door totale contactoppervlak
- //              // B+= par.lambda_schooling*((NB[sxy][j]/(double) contact_sxy)* ((*cell)[sxy].getVectorActX()*(*cell)[j].getVectorActX()+(*cell)[sxy].getVectorActY()*(*cell)[j].getVectorActY()));
- //              // B+= par.lambda_schooling* NB[sxy][j] * ((*cell)[sxy].getVectorActX()*(*cell)[j].getVectorActX()+(*cell)[sxy].getVectorActY()*(*cell)[j].getVectorActY());}}
- //              // B+= par.lambda_schooling * (((*cell)[sxy].getVectorActX()/(*cell)[sxy].GetBorderNumber())*((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())+
- //              // ((*cell)[sxy].getVectorActY()/(*cell)[sxy].GetBorderNumber())*((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber()));
- //              B+= par.lambda_schooling * ((sxy_norm_x)*(jxy_norm_x)+
- //              (sxy_norm_y)*(jxy_norm_y));
- //            }}
- //        else{
- //          if (NB[sxy][j]+xy_neighbour_changes[j]+xyp_neighbour_changes[sxy]>0){
- //            // A-=par.lambda_schooling*(((NB[sxy][j]+xy_neighbour_changes[j]+xyp_neighbour_changes[sxy])/contact_sxy_change)*(vxy[0] * ((*cell)[j].getVectorActX())+vxy[1]*(*cell)[j].getVectorActY()))
- //            // A-=par.lambda_schooling*(NB[sxy][j]+xy_neighbour_changes[j]+xyp_neighbour_changes[sxy])*(vxy[0] * ((*cell)[j].getVectorActX())+vxy[1]*(*cell)[j].getVectorActY());}
- //            // C-=par.lambda_schooling*((vxy[0]/vxy[2]) * ((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())+(vxy[1]/vxy[2]) *((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber()));
- //          C-=par.lambda_schooling*((vxy_norm_x) * (jxy_norm_x)+(vxy_norm_y) *(jxy_norm_y));}
- //          if (NB[sxy][j]>0){
- //            // B+=par.lambda_schooling* NB[sxy][j] * ((*cell)[sxy].getVectorActX()*(*cell)[j].getVectorActX()+(*cell)[sxy].getVectorActY()*(*cell)[j].getVectorActY());}
- //            // D+=par.lambda_schooling * (((*cell)[sxy].getVectorActX()/(*cell)[sxy].GetBorderNumber())*((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())
- //            // +((*cell)[sxy].getVectorActY()/(*cell)[sxy].GetBorderNumber())*((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber()));
- //            D+=par.lambda_schooling * ((sxy_norm_x)*(jxy_norm_x)
- //            +(sxy_norm_y)*(jxy_norm_y));}
- //        }}}
- //
- //    if (sxyp>0){
- //      if (j!=sxyp){
- //        if (j!=sxy){
- //          if (NB[sxyp][j]+xyp_neighbour_changes[j]>0){
- //            // C-=par.lambda_schooling*(((NB[sxyp][j]+xyp_neighbour_changes[j])/contact_sxyp_change)*(vxyp[0]*(*cell)[j].getVectorActX()+vxyp[1]*(*cell)[j].getVectorActY()));
- //            // C-=par.lambda_schooling* (NB[sxyp][j]+xyp_neighbour_changes[j])*(vxyp[0]*(*cell)[j].getVectorActX()+vxyp[1]*(*cell)[j].getVectorActY());}
- //            // E-=par.lambda_schooling * ((vxyp[0]/vxyp[2])*((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())+(vxyp[1]/vxyp[2])*((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber()));
- //          E-=par.lambda_schooling * ((vxyp_norm_x)*(jxy_norm_x)+(vxyp_norm_y)*(jxy_norm_y));}
- //          if (NB[sxyp][j]>0){
- //            // D+=par.lambda_schooling*((NB[sxyp][j]/(double) contact_sxyp)* ((*cell)[sxyp].getVectorActX()*(*cell)[j].getVectorActX()+(*cell)[sxyp].getVectorActY()*(*cell)[j].getVectorActY()));
- //            // D+=par.lambda_schooling* NB[sxyp][j] * ((*cell)[sxyp].getVectorActX()*(*cell)[j].getVectorActX()+(*cell)[sxyp].getVectorActY()*(*cell)[j].getVectorActY());}
- //            // F+=par.lambda_schooling * (((*cell)[sxyp].getVectorActX()/(*cell)[sxyp].GetBorderNumber())*((*cell)[j].getVectorActX()/(*cell)[j].GetBorderNumber())
- //            // +((*cell)[sxyp].getVectorActY()/(*cell)[sxyp].GetBorderNumber())*((*cell)[j].getVectorActY()/(*cell)[j].GetBorderNumber()));
- //            F+=par.lambda_schooling * ((sxyp_norm_x)*(jxy_norm_x)
- //            +(sxyp_norm_y)*(jxy_norm_y));}
- //          }}}
- //        }
- //    // if (sxyp>0 & sxy>0){
- //    //
- //    // }
- //
- //  }
- //  //
- //  DH_alignment=A+(C+E)+B+(D+F);
- //  DH+=DH_alignment;
- //   // cout << "Even after this" << endl;
- // // delete [] xy_neighbour_changes;
- // // delete [] xyp_neighbour_changes;
- //
-
-  /************************The matrix interaction model****************/
- // let the cell extend with
-/*	if (par.lambda_matrix)
-{
-
-	if (par.geometric_mean){
-	 double  matrix_retracting=1;
-   int nxp =0,nret =0;
-
-
-     	for (int i1=-1;i1<=1;i1++)
-     		for (int i2=-1;i2<=1;i2++){
-
-       		if (sigma[x+i1][y+i2]>=0 && sigma[x+i1][y+i2] == sigma[x][y]){
-       			matrix_retracting *= GetMatrixLevel(x+i1,y+i2);
-						nret++;
-       		}
-       	}
-
-     	// apply the smoothing
-     	//Act_expanding*= pow( PDEfield->Sigma(2,xp,yp), w-1);
-     	//Act_retracting*= pow(PDEfield->Sigma(2,x,y), w-1);
-     	//nxp += w-1;
-     	//nret += w-1;
-
-     	matrix_retracting= pow(matrix_retracting, 1./nret);
-
-  if( (*cell)[sxy].AliveP()){
-
-	   DH+= par.lambda_matrix/par.max_matrix * matrix_retracting;
-
-		}
-}
-	else {if( (*cell)[sxy].AliveP()){
-	   DH+= par.lambda_matrix *pow( GetMatrixLevel(x,y)/par.max_matrix,par.single_site_power);}}
-
-
-}
-*/
 /****** Matrix interaction retraction yield energy ****/
+//Retractiong of lattice sites that contain an adhesion is penalized with
+//lambda_matrix
 int DH_matrix_interaction=0;
 	if ( sxyp == MEDIUM && par.lambda_matrix){// should be done for all retractions, I assume.
-	DH_matrix_interaction+=par.lambda_matrix * (GetMatrixLevel(x,y));//(par.age_saturation + GetMatrixLevel(x,y));
+	DH_matrix_interaction+=par.lambda_matrix * (GetMatrixLevel(x,y));
 	}
 DH+=DH_matrix_interaction;
-
-// cout << "Contact energies "<< DH_adhesive_energy << endl;
-// cout << "Area " << DH_area << endl;
-// cout << "Perimeter " << DH_perimeter << endl;
-// cout << "Length " << DH_length << endl;
-// cout << "Act " << DH_act << endl;
-// cout << "Alignment " << DH_alignment << endl;
-// cout << "Alignment A " <<  A<< endl;
-// cout << "Alignment B" <<  B<< endl;
-// cout << "Alignment C" <<  C<< endl;
-// cout << "Alignment D" <<  D<< endl;
-// cout << "Alignment E" <<  E<< endl;
-// cout << "Alignment F" <<  F<< endl;
-// cout << "Chemotaxis " << DDH << endl;
-// cout << "Matrix interaction " << DH_matrix_interaction << endl;
-// cout << endl;
   return DH;
 }
 
@@ -865,50 +471,13 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
       cerr << "Cell " << tmpcell << " apoptosed\n";
     }
   }
+
   if ( (tmpcell=sigma[xp][yp])>0 ) {// if tmpcell is not MEDIUM
     (*cell)[tmpcell].IncrementArea();
     (*cell)[tmpcell].AddSiteToMoments(x,y);
 		(*cell)[tmpcell].SetPerimeter(GetNewPerimeterIfXYWereAdded(tmpcell,x,y));
 
   }
-  // for (int i=1;i<=4;i++) {
-  //   int xp2,yp2;
-  //   xp2=x+nx[i]; yp2=y+ny[i];
-  //   if (par.periodic_boundaries) {
-  //     if (xp2<=0)
-  //       xp2=sizex-2+xp2;
-  //     if (yp2<=0)
-  //       yp2=sizey-2+yp2;
-  //     if (xp2>=sizex-1)
-  //       xp2=xp2-sizex+2;
-  //     if (yp2>=sizey-1)
-  //       yp2=yp2-sizey+2;}
-  //   if (sigma[x][y]!=sigma[xp2][yp2]){
-  //   NB[sigma[x][y]][sigma[xp2][yp2]]-=1;
-  //   NB[sigma[xp2][yp2]][sigma[x][y]]-=1;}
-  //   if (sigma[xp][yp]!=sigma[xp2][yp2]){
-  //   NB[sigma[xp][yp]][sigma[xp2][yp2]]+=1;
-  //   NB[sigma[xp2][yp2]][sigma[xp][yp]]+=1;}
-  // }
-  // if (par.extended_neighbour_border){
-  //   for (int i=5;i<=8;i++) {
-  //     int xp2,yp2;
-  //     xp2=x+nx[i]; yp2=y+ny[i];
-  //     if (par.periodic_boundaries) {
-  //       if (xp2<=0)
-  //         xp2=sizex-2+xp2;
-  //       if (yp2<=0)
-  //         yp2=sizey-2+yp2;
-  //       if (xp2>=sizex-1)
-  //         xp2=xp2-sizex+2;
-  //       if (yp2>=sizey-1)
-  //         yp2=yp2-sizey+2;}
-  //   NB[sigma[x][y]][sigma[xp2][yp2]]-=1;
-  //   NB[sigma[xp2][yp2]][sigma[x][y]]-=1;
-  //   NB[sigma[xp][yp]][sigma[xp2][yp2]]+=1;
-  //   NB[sigma[xp2][yp2]][sigma[xp][yp]]+=1;
-  //  }
-  //  }
   if (sigma[xp][yp]<=-2){//if pillar, let retract cell to medium
     sigma[x][y]=0;
   }
@@ -920,7 +489,6 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
 
 /** PUBLIC **/
 int CellularPotts::CopyvProb(int DH,  double stiff) {
-  // cout << "inside copyvprob" << endl;
   double dd;
   int s;
   s=(int)stiff;
@@ -930,13 +498,9 @@ int CellularPotts::CopyvProb(int DH,  double stiff) {
   if (DH+s > BOLTZMANN-1)
     dd=exp( -( (double)(DH+s)/par.T ));
   else{
-  // cout <<"try to print copyprob[DH+s] because less or equal to " << BOLTZMANN-1 << endl;
-  // cout << DH << endl;
-  // cout << DH+s << endl;
-  // cout << copyprob[DH+s] << endl;
+
     dd=copyprob[DH+s];}
   if (RANDOM()<dd) return 1; else return 0;
-  // cout << "end copyvprob" << endl;
 }
 
 void CellularPotts::CopyProb(double T) {
@@ -957,164 +521,77 @@ void CellularPotts::FreezeAmoebae(void)
 //! Monte Carlo Step. Returns summed energy change
 int CellularPotts::AmoebaeMove(PDE *PDEfield)
 {
-  double loop,p;
-  //int updated=0;
+  int loop,p;
   thetime++;
   int SumDH=0;
 
   if (frozen)
     return 0;
 
-  int x,y;
-  int xp,yp;
-  int k,kp;
+  loop=(sizex-2)*(sizey-2);
 
-  int H_diss;
-  int D_H;
 
-	int xn, yn; //neighbour cells
-  // loop = edgeSetpair.size() / n_nb;
-  loop = edgeSetVector.size_map()/n_nb;
-  // cout << edgeSetVector.size_map() << " "<< edgeSetVector.size_vector() << " " << edgeSetpair.size() << endl;
-  for (int i = 0; i < loop; i++){
-    int edgesize=edgeSetVector.size_map();
-    if (edgesize==0){break;}
-    else{
-      // std::vector<std::array<int,4>> escopy(edgeSetpair.begin(), edgeSetpair.end());
-      // int bucket_counter=0;
-      // int b = 0;
-      // while (b<edgeSetpair.size()){
-      //   // cout << "test bucketing " << b <<  endl;
-      //   if (edgeSetpair.bucket_size(bucket_counter)>0){
-      //     int bb;
-      //     for (bb = 0; bb<edgeSetpair.bucket_size(bucket_counter); bb++){
-      //       // cout << "test bucketing " << b << " " << bb << endl;
-      //       bucketpair[b+bb]={bucket_counter, bb};
-      //       }
-      //   b+=bb;
-      //   }
-      //   bucket_counter++;
-      // }
-      // // cout << bucketpair.size() << " " << edgeSetpair.size() << endl;
-      // std::array<int,4> it = escopy[RandomNumber(edgeSetpair.size()-1)];
-      // int rbucket= bp[0];
-      // int rstep = bp[1];
-      // std::unordered_set<std::array<int, 4>>::const_local_iterator it = edgeSetpair.begin(rbucket);
-      // while (rstep>0){
-      //     it++;
-      //     rstep--;
-      //     }
-      int rindex=RandomNumber(edgesize-1);
-      // int nbuckets = edgeSetpair.bucket_count();
-      // int rbucket = RandomNumber(nbuckets-1);
-      // while (edgeSetpair.bucket_size(rbucket)==0){
-      //     if (rbucket<nbuckets-1){rbucket++;}
-      //     else{rbucket=0;}}
-      // std::unordered_set<std::array<int, 4>>::const_local_iterator it = edgeSetpair.begin(rbucket);
-      // int rstep = RandomNumber(edgeSetpair.bucket_size(rbucket))-1;
-      // while (rstep>0){
-      //     it++;
-      //     rstep--;
-      //     }
-      auto it = edgeSetVector[rindex];
-      x=(*it).first[0];
-      y=(*it).first[1];
-      xp=(*it).first[2];
-      yp=(*it).first[3];
-      k=sigma[x][y];
 
-      if (par.periodic_boundaries) {
 
-         // since we are asynchronic, we cannot just copy the borders once
-         // every MCS
-         if (x<=0)
-           x=sizex-2+x;
-         if (y<=0)
-           y=sizey-2+y;
-         if (x>=sizex-1)
-           x=x-sizex+2;
-         if (y>=sizey-1)
-           y=y-sizey+2;
-        if (xp<=0)
-          xp=sizex-2+xp;
-        if (yp<=0)
-          yp=sizey-2+yp;
-        if (xp>=sizex-1)
-          xp=xp-sizex+2;
-        if (yp>=sizey-1)
-          yp=yp-sizey+2;
-      }
+  for (int i=0;i<loop;i++) {
+    // take a random site
+    int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
+    int x = xy%(sizex-2)+1;
+    int y = xy/(sizex-2)+1;
+
+    // take a random neighbour
+    int xyp=(int)(n_nb*RANDOM()+1);
+    int xp = nx[xyp]+x;
+    int yp = ny[xyp]+y;
+
+    int k=sigma[x][y];
+
+    int kp;
+    if (par.periodic_boundaries) {
+
+      // since we are asynchronic, we cannot just copy the borders once
+      // every MCS
+
+
+      if (xp<=0)
+	xp=sizex-2+xp;
+      if (yp<=0)
+	yp=sizey-2+yp;
+      if (xp>=sizex-1)
+	xp=xp-sizex+2;
+      if (yp>=sizey-1)
+	yp=yp-sizey+2;
 
       kp=sigma[xp][yp];
-      // Don't even think of copying the special border state into you! Do allow pillars to be copied from, but not into.
-      if (k>=0 && kp!=-1) {
-        // cout << "Check ConnectivityPreservedPCluster" << endl;
+    } else {
+
+      if (xp<=0 || yp<=0
+	  || xp>=sizex-1 || yp>=sizey-1)
+	kp=-1;
+      else
+	kp=sigma[xp][yp];
+
+    }
+    // test for border state (relevant only if we do not use
+    // periodic boundaries)
+    if (kp!=-1) {
+      // Don't even think of copying the special border state into you!
+
+
+      if (k>=0 && k  != kp ) {
         if ( par.cluster_connectivity==false || ConnectivityPreservedPCluster(x,y)){
-      	// connectivity dissipation:
-      	H_diss=0;
-      	if (!ConnectivityPreservedP(x,y)) H_diss=par.conn_diss;
-        int D_H=DeltaH(x,y,xp,yp,PDEfield);
-        if ((p=CopyvProb(D_H,H_diss))>0) {
-      	  ConvertSpin ( x,y,xp,yp );
+	/* Try to copy if sites do not belong to the same cell */
 
-          for (int j = 1; j <= n_nb; j++){
-    				xn = nx[j]+x;
-    				yn = ny[j]+y;
-
-    				if (par.periodic_boundaries) {
-    					 	// since we are asynchronic, we cannot just copy the borders once
-    					 	// every MCS
-    					if (xn<=0)
-    						xn=sizex-2+xn;
-    					if(yn<=0)
-    						yn=sizey-2+yn;
-    					if (xn>=sizex-1)
-    						xn=xn-sizex+2;
-    				  if (yn>=sizey-1)
-    						yn=yn-sizey+2;
-    				}
-    				if (xn>0 && yn>0 && xn<sizex-1 && yn<sizey-1){//if the neighbour site is within the lattice
-              // std::unordered_set<std::array<int,4>>::const_iterator edge_in_set =(edgeSetpair.find({x,y,xn,yn}));
-
-              // auto it_to = std::find(edgeVector.begin(), edgeVector.end(), {x,y,xn,yn});
-              // int index_to = std::distance(edgeVector.begin(), it_to);
-              // std::vector<std::array<int,4>>::iterator it_fro = std::find(edgeVector.begin(), edgeVector.end(), {xn,yn,x,y});
-              // int index_fro = std::distance(edgeVector.begin(), it_fro);
-
-    					// if (edge_in_set==edgeSetpair.end() && sigma[xn][yn] != sigma[x][y] && sigma[xn][yn]+sigma[x][y]!=-2){ //if we should add the edge to the edgelist, add it
-              if (sigma[xn][yn] != sigma[x][y] && sgn(sigma[xn][yn])+sgn(sigma[x][y])>=0){ //if we should add the edge to the edgelist, add it
-                // edgeSetpair.insert({x,y,xn,yn});
-                // edgeSetpair.insert({xn,yn,x,y});
-                edgeSetVector.insert({x,y,xn,yn});
-                edgeSetVector.insert({xn,yn,x,y});
-                // if (it_to==edgeVector.end()){
-                //     edgeVector.push_back({x,y,xn,yn});
-                // }
-                // else if (it_fro==edgeVector.end()){
-                //     edgeVector.push_back({xn,yn,x,y});
-                // }
-
-                loop += (double)2/n_nb;
-    					}
-    					// if (edge_in_set!=edgeSetpair.end() && (sigma[xn][yn] == sigma[x][y] || sigma[xn][yn]+sigma[x][y]==-2)){//if the sites have the same celltype and they have an edge, remove it
-              if ((sigma[xn][yn] == sigma[x][y] || sgn(sigma[xn][yn])+sgn(sigma[x][y])<0)){
-                // edgeSetpair.erase({x,y,xn,yn});
-                // edgeSetpair.erase({xn,yn,x,y});
-                edgeSetVector.erase({x,y,xn,yn});
-                edgeSetVector.erase({xn,yn,x,y});
-                // if (it_to!=edgeVector.end()){
-                //     edgeVector.erase(it_to);
-                // }
-                // else if (it_fro!=edgeVector.end()){
-                //     edgeVector.erase(it_fro);
-                // }
-    						loop -= (double)2/n_nb;
-    					}
-    				}
-    			}
-
-      	  SumDH+=D_H;
-      		if (par.lambda_Act>0){
+	// connectivity dissipation:
+	int H_diss=0;
+  // cout << "Checking ConnectivityPreservedP" << endl;
+	if (!ConnectivityPreservedP(x,y)) H_diss=par.conn_diss;
+	int D_H=DeltaH(x,y,xp,yp,PDEfield);
+	if ((p=CopyvProb(D_H,H_diss))>0) {
+	  ConvertSpin ( x,y,xp,yp );
+    // cout << "Sum D_H" << endl;
+	  SumDH+=D_H;
+          if (par.lambda_Act>0){
             // Update actin field
             if (sigma[x][y]>0){
             actPixels[{x,y}]=par.max_Act;
@@ -1155,15 +632,13 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield)
       			// matrixPixels.erase({x,y});
             matrix[x][y]=0;
           }
-
-          }
-
         }
-    }
-  }}}
-  return SumDH;
+}}
 }
+}}
+  return SumDH;
 
+}
 
 /** A simple method to plot all sigma's in window
     without the black lines */
@@ -1302,7 +777,7 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
 
 }
 
-void **CellularPotts::SearchNandPlotClear(Graphics *g)
+void CellularPotts::SearchNandPlotClear(Graphics *g)
 {
   int i, j,q;
 
@@ -1341,34 +816,7 @@ void **CellularPotts::SearchNandPlotClear(Graphics *g)
     }
 
 }
-void **CellularPotts::PlotVectors(Graphics *g){
-  // cout << "plotting vectors" << endl;
-  // cout << cell->size() << endl;
-  for (int i=1;i<=cell->size()-1;i++){
-    // cout << i << endl;
-    // cout << (*cell)[i].area << endl;
-    int x1,y1,x2,y2;
-    if ((*cell)[i].area>0){
-    x1=(int) (((double)(*cell)[i].sum_x)/(double)(*cell)[i].area) %sizex;
-    y1=(int) (((double)(*cell)[i].sum_y)/(double)(*cell)[i].area) %sizey;
-    if ((*cell)[i].GetBorderNumber()>0){
-      if (x1>sizex or x1<0){
-        cout << "x1 outside field" << endl;
-      }
-    x2=x1+(int)(10*(*cell)[i].getVectorActX()/sqrt((*cell)[i].getVectorActX()*(*cell)[i].getVectorActX()+(*cell)[i].getVectorActY()*(*cell)[i].getVectorActY()));
-    y2=y1+(int)(10*(*cell)[i].getVectorActY()/sqrt((*cell)[i].getVectorActX()*(*cell)[i].getVectorActX()+(*cell)[i].getVectorActY()*(*cell)[i].getVectorActY()));
-  }
-    else{ x2=0;y2=0;
-    }
-    // cout << "add line" << endl;
-    // cout << x1 << " "<< y1 << " " << x2 << " " << y2 << endl;
-    g->Arrow(2*x1,2*y1,2*x2,2*y2,1);
-    //g->Line(2*x1,2*y1,2*x2,2*y2,1);
-    // cout << "line added" << endl;
-  }
 
-  }
-}
 
 int **CellularPotts::SearchNeighboursMatrix()
 {
@@ -1482,22 +930,6 @@ if (sigma[x][y]>0)
   return(actPixels[{x,y}]);
 else
   return(0);}
-// std::unordered_map<std::array<int,2>,int>::const_iterator it =(actPixels.find({x,y}));
-// if (it!=actPixels.end()){
-//   return(it->second);}
-//   else{
-//   return(0);
-//   }
-//  }
-//matrixPixels Implementation
- // int CellularPotts::GetMatrixLevel(int x, int y){
- // std::unordered_map<std::array<int,2>,int>::const_iterator it =(matrixPixels.find({x,y}));
- // if (it!=matrixPixels.end()){
- //   return(it->second);}
- //   else{
- //   return(0);
- //   }
- //  }
  //matrix array implementation
   int CellularPotts::GetMatrixLevel(int x, int y){
   if (matrix[x][y]>0){
@@ -1505,6 +937,7 @@ else
   else{
     return(0);
   }}
+
 
 int CellularPotts:: GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
 
@@ -1604,84 +1037,6 @@ void CellularPotts::ReadZygotePicture(void) {
   free(pixelmap);
 }
 
-
-// void CellularPotts::ConstructInitCells (Dish &beast) {
-//
-//   // Get the maximum cell ID (mostly equal to the cell number)
-//   int loop=sizex*sizey;
-//   int cells=0;
-//   for (int i=0;i<loop;i++) {
-//     if (cells<sigma[0][i]) cells=sigma[0][i];
-//   }
-//
-//   cerr << "[ cells = " << cells << "]\n";
-//
-//   // construct enough cells for the zygote.  "cells", contains the
-//   // number of colours (excluding background).
-//   {
-//     for (int i=0; i<cells; i++) {
-//       cell->push_back(Cell(beast));
-//     }
-//   }
-//
-//   // Set the area and target area of the cell
-//   // makes use of the pointer to the Cell pointer of Dish
-//   // which is a member of CellularPotts
-//   //MeasureCellSizes();
-//
-//   // set zygote_area to mean cell area.
-//   int mean_area=0;
-//   for (vector<Cell>::iterator c=cell->begin();c!=cell->end();c++) {
-// 		MeasureCellSize(*c);
-//     mean_area+=c->Area();
-//   }
-//   if (cells!=0)
-//     mean_area/=cells;
-//
-//   zygote_area=mean_area;
-//
-//   cout << "mean_area = " << mean_area << "\n";
-//   // set all cell areas to the mean area
-//   {
-//     for (vector<Cell>::iterator c=cell->begin();c!=cell->end();c++) {
-//       if (par.target_area) {
-// 	c->SetTargetArea(par.target_area);
-//       } else	 {
-// 	c->SetTargetArea(mean_area);
-//       }
-//
-//      if (par.target_perimeter) {
-// 			 c->SetTargetPerimeter(par.target_perimeter);
-//
-// 		}
-//
-//
-//     }
-//   }
-// }
-//
-// void CellularPotts::MeasureCellSizes(void) {
-//
-//   // Clean areas of all cells, including medium
-//   for (vector<Cell>::iterator c=cell->begin();c!=cell->end();c++) {
-// //     c->SetTargetArea(0);
-// //     c->area = 0;
-// 		MeasureCellSize(*c);
-//   }
-//
-// //   // calculate the area of the cells
-// //   for (int x=1;x<sizex-1;x++) {
-// //     for (int y=1;y<sizey-1;y++) {
-// //       if (sigma[x][y]) {
-// // 	(*cell)[sigma[x][y]].IncrementTargetArea();
-// // 	(*cell)[sigma[x][y]].IncrementArea();
-// // 	(*cell)[sigma[x][y]].AddSiteToMoments(x,y);
-// //
-// //       }
-// //     }
-// //   }
-// }
-
  void CellularPotts::ConstructInitCells (Dish &beast,int tau, int TArea,int TPerimeter) {
 
 	vector<Cell>::iterator it;
@@ -1707,21 +1062,10 @@ void CellularPotts::ReadZygotePicture(void) {
 			//c1.setTau(tau);
 			c1.SetTargetArea(TArea);
 			c1.SetTargetPerimeter(TPerimeter);
-      if (par.lambda_persistence){
-      c1.SetTheta((RANDOM()-1)*2*3.141592653589793238462643383279502884L);
-    }
 			cell->push_back(c1);
 
 		}
 	}
-// NB=SearchNeighboursMatrix();
-
-// for (int i=0;i<=cell->size();i++){
-//   for (int j=0;j<=cell->size();j++){
-//     cout << NB[i][j] << " ";
-//   }
-//   cout << endl;
-// }
 }
 
  void CellularPotts::ConstructInitCells (Dish &beast,int tau, int TArea,int TPerimeter, int AdArea) {
@@ -1750,16 +1094,10 @@ void CellularPotts::ReadZygotePicture(void) {
 			c1.SetTargetArea(TArea);
 			c1.SetTargetPerimeter(TPerimeter);
 			c1.SetReferenceAdhesiveArea(AdArea);
-      if (par.lambda_persistence){
-      c1.SetTheta((RANDOM()-1)*2*3.141592653589793238462643383279502884L);
-    }
 			cell->push_back(c1);
 
 		}
 	}
-
-// NB=SearchNeighboursMatrix();
-
 }
   void CellularPotts::MeasureCellSize(Cell &c) {
 
@@ -1832,417 +1170,6 @@ cerr<< " Measuring cell " <<c.Sigma()<<endl;
  // }
 }
 
-//
-// void CellularPotts::ComputeActVector(Cell &c, PDE *PDEfield) {
-// //center based computation
-// // cerr<< " Measuring cell " <<c.Sigma()<<endl;
-// double sumAct=0;
-// double sumDist=0;
-// double vx=0;
-// double vy=0;
-// // calculate the area of the cell
-// for (int x=1;x<sizex-1;x++) {
-//   for (int y=1;y<sizey-1;y++) {
-//     if (sigma[x][y] == c.sigma) {
-//       // if (sigma[x][y]== 1){
-//       // cout << " x addition " << (double) ( (x+round((c.getCenterX()-x)/ this->SizeX()) * this->SizeX()) - c.getCenterX())  * (PDEfield->Sigma(2,x,y)/(double)par.max_Act) << endl;}
-//       // double pixelDist=sqrt(pow((double)((x+round(((c.getCenterX())-x)/ this->SizeX()) * this->SizeX())-c.getCenterX()),2)+ pow((double)((y+round(((c.getCenterY())-y)/ this->SizeY()) * this->SizeY())-c.getCenterY()),2));
-//       // if (pixelDist>0){
-//       vx+=(double) ( (x+round((c.getCenterX()-x)/ this->SizeX()) * this->SizeX()) - c.getCenterX())  * PDEfield->Sigma(2,x,y)/((double) par.max_Act);//*pixelDist);
-//       vy+=(double) ( (y+round((c.getCenterY()-y)/ this->SizeY()) * this->SizeY())- c.getCenterY())*(PDEfield->Sigma(2,x,y))/((double) par.max_Act)  ;//*pixelDist);
-//       sumAct+=PDEfield->Sigma(2,x,y)/ (double) par.max_Act;
-//       sumDist+=sqrt(pow((double)((x+round(((c.getCenterX())-x)/ this->SizeX()) * this->SizeX())-c.getCenterX()),2)+ pow((double)((y+round(((c.getCenterY())-y)/ this->SizeY()) * this->SizeY())-c.getCenterY()),2));
-//     // }
-//   }
-// }}
-// if (sumAct>0){
-//   vx=vx/((sumDist/c.Area())*(sumAct));
-//   // vx=vx/((sumAct)/(double) par.max_Act);
-//   vy=vy/((sumDist/c.Area())*(sumAct));
-//   // vy=vy/((sumAct)/(double) par.max_Act);
-// }
-// else {
-//   vx=0;
-//   vy=0;
-// }
-//
-// c.SetVectorAct(vx,vy);
-// c.SetBorderNumber(1);
-//
-// }
-
-void CellularPotts::ComputeActVector(Cell &c, PDE *PDEfield) {
-//border based vector
-
-double border_x=0;
-double border_y=0;
-double border_number=0;
-double vx=0;
-double vy=0;
-
-for (int x=1;x<sizex-1;x++) {
-  for (int y=1;y<sizey-1;y++) {
-    if (sigma[x][y] == c.sigma) {
-      double border_pixel_x=0;
-      double border_pixel_y=0;
-      double missing_neighbours=0;
-      for (int i=1;i<=12;i++) {
-        int xp2,yp2;
-        xp2=x+nx[i]; yp2=y+ny[i];
-        if (par.periodic_boundaries) {
-          if (xp2<=0)
-      xp2=sizex-2+xp2;
-          if (yp2<=0)
-      yp2=sizey-2+yp2;
-          if (xp2>=sizex-1)
-      xp2=xp2-sizex+2;
-          if (yp2>=sizey-1)
-      yp2=yp2-sizey+2;
-        }
-        if ((not(xp2<=0 || yp2<=0
-  	  || xp2>=sizex-1 || yp2>=sizey-1) and sigma[xp2][yp2]!=c.sigma) or (xp2<=0 || yp2<=0
-	  || xp2>=sizex-1 || yp2>=sizey-1)){
-          border_pixel_x+=nx[i]/(sqrt(pow(nx[i],2)+pow(ny[i],2)));
-          border_pixel_y+=ny[i]/(sqrt(pow(nx[i],2)+pow(ny[i],2)));
-          missing_neighbours+=1;
-        }}
-      if (missing_neighbours>0){
-        border_x+= PDEfield->Sigma(2,x,y) * border_pixel_x/missing_neighbours;
-        border_y+= PDEfield->Sigma(2,x,y) * border_pixel_y/missing_neighbours;
-        border_number+=1;
-      }}}}
-
-if (border_number>0){
-  vx=border_x;
-  vy=border_y;
-}
-else {
-  vx=0;
-  vy=0;
-}
-if (isnan(vx) or isnan(vy)){
-  cout << "ComputeActVector, nan encoutered" << endl;
-  return;
-}
-c.SetVectorAct(vx,vy);
-c.SetBorderNumber(border_number);
-}
-
-// void CellularPotts::ComputeActVectorAddSite(int new_x, int new_y, Cell &c, PDE *PDEfield, vector<double> &vector_act){
-//   //center based vector
-//   int sumAct=0;
-//   sumAct+=par.max_Act;
-//   new_x=(double)(new_x+round((c.getCenterX()-new_x)/ this->SizeX()) * this->SizeX());
-//   new_y=(double)(new_y+round((c.getCenterY()-new_y)/ this->SizeY()) * this->SizeY());
-//   double new_com_x=(c.getSumX()+new_x)/((double)c.Area()+1);
-//   double new_com_y=(c.getSumY()+new_y)/((double)c.Area()+1);
-//   double sumDist=0;
-//   // double pixelDist=sqrt(pow((double)((new_x+round(((c.getCenterX())-new_x)/ this->SizeX()) * this->SizeX())-new_com_x),2)+ pow((double)((new_y+round(((c.getCenterY())-new_y)/ this->SizeY()) * this->SizeY())-new_com_y),2));
-//   // double vx=0; double vy=0;
-//   // if (pixelDist>0){
-//     // cout << "add first" << endl;
-//   double vx=(double) ( (new_x+round((c.getCenterX()-new_x)/ this->SizeX()) * this->SizeX()) - new_com_x);///pixelDist;
-//   double vy=(double) ( (new_y+round((c.getCenterY()-new_y)/ this->SizeY()) * this->SizeY())- new_com_y);///pixelDist;
-//   // cout << "after add first" << endl;
-// // }
-//   //double sumDist=sqrt(pow((double)((new_x+round(((c.getCenterX())-new_x)/ this->SizeX()) * this->SizeX())-new_com_x),2)+ pow((double)((new_y+round(((c.getCenterY())-new_y)/ this->SizeY()) * this->SizeY())-new_com_y),2));
-//   // calculate the area of the cell
-//   for (int x=1;x<sizex-1;x++) {
-//     for (int y=1;y<sizey-1;y++) {
-//       if (sigma[x][y] == c.sigma) {
-//         // if (sigma[x][y]== 1){
-//         // cout << " x addition " << (double) ( (x+round((c.getCenterX()-x)/ this->SizeX()) * this->SizeX()) - c.getCenterX())  * (PDEfield->Sigma(2,x,y)/(double)par.max_Act) << endl;}
-//         // pixelDist=sqrt(pow((double)((x+round(((c.getCenterX())-x)/ this->SizeX()) * this->SizeX())-new_com_x),2)+ pow((double)((y+round(((c.getCenterY())-y)/ this->SizeY()) * this->SizeY())-new_com_y),2));
-//         // if (pixelDist>0){
-//           // cout << "add later" << endl;
-//         vx+=(double) ( (x+round((c.getCenterX()-x)/ this->SizeX()) * this->SizeX()) - new_com_x)  * PDEfield->Sigma(2,x,y)/((double)par.max_Act);//*pixelDist);
-//         vy+=(double) ( (y+round((c.getCenterY()-y)/ this->SizeY()) * this->SizeY())- new_com_y)* (PDEfield->Sigma(2,x,y))/((double)par.max_Act);//*pixelDist);
-//         sumAct+=PDEfield->Sigma(2,x,y);
-//         // cout << "after add alter" << endl;
-//         sumDist+=sqrt(pow((double)((x+round(((c.getCenterX())-x)/ this->SizeX()) * this->SizeX())-new_com_x),2)+ pow((double)((y+round(((c.getCenterY())-y)/ this->SizeY()) * this->SizeY())-new_com_y),2));
-//       // }
-//     }
-//   }}
-//   if (sumAct>0){
-//     // cout << "add normalizing"<< endl;
-//     vx=vx/((sumDist/(c.Area()+1))*(sumAct/(double) par.max_Act));
-//     // vx=vx/(sumAct/(double) par.max_Act);
-//     vy=vy/((sumDist/(c.Area()+1))*(sumAct/(double) par.max_Act));
-//     // vy=vy/(sumAct/(double) par.max_Act);
-//     // cout << "add normalizing after" << endl;
-//   }
-//   else {
-//     vx=0;
-//     vy=0;
-//   }
-//   vector_act[0]=vx;
-//   vector_act[1]=vy;
-//  vector_act[2]=1;
-//  // cout << "return vector" << endl;
-// }
-
-void CellularPotts::ComputeActVectorAddSite(int new_x, int new_y, Cell &c, PDE *PDEfield, vector<double> &vector_act){
-  // cout << "assigning  help variables" << endl;
-  double remove_from_border_x=0;
-  double remove_from_border_y=0;
-  double remove_from_border_number=0;
-  double add_to_border_x=0;
-  double add_to_border_y=0;
-  double add_to_border_number=0;
-
-  double nb_new_x=0;
-  double nb_new_y=0;
-  double missing_neighbours=0;
-
-  for (int i=1;i<=12;i++) {
-    // cout << "next neighbour" << endl;
-    // cout <<" add_to_border_x" << add_to_border_x << endl;
-    // cout <<" remove_from_border_x " << remove_from_border_x << endl;
-    int xp2,yp2;
-    xp2=new_x+nx[i]; yp2=new_y+ny[i];
-    if (par.periodic_boundaries) {
-      if (xp2<=0)
-        xp2=sizex-2+xp2;
-      if (yp2<=0)
-        yp2=sizey-2+yp2;
-      if (xp2>=sizex-1)
-        xp2=xp2-sizex+2;
-      if (yp2>=sizey-1)
-        yp2=yp2-sizey+2;
-    }
-    // cout << " neighbour selected" << endl;
-    // cout <<"xp2 " << xp2 << " yp2 "<< yp2 <<  endl;
-    // cout << sigma[xp2][yp2] << endl;
-    // cout << "do stuff with neighbour" << endl;
-    if (not (xp2<=0 || yp2<=0
-  || xp2>=sizex-1 || yp2>=sizey-1) and sigma[xp2][yp2]==c.sigma){
-      // cout <<" part of cell" << endl;
-      double nb_b_x=0;
-      double nb_b_y=0;
-      double missing_neighbours_b=0;
-      // double empty_close_neighbours=0;
-      int i_new=0;
-      for (int j=1;j<=12;j++){
-      int xp3,yp3;
-      xp3=xp2+nx[j]; yp3=yp2+ny[j];
-      if (par.periodic_boundaries) {
-        if (xp3<=0)
-          xp3=sizex-2+xp3;
-        if (yp3<=0)
-          yp3=sizey-2+yp3;
-        if (xp3>=sizex-1)
-          xp3=xp3-sizex+2;
-        if (yp3>=sizey-1)
-          yp3=yp3-sizey+2;
-      }
-      if ((xp3<=0 || yp3<=0
-	  || xp3>=sizex-1 || yp3>=sizey-1) or sigma[xp3][yp3]!=c.sigma){
-        nb_b_x+=nx[j]/(sqrt(pow(nx[j],2)+pow(ny[j],2)));
-        nb_b_y+=ny[j]/(sqrt(pow(nx[j],2)+pow(ny[j],2)));
-        missing_neighbours_b+=1;
-        // if (j <=5)
-        //   empty_close_neighbours+=1;
-        if (xp3==new_x & yp3==new_y){
-          i_new=j;
-        }
-      }}
-      if (missing_neighbours_b>0){
-      remove_from_border_x+=PDEfield->Sigma(2,xp2,yp2)*nb_b_x/missing_neighbours_b;
-      remove_from_border_y+=PDEfield->Sigma(2,xp2,yp2)*nb_b_y/missing_neighbours_b;
-      if (missing_neighbours_b==1){
-        remove_from_border_number+=1;
-      }
-      else{
-        // cout << "missing_neighbours_b "<< missing_neighbours_b << endl;
-        add_to_border_x+=(nb_b_x-nx[i_new])* PDEfield->Sigma(2,xp2,yp2)/(missing_neighbours_b-1);
-        add_to_border_x+=(nb_b_y-ny[i_new])* PDEfield->Sigma(2,xp2,yp2)/(missing_neighbours_b-1);
-      }
-    }
-
-    }
-    else{
-      // cout << " outside cell" << endl;
-      nb_new_x+=nx[i]/(sqrt(pow(nx[i],2)+pow(ny[i],2)));
-      nb_new_y+=ny[i]/(sqrt(pow(nx[i],2)+pow(ny[i],2)));
-      missing_neighbours+=1;
-      // cout << "added to help variables" << endl;
-    }}
-  // cout <<"updating vector" << endl;
-  // cout << add_to_border_x << endl;
-  if (missing_neighbours>0){
-  add_to_border_x+=nb_new_x*par.max_Act/missing_neighbours;
-  add_to_border_y+=nb_new_y*par.max_Act/missing_neighbours;
-  add_to_border_number+=1;}
-  double vx=c.getVectorActX()-remove_from_border_x+add_to_border_x;
-  double vy=c.getVectorActY()-remove_from_border_y+add_to_border_y;
-  double border=c.GetBorderNumber()-remove_from_border_number+add_to_border_number;
-  // cout << "add site" << remove_from_border_x << " " << add_to_border_x << " " << missing_neighbours << " " << nb_new_x << endl;
-  if (isnan(vx) or isnan(vy)){
-    cout << "ComputeActVectorAddSite, nan encountered" << endl;
-    return;}
-  vector_act[0]=vx;
-  vector_act[1]=vy;
-  vector_act[2]=border;
-}
-
-// void CellularPotts::ComputeActVectorRemoveSite(int new_x, int new_y, Cell &c, PDE *PDEfield, vector<double> &vector_act){
-//   int sumAct=0;
-//   // sumAct+=par.max_Act;
-//
-//   new_x=(double)(new_x+round((c.getCenterX()-new_x)/ this->SizeX()) * this->SizeX());
-//   new_y=(double)(new_y+round((c.getCenterY()-new_y)/ this->SizeY()) * this->SizeY());
-//   double new_com_x=(c.getSumX()-new_x)/((double)c.Area()-1);
-//   double new_com_y=(c.getSumY()-new_y)/((double)c.Area()-1);
-//   double vx=0;//(double) ( (new_x+round((c.getCenterX()-new_x)/ this->SizeX()) * this->SizeX()) - new_com_x)  * par.max_Act;
-//   double vy=0;//(double) ( (new_y+round((c.getCenterY()-new_y)/ this->SizeY()) * this->SizeY())- new_com_y)* par.max_Act;
-//   // double sumDist=0;
-//   // double pixelDist;
-//   double sumDist=sqrt(pow((double)((new_x+round(((c.getCenterX())-new_x)/ this->SizeX()) * this->SizeX())-new_com_x),2)+ pow((double)((new_y+round(((c.getCenterY())-new_y)/ this->SizeY()) * this->SizeY())-new_com_y),2));
-//   // calculate the area of the cell
-//   for (int x=1;x<sizex-1;x++) {
-//     for (int y=1;y<sizey-1;y++) {
-//       if (sigma[x][y] == c.sigma) {
-//         if (x!=new_x && y!=new_y)
-//         // if (sigma[x][y]== 1){
-//         // cout << " x addition " << (double) ( (x+round((c.getCenterX()-x)/ this->SizeX()) * this->SizeX()) - c.getCenterX())  * (PDEfield->Sigma(2,x,y)/(double)par.max_Act) << endl;}
-//         // double pixelDist=sqrt(pow((double)((x+round(((c.getCenterX())-x)/ this->SizeX()) * this->SizeX())-new_com_x),2)+ pow((double)((y+round(((c.getCenterY())-y)/ this->SizeY()) * this->SizeY())-new_com_y),2));
-//         // if (pixelDist>0){
-//         vx+=(double) ( (x+round((c.getCenterX()-x)/ this->SizeX()) * this->SizeX()) - new_com_x)  * PDEfield->Sigma(2,x,y)/((double)par.max_Act);//*pixelDist);
-//         vy+=(double) ( (y+round((c.getCenterY()-y)/ this->SizeY()) * this->SizeY())- new_com_y)*(PDEfield->Sigma(2,x,y))/((double)par.max_Act);//*pixelDist);
-//         sumAct+=PDEfield->Sigma(2,x,y);
-//         sumDist+=sqrt(pow((double)((x+round(((c.getCenterX())-x)/ this->SizeX()) * this->SizeX())-new_com_x),2)+ pow((double)((y+round(((c.getCenterY())-y)/ this->SizeY()) * this->SizeY())-new_com_y),2));
-//       // }
-//     }
-//   }}
-//   if (sumAct>0){
-//     vx=vx/((sumDist/(c.Area()-1))*(sumAct/(double) par.max_Act));
-//     // vx=vx/((sumAct/(double) par.max_Act));//=
-//     vy=vy/((sumDist/(c.Area()-1))*(sumAct/(double) par.max_Act));
-//     // vy=vy/((sumAct/(double) par.max_Act));//
-//   }
-//   else {
-//     vx=0;
-//     vy=0;
-//   }
-//   vector_act[0]=vx;
-//   vector_act[1]=vy;
-//     vector_act[2]=1;
-// }
-
-void CellularPotts::ComputeActVectorRemoveSite(int new_x, int new_y, Cell &c, PDE *PDEfield, vector<double> &vector_act){
-  double remove_from_border_x=0;
-  double remove_from_border_y=0;
-  double remove_from_border_number=0;
-  double add_to_border_x=0;
-  double add_to_border_y=0;
-  double add_to_border_number=0;
-
-  double nb_new_x=0;
-  double nb_new_y=0;
-  double missing_neighbours=0;
-
-  for (int i=1;i<=12;i++) {
-    // cout << "remove_from_border_x" << remove_from_border_x << endl;
-    int xp2,yp2;
-    xp2=new_x+nx[i]; yp2=new_y+ny[i];
-    if (par.periodic_boundaries) {
-      if (xp2<=0)
-        xp2=sizex-2+xp2;
-      if (yp2<=0)
-        yp2=sizey-2+yp2;
-      if (xp2>=sizex-1)
-        xp2=xp2-sizex+2;
-      if (yp2>=sizey-1)
-        yp2=yp2-sizey+2;
-    }
-    if (not(xp2<=0 || yp2<=0
-  || xp2>=sizex-1 || yp2>=sizey-1) and sigma[xp2][yp2]==c.sigma){
-      double nb_b_x=0;
-      double nb_b_y=0;
-      double missing_neighbours_b=0;
-      // double empty_close_neighbours=0;
-      int i_new=0;
-      for (int j=1;j<=12;j++){
-      int xp3,yp3;
-      xp3=xp2+nx[j]; yp3=yp2+ny[j];
-      if (par.periodic_boundaries) {
-        if (xp3<=0)
-          xp3=sizex-2+xp3;
-        if (yp3<=0)
-          yp3=sizey-2+yp3;
-        if (xp3>=sizex-1)
-          xp3=xp3-sizex+2;
-        if (yp3>=sizey-1)
-          yp3=yp3-sizey+2;
-      }
-      if ((xp2<=0 || yp2<=0
-	  || xp2>=sizex-1 || yp2>=sizey-1) or sigma[xp3][yp3]!=c.sigma){
-        nb_b_x+=nx[j]/(sqrt(pow(nx[j],2)+pow(ny[j],2)));
-        nb_b_y+=ny[j]/(sqrt(pow(nx[j],2)+pow(ny[j],2)));
-        missing_neighbours_b+=1;
-        // if (j<=5)
-        //   empty_close_neighbours+=1;
-        if (xp3==new_x & yp3==new_y){
-          i_new=j;
-        }
-      }}
-      if (missing_neighbours_b>=0){
-        add_to_border_x+=(nb_b_x-nx[i_new])* PDEfield->Sigma(2,xp2,yp2)/(missing_neighbours_b+1);
-        add_to_border_x+=(nb_b_y-ny[i_new])* PDEfield->Sigma(2,xp2,yp2)/(missing_neighbours_b+1);
-      if (missing_neighbours_b==0){
-        add_to_border_number+=1;
-      }
-      else{
-        remove_from_border_x+=nb_b_x*PDEfield->Sigma(2,xp2,yp2)/missing_neighbours_b;
-        remove_from_border_y+=nb_b_y*PDEfield->Sigma(2,xp2,yp2)/missing_neighbours_b;}
-      }
-
-
-    }
-    else{
-      nb_new_x+=nx[i]/(sqrt(pow(nx[i],2)+pow(ny[i],2)));
-      nb_new_y+=ny[i]/(sqrt(pow(nx[i],2)+pow(ny[i],2)));
-      missing_neighbours+=1;
-    }}
-  remove_from_border_x+=nb_new_x*PDEfield->Sigma(2,new_x,new_y)/missing_neighbours;
-  remove_from_border_y+=nb_new_y*PDEfield->Sigma(2,new_x,new_y)/missing_neighbours;
-  remove_from_border_number+=1;
-  double vx=c.getVectorActX()-remove_from_border_x+add_to_border_x;
-  double vy=c.getVectorActY()-remove_from_border_y+add_to_border_y;
-  double border=c.GetBorderNumber()-remove_from_border_number+add_to_border_number;
-  // cout << "remove site" << remove_from_border_x << " " << add_to_border_x << " " << missing_neighbours << " " << nb_new_x << endl;
-  if (isnan(vx) or isnan(vy)){
-    cout << "ComputeActVectorRemoveSite, nan encountered" << endl;
-    return;}
-  vector_act[0]=vx;
-  vector_act[1]=vy;
-  vector_act[2]=border;
-}
-
-// void CellularPotts::MeasureCellSize(Cell &c) {
-//
-//   c.CleanMoments();
-//
-//   // calculate the area of the cell
-//   for (int x=1;x<sizex-1;x++) {
-//     for (int y=1;y<sizey-1;y++) {
-//       if (sigma[x][y] == c.sigma) {
-// 	(*cell)[sigma[x][y]].IncrementTargetArea();
-// 	(*cell)[sigma[x][y]].IncrementArea();
-// 	(*cell)[sigma[x][y]].AddSiteToMoments(x,y);
-//
-//       }
-//     }
-//   }
-//
-// //   // set the actual area to the target area
-// //   {
-// //   for (vector<Cell>::iterator c=cell->begin();c!=cell->end();c++) {
-// //     c->SetAreaToTarget();
-//
-// //   }
-//
-// }
 
 Dir *CellularPotts::FindCellDirections(void) const
 {
@@ -2623,16 +1550,7 @@ int CellularPotts::GrowInCells(int n_cells, int cell_size, int sx, int sy, int o
 	  int kp;
 	  //  NB removing this border test yields interesting effects :-)
 	  // You get a ragged border, which you may like!
-    if (!IsPillar(xp,yp)){
-	  if ((kp=sigma[xp][yp])!=-1)
-	    if (kp>(cellnum-n_cells))
-	      new_sigma[x][y]=kp;
-	    else
-	      new_sigma[x][y]=0;
-	  else
-	    new_sigma[x][y]=0;
-
-	}} else {
+  } else {
 	  new_sigma[x][y]=sigma[x][y];
 	}
       }
@@ -2640,8 +1558,7 @@ int CellularPotts::GrowInCells(int n_cells, int cell_size, int sx, int sy, int o
     // copy sigma to new_sigma, but do not touch the border!
 	  {  for (int x=1;x<sizex-1;x++) {
       for (int y=1;y<sizey-1;y++) {
-        if (!IsPillar(x,y))
-	sigma[x][y]=new_sigma[x][y];
+        sigma[x][y]=new_sigma[x][y];
       }
     }
   }}}
@@ -2793,14 +1710,11 @@ yncn=yncn-sizey+2;}
     }
     int j;
     bool on_stack_p=false;
-    // cout << "i="<<i <<" s_nb="<< s_nb << " stack p" << stackp << " j initialized as " << j<< endl;
     // we need the next heuristic to prevent stalling at
     // cell-cell borders
     // do not enforce constraint at two cell interface(no medium)
     if (s_nb) {
-      // cout << "j starts as " << j << endl;
       for (j=stackp;j>=0;j--) {
-        // cout << "j=" <<j <<" stack[j]= " << stack[j] << endl;
       	if (s_nb==stack[j]) {
       	  on_stack_p=true;
       	  break;
@@ -2829,35 +1743,6 @@ yncn=yncn-sizey+2;}
 
 
 
-
-
-
-
-bool CellularPotts::NearbyAdhesionSite(int x, int y, int r, PDE *PDEfield) {
-	// central site
-	int sxy=sigma[x][y];
-	bool nearbyadhesion=false;
-	for (int i=0;i<=r;i++) {
-	for (int j=0;j<=r-i;j++){
-		for (int s1=0; s1<=1; s1++) {
-		for (int s2=0; s2<=1; s2++) {
-			int nx = i*pow(-1,s1)+x;
-			int ny = j*pow(-1,s2)+y;
-      if (nx>0 && nx<sizex && ny>0 && ny<sizey){
-			int nsxy= sigma[nx][ny];
-			//cout << i<< ", " << j << " ," << s1 << ", " << s2 << ", " << nsxy << ", " << GetMatrixLevel(nx,ny)<< endl;
-			if (sxy==nsxy){
-				if (GetMatrixLevel(nx,ny)>=2){
-					nearbyadhesion=true;
-
-					//goto stop;
-}
-}}}}}}
-  //stop:
-	return nearbyadhesion;
-    }
-
-
 double CellularPotts::CellDensity(void) const {
 
   // return the density of cells
@@ -2870,40 +1755,7 @@ double CellularPotts::CellDensity(void) const {
   return (double)sum/(double)(sizex*sizey);
 
 }
-//
-// int CellularPotts::ComputeCellMatrixAdhesion( int sxy){//}, PDE *PDEfield) {
-// 	int age_sum = 0;
-// 	// for (int x=1;x<sizex-1;x++) {
-// 	// for (int y=1;y<sizey-1;y++) {
-// 	// 		if (Sigma(x,y) == sxy) {
-// 	// 			age_sum=age_sum +PDEfield->Sigma(3,x,y);}}}
-// 	// return(age_sum);
-//
-//   for (const auto elem: matrixPixels){
-//     int x=elem.first[0];
-//     int y =elem.first[1];
-//     if(Sigma(x,y)==sxy){
-//       age_sum+= elem.second;
-//     }}
-//   return(age_sum);
-// }
 
-int CellularPotts::ComputeCellMatrixAdhesion( int sxy){//}, PDE *PDEfield) {
-	int age_sum = 0;
-	for (int x=1;x<sizex-1;x++) {
-	for (int y=1;y<sizey-1;y++) {
-			if (Sigma(x,y) == sxy) {
-				age_sum+=matrix[x][y];}}}
-	return(age_sum);
-
-  // for (const auto elem: matrixPixels){
-  //   int x=elem.first[0];
-  //   int y =elem.first[1];
-  //   if(Sigma(x,y)==sxy){
-  //     age_sum+= elem.second;
-  //   }}
-  // return(age_sum);
-}
 
 double CellularPotts::MeanCellArea(void) const {
 
@@ -2973,19 +1825,7 @@ void CellularPotts::SetRandomTypes(void) {
     c->setTau(celltype);
 
   }
-
 }
-int CellularPotts::PolarizedAdhesiveEnergy(int actlevelxy, int sxy, int actlevelxyp2, int sxyp2)
-{
-  if (sxy==sxyp2)
-    return 0;
-  if (sxy==0 or sxyp2==0)
-    return 0;
-
-  return -par.J_pol*actlevelxy*actlevelxyp2/pow(par.max_Act,2);
-
-}
-
 
 void CellularPotts::GrowAndDivideCells(int growth_rate) {
 
@@ -3144,193 +1984,4 @@ double CellularPotts::Compactness(double *res_compactness, double *res_area, dou
   // return compactness
   return cell_area/hull_area;
 
-}
-
-bool CellularPotts::AnyPillar(){
-  for (int x= 0; x < sizex; ++x)
-{
-    for (int y = 0; y <sizey; ++y)
-      if (sigma[x][y]<-1)
-        return(true);
-}
-return(false);
-}
-
-
-bool CellularPotts::IsPillar(int x, int y){
-  // if ((x<100 || x>200)  && (y<100 || y>200))
-  //   return(true);
-  // else
-  //   return(false);
-
-  if (par.pillar_radius<=0)
-    return(false);
-  //check if there is a gradient
-  if (par.pillar_r>0){
-    // if((double)x-sizex/2.0>(2.1*par.pillar_radius-par.pillar_distance)/(1-std::exp(-par.pillar_r))+par.pillar_distance/2.0-par.pillar_radius &&
-    // (double)x-sizex/2.0<(par.pillar_distance-2.1*par.pillar_radius)/(1-std::exp(-par.pillar_r))+par.pillar_distance/2.0+par.pillar_radius){
-    double d_min=2*par.pillar_radius+6;
-    double d_max=2*par.pillar_distance-d_min;
-
-    double n=std::log(((double)x-(double)sizex/2.0-par.pillar_distance/2)*(1-std::exp(-par.pillar_r))/par.pillar_distance+1)/par.pillar_r;
-    double n_low=std::floor(n);
-    double n_high=std::ceil(n);
-    double m_l=((double)y-sizey/2.0)/(par.pillar_distance*std::exp(par.pillar_r*n_low))-1/2;
-    double m_h=((double)y-sizey/2.0)/(par.pillar_distance*std::exp(par.pillar_r*n_high))-1/2;
-    double n_min=(1/par.pillar_r)*std::log((2*par.pillar_radius+6)/par.pillar_distance);
-    double n_max=(1/par.pillar_r)*std::log(2.0-(2*par.pillar_radius+6)/par.pillar_distance);
-    double n_min_star=std::ceil(n_min);
-    double n_max_star=std::floor(n_max);
-    double x_n_min_star=par.pillar_distance*(std::exp(par.pillar_r*n_min_star)-1)/(1-std::exp(-par.pillar_r))+par.pillar_distance/2.0;
-    double x_n_max_star=par.pillar_distance*(std::exp(par.pillar_r*n_max_star)-1)/(1-std::exp(-par.pillar_r))+par.pillar_distance/2.0;
-
-        //The part with gradient first
-    if((n_low>=n_min || (n_high==n_min_star && fabs((double)x-(double)sizex/2.0-x_n_min_star)<par.pillar_radius))  &&
-(n_high<=n_max || (n_low==n_max_star && fabs((double)x-(double)sizex/2.0-x_n_max_star)<par.pillar_radius))) {
-//n_low>=n_min && n_low<n_max &&
-    if ( std::sqrt(std::pow((std::exp(par.pillar_r*n_low)-1)*par.pillar_distance/(1-std::exp(-1*par.pillar_r))+par.pillar_distance/2.0-(double)x+(double)sizex/2.0,2)
-    +std::pow(par.pillar_distance*(std::floor(m_l)+1.0/2.0)*std::exp(n_low*par.pillar_r)-y+(double)sizey/2.0,2))<par.pillar_radius)
-      return(true);
-      //n_low>=n_min && n_low<n_max &&
-    else if (std::sqrt(std::pow((std::exp(par.pillar_r*n_low)-1)*par.pillar_distance/(1-std::exp(-1*par.pillar_r))+par.pillar_distance/2.0-x+sizex/2.0,2)
-    +std::pow(par.pillar_distance*(std::ceil(m_l)+1.0/2.0)*std::exp(n_low*par.pillar_r)-y+sizey/2.0,2))<par.pillar_radius)
-      return(true);
-      //n_high<n_max &&
-    else if (std::sqrt(std::pow((std::exp(par.pillar_r*n_high)-1)*par.pillar_distance/(1-std::exp(-1*par.pillar_r))+par.pillar_distance/2.0-x+sizex/2.0,2)
-    +std::pow(par.pillar_distance*(std::floor(m_h)+1.0/2.0)*std::exp(n_high*par.pillar_r)-y+sizey/2.0,2))<par.pillar_radius)
-      return(true);
-      //n_high<n_max &&
-    else if (std::sqrt(std::pow((std::exp(par.pillar_r*n_high)-1)*par.pillar_distance/(1-std::exp(-1*par.pillar_r))+par.pillar_distance/2.0-x+sizex/2.0,2)
-    +std::pow(par.pillar_distance*(std::ceil(m_h)+1.0/2.0)*std::exp(n_high*par.pillar_r)-y+sizey/2.0,2))<par.pillar_radius)
-      return(true);
-    // else
-    //   return(false);
-}
-// //Transition region around n_min
-// if(n_low<n_min && n_high>=n_min){}
-//
-// //Transition region around n_max
-// if(n_low<=n_max && n_high>n_max){}
-
-// now the leftover parts on the sides with regular grid
-   else {
-  //   if (n_low<=n_min ||
-  // n_high>=n_max ){
-  // //   if (n_low<=n_min || (n_low<n_min && n_high>=n_min) &&
-  // // n_high>=n_max || (n_low<=n_max && n_high>n_max)){
-      double pillar_distance=par.pillar_distance;
-      double shift=0;
-      if (n_low<n_min){
-        pillar_distance=d_min;
-        shift=x_n_min_star-d_min/2.0;
-        //par.pillar_distance/2.0+(2.1*par.pillar_radius-par.pillar_distance)/(1-std::exp(-par.pillar_r));
-      }
-      if (n_high>n_max){
-        pillar_distance=d_max;
-        shift=x_n_max_star+d_max/2.0;
-        //par.pillar_distance/2.0+par.pillar_distance/2.0+(par.pillar_distance-2.1*par.pillar_radius)/(1-std::exp(-par.pillar_r));
-      }
-      double new_n=((double)x-shift-sizex/2.0-pillar_distance/2.0)/(double)pillar_distance;
-      double m=((double)y-sizey/2.0-pillar_distance/2.0)/(double)pillar_distance;
-      double new_n_low=std::floor(new_n);
-      double new_n_high=std::ceil(new_n);
-      double m_low=std::floor(m);
-      double m_high=std::ceil(m);
-      // cout << "n "<< n<<" m " << m<< endl;
-      // cout <<"x-wise " << abs(pillar_distance*(n_low+1.0/2.0)-x) << endl;
-      // cout << "y-wise " <<  abs(pillar_distance*(m_low+1.0/2.0)-y) << endl;
-      if (sqrt(pow(pillar_distance*(new_n_low+1.0/2.0)+sizex/2.0-x+shift,2)+pow(pillar_distance*(m_low+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius){
-        // if (not(n_high>=n_max && n_low<n_max) && n<n_low+0.1){
-          return(true);}
-        // }
-      else if ( sqrt(pow(pillar_distance*(new_n_low+1.0/2.0)+sizex/2.0-x+shift,2)+pow(pillar_distance*(m_high+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius){
-            // if (not(n_high>=n_max && n_low<n_max)){
-          return(true);}
-        // }
-      else if (sqrt(pow(pillar_distance*(new_n_high+1.0/2.0)+sizex/2.0-x+shift,2)+pow(pillar_distance*(m_low+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius){
-                    // if (not(n_low<=n_min && n_high>n_min)){
-          return(true);}
-        // }
-      else if (sqrt(pow(pillar_distance*(new_n_high+1.0/2.0)+sizex/2.0-x+shift,2)+pow(pillar_distance*(m_high+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius){
-                            // if (not(n_low<=n_min && n_high>n_min)){
-          return(true);}
-        // }
-      else
-        return(false);
-    }
-
-
-
-      // return(false);
-
-    // if (n_low>=n_min && abs(par.pillar_distance*(std::exp(par.pillar_r*n_low)-1/(1-std::exp(-1)) +par.pillar_distance/2-x))<par.pillar_radius){
-    //   if (abs(par.pillar_distance*(std::floor(m_l)+1/2)*std::exp(par.pillar_r*n_low)-y)<par.pillar_radius) {
-    //     return(true);
-    //   }
-    //   else if (abs(par.pillar_distance*(std::ceil(m_l)+1/2)*std::exp(par.pillar_r*n_low)-y)<par.pillar_radius){
-    //     return(true);
-    //   }
-    // }
-    // else if (n_high<n_max && abs(par.pillar_distance*(std::exp(par.pillar_r*n_high)-1/(1-std::exp(-1)) +par.pillar_distance/2-x))<par.pillar_radius){
-    //   if (abs(par.pillar_distance*(std::floor(m_h)+1/2)*std::exp(par.pillar_r*n_high)-y)<par.pillar_radius) {
-    //     return(true);
-    //   }
-    //   else if (abs(par.pillar_distance*(std::ceil(m_h)+1/2)*std::exp(par.pillar_r*n_high)-y)<par.pillar_radius){
-    //     return(true);
-    //   // }
-    // }
-    // }
-    // else
-    //   return(false);
-}
-  //Exception for r==0
-  // if ((double)x-sizex/2.0<=d_min || (double)x-sizex/2.0>=d_max)
-  // {}
-
-  //if no gradient, draw regular grid
-  else{
-    double n=((double)x-sizex/2.0-par.pillar_distance/2.0)/(double)par.pillar_distance;
-    double m=((double)y-sizey/2.0-par.pillar_distance/2.0)/(double)par.pillar_distance;
-    double n_low=std::floor(n);
-    double n_high=std::ceil(n);
-    double m_low=std::floor(m);
-    double m_high=std::ceil(m);
-    // cout << "n "<< n<<" m " << m<< endl;
-    // cout <<"x-wise " << abs(par.pillar_distance*(n_low+1.0/2.0)-x) << endl;
-    // cout << "y-wise " <<  abs(par.pillar_distance*(m_low+1.0/2.0)-y) << endl;
-    if (sqrt(pow(par.pillar_distance*(n_low+1.0/2.0)+sizex/2.0-x,2)+pow(par.pillar_distance*(m_low+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius)
-        return(true);
-    else if (sqrt(pow(par.pillar_distance*(n_low+1.0/2.0)+sizex/2.0-x,2)+pow(par.pillar_distance*(m_high+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius)
-        return(true);
-    else if (sqrt(pow(par.pillar_distance*(n_high+1.0/2.0)+sizex/2.0-x,2)+pow(par.pillar_distance*(m_low+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius)
-        return(true);
-    else if (sqrt(pow(par.pillar_distance*(n_high+1.0/2.0)+sizex/2.0-x,2)+pow(par.pillar_distance*(m_high+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius)
-        return(true);
-    else
-      return(false);
-  }
-}
-
-
-int CellularPotts::WhichPillar(int x, int y){
-//returns which pillar for regular checkerboard patterned grid
-  double n=((double)x-sizex/2.0-par.pillar_distance/2.0)/(double)par.pillar_distance;
-  double m=((double)y-sizey/2.0-par.pillar_distance/2.0)/(double)par.pillar_distance;
-  double n_low=std::floor(n);
-  double n_high=std::ceil(n);
-  double m_low=std::floor(m);
-  double m_high=std::ceil(m);
-  // cout << "n "<< n<<" m " << m<< endl;
-  // cout <<"x-wise " << abs(par.pillar_distance*(n_low+1.0/2.0)-x) << endl;
-  // cout << "y-wise " <<  abs(par.pillar_distance*(m_low+1.0/2.0)-y) << endl;
-  if (sqrt(pow(par.pillar_distance*(n_low+1.0/2.0)+sizex/2.0-x,2)+pow(par.pillar_distance*(m_low+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius)
-      return((((int)n_low+(int)m_low))%2);
-  else if (sqrt(pow(par.pillar_distance*(n_low+1.0/2.0)+sizex/2.0-x,2)+pow(par.pillar_distance*(m_high+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius)
-      return((((int)n_low+(int)m_high))%2);
-  else if (sqrt(pow(par.pillar_distance*(n_high+1.0/2.0)+sizex/2.0-x,2)+pow(par.pillar_distance*(m_low+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius)
-      return(((int)n_high+(int)m_low)%2);
-  else if (sqrt(pow(par.pillar_distance*(n_high+1.0/2.0)+sizex/2.0-x,2)+pow(par.pillar_distance*(m_high+1.0/2.0)+sizey/2.0-y,2))<par.pillar_radius)
-      return((((int)n_high+(int)m_high))%2);
-  else
-    return(-2);
 }

@@ -37,18 +37,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "pde.h"
 //#include "dish.h"
 #include "cell.h"
-// #include <boost/container_hash/hash.hpp>
 #include <array>
-//#include <boost/array.hpp>
-// #include "pickset.hpp"
-// #include <tr1/unordered_set>
-// #include <tr1/array>
 
-// #include <vector>
 #include <random>
 #include <cstddef>
 #include <functional>
-// #include <unordered_set>
 
 using namespace std;
 
@@ -90,197 +83,6 @@ namespace std
     };
 }
 
-template <class T>
-class Edges
-{
-public:
-   const std::unordered_map<std::array<int, 4>,int>::iterator & operator[](unsigned index) const { return edgevector[index]; }
-   std::unordered_map<std::array<int, 4>,int>::iterator & operator[](unsigned index) { return edgevector[index]; }
-
-   void insert(std::array<int,4> edge)
-   {
-        int n = edgevector.size();
-       auto insertion = edgemap.insert({edge, n});
-       if (insertion.second){
-         edgevector.push_back(insertion.first);
-       }
-       else{
-         // cout << "edge already in set while trying to add" << endl;
-       }
-   }
-   void erase(std::array<int,4> edge)
-   {
-     // cout << "trying to erase, length = " << edgemap.size() <<endl;
-     try {
-       int index = edgemap.at(edge);
-       // std::unordered_map<std::array<int,4>,int>::iterator last_it = edgevector
-       std::swap(edgevector[index],edgevector.back());
-       edgevector[index]->second = index;
-       edgevector.pop_back();
-       edgemap.erase(edge);
-        // cout << "trying to erase, length = " << edgemap.size() <<endl;
-     }
-     catch (const std::out_of_range& oor) {
-       // cout << "edge not present while trying to delete" << endl;
-     }
-   }
-   unsigned size_map() const
-   {
-       return edgemap.size();
-   }
-   unsigned size_vector() const
-   {
-     return edgevector.size();
-   }
-
-private:
-   std::unordered_map<std::array<int,4>,int> edgemap;
-   std::vector<std::unordered_map<std::array<int, 4>,int>::iterator> edgevector;
-};
-// template <typename T, typename H = std::hash<T> >
-// struct Hasher
-// {
-//     std::size_t operator()( T* const pt) const
-//     {
-//         return H()(*pt);
-//     }
-// };
-//
-// template <class T, typename H = std::hash<T>>
-// struct EqualTo
-// {
-//     bool operator() ( T* x,  T* y) const
-//     {
-//         return Hasher<T, H>()(x) == Hasher<T, H>()(x);
-//     }
-// };
-//
-// template <typename T, typename H = std::hash<T> >
-// struct PickSet
-// {
-//     unsigned size() const{
-//       return _unorderedSet.size();
-//     }
-//
-//     void rebuildAndReserve()
-//     {
-//         _unorderedSet.clear();
-//         _unorderedSet.reserve(_vector.capacity());
-//         for ( T& t : _vector) _unorderedSet.insert(&t);
-//     }
-//
-//     void insert(T& t)
-//     {
-//         if (_unorderedSet.find(&t) == _unorderedSet.end())
-//         {
-//             _vector.push_back(t);
-//
-//             if (_unorderedSet.find(&(*(_vector.cbegin()))) != _unorderedSet.end())
-//             {
-//                 _unorderedSet.insert(&(*(_vector.crbegin())));
-//             }
-//             else
-//             {
-//                 rebuildAndReserve();
-//             }
-//         }
-//     }
-//
-//     void erase( T& t)
-//     {
-//         auto fit = _unorderedSet.find(&t);
-//
-//         if (fit != _unorderedSet.end())
-//         {
-//             if (*fit != &(*(_vector.crbegin())))
-//             {
-//                 *(const_cast<T*>(*fit)) = *(_vector.rbegin());
-//             }
-//             _vector.pop_back();
-//         }
-//     }
-//
-//     T& pickRandom() const
-//     {
-//         return _vector[_distribution(_generator) % _vector.size()];
-//     }
-//
-//     std::unordered_set< T*, Hasher<T, H>, EqualTo<T, H> > _unorderedSet;
-//     std::vector<T> _vector;
-//
-//     static std::default_random_engine _generator;
-//     static std::uniform_int_distribution<std::size_t> _distribution;
-// };
-//
-// template <typename T, typename H>
-// std::default_random_engine PickSet<T, H>::_generator = std::default_random_engine();
-//
-// template <typename T, typename H>
-// std::uniform_int_distribution<std::size_t> PickSet<T, H>::_distribution = std::uniform_int_distribution<std::size_t>();
-
-// template <class T>
-// class SubsetVector
-// {
-// private:
-//    struct Entry
-//    {
-//        T element;
-//        int index_in_subset = -1;
-//    };
-// public:
-//    explicit SubsetVector(unsigned size = 0) : m_entries(size)
-//    {
-//        m_subset_indices.reserve(size);
-//    }
-//
-//    void push_back(const T & element)
-//    {
-//        m_entries.push_back(Entry{element, -1});
-//    }
-//    const T & operator[](unsigned index) const { return m_entries[index].element; }
-//    T & operator[](unsigned index) { return m_entries[index].element; }
-//
-//    void insert_in_subset(unsigned index)
-//    {
-//        if (m_entries[index].index_in_subset < 0) {
-//            m_entries[index].index_in_subset = m_subset_indices.size();
-//            m_subset_indices.push_back(index);
-//        }
-//    }
-//    void erase_from_subset(unsigned index)
-//    {
-//        if (m_entries[index].index_in_subset >= 0) {
-//            auto subset_index = m_entries[index].index_in_subset;
-//            auto & entry_to_fix = m_entries[m_subset_indices.back()];
-//            std::swap(m_subset_indices[subset_index], m_subset_indices.back());
-//            entry_to_fix.index_in_subset = subset_index;
-//            m_subset_indices.pop_back();
-//            m_entries[index].index_in_subset = -1;
-//        }
-//    }
-//    unsigned subset_size() const
-//    {
-//        return m_subset_indices.size();
-//    }
-//    T & subset_at(unsigned subset_index)
-//    {
-//        auto index = m_subset_indices.at(subset_index);
-//        return m_entries.at(index).element;
-//    }
-//    const T & subset_at(unsigned subset_index) const
-//    {
-//        auto index = m_subset_indices.at(subset_index);
-//        return m_entries.at(index).element;
-//    }
-//
-// private:
-//    std::vector<Entry> m_entries;
-//    std::vector<unsigned> m_subset_indices;
-// };
-
-
-
-
 class Dish;
 
 class Dir {
@@ -320,10 +122,6 @@ public:
   std::unordered_set<std::array<int,2>> alivePixels;
   std::unordered_map<std::array<int,2>,int> actPixels;
   int **matrix;
-  // std::unordered_map<std::array<int,2>,int> matrixPixels;
-  bool AnyPillar();
-  bool IsPillar(int x, int y);
-  int WhichPillar(int x, int y);
 
   //! \brief Constructs a CA field. This should be done in "Dish".
   CellularPotts(std::vector<Cell> *cells, const int sizex=200,
@@ -331,8 +129,6 @@ public:
   // empty constructor
   // (necessary for derivation)
   CellularPotts(void);
-
-  void InitializeEdgeList(void); //Set the initial edgelist which are eligible to change
 
   // Keyword virtual means, that derived classed (cppvmCellularPotts) can override
   // this function and carry out the memory allocation in their preferred way
@@ -352,13 +148,8 @@ public:
    cells and for searching the neighbours the cell borders have to be
    determined. */
   int **SearchNandPlot(Graphics *g=0, bool get_neighbours=true);
-  void **SearchNandPlotClear(Graphics *g=0);
-  void **PlotVectors(Graphics *g=0);
+  void SearchNandPlotClear(Graphics *g=0);
   int **SearchNeighboursMatrix();
-
-  inline int **GetNeighbourMatrix(void){
-    return NB;
-  }
 
  //Functions needed for the perimeter constraint
 
@@ -457,14 +248,8 @@ public:
   inline int SizeY() const {
     return sizey;
   }
-  void ComputeActVector(Cell &c, PDE *PDEfield);
-  void ComputeActVectorAddSite(int new_x, int new_y, Cell &c, PDE *PDEfield, vector<double> &vector_act);
-  void ComputeActVectorRemoveSite(int new_x, int new_y, Cell &c, PDE *PDEfield, vector<double> &vector_act);
-  void ChangeThetas(Dish *beast);
-  int PolarizedAdhesiveEnergy(int actlevelsxy, int sxy, int actlevelsxyp, int sxyp2);
 
   /*! \brief Return the value of lattice site (x,y).
-
   i.e. This will return the index of the cell which occupies site (x,y). */
   inline int Sigma(const int x, const int y) const {
     return sigma[x][y];
@@ -506,10 +291,6 @@ public:
   \param celldir: cell axes as returned by FindCellDirections.
   */
   void ShowDirections(Graphics &g, const Dir *celldir) const;
-
-
-  //! \brief Returns the summed age of matrix interactions of specific cell.
-  int ComputeCellMatrixAdhesion( int sxy);//, PDE *PDEfield);
 
   //! \brief Returns the mean area of the cells.
   double MeanCellArea(void) const;
@@ -562,7 +343,6 @@ private:
   void SprayMedium(void);
   int CopyvProb(int DH,  double stiff);
   void FreezeAmoebae(void);
-
   void MeasureCellSizes(void);
   void MeasureCellSize(Cell &c);
   void CopyProb(double T);
@@ -570,7 +350,6 @@ private:
 
   bool ConnectivityPreservedP(int x, int y);
   bool ConnectivityPreservedPCluster(int x, int y);
-  bool NearbyAdhesionSite(int x, int y, int r, PDE *PDEfield);
 
   // little debugging function to print the site and its neighbourhood
   inline void PrintSite(int x,int y) {
@@ -593,9 +372,6 @@ protected:
 
 private:
   bool frozen;
-  std::unordered_set<std::array<int, 4>> edgeSetpair;
-  Edges<std::unordered_set<std::array<int, 4>,std::vector<std::unordered_map<std::array<int, 4>,int>::iterator>>> edgeSetVector;
-  // std::vector<boost::array<int, 4> > edgeVector;
   static const int nx[25], ny[25];
   static const int nbh_level[5];
   static int shuffleindex[9];

@@ -286,10 +286,7 @@ void Info::WriteCOMsTorus(std::ostream &out) {
   for (int s=1;s<cell_number+1;s++){
   double com_x= dish->getCell(s).sum_x/(double) dish->getCell(s).area;
   double com_y= dish->getCell(s).sum_y/(double) dish->getCell(s).area;
-  // double vector_x=dish->getCell(s).getVectorActX();
-  // double vector_y=dish->getCell(s).getVectorActY();
   int n =dish->getCell(s).Area();
-  // int p =dish->getCell(s).Perimeter();
   int a = dish->getCell(s).AdhesiveArea();
 
   out << t << " " << s << " " << com_x << " " << com_y << " " << n <<  " " << a << "\n";}
@@ -297,129 +294,6 @@ void Info::WriteCOMsTorus(std::ostream &out) {
 
 }
 
-void Info::WriteTheta(std::ostream &out) {
-
-  // Write the center of mass to "out" based on the internal COMs
-  int cell_number=par.n_init_cells;
-  static int t;
-  for (int s=1;s<cell_number+1;s++){
-  double th = dish->getCell(s).getTheta();
-  double vx =dish->getCell(s).getVectorX();
-  double vy =dish->getCell(s).getVectorY();
-
-  out << t << " " << s << " " << th << " " << vx << " " << vy << "\n";}
-  t++;
-
-}
-
-void Info::WriteCOMsTorusFresh(std::ostream &out) {
-
-  // Write the center of mass to "out"
-
-
-
-  int cell_number=par.n_init_cells;
-  static int t;
-  for (int s=1;s<cell_number+1;s++){
-  double com_x;
-  double com_y;
-  double com_x_left=0.;
-  double com_x_right=0.;
-  double com_y_top=0.;
-  double com_y_bottom=0.;
-  bool top_row=false;
-  bool bottom_row=false;
-  bool left_row=false;
-  bool right_row=false;
-  int n_bottom=0;
-  int n_top=0;
-  int n_left=0;
-  int n_right=0;
-  //check bottom left quadrant
-  for (int x=1;x<(dish->SizeX()-1)/2;x++){
-    for (int y=1;y<(dish->SizeY()-1)/2;y++) {
-      if (dish->CPM->Sigma(x,y)==s) {
-        if (x==1){ left_row=true;}
-        if (y==1){ bottom_row=true;}
-      com_x_left+=x;
-      com_y_bottom+=y;
-      n_left++;
-      n_bottom++;
-      }
-    }}
-    //check top left quadrant
-  for (int x=1;x<(dish->SizeX()-1)/2;x++){
-    for (int y=(dish->SizeY()-1)/2;y<dish->SizeY()-1;y++) {
-      if (dish->CPM->Sigma(x,y)==s) {
-        if (x==1){ left_row=true;}
-        if (y==dish->SizeY()-2){ top_row=true;}
-      com_x_left+=x;
-      com_y_top+=y;
-      n_left++;
-      n_top++;
-      }
-    }}
-    //check bottom right quadrant
-    for (int x=(dish->SizeX()-1)/2;x<dish->SizeX()-1;x++){
-      for (int y=1;y<(dish->SizeY()-1)/2;y++) {
-        if (dish->CPM->Sigma(x,y)==s) {
-          if (x==dish->SizeX()-2){ right_row=true;}
-          if (y==1){ bottom_row=true;}
-        com_x_right+=x;
-        com_y_bottom+=y;
-        n_right++;
-        n_bottom++;
-        }
-      }}
-    //check top right quadrant
-    for (int x=(dish->SizeX()-1)/2;x<dish->SizeX()-1;x++){
-      for (int y=(dish->SizeY()-1)/2;y<dish->SizeY()-1;y++) {
-        if (dish->CPM->Sigma(x,y)==s) {
-          if (x==dish->SizeX()-2){ right_row=true;}
-          if (y==dish->SizeY()-2){ top_row=true;}
-        com_x_right+=x;
-        com_y_top+=y;
-        n_right++;
-        n_top++;
-        }
-      }}
-  if (right_row==true && left_row && true){
-    com_x=(com_x_left+com_x_right+n_left*dish->SizeX())/(n_left+n_right);
-  }
-  else{
-    com_x=(com_x_left+com_x_right)/(n_left+n_right);
-  }
-  if (top_row==true && bottom_row && true){
-    com_y=(com_y_top+com_y_bottom+n_bottom*dish->SizeY())/(n_top+n_bottom);
-  }
-  else{
-    com_y=(com_y_top+com_y_bottom)/(n_top+n_bottom);
-  }
-
-  if (abs(dish->getCell(s).getCenterX()-com_x)>10){
-      double new_x = com_x-round( (com_x-dish->getCell(s).getCenterX() )/ dish->SizeX()) * dish->SizeX();
-      com_x=new_x;
-  }
-  if (abs(dish->getCell(s).getCenterY()-com_y)>10){
-      double new_y = com_y-round((com_y-dish->getCell(s).getCenterY())/dish->SizeY()) * dish->SizeY();
-      com_y=new_y;
-  }
-
-
-  out << t << " " << s << " " << com_x << " " << com_y << " " << n_left+n_right << "\n";}
-  t++;
-
-}
-
-void Info::WriteCellLocations(int cell_id, int field_id, std::ostream &out){
-	static int t=0;
-	for (int x=1;x<dish->SizeX()-1;x++)
-	    for (int y=1;y<dish->SizeY()-1;y++) {
-	       if (dish->CPM->Sigma(x,y)==cell_id) {
-			out << t << " " << x << " " << y << " " << dish->PDEfield->Sigma(field_id,x,y) << "\n";
-		}}
-	t++;
-}
 
 void Info::WriteAdhesionsLocationsPerCell(int cell_id, int field_id, std::ostream &out){
 	static int t=0;

@@ -79,24 +79,10 @@ class Parameter {
 	int target_perimeter;
 	//Lymphocyte matrix interaction
 	double lambda_matrix;
-	int age_saturation;
-	int max_matrix;
-	bool geometric_mean;
-	double single_site_power;
-  double lambda_c;
  double spontaneous_p;
  double decay_p;
  double eden_p;
- double lambda_schooling;
  int J_pol;
- double pillar_r;
- double pillar_distance;
- double pillar_radius;
- int pillar_energy;
- int pillar_energy_odd;
- bool checkerboard;
- double lambda_persistence;
- int tau;
  double threshold;
  double start_level;
 

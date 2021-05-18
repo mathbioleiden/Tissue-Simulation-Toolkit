@@ -212,9 +212,6 @@ void Cell::ConstructorBody(int settau) {
   sum_yy=0;
   sum_xy=0;
   border=0;
-  vec_act_x=0.0;
-  vec_act_y=0.0;
-  theta=0.0;
 
   //  growth_threshold=par.dthres;
   growth_threshold=0;
