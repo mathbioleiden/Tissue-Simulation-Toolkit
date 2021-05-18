@@ -97,6 +97,9 @@ public:
     SearchNandPlot(g, false);
   }
   
+    //! Special plotting for Ising model
+    void PlotIsing(Graphics *g, int mag);
+  
   //! Searches the cells' neighbors without plotting
   inline int **SearchNeighbours(void) {
     return SearchNandPlot(0, true);
@@ -117,9 +120,13 @@ public:
     
   The black lines are omitted.
   */
+    
   void PlotSigma(Graphics *g, int mag=2);
   void WriteData(void);
 
+/*! A simple method to count all sigma's and write the output to an ostream */
+  void CountSigma(std::ostream &os);
+  
   //! Divide all cells.
     void DivideCells(void) {
 	  std::vector<bool> tmp;
@@ -140,7 +147,27 @@ public:
       \return Total energy change during MCS.
     */
     int AmoebaeMove(PDE *PDEfield=0, bool anneal = false);
+    
+    /*! Implements the core CPM algorithm with Kawasaki dynamics. Carries out one MCS.
+     \return Total energy change during MCS.
+     */
+    int KawasakiMove(PDE *PDEfield=0);
   
+    /*! Implements Metropolis dynamics for the Ising model. Carries out one MCS.
+     \return Total energy change during MCS.
+     */
+    int IsingMove(PDE *PDEfield=0);
+    
+     /*! Implements standard large q-Potts model. Carries out one MCS.
+      \return Total energy change during MCS.
+      */
+    int PottsMove(PDE *PDEfield=0);
+    
+    /*! Implements standard large q-Potts model via Neighbor copies.  Carries out one MCS.
+     \return Total energy change during MCS.
+     */
+    int PottsNeighborMove(PDE *PDEfield);
+    
     /*! \brief Read initial cell shape from XPM file.
       Reads the initial cell shape from an 
       include xpm picture called "ZYGXPM(ZYGOTE)",
@@ -210,6 +237,10 @@ public:
   */
   int GrowInCells(int n_cells, int cellsize, double subfield=1., int posx=-1, int posy=-1);
   int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y);
+    int RandomSpins(double prob);
+    
+int SquareCell(int sig, int cx, int cy, int size);
+
   
   //! \brief Adds a new Cell and returns a reference to it.
   inline Cell &AddCell(Dish &beast) {
@@ -265,6 +296,7 @@ public:
   double Compactness(double *res_compactness = 0, 
 		     double *res_area = 0, 
 		     double *res_cell_area = 0);
+    int RandomSigma(int n_cells);
   
   void MeasureCellSizes(void);
     
@@ -279,8 +311,15 @@ public:
 private:
   void IndexShuffle(void);
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+int KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+int IsingDeltaH(int x,int y, PDE *PDEfield=0);
+    int PottsDeltaH(int x,int y, int new_state);
+    
+    
   bool Probability(int DH);
   void ConvertSpin(int x,int y,int xp,int yp);
+    void ExchangeSpin(int x,int y,int xp,int yp);
+    
   void SprayMedium(void);
   int CopyvProb(int DH,  double stiff, bool anneal);
   void FreezeAmoebae(void);

@@ -30,13 +30,13 @@ dx = 2e-6
 pde_its = 15
 
 # initial conditions (create a "blob" of cells in the middle)
-n_init_cells = 100
+n_init_cells = 1000
 size_init_cells = 10
-sizex = 200
-sizey = 200
+sizex = 500
+sizey = 500
 divisions = 0
 mcs = 10000
-rseed = -1
+rseed = 120243
 subfield = 1
 relaxation = 0
 

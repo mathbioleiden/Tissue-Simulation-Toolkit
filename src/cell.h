@@ -403,6 +403,10 @@ private:
         return 0.;
     }
     
+      // prevent NaN when last pixel is deleted
+      if (n==0) {
+          return 0.;
+      }
     // inertia tensor (constructed from the raw momenta, see notebook)
     double iyy=(double)s_xx-(double)s_x*s_x/(double)n;
     double ixx=(double)s_yy-(double)s_y*s_y/(double)n;
