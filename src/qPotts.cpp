@@ -56,8 +56,9 @@ INIT {
       cerr << "About to ConstructInitCells\n";
       
     CPM->ConstructInitCells(*this);
-      CPM->SetRandomTypes();
-      cerr << "Done init\n";
+    CPM->SetRandomTypes();
+    CPM->InitializeEdgeList();
+    cerr << "Done init\n";
    
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -81,7 +82,7 @@ TIMESTEP {
     //cerr << "Done\n";
     if (par.graphics && !(i%par.storage_stride)) {
       
-        cerr << "Plot " << i << endl;
+      //cerr << "Plot " << i << endl;
       BeginScene();
       ClearImage();
       //dish->CPM->PlotSigma(this,2);
