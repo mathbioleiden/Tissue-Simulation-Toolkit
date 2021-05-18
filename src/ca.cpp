@@ -80,13 +80,13 @@ void CellularPotts::BaseInitialisation(vector<Cell> *cells) {
 }
 
 CellularPotts::CellularPotts(vector<Cell> *cells,
-			     const int sx, const int sy) {
+           const int sx, const int sy) {
   
   sigma=0;
   frozen=false;
   thetime=0;
   zygote_area=0;
-	
+  
   edgelist = nullptr;
   orderedgelist = nullptr;
   
@@ -120,7 +120,7 @@ CellularPotts::CellularPotts(void) {
   frozen=false;
   thetime=0;
   zygote_area=0;
-	
+  
   edgelist = nullptr;
   orderedgelist = nullptr;
 
@@ -148,7 +148,7 @@ CellularPotts::~CellularPotts(void) {
     free(sigma);
     sigma=0;
   }
-	
+  
   if(edgelist) {
       delete edgelist;
   }
@@ -199,53 +199,53 @@ void CellularPotts::IndexShuffle() {
 }
 
 void CellularPotts::InitializeEdgeList(void){
-	edgelist= new int[(par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]];
-	orderedgelist= new int[(par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]];
-	sizeedgelist = 0;
-	int pixel;
-	int neighbour;
-	int x, y;
-	int xp, yp;
-	int c, cp;
-	for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
-		edgelist[k] = -1;
-		orderedgelist[k] = -1;
-	}
-	for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
-		pixel = k/nbh_level[par.neighbours];
-		neighbour = k%nbh_level[par.neighbours]+1;		
-		x = pixel%(sizex-2)+1;
-		y = pixel/(sizex-2)+1;
-		c = sigma[x][y];			
-		xp = nx[neighbour]+x;
-		yp = ny[neighbour]+y;
-			
-		if (par.periodic_boundaries) {
+  edgelist= new int[(par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]];
+  orderedgelist= new int[(par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]];
+  sizeedgelist = 0;
+  int pixel;
+  int neighbour;
+  int x, y;
+  int xp, yp;
+  int c, cp;
+  for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
+    edgelist[k] = -1;
+    orderedgelist[k] = -1;
+  }
+  for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
+    pixel = k/nbh_level[par.neighbours];
+    neighbour = k%nbh_level[par.neighbours]+1;    
+    x = pixel%(sizex-2)+1;
+    y = pixel/(sizex-2)+1;
+    c = sigma[x][y];      
+    xp = nx[neighbour]+x;
+    yp = ny[neighbour]+y;
+      
+    if (par.periodic_boundaries) {
       
       // since we are asynchronic, we cannot just copy the borders once 
       // every MCS      
          
-			if (xp<=0)
-				xp=sizex-2+xp;
-    	if (yp<=0)
-				yp=sizey-2+yp;
-   	  if (xp>=sizex-1)
-				xp=xp-sizex+2;
-   	  if (yp>=sizey-1)
-				yp=yp-sizey+2;
+      if (xp<=0)
+        xp=sizex-2+xp;
+      if (yp<=0)
+        yp=sizey-2+yp;
+      if (xp>=sizex-1)
+        xp=xp-sizex+2;
+      if (yp>=sizey-1)
+        yp=yp-sizey+2;
       
       cp=sigma[xp][yp];
       }
-		else if (xp<=0 || yp<=0 || xp>=sizex-1 || yp>=sizey-1)
-			cp=-1;
+    else if (xp<=0 || yp<=0 || xp>=sizex-1 || yp>=sizey-1)
+      cp=-1;
     else
-			cp=sigma[xp][yp];
-    if (cp != c && cp != -1){				
-			edgelist [k] = sizeedgelist;	
-			orderedgelist[sizeedgelist] = k;
-			sizeedgelist ++;
-		}
-	}	
+      cp=sigma[xp][yp];
+    if (cp != c && cp != -1){       
+      edgelist [k] = sizeedgelist;  
+      orderedgelist[sizeedgelist] = k;
+      sizeedgelist ++;
+    }
+  } 
 }
 
 double sat(double x) {
@@ -376,12 +376,9 @@ int CellularPotts::PottsDeltaH(int x,int y, int new_state)
             H_after += -J*(sxy==0?1:-1)*(neigh_sxy==0?-1:1);*/
             H_before += J*((sxy!=neigh_sxy)?1:0);
             H_after += J*((new_state!=neigh_sxy)?1:0);
-            
         }
     }
-    
     DH = H_after-H_before;
-    
     return DH;
 }
 
@@ -411,7 +408,6 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
             
             // since we are asynchronic, we cannot just copy the borders once
             // every MCS
-        
            if (xn<=0)
                 xn=sizex-2+xn;
             if (yn<=0)
@@ -423,7 +419,6 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
         
             neigh_sxy=sigma[xn][yn];
            
-            
            if (xpn<=0)
                 xpn=sizex-2+xpn;
             if (ypn<=0)
@@ -435,7 +430,6 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
            
             neigh_sxyp=sigma[xpn][ypn];
 
-            
         } // periodic boundaries
             else  { // closed boundaries
             
@@ -450,7 +444,6 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
                 neigh_sxyp=-1;
             else
                 neigh_sxyp=sigma[xpn][ypn];
-            
         }
         
         if (neigh_sxy==-1) { // border
@@ -469,14 +462,11 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
             H_after += aft;
         }
     }
-    
     H_after += 2 * (*cell)[sxy].EnergyDifference((*cell)[sxyp]);
 #ifdef DBG_KAWASAKI
-   
     cerr << H_after << ", " << H_before << " ]";
 #endif
     DH = H_after-H_before;
-    
         // the rest we will do later - in any case no volume constraint :-)
     return DH;
 }
@@ -499,99 +489,76 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
     int xp2,yp2;
     xp2=x+nx[i]; yp2=y+ny[i];
     if (par.periodic_boundaries) {
-      
       // since we are asynchronic, we cannot just copy the borders once 
       // every MCS
-      
       if (xp2<=0)
-	xp2=sizex-2+xp2;
+        xp2=sizex-2+xp2;
       if (yp2<=0)
-	yp2=sizey-2+yp2;
+        yp2=sizey-2+yp2;
       if (xp2>=sizex-1)
-	xp2=xp2-sizex+2;
+        xp2=xp2-sizex+2;
       if (yp2>=sizey-1)
-	yp2=yp2-sizey+2;
-    
+        yp2=yp2-sizey+2;
       neighsite=sigma[xp2][yp2];
-	
-    
     } else {
-      
-      if (xp2<=0 || yp2<=0 
-	  || xp2>=sizex-1 || yp2>=sizey-1)
-	neighsite=-1;
+      if (xp2<=0 || yp2<=0 || xp2>=sizex-1 || yp2>=sizey-1)
+        neighsite=-1;
       else
-	neighsite=sigma[xp2][yp2];
-	
+        neighsite=sigma[xp2][yp2];
     }
-    
-    if (neighsite==-1) { // border 
-      DH += (sxyp==0?0:par.border_energy)-
-	(sxy==0?0:par.border_energy);
+    if (neighsite==-1) { 
+      // border 
+      DH += (sxyp==0?0:par.border_energy) - (sxy==0?0:par.border_energy);
     } else {
       DH += (*cell)[sxyp].EnergyDifference((*cell)[neighsite]) 
-	- (*cell)[sxy].EnergyDifference((*cell)[neighsite]);
+            - (*cell)[sxy].EnergyDifference((*cell)[neighsite]);
     }
   }
-
-  
   // lambda is determined by chemical 0
-    
   //cerr << "[" << lambda << "]";
   if ( sxyp == MEDIUM ) {
     DH += (int)(par.lambda *  (1. - 2. *   
-			       (double) ( (*cell)[sxy].Area() - (*cell)[sxy].TargetArea()) ));
+             (double) ( (*cell)[sxy].Area() - (*cell)[sxy].TargetArea()) ));
   }
   else if ( sxy == MEDIUM ) {
     DH += (int)((par.lambda * (1. + 2. *  
-			       (double) ( (*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea()) )));
+             (double) ( (*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea()) )));
   }
   else
     DH += (int)((par.lambda * (2.+  2.  * (double) 
-			       (  (*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea()
-			       - (*cell)[sxy].Area() + (*cell)[sxy].TargetArea() )) ));
-
+             (  (*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea()
+             - (*cell)[sxy].Area() + (*cell)[sxy].TargetArea() )) ));
 
   /* Chemotaxis */
   if (PDEfield && (par.vecadherinknockout || (sxyp==0 || sxy==0))) {
-    
     // copying from (xp, yp) into (x,y)
     // If par.extensiononly == true, apply CompuCell's method, i.e.
     // only chemotactic extensions contribute to energy change
     if (!( par.extensiononly && sxyp==0)) {
       int DDH=(int)(par.chemotaxis*(sat(PDEfield->Sigma(0,x,y))-sat(PDEfield->Sigma(0,xp,yp))));
-    
       DH-=DDH;
     }
   }
 
-  
   const double lambda2=par.lambda2;
-  
   /* Length constraint */
   // sp is expanding cell, s is retracting cell
-
-  
   if ( sxyp == MEDIUM ) {
     DH -= (int)(lambda2*( DSQR((*cell)[sxy].Length()-(*cell)[sxy].TargetLength())
-		       - DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x,y) - 
-			      (*cell)[sxy].TargetLength()) ));
-    
+           - DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x,y) - 
+            (*cell)[sxy].TargetLength()) ));
   }
   else if ( sxy == MEDIUM ) {
     DH -= (int)(lambda2*(DSQR((*cell)[sxyp].Length()-(*cell)[sxyp].TargetLength())
-			 -DSQR((*cell)[sxyp].GetNewLengthIfXYWereAdded(x,y)-(*cell)[sxyp].TargetLength())));
-
-    
+       -DSQR((*cell)[sxyp].GetNewLengthIfXYWereAdded(x,y)-(*cell)[sxyp].TargetLength())));
   }
   else {
     DH -= (int)(lambda2*( (DSQR((*cell)[sxyp].Length()-(*cell)[sxyp].TargetLength())
-		     -DSQR((*cell)[sxyp].GetNewLengthIfXYWereAdded(x,y)-(*cell)[sxyp].TargetLength())) +
-		    ( DSQR((*cell)[sxy].Length()-(*cell)[sxy].TargetLength())
-		      - DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x,y) - 
-			     (*cell)[sxy].TargetLength()) ) ));
+         -DSQR((*cell)[sxyp].GetNewLengthIfXYWereAdded(x,y)-(*cell)[sxyp].TargetLength())) +
+        ( DSQR((*cell)[sxy].Length()-(*cell)[sxy].TargetLength())
+          - DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x,y) - 
+           (*cell)[sxy].TargetLength()) ) ));
   }
-  
   return DH;
 }
 
@@ -623,42 +590,35 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
     
   }
   sigma[x][y] = sigma[xp][yp];
-
-
 }
 
 void CellularPotts::ExchangeSpin(int x,int y,int xp,int yp)
 {
-    int tmpcell;
-    if ( (tmpcell=sigma[x][y]) ) { // if tmpcell is not MEDIUM
-        //(*cell)[tmpcell].DecrementArea();
-        (*cell)[tmpcell].RemoveSiteFromMoments(x,y);
-        
-    }
+  int tmpcell;
+  if ( (tmpcell=sigma[x][y]) ) { // if tmpcell is not MEDIUM
+      //(*cell)[tmpcell].DecrementArea();
+      (*cell)[tmpcell].RemoveSiteFromMoments(x,y);
+  }
 
-    if ( (tmpcell=sigma[xp][yp]) ) { // if tmpcell is not MEDIUM
-        //(*cell)[tmpcell].DecrementArea();
-        (*cell)[tmpcell].RemoveSiteFromMoments(x,y);
-        
-    }
+  if ( (tmpcell=sigma[xp][yp]) ) { // if tmpcell is not MEDIUM
+      //(*cell)[tmpcell].DecrementArea();
+      (*cell)[tmpcell].RemoveSiteFromMoments(x,y);
+  }
   
-    if ( (tmpcell=sigma[x][y]) ) {// if tmpcell is not MEDIUM
-        //(*cell)[tmpcell].IncrementArea();
-        (*cell)[tmpcell].AddSiteToMoments(x,y);
-        
-    }
+  if ( (tmpcell=sigma[x][y]) ) {// if tmpcell is not MEDIUM
+      //(*cell)[tmpcell].IncrementArea();
+      (*cell)[tmpcell].AddSiteToMoments(x,y);
+  }
 
-    if ( (tmpcell=sigma[xp][yp]) ) {// if tmpcell is not MEDIUM
-        //(*cell)[tmpcell].IncrementArea();
-        (*cell)[tmpcell].AddSiteToMoments(x,y);
-        
-    }
-    
-    // Exchange spins
-    tmpcell = sigma[x][y];
-    sigma[x][y] = sigma[xp][yp];
-    sigma[xp][yp] = tmpcell;
-    
+  if ( (tmpcell=sigma[xp][yp]) ) {// if tmpcell is not MEDIUM
+      //(*cell)[tmpcell].IncrementArea();
+      (*cell)[tmpcell].AddSiteToMoments(x,y);
+  }
+  
+  // Exchange spins
+  tmpcell = sigma[x][y];
+  sigma[x][y] = sigma[xp][yp];
+  sigma[xp][yp] = tmpcell;
 }
 
 
@@ -695,263 +655,251 @@ void CellularPotts::FreezeAmoebae(void)
 #include <fstream>
 
 //! Monte Carlo Step. Returns summed energy change
-int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
-{
+int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
   int loop,p;
-  //int updated=0;
   thetime++;
   int SumDH=0;
   
+  int positionedge;
+  int targetedge;
+  int targetsite;
+  int targetneighbour;
+  int x,y;
+  int xp,yp;
+  int k,kp;
+  
+  int H_diss;
+  int D_H;
+  
+  int edgeadjusting;
+  int xn, yn; //neighbour cells
+ 
   if (frozen) 
     return 0;
 
-	int positionedge;
-	int targetedge;
-	int targetsite;
-	int targetneighbour;
-	int x,y;
-	int xp,yp;
-	int k,kp;
-
-	int H_diss;
-	int D_H;
-
-	int edgeadjusting;
-	int xn, yn; //neighbour cells
-    
-	loop = sizeedgelist / n_nb * 1.2;
+  loop = sizeedgelist / n_nb * 1.2;
   for (int i = 0; i < loop; i++){
-		positionedge = (int)(RANDOM()*sizeedgelist); // take a entry of the edgelist
-		targetedge = orderedgelist[positionedge];
-		targetsite = targetedge / n_nb;
-		targetneighbour = (targetedge % n_nb)+1;
-
-		x = targetsite%(sizex-2)+1;
-		y = targetsite/(sizex-2)+1; 
-		k=sigma[x][y];
-
-		xp = nx[targetneighbour]+x;
-		yp = ny[targetneighbour]+y;
-		if (par.periodic_boundaries) {
-		    
-		   // since we are asynchronic, we cannot just copy the borders once 
-		   // every MCS
-		    		      
-			if (xp<=0)
-				xp=sizex-2+xp;
-		  if (yp<=0)
-				yp=sizey-2+yp;
-		  if (xp>=sizex-1)
-				xp=xp-sizex+2;
-		  if (yp>=sizey-1)
-				yp=yp-sizey+2;
-		}
-	 	kp=sigma[xp][yp]; //by construction of the edgelist, xp,yp can't be a boundary state.
-		
-		// connectivity dissipation:
-		H_diss=0;
-		if (!ConnectivityPreservedP(x,y)) 
-			H_diss=par.conn_diss;
-
-		D_H=DeltaH(x,y,xp,yp,PDEfield);
-
-		if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
-			ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
-		
-			for (int j = 1; j <= n_nb; j++){
-				xn = nx[j]+x; 
-				yn = ny[j]+y;
-				edgeadjusting = targetsite*n_nb+j-1; 
-			
-				if (par.periodic_boundaries) {	
-					 	// since we are asynchronic, we cannot just copy the borders once 
-					 	// every MCS
-					if (xn<=0)
-						xn=sizex-2+xn;
-					if(yn<=0)
-						yn=sizey-2+yn;
-					if (xn>=sizex-1)
-						xn=xn-sizex+2;
-				  if (yn>=sizey-1)
-						yn=yn-sizey+2;
-				} 
-				if (xn>0 && yn>0 && xn<sizex-1 && yn<sizey-1){//if the neighbour site is within the lattice
-					if (edgelist[edgeadjusting] == -1 && sigma[xn][yn] != sigma[x][y]){ //if we should add the edge to the edgelist, add it
-						AddEdgeToEdgelist(edgeadjusting);
-						loop += (double)2/n_nb;
-					}
-					if (edgelist[edgeadjusting] != -1 && sigma[xn][yn] == sigma[x][y]){//if the sites have the same celltype and they have an edge, remove it						
-						RemoveEdgeFromEdgelist(edgeadjusting); 
-						loop -= (double)2/n_nb;		
-					}							
-				}
-			}
-			SumDH+=D_H;			
-		}
-	}
-	return SumDH;  
+    positionedge = (int)(RANDOM()*sizeedgelist); // take a entry of the edgelist
+    targetedge = orderedgelist[positionedge];
+    targetsite = targetedge / n_nb;
+    targetneighbour = (targetedge % n_nb)+1;
+    
+    x = targetsite%(sizex-2)+1;
+    y = targetsite/(sizex-2)+1; 
+    k=sigma[x][y];
+    
+    xp = nx[targetneighbour]+x;
+    yp = ny[targetneighbour]+y;
+    if (par.periodic_boundaries) {
+       // since we are asynchronic, we cannot just copy the borders once 
+       // every MCS
+      if (xp<=0)
+        xp=sizex-2+xp;
+      if (yp<=0)
+        yp=sizey-2+yp;
+      if (xp>=sizex-1)
+        xp=xp-sizex+2;
+      if (yp>=sizey-1)
+        yp=yp-sizey+2;
+    }
+    kp=sigma[xp][yp]; //by construction of the edgelist, xp,yp can't be a boundary state.
+    
+    // connectivity dissipation:
+    H_diss=0;
+    if (!ConnectivityPreservedP(x,y)) 
+      H_diss=par.conn_diss;
+    
+    D_H=DeltaH(x,y,xp,yp,PDEfield);
+    
+    if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
+      ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
+      
+      for (int j = 1; j <= n_nb; j++){
+        xn = nx[j]+x; 
+        yn = ny[j]+y;
+        edgeadjusting = targetsite*n_nb+j-1; 
+        
+        if (par.periodic_boundaries) {  
+        // since we are asynchronic, we cannot just copy the borders once 
+        // every MCS
+          if (xn<=0)
+            xn=sizex-2+xn;
+          if(yn<=0)
+            yn=sizey-2+yn;
+          if (xn>=sizex-1)
+            xn=xn-sizex+2;
+          if (yn>=sizey-1)
+            yn=yn-sizey+2;
+        } 
+        if (xn>0 && yn>0 && xn<sizex-1 && yn<sizey-1){//if the neighbour site is within the lattice
+          if (edgelist[edgeadjusting] == -1 && sigma[xn][yn] != sigma[x][y]){ //if we should add the edge to the edgelist, add it
+            AddEdgeToEdgelist(edgeadjusting);
+            loop += (double)2/n_nb;
+          }
+          if (edgelist[edgeadjusting] != -1 && sigma[xn][yn] == sigma[x][y]){//if the sites have the same celltype and they have an edge, remove it           
+            RemoveEdgeFromEdgelist(edgeadjusting); 
+            loop -= (double)2/n_nb;   
+          }             
+        }
+      }
+      SumDH+=D_H;     
+    }
+  } 
+  return SumDH;  
 }
 
 void CellularPotts::AddEdgeToEdgelist(int edge) {
-	int counteredge = CounterEdge(edge);	
+  int counteredge = CounterEdge(edge);  
 
-	edgelist[edge] = sizeedgelist;
-	orderedgelist[sizeedgelist] = edge;
-	sizeedgelist++;
+  edgelist[edge] = sizeedgelist;
+  orderedgelist[sizeedgelist] = edge;
+  sizeedgelist++;
 
-	edgelist[counteredge] = sizeedgelist;
-	orderedgelist[sizeedgelist] = counteredge;
-	sizeedgelist++;
+  edgelist[counteredge] = sizeedgelist;
+  orderedgelist[sizeedgelist] = counteredge;
+  sizeedgelist++;
 }
 
 void CellularPotts::WriteData(void){
-		int RedRedSurface = 0;
-		int RedYellowSurface = 0;
-		int YellowYellowSurface = 0;
-	for (int x = 1; x<sizex-1; x++)
-	for (int y = 1; y<sizey-1; y++){
-		for (int i = 1; i<=4; i++){
-			int x2,y2;
-			x2=x+nx[i]; y2=y+ny[i];
-			if (sigma[x][y] != sigma[x2][y2]){
-				if ((*cell)[sigma[x][y]].getTau() == 1 && (*cell)[sigma[x2][y2]].getTau() == 1)	RedRedSurface ++;
-				if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1)	RedYellowSurface ++;
-				if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1)	YellowYellowSurface ++;
-			
-			}
-		}
-	}
-	//cout << "Red-red surface = " << RedRedSurface << endl;
-	//cout << "Red-yellow surface = " << RedYellowSurface << endl;
-	//cout << "Yellow-yellow surface = " << YellowYellowSurface << endl;
+    int RedRedSurface = 0;
+    int RedYellowSurface = 0;
+    int YellowYellowSurface = 0;
+  for (int x = 1; x<sizex-1; x++)
+  for (int y = 1; y<sizey-1; y++){
+    for (int i = 1; i<=4; i++){
+      int x2,y2;
+      x2=x+nx[i]; y2=y+ny[i];
+      if (sigma[x][y] != sigma[x2][y2]){
+        if ((*cell)[sigma[x][y]].getTau() == 1 && (*cell)[sigma[x2][y2]].getTau() == 1) RedRedSurface ++;
+        if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1) RedYellowSurface ++;
+        if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1) YellowYellowSurface ++;
+      
+      }
+    }
+  }
+  //cout << "Red-red surface = " << RedRedSurface << endl;
+  //cout << "Red-yellow surface = " << RedYellowSurface << endl;
+  //cout << "Yellow-yellow surface = " << YellowYellowSurface << endl;
 
-	ofstream myfile;
-	myfile.open("Data_original.txt", std::ofstream::out | std::ofstream::app);
-	myfile << RedYellowSurface <<endl;
-	myfile.close();
+  ofstream myfile;
+  myfile.open("Data_original.txt", std::ofstream::out | std::ofstream::app);
+  myfile << RedYellowSurface <<endl;
+  myfile.close();
 
 }
 
 void CellularPotts::RemoveEdgeFromEdgelist(int edge) { //remove the site from the edgelist and rearrange a bit if needed
-	int counteredge = CounterEdge(edge);	
+  int counteredge = CounterEdge(edge);  
 
-	if(edgelist[edge] != sizeedgelist-1){ //if edge is not last one in edgelist
-		orderedgelist[edgelist[edge]] = orderedgelist[sizeedgelist-1];
-		edgelist[orderedgelist[sizeedgelist-1]] = edgelist[edge];
-	}
-	edgelist[edge] = -1;
-	orderedgelist[sizeedgelist-1] = -1;
-	sizeedgelist--;
-	if(edgelist[counteredge] != sizeedgelist-1){ //if counteredge is not last one in edgelist
-		orderedgelist[edgelist[counteredge]] = orderedgelist[sizeedgelist-1];
-		edgelist[orderedgelist[sizeedgelist-1]] = edgelist[counteredge];
-	}
-	edgelist[counteredge] = -1;
-	orderedgelist[sizeedgelist-1] = -1;
-	sizeedgelist--;
-
-
-
+  if(edgelist[edge] != sizeedgelist-1){ //if edge is not last one in edgelist
+    orderedgelist[edgelist[edge]] = orderedgelist[sizeedgelist-1];
+    edgelist[orderedgelist[sizeedgelist-1]] = edgelist[edge];
+  }
+  edgelist[edge] = -1;
+  orderedgelist[sizeedgelist-1] = -1;
+  sizeedgelist--;
+  if(edgelist[counteredge] != sizeedgelist-1){ //if counteredge is not last one in edgelist
+    orderedgelist[edgelist[counteredge]] = orderedgelist[sizeedgelist-1];
+    edgelist[orderedgelist[sizeedgelist-1]] = edgelist[counteredge];
+  }
+  edgelist[counteredge] = -1;
+  orderedgelist[sizeedgelist-1] = -1;
+  sizeedgelist--;
 }
 
 int CellularPotts::CounterEdge(int edge){
-	int which_site = edge / n_nb;
-	int which_neighbour = edge % n_nb + 1;
-	int counterneighbour;
+  int which_site = edge / n_nb;
+  int which_neighbour = edge % n_nb + 1;
+  int counterneighbour;
 
-	int x = which_site%(sizex-2)+1;
-	int y = which_site/(sizex-2)+1; 
+  int x = which_site%(sizex-2)+1;
+  int y = which_site/(sizex-2)+1; 
 
-	int xp = nx[which_neighbour]+x; 
-	int yp = ny[which_neighbour]+y;	
+  int xp = nx[which_neighbour]+x; 
+  int yp = ny[which_neighbour]+y; 
 
-	if (par.periodic_boundaries) {	
-		// since we are asynchronic, we cannot just copy the borders once 
-		// every MCS
-		if (xp<=0)
-			xp=sizex-2+xp;
-		if(yp<=0)
-			yp=sizey-2+yp;
-		if (xp>=sizex-1)
-			xp=xp-sizex+2;
-		if (yp>=sizey-1)
-			yp=yp-sizey+2;
-	}
+  if (par.periodic_boundaries) {  
+    // since we are asynchronic, we cannot just copy the borders once 
+    // every MCS
+    if (xp<=0)
+      xp=sizex-2+xp;
+    if(yp<=0)
+      yp=sizey-2+yp;
+    if (xp>=sizex-1)
+      xp=xp-sizex+2;
+    if (yp>=sizey-1)
+      yp=yp-sizey+2;
+  }
 
-	int neighbourlocation = xp-1 + (yp-1)*(par.sizex-2);
-	switch (which_neighbour){
-		case 1:
-			counterneighbour = 3;
-			break;
-		case 2:
-			counterneighbour = 4;
-			break;
-		case 3:
-			counterneighbour = 1;
-			break;
-		case 4:
-			counterneighbour = 2;
-			break;
-		case 5:
-			counterneighbour = 7;
-			break;
-		case 6:
-			counterneighbour = 8;
-			break;
-		case 7:
-			counterneighbour = 5;
-			break;
-		case 8:
-			counterneighbour = 6;
-			break;
-		case 9:
-			counterneighbour = 11;
-			break;
-		case 10:
-			counterneighbour = 12;
-			break;
-		case 11:
-			counterneighbour = 9;
-			break;
-		case 12:
-			counterneighbour = 10;
-			break;
-		case 13:
-			counterneighbour = 17;
-			break;
-		case 14:
-			counterneighbour = 18;
-			break;
-		case 15:
-			counterneighbour = 19;
-			break;
-		case 16:
-			counterneighbour = 20;
-			break;
-		case 17:
-			counterneighbour = 13;
-			break;
-		case 18:
-			counterneighbour = 14;
-			break;
-		case 19:
-			counterneighbour = 15;
-			break;
-		case 20:
-			counterneighbour = 16;
-			break;	
-	}
-
-
-	int counteredge = neighbourlocation * n_nb + counterneighbour-1;
-
-	return counteredge;
+  int neighbourlocation = xp-1 + (yp-1)*(par.sizex-2);
+  switch (which_neighbour){
+    case 1:
+      counterneighbour = 3;
+      break;
+    case 2:
+      counterneighbour = 4;
+      break;
+    case 3:
+      counterneighbour = 1;
+      break;
+    case 4:
+      counterneighbour = 2;
+      break;
+    case 5:
+      counterneighbour = 7;
+      break;
+    case 6:
+      counterneighbour = 8;
+      break;
+    case 7:
+      counterneighbour = 5;
+      break;
+    case 8:
+      counterneighbour = 6;
+      break;
+    case 9:
+      counterneighbour = 11;
+      break;
+    case 10:
+      counterneighbour = 12;
+      break;
+    case 11:
+      counterneighbour = 9;
+      break;
+    case 12:
+      counterneighbour = 10;
+      break;
+    case 13:
+      counterneighbour = 17;
+      break;
+    case 14:
+      counterneighbour = 18;
+      break;
+    case 15:
+      counterneighbour = 19;
+      break;
+    case 16:
+      counterneighbour = 20;
+      break;
+    case 17:
+      counterneighbour = 13;
+      break;
+    case 18:
+      counterneighbour = 14;
+      break;
+    case 19:
+      counterneighbour = 15;
+      break;
+    case 20:
+      counterneighbour = 16;
+      break;  
+  }
+  int counteredge = neighbourlocation * n_nb + counterneighbour-1;
+  return counteredge;
 }
 
 //! Monte Carlo Step. Returns summed energy change
-int CellularPotts::KawasakiMove(PDE *PDEfield)
-{
-    
+int CellularPotts::KawasakiMove(PDE *PDEfield) {
     int loop,p;
     //int updated=0;
     thetime++;
@@ -961,9 +909,7 @@ int CellularPotts::KawasakiMove(PDE *PDEfield)
         return 0;
     
     loop=(sizex-2)*(sizey-2);
-    
     for (int i=0;i<loop;i++) {
-        
         // take a random site
         int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
         int x = xy%(sizex-2)+1;
@@ -978,11 +924,8 @@ int CellularPotts::KawasakiMove(PDE *PDEfield)
         
         int kp;
         if (par.periodic_boundaries) {
-            
             // since we are asynchronic, we cannot just copy the borders once
             // every MCS
-            
-            
             if (xp<=0)
                 xp=sizex-2+xp;
             if (yp<=0)
@@ -991,40 +934,25 @@ int CellularPotts::KawasakiMove(PDE *PDEfield)
                 xp=xp-sizex+2;
             if (yp>=sizey-1)
                 yp=yp-sizey+2;
-            
             kp=sigma[xp][yp];
-            
-            
         } else {
-            
             if (xp<=0 || yp<=0
                 || xp>=sizex-1 || yp>=sizey-1)
                 kp=-1;
             else
                 kp=sigma[xp][yp];
-            
         }
-        
-        
         // test for border state (relevant only if we do not use
         // periodic boundaries)
         if (kp!=-1) {
             // Don't even think of copying the special border state into you!
-            
-            
             if ( k  != kp ) {
-                
                 /* Try to exchange sites if sites do not belong to the same cell */
-                
                 // connectivity dissipation:
                 int H_diss=0;
                 //if (!ConnectivityPreservedP(x,y)) H_diss=par.conn_diss;
-                
-                
                 int D_H=KawasakiDeltaH(x,y,xp,yp,PDEfield);
-             
                 if (D_H!=0 && (p=CopyvProb(D_H,H_diss, false))>0) {
-             
                     ExchangeSpin ( x,y,xp,yp );
                     SumDH+=D_H;
                 }
@@ -1032,15 +960,11 @@ int CellularPotts::KawasakiMove(PDE *PDEfield)
             }
         } 
     }
-    
     return SumDH;
-    
 }
 
 //! Monte Carlo Step. Returns summed energy change
-int CellularPotts::IsingMove(PDE *PDEfield)
-{
-    
+int CellularPotts::IsingMove(PDE *PDEfield) {
     int loop,p;
     //int updated=0;
     thetime++;
@@ -1054,7 +978,6 @@ int CellularPotts::IsingMove(PDE *PDEfield)
         int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
         int x = xy%(sizex-2)+1;
         int y = xy/(sizex-2)+1;
-        
 
         int k=sigma[x][y];
         
@@ -1075,132 +998,107 @@ int CellularPotts::IsingMove(PDE *PDEfield)
                           
 
 //! Monte Carlo Step. Returns summed energy change
-int CellularPotts::PottsMove(PDE *PDEfield)
-            {
-                
-                int loop,p;
-                //int updated=0;
-                thetime++;
-                int SumDH=0;
-                
-                loop=(sizex-2)*(sizey-2);
-                              
-                              for (int i=0;i<loop;i++) {
-                                  
-                                  // take a random site
-                                  int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
-                                  int x = xy%(sizex-2)+1;
-                                  int y = xy/(sizex-2)+1;
-                                  
-                                  
-                                  int k=sigma[x][y];
-                                  int new_state=(int)(RANDOM()*par.n_init_cells);
-                                  int D_H=PottsDeltaH(x,y,new_state);
-                                 // cerr << "D_H = " << D_H << endl;
-                                  if (D_H<0 || (p=CopyvProb(D_H,0,false)>0)) {
-                                      
-                                      sigma[x][y]=new_state;
-                                      //cerr << "[ " << x << ", " << y << "]";
-                                      SumDH+=D_H;
-                                      
-                                  }
-                                  //std::cerr << "[ " << D_H << ", p = " << p << " ]";
-                                  
-                              }
-                              
-                              
-                              return SumDH;
-                              
-                          }
+int CellularPotts::PottsMove(PDE *PDEfield) {
+  int loop,p;
+  //int updated=0;
+  thetime++;
+  int SumDH=0;
+  loop=(sizex-2)*(sizey-2);
+
+    for (int i=0;i<loop;i++) {
+       // take a random site
+       int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
+       int x = xy%(sizex-2)+1;
+       int y = xy/(sizex-2)+1;
+       
+       int k=sigma[x][y];
+       int new_state=(int)(RANDOM()*par.n_init_cells);
+       int D_H=PottsDeltaH(x,y,new_state);
+       // cerr << "D_H = " << D_H << endl;
+       if (D_H<0 || (p=CopyvProb(D_H,0,false)>0)) {
+           sigma[x][y]=new_state;
+           //cerr << "[ " << x << ", " << y << "]";
+           SumDH+=D_H;
+       }
+       //std::cerr << "[ " << D_H << ", p = " << p << " ]";
+    }
+    return SumDH;
+}
                           
 
 //! Monte Carlo Step. Returns summed energy change
-int CellularPotts::PottsNeighborMove(PDE *PDEfield)
-{
+int CellularPotts::PottsNeighborMove(PDE *PDEfield) {
+  int loop,p;
+  //int updated=0;
+  thetime++;
+  int SumDH=0;
+  
+  loop=(sizex-2)*(sizey-2);
+  
+  for (int i=0;i<loop;i++) {
+    // take a random site
+    int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
+    int x = xy%(sizex-2)+1;
+    int y = xy/(sizex-2)+1;
+    // take a random neighbour
+    int xyp=(int)(n_nb*RANDOM()+1);
+    int xp = nx[xyp]+x;
+    int yp = ny[xyp]+y;
     
-    int loop,p;
-    //int updated=0;
-    thetime++;
-    int SumDH=0;
+    int k=sigma[x][y];
     
-    loop=(sizex-2)*(sizey-2);
-    
-    for (int i=0;i<loop;i++) {
+    int kp;
+    if (par.periodic_boundaries) {
         
-        // take a random site
-        int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
-        int x = xy%(sizex-2)+1;
-        int y = xy/(sizex-2)+1;
-        // take a random neighbour
-        int xyp=(int)(n_nb*RANDOM()+1);
-        int xp = nx[xyp]+x;
-        int yp = ny[xyp]+y;
+        // since we are asynchronic, we cannot just copy the borders once
+        // every MCS
+        if (xp<=0)
+            xp=sizex-2+xp;
+        if (yp<=0)
+            yp=sizey-2+yp;
+        if (xp>=sizex-1)
+            xp=xp-sizex+2;
+        if (yp>=sizey-1)
+            yp=yp-sizey+2;
         
-        int k=sigma[x][y];
+        kp=sigma[xp][yp];
         
-        int kp;
-        if (par.periodic_boundaries) {
-            
-            // since we are asynchronic, we cannot just copy the borders once
-            // every MCS
-            
-            
-            if (xp<=0)
-                xp=sizex-2+xp;
-            if (yp<=0)
-                yp=sizey-2+yp;
-            if (xp>=sizex-1)
-                xp=xp-sizex+2;
-            if (yp>=sizey-1)
-                yp=yp-sizey+2;
-            
-            kp=sigma[xp][yp];
-            
-            
-        } else {
-            
-            if (xp<=0 || yp<=0
-                || xp>=sizex-1 || yp>=sizey-1)
-                kp=-1;
-            else
-                kp=sigma[xp][yp];
-            
-        }
-        
-        int new_state=(int)(RANDOM()*par.n_init_cells);
-        int D_H=PottsDeltaH(x,y,kp);
-        // cerr << "D_H = " << D_H << endl;
-        if (D_H<0 || (p=CopyvProb(D_H,0,false)>0)) {
-            
-            sigma[x][y]=kp;
-            //cerr << "[ " << x << ", " << y << "]";
-            SumDH+=D_H;
-            
-        }
-        //std::cerr << "[ " << D_H << ", p = " << p << " ]";
-        
+    } else {
+        if (xp<=0 || yp<=0
+          || xp>=sizex-1 || yp>=sizey-1)
+          kp=-1;
+        else
+          kp=sigma[xp][yp];
     }
-    return SumDH;
+    
+    int new_state=(int)(RANDOM()*par.n_init_cells);
+    int D_H=PottsDeltaH(x,y,kp);
+    // cerr << "D_H = " << D_H << endl;
+    if (D_H<0 || (p=CopyvProb(D_H,0,false)>0)) {
+        sigma[x][y]=kp;
+        //cerr << "[ " << x << ", " << y << "]";
+        SumDH+=D_H;
+    }
+    //std::cerr << "[ " << D_H << ", p = " << p << " ]";
+  }
+  return SumDH;
 }
 
 
 /** A simple method to plot all sigma's in window
     without the black lines */
 void CellularPotts::PlotSigma(Graphics *g, int mag) {
-  
   for (int x=1;x<sizex-1;x++)
     for (int y=1;y<sizey-1;y++) {
       for (int xm=0;xm<mag;xm++)
-	for (int ym=0;ym<mag;ym++)
+  for (int ym=0;ym<mag;ym++)
       g->Point( sigma[x][y], mag*x+xm, mag*y+ym);
   }
-  
 }
 
 
 /** Plot in black & white for the Ising model **/
 void CellularPotts::PlotIsing(Graphics *g, int mag) {
-    
     for (int x=1;x<sizex-1;x++)
         for (int y=1;y<sizey-1;y++) {
             for (int xm=0;xm<mag;xm++)
@@ -1211,7 +1109,6 @@ void CellularPotts::PlotIsing(Graphics *g, int mag) {
 
 /** A simple method to count all sigma's and write the output to an ostream */
 void CellularPotts::CountSigma(std::ostream &os) {
-
     int *sum_sigma = new int[Cell::MaxSigma()];
     for (int i=0;i<Cell::MaxSigma();i++) {
         sum_sigma[i]=0;
@@ -1232,7 +1129,6 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
 {
   int i, j,q;
   int **neighbours=0;
-  
   
   /* Allocate neighbour matrix */
   if (get_neighbours) {
@@ -1258,76 +1154,76 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
 
       int colour;
       if (sigma[i][j]<=0) {
-	colour=0;
+  colour=0;
       } else {
-	colour = (*cell)[sigma[i][j]].Colour();
-	//colour = sigma[i][j];
+  colour = (*cell)[sigma[i][j]].Colour();
+  //colour = sigma[i][j];
       }
       
       if (g && sigma[i][j]>0)  /* if draw */ 
         g->Point( colour, 2*i, 2*j);
       
       if ( sigma[i][j] != sigma[i+1][j] )  /* if cellborder */ /* etc. etc. */
-	{
-	  if (g) 
-	    g->Point( 1, 2*i+1, 2*j );
-	  if (get_neighbours) {
-	    if (sigma[i][j]>0) {
-	      for (q=0;q<(int)cell->size();q++)
-		if (neighbours[sigma[i][j]][q]==EMPTY) { 
-		  neighbours[sigma[i][j]][q]=sigma[i+1][j];  
-		  break;
-		}
-		else
-		  if (neighbours[sigma[i][j]][q]==sigma[i+1][j]) 
-		    break;
-	    }
-	    if (sigma[i+1][j]>0) {
-	      for (q=0;q<(int)cell->size();q++)
-		if (neighbours[sigma[i+1][j]][q]==EMPTY) { 
-		  neighbours[sigma[i+1][j]][q]=sigma[i][j]; 
-		  break;
-		}
-		else
-		  if (neighbours[sigma[i+1][j]][q]==sigma[i][j]) 
-		    break;
-	    }
-	  }
-	} 
+  {
+    if (g) 
+      g->Point( 1, 2*i+1, 2*j );
+    if (get_neighbours) {
+      if (sigma[i][j]>0) {
+        for (q=0;q<(int)cell->size();q++)
+    if (neighbours[sigma[i][j]][q]==EMPTY) { 
+      neighbours[sigma[i][j]][q]=sigma[i+1][j];  
+      break;
+    }
+    else
+      if (neighbours[sigma[i][j]][q]==sigma[i+1][j]) 
+        break;
+      }
+      if (sigma[i+1][j]>0) {
+        for (q=0;q<(int)cell->size();q++)
+    if (neighbours[sigma[i+1][j]][q]==EMPTY) { 
+      neighbours[sigma[i+1][j]][q]=sigma[i][j]; 
+      break;
+    }
+    else
+      if (neighbours[sigma[i+1][j]][q]==sigma[i][j]) 
+        break;
+      }
+    }
+  } 
       else
         if (g && sigma[i][j]>0) 
           g->Point( colour, 2*i+1, 2*j );
       
       
       if ( sigma[i][j] != sigma[i][j+1] ) {
-	
+  
         if (g) 
-	  g->Point( 1, 2*i, 2*j+1 );
-	
-	if (get_neighbours) {
-	  if (sigma[i][j]>0) {
-	    for (q=0;q<(int)cell->size();q++)
-	      if (neighbours[sigma[i][j]][q]==EMPTY) { 
-		neighbours[sigma[i][j]][q]=sigma[i][j+1];  
-		break; 
-	      }
-	      else
-		if (neighbours[sigma[i][j]][q]==sigma[i][j+1]) 
-		  break;
-	  }
-	  
-	  if (sigma[i][j+1]>0) {
-	    
-	    for (q=0;q<(int)cell->size();q++)
-	      if (neighbours[sigma[i][j+1]][q]==EMPTY) { 
-		neighbours[sigma[i][j+1]][q]=sigma[i][j]; 
-		break;
-	      }
-	      else
-		if (neighbours[sigma[i][j+1]][q]==sigma[i][j]) 
-		  break;
-	  }
-	}
+    g->Point( 1, 2*i, 2*j+1 );
+  
+  if (get_neighbours) {
+    if (sigma[i][j]>0) {
+      for (q=0;q<(int)cell->size();q++)
+        if (neighbours[sigma[i][j]][q]==EMPTY) { 
+    neighbours[sigma[i][j]][q]=sigma[i][j+1];  
+    break; 
+        }
+        else
+    if (neighbours[sigma[i][j]][q]==sigma[i][j+1]) 
+      break;
+    }
+    
+    if (sigma[i][j+1]>0) {
+      
+      for (q=0;q<(int)cell->size();q++)
+        if (neighbours[sigma[i][j+1]][q]==EMPTY) { 
+    neighbours[sigma[i][j+1]][q]=sigma[i][j]; 
+    break;
+        }
+        else
+    if (neighbours[sigma[i][j+1]][q]==sigma[i][j]) 
+      break;
+    }
+  }
       } 
       else
         if (g && sigma[i][j]>0) 
@@ -1336,7 +1232,7 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
       /* Cells that touch eachother's corners are NO neighbours */ 
       
       if (sigma[i][j]!=sigma[i+1][j+1] 
-	  || sigma[i+1][j]!=sigma[i][j+1] ) { 
+    || sigma[i+1][j]!=sigma[i][j+1] ) { 
         if (g) 
           g->Point( 1, 2*i+1, 2*j+1 ); 
       }
@@ -1397,13 +1293,13 @@ void CellularPotts::ReadZygotePicture(void) {
       pixel[pix]='\0';
 
       for (c=0;c<cells;c++) {
-	if (!(strcmp(pixelmap[c],pixel))) {
-	  if ( (sigma[offs_x+i][offs_y+j]=c) ) {
-	    // if c is _NOT_ medium (then c=0)
-	    // assign pixel values from "sigmamax"
-	    sigma[offs_x+i][offs_y+j]+=(Cell::MaxSigma()-1);
-	  }
-	}
+  if (!(strcmp(pixelmap[c],pixel))) {
+    if ( (sigma[offs_x+i][offs_y+j]=c) ) {
+      // if c is _NOT_ medium (then c=0)
+      // assign pixel values from "sigmamax"
+      sigma[offs_x+i][offs_y+j]+=(Cell::MaxSigma()-1);
+    }
+  }
       }
     }
   free(pixelmap[0]);
@@ -1450,9 +1346,9 @@ void CellularPotts::ConstructInitCells (Dish &beast) {
   {
     for (vector<Cell>::iterator c=cell->begin();c!=cell->end();c++) {
       if (par.target_area>=0) {
-	c->SetTargetArea(par.target_area);
-      } else	 {
-	c->SetTargetArea(mean_area);
+  c->SetTargetArea(par.target_area);
+      } else   {
+  c->SetTargetArea(mean_area);
       }
     }
   }
@@ -1470,9 +1366,9 @@ void CellularPotts::MeasureCellSizes(void) {
   for (int x=1;x<sizex-1;x++) {
     for (int y=1;y<sizey-1;y++) {
       if (sigma[x][y] > 0) {
-	(*cell)[sigma[x][y]].IncrementTargetArea();
-	(*cell)[sigma[x][y]].IncrementArea();
-	(*cell)[sigma[x][y]].AddSiteToMoments(x,y);
+  (*cell)[sigma[x][y]].IncrementTargetArea();
+  (*cell)[sigma[x][y]].IncrementArea();
+  (*cell)[sigma[x][y]].AddSiteToMoments(x,y);
       }
     }
   }
@@ -1492,9 +1388,9 @@ void CellularPotts::MeasureCellSize(Cell &c) {
   for (int x=1;x<sizex-1;x++) {
     for (int y=1;y<sizey-1;y++) {
       if (sigma[x][y] == c.sigma) {
-	(*cell)[sigma[x][y]].IncrementTargetArea();
-	(*cell)[sigma[x][y]].IncrementArea();
-	(*cell)[sigma[x][y]].AddSiteToMoments(x,y);
+  (*cell)[sigma[x][y]].IncrementTargetArea();
+  (*cell)[sigma[x][y]].IncrementArea();
+  (*cell)[sigma[x][y]].AddSiteToMoments(x,y);
       }
     }
   }
@@ -1520,22 +1416,22 @@ Dir *CellularPotts::FindCellDirections(void) const
       MemoryWarning();
     else
       if ((sumxx=(double *)malloc(cell->size()*sizeof(double)))==NULL) 
-	MemoryWarning();
+  MemoryWarning();
       else
-	if((sumxy=(double *)malloc(cell->size()*sizeof(double)))==NULL) 
-	  MemoryWarning();
-	else
-	  if((sumyy=(double *)malloc(cell->size()*sizeof(double)))==NULL)
-	    MemoryWarning();
-	  else
-	    if((n=(double *)malloc(cell->size()*sizeof(double)))==NULL) 
-	      MemoryWarning();
+  if((sumxy=(double *)malloc(cell->size()*sizeof(double)))==NULL) 
+    MemoryWarning();
+  else
+    if((sumyy=(double *)malloc(cell->size()*sizeof(double)))==NULL)
+      MemoryWarning();
+    else
+      if((n=(double *)malloc(cell->size()*sizeof(double)))==NULL) 
+        MemoryWarning();
   
   
   if ( !(celldir=new Dir[cell->size()]) )
     MemoryWarning();
 
-  	
+    
   /* Initialization of the variables */
    
   for (int i=0;i<(int)cell->size();i++) {
@@ -1555,23 +1451,23 @@ Dir *CellularPotts::FindCellDirections(void) const
   for (int x=0;x<sizex;x++)
     for (int y=0;y<sizey;y++) 
       if (sigma[x][y]>0) {
-	sumx[0]+=(double)x;
-	sumy[0]+=(double)y;
-	sumxx[0]+=(double)x*x;
-	sumxy[0]+=(double)x*y;
-	sumyy[0]+=(double)y*y;
-	
-	n[0]++;
-	
-	sumx[sigma[x][y]]+=(double)x;
-	sumy[sigma[x][y]]+=(double)y;
-	
-	sumxx[sigma[x][y]]+=(double)x*x;
-	sumxy[sigma[x][y]]+=(double)x*y;
-	sumyy[sigma[x][y]]+=(double)y*y;
-	
-	n[sigma[x][y]]++;
-	
+  sumx[0]+=(double)x;
+  sumy[0]+=(double)y;
+  sumxx[0]+=(double)x*x;
+  sumxy[0]+=(double)x*y;
+  sumyy[0]+=(double)y*y;
+  
+  n[0]++;
+  
+  sumx[sigma[x][y]]+=(double)x;
+  sumy[sigma[x][y]]+=(double)y;
+  
+  sumxx[sigma[x][y]]+=(double)x*x;
+  sumxy[sigma[x][y]]+=(double)x*y;
+  sumyy[sigma[x][y]]+=(double)y*y;
+  
+  n[sigma[x][y]]++;
+  
       }
   
   /* Compute the principal axes for all cells */
@@ -1581,32 +1477,32 @@ Dir *CellularPotts::FindCellDirections(void) const
     
       if (n[i]>10) {
       
-	xmean=((double)sumx[i])/((double)n[i]);
-	ymean=((double)sumy[i])/((double)n[i]);
+  xmean=((double)sumx[i])/((double)n[i]);
+  ymean=((double)sumy[i])/((double)n[i]);
 
-	sxx=(double)(sumxx[i])-((double)(sumx[i]*sumx[i]))/(double)n[i];
-	sxx=sxx/(double)(n[i]-1);
+  sxx=(double)(sumxx[i])-((double)(sumx[i]*sumx[i]))/(double)n[i];
+  sxx=sxx/(double)(n[i]-1);
 
-	sxy=(double)(sumxy[i])-((double)(sumx[i]*sumy[i]))/(double)n[i];
-	sxy=sxy/(double)(n[i]-1);
+  sxy=(double)(sumxy[i])-((double)(sumx[i]*sumy[i]))/(double)n[i];
+  sxy=sxy/(double)(n[i]-1);
 
-	syy=(double)(sumyy[i])-((double)(sumy[i]*sumy[i]))/(double)n[i];
-	syy=syy/(double)(n[i]-1);
+  syy=(double)(sumyy[i])-((double)(sumy[i]*sumy[i]))/(double)n[i];
+  syy=syy/(double)(n[i]-1);
 
-	D=sqrt( (sxx+syy)*(sxx+syy)-4.*(sxx*syy-sxy*sxy) );
-	lb1=(sxx+syy+D)/2.;lb2=(sxx+syy-D)/2.;
-	celldir[i].lb1=lb1; celldir[i].lb2=lb2; 
+  D=sqrt( (sxx+syy)*(sxx+syy)-4.*(sxx*syy-sxy*sxy) );
+  lb1=(sxx+syy+D)/2.;lb2=(sxx+syy-D)/2.;
+  celldir[i].lb1=lb1; celldir[i].lb2=lb2; 
       }
       if (sxy==0.0)
-	celldir[i].bb1=1.; 
+  celldir[i].bb1=1.; 
       else
-	celldir[i].bb1=sxy/(lb1-syy);
+  celldir[i].bb1=sxy/(lb1-syy);
     
       if (fabs(celldir[i].bb1)<.00001) {
-	if (celldir[i].bb1>0.) 
-	  celldir[i].bb1=.00001;
-	else 
-	  celldir[i].bb1=-.00001;
+  if (celldir[i].bb1>0.) 
+    celldir[i].bb1=.00001;
+  else 
+    celldir[i].bb1=-.00001;
       }
  
       celldir[i].aa1=ymean-xmean*celldir[i].bb1;
@@ -1614,7 +1510,7 @@ Dir *CellularPotts::FindCellDirections(void) const
     
       celldir[i].aa2=ymean-celldir[i].bb2*xmean;     
     }
-		  
+      
   }
 
   /* bevrijd gealloceerd geheugen */
@@ -1660,81 +1556,81 @@ void CellularPotts::DivideCells(vector<bool> which_cells)
   /* division */
   {for (int i=0;i<sizex;i++)
       for (int j=0;j<sizey;j++) 
-	if (sigma[i][j]>0) // i.e. not medium and not border state (-1)
-	  { 
+  if (sigma[i][j]>0) // i.e. not medium and not border state (-1)
+    { 
       
       
-	    // Pointer to mother. Warning: Renew pointer after a new
-	    // cell is added (push_back). Then, the array *cell is relocated and
-	    // the pointer will be lost...
+      // Pointer to mother. Warning: Renew pointer after a new
+      // cell is added (push_back). Then, the array *cell is relocated and
+      // the pointer will be lost...
       
-	    Cell *motherp=&((*cell)[sigma[i][j]]);
-	    Cell *daughterp;
+      Cell *motherp=&((*cell)[sigma[i][j]]);
+      Cell *daughterp;
       
-	    /* Divide if NOT medium and if DIV bit set or divide_always is set */
-	    // if which_cells is given, divide only if the cell
-	    // is marked in which_cells.
-	    if  ( !which_cells.size() || which_cells[motherp->sigma] )    {
-	
-	      if (!(divflags[ motherp->Sigma() ]) ) {
-	  
-		// add daughter cell, copying states of mother
-		daughterp=new Cell(*(motherp->owner));
-		daughterp->CellBirth(*motherp);
-		cell->push_back(*daughterp);
-	  
-		// renew pointer to mother
-		motherp=&((*cell)[sigma[i][j]]);
+      /* Divide if NOT medium and if DIV bit set or divide_always is set */
+      // if which_cells is given, divide only if the cell
+      // is marked in which_cells.
+      if  ( !which_cells.size() || which_cells[motherp->sigma] )    {
+  
+        if (!(divflags[ motherp->Sigma() ]) ) {
+    
+    // add daughter cell, copying states of mother
+    daughterp=new Cell(*(motherp->owner));
+    daughterp->CellBirth(*motherp);
+    cell->push_back(*daughterp);
+    
+    // renew pointer to mother
+    motherp=&((*cell)[sigma[i][j]]);
 
-		divflags[ motherp->Sigma() ]=daughterp->Sigma();
-		delete daughterp;
-	  
-		// array may be relocated after "push_back"
-	  
-		// renew daughter pointers
-		daughterp=&(cell->back());
-	  
-		/* administration on the onset of mitosis */
-	  
-		/* Ancestry is taken care of in copy constructor of Cell 
-		   see cell.hh: Cell(const Cell &src, bool newcellP=false) : Cytoplasm(src) {} */
-	  
-		/* inherit  polarity of mother */
-		// All that needs to be copied is copied in the copy constructor
-		// of Cell and in the default copy constr. of its base class Cytoplasm
-		// note: also the celltype is inherited
-	  
-
-
-	      } else {
-		daughterp=&((*cell)[ divflags[motherp->Sigma()] ]);
-	      }
-	    
-	    
-	      /* Now the actual division takes place */
-	    
-	      /* If celldirections where not yet computed: do it now */
-	      if (!celldir) 
-		celldir=FindCellDirections();
-	
-	      /* if site is below the minor axis of the cell: sigma of new cell */
-	      if (j>((int)(celldir[motherp->sigma].aa2+
-			   celldir[motherp->sigma].bb2*(double)i))) { 
-
-		motherp->DecrementArea();
-		motherp->DecrementTargetArea();
-		motherp->RemoveSiteFromMoments(i,j);
-		sigma[i][j]=daughterp->Sigma();
-		daughterp->AddSiteToMoments(i,j);
-		daughterp->IncrementArea();
-		daughterp->IncrementTargetArea();
-	  
-	      } 
+    divflags[ motherp->Sigma() ]=daughterp->Sigma();
+    delete daughterp;
+    
+    // array may be relocated after "push_back"
+    
+    // renew daughter pointers
+    daughterp=&(cell->back());
+    
+    /* administration on the onset of mitosis */
+    
+    /* Ancestry is taken care of in copy constructor of Cell 
+       see cell.hh: Cell(const Cell &src, bool newcellP=false) : Cytoplasm(src) {} */
+    
+    /* inherit  polarity of mother */
+    // All that needs to be copied is copied in the copy constructor
+    // of Cell and in the default copy constr. of its base class Cytoplasm
+    // note: also the celltype is inherited
+    
 
 
-	    }
+        } else {
+    daughterp=&((*cell)[ divflags[motherp->Sigma()] ]);
+        }
       
-	  }
+      
+        /* Now the actual division takes place */
+      
+        /* If celldirections where not yet computed: do it now */
+        if (!celldir) 
+    celldir=FindCellDirections();
+  
+        /* if site is below the minor axis of the cell: sigma of new cell */
+        if (j>((int)(celldir[motherp->sigma].aa2+
+         celldir[motherp->sigma].bb2*(double)i))) { 
+
+    motherp->DecrementArea();
+    motherp->DecrementTargetArea();
+    motherp->RemoveSiteFromMoments(i,j);
+    sigma[i][j]=daughterp->Sigma();
+    daughterp->AddSiteToMoments(i,j);
+    daughterp->IncrementArea();
+    daughterp->IncrementTargetArea();
+    
+        } 
+
+
+      }
+      
+    }
   }  
   if (celldir) 
     delete[] (celldir);
@@ -1764,23 +1660,23 @@ int CellularPotts::ThrowInCells(int n,int cellsize) {
     // check overlap
     for (int x=0;x<cellsize;x++)
       for (int y=0;y<cellsize;y++)
-	if ( ( 
-	      ( (x-cellsize/2)*(x-cellsize/2)+(y-cellsize/2)*(y-cellsize/2) )<
-	      ( (cellsize/2)*(cellsize/2))) &&
-	     ( x0+x<sizex && y0+y<sizey ) )
-	  if (sigma[x0+x][y0+y]) {
-	    overlap=true;
-	    break;
-	  }
+  if ( ( 
+        ( (x-cellsize/2)*(x-cellsize/2)+(y-cellsize/2)*(y-cellsize/2) )<
+        ( (cellsize/2)*(cellsize/2))) &&
+       ( x0+x<sizex && y0+y<sizey ) )
+    if (sigma[x0+x][y0+y]) {
+      overlap=true;
+      break;
+    }
     
     if (!overlap) {
       for (int x=0;x<cellsize;x++)
-	for (int y=0;y<cellsize;y++)
-	  if ( ( 
-		( (x-cellsize/2)*(x-cellsize/2)+(y-cellsize/2)*(y-cellsize/2) )<
-		( (cellsize/2)*(cellsize/2))) &&
-	       ( x0+x<sizex && y0+y<sizey ) )
-	    sigma[x0+x][y0+y]=cellnum;
+  for (int y=0;y<cellsize;y++)
+    if ( ( 
+    ( (x-cellsize/2)*(x-cellsize/2)+(y-cellsize/2)*(y-cellsize/2) )<
+    ( (cellsize/2)*(cellsize/2))) &&
+         ( x0+x<sizex && y0+y<sizey ) )
+      sigma[x0+x][y0+y]=cellnum;
       
       cellnum++;
     }
@@ -1881,32 +1777,32 @@ int CellularPotts::GrowInCells(int n_cells, int cell_size, int sx, int sy, int o
   {for (int i=0;i<cell_size;i++) {
     for (int x=1;x<sizex-1;x++)
       for (int y=1;y<sizey-1;y++) {
-	
-	if (sigma[x][y]==0) {
-	  // take a random neighbour
-	  int xyp=(int)(8*RANDOM()+1);
-	  int xp = nx[xyp]+x;
-	  int yp = ny[xyp]+y;
-	  int kp;
-	  //  NB removing this border test yields interesting effects :-)
-	  // You get a ragged border, which you may like!
-	  if ((kp=sigma[xp][yp])!=-1)
-	    if (kp>(cellnum-n_cells))
-	      new_sigma[x][y]=kp;
-	    else
-	      new_sigma[x][y]=0;
-	  else
-	    new_sigma[x][y]=0;
-	  
-	} else {
-	  new_sigma[x][y]=sigma[x][y];
-	}
+  
+  if (sigma[x][y]==0) {
+    // take a random neighbour
+    int xyp=(int)(8*RANDOM()+1);
+    int xp = nx[xyp]+x;
+    int yp = ny[xyp]+y;
+    int kp;
+    //  NB removing this border test yields interesting effects :-)
+    // You get a ragged border, which you may like!
+    if ((kp=sigma[xp][yp])!=-1)
+      if (kp>(cellnum-n_cells))
+        new_sigma[x][y]=kp;
+      else
+        new_sigma[x][y]=0;
+    else
+      new_sigma[x][y]=0;
+    
+  } else {
+    new_sigma[x][y]=sigma[x][y];
+  }
       }
     
     // copy sigma to new_sigma, but do not touch the border!
-	  {  for (int x=1;x<sizex-1;x++) {
+    {  for (int x=1;x<sizex-1;x++) {
       for (int y=1;y<sizey-1;y++) {
-	sigma[x][y]=new_sigma[x][y];
+  sigma[x][y]=new_sigma[x][y];
       }
     }
   }}}
@@ -1976,16 +1872,16 @@ bool CellularPotts::ConnectivityPreservedP(int x, int y) {
     // do not enforce constraint at two cell interface(no medium)
     if (s_nb) {
       for (j=stackp;j>=0;j--) {
-	if (s_nb==stack[j]) {
-	  on_stack_p=true;
-	  break;
-	}
+  if (s_nb==stack[j]) {
+    on_stack_p=true;
+    break;
+  }
       }
       if (!on_stack_p) {
-	if (stackp>6) {
-	  cerr << "Stack overflow, stackp=" << stackp << "\n";
-	}
-	stack[++stackp]=s_nb;
+  if (stackp>6) {
+    cerr << "Stack overflow, stackp=" << stackp << "\n";
+  }
+  stack[++stackp]=s_nb;
       }
     } else {
       one_of_neighbors_medium=true;
@@ -2022,8 +1918,8 @@ double CellularPotts::MeanCellArea(void) const {
   vector<Cell>::iterator c=cell->begin(); ++c;
   
   for (; 
-	c!=cell->end();
-	c++) {
+  c!=cell->end();
+  c++) {
     
     sum_area+=c->Area();
     sum_length+=c->Length();
@@ -2058,7 +1954,7 @@ void CellularPotts::SetRandomTypes(void) {
        c++) {
     
     int celltype = RandomNumber(Cell::maxtau);
-      cerr << "Setting celltype " << celltype << endl;
+    //cerr << "Setting celltype " << celltype << endl;
     c->setTau(celltype);
     
   } 
@@ -2080,13 +1976,13 @@ void CellularPotts::GrowAndDivideCells(int growth_rate) {
       c->SetTargetArea(c->TargetArea()+growth_rate);
     
       if (c->Area()>par.target_area) {
-	which_cells[c->Sigma()]=true;
+  which_cells[c->Sigma()]=true;
       } else {
-	which_cells[c->Sigma()]=false;
+  which_cells[c->Sigma()]=false;
       }
 
       if (c->chem[1]<0.9) { //arbitrary oxygen threshold for the moment
-	c->setTau(3);
+  c->setTau(3);
       }
     } else {
       which_cells[c->Sigma()]=false;
@@ -2110,7 +2006,7 @@ double CellularPotts::DrawConvexHull(Graphics *g, int color) {
   for (int x=1;x<sizex-1;x++) 
     for (int y=1;y<sizey-1;y++) {
       if (sigma[x][y]) {
-	np++;
+  np++;
       }
     }
 
@@ -2120,7 +2016,7 @@ double CellularPotts::DrawConvexHull(Graphics *g, int color) {
   for (int x=1;x<sizex-1;x++) 
     for (int y=1;y<sizey-1;y++) {
       if (sigma[x][y]) {
-	p[pc++]=Point(x,y);
+  p[pc++]=Point(x,y);
       }
     }
 
@@ -2162,7 +2058,7 @@ double CellularPotts::Compactness(double *res_compactness, double *res_area, dou
   for (int x=1;x<sizex-1;x++) 
     for (int y=1;y<sizey-1;y++) {
       if (sigma[x][y]) {
-	np++;
+  np++;
       }
     }
 
@@ -2172,7 +2068,7 @@ double CellularPotts::Compactness(double *res_compactness, double *res_area, dou
   for (int x=1;x<sizex-1;x++) 
     for (int y=1;y<sizey-1;y++) {
       if (sigma[x][y]) {
-	p[pc++]=Point(x,y);
+  p[pc++]=Point(x,y);
       }
     }
 
