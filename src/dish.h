@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -23,7 +23,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 /*! \class Dish
   \brief The virtual Petri dish.
-  
   Hosts the cells with states and the CA-plane.
 */
 
@@ -38,11 +37,15 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "ca.h"
 
 namespace ColourMode {
-  enum { State,CellType,Sigma,Auxilliary };
+  enum {
+    State,
+    CellType,
+    Sigma,
+    Auxilliary
+  };
 }
 
 class Dish {
-
   friend class Info;
 
 public:
@@ -59,7 +62,6 @@ public:
   void ConstructorBody(void);
   
   virtual ~Dish();
- 
   /*! \brief Plot the Dish to graphics window g.
 
   Simply calls CPM->Plot.

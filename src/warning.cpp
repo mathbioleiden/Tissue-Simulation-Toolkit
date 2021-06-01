@@ -59,7 +59,7 @@ int Quiet=0;
  * ERROR: scream and die quickly.
  */
 
-void error(char * fmt, ...)
+void error(const char * fmt, ...)
 {
     va_list ap;
 
@@ -77,7 +77,7 @@ void error(char * fmt, ...)
  * and added an automatic "\n"
  */
 
-void warning(char * fmt, ...)
+void warning(const char * fmt, ...)
 {
   va_list ap;
   if (Quiet) return;

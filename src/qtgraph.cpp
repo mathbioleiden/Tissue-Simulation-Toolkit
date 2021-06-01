@@ -24,10 +24,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qpainter.h>
-//#include <q3picture.h>
 #include <QPicture>
 #include <QPalette>
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QImageWriter>
@@ -38,7 +36,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <qtimer.h>
 #include <qpixmap.h>
 #include <qimage.h>
-//#include <q3strlist.h>
 #include <QResizeEvent>
 #include "qtgraph.h"
 #include "parameter.h"
@@ -46,21 +43,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 using namespace std;
 QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
 {
-	mag = 1.;
-	if (movie_file) {
+    mag = 1.;
+    if (movie_file) {
     throw("QtGraphics in qtgraph.cc: Sorry, movie writing not (yet) implemented\n");
   }
-
   Resize(xfield, yfield);
-
-  //Instead of painting in the window,
-  //we choose to output to the QPicture
-  //object:
-  //picture->begin( &pic );
-  //We draw a rectangle. Not to the screen,
-  //but to the QPicture object:
-  //picture->drawRect( 20, 20, 160, 160 );
-  //picture->end();
   
   //Save what has been drawn to the QPicture
   //object to a file, called file.pic. When
@@ -72,14 +59,13 @@ QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
   // Allocate colors
   pens = new QPen[256];
 	
-  
   ReadColorTable(pens);
  
-	// Set background color of widget (i.e. the color outside the Pixmap that
-	// will be shown after resizing the window)
-	QPalette pal = palette();
-	pal.setColor(backgroundRole(), pens[0].color());
-	setPalette(pal);
+  // Set background color of widget (i.e. the color outside the Pixmap that
+  // will be shown after resizing the window)
+  QPalette pal = palette();
+  pal.setColor(backgroundRole(), pens[0].color());
+  setPalette(pal);
 	
   timer = new QTimer( this );
   connect( timer, SIGNAL(timeout()), SLOT(TimeStepWrap()) );
@@ -91,6 +77,7 @@ QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)
   key=-1;
 }
 
+
 QtGraphics::~QtGraphics() {
   //cout << "DESTROY WIDGET\n";
   delete picture;
@@ -98,19 +85,30 @@ QtGraphics::~QtGraphics() {
   delete pixmap;
 }
 
+
 void QtGraphics::Point(int colour, int i, int j) {
   picture->setPen( pens[colour] );
   picture->drawPoint( i, j);
 }
 
+
+void QtGraphics::PointAlpha(int alpha, int i, int j) {
+  picture->setPen( QPen(QColor(0,0,0,alpha)) );
+  picture->drawPoint( i, j);
+}
+
+
 void QtGraphics::BeginScene(void) {
   picture->begin(pixmap);
+  //picture->scale(mag);
 }
+
 
 void QtGraphics::EndScene(void) {
   picture->end();
   update();
 }
+
 
 void QtGraphics::Line( int x1, int y1,int x2,int y2,int colour ) {
   picture->setPen( pens[colour] );
@@ -121,21 +119,15 @@ void QtGraphics::ReadColorTable(QPen *pens)
 {
   char name[50];
   sprintf(name,"default.ctb");
-   
   FILE *fpc;
   if ((fpc = fopen(name,"r")) == NULL) {
-     
     char *message=new char[2000];
     if (message==0) {
       throw "Memory panic in QtGraphics::ReadColorTable\n";
     }
-     
     sprintf(message,"QtGraphics::ReadColorTable: Colormap '%s' not found.",name);
-     
     throw(message);
-     
   }
-   
   int r,g,b;
   int i;
   while (fscanf(fpc,"%d",&i) != EOF) {
@@ -143,21 +135,30 @@ void QtGraphics::ReadColorTable(QPen *pens)
     QPen p(QColor(r,g,b));
     pens[i]=p;
   }
-   
   fclose(fpc);
-
+}
+   
+void QtGraphics::Arrow( int x1, int y1,int x2,int y2,int colour ) {
+  picture->setPen( pens[colour] );
+  picture->drawLine( x1, y1, x2, y2);
+  int b1=(int) 2*sqrt(2)*(x1-x2-y1+y2)/((sqrt(pow(x2-x1,2)+pow(y2-y1,2))));
+  int b2=(int) 2*sqrt(2)*(x1-x2+y1-y2)/((sqrt(pow(x2-x1,2)+pow(y2-y1,2))));
+  int c1=(int) 2*sqrt(2)*(x1-x2+y1-y2)/((sqrt(pow(x2-x1,2)+pow(y2-y1,2))));
+  int c2=(int) 2*sqrt(2)*(-x1+x2+y1-y2)/((sqrt(pow(x2-x1,2)+pow(y2-y1,2))));
+  picture->drawLine(x2,y2,x2+b1,y2+b2);
+  picture->drawLine(x2,y2,x2+c1,y2+c2);
 }
 
-void QtGraphics::Resize(int xfield, int yfield)
-{
+
+void QtGraphics::Resize(int xfield, int yfield) {
    resize( xfield * mag, yfield  * mag);
    init_size_x = xfield;
    init_size_y = yfield;
    
    if (xfield > yfield) {
-                mag = (double)yfield / (double)init_size_y;
-        } else {
-                mag = (double)xfield / (double)init_size_x;
+     mag = (double)yfield / (double)init_size_y;
+   } else {
+     mag = (double)xfield / (double)init_size_x;
    }
    pixmap=new QPixmap(xfield,yfield);
 }
@@ -171,23 +172,28 @@ void QtGraphics::paintEvent( QPaintEvent* ) {
   win.drawPixmap(QPoint(0,0),*pixmap);  
 }
 
+
 void QtGraphics::mousePressEvent( QMouseEvent *e) {
-  mouse_x=e->x();
-  mouse_y=e->y();
-  mouse_button=e->button();
+  mouse_x = e->pos().x();
+  mouse_y = e->pos().y();
+  mouse_button = e->button();
 }
+
 
 void QtGraphics::mouseReleaseEvent( QMouseEvent *) {
   mouse_button=Qt::NoButton;
 }
 
+
 void QtGraphics::keyPressEvent( QKeyEvent *e) {
   key = e->key();
 }
 
+
 void QtGraphics::keyReleaseEvent( QKeyEvent *e) {
   key=-1;
 }
+
 
 void QtGraphics::TimeStepWrap(void) {
   static int t=0;
@@ -201,8 +207,8 @@ void QtGraphics::TimeStepWrap(void) {
   }
 }
 
-int QtGraphics::GetXYCoo(int *X, int *Y)
-{
+
+int QtGraphics::GetXYCoo(int *X, int *Y) {
   *X = mouse_x;
   *Y = mouse_y;
   if (mouse_button != Qt::NoButton){
@@ -227,13 +233,13 @@ int QtGraphics::GetXYCoo(int *X, int *Y)
   return 0;
 }
 
+
 void QtGraphics::Write(char *fname, int quality) {
   if (fname==0) {
     throw("QtGraphics::Write: empty filename!\n");
   }
-  
-    // replay the picture on image
-    // and write it to fname
+  // replay the picture on image
+  // and write it to fname
   QString imname(fname);
   
   // Get file extension to infer desired image format
@@ -252,18 +258,14 @@ void QtGraphics::Write(char *fname, int quality) {
     cerr << "\n";
   } 
 }
-  
+
+
 void QtGraphics::resizeEvent(QResizeEvent *event) {
-	qreal old_width=event->oldSize().width();
-	qreal old_heigth=event->oldSize().height();	
-	qreal new_width=event->size().width(); 
-	qreal new_height=event->size().height();
-	
-	if (new_width > new_height) {
-		mag = (double)new_height / (double)init_size_y;
-	} else {
-		mag = (double)new_width / (double)init_size_x;
-	}
-	
-	
+  qreal new_width=event->size().width(); 
+  qreal new_height=event->size().height();
+  if (new_width > new_height) {
+    mag = (double)new_height / (double)init_size_y;
+  } else {
+    mag = (double)new_width / (double)init_size_x;
+  }
 }

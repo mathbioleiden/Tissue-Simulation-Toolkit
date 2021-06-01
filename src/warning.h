@@ -44,8 +44,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 extern "C" { 
 #endif
 
-void error(char *, ...);
-void warning(char *, ...);
+void error(const char *, ...);
+void warning(const char *, ...);
 
 #ifdef __cplusplus
 }

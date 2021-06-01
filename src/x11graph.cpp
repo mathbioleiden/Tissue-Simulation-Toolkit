@@ -54,7 +54,6 @@ extern int errno;
 using namespace std;
 
 X11Graphics::X11Graphics(int xsize, int ysize, const char *movie_file) : Graphics() {
-  
   // initialisation of data members
   count=0;
   title=strdup("Cellular Potts");
@@ -66,14 +65,12 @@ X11Graphics::X11Graphics(int xsize, int ysize, const char *movie_file) : Graphic
   yfield=ysize;
 
   pseudoCol8=1;
-  
   old_window_name=0;
 
   // X11Graphics Initialisation
   // Open window, etc.
   if (par.graphics)
     InitGraphics(xfield, yfield);
-  
   if (par.store) {
     if (movie_file) {
       movie_file_name=strdup(movie_file);
@@ -87,14 +84,11 @@ X11Graphics::X11Graphics(int xsize, int ysize, const char *movie_file) : Graphic
   } else {
     store=false;
   }
-
   // movie data will also be used for writing images
   movie_data=(unsigned char *)malloc(xfield*yfield*sizeof(unsigned char));
-
 }
 
 X11Graphics::~X11Graphics(void) {
-
   CloseGraphics();
   free(title);
 
@@ -106,15 +100,13 @@ X11Graphics::~X11Graphics(void) {
       pclose(movie_fp);
     else
       fclose(movie_fp);
-    
 }
 
 void X11Graphics::BeginScene(void) {
   // nothing
 }
 
-void X11Graphics::EndScene(void)
-{ 
+void X11Graphics::EndScene(void) { 
   if (par.graphics) {
 #ifdef USE_XSHM
     if (shm) {// shared memory extension available?
@@ -124,7 +116,6 @@ void X11Graphics::EndScene(void)
 #endif 
       XPutImage(display,window,windowGC,image,0,0,0,0,image->width,image->height);
     }
-  
   static int thetime=0;
   if (store && !(thetime++ % par.storage_stride) )
     StoreCompPict();
@@ -134,12 +125,10 @@ void X11Graphics::EndScene(void)
 #define NOPVM
 #ifndef NOPVM
 void X11Graphics::SendScene() {
-  
   SendPicture(image_data,xfield,yfield);
 }
 
 void X11Graphics::ReceiveScene(int machineindex, int beastindex, int ndish) {
-  
   int sizex,sizey;
   char *picture;
   int xpos,ypos;
@@ -157,6 +146,7 @@ void X11Graphics::ReceiveScene(int machineindex, int beastindex, int ndish) {
   ypos=(beastindex/xdim)*sizey;
 
   printf("xp: %d, yp: %d\n",xpos,ypos);
+<<<<<<< HEAD
     
   /* Copy the picture in the display window */
   for (i=0;i<sizex;i++)
@@ -174,13 +164,10 @@ void X11Graphics::ReceiveScene(int machineindex, int beastindex, int ndish) {
 
 
 void X11Graphics::ReceiveScene1(int machineindex, int beastindex, int ndish) {
-  
   int sizex,sizey;
   char *picture;
   int xpos,ypos;
   int i,j;
-  
- 
  
   /* Receive the picture */
   picture=ReceivePicture(&sizex,&sizey,machineindex);
@@ -196,7 +183,6 @@ void X11Graphics::ReceiveScene1(int machineindex, int beastindex, int ndish) {
   
   /* And redraw the window .... */
   DrawScene();
-  
 }
 #endif
 
@@ -216,7 +202,6 @@ void X11Graphics::ReadColorTable(XColor *cols)
      snprintf(message,199,"X11Graphics::ReadColorTable: Colormap '%s' not found.",name);
      //cerr << message << endl;
      throw(message);
-     
    }
    while (fscanf(fpc,"%d",&i) != EOF) {
          fscanf(fpc,"%d %d %d\n",&p,&q,&r);
@@ -225,16 +210,12 @@ void X11Graphics::ReadColorTable(XColor *cols)
          cols[i].blue=r*255;
    }
    fclose(fpc);
-
 }
 
 void X11Graphics::MakeColorMap()
 {
   int i,colormap_size;
-
-  //colormap_size = DisplayCells(display, screen);
   colormap_size=256;
-  
   if ((colors = (XColor *)malloc(colormap_size*sizeof(XColor))) == NULL) {
     fprintf(stderr, "No memory for setting up colormap\n");
     exit(1);
@@ -252,15 +233,14 @@ void X11Graphics::MakeColorMap()
 				   DefaultVisual(display,screen),
 				   AllocAll);
     XStoreColors(display,new_colormap,colors,colormap_size);
-    //free(colors);
   } else {
     new_colormap = XDefaultColormap(display,screen);
     for (i=0; i <= 255 && i < colormap_size; i++)
       XAllocColor(display,new_colormap,&colors[i]);
   }
 }  
-
  
+
 int X11Graphics::GetXYCoo(int *X, int *Y)
 {
 #define KEYBUFSIZE 10
@@ -271,10 +251,7 @@ int X11Graphics::GetXYCoo(int *X, int *Y)
   KeySym key;
   XComposeStatus cs;
   
-  
-
   if (par.graphics) {
-    
     /* initialise oldwidth and oldheight */
     if (oldwidth==0 && oldheight==0) {
       int di;
@@ -282,7 +259,6 @@ int X11Graphics::GetXYCoo(int *X, int *Y)
       Window dw;
       XGetGeometry(display,window,&dw,&di,&di,&oldwidth,&oldheight,&dui,&dui);
     }
-    
     while (XEventsQueued(display,QueuedAfterFlush) > 0) {
       XNextEvent(display, &event);
       if (event.xany.window == window)
@@ -335,28 +311,19 @@ int X11Graphics::GetXYCoo(int *X, int *Y)
 }
 
 
-
-
 int X11Graphics::XExposep() {
-  
   if (par.graphics) 
-    
     if (event.xany.window == window) 
-      
       switch (event.type) {
       case Expose:
 	if (event.xexpose.count == 0)
 	  return TRUE;
-	
 	/* else: go on and return FALSE */
-	
       default:
 	return FALSE;
 	break;
       }
-    
   return FALSE;
-  
 }
 
 
@@ -372,6 +339,7 @@ int X11Graphics::GetHeight(Window w) {
 
 
 char *X11Graphics::ChangeTitle (const char *message) {
+<<<<<<< HEAD
   
   /* Change name of window: */
   if (!XFetchName(display, window, &old_window_name)) {
@@ -389,6 +357,25 @@ char *X11Graphics::ChangeTitle (const char *message) {
   XFlush(display);
   return old_window_name;
   
+=======
+
+  /* Change name of window: */
+  if (!XFetchName(display, window, &old_window_name)) {
+
+    /* Window's name fetch unsuccessful, write message to terminal. */
+    fprintf(stdout,"%s\n",message);
+
+  } else {
+
+    /* Write message in window title */
+    XStoreName(display,window,message);
+
+  }
+
+  XFlush(display);
+  return old_window_name;
+
+>>>>>>> Guacimo_TST/matrixarray
 }
 
 void X11Graphics::RecoverTitle(void) {
@@ -398,19 +385,33 @@ void X11Graphics::RecoverTitle(void) {
     free(old_window_name);
     old_window_name=0;
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> Guacimo_TST/matrixarray
 }
 
 
 void X11Graphics::InitGraphics(int xsize, int ysize)
+<<<<<<< HEAD
 { 
+=======
+{
+>>>>>>> Guacimo_TST/matrixarray
   char **argv=0;
   int i;
   hsize=xfield=xsize;
   vsize=yfield=ysize;
+<<<<<<< HEAD
   
 
   if (par.graphics) { 
+=======
+
+
+  if (par.graphics) {
+>>>>>>> Guacimo_TST/matrixarray
     if (!display)
       display = XOpenDisplay(server);
     if (!display) {
@@ -422,7 +423,11 @@ void X11Graphics::InitGraphics(int xsize, int ysize)
     visual_info.screen = screen;
     if (!visual_list)
       visual_list = XGetVisualInfo(display,VisualScreenMask,&visual_info,&i);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> Guacimo_TST/matrixarray
     if (pseudoCol8 && XMatchVisualInfo(display,screen,8,PseudoColor,&visual_info)) {
       visual = visual_info.visual;
       depth = visual_info.depth;
@@ -453,6 +458,7 @@ void X11Graphics::InitGraphics(int xsize, int ysize)
     white = WhitePixel(display, screen);
     background = white;
     foreground = black;
+<<<<<<< HEAD
   
     setattributes.colormap = new_colormap;
     setattributes.background_pixel = WhitePixel(display,screen);
@@ -460,6 +466,15 @@ void X11Graphics::InitGraphics(int xsize, int ysize)
  
     setattributes.border_pixel = BlackPixel(display,screen);
     
+=======
+
+    setattributes.colormap = new_colormap;
+    setattributes.background_pixel = WhitePixel(display,screen);
+    background=0;
+
+    setattributes.border_pixel = BlackPixel(display,screen);
+
+>>>>>>> Guacimo_TST/matrixarray
     window = XCreateWindow(display,
 			   DefaultRootWindow(display), hint.x, hint.y,
 			   hint.width, hint.height, 5 , depth,
@@ -473,19 +488,32 @@ void X11Graphics::InitGraphics(int xsize, int ysize)
     if (DoesBackingStore(DefaultScreenOfDisplay(display))) {
       setattributes.backing_store = WhenMapped;
       XChangeWindowAttributes(display,window,CWBackingStore,&setattributes);
+<<<<<<< HEAD
     
     }
     
+=======
+
+    }
+
+>>>>>>> Guacimo_TST/matrixarray
     windowGC = XCreateGC(display, window, 0, 0);
     XSetBackground(display, windowGC, background);
     XSetForeground(display, windowGC, foreground);
     XSetLineAttributes(display,windowGC,1,LineSolid,CapRound,JoinRound);
 
     XSelectInput(display, window, ButtonPressMask | ExposureMask | KeyPressMask | StructureNotifyMask);
+<<<<<<< HEAD
  
     XMapRaised(display, window);
     XNextEvent(display, &event);
   }  
+=======
+
+    XMapRaised(display, window);
+    XNextEvent(display, &event);
+  }
+>>>>>>> Guacimo_TST/matrixarray
 
   // Try to attach to shared memory
 
@@ -514,6 +542,7 @@ void X11Graphics::InitGraphics(int xsize, int ysize)
   //  movie_data=image_data;
   //} else {
   //}
+<<<<<<< HEAD
   if (image_data == NULL) printf("Error in memory allocation\n"); 
 
 #ifdef USE_XSHM
@@ -536,14 +565,45 @@ void X11Graphics::InitGraphics(int xsize, int ysize)
       printf("Warning: shared memory extension is available, but allocation of \n shared memory segment failed... Reverting to private memory. \n This is not problematic, but it will be a bit slower.\n");
       shm=0;
       
+=======
+  if (image_data == NULL) printf("Error in memory allocation\n");
+
+#ifdef USE_XSHM
+  if (graphics && shm) {
+
+    image = XShmCreateImage(display, visual, depth, ZPixmap, NULL, &shminfo,  xfield, yfield);
+    // Allocate shared memory
+    shminfo.shmid = shmget (IPC_PRIVATE,
+			    image->bytes_per_line *image->height,
+			    IPC_CREAT|0777);
+
+    // Attach the shared memory segment to the process
+    shminfo.shmaddr = image->data = shmat (shminfo.shmid, 0, 0);
+
+
+    // Reading and writing to the shm will be made possible
+    shminfo.readOnly = False;
+
+    if (!XShmAttach (display, &shminfo)) {
+      printf("Warning: shared memory extension is available, but allocation of \n shared memory segment failed... Reverting to private memory. \n This is not problematic, but it will be a bit slower.\n");
+      shm=0;
+
+>>>>>>> Guacimo_TST/matrixarray
     } else {
 
       printf("Successfully prepared for using shared memory.\n");
     }
+<<<<<<< HEAD
     
     
   } else { // Shared memory is unavailable
 #endif 
+=======
+
+
+  } else { // Shared memory is unavailable
+#endif
+>>>>>>> Guacimo_TST/matrixarray
 
     if (pseudoCol8) {
       image_data = (char *)malloc(xfield*yfield*sizeof(char));
@@ -553,10 +613,17 @@ void X11Graphics::InitGraphics(int xsize, int ysize)
     }
     if (image_data == NULL) {
 
+<<<<<<< HEAD
       printf("Error in memory allocation\n"); 
       exit (1);
     }
     
+=======
+      printf("Error in memory allocation\n");
+      exit (1);
+    }
+
+>>>>>>> Guacimo_TST/matrixarray
     // Create XImage structure
     if (par.graphics) {
       image = XCreateImage(display, visual, depth, ZPixmap,
@@ -568,7 +635,11 @@ void X11Graphics::InitGraphics(int xsize, int ysize)
 	}
       }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> Guacimo_TST/matrixarray
 
 #ifdef USE_XSHM
   }
@@ -595,11 +666,19 @@ void X11Graphics::CloseGraphics()
   }
 
   if (par.graphics) {
+<<<<<<< HEAD
     XFreeGC(display,windowGC); 
     XDestroyWindow(display,window); 
     XCloseDisplay(display);   
   }
 } 
+=======
+    XFreeGC(display,windowGC);
+    XDestroyWindow(display,window);
+    XCloseDisplay(display);
+  }
+}
+>>>>>>> Guacimo_TST/matrixarray
 
 
 
@@ -609,16 +688,27 @@ void X11Graphics::Point( int color, int x, int y)
   // The following is not necessary for 8-bits graphics
   // therefore I commented it out.
   // if (pseudoCol8) {
+<<<<<<< HEAD
     
   //  (image_data)[i+j*xfield] = (char)color;
   //} else {
   if (color<0) color=0;
+=======
+
+  //  (image_data)[i+j*xfield] = (char)color;
+  //} else {
+  if (color<0)
+  { color=0;
+  cout << colors[color].red << " " << colors[color].green << " " << colors[color].blue << endl;
+}
+>>>>>>> Guacimo_TST/matrixarray
   if (par.graphics)
     XPutPixel(image,x,y,colors[color].pixel);
   movie_data[x+y*xfield]=(unsigned char)color;
   //}
 }
 
+<<<<<<< HEAD
 /*void X11Graphics::Line ( int x1, int y1,int x2,int y2,int colour )
 {
   // Usage of Lines in movies is not (yet) implemented
@@ -631,12 +721,63 @@ void X11Graphics::Point( int color, int x, int y)
 
 void X11Graphics::Line(  int x0, int y0,int x1,int y1,int color ) {
   
+=======
+void X11Graphics::PointAlpha( int alpha, int x, int y)
+{
+  // The following is not necessary for 8-bits graphics
+  // therefore I commented it out.
+  // if (pseudoCol8) {
+
+  //  (image_data)[i+j*xfield] = (char)color;
+  //} else {
+  // if (color<0) color=0;
+  // cout << "start" << endl;
+  float frac_alpha= alpha/255.0;
+  XColor original_pixel;
+  // cout << "getting pixel value" << x << " " << y << endl;
+  original_pixel.pixel=movie_data[x+y*xfield];
+  // cout <<  "setting pixel value to variable"<< endl;
+  // original_pixel.pixel=XGetPixel(image, x, y);
+  // cout << "set values" << endl;
+  XColor overlay;
+  // overlay.red=(int)(1-frac_alpha)*original_pixel.red+alpha;
+  // overlay.green=(int)(1-frac_alpha)*original_pixel.green+alpha;
+  // overlay.blue=(int)(1-frac_alpha)*original_pixel.blue+alpha;
+  overlay.red=2;//(1-alpha)*original_pixel.red;
+  overlay.green=2;//(1-alpha)*original_pixel.green;
+  overlay.blue=2;//(1-alpha)*original_pixel.blue;
+
+  // cout << "here" << endl;
+  // cout << colors[color].red << " " << colors[color].green << " " << colors[color].blue << endl;
+  if (par.graphics)
+    XPutPixel(image,x,y,overlay.pixel);
+  movie_data[x+y*xfield]=(unsigned char)overlay.pixel;
+  //}
+}
+
+// void X11Graphics::Line ( int x1, int y1,int x2,int y2,int colour )
+// {
+//   // Usage of Lines in movies is not (yet) implemented
+//   if (par.graphics) {
+//     XSetForeground(display, windowGC, colour);
+//     XDrawLine(display,window,windowGC,x1,y1,x2,y2);
+//     XSetForeground(display, windowGC, foreground);
+//   }
+//   }
+
+void X11Graphics::Line(  int x0, int y0,int x1,int y1,int color ) {
+
+>>>>>>> Guacimo_TST/matrixarray
   // Bresenham's line algorithm
   // See http://www.fact-index.com/b/br/bresenham_s_line_algorithm_c_code.html
 
   // Provided to supply a line drawing algorithm that allows
   // for writing the lines to a picture or a movie
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> Guacimo_TST/matrixarray
   // (and I need Bresenham for the Lacunae measurement algorithm, and
   // want to see whether it works correctly :-) and it does :-)!
   int i;
@@ -645,6 +786,7 @@ void X11Graphics::Line(  int x0, int y0,int x1,int y1,int color ) {
   int dx, dy;  /* delta (difference in X and Y between points) */
   int e;
 
+<<<<<<< HEAD
   /* * inline swap. On some architectures, the XOR trick may be faster */ 
   int tmpswap; 
 #define SWAP(a,b) tmpswap = a; a = b; b = tmpswap;
@@ -674,13 +816,62 @@ void X11Graphics::Line(  int x0, int y0,int x1,int y1,int color ) {
   } 
 }
 
+=======
+  /* * inline swap. On some architectures, the XOR trick may be faster */
+  int tmpswap;
+#define SWAP(a,b) tmpswap = a; a = b; b = tmpswap;
+
+  /* * optimize for vertical and horizontal lines here */
+  dx = abs(x1 - x0);
+  sx = ((x1 - x0) > 0) ? 1 : -1;
+  dy = abs(y1 - y0);
+  sy = ((y1 - y0) > 0) ? 1 : -1;
+  if (dy > dx) {
+    steep = 0;
+    SWAP(x0, y0);
+    SWAP(dx, dy);
+    SWAP(sx, sy);
+  }
+  e = (dy << 1) - dx;
+  for (i = 0; i < dx; i++) {
+    if (steep) {
+      // cout << x0 << " " << y0 << endl;
+      // if (x0>0 && x0<xfield && y0>0 && y0<yfield)
+      Point(color,x0,y0);
+    } else {
+      // if (x0>0 && x0<xfield && y0>0 && y0<yfield)
+      Point(color,y0,x0);
+    }
+    while (e >= 0) {
+      y0 += sy; e -= (dx << 1);
+    }
+    x0 += sx; e += (dy << 1);
+  }
+}
+
+void X11Graphics::Arrow( int x1, int y1,int x2,int y2,int colour ) {
+  if (x1>=0 && x1<=xfield && x2>=0 && x2<=xfield &&y1>=0 && y1<=xfield &&y2>=0 && y2<=xfield){
+
+Line( x1, y1, x2, y2, colour);
+int b1=(int) 2*sqrt(2)*(x1-x2-y1+y2)/((sqrt(pow(x2-x1,2)+pow(y2-y1,2))));
+int b2=(int) 2*sqrt(2)*(x1-x2+y1-y2)/((sqrt(pow(x2-x1,2)+pow(y2-y1,2))));
+int c1=(int) 2*sqrt(2)*(x1-x2+y1-y2)/((sqrt(pow(x2-x1,2)+pow(y2-y1,2))));
+int c2=(int) 2*sqrt(2)*(-x1+x2+y1-y2)/((sqrt(pow(x2-x1,2)+pow(y2-y1,2))));
+Line(x2,y2,x2+b1,y2+b2,colour);
+Line(x2,y2,x2+c1,y2+c2,colour);}
+}
+>>>>>>> Guacimo_TST/matrixarray
 // Plot a field of values in this window,
 // assuming they have the same dimensions
 void X11Graphics::Field (const int **r, int mag) {
   for (int x=0;x<xfield;x++) {
     for (int y=0;y<yfield;y++) {
       Point(r[x/mag][y/mag],x,y);
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> Guacimo_TST/matrixarray
     }
   }
   if (par.graphics)
@@ -694,13 +885,22 @@ void X11Graphics::InitStore(void)
   //  short col[256*3];
   int pars[3];
   //FILE *fpc;
+<<<<<<< HEAD
   //  if (!par.graphics) 
   //  InitGraphics(xfield, yfield); 
+=======
+  //  if (!par.graphics)
+  //  InitGraphics(xfield, yfield);
+>>>>>>> Guacimo_TST/matrixarray
   // NB: movie data is always allocated in constructor, so we can write images
   film = (unsigned char *)malloc(2*xfield*yfield*sizeof(unsigned char));
 
   if (FileExistsP(movie_file_name)) {
+<<<<<<< HEAD
     std::cerr << "Refusing to overwrite movies. \n Please remove or rename file " 
+=======
+    std::cerr << "Refusing to overwrite movies. \n Please remove or rename file "
+>>>>>>> Guacimo_TST/matrixarray
 	 << movie_file_name << " and try again.\n";
     exit(1);
   }
@@ -716,10 +916,17 @@ void X11Graphics::InitStore(void)
     compressed_movie_p=true;
   } else {
     fprintf(stderr,"Writing uncompressed movie\n");
+<<<<<<< HEAD
     movie_fp=fopen(movie_file_name,"w"); 
     compressed_movie_p=false;
   }
   
+=======
+    movie_fp=fopen(movie_file_name,"w");
+    compressed_movie_p=false;
+  }
+
+>>>>>>> Guacimo_TST/matrixarray
   if (movie_fp==NULL) {
     char *error_message=(char *)malloc(200*sizeof(char));
     snprintf(error_message,199,"In X11Graphics::InitStore, %s\n",
@@ -728,11 +935,19 @@ void X11Graphics::InitStore(void)
     free(error_message);
     exit(1);
   }
+<<<<<<< HEAD
   
   pars[0] = (int)yfield;
   pars[1] = (int)xfield;
   printf("%d %d\n",yfield,xfield); 
   fwrite(pars,sizeof(int),2,movie_fp); 
+=======
+
+  pars[0] = (int)yfield;
+  pars[1] = (int)xfield;
+  printf("%d %d\n",yfield,xfield);
+  fwrite(pars,sizeof(int),2,movie_fp);
+>>>>>>> Guacimo_TST/matrixarray
 
 }
 
@@ -760,25 +975,41 @@ int X11Graphics::DetectControl()
     }
   }
   return (mouse);
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> Guacimo_TST/matrixarray
 }
 
 void X11Graphics::StoreCompPict(void)
 {
   int dist;
   long k,t=0,params[5];
+<<<<<<< HEAD
   
   if ( store ) {
     
     dist=1;t=0;
     
+=======
+
+  if ( store ) {
+
+    dist=1;t=0;
+
+>>>>>>> Guacimo_TST/matrixarray
     for (k=1;k<xfield*yfield;k++) {
       if (dist == 255 || (movie_data)[k] != (movie_data)[k-1]) {
 	film[t++] = (unsigned char)dist;
 	film[t++] = (movie_data)[k-1];
 	dist =1;
       }
+<<<<<<< HEAD
       else 
+=======
+      else
+>>>>>>> Guacimo_TST/matrixarray
 	++dist;
     }
     film[t++] = (unsigned char)dist;
@@ -791,6 +1022,7 @@ void X11Graphics::StoreCompPict(void)
 
     // Appending to a file using open is very unsafe
     // over NFS. Indeed the files are corrupted.
+<<<<<<< HEAD
     // It is safer to open the file only once and to keep the 
     // file descriptor in a static int.
     
@@ -804,6 +1036,21 @@ void X11Graphics::StoreCompPict(void)
     //lseek(fps,0L,2);
     
     fwrite(params,sizeof(long),5,movie_fp); 
+=======
+    // It is safer to open the file only once and to keep the
+    // file descriptor in a static int.
+
+    // RM. 14/05/03
+
+    // AND, from now on we will be using fread and fwrite. Much
+    // safer. (Less efficient?)
+
+    // RM. 14/05/03
+
+    //lseek(fps,0L,2);
+
+    fwrite(params,sizeof(long),5,movie_fp);
+>>>>>>> Guacimo_TST/matrixarray
     fwrite(film,sizeof(unsigned char),t,movie_fp);
     fflush(movie_fp);
     //close(fps);
@@ -815,10 +1062,17 @@ void X11Graphics::StoreCompPict(void)
 // testbed
 /*
   int main(int argc, char *argv[]) {
+<<<<<<< HEAD
   
   int s=50;
   X11Graphics *g=new X11Graphics[100](s,s);
   
+=======
+
+  int s=50;
+  X11Graphics *g=new X11Graphics[100](s,s);
+
+>>>>>>> Guacimo_TST/matrixarray
   sleep(2);
   for (int c=0; c<100;c++) {
     for (int i=0;i<s*s;i++) {
@@ -827,7 +1081,11 @@ void X11Graphics::StoreCompPict(void)
     }
     g[c].EndScene();
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> Guacimo_TST/matrixarray
   while(1);
 
   delete[] g;
@@ -841,10 +1099,17 @@ int X11Graphics::LineClearP(char direction,int pos, int cropcol) {
   int x,y;
 
   if (direction=='x') {
+<<<<<<< HEAD
     for (y=1;y<yfield-1;y++) 
       if (XGetPixel(image, pos, y)!=colors[cropcol].pixel) 
 	return false;
   } else 
+=======
+    for (y=1;y<yfield-1;y++)
+      if (XGetPixel(image, pos, y)!=colors[cropcol].pixel)
+	return false;
+  } else
+>>>>>>> Guacimo_TST/matrixarray
     if (direction=='y') {
       for (x=1;x<xfield-1;x++)
 	if (XGetPixel(image, x, pos)!=colors[cropcol].pixel)
@@ -855,13 +1120,18 @@ int X11Graphics::LineClearP(char direction,int pos, int cropcol) {
       throw (error);
       exit(1);
     }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> Guacimo_TST/matrixarray
   return true;
 
 }
 
 LineType X11Graphics::CropSize(void) {
 
+<<<<<<< HEAD
   /* Returns the upper left and the lower right coordinates 
      of the beast */
   
@@ -869,24 +1139,47 @@ LineType X11Graphics::CropSize(void) {
   int x,y;
   
   for (x=1;x<xfield-1;x++) 
+=======
+  /* Returns the upper left and the lower right coordinates
+     of the beast */
+
+  LineType CropSize;
+  int x,y;
+
+  for (x=1;x<xfield-1;x++)
+>>>>>>> Guacimo_TST/matrixarray
     if (!LineClearP('x',x)) {
       CropSize.x1=x;
       break;
     }
+<<<<<<< HEAD
   
   for (y=1;y<yfield-1;y++) 
+=======
+
+  for (y=1;y<yfield-1;y++)
+>>>>>>> Guacimo_TST/matrixarray
     if (!LineClearP('y',y)) {
       CropSize.y1=y;
       break;
     }
 
+<<<<<<< HEAD
   for (x=xfield-1;x>0;x--) 
+=======
+  for (x=xfield-1;x>0;x--)
+>>>>>>> Guacimo_TST/matrixarray
     if (!LineClearP('x',x)) {
       CropSize.x2=x;
       break;
     }
+<<<<<<< HEAD
   
   for (y=yfield-1;y>0;y--) 
+=======
+
+  for (y=yfield-1;y>0;y--)
+>>>>>>> Guacimo_TST/matrixarray
     if (!LineClearP('y',y)) {
       CropSize.y2=y;
       break;
@@ -897,6 +1190,7 @@ LineType X11Graphics::CropSize(void) {
 }
 
 Coordinate X11Graphics::ReplaceBeast(Coordinate old_size,Coordinate new_size) {
+<<<<<<< HEAD
   
   Coordinate offset;
   int x,y,button;
@@ -905,12 +1199,23 @@ Coordinate X11Graphics::ReplaceBeast(Coordinate old_size,Coordinate new_size) {
   offset.x=0;
   offset.y=0;
   
+=======
+
+  Coordinate offset;
+  int x,y,button;
+  Cursor hand;
+
+  offset.x=0;
+  offset.y=0;
+
+>>>>>>> Guacimo_TST/matrixarray
   /* Change name of window: */
   ChangeTitle("Replace beast, please.");
 
   XSetBackground(display, windowGC, WhitePixel(display, screen));
   XSetForeground(display, windowGC, BlackPixel(display, screen));
   XClearWindow(display,window);
+<<<<<<< HEAD
   XDrawRectangle(display,window,windowGC,offset.x,offset.y,old_size.x,old_size.y);  
   XFlush(display);
   
@@ -920,6 +1225,17 @@ Coordinate X11Graphics::ReplaceBeast(Coordinate old_size,Coordinate new_size) {
   
   XGrabPointer(display,window,TRUE,ButtonPressMask | PointerMotionMask, GrabModeAsync,GrabModeAsync,window, hand,CurrentTime);
       
+=======
+  XDrawRectangle(display,window,windowGC,offset.x,offset.y,old_size.x,old_size.y);
+  XFlush(display);
+
+  XSelectInput(display, window, ButtonPressMask | PointerMotionMask);
+
+  hand=XCreateFontCursor(display, XC_hand1);
+
+  XGrabPointer(display,window,TRUE,ButtonPressMask | PointerMotionMask, GrabModeAsync,GrabModeAsync,window, hand,CurrentTime);
+
+>>>>>>> Guacimo_TST/matrixarray
   while ((button=GetXYCoo(&x,&y))!=1) {
     if (button==MOTION) {
 
@@ -927,9 +1243,15 @@ Coordinate X11Graphics::ReplaceBeast(Coordinate old_size,Coordinate new_size) {
 	offset.x=x;
       if (y+old_size.y < new_size.y)
 	offset.y=y;
+<<<<<<< HEAD
       
       XClearWindow(display, window);
       XDrawRectangle(display,window,windowGC,offset.x,offset.y,old_size.x,old_size.y); 
+=======
+
+      XClearWindow(display, window);
+      XDrawRectangle(display,window,windowGC,offset.x,offset.y,old_size.x,old_size.y);
+>>>>>>> Guacimo_TST/matrixarray
       XFlush(display);
 
 
@@ -940,6 +1262,7 @@ Coordinate X11Graphics::ReplaceBeast(Coordinate old_size,Coordinate new_size) {
   XUngrabPointer(display,CurrentTime);
   RecoverTitle();
 
+<<<<<<< HEAD
   XSelectInput(display, window, ButtonPressMask | KeyPressMask | 
 		 ExposureMask | StructureNotifyMask);
   
@@ -949,6 +1272,17 @@ Coordinate X11Graphics::ReplaceBeast(Coordinate old_size,Coordinate new_size) {
 
 void X11Graphics::Resize(void) {
   
+=======
+  XSelectInput(display, window, ButtonPressMask | KeyPressMask |
+		 ExposureMask | StructureNotifyMask);
+
+  return offset;
+}
+
+
+void X11Graphics::Resize(void) {
+
+>>>>>>> Guacimo_TST/matrixarray
 #ifdef USE_XSHM
   extern int shm;
   extern XShmSegmentInfo shminfo;
@@ -959,9 +1293,15 @@ void X11Graphics::Resize(void) {
   int di;
   unsigned int dui;
   Window dw;
+<<<<<<< HEAD
   
 
   // Get rid of pending events 
+=======
+
+
+  // Get rid of pending events
+>>>>>>> Guacimo_TST/matrixarray
   // many resize events are generated during a resize
   sleep(1);
 
@@ -981,6 +1321,7 @@ void X11Graphics::Resize(void) {
   int old_yfield=yfield;
   xfield=newwidth;
   yfield=newheight;
+<<<<<<< HEAD
       
   printf("New xfield: %d, yfield: %d\n",xfield,yfield);
   
@@ -995,10 +1336,27 @@ void X11Graphics::Resize(void) {
     // Shared memory was used
     // Destroy memory segment and XImage
     
+=======
+
+  printf("New xfield: %d, yfield: %d\n",xfield,yfield);
+
+#ifdef USE_XSHM
+  if (!shm) {
+#endif
+
+
+#ifdef USE_XSHM
+  } else {
+
+    // Shared memory was used
+    // Destroy memory segment and XImage
+
+>>>>>>> Guacimo_TST/matrixarray
     XShmDetach(display, &shminfo);
     XDestroyImage(image);
     shmdt(shminfo.shmaddr);
     shmctl(shminfo.shmid, IPC_RMID, 0);
+<<<<<<< HEAD
     
     // Generate new segment and attach to it
     shminfo.shmid = shmget (IPC_PRIVATE,
@@ -1015,11 +1373,33 @@ void X11Graphics::Resize(void) {
       image_data != NULL) {
     
     // New Image 
+=======
+
+    // Generate new segment and attach to it
+    shminfo.shmid = shmget (IPC_PRIVATE,
+			    image->bytes_per_line * image->height, IPC_CREAT|0777);
+
+
+  }
+#endif
+
+  if (
+#ifdef USE_XSHM
+      shm ||
+#endif
+      image_data != NULL) {
+
+    // New Image
+>>>>>>> Guacimo_TST/matrixarray
 #ifdef USE_XSHM
     if (!shm) {
 #endif
       char *new_image_data = (char *)malloc(xfield*yfield*sizeof(char)*depth);
+<<<<<<< HEAD
       XImage *new_image = XCreateImage(display, visual, depth, ZPixmap, 
+=======
+      XImage *new_image = XCreateImage(display, visual, depth, ZPixmap,
+>>>>>>> Guacimo_TST/matrixarray
 			   0, new_image_data, xfield, yfield, 8, 0);
       // Clear new image
       for (int x=0;x<xfield;x++) {
@@ -1027,11 +1407,19 @@ void X11Graphics::Resize(void) {
 	  XPutPixel(new_image, x, y, colors[0].pixel);
 	}
       }
+<<<<<<< HEAD
       
       // Copy old image into new image
       for (int x=0;x<old_xfield;x++) {
 	for (int y=0;y<old_yfield;y++) {
 	  XPutPixel(new_image, x, y, 
+=======
+
+      // Copy old image into new image
+      for (int x=0;x<old_xfield;x++) {
+	for (int y=0;y<old_yfield;y++) {
+	  XPutPixel(new_image, x, y,
+>>>>>>> Guacimo_TST/matrixarray
 		    XGetPixel(image, x, y) );
 	}
       }
@@ -1041,6 +1429,7 @@ void X11Graphics::Resize(void) {
       image=new_image;
       image_data=new_image_data;
       EndScene();
+<<<<<<< HEAD
       
 #ifdef USE_XSHM
     } else {
@@ -1074,6 +1463,41 @@ void X11Graphics::Resize(void) {
 #endif
     
     
+=======
+
+#ifdef USE_XSHM
+    } else {
+      image_data = (char *)malloc(xfield*yfield*sizeof(char)*depth);
+
+      image = XShmCreateImage(display, visual, depth, ZPixmap,
+			      NULL, &shminfo,  xfield, yfield);
+
+      // Allocate shared memory
+      shminfo.shmid = shmget (IPC_PRIVATE,
+			      image->bytes_per_line *image->height,
+			      IPC_CREAT|0777);
+
+      // Attach the shared memory segment to the process
+      shminfo.shmaddr = image->data = shmat (shminfo.shmid, 0, 0);
+
+
+      // Reading and writing to the shm will be made possible
+      shminfo.readOnly = False;
+
+      if (!XShmAttach (display, &shminfo)) {
+	printf("Warning: shared memory extension is available, but allocation of \n shared memory segment failed... Reverting to private memory. \n This is not problematic, but it will be a bit slower.\n");
+	shm=0;
+
+      } else {
+
+	printf("Successfully prepared for using shared memory.\n");
+      }
+
+    }
+#endif
+
+
+>>>>>>> Guacimo_TST/matrixarray
   }
   if (movie_data) {
     // reallocate moviedata
@@ -1093,10 +1517,18 @@ void X11Graphics::Write(char *fname, int quality) {
   if (name.find("png")==string::npos) {
     throw("X11Graphics::Write: Sorry, only PNG writing is implemented");
   }
+<<<<<<< HEAD
   
   cerr << "Writing a PNG picture\n";
 
   
+=======
+
+  cerr << "Writing a PNG picture\n";
+
+
+  // cout << "Still continues" << endl;
+>>>>>>> Guacimo_TST/matrixarray
   int i,j;
 
   FILE *fp;
@@ -1105,9 +1537,16 @@ void X11Graphics::Write(char *fname, int quality) {
     perror(fname);
     throw("X11Graphics::Write: File error\n");
   }
+<<<<<<< HEAD
   png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
 						(png_voidp)NULL, 
 						(png_error_ptr)NULL, 
+=======
+    // cout << "Still continues 2" << endl;
+  png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+						(png_voidp)NULL,
+						(png_error_ptr)NULL,
+>>>>>>> Guacimo_TST/matrixarray
 						(png_error_ptr)NULL);
   png_infop info_ptr = png_create_info_struct (png_ptr);
   png_init_io(png_ptr, fp);
@@ -1115,35 +1554,67 @@ void X11Graphics::Write(char *fname, int quality) {
 	       8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE,
 	       PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
   png_write_info(png_ptr,info_ptr);
+<<<<<<< HEAD
 
   // data to hold true colour image
   unsigned char *png_image = 
+=======
+ // cout<< "Still continues 3" << endl;
+  // data to hold true colour image
+  unsigned char *png_image =
+>>>>>>> Guacimo_TST/matrixarray
     (unsigned char *)malloc(3*xfield*yfield*sizeof(unsigned char));
 
   int colormap_size=256;
   static XColor *png_colors=0;
   if (!png_colors) {
+<<<<<<< HEAD
+=======
+    // cout<< "Still continues 3a" << endl;
+>>>>>>> Guacimo_TST/matrixarray
     // We allocate colors upon the first call only
     // so do not free png_colors!
     if ((png_colors = (XColor *)malloc(colormap_size*sizeof(XColor))) == NULL) {
       throw("X11Graphics::Write: No memory for setting up colormap");
     }
+<<<<<<< HEAD
+=======
+    // cout<< "Still continues 3b" << endl;
+>>>>>>> Guacimo_TST/matrixarray
     for (i=0; i < colormap_size; i++) {
       png_colors[i].pixel = i;
       png_colors[i].flags = DoRed | DoGreen | DoBlue;
     }
+<<<<<<< HEAD
     ReadColorTable(png_colors);
    
     
   }
+=======
+    // cout<< "Still continues 3c" << endl;
+    ReadColorTable(png_colors);
+    // cout<< "Still continues 3d" << endl;
+
+
+  }
+  // cout << "Still continues 4" << endl;
+>>>>>>> Guacimo_TST/matrixarray
     for (j=0; j < yfield; j++) {
       for (i=0; i < xfield; i++) {
 	XColor col;
 	col=png_colors[movie_data[i+j*xfield]];
+<<<<<<< HEAD
 	
 	png_image[j*3*xfield + i*3] = col.red/256;
 	png_image[j*3*xfield + i*3 + 1] = col.green/256;
 	png_image[j*3*xfield + i*3 + 2] = col.blue/256;
+=======
+  // cout << "col is " << col.red << " " << col.green << " " << col.blue << endl;
+
+	png_image[j*3*xfield + i*3] = col.red;///256.;
+	png_image[j*3*xfield + i*3 + 1] = col.green;///256.;
+	png_image[j*3*xfield + i*3 + 2] = col.blue;///256.;
+>>>>>>> Guacimo_TST/matrixarray
     }
     png_bytep ptr = png_image + j*3*xfield;
     png_write_rows(png_ptr, &ptr, 1);
@@ -1153,6 +1624,9 @@ void X11Graphics::Write(char *fname, int quality) {
     free(png_image);
     fclose(fp);
 }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> Guacimo_TST/matrixarray

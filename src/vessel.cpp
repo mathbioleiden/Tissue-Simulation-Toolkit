@@ -35,7 +35,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell.h"
 #include "info.h"
 #include "parameter.h"
-#include "sqr.h"
 
 #ifdef QTGRAPHICS
 #include "qtgraph.h"
@@ -45,8 +44,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 
 using namespace std;
-static Dish *dish;
-static Info *info;
 
 INIT {
 
@@ -103,7 +100,6 @@ TIMESTEP {
     
     
     if (par.graphics && !(i%par.storage_stride)) {
-      int tx,ty;
       BeginScene();
             
       dish->PDEfield->Plot(this,0);
@@ -185,7 +181,6 @@ int main(int argc, char *argv[]) {
     
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
-    dish=new Dish();
     QtGraphics g(par.sizex*2,par.sizey*2);
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
 

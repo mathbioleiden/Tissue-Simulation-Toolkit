@@ -26,4 +26,4 @@ void StartSIGSEGVHandling();
 void HandleSIGSEGV(int dummy);
 void NiceMessage();
 void MemoryWarning(void);
-void Crash(char *message);
+void Crash(const char *message);

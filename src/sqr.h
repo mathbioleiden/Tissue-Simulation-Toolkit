@@ -25,10 +25,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef _SQR_H_
 #define _SQR_H_
 
-static float sqrarg;
-#define SQR(a) ((sqrarg=(a)) == 0.0 ? 0.0 : sqrarg*sqrarg)
+//static float sqrarg = 0;
+//#define SQR(a) ((sqrarg=(a)) == 0.0 ? 0.0 : sqrarg*sqrarg)
+#define SQR(a) (a*a)
 
-static double dsqrarg;
-#define DSQR(a) ((dsqrarg=(a)) == 0.0 ? 0.0 : dsqrarg*dsqrarg)
+
+//static double dsqrarg = 0;
+//#define DSQR(a) ((dsqrarg=(a)) == 0.0 ? 0.0 : dsqrarg*dsqrarg)
+#define DSQR(a) (a*a)
 
 #endif

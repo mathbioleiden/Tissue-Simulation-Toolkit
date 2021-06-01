@@ -30,3 +30,4 @@ long Seed(long seed);
 long RandomNumber(long max);
 void AskSeed();
 long Randomize(void);
+double generateGaussianNoise(double mu, double sigma);

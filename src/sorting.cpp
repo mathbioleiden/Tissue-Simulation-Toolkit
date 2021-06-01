@@ -46,7 +46,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 using namespace std;
 
 INIT {
-
   try {
     // Define initial distribution of cells
     CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);

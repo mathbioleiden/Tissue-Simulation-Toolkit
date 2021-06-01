@@ -38,7 +38,6 @@ class Graphics {
  public:
   //  Graphics(int xfield, int yfield, const char *movie_file=0);
   virtual ~Graphics(void) {};
-  
   //! \brief BeginScene() must be called before calling drawing functions.
   virtual void BeginScene(void) {
   };
@@ -52,8 +51,10 @@ class Graphics {
   */
   virtual void Point( int color, int x, int y)=0;
   
+  virtual void PointAlpha( int alpha, int x, int y)=0;
+
   /*! \brief Draws a line (obviously... :-)
-    
+
   \param x1, y1: First coordinate pair.
   \param x2, y2: Second coordinate pair.
   \param color: Color of the line, as given in the colormap file "default.ctb".
@@ -110,9 +111,7 @@ class Graphics {
  
   virtual void set_Paused(){};
   virtual void set_unPaused(){};
-
 };
 
 
 #endif
-

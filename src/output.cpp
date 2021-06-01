@@ -32,7 +32,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 #define FNAMESIZE 100
 
-int OpenFileAndCheckExistance(FILE **fp,const char *fname,char *ftype) {
+int OpenFileAndCheckExistance(FILE **fp, const char *fname, const char *ftype) {
   
   *fp=fopen(fname,ftype);
   if (*fp==NULL) 
@@ -76,31 +76,6 @@ int YesNoP(const char *message) {
     
 }
 
-/* //FILE *OpenWriteFile(char *filename) 
-// {
-//   FILE *fp;
-//   fprintf(stderr,"Opening %s for writing\n",filename);
-	
-//   if((OpenFileAndCheckExistance(&fp,filename,"r"))==TRUE) {
-// 	if (!YesNoP("File exists, overwrite?")) {
-// 	  fprintf(stderr," Could not open file %s for writing, exiting... \n"
-// 			  ,filename);
-// 	  exit(0);
-// 	}
-//   }
-  
-//   if (fp!=NULL) // file existed, but user wants to overwrite
-// 	fclose(fp);
-  
-//   if ((fp=fopen(filename,"w"))==NULL) {
-// 	fprintf(stderr," Could not open file %s for writing, exiting... \n"
-// 			,filename);
-// 	exit(0);
-//   }
-	
-//   return fp;
-// }
-*/
 
 FILE *OpenWriteFile(const char *filename) 
 {
@@ -181,7 +156,6 @@ char *ReadLine(FILE *fp)
   
   while ((character=getc(fp))!=EOF && /* read a character and check */
 		 character!='\n') {
-
 	
 	tmpstring[pos]=(char)character;
 	(pos)++;
@@ -266,99 +240,3 @@ char *Chext(char *filename) {
   
   
 }
-
-/*void MakeDir(const char *dirname) {
-  
-  int status;
-  char message[MESS_BUF_SIZE];
-
-  status=mkdir(dirname, S_IRWXU); // S_IRWXU: Read, Write, Execute by Owner 
-  
-  if (status<0) { // error occurred
-    
-    //check for existance
-    
-    if (errno==EEXIST) {
-
-      // Check whether it is a directory 
-      struct stat buf;
-      stat(dirname, &buf);
-      if (S_ISDIR(buf.st_mode)) {
-	// OK 
-	extern  Parameter par;
-	if (par.interactive) {
-	  fprintf(stderr,"Using existing directory %s for data storage.\n",dirname);
-	  if (!YesNoP("OK?")) {
-	    // User doesn't agree. Exit
-	    exit(1);
-	  }
-	} else {
-	  fprintf(stderr,"Using existing directory %s for data storage.\n",dirname);
-	}
-      } else {
-	snprintf(message, MESS_BUF_SIZE, "%s is not a directory", dirname);
-	perror(message);
-	exit(1);
-      }
-    } else {
-      // a different error occurred. Print error and quit 
-      
-      snprintf(message,MESS_BUF_SIZE,"Error in making directory %s",dirname);
-      perror(message);
-      exit(1);
-      
-    }
-    
-    
-  }
-
-  fprintf(stderr,"Created directory %s for data storage.\n",dirname);
-  
-  
-}*/
-
-/*bool CanWeWriteP(char *filename) {
-
-  // check for the existance of file "filename"
-   // if it exists, ask the user whether we may overwrite it
-   //false: do not overwrite. true: do overwrite 
-   
-  
-  char message[MESS_BUF_SIZE];
-  char fname[FNAMESIZE];
-
-  extern const Parameter par;
-
-  int status;
-  status=access(filename, F_OK);
-  if (status < 0) {// file does not exist, or something else is wrong      
-    // check error code
-    if (errno!=ENOENT) {
-	
-      // another error occured 
-      snprintf(message, MESS_BUF_SIZE, "Error checking for existance of %s",filename);
-      perror(message);	      
-      exit(1);
-    }
-      
-  } else {
-      
-    // file exists, ask for permission to overwrite if interactive
-    if (par.interactive) {
-      snprintf(message, MESS_BUF_SIZE, "File %s exists. Overwrite? ",filename);
-      if (!YesNoP(message))
-	return false;
-      else 
-	return true;
-    } else {
-      // Rename old file 
-      snprintf(fname, FNAMESIZE-1, "%s~",filename);
-      rename(filename, fname);
-    }
-    return false;
-  }
-    
-  // file does not exist, or user permits overwriting
-  return true;
-    
-}*/

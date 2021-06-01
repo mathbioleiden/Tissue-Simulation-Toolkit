@@ -30,22 +30,17 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 extern Parameter par;
 class Dish;
 
-class Cell
-{ 
-
+class Cell { 
   friend class Dish;
   friend class CellularPotts;
   friend class Info;
 
 public:
   /*! \brief Constructor to insert a cell into Dish "who"
-    
   Used to add a new Cell to the dish: new Cell(dish,
   celtype).
   */
-  Cell(const Dish &who, int
-  settau=1) {
-    
+  Cell(const Dish &who, int settau=1) {
     owner=&who;
     ConstructorBody(settau);
   }
@@ -56,15 +51,18 @@ public:
   
   ~Cell(void);
   
-  
   //! Default copy constructor.
   Cell(const Cell &src) {
-        
     // make an exact copy (for internal use)
     sigma=src.sigma;
     amount++;
     area=src.area;
     target_area=src.target_area;
+    length=src.length;
+    adhesive_area=src.adhesive_area;
+    ref_adhesive_area=src.ref_adhesive_area;
+    perimeter = src.perimeter;
+    target_perimeter = src.target_perimeter;
     length=src.length;
     target_length=src.target_length;
     growth_threshold=src.growth_threshold;
@@ -88,8 +86,6 @@ public:
     chem = new double[par.n_chem];
     for (int ch=0;ch<par.n_chem;ch++)
       chem[ch]=src.chem[ch];
-    
-    
   }
   
   /*! \brief Add a new cell to the dish.
@@ -125,6 +121,8 @@ public:
     sum_yy=src.sum_yy;
     sum_xy=src.sum_xy;
     
+    border=src.border;
+    
     length=src.length;
     target_length=src.target_length;
     amount++;
@@ -134,6 +132,8 @@ public:
     for (int ch=0;ch<par.n_chem;ch++)
       chem[ch]=src.chem[ch];
     
+    perimeter = src.perimeter;
+    target_perimeter = src.target_perimeter;
     return *this;
 
   }
@@ -156,10 +156,58 @@ public:
     tau=settau;
   }
   
+  inline int SetAdhesiveArea( int new_area) {
+    return adhesive_area=new_area;
+  }
+
+  inline int GetAdhesiveArea() {
+    return adhesive_area;
+  }
+
+  inline void SetBorderNumber(double n){
+    border=n;
+  }
+  inline double GetBorderNumber(){
+    return border;
+  }
+  inline void IncrementBorderNumber(double n){
+    border+=n;
+  }
+  inline void DecrementBorderNumber(double n){
+    border-=n;
+  }
+
   //! Get cell type of this Cell.
   inline int getTau(void) {
     return tau;
   }
+
+  inline double getCenterX(void) {
+    return (double)sum_x/(double) area;
+  }
+
+  inline double getSumX(void){return sum_x;}
+  inline double getSumY(void){return sum_y;}
+
+  // inline double recomputeCenterXFromSum(void){
+  //   center_x= (double) sum_x/ (double) area;
+  //   return center_x;
+  // }
+  //
+  // inline double recomputeCenterYFromSum(void){
+  //   center_y= (double) sum_y/ (double) area;
+  //   return center_y;
+  // }
+  //
+  inline double getCenterY(void) {
+      return (double)sum_y/(double) area;
+    }
+  // inline void setCenterX(double newX){
+  //   center_x=newX;
+  // }
+  // inline void setCenterY(double newY){
+  //   center_y=newY;
+  // }
   //! Set color of this cell to new_colour, irrespective of type.
   inline int SetColour(const int new_colour) {
     return colour=new_colour;
@@ -180,11 +228,25 @@ public:
   inline int TargetArea() const {
     return target_area;
   }
-  
-  /*! \brief Return Cell's target length.
-    
-  Length constraint is documented in Merks et al. 2006, Dev. Biol. 
-  */
+
+  // ! Return Cell's perimeter
+   inline int Perimeter() {
+      return perimeter;
+  }
+
+   // ! Return Cell's target perimeter
+  inline int TargetPerimeter(){
+  return target_perimeter;
+  }
+   // ! Set Cell's target perimeter
+   inline int SetTargetPerimeter(const int new_perimeter) {
+    return target_perimeter=new_perimeter;
+  }
+   // ! Set Cell's perimeter
+   inline int SetPerimeter(const int new_perimeter) {
+    return perimeter=new_perimeter;
+  }
+
   inline double TargetLength() const {
     return target_length;
   }
@@ -193,11 +255,9 @@ public:
   inline double SetTargetLength(double l) {
     return target_length=l;
   }
-  
 
   //! Debugging function used to print the cell's current inertia tensor (as used for calculations of the length )
   inline void PrintInertia(void) {
-    
     double ixx=(double)sum_xx-(double)sum_x*sum_x/(double)area;
     double iyy=(double)sum_yy-(double)sum_y*sum_y/(double)area;
     double ixy=(double)sum_xy-(double)sum_x*sum_y/(double)area;
@@ -205,7 +265,6 @@ public:
     cerr << "ixx = " << ixx << "\n";
     cerr << "iyy = " << iyy << "\n";
     cerr << "ixy = " << ixy << "\n";
-    
   }
 
   // return the current length
@@ -213,7 +272,7 @@ public:
     return length;
   }
 
-/*! \brief Clears the table of J's.  
+/*! \brief Clears the table of J's.
 
 This is only important for a
 feature called "DynamicJ's", where J-values depend on internal states
@@ -221,9 +280,9 @@ of the cells (such as a genetic network; see e.g. Hogeweg et
 al. 2000). The current version of TST does not include such functionality.
 */
   static void ClearJ(void);
-  double polarvec[9]; 
+  double polarvec[9];
   void RenormPolarVec(void);
-  
+
   /*! \brief Returns the maximum cell identity number in the Dish.
     This would normally be the number of cells in the Dish, although
    the number includes apoptosed cells.
@@ -251,7 +310,6 @@ al. 2000). The current version of TST does not include such functionality.
   inline int IncrementTargetArea() {
     return ++target_area;
   }
-  
   //! Increment the cell's target area by one unit.
   inline int DecrementTargetArea() {
     return --target_area;
@@ -277,7 +335,6 @@ al. 2000). The current version of TST does not include such functionality.
     return J[sigma][c2.sigma];
   }
 
-  
   //! Sets bond energy J between cell type t1 and t2 to val
   inline static int SetJ(int t1,int t2, int val) {
     return J[t2][t1]=J[t1][t2]=val;
@@ -299,12 +356,12 @@ al. 2000). The current version of TST does not include such functionality.
   } 
   
   //! Returns the cell's measured gradient. Currently not in use.
-  inline const double GradX() const {
+  inline double GradX() const {
     return grad[0];
   }
 
   //! Returns the cell's measured gradient. Currently not in use.
-  inline const double GradY() const {
+  inline double GradY() const {
     return grad[1];
   }
 
@@ -314,13 +371,13 @@ al. 2000). The current version of TST does not include such functionality.
     grad[1]+=g[1];
     return grad;
   }
-   
+  
   //! Currently not in use (remove?)
   inline void ClearGrad(void) {
     grad[0]=0.;
     grad[1]=0.;
-  }  
-  
+  }
+
   /*! After introducing a new Cell (e.g. with GrowInCell)
     call this function to set the moments and areas right.
   */
@@ -329,6 +386,16 @@ al. 2000). The current version of TST does not include such functionality.
   void setArea(int n_area){
     area = n_area;
   }
+  
+  //! Increments the cell's actual adhesive area by 1 unit.
+    inline int IncrementAdhesiveArea(int increment) {
+      return adhesive_area=adhesive_area+increment;
+    }
+
+  //! Decrement the cell's actual adhesive area by 1 unit.
+    inline int DecrementAdhesiveArea(int decrement) {
+      return adhesive_area=adhesive_area-decrement;
+    }
 
 private:
   /*! \brief Read a table of static Js.
@@ -362,6 +429,7 @@ private:
     // update length (see appendix. A, Zajac.jtb03), if length is not given
     // NB. 24 NOV 2004. Found mistake in Zajac's paper. See remarks in
     // method "Length(..)". 
+
     if (new_l<0.) {
       length=Length(sum_x,sum_y,sum_xx,sum_yy,sum_xy,area);
     } else {
@@ -384,7 +452,7 @@ private:
     sum_xx-=x*x;
     sum_yy-=y*y;
     sum_xy-=x*y;
-    
+
     // update length (see app. A, Zajac.jtb03), if length is not given
     if (new_l<0.) {
       length=Length(sum_x,sum_y,sum_xx,sum_yy,sum_xy,area);
@@ -393,6 +461,7 @@ private:
     }
     return length;
   }
+
 
   //! \brief Calculates the length based on the given inertia tensor
   //components (used internally)
@@ -407,16 +476,17 @@ private:
       if (n==0) {
           return 0.;
       }
+
     // inertia tensor (constructed from the raw momenta, see notebook)
     double iyy=(double)s_xx-(double)s_x*s_x/(double)n;
     double ixx=(double)s_yy-(double)s_y*s_y/(double)n;
     double ixy=-(double)s_xy+(double)s_x*s_y/(double)n;
-        
+
     double rhs1=(ixx+iyy)/2., rhs2=sqrt( (ixx-iyy)*(ixx-iyy)+4*ixy*ixy )/2.;
 
     double lambda_b=rhs1+rhs2;
     //double lambda_a=rhs1-rhs2;
-    
+
     // according to Zajac et al. 2003:
     //return 2*sqrt(lambda_b);
     // Grumble, this is not right!!!
@@ -443,18 +513,11 @@ private:
         double lambda_b=rhs1+rhs2;
         double lambda_a=rhs1-rhs2;
         
-        
-        
         // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
         //    cerr << "n = " << n << "\n";
         *major_axis=4*sqrt(lambda_b/area);
         *minor_axis=4*sqrt(lambda_a/area);
 
-        
-        double trace=ixx+iyy;
-        double det=ixx*iyy-ixy*ixy;
-        
-        
         if (ixy!=0) {
             *v1=lambda_a-iyy;
             *v2=ixy;
@@ -468,20 +531,14 @@ private:
         *v1/=norm;
         *v2/=norm;
         
-        
-        
         // 2*sqrt(lambda_b/n) give semimajor axis. We want the length.
-        
     }
   
   // return the new length that the cell would have
   // if site (x,y) were added.
   // used internally by CellularPotts
   inline double GetNewLengthIfXYWereAdded(int x, int y) {
-    
-    return Length(sum_x+x,sum_y+y,
-			   sum_xx+x*x,sum_yy+y*y,sum_xy+x*y,area+1);
-    
+    return Length(sum_x+x,sum_y+y, sum_xx+x*x,sum_yy+y*y,sum_xy+x*y,area+1);
   }
 
   // return the new length that the cell would have
@@ -499,7 +556,7 @@ private:
   }
   
 private:
-//! Increments the cell's actual area by 1 unit.
+ //! Increments the cell's actual area by 1 unit.
   inline int IncrementArea() {
     return ++area;
   }
@@ -509,7 +566,29 @@ private:
     return --area;
   }
 
-  
+  //! Sets the adhesive area of the cell.
+  inline int SetReferenceAdhesiveArea(const int new_area) {
+    return ref_adhesive_area=new_area;
+  }
+
+ //! Increments the cell's actual perimeter by 1 unit.
+  inline int IncrementPerimeter(){
+  return ++perimeter;
+  }
+
+  //! Decrements the cell's actual perimeter by 1 unit.
+   inline int DecrementPerimeter(){
+  return ++perimeter;
+  }
+
+   inline int IncrementTargetPerimeter(){
+  return ++target_perimeter;
+  }
+
+   inline int DecrementTargetPerimeter(){
+  return --target_perimeter;
+  }
+
   /*! \brief Sets target area to actual area, to remove "pressure".
 
   This is useful when reading an initial condition from an image.
@@ -520,7 +599,6 @@ private:
 
   //! Called whenever a cell is constructed, from constructor
   void ConstructorBody(int settau=1);
-  
   // returns the maximum cell type index
   // (depends on Jtable)
   static int MaxTau(void) {
@@ -553,7 +631,6 @@ protected:
   static int amount;
   static int capacity;
   static int maxsigma; // the last cell identity number given out
-  
 
   // indices of mother and daughter
   // (Note: no pointers, cells may be relocated)
@@ -562,31 +639,36 @@ protected:
   int times_divided;
   int date_of_birth;
   int colour_of_birth;
-  
+
   int area;
   int target_area;
+  int adhesive_area;
+  int ref_adhesive_area;
   int growth_threshold;
 
+  int perimeter; //amount of cell's membrane
+  int target_perimeter; // cell's target membrane length
+  
   double v[2];
   int n_copies; // number of expansions of this cell
   // gradient of a chemical (to be extended to the total number chemicals)
   double grad[2];
-  
   double *chem;
   // Raw moments of the cells
   // Are used to calculate minor and major axes
   // and center of mass
   // are locally adjusted, so axes are easily
   // and quickly calculated!
-  
   // N.B: N is area!
-  
+
   long int sum_x;
   long int sum_y;
   long int sum_xx;
   long int sum_yy;
   long int sum_xy;
   
+  double border;
+
   const Dish *owner; // pointer to owner of cell
 
 };

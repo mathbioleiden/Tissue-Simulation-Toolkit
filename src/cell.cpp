@@ -93,12 +93,10 @@ void Cell::CellBirth(Cell &mother_cell) {
 
   grad[0]=mother_cell.grad[0];
   grad[1]=mother_cell.grad[1];
-  
 }
 
 
 void Cell::ConstructorBody(int settau) {
-  
   // Note: Constructor of Cytoplasm will be called first
   alive=true;
   colour=1; // undifferentiated
@@ -124,6 +122,10 @@ void Cell::ConstructorBody(int settau) {
   tau=settau;
   area=0;
   target_area=0;
+
+  perimeter =0;
+  target_perimeter =0;
+
   length=0;
   target_length=par.target_length;
   sum_x=0;
@@ -131,6 +133,7 @@ void Cell::ConstructorBody(int settau) {
   sum_xx=0;
   sum_yy=0;
   sum_xy=0;
+  border=0;
 
   //  growth_threshold=par.dthres;
   growth_threshold=0;
@@ -146,13 +149,12 @@ void Cell::ConstructorBody(int settau) {
  Next lines: diagonal matrix, starting with 1 element (0 0)
  ending with n elements */
 void Cell::ReadStaticJTable(const char *fname) {
-
   cerr << "Reading J's...\n";
   ifstream jtab(fname);
-    if (!jtab)  {
-        perror(fname);
-        exit(1);
-    }
+  if (!jtab)  {
+    perror(fname);
+    exit(1);
+  }
   
   int n; // number of taus
   jtab >> n;
@@ -168,33 +170,26 @@ void Cell::ReadStaticJTable(const char *fname) {
   }
   
   capacity = n;
-  {for (int i=0;i<n;i++) {
+  for (int i=0;i<n;i++) {
     for (int j=0;j<=i;j++) {
       jtab >> J[i][j];
       // symmetric...
       J[j][i]=J[i][j];
     }
-  
-  }}
+  }
 }
 
 
-int Cell::EnergyDifference(const Cell &cell2) const
-{ 
-  
+int Cell::EnergyDifference(const Cell &cell2) const { 
   if (sigma==cell2.sigma) 
     return 0;
-  
   return J[tau][cell2.tau];
-  
 }
 
 
 
 void Cell::ClearJ(void) {
-
   for (int i=0;i<capacity*capacity;i++) {
     J[0][i]=EMPTY;
   }
 }
-

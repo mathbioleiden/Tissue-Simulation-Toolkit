@@ -39,16 +39,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 static char SIGSEGVmessage[1000]; 
 
 void StartSIGINTHandling() {
-  
   void HandleSIGINT(int);
   void NiceMessage();
   (void)signal(SIGINT,HandleSIGINT);
 }
 
 void HandleSIGINT(int dummy) {
-  
   Crash("Master process is killed... \n Killing all subprocesses...\n");
-
 } 
 
 void StartSIGSEGVHandling() {
@@ -91,7 +88,7 @@ void MemoryWarning(void)
       
 }
 
-void Crash(char *message) {
+void Crash(const char *message) {
   
   
   fprintf(stderr,"%s\n",message);

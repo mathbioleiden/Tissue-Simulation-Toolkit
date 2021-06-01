@@ -22,17 +22,19 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/timeb.h>
+#include <chrono>
 #include <iostream>
 #include "random.h"
+#include <cstdlib>
+#include <cmath>
+#include <limits>
 
 static long idum = -1;
 
 /*! \return A random double between 0 and 1
 **/
-double RANDOM(void)
+double RANDOM(void) {
 /* Knuth's substractive method, see Numerical Recipes */
-{
   static int inext,inextp;
   static long ma[56];
   static int iff=0;
@@ -76,8 +78,7 @@ double RANDOM(void)
 /*! \param An integer random seed
   \return the random seed
 **/
-long Seed(long seed)
-{
+long Seed(long seed) {
   if (seed < 0) {
 	  std::cerr << "Randomizing random generator, seed is ";
     long rseed=Randomize();
@@ -124,15 +125,42 @@ void AskSeed(void)
 
 long Randomize(void) {
   // Set the seed according to the local time
-  struct timeb t;
   int seed;
+ 
+  auto timepoint = std::chrono::system_clock::now();
+  auto since_epoch =  timepoint.time_since_epoch();
+  auto seconds = std::chrono::duration_cast<std::chrono::seconds>(since_epoch);
+  auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(since_epoch);
 
-  ftime(&t);
-  
-  seed=abs((int)((t.time*t.millitm)%655337));
+  seed=abs((int)((seconds.count()*milliseconds.count())%655337));
   Seed(seed);
   fprintf(stderr,"Random seed is %d\n",seed);
   return seed;
 }
 
 
+double generateGaussianNoise(double mu, double sigma)
+{
+	static const double epsilon = std::numeric_limits<double>::min();
+	static const double two_pi = 2.0*3.14159265358979323846;
+
+	thread_local double z1;
+	thread_local bool generate;
+	generate = !generate;
+
+	if (!generate)
+	   return z1 * sigma + mu;
+
+	double u1, u2;
+	do
+	 {
+	   u1 = RANDOM();
+	   u2 = RANDOM();
+	 }
+	while ( u1 <= epsilon );
+
+	double z0;
+	z0 = sqrt(-2.0 * log(u1)) * cos(two_pi * u2);
+	z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2);
+	return z0 * sigma + mu;
+}

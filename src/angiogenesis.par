@@ -45,3 +45,4 @@ graphics = true
 store = false
 datadir = .
 
+useopencl = true

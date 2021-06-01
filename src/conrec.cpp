@@ -74,7 +74,7 @@ int conrec(PDEFIELD_TYPE **d,
 {
   int m1,m2,m3,case_value;
   double dmin,dmax,x1=0,x2=0,y1=0,y2=0;
-  register int i,j,k,m;
+  int i,j,k,m;
   double h[5];
   int sh[5];
   double xh[5],yh[5];

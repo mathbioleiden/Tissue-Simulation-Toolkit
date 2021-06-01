@@ -22,7 +22,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
-static char * init_xpm[] = {
+char const * init_xpm[] = {
 "200 200 2 1",
 " 	c #FFFFFFFFFFFF",
 ".	c #FFFF00000000",

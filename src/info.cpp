@@ -38,25 +38,17 @@ extern Parameter par;
 using namespace std;
 
 Info::Info(Dish &d, Graphics &g, std::ostream &out) {
-  
-  dish=&d;
   graphics=&g;
   os=&out;
   ispaused = false;
   prev_key = -1;
-  
-  /*
-  g=&graphics;
-  beast=&dish;
-  os=&out;*/
 }
 
 bool Info::IsPaused(){
-	return ispaused;
-	}
+  return ispaused;
+}
 
 void Info::Menu() {
-
   // Graphics should be defined
   if (!graphics) return;
   
@@ -65,13 +57,6 @@ void Info::Menu() {
   
   if (prev_key != key){
   switch (key) {
-  
-    /*  case RESIZE:
-	dish->CPM->Replace(graphics);
-	break;
-    */
-  
-      
   case 'M':
     {
       extern Parameter par; 
@@ -110,23 +95,19 @@ void Info::Menu() {
         }
 	break;
   case 'V':
-   
     {
       int t=0;
       vector<Cell>::iterator i;
       for ( (i=dish->cell.begin(), i++); i!=dish->cell.end(); i++) {
-     
 	//extern double lambda; int ll; char tempstring[100];
 	t+=i->Area() - i->TargetArea(); 
 	*os << i->Sigma() << " " << i->Area() - i->TargetArea() << " " 
 	    << i->Area() << " " << i->TargetArea() << "\n";
 	i->SetTargetArea(i->Area());
       }
-     
       *os << "Mean deviation from target: " << (double)t/((double)dish->cell.size()-1) << "\n";
     }
     break;
-
   case 'L': 
     {
       extern Parameter par;
@@ -163,7 +144,6 @@ void Info::Menu() {
       printf("Introduce tumor cell into the grid...\n");
       fflush(stdin);
       while (graphics->GetXYCoo(&x, &y)!=1);
-      
       //dish->ClickCell(x/2,y/2);
       printf("Introducing cell at %d %d\n",x/2,y/2);
       int tumorcell=dish->CPM->GrowInCells(1, par.size_init_cells, x/2, y/2, 0,0 );
@@ -188,7 +168,6 @@ void Info::Menu() {
 	for (int j=0; j<=(signed int)(dish->cell.size()); j++){
 	  if (neighbours[i->Sigma()][j]>=0)
 	    printf("%d ",neighbours[i->Sigma()][j]);
-	  
 	}
 	printf("\n");
       }
@@ -204,21 +183,17 @@ void Info::Menu() {
   case 'B':
     {
       vector<Cell>::const_iterator i;
-      for ( (i=dish->cell.begin(),i++);
+      for ((i=dish->cell.begin(),i++);
 	    i!=dish->cell.end(); i++) {
-	
 	printf("Cell: %d, mother: %d\n time of birth: %d\n divisions: %d\n type at birth: %d\n current type: %d\n daughter: %d\n",
 	       i->Sigma(),i->Mother(),i->DateOfBirth(),i->TimesDivided(),
 	       i->ColourOfBirth(),i->Colour(),i->Daughter()); 
-	
 	if (i->Daughter()>0) {
 	  printf("colour of daughter: %d\n",
 		 dish->cell[i->Daughter()].Colour());
 	}
-	
 	if (!i->AliveP()) 
 	  printf(" Dead \n");
-	
       }
     }
     break;
@@ -229,7 +204,8 @@ void Info::Menu() {
   prev_key = key;
   }
 }
- 
+
+
 Cell &Info::ClickCell(Graphics *graphics) {
   int x,y;
   while (graphics->GetXYCoo(&x,&y)!=1);
@@ -238,14 +214,12 @@ Cell &Info::ClickCell(Graphics *graphics) {
 
 
 void Info::WriteCOM(int cell_id, std::ostream &out) {
-  
   // Write the center of mass to "out"
-  
   static int t=0;
   double com_x=0.;
   double com_y=0.;
   int n=0;
-  for (int x=1;x<dish->SizeX()-1;x++)
+  for (int x=1;x<dish->SizeX()-1;x++) {
     for (int y=1;y<dish->SizeY()-1;y++) {
       if (dish->CPM->Sigma(x,y)==cell_id) { 
 	com_x+=x;
@@ -253,20 +227,58 @@ void Info::WriteCOM(int cell_id, std::ostream &out) {
 	n++;
       }
     }
-  
+  }
   com_x/=n;
   com_y/=n;
-  
   out << t++ << " " << com_x << " " << com_y << "\n";
-  
 }
+
 
 void Info::set_Paused(){
   graphics->set_Paused();
   ispaused = true;
 }
 
+
 void Info::set_unPaused(){
   graphics->set_unPaused();
   ispaused = false;
+}
+
+
+// Write the center of mass to "out" based on the internal COMs
+void Info::WriteCOMsTorus(std::ostream &out) {
+  int cell_number=par.n_init_cells;
+  static int t;
+  for (int s=1;s<cell_number+1;s++) {
+    double com_x= dish->getCell(s).sum_x/(double) dish->getCell(s).area;
+    double com_y= dish->getCell(s).sum_y/(double) dish->getCell(s).area;
+    int n = dish->getCell(s).Area();
+    int a = dish->getCell(s).GetAdhesiveArea();
+    out << t << " " << s << " " << com_x << " " << com_y << " " << n <<  " " << a << "\n";
+  }
+  t++;
+}
+
+
+void Info::WriteAdhesionsLocationsPerCell(int cell_id, int field_id, std::ostream &out){
+  static int t=0;
+  out << t*par.adhesion_storage_stride << ";";
+  bool first = true;
+  for (int x=1;x<dish->SizeX()-1;x++) { 
+    for (int y=1;y<dish->SizeY()-1;y++) {
+      if (dish->CPM->Sigma(x,y)==cell_id && dish->CPM->matrix[x][y]>0) {
+        if (first) {
+          out << "[";
+          first=false;
+        } else {
+          out << ",";
+        }
+        out << "(" << x << "," << y << ")";
+      }
+    }
+  }
+  if (first==false) out << "]";
+  out << "\n";
+  t++;
 }

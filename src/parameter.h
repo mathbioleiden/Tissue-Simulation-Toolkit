@@ -26,8 +26,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <iostream>
 using namespace std;
 class Parameter {
-  
- public: 
+ public:
   Parameter();
   ~Parameter();
   void CleanUp(void);
@@ -40,6 +39,9 @@ class Parameter {
   double lambda2;
   char * Jtable;
   int conn_diss;
+  int ref_adhesive_area;
+  int area_constraint_type;
+  bool cluster_connectivity;
   bool vecadherinknockout;
   bool extensiononly;
   int chemotaxis;
@@ -47,6 +49,7 @@ class Parameter {
   int neighbours;
   bool periodic_boundaries;
   bool gradient;
+  bool extended_neighbour_border;
   int n_chem;
   double * diff_coeff;
   double * decay_rate;
@@ -75,11 +78,23 @@ class Parameter {
   int mcds_denoise_steps;
   bool pause_on_start; 
   bool useopencl;
+  int adhesion_storage_stride;
+  //Act model
+  double lambda_Act;
+  int max_Act;
+  int lambda_perimeter;
+  int target_perimeter;
+  //Lymphocyte matrix interaction
+  double lambda_matrix;
+  double spontaneous_p;
+  double decay_p;
+  double eden_p;
+  int J_pol;
+  double threshold;
+  double start_level;
  private:
 };
 
 ostream &operator<<(ostream &os, Parameter &p);
 const char *sbool(const bool &p);
-
-
 #endif

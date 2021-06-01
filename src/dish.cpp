@@ -53,11 +53,22 @@ Dish::Dish() {
       if (par.n_chem)
         PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
       Init();
-      if (par.target_area>0)
+      if (par.target_area>0) {
         for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
             c->SetTargetArea(par.target_area);
         }
-    } 
+      }
+    }
+   if (par.target_area>0)
+    for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
+      c->SetTargetArea(par.target_area);
+      c->SetTargetPerimeter(par.target_perimeter);
+   }
+
+   if (par.ref_adhesive_area>0)
+    for (std::vector<Cell>::iterator c=cell.begin();c!=cell.end();c++) {
+      c->SetReferenceAdhesiveArea(par.ref_adhesive_area);
+   }
 }
 
 
@@ -93,7 +104,6 @@ void Dish::ConstructorBody() {
 
 bool Dish::CellLonelyP(const Cell &c, int **neighbours) const {
   int i;
-
   for (i=0;i<(int)cell.size();i++) {
     if (neighbours[c.sigma][i]==EMPTY) 
       break;
@@ -101,7 +111,6 @@ bool Dish::CellLonelyP(const Cell &c, int **neighbours) const {
       if (neighbours[c.sigma][i]>0)
 	return false;
   }
-  
   return true;
 }
 
@@ -110,12 +119,11 @@ void Dish::CellGrowthAndDivision(void) {
   vector<bool> which_cells(cell.size());
 
   static int mem_area=0;
-  
+
   // if called for the first time: calculate mem_area
   if (!mem_area) {
     mem_area=TargetArea()/CountCells();
   }
-  
   int cell_division=0;
 
   vector<Cell>::iterator c;
@@ -132,7 +140,6 @@ void Dish::CellGrowthAndDivision(void) {
       cell_division++;
     }
   }
- 
   // Divide scheduled cells
   if (cell_division) {
     CPM->DivideCells(which_cells);
@@ -153,39 +160,29 @@ int Dish::CountCells(void) const {
   return amount;
 }
 
- 
 
 int Dish::Area(void) const {
-  
   int total_area=0;
-  
   vector<Cell>::const_iterator i;
   for ( (i=cell.begin(),i++);
 	i!=cell.end();
 	++i) {
-    
     total_area+=i->Area();
-    
   }
   return total_area;
 }
 
 int Dish::TargetArea(void) const {
-  
   int total_area=0;
-  
   vector<Cell>::const_iterator i;
   for ( (i=cell.begin(),i++);
 	i!=cell.end();
 	++i) {
-    
     if (i->AliveP()) 
       total_area+=i->TargetArea();
-    
   }
   return total_area;
 }
-
 
 
 void Dish::SetCellOwner(Cell &which_cell) {
@@ -194,7 +191,6 @@ void Dish::SetCellOwner(Cell &which_cell) {
 
 
 void Dish::ClearGrads(void) {
-
   vector<Cell>::iterator i;
   for ( (i=cell.begin(), i++); i!=cell.end(); i++) {
     i->ClearGrad();
@@ -212,7 +208,6 @@ int Dish::Time(void) const {
 
 
 void Dish::MeasureChemConcentrations(void) {
- 
   // clear chemical concentrations
   for (vector<Cell>::iterator c=cell.begin();
        c!=cell.end();
@@ -222,22 +217,20 @@ void Dish::MeasureChemConcentrations(void) {
   }
 
   // calculate current ones
-  for (int ch=0;ch<par.n_chem;ch++)
+  for (int ch=0;ch<par.n_chem;ch++) {
     for (int i=0;i<SizeX()*SizeY();i++) {
-      
       int cn=CPM->Sigma(0,i);
       if (cn>=0) 
 	cell[cn].chem[ch]+=PDEfield->Sigma(ch,0,i);
-	
     }
+  }
 
-    for (vector<Cell>::iterator c=cell.begin();
+  for (vector<Cell>::iterator c=cell.begin();
        c!=cell.end();
        c++) {
-      for (int ch=0;ch<par.n_chem;ch++) 
+    for (int ch=0;ch<par.n_chem;ch++) 
 	c->chem[ch]/=(double)c->Area();
-    }
-
+  }
 }
 
 double round(double v, int n) {

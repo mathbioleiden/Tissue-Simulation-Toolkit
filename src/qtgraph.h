@@ -25,48 +25,38 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <QWidget>
 #include <qlabel.h>
 #include <qpainter.h>
-//#include <q3picture.h>
-// #include <qpixmap.h>
 #include <QPicture>
 #include <QPixmap>
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QResizeEvent>
 #include "graph.h"
-
+#include <math.h>
 
 
 class QtGraphics : public QWidget, public Graphics {
-
   Q_OBJECT
-
     public:
   QtGraphics(int xfield, int yfield, const char *movie_file=0);
   QtGraphics(QWidget *parent, const char *name, int xfield, int yfield, const char *movie_file=0) : QWidget(parent) {
     QtGraphics(xfield, yfield, movie_file);
-      // set name here somewhere
+    //set name here somewhere
   }
   
   virtual ~QtGraphics(void);
   virtual void BeginScene(void);
   virtual void EndScene(void);
-  /*inline void Flush(void) {
-    XFlush(display);
-    } */
   virtual void Point( int colour, int i, int j);
   virtual void Line ( int x1, int y1,int x2,int y2,int colour );
-  /*void Field (const int **r, int mag=1);
-    void PlotNumber(int number, int x, int y);*/
  
   virtual void keyReleaseEvent( QKeyEvent *e);
   virtual void keyPressEvent( QKeyEvent *e);
  
+  virtual void PointAlpha( int alpha, int i, int j);
+  virtual void Arrow (int x1, int y1, int x2, int y2, int colour);
+  
   virtual int GetXYCoo(int *X,int *Y);
-  /*char *ChangeTitle (const char *message);
-  void RecoverTitle(void);*/
-  //LineType CropSize(void);
-  //Coordinate ReplaceBeast(Coordinate old_size,Coordinate new_size);
+  
   virtual int XField(void) const {return width();}
   virtual int YField(void) const {return height();}
 
