@@ -823,7 +823,7 @@ void CellularPotts::RemoveEdgeFromEdgelist(int edge) { //remove the site from th
 int CellularPotts::CounterEdge(int edge){
   int which_site = edge / n_nb;
   int which_neighbour = edge % n_nb + 1;
-  int counterneighbour;
+  int counterneighbour = 3;
 
   int x = which_site%(sizex-2)+1;
   int y = which_site/(sizex-2)+1; 

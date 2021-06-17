@@ -2,25 +2,36 @@ TEMPLATE = app
 GRAPHICS = qt
 CONFIG += console 
 CONFIG += release
+#CONFIG += debug
 CONFIG -= app_bundle
 #QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 QT += widgets
 
+MODEL = vessel
+
 LIBDIR = ../lib
-TARGET = vessel
-MAINFILE = $$join(TARGET, " ", , ".cpp" )
+DESTDIR = ../bin
+TARGET = $$MODEL
+MAINFILE = "models/"$$TARGET".cpp"
 
 MCDS_DIR  = $$LIBDIR/MultiCellDS/v1.0/v1.0.0/libMCDS
 XSDE_DIR  = $$MCDS_DIR/xsde/libxsde
 LIBCS_DIR = $$LIBDIR/libCellShape
 
-LIBS += -L$$LIBCS_DIR -lcellshape -L$$MCDS_DIR/mcds_api -lmcds -L$$XSDE_DIR/xsde/ -lxsde -lOpenCL
+LIBS += -L$$LIBCS_DIR -lcellshape 
+LIBS += -L$$MCDS_DIR/mcds_api -lmcds 
+LIBS += -L$$XSDE_DIR/xsde/ -lxsde 
+LIBS += -lOpenCL
 
-QMAKE_CXXFLAGS += -I$$LIBCS_DIR -I$$MCDS_DIR/mcds_api -I$$XSDE_DIR -I -m64 -std=c++11
-QMAKE_LFLAGS += -m64  -std=c++11
+QMAKE_CXXFLAGS += -I$$LIBCS_DIR 
+QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api 
+QMAKE_CXXFLAGS += -I$$XSDE_DIR 
+QMAKE_LFLAGS += -m64 -std=c++11
 
-message( $$MAINFILE )
-message( $$TARGET )
+QMAKE_CXXFLAGS += -Wno-unused-parameter
+
+message("Building model:" $$MODEL )
+
 # Input
 HEADERS += ca.h \
 	   hull.h \
@@ -58,33 +69,18 @@ SOURCES += ca.cpp \
 SOURCES += $$MAINFILE
        
 contains( GRAPHICS, qt ) {
-   message( "Building Qt executable" )
+   message("Using QT graphics")
    SOURCES += qtgraph.cpp
    HEADERS += qtgraph.h
    QMAKE_CXXFLAGS_RELEASE += -DQTGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DQTGRAPHICS 
 }
 
-contains( GRAPHICS, qt3 ) {
-   message( "Building Qt executable" )
-   SOURCES += qt3graph.cpp
-   HEADERS += qt3graph.h
-   QMAKE_CXXFLAGS_RELEASE += -DQTGRAPHICS
-   QMAKE_CXXFLAGS_DEBUG += -DQTGRAPHICS 
-   unix {
-      system(rm vessel.o)
-   } 
-   win32 {
-     QMAKE_LFLAGS += -L "C:\Program Files\GnuWin32\lib" -lpng -lzdll
-     QMAKE_CXXFLAGS += -I "C:\Program Files\GnuWin32\include"
-   }
-   LIBS += -lpng
-}
 contains( GRAPHICS, x11 ) {
    !unix {
      error("X11 graphics only available on Unix systems.")
    }
-   message("Building X11 executable")
+   message("Using X11 graphics")
    SOURCES += x11graph.cpp
    HEADERS += x11graph.h
    QMAKE_CXXFLAGS_RELEASE += -DX11GRAPHICS
