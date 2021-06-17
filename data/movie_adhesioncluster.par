@@ -8,7 +8,7 @@ area_constraint_type = 0
 lambda = 50
 
 lambda2 = 0
-Jtable = simplified_act_J.dat
+Jtable = ../data/simplified_act_J.dat
 conn_diss = 1000
 cluster_connectivity = true
 
@@ -79,4 +79,4 @@ storage_stride = 200
 adhesion_storage_stride = 30000
 graphics = true
 store = true
-datadir = test/
+datadir = ../out

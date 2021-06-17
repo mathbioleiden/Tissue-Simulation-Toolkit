@@ -118,7 +118,6 @@ void QtGraphics::Line( int x1, int y1,int x2,int y2,int colour ) {
 void QtGraphics::ReadColorTable(QPen *pens)
 {
   extern Parameter par;
-  std::cout << par.colortable << " " << par.colortable << std::endl;
   FILE *fpc;
   if ((fpc = fopen(par.colortable,"r")) == NULL) {
     char *message=new char[2000];

@@ -185,6 +185,8 @@ void Parameter::Read(const char *filename) {
   threshold = fgetpar(fp, "threshold", 0 , true);
   start_level = fgetpar(fp, "start_level", 1, true);
   colortable = sgetpar(fp, "colortable", "../data/default.ctb", true);
+
+  std::cout << std::endl;
 }
 
 const char *sbool(const bool &p) {

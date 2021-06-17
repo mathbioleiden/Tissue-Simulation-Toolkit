@@ -38,7 +38,7 @@ char *ParsePar(FILE *fp, const char *parameter, bool wrapflag)
   
   line=SearchToken(fp,parameter, wrapflag);
   if (line==NULL) {
-    warning("Warning: Token %s not found.",parameter);
+    //warning("Warning: Token %s not found.", parameter);
     value=0;
     return value;
   }
@@ -84,7 +84,7 @@ int igetpar(FILE *fp, const char *parameter, int default_val, bool wrapflag)
 
   if (token==0) {
     /* default value */
-    warning("No token %s found. Using default value %d.\n", parameter, default_val);
+    warning("[%s  = %d]\t\tnot in parfile, using default!", parameter, default_val);
     return default_val;
   }
   /* read it */
@@ -117,7 +117,7 @@ float fgetpar(FILE *fp, const char *parameter, double default_val, bool wrapflag
 
   if (token==0) {
     /* default value */
-    warning("No token %s found. Using default value %f.\n", parameter, default_val);
+    warning("[%s  = %f]\t\tnot in parfile, using default!", parameter, default_val);
     return default_val;
   }
 
@@ -148,7 +148,7 @@ double *dgetparlist(FILE *fp, const char *parameter, int n, bool wrapflag)
   token=ParsePar(fp,parameter, wrapflag);
   
   if (token==0) {
-    error("No token %s found.\n", parameter);
+    error("%s not in parfile.\n", parameter);
   }
   /* parse it */
   number=strtok(token,","); /* make a pointer to "token" */
@@ -201,7 +201,7 @@ char *sgetpar(FILE *fp, const char *parameter, const char *default_val, bool wra
 
   if (token==0) {
     /* default value */
-    warning("No token %s found. Using default value '%s'.\n", parameter, default_val);
+    warning("[%s  = '%s']\t\tnot in parfile, using default!", parameter, default_val);
     value=strdup(default_val);
     return value;
   }
@@ -259,7 +259,7 @@ bool bgetpar(FILE *fp, const char *parameter, int default_val, bool wrapflag) {
 
   if (token==0) {
     /* default value */
-    warning("No token %s found. Using default value %s.\n", parameter, bool_str(default_val));
+    warning("[%s  = %s]\t\tnot in parfile, using default!", parameter, bool_str(default_val));
     return default_val;
   }
 
