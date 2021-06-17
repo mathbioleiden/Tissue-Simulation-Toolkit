@@ -81,6 +81,7 @@ Parameter::Parameter() {
   mcds_denoise_steps = 0; 
   pause_on_start = false;
   useopencl = true;
+  colortable = strdup("../data/default.ctb");
 }
 
 Parameter::~Parameter() {
@@ -183,6 +184,7 @@ void Parameter::Read(const char *filename) {
   J_pol = igetpar( fp,"J_pol", 0 , true);
   threshold = fgetpar(fp, "threshold", 0 , true);
   start_level = fgetpar(fp, "start_level", 1, true);
+  colortable = sgetpar(fp, "colortable", "../data/default.ctb", true);
 }
 
 const char *sbool(const bool &p) {
@@ -267,6 +269,7 @@ void Parameter::Write(ostream &os) const {
   os << " J_pol = " << J_pol << endl;
   if (datadir)
     os << " datadir = " << datadir << endl;
+  os << " colortable = " << colortable << endl;
 }
 
 ostream &operator<<(ostream &os, Parameter &p) {

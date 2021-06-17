@@ -48,7 +48,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 /* NOTE: ZYGOTE is normally defined in Makefile!!!!!! */
 #ifndef ZYGOTE
 #define ZYGOTE init
-#include "init.xpm"
+#include "xpm/init.xpm"
 #else
 #include ZYGFILE(ZYGOTE)
 #endif

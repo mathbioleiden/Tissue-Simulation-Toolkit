@@ -236,7 +236,7 @@ void PDE::SetupOpenCL(){
 
   //Use file pdeCLcore.cl as Kernel
   std::ifstream inFile;
-  inFile.open("pdeCLcore.cl"); 
+  inFile.open("pdecore.cl"); 
   std::stringstream strStream;
   strStream << inFile.rdbuf(); 
   std::string kernel_code  = strStream.str();

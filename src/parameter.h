@@ -92,6 +92,7 @@ class Parameter {
   int J_pol;
   double threshold;
   double start_level;
+  char * colortable;
  private:
 };
 

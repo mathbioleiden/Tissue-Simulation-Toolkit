@@ -7,7 +7,7 @@ target_area = 50
 target_length = 10
 lambda = 50
 lambda2 = 50
-Jtable = J.dat
+Jtable = ../data/J.dat
 conn_diss = 2000
 vecadherinknockout = false
 chemotaxis = 1000
@@ -43,5 +43,5 @@ relaxation = 100
 storage_stride = 10
 graphics = true
 store = false
-datadir = .
+datadir = ../out
 

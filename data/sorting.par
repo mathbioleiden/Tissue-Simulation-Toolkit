@@ -4,7 +4,7 @@ target_area = 50
 target_length = 0
 lambda = 50
 lambda2 = 0
-Jtable = Jpepperandsalt.dat
+Jtable = ../data/Jpepperandsalt.dat
 conn_diss = 0
 vecadherinknockout = true
 chemotaxis = 0
@@ -40,6 +40,6 @@ relaxation = 0
 storage_stride = 100
 graphics = true
 store = false
-datadir = data_film2
+datadir = ../out
 
 
