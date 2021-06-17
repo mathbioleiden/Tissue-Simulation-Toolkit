@@ -8,7 +8,7 @@ TST_DIR   = $(ROOT_DIR)/src
 all: TST
 
 XSDE:
-	cd  "$(XSDE_DIR)" && $(MAKE) 
+	cd  "$(XSDE_DIR)" && $(MAKE) -j1
 
 MCDS: XSDE
 	cd "$(MCDS_DIR)" && $(MAKE) objects
