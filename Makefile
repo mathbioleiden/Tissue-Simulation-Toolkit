@@ -1,4 +1,3 @@
-
 ROOT_DIR = $(shell pwd)
 MCDS_DIR  = $(ROOT_DIR)/lib/MultiCellDS/v1.0/v1.0.0
 XSDE_DIR  = $(MCDS_DIR)/libMCDS/xsde
@@ -8,12 +7,12 @@ TST_DIR   = $(ROOT_DIR)/src
 all: TST
 
 XSDE:
-	cd  "$(XSDE_DIR)" && $(MAKE) -j1
+	cd  "$(XSDE_DIR)" && $(MAKE)
 
 MCDS: XSDE
 	cd "$(MCDS_DIR)" && $(MAKE) objects
 
-LIBCS:  
+LIBCS: MCDS 
 	cd "$(LIBCS_DIR)" && $(MAKE)
 
 TST: MCDS LIBCS
