@@ -111,9 +111,12 @@ long RandomNumber(long max)
 void AskSeed(void)
 {
   int seed;
-  printf("Please enter a random seed: ");
-  scanf("%d",&seed);
-  printf("\n");
+  int res = EOF;
+  while (res == EOF) {
+    printf("Please enter a random seed: ");
+    res = scanf("%d",&seed);
+    printf("\n");
+  }
   Seed(seed);
 }
 

@@ -118,17 +118,17 @@ int FileExists(FILE **fp,const char *fname,const char *ftype) {
 }
 		       
 int YesNoP(const char *message) {
-  
   char answer[100];
-  
+  int res;
+
   fprintf(stderr,"%s (y/n) ",message);
   fflush(stderr);
   
-  scanf("%s",answer);
-  while (strcmp(answer,"y") && strcmp(answer,"n")) {
+  res = scanf("%s",answer);
+  while ((strcmp(answer,"y") && strcmp(answer,"n")) || res == EOF) {
     fprintf(stderr,"\n\bPlease answer 'y' or 'n'. ");
     fflush(stderr);
-    scanf("%s",answer);
+    res = scanf("%s",answer);
   }
   
   if (!strcmp(answer,"y")) return TRUE;
@@ -138,11 +138,11 @@ int YesNoP(const char *message) {
 }
 
 char *GetFileName(const char *message,const char *ftype) {
-
   static char *fname=NULL;
   FILE *tmp;
   int tmpbool;
   int must_exist;
+  int res;
   char tempstr[100];
 
   if (!strncmp(ftype,"w",1) || !strncmp(ftype,"a",1)) {
@@ -156,20 +156,18 @@ char *GetFileName(const char *message,const char *ftype) {
     }
   }
 
-  if (fname==NULL) 
-    fname=(char *)malloc(100*sizeof(char));
+  if (fname==NULL) fname=(char *)malloc(100*sizeof(char));
   
   fprintf(stderr,"%s", message);
   fflush(stderr);
   
   do {
-    scanf("%s",fname);
-  } while ( (!(tmpbool=FileExists(&tmp,fname,"r")) && must_exist 
-	     /* File to read does not exist */
-	           && fprintf(stderr,"File %s not found, try again\n",fname )) ||
-	    /* File to write does exist */
-	    ( tmpbool && !must_exist && sprintf(tempstr,"File %s exists, overwrite? ",fname) 
-	               && !YesNoP(tempstr)) );
+    res = scanf("%s",fname);
+  } while ((!(tmpbool=FileExists(&tmp, fname,"r")) && 
+	   must_exist && 
+	   fprintf(stderr,"File %s not found, try again\n",fname )) ||
+	   (tmpbool && !must_exist && sprintf(tempstr,"File %s exists, overwrite? ", fname) && 
+	   !YesNoP(tempstr)) || res == EOF);
   
   fclose(tmp);
   return fname;

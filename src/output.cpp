@@ -59,15 +59,15 @@ int FileExistsP(const char *fname) {
 int YesNoP(const char *message) {
   
   char answer[100];
-
+  int res;
   fprintf(stderr,"%s (y/n) ",message);
   fflush(stderr);
   
-  scanf("%s",answer);
-  while (strcmp(answer,"y") && strcmp(answer,"n")) {
+  res = scanf("%s",answer);
+  while ((strcmp(answer,"y") && strcmp(answer,"n")) || res == EOF) {
     fprintf(stderr,"\n\bPlease answer 'y' or 'n'. ");
     fflush(stderr);
-    scanf("%s",answer);
+    res = scanf("%s",answer);
   }
   
   if (!strcmp(answer,"y")) return TRUE;
