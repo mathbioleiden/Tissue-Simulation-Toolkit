@@ -37,7 +37,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <MultiCellDS-simpl.hpp>
 
 #define CL_HPP_TARGET_OPENCL_VERSION 220
-#include <CL/cl2.hpp>
+#include <CL/opencl.hpp>
 
 #include <stdio.h>
 #include <iostream>

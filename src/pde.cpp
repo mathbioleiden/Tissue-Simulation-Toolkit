@@ -32,7 +32,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "conrec.h"
 
 #define CL_HPP_TARGET_OPENCL_VERSION 220
-#include <CL/cl2.hpp>
+#include <CL/opencl.hpp>
 
 /* STATIC DATA MEMBER INITIALISATION */
 const int PDE::nx[9] = {0, 1, 1, 1, 0,-1,-1,-1, 0 };
