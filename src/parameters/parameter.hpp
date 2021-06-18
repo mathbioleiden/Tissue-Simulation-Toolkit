@@ -78,6 +78,7 @@ class Parameter {
   int mcds_denoise_steps;
   bool pause_on_start; 
   bool useopencl;
+  char * opencl_core_path;
   int adhesion_storage_stride;
   //Act model
   double lambda_Act;

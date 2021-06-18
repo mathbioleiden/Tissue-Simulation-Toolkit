@@ -234,17 +234,20 @@ void PDE::SetupOpenCL(){
   context = cl::Context({default_device});
   cl::Program::Sources sources;
 
-  //Use file pdeCLcore.cl as Kernel
   std::ifstream inFile;
-  inFile.open("pdecore.cl"); 
+  
+  std::string core_path = par.opencl_core_path;
+
+  inFile.open(core_path); 
   std::stringstream strStream;
   strStream << inFile.rdbuf(); 
   std::string kernel_code  = strStream.str();
-  //std::cout << kernel_code << "\n";
 
-  sources.push_back({kernel_code.c_str(),kernel_code.length()});
-  program =  cl::Program(context,sources);
-  if(program.build({default_device})!=CL_SUCCESS){
+  sources.push_back({kernel_code.c_str(), kernel_code.length()});
+  program =  cl::Program(context, sources);
+
+  std::string build_options = "-I " + core_path.substr(0, core_path.find_last_of("\\/")); 
+  if(program.build({default_device}, build_options.c_str())!=CL_SUCCESS){
     std::cout<<" Error building: "<<program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device)<<"\n";
     exit(1);
   }
