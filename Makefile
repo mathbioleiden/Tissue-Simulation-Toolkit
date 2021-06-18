@@ -16,13 +16,10 @@ LIBCS: MCDS
 	cd "$(LIBCS_DIR)" && $(MAKE)
 
 TST: MCDS LIBCS
-	cd "$(TST_DIR)" && $(MAKE)
+	cd "$(TST_DIR)" && qmake && $(MAKE)
 
 clean: 
 	cd "$(XSDE_DIR)" && $(MAKE) clean
 	cd "$(MCDS_DIR)" && $(MAKE) clean
 	cd "$(LIBCS_DIR)" && $(MAKE) clean
 	cd "$(TST_DIR)" && $(MAKE) clean
-
-
-
