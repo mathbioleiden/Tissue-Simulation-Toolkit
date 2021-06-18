@@ -7,10 +7,14 @@ CONFIG -= app_bundle
 #QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 QT += widgets
 
+
 MODEL = vessel
+
 
 LIBDIR = ../lib
 DESTDIR = ../bin
+OBJECTS_DIR = ../build_files
+MOC_DIR= ../build_files
 TARGET = $$MODEL
 MAINFILE = "models/"$$TARGET".cpp"
 
@@ -32,46 +36,35 @@ QMAKE_CXXFLAGS += -Wno-unused-parameter
 
 message("Building model:" $$MODEL )
 
-# Input
-HEADERS += ca.h \
-	   hull.h \
-           cell.h \
-           conrec.h \
-           dish.h \
-           graph.h \
-           info.h \
-           misc.h \
-           output.h \
-           parameter.h \
-           parse.h \
-           pde.h \
-           random.h \
-           sqr.h \
-           sticky.h \
-       	   crash.h \
-	   warning.h 
-        
-SOURCES += ca.cpp \
-	   hull.cpp \
-           cell.cpp \
-           conrec.cpp \
-           dish.cpp \
-           info.cpp \
-           misc.cpp \
-           output.cpp \
-           parameter.cpp \
-           parse.cpp \
-           pde.cpp \
-           random.cpp \
-           crash.cpp \
-           warning.cpp 
+HEADERS += cellular_potts/*.hpp \
+           parameters/*.hpp \
+           plotting/*.hpp \
+           reaction_diffusion/*.hpp \
+	   reaction_diffusion/*.h \
+           util/*.hpp 
+ 
+SOURCES += cellular_potts/*.cpp \
+           parameters/*.cpp \
+           plotting/*.cpp \
+           reaction_diffusion/*.cpp \
+           util/*.cpp 
 
 SOURCES += $$MAINFILE
+
+INCLUDEPATH += cellular_potts/ \
+               graphics/ \
+               models/ \
+               parameters/ \
+               plotting/ \
+               reaction_diffusion/ \
+               util/ \
+               xpm/ 
+
        
 contains( GRAPHICS, qt ) {
    message("Using QT graphics")
-   SOURCES += qtgraph.cpp
-   HEADERS += qtgraph.h
+   SOURCES += graphics/qtgraph.cpp
+   HEADERS += graphics/qtgraph.hpp
    QMAKE_CXXFLAGS_RELEASE += -DQTGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DQTGRAPHICS 
 }
@@ -81,8 +74,8 @@ contains( GRAPHICS, x11 ) {
      error("X11 graphics only available on Unix systems.")
    }
    message("Using X11 graphics")
-   SOURCES += x11graph.cpp
-   HEADERS += x11graph.h
+   SOURCES += graphics/x11graph.cpp
+   HEADERS += graphics/x11graph.hpp
    QMAKE_CXXFLAGS_RELEASE += -DX11GRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DX11GRAPHICS 
    unix {
