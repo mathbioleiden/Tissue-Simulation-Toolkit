@@ -12,8 +12,7 @@ PDEFIELD_TYPE dt,
 PDEFIELD_TYPE dx2, 
 global const PDEFIELD_TYPE* diff_coeff,
 PDEFIELD_TYPE secr_rate,
-int btype )
-{
+int btype ) {
   //ID is used for position in array
   int id = get_global_id(0); 
   // test b 
@@ -45,10 +44,9 @@ int btype )
     case 3:
     sigmaB[id] = 0.;
     break;
-
     } 
   }
-  else{
+  else {
     //Retrieve current value in array
     PDEFIELD_TYPE value = sigmaA[id];
     
@@ -58,7 +56,7 @@ int btype )
         if (sigmacells[id] > 0){
           value = value + secr_rate * dt;
         }
-        else{
+        else {
            value = value - decay_rate*dt*value;
         }
       }

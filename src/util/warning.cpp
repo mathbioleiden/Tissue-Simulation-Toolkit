@@ -51,7 +51,7 @@ Subject: error.c
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "warning.h"
+#include "warning.hpp"
 
 int Quiet=0;
 

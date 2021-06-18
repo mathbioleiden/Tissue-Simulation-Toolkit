@@ -30,7 +30,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QResizeEvent>
-#include "graph.h"
+#include "graph.hpp"
 #include <math.h>
 
 

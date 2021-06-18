@@ -37,8 +37,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <qpixmap.h>
 #include <qimage.h>
 #include <QResizeEvent>
-#include "qtgraph.h"
-#include "parameter.h"
+#include "qtgraph.hpp"
+#include "parameter.hpp"
 
 using namespace std;
 QtGraphics::QtGraphics(int xfield, int yfield, const char *movie_file)

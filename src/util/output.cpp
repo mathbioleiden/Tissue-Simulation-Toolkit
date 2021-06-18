@@ -26,9 +26,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "warning.h"
-#include "parameter.h"
-#include "output.h"
+#include "warning.hpp"
+#include "parameter.hpp"
+#include "output.hpp"
 
 #define FNAMESIZE 100
 

@@ -31,14 +31,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <math.h>
 #include <cstdlib>
 #include <cstring>
-#include "sticky.h"
-#include "random.h"
-#include "ca.h"
-#include "parameter.h"
-#include "dish.h"
-#include "sqr.h"
-#include "crash.h"
-#include "hull.h"
+#include "sticky.hpp"
+#include "random.hpp"
+#include "ca.hpp"
+#include "parameter.hpp"
+#include "dish.hpp"
+#include "sqr.hpp"
+#include "crash.hpp"
+#include "hull.hpp"
 
 #define ZYGFILE(Z) <Z.xpm>
 #define XPM(Z) Z ## _xpm
@@ -726,7 +726,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
     
     if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
       ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
-      
+    } else {
       for (int j = 1; j <= n_nb; j++){
         xn = nx[j]+x; 
         yn = ny[j]+y;
@@ -1381,9 +1381,7 @@ else
 
 
 int CellularPotts:: GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
-
   /*int n_nb;
-
    if (par.neighbours>=1 && par.neighbours<=4)
     int n_nb=nbh_level[par.neighbours];
   */

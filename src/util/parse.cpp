@@ -26,9 +26,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include "warning.h"
-#include "parse.h"
-#include "output.h"
+#include "warning.hpp"
+#include "parse.hpp"
+#include "output.hpp"
 
 
 char *ParsePar(FILE *fp, const char *parameter, bool wrapflag) 

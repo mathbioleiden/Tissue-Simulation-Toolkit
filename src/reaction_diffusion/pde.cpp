@@ -25,11 +25,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
-#include "crash.h"
-#include "parameter.h"
-#include "ca.h"
-#include "pde.h"
-#include "conrec.h"
+#include "crash.hpp"
+#include "parameter.hpp"
+#include "ca.hpp"
+#include "pde.hpp"
+#include "conrec.hpp"
 
 #define CL_HPP_TARGET_OPENCL_VERSION 220
 #include <CL/opencl.hpp>

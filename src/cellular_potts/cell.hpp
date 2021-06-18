@@ -23,7 +23,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef _CELL_HH_
 #define _CELL_HH_
 
-#include "parameter.h"
+#include "parameter.hpp"
 //#define EMPTY -1
 #include <math.h>
 

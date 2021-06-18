@@ -30,11 +30,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #define CRITTER_H_
 #include <vector>
 #include "mcds_io.h"
-#include "graph.h"
-#include "random.h"
-#include "pde.h"
-#include "cell.h"
-#include "ca.h"
+#include "graph.hpp"
+#include "random.hpp"
+#include "pde.hpp"
+#include "cell.hpp"
+#include "ca.hpp"
 
 namespace ColourMode {
   enum {

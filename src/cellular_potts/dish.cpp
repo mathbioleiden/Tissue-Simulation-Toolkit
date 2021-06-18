@@ -28,12 +28,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <string.h>
 #include <errno.h>
 #include <math.h>
-#include "dish.h"
-#include "sticky.h"
-#include "parameter.h"
-#include "info.h"
-#include "crash.h"
-#include "pde.h"
+#include "dish.hpp"
+#include "sticky.hpp"
+#include "parameter.hpp"
+#include "info.hpp"
+#include "crash.hpp"
+#include "pde.hpp"
 
 #define EXTERNAL_OFF
 

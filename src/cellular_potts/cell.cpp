@@ -27,10 +27,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef __APPLE__
 #include <malloc.h>
 #endif
-#include "cell.h"
-#include "sticky.h"
-#include "parameter.h"
-#include "dish.h"
+#include "cell.hpp"
+#include "sticky.hpp"
+#include "parameter.hpp"
+#include "dish.hpp"
 
 #define HASHCOLNUM 255
 

@@ -24,7 +24,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <locale.h>
 #include <stdlib.h>
 #include <cstring>
-#include "sticky.h"
+#include "sticky.hpp"
 
 /** PRIVATE **/
 

@@ -21,9 +21,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
-// mainpage.h contains no C++ code, it is for the main page of the
+// mainpage.hpp contains no C++ code, it is for the main page of the
 // documentation
-#include "mainpage.h"
+#include "mainpage.hpp"
 
 /*! Implementation of the Glazier & Graner cellular Potts model **/
 #ifndef _CA_HH_
@@ -33,10 +33,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <unordered_set>
 #include <unordered_map>
 #include <vector>
-#include "graph.h"
-#include "pde.h"
+#include "graph.hpp"
+#include "pde.hpp"
 //#include "dish.h"
-#include "cell.h"
+#include "cell.hpp"
 
 // MultiCellDS 
 #include <MultiCellDS.hpp>

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
-#include "graph.h"
-#include "conrec.h"
+#include "graph.hpp"
+#include "conrec.hpp"
 
 
 #define xsect(p1,p2) (h[p2]*xh[p1]-h[p1]*xh[p2])/(h[p2]-h[p1])

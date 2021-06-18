@@ -30,9 +30,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 //#include <unistd.h>
 #include <string.h>
-#include "sticky.h"
+#include "sticky.hpp"
 //#include "structs.h"
-#include "crash.h"
+#include "crash.hpp"
 #define NOPVM
 
 /* This message will be mailed to MAILREPORT if a segmentation fault is caught.  */

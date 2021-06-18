@@ -24,10 +24,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <stdlib.h>
 #include <chrono>
 #include <iostream>
-#include "random.h"
 #include <cstdlib>
 #include <cmath>
 #include <limits>
+#include "random.hpp"
 
 static long idum = -1;
 

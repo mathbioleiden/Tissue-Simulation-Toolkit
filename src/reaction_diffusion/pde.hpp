@@ -21,16 +21,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
-#include "pdetype.h" 
-#include "graph.h"
 #ifndef _PDE_HH_
 #define _PDE_HH_
 #include <stdio.h>
 #include <float.h>
-#include "graph.h"
 #include <vector>
 #include <string>
-#include "graph.h"
+#include "graph.hpp"
+
 
 #include <MultiCellDS.hpp>
 #include <MultiCellDS-pimpl.hpp>
@@ -38,6 +36,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 #define CL_HPP_TARGET_OPENCL_VERSION 220
 #include <CL/opencl.hpp>
+#include "pdetype.h" 
 
 #include <stdio.h>
 #include <iostream>

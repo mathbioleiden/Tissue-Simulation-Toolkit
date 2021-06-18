@@ -16,7 +16,7 @@
 //            <0 for P2 right of the line
 //    See: the January 2001 Algorithm on Area of Triangles
 
-#include "hull.h"
+#include "hull.hpp"
 
 
 inline float

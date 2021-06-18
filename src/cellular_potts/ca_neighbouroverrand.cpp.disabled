@@ -31,14 +31,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <math.h>
 #include <cstdlib>
 #include <cstring>
-#include "sticky.h"
-#include "random.h"
-#include "ca.h"
-#include "parameter.h"
-#include "dish.h"
-#include "sqr.h"
-#include "crash.h"
-#include "hull.h"
+#include "sticky.hpp"
+#include "random.hpp"
+#include "ca.hpp"
+#include "parameter.hpp"
+#include "dish.hpp"
+#include "sqr.hpp"
+#include "crash.hpp"
+#include "hull.hpp"
 #include <tuple>
 
 #define ZYGFILE(Z) <Z.xpm>

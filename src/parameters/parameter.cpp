@@ -22,14 +22,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 */
 
 
-#include "parameter.h"
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
 #include <cerrno>
 #include <iostream>
-#include "output.h"
-#include "parse.h"
+#include "parameter.hpp"
+#include "output.hpp"
+#include "parse.hpp"
 
 Parameter::Parameter() {
 

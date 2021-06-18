@@ -1,40 +1,23 @@
-<<<<<<< HEAD
 /* 
-=======
-/*
->>>>>>> Guacimo_TST/matrixarray
-
 Copyright 1996-2006 Roeland Merks
-
 This file is part of Tissue Simulation Toolkit.
-
 Tissue Simulation Toolkit is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public
 License as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.
-
 Tissue Simulation Toolkit is distributed in the hope that it will
 be useful, but WITHOUT ANY WARRANTY; without even the implied
 warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with Tissue Simulation Toolkit; if not, write to the Free
 Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA
-
 */
 
 /*! \class X11Graphics
-
-<<<<<<< HEAD
 \brief X-Windows implementation of Graphics interface. 
-=======
-\brief X-Windows implementation of Graphics interface.
->>>>>>> Guacimo_TST/matrixarray
-
 For API see documentation of base class Graphics.
-
 Has a number extra features: see below.
 */
 
@@ -46,7 +29,7 @@ Has a number extra features: see below.
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 #include <X11/cursorfont.h>
-#include "graph.h"
+#include "graph.hpp"
 
 // Shared memory extensions
 
@@ -68,11 +51,7 @@ Has a number extra features: see below.
 
 
 typedef struct li {
-<<<<<<< HEAD
   
-=======
-
->>>>>>> Guacimo_TST/matrixarray
   int x1;
   int y1;
   int x2;
@@ -100,28 +79,16 @@ public:
   }
 
   virtual void Point( int color, int x, int y);
-<<<<<<< HEAD
   virtual void Line ( int x1, int y1,int x2,int y2,int colour );
   void Field (const int **r, int mag=1);
 
   virtual int GetXYCoo(int *X,int *Y);
   
-=======
-  virtual void PointAlpha( int color, int x, int y);
-  virtual void Line ( int x1, int y1,int x2,int y2,int colour );
-  virtual void Arrow( int x1, int y1,int x2,int y2,int colour );
-  void Field (const int **r, int mag=1);
-
-  virtual int GetXYCoo(int *X,int *Y);
-
->>>>>>> Guacimo_TST/matrixarray
   /*! \brief Changes the title bar of the Graphics window.
-
   \param message: Text to display in title bar.
   */
   char *ChangeTitle (const char *message);
 
-<<<<<<< HEAD
   
   //! \brief Recovers the title prior to the last call of ChangeTitle().
   void RecoverTitle(void);
@@ -130,33 +97,18 @@ public:
     
   \return Bounding box as a LineType structure {int x1,int y1,int x2,int y2}.
   
-=======
-
-  //! \brief Recovers the title prior to the last call of ChangeTitle().
-  void RecoverTitle(void);
-
-  /*! \brief Returns the upper left and lower right coordinates of the area occupied by cells.
-
-  \return Bounding box as a LineType structure {int x1,int y1,int x2,int y2}.
-
->>>>>>> Guacimo_TST/matrixarray
   Warning: Assumes the window only displays cells (i.e. no PDE fields
   etc.). If you need this, better implement it as a member function of
   class CellularPotts.
   */
   LineType CropSize(void);
-<<<<<<< HEAD
   
-=======
-
->>>>>>> Guacimo_TST/matrixarray
   /*! \brief This member function was part of functionality that
     enables interactive resizing of the Window and CPM field, and
     followed by interactive replacement of the Dish's contents. The
     current version of CPM does not contain such functionality.
   */
 
-<<<<<<< HEAD
 Coordinate ReplaceBeast(Coordinate old_size,Coordinate new_size); 
 
 virtual inline int XField(void) const {return xfield;} 
@@ -167,18 +119,6 @@ virtual void Write(char *fname, int quality=-1);
 
 /*! \brief Clears all pixels in the Image. 
   
-=======
-Coordinate ReplaceBeast(Coordinate old_size,Coordinate new_size);
-
-virtual inline int XField(void) const {return xfield;}
-
-virtual inline int YField(void) const {return yfield;}
-
-virtual void Write(char *fname, int quality=-1);
-
-/*! \brief Clears all pixels in the Image.
-
->>>>>>> Guacimo_TST/matrixarray
 */
 inline void ClearImage(void) {
 
@@ -188,11 +128,7 @@ inline void ClearImage(void) {
 	}
     }
   }
-<<<<<<< HEAD
   virtual void TimeStep(void); 
-=======
-  virtual void TimeStep(void);
->>>>>>> Guacimo_TST/matrixarray
 private:
   void InitGraphics(int xfield, int yfield);
   void CloseGraphics();
@@ -213,11 +149,7 @@ private:
   // Data members
   int LineClearP(char direction, int pos, int cropcol=0);
   void Resize(void);
-<<<<<<< HEAD
   
-=======
-
->>>>>>> Guacimo_TST/matrixarray
 private:
 
 #ifdef USE_XSHM
@@ -253,11 +185,7 @@ private:
   char *movie_file_name;
   bool compressed_movie_p;
   FILE *movie_fp;
-<<<<<<< HEAD
   
-=======
-
->>>>>>> Guacimo_TST/matrixarray
   bool store;
 
   char *old_window_name;

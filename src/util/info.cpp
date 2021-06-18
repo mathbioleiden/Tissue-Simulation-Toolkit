@@ -26,12 +26,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef __APPLE__
 #include <malloc.h>
 #endif
-#include "dish.h"
-#include "graph.h"
-#include "info.h"
-#include "parameter.h"
-#include "misc.h"
-#include "parse.h"
+#include "dish.hpp"
+#include "graph.hpp"
+#include "info.hpp"
+#include "parameter.hpp"
+#include "misc.hpp"
+#include "parse.hpp"
 
 extern Parameter par;
 
