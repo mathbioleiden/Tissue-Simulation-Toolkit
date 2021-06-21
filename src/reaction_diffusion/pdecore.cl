@@ -1,5 +1,3 @@
-#include "pdetype.h"
-
 void kernel SecreteAndDiffuse(
 global const int* sigmacells, 
 global const PDEFIELD_TYPE* sigmaA,  

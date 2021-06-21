@@ -31,6 +31,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <math.h>
 #include <cstdlib>
 #include <cstring>
+#include <fstream>
 #include "sticky.hpp"
 #include "random.hpp"
 #include "ca.hpp"
@@ -669,7 +670,6 @@ void CellularPotts::FreezeAmoebae(void) {
     frozen=TRUE;
 }
 
-#include <fstream>
 //! Monte Carlo Step. Returns summed energy change
 int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
   int loop,p;

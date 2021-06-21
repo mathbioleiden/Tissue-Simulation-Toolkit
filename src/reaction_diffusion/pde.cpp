@@ -31,8 +31,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "pde.hpp"
 #include "conrec.hpp"
 
-#define CL_HPP_TARGET_OPENCL_VERSION 220
-#include <CL/opencl.hpp>
 
 /* STATIC DATA MEMBER INITIALISATION */
 const int PDE::nx[9] = {0, 1, 1, 1, 0,-1,-1,-1, 0 };
@@ -240,14 +238,16 @@ void PDE::SetupOpenCL(){
 
   inFile.open(core_path); 
   std::stringstream strStream;
+
+  strStream << OPENCL_PDE_TYPE;
+
   strStream << inFile.rdbuf(); 
   std::string kernel_code  = strStream.str();
 
   sources.push_back({kernel_code.c_str(), kernel_code.length()});
   program =  cl::Program(context, sources);
 
-  std::string build_options = "-I " + core_path.substr(0, core_path.find_last_of("\\/")); 
-  if(program.build({default_device}, build_options.c_str())!=CL_SUCCESS){
+  if(program.build({default_device})!=CL_SUCCESS){
     std::cout<<" Error building: "<<program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device)<<"\n";
     exit(1);
   }

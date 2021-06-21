@@ -29,14 +29,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <string>
 #include "graph.hpp"
 
+#define CL_HPP_TARGET_OPENCL_VERSION 220
+#include <CL/opencl.hpp>
+#include "pdetype.h" 
 
 #include <MultiCellDS.hpp>
 #include <MultiCellDS-pimpl.hpp>
 #include <MultiCellDS-simpl.hpp>
-
-#define CL_HPP_TARGET_OPENCL_VERSION 220
-#include <CL/opencl.hpp>
-#include "pdetype.h" 
 
 #include <stdio.h>
 #include <iostream>
