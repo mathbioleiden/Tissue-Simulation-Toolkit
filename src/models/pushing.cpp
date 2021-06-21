@@ -142,7 +142,6 @@ int main(int argc, char *argv[]) {
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
     QtGraphics g(par.sizex*2,par.sizey*2);
-    a.setMainWidget( &g );
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
 
     if (par.graphics)
