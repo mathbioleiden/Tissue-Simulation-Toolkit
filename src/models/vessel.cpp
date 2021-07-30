@@ -28,17 +28,26 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <cstdlib>
 #include <algorithm>
 #include <fstream>
-//#include <unistd.h>
 #include <math.h>
+#include <thread>
 #include "dish.hpp"
 #include "random.hpp"
 #include "cell.hpp"
 #include "info.hpp"
 #include "parameter.hpp"
+#include "plotter.hpp"
+#include "profiler.hpp"
 
 #ifdef QTGRAPHICS
 #include "qtgraph.hpp"
-#else
+#endif
+
+#ifdef GLGRAPHICS
+//#include "glgraph.hpp"
+#include <GL/glut.h> 
+#endif
+
+#ifdef X11GRAPHICS
 #include "x11graph.hpp"
 #endif
 
@@ -71,65 +80,34 @@ INIT {
 }
 
 TIMESTEP { 
- 
   try {
-
     static int i=0;
     static Dish *dish=new Dish();
     static Info *info=new Info(*dish, *this);
-
-    // slowly increase target length during the first time steps
-    // to prevent cells from breaking apart
-    // static double targetlength=par.target_length;
-
-    // secretion and chemotaxis only starts
-    // after relaxation of initial condition
-    
-    if (par.useopencl){
-      dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);
-    }
-    else{
-      if (i>=par.relaxation) {
+    static Plotter plotter = Plotter(dish, this);
+    if (i>=par.relaxation) {
+      if (par.useopencl){
+        PROFILE(opencl_diff, dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);)
+      }
+      else{
         for (int r=0;r<par.pde_its;r++) {
 	  dish->PDEfield->Secrete(dish->CPM);
 	  dish->PDEfield->Diffuse(1);
         }
       }
     }
-    dish->CPM->AmoebaeMove(dish->PDEfield);
-    
+    PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
     
     if (par.graphics && !(i%par.storage_stride)) {
-      BeginScene();
-            
-      dish->PDEfield->Plot(this,0);
-      // You need to call "ClearImage" if no PDE field is plotted,
-      // because the CPM medium is considered transparant
-      //ClearImage();
-      dish->Plot(this);
-      
-      if (i>=par.relaxation)
-      dish->PDEfield->ContourPlot(this,0,7);
+      PROFILE(all_plots, plotter.Plot();) 
       char title[400];
       snprintf(title,399,"CellularPotts: %.2f hr",dish->PDEfield->TheTime()/3600);
-      //snprintf(title,399,"CellularPotts: %d MCS",i);
-      //ChangeTitle(title);
-      EndScene();
       info->Menu();
-      dish->CPM->SetBoundingBox();
     }
     if (par.store && !(i%par.storage_stride)) {
       char fname[200],fname_mcds[200];
       snprintf(fname,199,"%s/extend%05d.png",par.datadir,i);
       snprintf(fname_mcds,199,"%s/extend%05d.xml",par.datadir,i);
-      BeginScene();
-
-      dish->PDEfield->Plot(this,0);
-      //ClearImage();
-      dish->Plot(this);
-      if (i>=par.relaxation)
-      dish->PDEfield->ContourPlot(this,0,7);
-      EndScene();
       Write(fname);
       if (!(i%(par.storage_stride*10)))
         dish->ExportMultiCellDS(fname_mcds);
@@ -140,65 +118,71 @@ TIMESTEP {
     std::cerr << error << "\n";
     exit(1);
   }
+#ifdef PROFILING_ENABLED
+  profiler.print_all();
+  std::cout << std::endl;
+#endif
 }
 
 void PDE::Secrete(CellularPotts *cpm) {
-
   const double dt=par.dt;
-
-  for (int x=0;x<sizex;x++)
+  for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {
       // inside cells
       if (cpm->Sigma(x,y)) {
-	
 	sigma[0][x][y]+=par.secr_rate[0]*dt;
-	
       } else {
       // outside cells
 	sigma[0][x][y]-=par.decay_rate[0]*dt*sigma[0][x][y];
- 
       }
     }
+  }
 }
 
 int PDE::MapColour(double val) {
-  
   return (((int)((val/((val)+1.))*100))%100)+155;
 }
 
-int main(int argc, char *argv[]) {
+void Plotter::Plot()  {
+  graphics->BeginScene();
   
-	
-  try {
+  plotPDEDensity();
+  plotCPMCellTypes();
+  plotCPMLines(); 
+  plotPDEContourLines();
+  
+  graphics->EndScene();
+}
 
+int main(int argc, char *argv[]) {
+  try {
 #ifdef QTGRAPHICS
     QApplication a(argc, argv);
 #endif
     // Read parameters
     par.Read(argv[1]);
-    
     Seed(par.rseed);
-    
     //QMainWindow mainwindow w;
 #ifdef QTGRAPHICS
     QtGraphics g(par.sizex*2,par.sizey*2);
     a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
-
     if (par.graphics)
       g.show();
-    
     a.exec();
-#else
+#endif
+#ifdef GLGRAPHICS
+  extern GLGraphics * graphics_object;
+  glutInit(&argc, argv );
+  graphics_object = new GLGraphics(par.sizex*3, par.sizey*3);
+  glutMainLoop();
+#endif 
+#ifdef X11GRAPHICS
     X11Graphics g(par.sizex*2,par.sizey*2);
     int t;
-
     for (t=0;t<par.mcs;t++) {
-
       g.TimeStep();
-    
     }
 #endif
-    
   } catch(const char* error) {
     std::cerr << error << "\n";
     exit(1);

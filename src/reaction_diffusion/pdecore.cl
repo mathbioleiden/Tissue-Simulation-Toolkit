@@ -1,5 +1,5 @@
 void kernel SecreteAndDiffuse(
-global const int* sigmacells, 
+global const int* sigmacells,  
 global const PDEFIELD_TYPE* sigmaA,  
 global PDEFIELD_TYPE* sigmaB, 
 int xsize, 
@@ -16,10 +16,12 @@ int btype ) {
   // test b 
   //Calculate position in aray
   int layersize = xsize * ysize;
-  int zpos = id/layersize;
-  int xpos = (id - (zpos * layersize)) /ysize;
+  int zpos = id / layersize;
+  int xpos = (id - (zpos * layersize)) / ysize;
   int ypos = id - xpos * ysize - zpos * layersize; 
- 
+
+  //printf("id: %i x: %i y: %i\n", id, xpos, ypos);
+
   //Boundaries
   PDEFIELD_TYPE sum =0.;
   if (xpos == 0 || ypos == 0 || xpos == xsize-1 || ypos == ysize-1){
@@ -62,11 +64,11 @@ int btype ) {
     //Diffusion
     sum += sigmaA[id-1];
     sum += sigmaA[id+1];
-    sum += sigmaA[id-xsize];
-    sum += sigmaA[id+xsize];
+    sum += sigmaA[id-ysize];
+    sum += sigmaA[id+ysize];
     sum-=4*value;
-    sigmaB[id]= value+sum*dt*diff_coeff[zpos]/dx2;
-   //printf("X: %d, Y: %d, ID: %d, Val: %f, New: %f, Dec: %f, Sec: %f, DT: %f, diff_coeff: %0.20f \n", xpos, ypos, id, value, sigmaB[id], decay_rate, secr_rate, dt, diff_coeff[zpos]);
+    sigmaB[id] = value+sum*dt*diff_coeff[zpos]/dx2;
+    //sigmaB[id] =  value;
   }
 }
 

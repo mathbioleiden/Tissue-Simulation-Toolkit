@@ -210,7 +210,11 @@ public:
     \return Total energy change during MCS.
   */
   int AmoebaeMove(PDE *PDEfield=0, bool anneal = false);
+ 
   
+  int Act_AmoebaeMove(PDE *PDEfield);
+ 
+
   /*! Implements the core CPM algorithm with Kawasaki dynamics. Carries out one MCS.
    \return Total energy change during MCS.
    */
@@ -367,10 +371,27 @@ public:
   inline int** getSigma(){
     return sigma;
   }
- 
+
+  bool plotPos(int x, int y, Graphics * graphics, float z);
+  void linePlotPos(int x, int y, Graphics * graphics, float z);
+  
+  inline void fillCellColArr(int * arr){
+    for (int dex = 0; dex < par.sizex*par.sizey; dex++){
+      int pos = sigma[0][dex];
+      if (pos != 0) {
+        arr[dex] = (*cell)[pos].Colour();
+      }
+      else {
+        arr[dex] = 0;
+      }
+    }
+  };
+
 private:
   void IndexShuffle(void);
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+  int Act_DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+
   int KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
   int IsingDeltaH(int x,int y, PDE *PDEfield=0);
   int PottsDeltaH(int x,int y, int new_state);

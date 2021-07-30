@@ -49,7 +49,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 /* NOTE: ZYGOTE is normally defined in Makefile!!!!!! */
 #ifndef ZYGOTE
 #define ZYGOTE init
-#include "xpm/init.xpm"
+#include "xpm/1.xpm"
 #else
 #include ZYGFILE(ZYGOTE)
 #endif
@@ -239,10 +239,8 @@ void CellularPotts::InitializeEdgeList(void){
     yp = ny[neighbour]+y;
       
     if (par.periodic_boundaries) {
-      
       // since we are asynchronic, we cannot just copy the borders once 
       // every MCS      
-         
       if (xp<=0)
         xp=sizex-2+xp;
       if (yp<=0)
@@ -251,7 +249,6 @@ void CellularPotts::InitializeEdgeList(void){
         xp=xp-sizex+2;
       if (yp>=sizey-1)
         yp=yp-sizey+2;
-      
       cp=sigma[xp][yp];
       }
     else if (xp<=0 || yp<=0 || xp>=sizex-1 || yp>=sizey-1)
@@ -490,8 +487,6 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
 }
 
 
-
-
 int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)       
 {
   int DH = 0;
@@ -581,6 +576,323 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
 }
 
 
+int CellularPotts::Act_AmoebaeMove(PDE *PDEfield) {
+  int loop, p;
+  thetime++;
+  int SumDH = 0;
+  if (frozen) return 0;
+  loop = (sizex-2) * (sizey-2);
+  for (int i=0; i < loop; i++) {
+    // take a random site
+    int xy = (int)(RANDOM()*(sizex-2)*(sizey-2));
+    int x = xy%(sizex-2)+1;
+    int y = xy/(sizex-2)+1;
+    // take a random neighbour
+    int xyp=(int)(n_nb*RANDOM()+1);
+    int xp = nx[xyp]+x;
+    int yp = ny[xyp]+y;
+    int k=sigma[x][y];
+    int kp;
+    if (par.periodic_boundaries) {
+      // since we are asynchronic, we cannot just copy the borders once
+      // every MCS
+      if (xp<=0) xp=sizex-2+xp;
+      if (yp<=0) yp=sizey-2+yp;
+      if (xp>=sizex-1) xp=xp-sizex+2;
+      if (yp>=sizey-1) yp=yp-sizey+2;
+      kp=sigma[xp][yp];
+    } else {
+      if (xp<=0 || yp<=0 || xp>=sizex-1 || yp>=sizey-1) {
+	kp=-1;
+      } else {
+        kp=sigma[xp][yp];
+      }
+    }
+    // test for border state (relevant only if we do not use
+    // periodic boundaries)
+    if (kp!=-1) {
+      // Don't even think of copying the special border state into you!
+      if (k>=0 && k  != kp ) {
+        if ( par.cluster_connectivity==false || ConnectivityPreservedPCluster(x,y)) {
+          /* Try to copy if sites do not belong to the same cell */
+          // connectivity dissipation:
+          int H_diss=0;
+          if (!ConnectivityPreservedP(x,y)) H_diss=par.conn_diss;
+          int D_H=Act_DeltaH(x,y,xp,yp,PDEfield);
+          if ((p=CopyvProb(D_H,H_diss,false))>0) {
+            ConvertSpin ( x,y,xp,yp );
+            SumDH+=D_H;
+            if (par.lambda_Act>0) {
+                // Update actin field
+                if (sigma[x][y]>0) {
+                  actPixels[{x,y}]=par.max_Act;
+                  std::unordered_set<std::array<int,2>>::const_iterator it = (alivePixels.find({x,y}));
+                if (it==alivePixels.end()) {
+                  alivePixels.insert({x,y});
+                }
+              } else {
+                std::unordered_set<std::array<int,2>>::const_iterator it = (alivePixels.find({x,y}));
+                if (it!=alivePixels.end()) {
+                  alivePixels.erase({x,y});
+                }
+                std::unordered_map<std::array<int,2>, int>::const_iterator ap = (actPixels.find({x,y}));
+                if (ap!=actPixels.end()) {
+                  actPixels.erase({x,y});
+                }
+              }
+            }
+            //Update adhesive areas
+            if (kp == 0) {
+              getCell(k).DecrementAdhesiveArea(GetMatrixLevel(x,y));
+            }
+            else if (k==0) {
+            // getCell(kp).IncrementAdhesiveArea(1);
+            } else {
+              getCell(k).DecrementAdhesiveArea(GetMatrixLevel(x,y));
+            //getCell(kp).IncrementAdhesiveArea(1);
+            }
+            if (par.lambda_matrix>0) {
+              // Update matrix interaction field
+              if (sigma[x][y]>0) {
+                // matrixPixels[{x,y}]=0;
+                matrix[x][y]=0;
+              } else {
+                // matrixPixels.erase({x,y});
+                matrix[x][y]=0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return SumDH;
+}
+
+int CellularPotts::Act_DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
+  int DH = 0;
+  int i, sxy, sxyp;
+  int neighsite;
+
+  /* Compute energydifference *IF* the copying were to occur */
+  int DH_adhesive_energy =0;
+  sxy = sigma[x][y];
+  sxyp = sigma[xp][yp];
+  if (sxyp<=-1){sxyp=0;}//allow for medium to copy in from box border or pillars
+
+  /* DH due to cell adhesion */
+  //also compute changes in neighbours for alignment with newneighbours
+  int xy_neighbour_changes[cell->size()]={0};
+  int xyp_neighbour_changes[cell->size()]={0};
+  for (i=1;i<=n_nb;i++) {
+    int xp2,yp2;
+    xp2=x+nx[i]; yp2=y+ny[i];
+    if (par.periodic_boundaries) {
+
+      // since we are asynchronic, we cannot just copy the borders once
+      // every MCS
+
+      if (xp2<=0)
+	xp2=sizex-2+xp2;
+      if (yp2<=0)
+	yp2=sizey-2+yp2;
+      if (xp2>=sizex-1)
+	xp2=xp2-sizex+2;
+      if (yp2>=sizey-1)
+	yp2=yp2-sizey+2;
+
+      neighsite=sigma[xp2][yp2];
+
+
+    } else {
+
+      if (xp2<=0 || yp2<=0
+	  || xp2>=sizex-1 || yp2>=sizey-1)
+	neighsite=-1;
+      else
+	neighsite=sigma[xp2][yp2];
+
+    }
+    if (neighsite==-1) { // border
+      DH_adhesive_energy += (sxyp==0?0:par.border_energy)-
+	(sxy==0?0:par.border_energy);
+    }
+    else{
+      DH_adhesive_energy += (*cell)[sxyp].EnergyDifference((*cell)[neighsite])
+	- (*cell)[sxy].EnergyDifference((*cell)[neighsite]);
+  if ((i<=4) | par.extended_neighbour_border){
+    if (neighsite!=sxy)
+    xy_neighbour_changes[neighsite]-=1;
+    if (neighsite!=sxyp)
+    xyp_neighbour_changes[neighsite]+=1;
+  }}}
+
+  DH+=DH_adhesive_energy;
+
+  // lambda is determined by chemical 0
+  int DH_area=0;
+  if (par.area_constraint_type == 0){
+  //cerr << "[" << lambda << "]";
+  if ( sxyp == MEDIUM ) {
+    DH_area += (int)(par.lambda *  (1. - 2. *
+			       (double) ( (*cell)[sxy].Area() - (*cell)[sxy].TargetArea()) ));
+  }
+  else if ( sxy == MEDIUM ) {
+    DH_area += (int)((par.lambda * (1. + 2. *
+			       (double) ( (*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea()) )));
+  }
+  else
+    DH_area += (int)(par.lambda * (2.+  2.  * (double)
+			       (  (*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea()
+			       - (*cell)[sxy].Area() + (*cell)[sxy].TargetArea() )) );
+}
+
+DH+=DH_area;
+
+
+		//!Perimeter constraint, only available when par.area_constraint_type==0, in other words,
+		//when the target area constraint is in place
+int DH_perimeter=0;
+if (par.area_constraint_type == 0){
+		if ( sxyp == MEDIUM) {
+
+    DH_perimeter -= par.lambda_perimeter*( DSQR((*cell)[sxy].Perimeter()-(*cell)[sxy].TargetPerimeter())
+		       - DSQR(GetNewPerimeterIfXYWereRemoved(sxy,x,y) -(*cell)[sxy].TargetPerimeter() ) );
+
+  }
+  else if ( sxy == MEDIUM ) {
+
+    DH_perimeter -= par.lambda_perimeter* (  DSQR((*cell)[sxyp].Perimeter()-(*cell)[sxyp].TargetPerimeter())
+			 -DSQR(GetNewPerimeterIfXYWereAdded(sxyp,x,y)-(*cell)[sxyp].TargetPerimeter() ) );
+
+  }
+  // they're both cells
+  else {
+
+			DH_perimeter -= par.lambda_perimeter*( (DSQR((*cell)[sxyp].Perimeter()-(*cell)[sxyp].TargetPerimeter())
+		     -DSQR(GetNewPerimeterIfXYWereAdded(sxyp,x,y)-(*cell)[sxyp].TargetPerimeter())) );
+
+			DH_perimeter -= par.lambda_perimeter*( DSQR((*cell)[sxy].Perimeter()-(*cell)[sxy].TargetPerimeter())
+		      - DSQR(GetNewPerimeterIfXYWereRemoved(sxy,x,y) -(*cell)[sxy].TargetPerimeter())) ;
+ }
+}
+DH +=DH_perimeter;
+  /* Chemotaxis */
+  int DDH=0;
+  if (PDEfield && (par.vecadherinknockout || (sxyp==0 || sxy==0))) {
+
+    // copying from (xp, yp) into (x,y)
+    // If par.extensiononly == true, apply CompuCell's method, i.e.
+    // only chemotactic extensions contribute to energy change
+    if (!( par.extensiononly && sxyp==0)) {
+      DDH=(int)(par.chemotaxis*(sat(PDEfield->Sigma(0,x,y))-sat(PDEfield->Sigma(0,xp,yp))));
+
+      DH-=DDH;
+    }
+  }
+
+
+  const double lambda2=par.lambda2;
+
+  /* Length constraint */
+  // sp is expanding cell, s is retracting cell
+
+  int DH_length=0;
+  if ( sxyp == MEDIUM ) {
+    DH_length -= (int)(lambda2*( DSQR((*cell)[sxy].Length()-(*cell)[sxy].TargetLength())
+		       - DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x,y) -
+			      (*cell)[sxy].TargetLength()) ));
+
+  }
+  else if ( sxy == MEDIUM ) {
+    DH_length -= (int)(lambda2*(DSQR((*cell)[sxyp].Length()-(*cell)[sxyp].TargetLength())
+			 -DSQR((*cell)[sxyp].GetNewLengthIfXYWereAdded(x,y)-(*cell)[sxyp].TargetLength())));
+
+
+  }
+  else {
+    DH_length -= (int)(lambda2*( (DSQR((*cell)[sxyp].Length()-(*cell)[sxyp].TargetLength())
+		     -DSQR((*cell)[sxyp].GetNewLengthIfXYWereAdded(x,y)-(*cell)[sxyp].TargetLength())) +
+		    ( DSQR((*cell)[sxy].Length()-(*cell)[sxy].TargetLength())
+		      - DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x,y) -
+			     (*cell)[sxy].TargetLength()) ) ));
+  }
+  DH +=DH_length;
+
+  /************************The Act model****************/
+ // let the cell extend with
+ int DH_act=0;
+	if (par.lambda_Act)
+{
+	 double Act_expanding=1, Act_retracting=1;
+   int nxp =0,nret =0;
+
+
+     	for (int i1=-1;i1<=1;i1++)
+     		for (int i2=-1;i2<=1;i2++){
+
+       		if (sigma[xp+i1][yp+i2]>=0 && sigma[xp+i1][yp+i2]== sigma[xp][yp] ){
+       			Act_expanding *= GetActLevel(xp+i1, yp+i2);
+       			nxp++;
+       		}
+
+
+       		if (sigma[x+i1][y+i2]>=0 && sigma[x+i1][y+i2] == sigma[x][y]){
+       			Act_retracting *= GetActLevel(x+i1,y+i2);
+						nret++;
+       		}
+       	}
+
+     	// apply the smoothing
+     	//Act_expanding*= pow( PDEfield->Sigma(2,xp,yp), w-1);
+     	//Act_retracting*= pow(PDEfield->Sigma(2,x,y), w-1);
+     	//nxp += w-1;
+     	//nret += w-1;
+
+     	Act_expanding= pow(Act_expanding, 1./nxp);
+     	Act_retracting= pow(Act_retracting, 1./nret);
+
+  // Act model activation dependent on total adhesion area of the cell
+  // If adhesion area exceeds threshold, Act model is fully functional,
+  // otherwise, it starts at base*lambda_Act and for increasing adhesion areas
+  // it increases linearly to lambda_Act.
+  double threshold=par.threshold;
+  double base =par.start_level;
+  double strength;
+	if( (*cell)[sxyp].sigma>0){
+      double adhesion_fraction = (double)(*cell)[sxyp].GetAdhesiveArea()/(double)(*cell)[sxyp].area;
+      if (adhesion_fraction>=threshold){
+        strength = 1;
+        }
+      else{
+        strength= base+((1-base)/threshold)*adhesion_fraction;
+      }
+			DH_act-= (par.lambda_Act * strength)/par.max_Act * Act_expanding;
+	}
+
+  if( (*cell)[sxy].sigma>0){
+    double adhesion_fraction = (double)(*cell)[sxy].GetAdhesiveArea()/(double)(*cell)[sxy].area;
+    if (adhesion_fraction>=threshold){
+      strength = 1;
+    }
+    else{
+      strength= base+((1-base)/threshold)*adhesion_fraction;
+    }
+	   DH_act+= (par.lambda_Act * strength)/par.max_Act * Act_retracting;
+		}
+}
+DH+=DH_act;
+
+/****** Matrix interaction retraction yield energy ****/
+//Retractiong of lattice sites that contain an adhesion is penalized with
+//lambda_matrix
+int DH_matrix_interaction=0;
+	if ( sxyp == MEDIUM && par.lambda_matrix){// should be done for all retractions, I assume.
+	DH_matrix_interaction+=par.lambda_matrix * (GetMatrixLevel(x,y));
+	}
+DH+=DH_matrix_interaction;
+  return DH;
+}
 
 bool CellularPotts::Probability(int DH)
 {
@@ -2202,7 +2514,7 @@ double CellularPotts::DrawConvexHull(Graphics *g, int color) {
   
   // Step 3: draw it
   for (int i=0;i<nph-1;i++) {
-    g->Line(2*hull[i].x,2*hull[i].y,2*hull[i+1].x,2*hull[i+1].y, color);
+    g->Line(hull[i].x,hull[i].y,hull[i+1].x,hull[i+1].y, color);
   }
 
   // Step 4: calculate area of convex hull
@@ -2316,6 +2628,28 @@ void CellularPotts::RandomSigma(int n_cells) {
       sigma[x][y]=(int)(n_cells*RANDOM());
     }
   }
+}
+
+
+bool CellularPotts::plotPos(int x, int y, Graphics * graphics, float z ){
+  int self = sigma[x][y];
+  if (self == 0) return true;
+  graphics->Rectangle((*cell)[self].Colour(), x, y, z);
+  return false;
+}
+
+
+void CellularPotts::linePlotPos(int x, int y, Graphics * graphics, float z) {
+  int self = sigma[x][y];
+  int a = self, b = self , c = self, d = self;
+  if ( x != 0 ) a = sigma[x-1][y];
+  if ( y != 0 ) b = sigma[x][y-1];
+  if ( x != par.sizex - 1 ) c = sigma[x+1][y];
+  if ( y != par.sizey - 1 ) d = sigma[x][y+1];
+  if (self != a) graphics->Line(x, y, x, y+1, 1, z);
+  if (self != b) graphics->Line(x, y, x+1, y, 1, z);
+  if (self != c) graphics->Line(x+1, y, x+1, y+1, 1, z);
+  if (self != d) graphics->Line(x, y+1, x+1, y+1, 1, z);
 }
 
 

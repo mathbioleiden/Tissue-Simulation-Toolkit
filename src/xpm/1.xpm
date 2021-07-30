@@ -1,5 +1,5 @@
 /* XPM */
-char const * one_xpm[] = {
+char const * init_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "300 300 2 1 ",
 "X c #FFFFFFFFFFFF",

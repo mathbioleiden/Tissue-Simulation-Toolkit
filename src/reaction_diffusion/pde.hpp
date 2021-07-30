@@ -29,8 +29,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <string>
 #include "graph.hpp"
 
-#define CL_HPP_TARGET_OPENCL_VERSION 220
-#include <CL/opencl.hpp>
+#include "cl_manager.hpp"
 #include "pdetype.h" 
 
 #include <MultiCellDS.hpp>
@@ -153,6 +152,7 @@ class PDE {
       }
     return min;
   }
+
   
   /*! \brief Carry out $n$ diffusion steps for all PDE planes.
   We use a forward Euler method here. Can be replaced for better algorithm.
@@ -167,7 +167,7 @@ class PDE {
 
   /* Function for the Act model. Plots the values of the activity into the cells.
   */
-  //void PlotInCells(Graphics *g,CellularPotts *cpm, const int l=0);
+  void PlotInCells(Graphics *g,CellularPotts *cpm, const int l=0);
   // lymphocyte matrix interaction function
 
   void MILayerCA(int l,double value,CellularPotts *cpm, Dish *dish);
@@ -205,7 +205,7 @@ class PDE {
   */
   void Secrete(CellularPotts *cpm);
 
-  //Secrete and diffuse functions accelerated by OpenCL (Use SetupOpenCL function first)
+  //Secrete and diffuse functions accelerated using OpenCL
   void SecreteAndDiffuseCL(CellularPotts *cpm, int repeat);
 
   /*! \brief Returns cumulative "simulated" time,
@@ -244,7 +244,18 @@ class PDE {
   */
   void PlotVectorField(Graphics &g, int stride, int linelength, int first_grad_layer=1);
   void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
-    
+   
+  bool plotPos(int x, int y, Graphics * graphics, int layer, float z );
+
+  void reset_plot(){ highest = Max(0); lowest = Min(0);}
+
+  inline float *** getSigma(){
+    return sigma;
+  }
+
+  double highest;
+  double lowest;
+
   protected:
 
   PDEFIELD_TYPE ***sigma;
@@ -279,24 +290,22 @@ class PDE {
   */   
   virtual PDEFIELD_TYPE ***AllocateSigma(const int layers, const int sx, const int sy);
 
-
  
 private:
+  PDEFIELD_TYPE z[10];
+  
   static const int nx[9], ny[9];
   double thetime;
+
+  inline double Z(double k, int steps);
+
+  
   std::vector<std::string> species_names;
  
   void SetupOpenCL(); 
   //OpenCL variables
   bool openclsetup = false;
-  cl::Context context;
   cl::Program program;
-  cl::Device default_device;
-  cl::CommandQueue queue;
-  cl::Buffer buffer_sigmacell;
-  cl::Buffer buffer_sigmapdeA;
-  cl::Buffer buffer_sigmapdeB;
-  cl::Buffer buffer_diff_coeff;
   cl::Kernel kernel_SecreteAndDiffuse;
 };
 

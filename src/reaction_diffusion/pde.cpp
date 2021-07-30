@@ -46,7 +46,6 @@ PDE::PDE(const int l, const int sx, const int sy) {
   sizex=sx;
   sizey=sy;
   layers=l;
-  
   sigma=AllocateSigma(l,sx,sy);
   alt_sigma=AllocateSigma(l,sx,sy);
 }
@@ -111,10 +110,10 @@ void PDE::Plot(Graphics *g,const int l) {
     for (int y=0;y<sizey;y++) {
       // Make the pixel four times as large
       // to fit with the CPM plane
-      g->Point(MapColour(sigma[l][x][y]),2*x,2*y);
-      g->Point(MapColour(sigma[l][x][y]),2*x+1,2*y);
-      g->Point(MapColour(sigma[l][x][y]),2*x,2*y+1);
-      g->Point(MapColour(sigma[l][x][y]),2*x+1,2*y+1);
+      g->Point(MapColour(sigma[l][x][y]),x,y);
+      g->Point(MapColour(sigma[l][x][y]),x+1,y);
+      g->Point(MapColour(sigma[l][x][y]),x,y+1);
+      g->Point(MapColour(sigma[l][x][y]),x+1,y+1);
     }
   }
 }
@@ -127,10 +126,10 @@ void PDE::Plot(Graphics *g, CellularPotts *cpm, const int l) {
       if (cpm->Sigma(x,y)==0) {
 	// Make the pixel four times as large
 	// to fit with the CPM plane
-	g->Point(MapColour(sigma[l][x][y]),2*x,2*y);
-	g->Point(MapColour(sigma[l][x][y]),2*x+1,2*y);
-	g->Point(MapColour(sigma[l][x][y]),2*x,2*y+1);
-	g->Point(MapColour(sigma[l][x][y]),2*x+1,2*y+1);
+        g->Point(MapColour(sigma[l][x][y]),x,y);
+	g->Point(MapColour(sigma[l][x][y]),x+1,y);
+	g->Point(MapColour(sigma[l][x][y]),x,y+1);
+	g->Point(MapColour(sigma[l][x][y]),x+1,y+1);
       }
     }
   }
@@ -147,6 +146,8 @@ void PDE::ContourPlot(Graphics *g, int l, int colour) {
   double *z=(double *)malloc(nc*sizeof(double));
   double min=Min(l), max=Max(l);
   double step=(max-min)/nc;
+  if (min == 0 && max == 0) return;
+
   for (int i=0;i<nc;i++) {
     z[i]=(i+1)*step;
   }
@@ -158,6 +159,7 @@ void PDE::ContourPlot(Graphics *g, int l, int colour) {
   for (int i=0;i<sizey;i++) {
     y[i]=i;
   }
+
   conrec(sigma[l],0,sizex-1,0,sizey-1,x,y,nc,z,g,colour);
   
   free(x);
@@ -165,128 +167,93 @@ void PDE::ContourPlot(Graphics *g, int l, int colour) {
   free(z);
 }
 
-/*
+
+
+int MapColour3(double val, int l) {
+	int step=0;
+	if (l==2){
+	step = (240)/par.max_Act;
+  return (int)(256-val*step-1);}
+	else if (l==3 && val>1){
+	step = (256)/2;
+  return (int)(500+val*step);}
+	else
+	return 0;
+}
+
+
 void PDE::PlotInCells (Graphics *g, CellularPotts *cpm, const int l) {
- for (int x=0;x<sizex;x++)
+  for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {
-      // Make the pixel four times as large
-      // to fit with the CPM plane
-      	if( cpm->Sigma(x,y)>0){
-
-          if (par.lambda_Act>0){
-               g->Point(MapColour3(cpm->actPixels[{x,y}],l),2*x,2*y);
-               g->Point(MapColour3(cpm->actPixels[{x,y}],l),2*x+1,2*y);
-               g->Point(MapColour3(cpm->actPixels[{x,y}],l),2*x,2*y+1);
-               g->Point(MapColour3(cpm->actPixels[{x,y}],l),2*x+1,2*y+1);}
-         else {
-           		g->Point(255,2*x,2*y);
-           		g->Point(255,2*x+1,2*y);
-           		g->Point(255,2*x,2*y+1);
-           		g->Point(255,2*x+1,2*y+1);}
-        if (par.lambda_matrix>0){
-            if (cpm->matrix[x][y]>0){
-            		g->PointAlpha(100,2*x,2*y);
-            		g->PointAlpha(100,2*x+1,2*y);
-            		g->PointAlpha(100,2*x,2*y+1);
-            		g->PointAlpha(100,2*x+1,2*y+1);}
-              }}
-
-    else {if (cpm->Sigma(x,y)==-2){
-      g->Point(10,2*x,2*y);
-      g->Point(10,2*x+1,2*y);
-      g->Point(10,2*x,2*y+1);
-      g->Point(10,2*x+1,2*y+1);
-    }
-    if (cpm->Sigma(x,y)==-3){
-      g->Point(256,2*x,2*y);
-      g->Point(256,2*x+1,2*y);
-      g->Point(256,2*x,2*y+1);
-      g->Point(256,2*x+1,2*y+1);
+      if( cpm->Sigma(x,y)>0) {
+        if (par.lambda_Act>0) {
+           g->Point(MapColour3(cpm->actPixels[{x,y}],l),x,y);
+           g->Point(MapColour3(cpm->actPixels[{x,y}],l),x+1,y);
+           g->Point(MapColour3(cpm->actPixels[{x,y}],l),x,y+1);
+           g->Point(MapColour3(cpm->actPixels[{x,y}],l),x+1,y+1);
+        } else {
+          g->Point(255,x,y);
+          g->Point(255,x+1,y);
+          g->Point(255,x,y+1);
+          g->Point(255,x+1,y+1);
+        }
+        if (par.lambda_matrix>0) {
+          if (cpm->matrix[x][y]>0) {
+            g->PointAlpha(100,x,y);
+            g->PointAlpha(100,x+1,y);
+            g->PointAlpha(100,x,y+1);
+            g->PointAlpha(100,x+1,y+1);
+          }
+        }
+      } else if (cpm->Sigma(x,y)==-2) {
+        g->Point(10,x,y);
+        g->Point(10,x+1,y);
+        g->Point(10,x,y+1);
+        g->Point(10,x+1,y+1);
+      }
+      if (cpm->Sigma(x,y)==-3) {
+        g->Point(256,x,y);
+        g->Point(256,x+1,y);
+        g->Point(256,x,y+1);
+        g->Point(256,x+1,y+1);
+      }
     }
   }
-	}
 }
-*/
 
 void PDE::SetupOpenCL(){
-  openclsetup = true;
-  //Basic OpenCL Setup
-  std::vector<cl::Platform> all_platforms;
-  cl::Platform::get(&all_platforms);
-  if(all_platforms.size()==0){
-    std::cout<<" No platforms found. Check OpenCL installation!\n";
-    exit(1);
-  }
-  cl::Platform default_platform=all_platforms[0];
-  std::cout << "Using platform: "<< default_platform.getInfo<CL_PLATFORM_NAME>()<<"\n";  
+  extern CLManager clm;
 
-  std::vector<cl::Device> all_devices;
-  default_platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
-  if(all_devices.size()==0){
-    std::cout<<" No devices found. Check OpenCL installation!\n";
-    exit(1);
-  }
+  program = clm.make_program(par.opencl_core_path, OPENCL_PDE_TYPE);
 
-  default_device=all_devices[0];
-  std::cout<< "Using device: "<<default_device.getInfo<CL_DEVICE_NAME>()<<"\n";  
-  context = cl::Context({default_device});
-  cl::Program::Sources sources;
-
-  std::ifstream inFile;
-  
-  std::string core_path = par.opencl_core_path;
-
-  inFile.open(core_path); 
-  std::stringstream strStream;
-
-  strStream << OPENCL_PDE_TYPE;
-
-  strStream << inFile.rdbuf(); 
-  std::string kernel_code  = strStream.str();
-
-  sources.push_back({kernel_code.c_str(), kernel_code.length()});
-  program =  cl::Program(context, sources);
-
-  if(program.build({default_device})!=CL_SUCCESS){
-    std::cout<<" Error building: "<<program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device)<<"\n";
-    exit(1);
-  }
-  
   //Secretion and diffusion variables
   PDEFIELD_TYPE dt = (PDEFIELD_TYPE) par.dt;
   PDEFIELD_TYPE dx2 = (PDEFIELD_TYPE) par.dx*par.dx;
   PDEFIELD_TYPE decay_rate = (PDEFIELD_TYPE) * par.decay_rate;
   PDEFIELD_TYPE secr_rate = (PDEFIELD_TYPE) * par.secr_rate;
-  int btype; 
   
-  if(par.periodic_boundaries){
-    btype=2;
-  }
-  else{
-    btype = 3;
-  }
+  int btype = 3;
+  if (par.periodic_boundaries) btype=2;
 
   //Allocate memory on the GPU
-  queue = cl::CommandQueue(context,default_device);
-  buffer_sigmacell = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(int)*sizex*sizey); 
-  buffer_sigmapdeA = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers);
-  buffer_sigmapdeB = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers); 
-  buffer_diff_coeff = cl::Buffer(context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*layers);
-
+  clm.cpm = cl::Buffer(clm.context, CL_MEM_READ_WRITE, sizeof(int)*sizex*sizey); 
+  clm.pdeA = cl::Buffer(clm.context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers);
+  clm.pdeB = cl::Buffer(clm.context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers); 
+  clm.diffco = cl::Buffer(clm.context, CL_MEM_READ_WRITE, sizeof(PDEFIELD_TYPE)*layers);
 
   //Making kernel and setting arguments
   kernel_SecreteAndDiffuse = cl::Kernel(program,"SecreteAndDiffuse");      
 
-  kernel_SecreteAndDiffuse.setArg(0, buffer_sigmacell);
-  kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeA);
-  kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeB);
+  kernel_SecreteAndDiffuse.setArg(0, clm.cpm);
+  kernel_SecreteAndDiffuse.setArg(1, clm.pdeA);
+  kernel_SecreteAndDiffuse.setArg(2, clm.pdeB);
   kernel_SecreteAndDiffuse.setArg(3, sizeof(int), &sizex);
   kernel_SecreteAndDiffuse.setArg(4, sizeof(int), &sizey);
   kernel_SecreteAndDiffuse.setArg(5, sizeof(int), &layers);
   kernel_SecreteAndDiffuse.setArg(6, sizeof(PDEFIELD_TYPE), &decay_rate);
   kernel_SecreteAndDiffuse.setArg(7, sizeof(PDEFIELD_TYPE), &dt);
   kernel_SecreteAndDiffuse.setArg(8, sizeof(PDEFIELD_TYPE), &dx2);
-  kernel_SecreteAndDiffuse.setArg(9, buffer_diff_coeff);
+  kernel_SecreteAndDiffuse.setArg(9, clm.diffco);
   kernel_SecreteAndDiffuse.setArg(10,sizeof(PDEFIELD_TYPE), &secr_rate);
   kernel_SecreteAndDiffuse.setArg(11, sizeof(int),  &btype);
 
@@ -296,60 +263,59 @@ void PDE::SetupOpenCL(){
     diff_coeff[index] = (PDEFIELD_TYPE) par.diff_coeff[index];
   }
 
-  queue.enqueueWriteBuffer(buffer_diff_coeff,
+  clm.queue.enqueueWriteBuffer(clm.diffco,
     CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*layers, diff_coeff);
+
+  openclsetup = true;
 }
 
 
 void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat){
-    if (!openclsetup  ){this->SetupOpenCL();}
+    extern CLManager clm; 
+    if (!openclsetup ){this->SetupOpenCL();}
     //A B scheme used to keep arrays on GPU
-    int AB = 1;
+    clm.pde_AB = 1;
     int errorcode = 0;
 
     //Write the cellSigma array to GPU for secretion
-    queue.enqueueWriteBuffer(buffer_sigmacell,
+    clm.queue.enqueueWriteBuffer(clm.cpm,
     CL_TRUE, 0, sizeof(int)*sizex*sizey, cpm->getSigma()[0]);
 
     //Writing pdefield sigma is only necessary if modified outside of kernel
-    //queue.enqueueWriteBuffer(buffer_sigmapdeA,  CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
-
+    //queue.enqueueWriteBuffer(clm.pdeA,  CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
 
     //Main loop executing kernel and switching between A and B arrays
     for (int index = 0; index < repeat; index ++){
-      if (AB == 1) AB = 0;
-      else AB = 1;
-      kernel_SecreteAndDiffuse.setArg(12, sizeof(int),  &AB);
-      if(AB == 0){
-        kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeA);
-        kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeB);
+      if (clm.pde_AB == 1) clm.pde_AB = 0;
+      else clm.pde_AB = 1;
+      kernel_SecreteAndDiffuse.setArg(12, sizeof(int),  &clm.pde_AB);
+      if(clm.pde_AB == 0){
+        kernel_SecreteAndDiffuse.setArg(1, clm.pdeA);
+        kernel_SecreteAndDiffuse.setArg(2, clm.pdeB);
       }
       else{
-        kernel_SecreteAndDiffuse.setArg(1, buffer_sigmapdeB);
-        kernel_SecreteAndDiffuse.setArg(2, buffer_sigmapdeA);
+        kernel_SecreteAndDiffuse.setArg(1, clm.pdeB);
+        kernel_SecreteAndDiffuse.setArg(2, clm.pdeA);
       }
-      errorcode = queue.enqueueNDRangeKernel(kernel_SecreteAndDiffuse,
+      errorcode = clm.queue.enqueueNDRangeKernel(kernel_SecreteAndDiffuse,
                   cl::NullRange, cl::NDRange(sizex*sizey*layers), cl::NullRange);
-      errorcode = queue.finish();
+      errorcode = clm.queue.finish();
       if (errorcode != 0){
-        printf("Error during secretion and diffusion");
-        exit(0);}
+        printf("Error during OpenCL secretion and diffusion");
+        exit(0);
       }
-
-
-    //Reading from correct array containing the output
-    if (AB == 0)
-    queue.enqueueReadBuffer(buffer_sigmapdeB,CL_TRUE,0,
-                            sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
-    else
-    queue.enqueueReadBuffer(buffer_sigmapdeA,CL_TRUE,0,
-                            sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
-
-    if (errorcode != CL_SUCCESS){
-      cout << "error:" << errorcode << endl;
     }
+    //Reading from correct array containing the output
+    if (clm.pde_AB == 0) {
+      clm.queue.enqueueReadBuffer(clm.pdeB,CL_TRUE,0,
+                            sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
+    }
+    else {
+      clm.queue.enqueueReadBuffer(clm.pdeA,CL_TRUE,0,
+                            sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
+    }
+    if (errorcode != CL_SUCCESS) cout << "error:" << errorcode << endl;
     thetime += par.dt;
-
 }
 
 
@@ -520,9 +486,19 @@ void PDE::PlotVectorField(Graphics &g, int stride, int linelength, int first_gra
 
       // And draw it :-)
       // perhaps I can add arrowheads later to make it even nicer :-)
-      g.Line(2*x1,2*y1,2*x2,2*y2,1);
+      g.Line(x1,y1,x2,y2,1);
     }
   }
+}
+
+bool PDE::plotPos(int x, int y, Graphics * graphics, int layer, float z) {
+  double val = sigma[layer][x][y];
+  std::cout << "x " << x << " y " << y << std::endl;
+  if (val > 0){
+    graphics->Rectangle(MapColour(val), x, y, z); 
+    return false;
+  }
+  return true;
 }
 
 

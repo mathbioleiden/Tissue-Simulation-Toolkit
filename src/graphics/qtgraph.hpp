@@ -53,6 +53,7 @@ class QtGraphics : public QWidget, public Graphics {
   virtual void keyPressEvent( QKeyEvent *e);
  
   virtual void PointAlpha( int alpha, int i, int j);
+  virtual void Rectangle(int colour, int i, int j);
   virtual void Arrow (int x1, int y1, int x2, int y2, int colour);
   
   virtual int GetXYCoo(int *X,int *Y);
@@ -97,6 +98,8 @@ class QtGraphics : public QWidget, public Graphics {
   int init_size_y;
 
   int key;
+
+  int col_num;
 
   bool paused = false;
 	

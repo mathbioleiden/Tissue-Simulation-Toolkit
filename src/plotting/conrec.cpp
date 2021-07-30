@@ -54,6 +54,8 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 //     starts from zero (0)
 //
 //=============================================================================
+
+int linecount = 0;
 int conrec(PDEFIELD_TYPE **d,
 	   int ilb,
 	   int iub,
@@ -72,6 +74,7 @@ int conrec(PDEFIELD_TYPE **d,
 // nc              ! number of contour levels
 // z               ! contour levels in increasing order
 {
+  linecount = 0;
   int m1,m2,m3,case_value;
   double dmin,dmax,x1=0,x2=0,y1=0,y2=0;
   int i,j,k,m;
@@ -263,9 +266,12 @@ int conrec(PDEFIELD_TYPE **d,
 		// Put your processing code here and comment out the printf
 		//=============================================================
 		//printf("%f %f %f %f %f\n",x1,y1,x2,y2,z[k]);
-		//g->Line((int)(2*x1),(int)(2*y1),(int)(2*x2),(int)(2*y2),1);
-		g->Point(colour,(int)(2*x1),(int)(2*y1));
-		g->Point(colour,(int)(2*x2),(int)(2*y2));
+		if (linecount > 100000){ return 1;}
+		linecount ++; 
+		g->Line((x1),(y1),(x2),(y2),colour, 0.9);
+
+		//g->Point(colour,(int)(2*x1),(int)(2*y1));
+		//g->Point(colour,(int)(2*x2),(int)(2*y2));
 	      }
 	    }
 	  }
@@ -273,6 +279,5 @@ int conrec(PDEFIELD_TYPE **d,
       }
     }
   }
-  //g->Flush();
   return 0;
 }

@@ -97,6 +97,12 @@ void QtGraphics::PointAlpha(int alpha, int i, int j) {
   picture->drawPoint( i, j);
 }
 
+void QtGraphics::Rectangle(int colour, int i, int j) {
+
+  if (colour > col_num) return;  
+  picture->fillRect(QRect(i*2, j*2, 2, 2), pens[colour].color());
+}
+
 
 void QtGraphics::BeginScene(void) {
   picture->begin(pixmap);
@@ -110,9 +116,9 @@ void QtGraphics::EndScene(void) {
 }
 
 
-void QtGraphics::Line( int x1, int y1,int x2,int y2,int colour ) {
+void QtGraphics::Line( int x1, int y1,int x2,int y2, int colour ) {
   picture->setPen( pens[colour] );
-  picture->drawLine( x1, y1, x2, y2);
+  picture->drawLine( x1*2, y1*2, x2*2, y2*2);
 }
 
 void QtGraphics::ReadColorTable(QPen *pens)
@@ -134,6 +140,7 @@ void QtGraphics::ReadColorTable(QPen *pens)
     res = fscanf(fpc,"%d %d %d\n",&r,&g,&b);
     QPen p(QColor(r,g,b));
     pens[i]=p;
+    col_num ++;
   }
   fclose(fpc);
 }
