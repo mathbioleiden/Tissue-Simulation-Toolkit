@@ -187,35 +187,20 @@ void PDE::PlotInCells (Graphics *g, CellularPotts *cpm, const int l) {
     for (int y=0;y<sizey;y++) {
       if( cpm->Sigma(x,y)>0) {
         if (par.lambda_Act>0) {
-           g->Point(MapColour3(cpm->actPixels[{x,y}],l),x,y);
-           g->Point(MapColour3(cpm->actPixels[{x,y}],l),x+1,y);
-           g->Point(MapColour3(cpm->actPixels[{x,y}],l),x,y+1);
-           g->Point(MapColour3(cpm->actPixels[{x,y}],l),x+1,y+1);
+	   g->Rectangle(MapColour3(cpm->actPixels[{x,y}],l), x, y);
         } else {
-          g->Point(255,x,y);
-          g->Point(255,x+1,y);
-          g->Point(255,x,y+1);
-          g->Point(255,x+1,y+1);
+	  g->Rectangle(255, x, y);
         }
         if (par.lambda_matrix>0) {
           if (cpm->matrix[x][y]>0) {
-            g->PointAlpha(100,x,y);
-            g->PointAlpha(100,x+1,y);
-            g->PointAlpha(100,x,y+1);
-            g->PointAlpha(100,x+1,y+1);
+            g->Rectangle(100, x, y);
           }
         }
       } else if (cpm->Sigma(x,y)==-2) {
-        g->Point(10,x,y);
-        g->Point(10,x+1,y);
-        g->Point(10,x,y+1);
-        g->Point(10,x+1,y+1);
+        g->Rectangle(10, x, y);
       }
       if (cpm->Sigma(x,y)==-3) {
-        g->Point(256,x,y);
-        g->Point(256,x+1,y);
-        g->Point(256,x,y+1);
-        g->Point(256,x+1,y+1);
+	g->Rectangle(256, x, y);
       }
     }
   }

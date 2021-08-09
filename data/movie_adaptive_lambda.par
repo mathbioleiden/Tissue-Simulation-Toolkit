@@ -82,7 +82,9 @@ relaxation = 100
 
 
 
-storage_stride = 200
+storage_stride = 10
 graphics = false
 store = true
 datadir = ../out/edge/movies/adaptive_lambda/new_constant_high_adhesie_regime/1
+
+colortable = ../data/act.ctb

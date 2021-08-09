@@ -363,7 +363,8 @@ public:
   void RandomSigma(int n_cells);
   
   void MeasureCellSizes(void);
-    
+  void MeasureCellPerimeters();  
+
   void anneal(int steps);
   int ** get_annealed_sigma(int steps);
 

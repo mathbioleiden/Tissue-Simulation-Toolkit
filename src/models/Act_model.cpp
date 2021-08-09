@@ -56,9 +56,10 @@ INIT {
   try {
     // Define initial distribution of cells
     cout << "Initialization" << endl;
-    CPM->ReadZygotePicture();
-    //CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+    //CPM->ReadZygotePicture();
+    CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
     CPM->ConstructInitCells(*this);
+    CPM->MeasureCellPerimeters();
     CPM->InitializeMatrix(*this);
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -248,27 +249,16 @@ int PDE::MapColour3(double val, int l) {
 
 
 void Plotter::Plot()  {
-  extern Parameter par;
   graphics->BeginScene();
-  graphics->ClearImage();
   
-  glgraphics->DensityPlot(dish->PDEfield->getSigma()[0][0], 
-		  par.sizex, par.sizey, 
-		  0, 0, 0.3);
-  plotCPMCellTypes();
+  //plotPDEDensity();
   
-  
- // dish->PDEfield->PlotInCells(graphics, dish->CPM, 0);
-  
-  glgraphics->cpmLinePlot(dish->CPM->getSigma()[0], 
-		  par.sizex, 
-		  par.sizey, 
-		  0, 0, 0, -0.5);
 
-  //glgraphics->contourPlot(dish->PDEfield->getSigma()[0][0], 
-  //                par.sizex, par.sizey, 
-  //	            0, 1.0, 0.0);
-  
+
+  plotCPMCellTypes();
+  dish->PDEfield->PlotInCells(graphics, dish->CPM, 2);
+  plotCPMLines();
+ 
   graphics->EndScene();
 }
 

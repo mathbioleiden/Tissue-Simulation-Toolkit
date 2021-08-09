@@ -908,7 +908,8 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
   int tmpcell;
   if ( (tmpcell=sigma[x][y]) ) { // if tmpcell is not MEDIUM
     (*cell)[tmpcell].DecrementArea();
-    (*cell)[tmpcell].RemoveSiteFromMoments(x,y);    
+    (*cell)[tmpcell].RemoveSiteFromMoments(x,y);
+    (*cell)[tmpcell].SetPerimeter(GetNewPerimeterIfXYWereRemoved(tmpcell,x,y));    
     if (!(*cell)[tmpcell].Area()) {
       (*cell)[tmpcell].Apoptose();
     }
@@ -917,6 +918,7 @@ void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
   if ( (tmpcell=sigma[xp][yp]) ) {// if tmpcell is not MEDIUM
     (*cell)[tmpcell].IncrementArea();
     (*cell)[tmpcell].AddSiteToMoments(x,y);
+    (*cell)[tmpcell].SetPerimeter(GetNewPerimeterIfXYWereAdded(tmpcell,x,y));
     
   }
   sigma[x][y] = sigma[xp][yp];
@@ -1868,9 +1870,33 @@ void CellularPotts::MeasureCellSize(Cell &c) {
   }
 }
 
-Dir *CellularPotts::FindCellDirections(void) const
-{ 
-  
+
+void CellularPotts::MeasureCellPerimeters() {
+  for (int x=1;x<sizex-1;x++) {
+    for (int y=1;y<sizey-1;y++) {
+      if (sigma[x][y] > 0) {
+        for (int i=1;i<=n_nb;i++) {
+          int xp2,yp2;
+          xp2=x+nx[i]; yp2=y+ny[i];
+          if (par.periodic_boundaries) {
+            if (xp2<=0) xp2=sizex-2+xp2;
+            if (yp2<=0) yp2=sizey-2+yp2;
+            if (xp2>=sizex-1) xp2=xp2-sizex+2;
+            if (yp2>=sizey-1) yp2=yp2-sizey+2;
+          }
+          // did we find a border?
+          if (sigma[xp2][yp2]!=sigma[x][y]) {
+            //add to the perimeter of the cell
+            (*cell)[sigma[x][y]].IncrementTargetPerimeter();
+            (*cell)[sigma[x][y]].IncrementPerimeter();
+          }
+        } 
+      }
+    }
+  }
+}
+
+Dir *CellularPotts::FindCellDirections(void) const { 
   double *sumx=0,*sumy=0;
   double *sumxx=0,*sumxy=0,*sumyy=0;
   double *n=0;  
