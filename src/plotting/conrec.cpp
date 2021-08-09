@@ -268,7 +268,7 @@ int conrec(PDEFIELD_TYPE **d,
 		//printf("%f %f %f %f %f\n",x1,y1,x2,y2,z[k]);
 		if (linecount > 100000){ return 1;}
 		linecount ++; 
-		g->Line((x1),(y1),(x2),(y2),colour, 0.9);
+		g->Line((x1),(y1),(x2),(y2),colour);
 
 		//g->Point(colour,(int)(2*x1),(int)(2*y1));
 		//g->Point(colour,(int)(2*x2),(int)(2*y2));

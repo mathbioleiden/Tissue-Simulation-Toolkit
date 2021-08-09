@@ -57,7 +57,7 @@ class Graphics {
   
   virtual void PointAlpha( int alpha, int x, int y)=0;
 
-  virtual void Rectangle( int colour, int x, int y, float z = 0)=0;
+  virtual void Rectangle( int colour, int x, int y)=0;
 
   /*! \brief Draws a line (obviously... :-)
 
@@ -65,7 +65,7 @@ class Graphics {
   \param x2, y2: Second coordinate pair.
   \param color: Color of the line, as given in the colormap file "default.ctb".
   */
-  virtual void Line(float x1, float y1, float x2, float y2, int colour, float z = 0 )=0;
+  virtual void Line(float x1, float y1, float x2, float y2, int colour)=0;
   
   /*! \brief Probes the Window for user interaction, with mouse or keyboard.
     

@@ -60,17 +60,17 @@ class GLGraphics : public Graphics {
   virtual void EndScene(void);
   
   virtual void Point( int colour, int i, int j);
-  virtual void Line ( float x1, float y1, float x2, float y2, int colour, float z );
+  virtual void Line ( float x1, float y1, float x2, float y2, int colour);
  
   void Start();
 
   virtual void PointAlpha( int alpha, int i, int j);
-  virtual void Rectangle(int color, int x, int y, float z );
+  virtual void Rectangle(int color, int x, int y);
   virtual void Arrow (int x1, int y1, int x2, int y2, int colour);
 
   void DensityPlot(float * data, int xsize, int ysize, float r, float g, float b);
-  void intPlot(int * data, int xsize, int ysize, float z);
-  void cpmLinePlot(int * data, int xsize, int ysize, float r, float g, float b, float z);
+  void intPlot(int * data, int xsize, int ysize);
+  void cpmLinePlot(int * data, int xsize, int ysize, float r, float g, float b);
   void contourPlot(float * data, int xsize, int ysize, float r, float g, float b);
   
   virtual int GetXYCoo(int *X,int *Y);

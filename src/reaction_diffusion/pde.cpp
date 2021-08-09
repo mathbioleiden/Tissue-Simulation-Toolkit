@@ -193,7 +193,7 @@ void PDE::PlotInCells (Graphics *g, CellularPotts *cpm, const int l) {
         }
         if (par.lambda_matrix>0) {
           if (cpm->matrix[x][y]>0) {
-            g->Rectangle(100, x, y);
+            g->Rectangle(0, x, y);
           }
         }
       } else if (cpm->Sigma(x,y)==-2) {
@@ -476,11 +476,10 @@ void PDE::PlotVectorField(Graphics &g, int stride, int linelength, int first_gra
   }
 }
 
-bool PDE::plotPos(int x, int y, Graphics * graphics, int layer, float z) {
+bool PDE::plotPos(int x, int y, Graphics * graphics, int layer) {
   double val = sigma[layer][x][y];
-  std::cout << "x " << x << " y " << y << std::endl;
   if (val > 0){
-    graphics->Rectangle(MapColour(val), x, y, z); 
+    graphics->Rectangle(MapColour(val), x, y); 
     return false;
   }
   return true;

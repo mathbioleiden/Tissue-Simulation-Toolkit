@@ -47,7 +47,7 @@ class QtGraphics : public QWidget, public Graphics {
   virtual void BeginScene(void);
   virtual void EndScene(void);
   virtual void Point( int colour, int i, int j);
-  virtual void Line ( int x1, int y1,int x2,int y2,int colour );
+  virtual void Line ( float x1, float y1, float x2, float  y2,int colour );
  
   virtual void keyReleaseEvent( QKeyEvent *e);
   virtual void keyPressEvent( QKeyEvent *e);

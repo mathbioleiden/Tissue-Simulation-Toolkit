@@ -1,6 +1,9 @@
 #include "dish.hpp"
 #include "graph.hpp"
+
+#ifdef GLGRAPHICS
 #include "glgraph.hpp"
+#endif
 
 class Plotter {
   public:
@@ -14,7 +17,10 @@ class Plotter {
 
     Dish * dish;
     Graphics * graphics;
+
+#ifdef GLGRAPHICS
     GLGraphics * glgraphics;
+#endif
 
     int * sigma_col;
 };
