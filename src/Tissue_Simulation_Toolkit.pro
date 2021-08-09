@@ -6,8 +6,8 @@ CONFIG -= app_bundle
 #QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 QT += widgets
 
-GRAPHICS = qt
-#GRAPHICS = gl
+#GRAPHICS = qt
+GRAPHICS = gl
 
 MODEL = vessel
 
@@ -33,7 +33,7 @@ macx {
 }
 
 unix:!macx{
-  
+  message("Detected Unix") 
   LIBS += -lOpenCL
 }
 
