@@ -682,8 +682,8 @@ int CellularPotts::Act_DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
 
   /* DH due to cell adhesion */
   //also compute changes in neighbours for alignment with newneighbours
-  int xy_neighbour_changes[cell->size()]={0};
-  int xyp_neighbour_changes[cell->size()]={0};
+  std::vector<int> xy_neighbour_changes(cell->size(), 0);
+  std::vector<int> xyp_neighbour_changes(cell->size(), 0);
   for (i=1;i<=n_nb;i++) {
     int xp2,yp2;
     xp2=x+nx[i]; yp2=y+ny[i];

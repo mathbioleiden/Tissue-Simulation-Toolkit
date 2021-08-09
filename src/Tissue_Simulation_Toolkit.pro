@@ -6,9 +6,8 @@ CONFIG -= app_bundle
 #QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 QT += widgets
 
-
-#GRAPHICS = qt
-GRAPHICS = gl
+GRAPHICS = qt
+#GRAPHICS = gl
 
 MODEL = vessel
 
@@ -27,7 +26,16 @@ LIBCS_DIR = $$LIBDIR/libCellShape
 LIBS += -L$$LIBCS_DIR -lcellshape 
 LIBS += -L$$MCDS_DIR/mcds_api -lmcds 
 LIBS += -L$$XSDE_DIR/xsde/ -lxsde 
-LIBS += -lOpenCL
+
+macx {
+  message("Detected MacOS")
+  QMAKE_LFLAGS += -framework OpenCL
+}
+
+unix:!macx{
+  
+  LIBS += -lOpenCL
+}
 
 QMAKE_CXXFLAGS += -I$$LIBCS_DIR 
 QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api 
