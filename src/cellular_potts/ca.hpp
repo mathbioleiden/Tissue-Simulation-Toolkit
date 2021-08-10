@@ -373,8 +373,8 @@ public:
     return sigma;
   }
 
-  bool plotPos(int x, int y, Graphics * graphics, float z);
-  void linePlotPos(int x, int y, Graphics * graphics, float z);
+  bool plotPos(int x, int y, Graphics * graphics);
+  void linePlotPos(int x, int y, Graphics * graphics);
   
   inline void fillCellColArr(int * arr){
     for (int dex = 0; dex < par.sizex*par.sizey; dex++){

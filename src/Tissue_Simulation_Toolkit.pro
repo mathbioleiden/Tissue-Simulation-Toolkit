@@ -1,6 +1,4 @@
 TEMPLATE = app 
-#GRAPHICS = qt
-GRAPHICS = gl
 CONFIG += console 
 #CONFIG += release
 CONFIG += debug
@@ -8,6 +6,8 @@ CONFIG -= app_bundle
 #QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 QT += widgets
 
+#GRAPHICS = qt
+GRAPHICS = gl
 
 MODEL = vessel
 
@@ -27,12 +27,22 @@ LIBS += -L$$LIBCS_DIR -lcellshape
 LIBS += -L$$MCDS_DIR/mcds_api -lmcds 
 LIBS += -L$$XSDE_DIR/xsde/ -lxsde 
 
+macx {
+  message("Detected MacOS")
+  QMAKE_LFLAGS += -framework OpenCL
+}
+
+unix:!macx{
+  message("Detected Unix") 
+  LIBS += -lOpenCL
+}
+
 QMAKE_CXXFLAGS += -I$$LIBCS_DIR 
 QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api 
 QMAKE_CXXFLAGS += -I$$XSDE_DIR 
-QMAKE_LFLAGS += -m64 -std=c++11
+QMAKE_LFLAGS += -m64 -std=c++11 -O3
 
-QMAKE_CXXFLAGS += -Wno-unused-parameter  -pg 
+QMAKE_CXXFLAGS += -Wno-unused-parameter  
 
 message("Building model:" $$MODEL )
 
@@ -77,7 +87,7 @@ contains( GRAPHICS, gl ) {
    message("Using OpenGL graphics")
    SOURCES += graphics/glgraph.cpp
    HEADERS += graphics/glgraph.hpp
-   LIBS += -lglut -lGLU -lGL -lGLEW -lOpenCL
+   LIBS += -lglut -lGLU -lGL -lGLEW 
    QMAKE_CXXFLAGS_RELEASE += -DGLGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DGLGRAPHICS 
 }

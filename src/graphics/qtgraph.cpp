@@ -116,7 +116,7 @@ void QtGraphics::EndScene(void) {
 }
 
 
-void QtGraphics::Line( int x1, int y1,int x2,int y2, int colour ) {
+void QtGraphics::Line( float x1, float y1, float x2, float y2, int colour ) {
   picture->setPen( pens[colour] );
   picture->drawLine( x1*2, y1*2, x2*2, y2*2);
 }

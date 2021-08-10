@@ -682,8 +682,8 @@ int CellularPotts::Act_DeltaH(int x,int y, int xp, int yp, PDE *PDEfield){
 
   /* DH due to cell adhesion */
   //also compute changes in neighbours for alignment with newneighbours
-  int xy_neighbour_changes[cell->size()]={0};
-  int xyp_neighbour_changes[cell->size()]={0};
+  std::vector<int> xy_neighbour_changes(cell->size(), 0);
+  std::vector<int> xyp_neighbour_changes(cell->size(), 0);
   for (i=1;i<=n_nb;i++) {
     int xp2,yp2;
     xp2=x+nx[i]; yp2=y+ny[i];
@@ -2657,25 +2657,25 @@ void CellularPotts::RandomSigma(int n_cells) {
 }
 
 
-bool CellularPotts::plotPos(int x, int y, Graphics * graphics, float z ){
+bool CellularPotts::plotPos(int x, int y, Graphics * graphics){
   int self = sigma[x][y];
   if (self == 0) return true;
-  graphics->Rectangle((*cell)[self].Colour(), x, y, z);
+  graphics->Rectangle((*cell)[self].Colour(), x, y);
   return false;
 }
 
 
-void CellularPotts::linePlotPos(int x, int y, Graphics * graphics, float z) {
+void CellularPotts::linePlotPos(int x, int y, Graphics * graphics) {
   int self = sigma[x][y];
   int a = self, b = self , c = self, d = self;
   if ( x != 0 ) a = sigma[x-1][y];
   if ( y != 0 ) b = sigma[x][y-1];
   if ( x != par.sizex - 1 ) c = sigma[x+1][y];
   if ( y != par.sizey - 1 ) d = sigma[x][y+1];
-  if (self != a) graphics->Line(x, y, x, y+1, 1, z);
-  if (self != b) graphics->Line(x, y, x+1, y, 1, z);
-  if (self != c) graphics->Line(x+1, y, x+1, y+1, 1, z);
-  if (self != d) graphics->Line(x, y+1, x+1, y+1, 1, z);
+  if (self != a) graphics->Line(x, y, x, y+1, 1);
+  if (self != b) graphics->Line(x, y, x+1, y, 1);
+  if (self != c) graphics->Line(x+1, y, x+1, y+1, 1);
+  if (self != d) graphics->Line(x, y+1, x+1, y+1, 1);
 }
 
 

@@ -149,7 +149,8 @@ void GLGraphics::DensityPlot(float * data, int xsize, int ysize, float r, float 
   glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void GLGraphics::intPlot(int * data, int xsize, int ysize, float z) {
+void GLGraphics::intPlot(int * data, int xsize, int ysize) {
+  float z = 0;
   float single_rect[] = {-1, 1,z, 1,1,z, -1,-1,z,  
 			 -1,-1,z, 1,1,z, 1,-1,z};
   float cols[] = {1,1,1,1, 1,1,1,1, 1,1,1,1, 
@@ -170,7 +171,8 @@ void GLGraphics::intPlot(int * data, int xsize, int ysize, float z) {
   glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void GLGraphics::cpmLinePlot(int * data, int xsize, int ysize, float r, float g, float b, float z ) {
+void GLGraphics::cpmLinePlot(int * data, int xsize, int ysize, float r, float g, float b) {
+  float z = 0;
   float single_rect[] = {-1, 1,z, 1,1,z, -1,-1,z,  
 			 -1,-1,z, 1,1,z, 1,-1,z};
   float cols[] = {r,g,b,1, r,g,b,1, r,g,b,1, 
@@ -293,10 +295,10 @@ void GLGraphics::PointAlpha(int alpha, int x, int y) {
 }
 
 
-void GLGraphics::Rectangle(int color, int x, int y, float z ) {
+void GLGraphics::Rectangle(int color, int x, int y) {
   rects[rect_pos].p1.x = (float)x;
   rects[rect_pos].p1.y = (float)y;
-  rects[rect_pos].p1.z = z;
+  rects[rect_pos].p1.z = 0;
 
   rect_pos ++;
   if (color > col_num) color = 0;
@@ -321,16 +323,13 @@ void GLGraphics::EndScene(void) {
 }
 
 
-void GLGraphics::Line(float x1, float y1, float x2, float y2, int color, float z ) {
-  if (line_pos > width * height * 8){
-    std::cout << "That's a lot of lines! Let's try not to overload the array..." << std::endl;
-  }
+void GLGraphics::Line(float x1, float y1, float x2, float y2, int color) {
   lines[line_pos].p1.x = x1;
   lines[line_pos].p1.y = y1;
-  lines[line_pos].p1.z = z;
+  lines[line_pos].p1.z = 0;
   lines[line_pos].p2.x = x2;
   lines[line_pos].p2.y = y2;
-  lines[line_pos].p2.z = z;
+  lines[line_pos].p2.z = 0;
 
   line_pos ++;
 

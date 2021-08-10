@@ -145,6 +145,7 @@ int PDE::MapColour(double val) {
 
 void Plotter::Plot()  {
   graphics->BeginScene();
+  graphics->ClearImage();
   
   plotPDEDensity();
   plotCPMCellTypes();

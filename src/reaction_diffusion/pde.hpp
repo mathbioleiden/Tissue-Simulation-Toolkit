@@ -245,7 +245,7 @@ class PDE {
   void PlotVectorField(Graphics &g, int stride, int linelength, int first_grad_layer=1);
   void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
    
-  bool plotPos(int x, int y, Graphics * graphics, int layer, float z );
+  bool plotPos(int x, int y, Graphics * graphics, int layer);
 
   void reset_plot(){ highest = Max(0); lowest = Min(0);}
 
