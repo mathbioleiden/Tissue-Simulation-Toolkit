@@ -18,20 +18,22 @@ CONFIG += debug
 # - X11 graphics (no longer supported) requires X11 development libraries
 #     Old graphics backend, Qt can also use X11.
 #     Generally only works on unix systems.
-
 #GRAPHICS = qt
 GRAPHICS = gl
 #GRAPHICS = qtgl
 
-
 # Select the model to build by uncommenting it.
 # The actual sources of these models are in the
-# 'Models' folder.
-
+# 'models' folder.
 MODEL = vessel
 #MODEL = qPotts
 #MODEL = sorting
 #MODEL = Act_model
+
+# Enable or disable the profiling macros 
+# defined in util/profiler.h.
+#PROFILING = enabled
+PROFILING = disabled
 
 
 LIBDIR = ../lib
@@ -57,10 +59,12 @@ unix:!macx {
 }
 
 QMAKE_CXXFLAGS += -I$$LIBCS_DIR 
-QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api 
+QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api  
 QMAKE_CXXFLAGS += -I$$XSDE_DIR 
 QMAKE_LFLAGS += -m64 -std=c++11 -O3
 QMAKE_CXXFLAGS += -Wno-unused-parameter  
+
+
 
 message("Building model:" $$MODEL )
 
@@ -137,3 +141,7 @@ contains( GRAPHICS, x11 ) {
    unix:LIBS += -lpng
 }
 
+contains( PROFILING, enabled ) {
+  QMAKE_CXXFLAGS_RELEASE += -DPROFILING_ENABLED
+  QMAKE_CXXFLAGS_DEBUG += -DPROFILING_ENABLED
+}

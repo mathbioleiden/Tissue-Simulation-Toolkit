@@ -35,7 +35,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "info.hpp"
 #include "parameter.hpp"
 #include "sqr.hpp"
-#include "graph.cpp"
+#include "graph.hpp"
+#include "plotter.hpp"
 
 
 using namespace std;
@@ -64,48 +65,27 @@ INIT {
 }
 
 TIMESTEP { 
- 
   try {
-
     static int i=0;
   
     static Dish *dish=new Dish();
     static Info *info=new Info(*dish, *this);
+    static Plotter * plotter = new Plotter(dish, this);
     
-    //dish->CPM->PottsNeighborMove(dish->PDEfield);
-    dish->CPM->AmoebaeMove(dish->PDEfield);
-    //cerr << "Done\n";
+    dish->CPM->PottsNeighborMove(dish->PDEfield);
+    //dish->CPM->AmoebaeMove(dish->PDEfield);
     if (par.graphics && !(i%par.storage_stride)) {
-      
       //cerr << "Plot " << i << endl;
-      BeginScene();
-      ClearImage();
-      //dish->CPM->PlotSigma(this,2);
-        dish->CPM->Plot(this);
-      //char title[400];
-      //snprintf(title,399,"CellularPotts: %d MCS",i);
-      //ChangeTitle(title);
-      EndScene();
+      plotter->Plot();
       info->Menu();
-        // dish->CPM->SetBoundingBox();
+      // dish->CPM->SetBoundingBox();
     }
-  
     if (par.store && !(i%par.storage_stride)) {
       char fname[200];
       sprintf(fname,"%s/extend%07d.png",par.datadir,i);
-    
-      BeginScene();
-      ClearImage();
-      dish->Plot(this);
-      //  dish->CPM->PlotSigma(this,2);
-      
-      EndScene();
-    
+      plotter->Plot();
       Write(fname);
-    
-        
     }
-
     i++;
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -114,8 +94,17 @@ TIMESTEP {
   }
 }
 
-int PDE::MapColour(double val) {
+void Plotter::Plot()  {
+  graphics->BeginScene();
+  graphics->ClearImage();
   
+  plotCPMCellTypes();
+  plotCPMLines(); 
+  
+  graphics->EndScene();
+}
+
+int PDE::MapColour(double val) {
   return (((int)((val/((val)+1.))*100))%100)+155;
 }
 

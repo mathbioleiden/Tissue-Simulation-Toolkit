@@ -105,10 +105,7 @@ TIMESTEP {
     std::cerr << error << "\n";
     exit(1);
   }
-#ifdef PROFILING_ENABLED
-  profiler.print_all();
-  std::cout << std::endl;
-#endif
+  PROFILE_PRINT
 }
 
 void PDE::Secrete(CellularPotts *cpm) {
@@ -124,6 +121,7 @@ void PDE::Secrete(CellularPotts *cpm) {
       }
     }
   }
+  PROFILE_PRINT
 }
 
 int PDE::MapColour(double val) {

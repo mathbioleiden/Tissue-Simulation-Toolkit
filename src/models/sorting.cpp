@@ -36,6 +36,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "parameter.hpp"
 #include "sqr.hpp"
 #include "graph.hpp"
+#include "plotter.hpp"
+#include "profiler.hpp"
 
 using namespace std;
 
@@ -75,12 +77,10 @@ TIMESTEP {
     }
     
     static Info *info=new Info(*dish, *this);
+    static Plotter * plotter = new Plotter(dish, this);
     
     if (par.graphics && !(i%par.storage_stride)) {
-      BeginScene();
-      ClearImage();
-      dish->Plot(this);
-      EndScene();
+      PROFILE(all_plots, plotter->Plot();)
       info->Menu();
       dish->CPM->SetBoundingBox();
     }
@@ -90,7 +90,7 @@ TIMESTEP {
     i++;}
 
     if (!info->IsPaused()){
-      dish->CPM->AmoebaeMove(dish->PDEfield);
+      PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
     }  
 
     if ( i == par.mcs){
@@ -100,10 +100,7 @@ TIMESTEP {
     if (par.store && !(i%par.storage_stride)) {
       char fname[200];
       sprintf(fname,"%s/extend%07d.png",par.datadir,i);
-      BeginScene();
-      ClearImage();    
-      dish->Plot(this);
-      EndScene();
+      PROFILE(plotter_2, plotter->Plot();)
       Write(fname);
     }
 
@@ -115,6 +112,17 @@ TIMESTEP {
       std::cerr << error << "\n";
       exit(1);
   }
+  PROFILE_PRINT
+}
+
+void Plotter::Plot()  {
+  graphics->BeginScene();
+  graphics->ClearImage(); 
+  
+  plotCPMCellTypes();
+  plotCPMLines();
+ 
+  graphics->EndScene();
 }
 
 int PDE::MapColour(double val) {
