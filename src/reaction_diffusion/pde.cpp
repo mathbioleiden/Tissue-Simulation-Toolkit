@@ -25,12 +25,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
+
 #include "crash.hpp"
 #include "parameter.hpp"
 #include "ca.hpp"
 #include "pde.hpp"
 #include "conrec.hpp"
-
+#include "graph.hpp"
 
 /* STATIC DATA MEMBER INITIALISATION */
 const int PDE::nx[9] = {0, 1, 1, 1, 0,-1,-1,-1, 0 };
@@ -193,7 +194,7 @@ void PDE::PlotInCells (Graphics *g, CellularPotts *cpm, const int l) {
         }
         if (par.lambda_matrix>0) {
           if (cpm->matrix[x][y]>0) {
-            g->Rectangle(0, x, y);
+            g->Rectangle(256, x, y);
           }
         }
       } else if (cpm->Sigma(x,y)==-2) {

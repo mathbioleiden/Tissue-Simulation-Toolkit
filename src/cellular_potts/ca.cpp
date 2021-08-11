@@ -32,6 +32,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
+
 #include "sticky.hpp"
 #include "random.hpp"
 #include "ca.hpp"
@@ -40,6 +41,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "sqr.hpp"
 #include "crash.hpp"
 #include "hull.hpp"
+#include "graph.hpp"
 
 #define ZYGFILE(Z) <Z.xpm>
 #define XPM(Z) Z ## _xpm
@@ -891,6 +893,7 @@ int DH_matrix_interaction=0;
 	DH_matrix_interaction+=par.lambda_matrix * (GetMatrixLevel(x,y));
 	}
 DH+=DH_matrix_interaction;
+//std::cout << "DH_matrix: " << DH_matrix_interaction << std::endl;
   return DH;
 }
 

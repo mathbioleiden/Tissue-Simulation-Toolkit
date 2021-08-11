@@ -37,20 +37,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "parameter.hpp"
 #include "plotter.hpp"
 #include "profiler.hpp"
-
-#ifdef QTGRAPHICS
-#include "qtgraph.hpp"
-#endif
-
-#ifdef GLGRAPHICS
-//#include "glgraph.hpp"
-#include <GL/glut.h> 
-#endif
-
-#ifdef X11GRAPHICS
-#include "x11graph.hpp"
-#endif
-
+#include "graph.hpp"
 
 using namespace std;
 
@@ -156,40 +143,17 @@ void Plotter::Plot()  {
 }
 
 int main(int argc, char *argv[]) {
-  try {
-#ifdef QTGRAPHICS
-    QApplication a(argc, argv);
-#endif
-    // Read parameters
+  extern Parameter par;
+  try {  
     par.Read(argv[1]);
     Seed(par.rseed);
-    //QMainWindow mainwindow w;
-#ifdef QTGRAPHICS
-    QtGraphics g(par.sizex*2,par.sizey*2);
-    a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
-    if (par.graphics)
-      g.show();
-    a.exec();
-#endif
-#ifdef GLGRAPHICS
-  extern GLGraphics * graphics_object;
-  glutInit(&argc, argv );
-  graphics_object = new GLGraphics(par.sizex*3, par.sizey*3);
-  glutMainLoop();
-#endif 
-#ifdef X11GRAPHICS
-    X11Graphics g(par.sizex*2,par.sizey*2);
-    int t;
-    for (t=0;t<par.mcs;t++) {
-      g.TimeStep();
-    }
-#endif
+    start_graphics(argc, argv);
   } catch(const char* error) {
-    std::cerr << error << "\n";
-    exit(1);
-  }
-  catch(...) {
-    std::cerr << "An unknown exception was caught\n";
+    std::cerr << error << std::endl;
+    return 1;
+  } catch(...) {
+    std::cerr << "An unknown exception was caught" << std::endl;
+    return 1;
   }
   return 0;
 }

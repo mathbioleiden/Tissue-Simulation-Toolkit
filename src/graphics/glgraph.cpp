@@ -27,12 +27,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <sstream>
 #include <fstream>
 #include <thread>
-#include <png.h>
-#include "parameter.hpp"
-#include "glgraph.hpp"
-
 #include <chrono>
 #include <thread>
+
+#include "parameter.hpp"
+#include "graph.hpp"
+
 
 
 GLGraphics * graphics_object = 0; 
@@ -311,8 +311,6 @@ void GLGraphics::BeginScene(void) {
   rect_pos = 0;
   line_pos = 0;
   point_pos = 0;
-
-  glClear(GL_COLOR_BUFFER_BIT);
   glViewport(0, 0, init_size_x*mag, init_size_y*mag);
 }
 
@@ -351,16 +349,16 @@ void GLGraphics::ReadColorTable() {
     sprintf(message, "GLGraphics::ReadColorTable: Colormap '%s' not found.",par.colortable);
     throw(message);
   }
-  int r,g,b;
+  int r,g,b,a;
   int i;
   int res = EOF;
   col_num = 0;
   while (fscanf(fpc,"%d",&i) != EOF || res == EOF) {
-    res = fscanf(fpc,"%d %d %d\n",&r,&g,&b);
+    res = fscanf(fpc,"%d %d %d %d\n",&r,&g,&b,&a);
     colors[i].r = (float)r / 255.0f;
     colors[i].g = (float)g / 255.0f;
     colors[i].b = (float)b / 255.0f;
-    colors[i].a = 1.0;
+    colors[i].a = (float)a / 255.0f;
     col_num ++;
   }
   fclose(fpc);
@@ -408,7 +406,7 @@ void GLGraphics::Resize(int xfield, int yfield) {
 
 
 void GLGraphics::ClearImage(){
-  glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 

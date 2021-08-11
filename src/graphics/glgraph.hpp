@@ -21,7 +21,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
-
 #include "graph.hpp"
 #include <GL/glut.h> 
 

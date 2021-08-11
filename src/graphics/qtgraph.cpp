@@ -133,12 +133,12 @@ void QtGraphics::ReadColorTable(QPen *pens)
     sprintf(message,"QtGraphics::ReadColorTable: Colormap '%s' not found.",par.colortable);
     throw(message);
   }
-  int r,g,b;
+  int r,g,b,a;
   int i;
   int res = EOF;
   while (fscanf(fpc,"%d",&i) != EOF || res == EOF) {
-    res = fscanf(fpc,"%d %d %d\n",&r,&g,&b);
-    QPen p(QColor(r,g,b));
+    res = fscanf(fpc,"%d %d %d %d\n",&r,&g,&b,&a);
+    QPen p(QColor(r,g,b,a));
     pens[i]=p;
     col_num ++;
   }

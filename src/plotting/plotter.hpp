@@ -1,10 +1,6 @@
 #include "dish.hpp"
 #include "graph.hpp"
 
-#ifdef GLGRAPHICS
-#include "glgraph.hpp"
-#endif
-
 class Plotter {
   public:
     Plotter(Dish * dish_pointer, Graphics * graphics_pointer);

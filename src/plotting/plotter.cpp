@@ -1,6 +1,5 @@
 #include <iostream>
 #include "parameter.hpp"
-#include "graph.hpp"
 #include "dish.hpp"
 #include "plotter.hpp"
 #include "cell.hpp"   

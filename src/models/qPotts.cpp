@@ -35,12 +35,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "info.hpp"
 #include "parameter.hpp"
 #include "sqr.hpp"
-
-#ifdef QTGRAPHICS
-#include "qtgraph.hpp"
-#else
-#include "x11graph.hpp"
-#endif
+#include "graph.cpp"
 
 
 using namespace std;
@@ -125,45 +120,17 @@ int PDE::MapColour(double val) {
 }
 
 int main(int argc, char *argv[]) {
-  
-	
-  try {
-
-#ifdef QTGRAPHICS
-    QApplication a(argc, argv);
-#endif
-    // Read parameters
+  extern Parameter par;
+  try {  
     par.Read(argv[1]);
-    
     Seed(par.rseed);
-    
-    //QMainWindow mainwindow w;
-#ifdef QTGRAPHICS
-    QtGraphics g(par.sizex*2,par.sizey*2);
-    //a.setMainWidget( &g );
-    a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
-
-    if (par.graphics)
-      g.show();
-    
-    a.exec();
-#else
-    X11Graphics g(par.sizex*2,par.sizey*2);
-    int t;
-
-    for (t=0;t<par.mcs;t++) {
-
-      g.TimeStep();
-    
-    }
-#endif
-    
+    start_graphics(argc, argv);
   } catch(const char* error) {
-    std::cerr << error << "\n";
-    exit(1);
-  }
-  catch(...) {
-    std::cerr << "An unknown exception was caught\n";
+    std::cerr << error << std::endl;
+    return 1;
+  } catch(...) {
+    std::cerr << "An unknown exception was caught" << std::endl;
+    return 1;
   }
   return 0;
 }

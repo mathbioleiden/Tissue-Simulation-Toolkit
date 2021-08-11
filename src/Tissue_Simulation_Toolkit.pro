@@ -1,15 +1,37 @@
 TEMPLATE = app 
 CONFIG += console 
+CONFIG -= app_bundle
+
 #CONFIG += release
 CONFIG += debug
-CONFIG -= app_bundle
-#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
-QT += widgets
+
+
+# Select the graphics backend by uncommenting it.
+# - GL graphics requires the GLUT and GLEW libraries.
+#     It should be the fastest but does not 
+#     implement image writing yet.
+# - Qt graphics requires Qt 5 or Qt 6.
+#     Use this for MacOS.
+#     It implements image writing.
+# - QtGL graphics requires Qt 5 or Qt 6.
+#     It is unfinished.
+# - X11 graphics (no longer supported) requires X11 development libraries
+#     Old graphics backend, Qt can also use X11.
+#     Generally only works on unix systems.
 
 #GRAPHICS = qt
 GRAPHICS = gl
+#GRAPHICS = qtgl
+
+
+# Select the model to build by uncommenting it.
+# The actual sources of these models are in the
+# 'Models' folder.
 
 MODEL = vessel
+#MODEL = qPotts
+#MODEL = sorting
+#MODEL = Act_model
 
 
 LIBDIR = ../lib
@@ -28,12 +50,9 @@ LIBS += -L$$MCDS_DIR/mcds_api -lmcds
 LIBS += -L$$XSDE_DIR/xsde/ -lxsde 
 
 macx {
-  message("Detected MacOS")
   QMAKE_LFLAGS += -framework OpenCL
 }
-
-unix:!macx{
-  message("Detected Unix") 
+unix:!macx {
   LIBS += -lOpenCL
 }
 
@@ -41,7 +60,6 @@ QMAKE_CXXFLAGS += -I$$LIBCS_DIR
 QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api 
 QMAKE_CXXFLAGS += -I$$XSDE_DIR 
 QMAKE_LFLAGS += -m64 -std=c++11 -O3
-
 QMAKE_CXXFLAGS += -Wno-unused-parameter  
 
 message("Building model:" $$MODEL )
@@ -60,7 +78,8 @@ SOURCES += cellular_potts/*.cpp \
            plotting/*.cpp \
            reaction_diffusion/*.cpp \
            util/*.cpp \
-	   compute/*.cpp 
+	   compute/*.cpp \
+	   graphics/graph.cpp 
 
 SOURCES += $$MAINFILE
 
@@ -73,7 +92,6 @@ INCLUDEPATH += cellular_potts/ \
                util/ \
                xpm/ \
 	       compute/
-
        
 contains( GRAPHICS, qt ) {
    message("Using QT graphics")
@@ -81,6 +99,7 @@ contains( GRAPHICS, qt ) {
    HEADERS += graphics/qtgraph.hpp
    QMAKE_CXXFLAGS_RELEASE += -DQTGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DQTGRAPHICS 
+   QT += widgets
 }
 
 contains( GRAPHICS, gl ) {
@@ -90,6 +109,15 @@ contains( GRAPHICS, gl ) {
    LIBS += -lglut -lGLU -lGL -lGLEW 
    QMAKE_CXXFLAGS_RELEASE += -DGLGRAPHICS
    QMAKE_CXXFLAGS_DEBUG += -DGLGRAPHICS 
+}
+
+contains( GRAPHICS, qtgl ) {
+   message("Using Qt based OpenGL graphics")
+   SOURCES += graphics/qtglgraph.cpp
+   HEADERS += graphics/qtglgraph.hpp
+   QT += opengl
+   QMAKE_CXXFLAGS_RELEASE += -DQTGLGRAPHICS
+   QMAKE_CXXFLAGS_DEBUG += -DQTGLGRAPHICS
 }
 
 contains( GRAPHICS, x11 ) {

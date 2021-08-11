@@ -33,20 +33,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <unordered_set>
 #include <unordered_map>
 #include <vector>
-#include "graph.hpp"
-#include "pde.hpp"
-//#include "dish.h"
-#include "cell.hpp"
-
-// MultiCellDS 
-#include <MultiCellDS.hpp>
-#include <MultiCellDS-pimpl.hpp>
-#include <MultiCellDS-simpl.hpp>
 #include <array>
-
 #include <random>
 #include <cstddef>
 #include <functional>
+
+#include "pde.hpp"
+#include "cell.hpp"
 
 using namespace std;
 
