@@ -20,4 +20,3 @@ void main(){
   color = cin.col;
   color.a = val/(val+1);
 }
-

@@ -17,6 +17,8 @@ class Plotter {
 #ifdef GLGRAPHICS
     GLGraphics * glgraphics;
 #endif
-
+#ifdef QTGLGRAPHICS
+    QtGLGraphics * glgraphics;
+#endif
     int * sigma_col;
 };

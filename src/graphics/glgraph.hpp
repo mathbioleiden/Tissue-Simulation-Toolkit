@@ -81,7 +81,7 @@ class GLGraphics : public Graphics {
   virtual void ClearImage(void);
   
   virtual void Resize(int xfield, int yfield);
-  
+
   virtual void set_Paused(){paused = true;}
   virtual void set_unPaused(){paused = false;}
 

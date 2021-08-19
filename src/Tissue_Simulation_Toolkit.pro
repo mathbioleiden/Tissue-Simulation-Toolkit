@@ -5,7 +5,6 @@ CONFIG -= app_bundle
 #CONFIG += release
 CONFIG += debug
 
-
 # Select the graphics backend by uncommenting it.
 # - GL graphics requires the GLUT and GLEW libraries.
 #     It should be the fastest but does not 
@@ -19,8 +18,8 @@ CONFIG += debug
 #     Old graphics backend, Qt can also use X11.
 #     Generally only works on unix systems.
 #GRAPHICS = qt
-GRAPHICS = gl
-#GRAPHICS = qtgl
+#GRAPHICS = gl
+GRAPHICS = qtgl
 
 # Select the model to build by uncommenting it.
 # The actual sources of these models are in the

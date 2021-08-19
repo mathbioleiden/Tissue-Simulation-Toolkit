@@ -374,6 +374,7 @@ void GLGraphics::Resize(int xfield, int yfield) {
    extern Parameter par;
    width = xfield;
    height = yfield;
+
    if (xfield > yfield) {
      mag = (double)yfield / (double)init_size_y;
    } else {
@@ -399,7 +400,7 @@ void GLGraphics::Resize(int xfield, int yfield) {
   uniform_size[0] = par.sizex;
   uniform_size[1] = par.sizey;
   uniform_size[2] = 1;
-  
+ 
   window_size[0] = init_size_x * mag;
   window_size[1] = init_size_y * mag;
 }

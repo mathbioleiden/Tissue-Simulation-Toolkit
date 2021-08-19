@@ -1483,12 +1483,12 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
       }
       
       if (g && sigma[i][j]>0)  /* if draw */ 
-        g->Point( colour, 2*i, 2*j);
+        g->Point( colour, i, j);
       
       if ( sigma[i][j] != sigma[i+1][j] )  /* if cellborder */ /* etc. etc. */
   {
     if (g) 
-      g->Point( 1, 2*i+1, 2*j );
+      g->Point( 1, i+1, j );
     if (get_neighbours) {
       if (sigma[i][j]>0) {
         for (q=0;q<(int)cell->size();q++)
@@ -1514,13 +1514,13 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
   } 
       else
         if (g && sigma[i][j]>0) 
-          g->Point( colour, 2*i+1, 2*j );
+          g->Point( colour, i+1, j );
       
       
       if ( sigma[i][j] != sigma[i][j+1] ) {
   
         if (g) 
-    g->Point( 1, 2*i, 2*j+1 );
+    g->Point( 1, i, j+1 );
   
   if (get_neighbours) {
     if (sigma[i][j]>0) {
@@ -1549,18 +1549,18 @@ int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
       } 
       else
         if (g && sigma[i][j]>0) 
-          g->Point( colour, 2*i, 2*j+1 );
+          g->Point( colour, i, j+1 );
       
       /* Cells that touch eachother's corners are NO neighbours */ 
       
       if (sigma[i][j]!=sigma[i+1][j+1] 
     || sigma[i+1][j]!=sigma[i][j+1] ) { 
         if (g) 
-          g->Point( 1, 2*i+1, 2*j+1 ); 
+          g->Point( 1, i+1, j+1 ); 
       }
       else
         if (g && sigma[i][j]>0) 
-          g->Point( colour, 2*i+1, 2*j+1 );
+          g->Point( colour, i+1, j+1 );
     }
   
   if (get_neighbours)
@@ -1574,15 +1574,15 @@ void CellularPotts::SearchNandPlotClear(Graphics *g) {
     for (int j = 0; j < sizey-1; j++ ) {
       /* if cellborder */ /* etc. etc. */
       if ( sigma[i][j] != sigma[i+1][j] ) {
-	if (g) g->Point( 1, 2*i+1, 2*j );
+	if (g) g->Point( 1, i+1, j );
       }
       if ( sigma[i][j] != sigma[i][j+1] ) {
-        if (g) g->Point( 1, 2*i, 2*j+1 );
+        if (g) g->Point( 1, i, j+1 );
       }
       /* Cells that touch eachother's corners are NO neighbours */
       if (sigma[i][j]!=sigma[i+1][j+1]
 	  || sigma[i+1][j]!=sigma[i][j+1] ) {
-        if (g) g->Point( 1, 2*i+1, 2*j+1 );
+        if (g) g->Point( 1, i+1, j+1 );
       }
     }
   }
