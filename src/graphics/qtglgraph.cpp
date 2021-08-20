@@ -60,7 +60,6 @@ void QtGLGraphics::initialize() {
 
   glClearColor(1,1,1,1);
 
-  ReadColorTable();
   int shadercode = SetupShaders();
   if (shadercode) {
     std::cout << "Failed to compile shaders." << std::endl;
@@ -72,6 +71,7 @@ void QtGLGraphics::initialize() {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   SetupBuffers();
+  ReadColorTable();
   timer->start();
 }
 
@@ -91,12 +91,10 @@ void QtGLGraphics::SetupBuffers(){
   glVertexAttribPointer(colAttrib, 4, GL_FLOAT, GL_FALSE, 0, 0 );
 
   glGenBuffers(1, &floatbuffer);
-  glBindBuffer(GL_SHADER_STORAGE_BUFFER, floatbuffer);
-  gl_extra->glBindBufferBase(GL_SHADER_STORAGE_BUFFER, floatDataAttrib, floatbuffer);
+  glGenTextures(1, &floattexture);
 
   glGenBuffers(1, &intbuffer);
-  glBindBuffer(GL_SHADER_STORAGE_BUFFER, intbuffer);
-  gl_extra->glBindBufferBase(GL_SHADER_STORAGE_BUFFER, intDataAttrib, intbuffer);
+  glGenTextures(1, &inttexture);
 
   glGenBuffers(1, &coltablebuffer);
   glBindBuffer(GL_UNIFORM_BUFFER, coltablebuffer);
@@ -159,8 +157,14 @@ void QtGLGraphics::DensityPlot(float * data, int xsize, int ysize, float r, floa
   densityplot_program.bind();
   glUniform2fv(windowSizeAttrib, 1, window_size);
   glUniform3fv(uni_size, 1, uniform_size);
-  glBindBuffer(GL_SHADER_STORAGE_BUFFER, floatbuffer);
-  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float) * xsize * ysize, data, GL_DYNAMIC_DRAW);
+  
+  glBindBuffer(GL_TEXTURE_BUFFER, floatbuffer);
+  glBufferData(GL_TEXTURE_BUFFER, sizeof(float) * xsize * ysize, data, GL_DYNAMIC_DRAW);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_BUFFER, floattexture);
+  gl_extra->glTexBuffer(GL_TEXTURE_BUFFER, GL_R32F, floatbuffer);
+  glUniform1i(floatDataAttrib, 0);
+  
   glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
   glBufferData(GL_ARRAY_BUFFER, sizeof(single_rect), single_rect, GL_DYNAMIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, colbuffer);
@@ -177,10 +181,14 @@ void QtGLGraphics::intPlot(int * data, int xsize, int ysize) {
   intplot_program.bind();
   glUniform2fv(windowSizeAttrib, 1, window_size);
   glUniform3fv(uni_size, 1, uniform_size);
-  glBindBuffer(GL_UNIFORM_BUFFER, coltablebuffer);
-  glBufferData(GL_UNIFORM_BUFFER, sizeof(colors), colors, GL_DYNAMIC_DRAW);
-  glBindBuffer(GL_SHADER_STORAGE_BUFFER, intbuffer);
-  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(int) * xsize * ysize, data, GL_DYNAMIC_DRAW);
+ 
+  glBindBuffer(GL_TEXTURE_BUFFER, intbuffer);
+  glBufferData(GL_TEXTURE_BUFFER, sizeof(int) * xsize * ysize, data, GL_DYNAMIC_DRAW);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_BUFFER, inttexture);
+  gl_extra->glTexBuffer(GL_TEXTURE_BUFFER, GL_R32I, intbuffer);
+  glUniform1i(intDataAttrib, 0);
+
   glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
   glBufferData(GL_ARRAY_BUFFER, sizeof(single_rect), single_rect, GL_DYNAMIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, colbuffer);
@@ -198,8 +206,14 @@ void QtGLGraphics::cpmLinePlot(int * data, int xsize, int ysize, float r, float 
   glUniform1f(lineWidthAttrib, 0.3);
   glUniform2fv(windowSizeAttrib, 1, window_size);
   glUniform3fv(uni_size, 1, uniform_size);
-  glBindBuffer(GL_SHADER_STORAGE_BUFFER, intbuffer);
-  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(int) * xsize * ysize, data, GL_DYNAMIC_DRAW);
+
+  glBindBuffer(GL_TEXTURE_BUFFER, intbuffer);
+  glBufferData(GL_TEXTURE_BUFFER, sizeof(int) * xsize * ysize, data, GL_DYNAMIC_DRAW);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_BUFFER, inttexture);
+  gl_extra->glTexBuffer(GL_TEXTURE_BUFFER, GL_R32I, intbuffer);
+  glUniform1i(intDataAttrib, 0);
+  
   glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
   glBufferData(GL_ARRAY_BUFFER, sizeof(single_rect), single_rect, GL_DYNAMIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, colbuffer);
@@ -218,8 +232,14 @@ void QtGLGraphics::contourPlot(float * data, int xsize, int ysize, float r, floa
   glUniform2fv(windowSizeAttrib, 1, window_size);
   glUniform3fv(uni_size, 1, uniform_size);
   glUniform1f(lineWidthAttrib, 0.2);
-  glBindBuffer(GL_SHADER_STORAGE_BUFFER, floatbuffer);
-  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float) * xsize * ysize, data, GL_DYNAMIC_DRAW);
+
+  glBindBuffer(GL_TEXTURE_BUFFER, floatbuffer);
+  glBufferData(GL_TEXTURE_BUFFER, sizeof(float) * xsize * ysize, data, GL_DYNAMIC_DRAW);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_BUFFER, floattexture);
+  gl_extra->glTexBuffer(GL_TEXTURE_BUFFER, GL_R32F, floatbuffer);
+  glUniform1i(floatDataAttrib, 0);
+
   glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
   glBufferData(GL_ARRAY_BUFFER, sizeof(single_rect), single_rect, GL_DYNAMIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, colbuffer);
@@ -315,6 +335,8 @@ void QtGLGraphics::ReadColorTable() {
     col_num ++;
   }
   fclose(fpc);
+  glBindBuffer(GL_UNIFORM_BUFFER, coltablebuffer);
+  glBufferData(GL_UNIFORM_BUFFER, sizeof(colors), colors, GL_DYNAMIC_DRAW);
 }
 
 

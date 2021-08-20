@@ -134,7 +134,9 @@ class QtGLGraphics : public QWindow, protected QOpenGLFunctions, public Graphics
     GLuint vertexbuffer;
     GLuint colbuffer;
     GLuint floatbuffer;
+    GLuint floattexture;
     GLuint intbuffer;
+    GLuint inttexture;
     GLuint coltablebuffer;
 
     QOpenGLShaderProgram basic_program;
