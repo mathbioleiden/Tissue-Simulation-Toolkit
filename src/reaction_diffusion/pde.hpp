@@ -305,6 +305,7 @@ private:
   bool openclsetup = false;
   cl::Program program;
   cl::Kernel kernel_SecreteAndDiffuse;
+  bool first_round = true;
 };
 
 #endif

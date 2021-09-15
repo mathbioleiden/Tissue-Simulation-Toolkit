@@ -268,8 +268,10 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat){
     CL_TRUE, 0, sizeof(int)*sizex*sizey, cpm->getSigma()[0]);
 
     //Writing pdefield sigma is only necessary if modified outside of kernel
-    //queue.enqueueWriteBuffer(clm.pdeA,  CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
-
+    if (first_round) {
+      clm.queue.enqueueWriteBuffer(clm.pdeA,  CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
+      first_round = false;
+    }
     //Main loop executing kernel and switching between A and B arrays
     for (int index = 0; index < repeat; index ++){
       if (clm.pde_AB == 1) clm.pde_AB = 0;
