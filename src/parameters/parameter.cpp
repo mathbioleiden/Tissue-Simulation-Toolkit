@@ -82,6 +82,7 @@ Parameter::Parameter() {
   pause_on_start = false;
   useopencl = true;
   opencl_core_path = strdup("../src/reaction_diffusion/pdecore.cl");
+  opencl_pref_platform = 0;
   colortable = strdup("../data/default.ctb");
 }
 
@@ -169,6 +170,7 @@ void Parameter::Read(const char *filename) {
   pause_on_start = bgetpar(fp, "pause_on_start", true);
   useopencl = bgetpar(fp, "useopencl", true, true);
   opencl_core_path = sgetpar(fp, "opencl_core_path", "../src/reaction_diffusion/pdecore.cl", true);
+  opencl_pref_platform = igetpar(fp, "opencl_pref_platform", 0, true);
   adhesion_storage_stride = igetpar(fp, "adhesion_storage_stride", mcs+1, true);
   graphics = bgetpar(fp, "graphics", true, true);
   store = bgetpar(fp, "store", false, true);
@@ -256,6 +258,7 @@ void Parameter::Write(ostream &os) const {
   os << " mcds_denoise_steps = " << mcds_denoise_steps << endl;
   os << " pause_on_start = " << pause_on_start << endl; 
   os << " useopencl = " << useopencl << endl;
+  os << " opencl_pref_platform" << opencl_pref_platform << endl;
   os << " opencl_core_path = " << opencl_core_path << endl;
   if (datadir) 
   os << " adhesion_storage_stride = " << adhesion_storage_stride << endl;

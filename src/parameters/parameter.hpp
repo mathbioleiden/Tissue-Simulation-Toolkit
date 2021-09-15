@@ -79,6 +79,7 @@ class Parameter {
   bool pause_on_start; 
   bool useopencl;
   char * opencl_core_path;
+  int opencl_pref_platform;
   int adhesion_storage_stride;
   //Act model
   double lambda_Act;
