@@ -7,8 +7,8 @@
 
 void start_graphics(int argc, char ** argv) {
     extern Parameter par;
-    int window_size_x = par.sizex * 3;
-    int window_size_y = par.sizey * 3;
+    int window_size_x = par.sizex * 2;
+    int window_size_y = par.sizey * 2;
 
 #ifdef QTGRAPHICS
     QApplication a(argc, argv);
