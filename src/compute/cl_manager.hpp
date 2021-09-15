@@ -8,7 +8,6 @@
 
 class CLManager {
   public:
-    CLManager();
 
     cl::CommandQueue queue;
     cl::Context context;
@@ -25,7 +24,7 @@ class CLManager {
   private:
     cl::Device device;
     int make_context();
-    
+    bool context_prepared = false;
 };
 
 extern CLManager clm;
