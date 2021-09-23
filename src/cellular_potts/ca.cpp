@@ -989,8 +989,7 @@ void CellularPotts::FreezeAmoebae(void) {
 
 //! Monte Carlo Step. Returns summed energy change
 int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
-  int p;
-  double loop;
+  int loop,p;
   thetime++;
   int SumDH=0;
   
@@ -1010,7 +1009,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
   if (frozen) 
     return 0;
 
-  loop = sizeedgelist / n_nb;
+  loop = sizeedgelist / n_nb * 1.2;
   for (int i = 0; i < loop; i++){
     positionedge = (int)(RANDOM()*sizeedgelist); // take a entry of the edgelist
     targetedge = orderedgelist[positionedge];
@@ -1044,6 +1043,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
     
     if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
       ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
+    } else {
       for (int j = 1; j <= n_nb; j++){
         xn = nx[j]+x; 
         yn = ny[j]+y;
