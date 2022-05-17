@@ -48,8 +48,8 @@ where “>” indicates the command prompt (i.e. start typing from ‘tar’). R
 On Windows or MacOSX you can also unpack the archive by double-clicking it. Move the unpacked folder to a convenient location.
 
 If you clone the repository use 
-git submodule init
-git submodule update
+'git submodule init' and 
+'git submodule update'
 to retrieve the submodule MulticellDS. This is required to run Tissue Simulation Toolkit.
 
 ### Compile the Tissue Simulation Toolkit ###
