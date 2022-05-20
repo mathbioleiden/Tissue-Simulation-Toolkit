@@ -136,6 +136,7 @@ void QtGraphics::ReadColorTable(QPen *pens)
   int r,g,b,a;
   int i;
   int res = EOF;
+  col_num = 0;
   while (fscanf(fpc,"%d",&i) != EOF || res == EOF) {
     res = fscanf(fpc,"%d %d %d %d\n",&r,&g,&b,&a);
     QPen p(QColor(r,g,b,a));
