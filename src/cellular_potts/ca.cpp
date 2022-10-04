@@ -1163,8 +1163,8 @@ int CellularPotts::CounterEdge(int edge){
 
   int neighbourlocation = xp-1 + (yp-1)*(par.sizex-2);
 
-  const int counterneighbourlist = {3, 4, 1, 2, 7, 8, 5, 6, 11, 12, 9, 10, 17, 18, 19, 20, 13, 14, 15, 16};
-  counterneighbour = counterneighbourlist[ which_neighbour - 1 ]
+  const int counterneighbourlist[20] = {3, 4, 1, 2, 7, 8, 5, 6, 11, 12, 9, 10, 17, 18, 19, 20, 13, 14, 15, 16};
+  counterneighbour = counterneighbourlist[ which_neighbour - 1 ];
   int counteredge = neighbourlocation * n_nb + counterneighbour-1;
   return counteredge;
 }

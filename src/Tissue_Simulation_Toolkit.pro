@@ -17,16 +17,16 @@ CONFIG += debug
 # - X11 graphics (no longer supported) requires X11 development libraries
 #     Old graphics backend, Qt can also use X11.
 #     Generally only works on unix systems.
-#GRAPHICS = qt
+GRAPHICS = qt
 #GRAPHICS = gl
-GRAPHICS = qtgl
+#GRAPHICS = qtgl
 
 # Select the model to build by uncommenting it.
 # The actual sources of these models are in the
 # 'models' folder.
-MODEL = vessel
+#MODEL = vessel
 #MODEL = qPotts
-#MODEL = sorting
+MODEL = sorting
 #MODEL = Act_model
 
 # Enable or disable the profiling macros 
