@@ -2499,71 +2499,148 @@ double CellularPotts::DrawConvexHull(Graphics *g, int color) {
   delete[] hull;
   return hull_area;
 }
-
-
-double CellularPotts::Compactness(double *res_compactness, double *res_area, double *res_cell_area) {
-  // Calculate compactness using the convex hull of the cells
+ 
+double CellularPotts::Compactness(void)
+{
+  int bounds[4];
+  bounds[0] = 1;
+  bounds[1] = sizey-2;
+  bounds[2] = 1;
+  bounds[3] = sizex-2;
+  // Calculate compactness using the convex hull of the cells, including the corner points of pixels
   // We use Andrew's Monotone Chain Algorithm (see hull.cpp)
 
-  // Step 1. Prepare data for 2D hull code
+  // Step 1: calculate total cell area
+
+  double cell_area = 0;
+  for (int x = bounds[2]; x < bounds[3]+1; x++) //count only within the box
+    for (int y = bounds[0]; y < bounds[1]+1; y++)
+    {
+      if (sigma[x][y]) //Only consider one celltype
+      {
+       cell_area++;
+      }
+    }
+
+  int np = 0;
+  // Step 2. Prepare data for 2D hull code
+
+  // Step 2a. Count number of corner points to determine size of array
   
-  // count number of points to determine size of array
-  int np=0;
-  for (int x=1;x<sizex-1;x++) 
-    for (int y=1;y<sizey-1;y++) {
-      if (sigma[x][y]) {
+  //First consider the left-most column, a corner point if there is a pixel (or to the bottom of it)
+  if (sigma[bounds[2]][bounds[0]]) //bottom row separately
+    np++;
+  for (int y = bounds[0]+1; y < bounds[1]+1; y++)
+    if (sigma[bounds[2]][y] || sigma[bounds[2]][y-1]) //Only consider one celltype
+      //add corner point only if a pixel is present at this location or below it.
+      {
+        np++;
+      }
+  if (sigma[bounds[2]][bounds[1]]) //add top-left most corner points if there is a pixel there
+    np++;
+
+
+  //Add all 'inner' corner points
+  for (int x = bounds[2]+1; x < bounds[3]+1; x++)
+  {
+    if (sigma[x][bounds[0]] || sigma[x-1][bounds[0]])
+      np++; //special case for bottom row is required
+    for (int y = bounds[0]+1; y < bounds[1]+1; y++) //loop over all other rows
+    {
+      if (sigma[x][y] || sigma[x-1][y] || sigma[x][y-1] ||sigma[x-1][y-1]) //Only consider one celltype
+      //and add a corner point on the bottom left of the current pixel if one of the adjacent pixels is present
+      {
         np++;
       }
     }
+    if (sigma[x][bounds[1]] || sigma[x-1][bounds[1]])
+      np++;
+    //add the top-most corner point only if there is a pixel on the top row (or to the left of this pixel)
+  }
 
-  Point *p=new Point[np];
+  //Consider the right-most column separately, only add a corner point if there is a pixel in this column (or to the bottom of it)
+  if (sigma[bounds[3]][bounds[0]]) //bottom row separately
+    np++;
+  for (int y = bounds[0]+1; y < bounds[1]+1; y++)
+    if (sigma[bounds[3]][y] || sigma[bounds[3]][y-1]) //Only consider one celltype
+      //add corner point only if a pixel is present at this location or below it.
+      {
+        np++;
+      }
+  if (sigma[bounds[3]][bounds[1]])
+    np++;
+
+  // Step 2b. Create array which will contain all corner points
+
   
-  int pc=0;
-  for (int x=1;x<sizex-1;x++) {
-    for (int y=1;y<sizey-1;y++) {
-      if (sigma[x][y]) {
-        p[pc++]=Point(x,y);
+  Point *p = new Point[np];
+
+  // Step 2c. Fill the array with all lattice points ordered, x-first.
+  int pc = 0;
+
+  //First consider the left-most column, a corner point if there is a pixel (or to the bottom of it)
+  if (sigma[bounds[2]][bounds[0]]) //bottom row separately
+    p[pc++] = Point(bounds[2]-0.5, bounds[0]-0.5); 
+  for (int y = bounds[0]+1; y < bounds[1]+1; y++)
+    if (sigma[bounds[2]][y]|| sigma[bounds[2]][y-1]) //Only consider one celltype
+      //add corner point only if a pixel is present at this location or below it.
+      {
+        p[pc++] = Point(bounds[2]-0.5, y-0.5);
+      }
+  if (sigma[bounds[2]][bounds[1]]) //add top-left most corner points if there is a pixel there
+    p[pc++] = Point(bounds[2]-0.5, bounds[1]+0.5); 
+
+
+  //Add all 'inner' corner points
+  for (int x = bounds[2]+1; x < bounds[3]+1; x++)
+  {
+    if (sigma[x][bounds[0]] || sigma[x-1][bounds[0]])
+      p[pc++] = Point(x-0.5, bounds[0]-0.5); //special case for bottom row is required 
+    for (int y = bounds[0]+1; y < bounds[1]+1; y++) //loop over all other rows
+    {
+      if (sigma[x][y] || sigma[x-1][y] || sigma[x][y-1] ||sigma[x-1][y-1]) //Only consider one celltype
+      //and add a corner point on the bottom left of the current pixel if one of the adjacent pixels is present
+      {
+        p[pc++] = Point(x-0.5, y-0.5); 
       }
     }
+    if (sigma[x][bounds[1]] || sigma[x-1][bounds[1]])
+      p[pc++] = Point(x-0.5, bounds[1]+0.5);
+    //add the top-most corner point only if there is a pixel on the top row (or to the left of this pixel)
   }
-  
-  // Step 2: call 2D Hull code
-  Point *hull=new Point[np];
-  int nph=chainHull_2D(p,np,hull);
-  
-  // Step 3: calculate area of convex hull
-  double hull_area=0.;
-  for (int i=0;i<nph-1;i++) {
-    hull_area+=hull[i].x*hull[i+1].y-hull[i+1].x*hull[i].y;
+
+  //Consider the right-most column separately, only add a corner point if there is a pixel in this column (or to the bottom of it)
+  if (sigma[bounds[3]][bounds[0]]) //bottom row separately
+    p[pc++] = Point(bounds[3]+0.5, bounds[0]-0.5);
+  for (int y = bounds[0]+1; y < bounds[1]+1; y++)
+    if (sigma[bounds[3]][y] || sigma[bounds[3]][y-1]) //Only consider one celltype
+      //add corner point only if a pixel is present at this location or below it.
+      {
+        p[pc++] = Point(bounds[3]+0.5, y-0.5);
+      }
+  if (sigma[bounds[3]][bounds[1]])
+    p[pc++] = Point(bounds[3]+0.5, bounds[1]+0.5);
+
+  // Step 3: call 2D Hull code
+  Point *hull = new Point[np];
+  int nph = chainHull_2D(p, np, hull);
+
+  // Step 4: calculate area of convex hull
+
+  double hull_area = 0.;
+  for (int i = 0; i < nph - 1; i++)
+  { 
+    hull_area += hull[i].x * hull[i + 1].y - hull[i + 1].x * hull[i].y;
   }
-  hull_area/=2.;
+  hull_area /= 2.;
 
-  // Step 4: calculate total cell area
-  double cell_area=0;
-
-  vector<Cell>::const_iterator c;
-
-  for ((c=cell->begin(),c++); c!=cell->end(); c++) {
-    cell_area+=c->Area();
-  }
-  
   delete[] p;
   delete[] hull;
 
-  // put intermediate results into optional pointers
-  if (res_compactness) {
-    *res_compactness = cell_area/hull_area;
-  }
-  if (res_area) {
-    *res_area = hull_area;
-  }
-  if (res_cell_area) {
-    *res_cell_area = cell_area;
-  }
-
   // return compactness
-  return cell_area/hull_area;
-
+  //cout << "cell_area = " << cell_area << endl;
+  //cout << "hull_area = " << hull_area << endl;
+  return cell_area / hull_area;
 }
 
 

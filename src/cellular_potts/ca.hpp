@@ -350,9 +350,7 @@ public:
     This is a good measure for the density.
     \return Compactness.
   */
-  double Compactness(double *res_compactness = 0, 
-		     double *res_area = 0, 
-		     double *res_cell_area = 0);
+  double Compactness(void);  
   void RandomSigma(int n_cells);
   
   void MeasureCellSizes(void);
