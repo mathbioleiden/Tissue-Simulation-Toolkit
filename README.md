@@ -38,7 +38,13 @@ The easiest way to install and work with the TST on Windows is via the Windows S
 
 On macOS, you need to install the XCode development environment from Apple to get the required tools, including the command line tools. You will need to specifically select the command line tools in the installer.
 
-Next, you need to install QT5, which you can get from https://www.qt.io/download-qt-installer. The other dependencies, libpng and zlib, are often already available, so you may want to try to compile first. If they are not there, you will have to install them, probably either using [Homebrew](https://brew.sh) or [MacPorts](https://macports.org), or else by compiling them from the sources. You may have to edit `src/Tissue-Simulation-Toolkit.pro` for qmake to be able to find them.
+To install the dependencies, we recommend installing [Homebrew](https://brew.sh). Once you have that installed, you can install QT5, libpng and zlib using
+
+```
+brew install qt@5 libpng zlib
+```
+
+You may have to edit `src/Tissue-Simulation-Toolkit.pro` for qmake to be able to find them.
 
 Next, you can get the source by cloning the repository from GitHub. You can use the following commands in a Terminal:
 
