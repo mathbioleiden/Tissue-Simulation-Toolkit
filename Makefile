@@ -3,6 +3,8 @@ XSDE_DIR  = $(MCDS_DIR)/libMCDS/xsde
 LIBCS_DIR = lib/libCellShape
 TST_DIR   = src
 
+.PHONY: all XSDE MCDS LIBCS TST clean
+
 all: TST
 
 XSDE:
