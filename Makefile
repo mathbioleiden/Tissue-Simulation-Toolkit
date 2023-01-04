@@ -2,6 +2,9 @@ MCDS_DIR  = lib/MultiCellDS/v1.0/v1.0.0
 XSDE_DIR  = $(MCDS_DIR)/libMCDS/xsde
 LIBCS_DIR = lib/libCellShape
 TST_DIR   = src
+QMAKE     = qmake
+# Edit the above line as necessary, e.g., as follows:
+#QMAKE 	  = /Applications/Qt5/6.4.0/macos/bin/qmake
 
 .PHONY: all XSDE MCDS LIBCS TST clean
 
@@ -17,7 +20,7 @@ LIBCS: MCDS
 	$(MAKE) -C $(LIBCS_DIR)
 
 TST: MCDS LIBCS
-	cd $(TST_DIR) && qmake
+	cd $(TST_DIR) && $(QMAKE)
 	$(MAKE) -C $(TST_DIR)
 
 clean:
