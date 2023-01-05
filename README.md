@@ -49,13 +49,10 @@ You may have to edit `src/Tissue-Simulation-Toolkit.pro` for qmake to be able to
 Next, you can get the source by cloning the repository from GitHub. You can use the following commands in a Terminal:
 
 ```
-git clone git@github.com:rmerks/Tissue-Simulation-Toolkit.git main
-cd Tissue-Simulation-Toolkit
-Tissue-Simulation-Toolkit$ git submodule init
-Tissue-Simulation-Toolkit$ git submodule update
+git clone --recursive -b TST2.0 git@github.com:rmerks/Tissue-Simulation-Toolkit.git
 ```
 
-If you are on a Mac with Apple Silicon (M1 or M2), then you will have to modify the file `lib/MultiCellDS/v1.0/v1.0.0/Makefile` to get the TST to compile. Find the line
+You might have to modify the file `lib/MultiCellDS/v1.0/v1.0.0/Makefile` to get the TST to compile. Find the line
 
 ```
 export COMPILE_CFLAGS := -O3 -s -mfpmath=both -m64 -std=c++11
@@ -66,8 +63,6 @@ And remove the `-s -mfpmath=both` so that it reads
 ```
 export COMPILE_CFLAGS := -O3 -m64 -std=c++11
 ```
-
-If you're not sure whether you have Apple Silicon in your Mac, you can just try to compile and see if you get an error, or you can edit the file and remove these options anyway, as it works fine without them.
 
 The TST can then be built using
 
@@ -86,10 +81,7 @@ To compile the TST, C and C++ compilers are needed, as well as the usual helper 
 To get the source, clone the repository from GitHub:
 
 ```
-git clone git@github.com:rmerks/Tissue-Simulation-Toolkit.git main
-cd Tissue-Simulation-Toolkit
-Tissue-Simulation-Toolkit$ git submodule init
-Tissue-Simulation-Toolkit$ git submodule update
+git clone --recursive -b TST2.0 git@github.com:rmerks/Tissue-Simulation-Toolkit.git
 ```
 
 The TST can then be built using
@@ -102,11 +94,52 @@ See below for how to run a simple simulation to test if it's all working.
 
 ## Test the Tissue Simulation Toolkit
 
-If compilation was successful, then the `bin/` folder contains an executable called `vessel'. This executable needs to be run from the `bin/` folder, and passed the location of a parameter file. You can run a test simulation like this:
+If compilation was successful, then the 'bin/' folder contains an executable called 'vessel'. This executable needs to be run from the `bin/` folder, and passed the location of a parameter file. You can run a test simulation like this:
 
 ```
 Tissue-Simulation-Toolkit$ cd bin
 Tissue-Simulation-Toolkit/bin$ ./vessel ../data/chemotaxis.par
+```
+
+## Troubleshooting
+
+### MultiCellDS not found
+
+If you get the error
+
+```
+lib/MultiCellDS/v1.0/v1.0.0/libMCDS/xsde: No such file or directory
+```
+
+you probablly forgot to specify the '--recursive' keyword when cloning from github. You can solve this with
+
+```
+cd Tissue-Simulation-Toolkit
+Tissue-Simulation-Toolkit$ git submodule init
+Tissue-Simulation-Toolkit$ git submodule update
+```
+
+### Unkown FP unit
+
+If you get the error:
+
+```
+error: unknown FP unit 'both'
+make[2]: *** [MultiCellDS.o] Error 1
+make[1]: *** [objects] Error 2
+make: *** [MCDS] Error 2
+```
+
+Find the line
+
+```
+export COMPILE_CFLAGS := -O3 -s -mfpmath=both -m64 -std=c++11
+```
+
+And remove the `-s -mfpmath=both` so that it reads
+
+```
+export COMPILE_CFLAGS := -O3 -m64 -std=c++11
 ```
 
 ## Who do I talk to?
