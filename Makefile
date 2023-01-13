@@ -6,9 +6,12 @@ QMAKE     = qmake
 # Edit the above line as necessary, e.g., as follows:
 #QMAKE 	  = /Applications/Qt5/6.4.0/macos/bin/qmake
 
+MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
+
 .PHONY: all XSDE MCDS LIBCS TST clean
 
-all: TST
+all: $(MODELS)
+
 
 XSDE:
 	$(MAKE) -C $(XSDE_DIR)
@@ -19,8 +22,8 @@ MCDS: XSDE
 LIBCS: MCDS
 	$(MAKE) -C $(LIBCS_DIR)
 
-TST: MCDS LIBCS
-	cd $(TST_DIR) && $(QMAKE)
+bin/%: MCDS LIBCS
+	cd $(TST_DIR) && $(QMAKE) $(@:bin/%=%).pro
 	$(MAKE) -C $(TST_DIR)
 
 clean:
