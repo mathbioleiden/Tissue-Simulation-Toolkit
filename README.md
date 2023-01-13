@@ -1,11 +1,18 @@
-# Tissue-Simulation-Toolkit
+# Tissue-Simulation-Toolkit 2.0
 
-Welcome to the Tissue Simulation Toolkit, a library for
+Welcome to Tissue Simulation Toolkit (TST) 2.0, a library for
 two-dimensional simulations of Glazier and Graner's Cellular Potts
 model (Glazier and Graner, 1993).
 
-The TST aims to provide a simple set of computational tools to get you
-started with Cellular Potts Simulations.
+TST 2.0 is an efficient C++ library for two-dimensional Cellular Potts Simulations. It is suitable for simulations with live visualization as well as batch simulations on clusters.
+
+TST 2.0 provides many recent extensions to the CPM, including
+* Efficient edgelist algorithm
+* Infinite number of PDE layers (forward Euler)
+* Interaction of CPM cells and PDE (secretion, absorption)
+* Chemotaxis
+* Length and connectivity constraints
+* Act-CPM model (Niculescu et al., PLOS Comput Biol 2015)
 
 The current version of the TST includes example programs for the
 following published simulations:
@@ -14,12 +21,6 @@ following published simulations:
 * Cell elongation dependent vasculogenesis (blood vessel growth) (Merks et al., 2006) 
 * Contact-inhibition dependent vasculogenesis and angiogenesis (Merks and Glazier, 2005; Merks and Glazier, 2006; Merks et al, PLoS Comput Biol 2008)
 
-The TST provides many recent extensions to the CPM, including
-
-* Infinite number of PDE layers (forward Euler)
-* Interaction of CPM cells and PDE (secretion, absorption)
-* Chemotaxis
-* Length and connectivity constraints
 
 and visualization of:
 
@@ -28,7 +29,7 @@ and visualization of:
 
 ## Downloading and installing
 
-The TST is available from GitHub at https://github.com/rmerks/Tissue-Simulation-Toolkit. It can be built and run on Windows, macOS and Linux using the instructions below.
+TST 2.0 is available from GitHub at https://github.com/rmerks/Tissue-Simulation-Toolkit. It can be built and run on Windows, macOS and Linux using the instructions below.
 
 ### Windows
 
@@ -38,13 +39,15 @@ The easiest way to install and work with the TST on Windows is via the Windows S
 
 On macOS, you need to install the XCode development environment from Apple to get the required tools, including the command line tools. You will need to specifically select the command line tools in the installer.
 
-To install the dependencies, we recommend installing [Homebrew](https://brew.sh). Once you have that installed, you can install QT5, libpng and zlib using
+To install the dependencies, we recommend installing [Homebrew](https://brew.sh). Once you have that installed, you can install QT5, libpng and zlib using (see note on Qt below)
 
 ```
 brew install qt@5 libpng zlib
 ```
 
-You may have to edit `src/Tissue-Simulation-Toolkit.pro` for qmake to be able to find them.
+You may have to edit `src/Tissue-Simulation-Toolkit.pro` for qmake to be able to find them. 
+
+Note on Qt: If you have an existing Qt installation (e.g. the open source installation through qt.io)  do not install Qt again through homebrew. Instead, ensure that qmake is in the path or edit the Makefile such that the full path for qmake is given. 
 
 Next, you can get the source by cloning the repository from GitHub. You can use the following commands in a Terminal:
 
@@ -52,7 +55,7 @@ Next, you can get the source by cloning the repository from GitHub. You can use 
 git clone --recursive -b TST2.0 git@github.com:rmerks/Tissue-Simulation-Toolkit.git
 ```
 
-You might have to modify the file `lib/MultiCellDS/v1.0/v1.0.0/Makefile` to get the TST to compile. Find the line
+If you are on a Mac then you will have to modify the file `lib/MultiCellDS/v1.0/v1.0.0/Makefile` to get the TST to compile. Find the line
 
 ```
 export COMPILE_CFLAGS := -O3 -s -mfpmath=both -m64 -std=c++11
