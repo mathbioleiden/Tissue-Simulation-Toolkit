@@ -1,25 +1,32 @@
-ROOT_DIR = $(shell pwd)
-MCDS_DIR  = $(ROOT_DIR)/lib/MultiCellDS/v1.0/v1.0.0
+MCDS_DIR  = lib/MultiCellDS/v1.0/v1.0.0
 XSDE_DIR  = $(MCDS_DIR)/libMCDS/xsde
-LIBCS_DIR = $(ROOT_DIR)/lib/libCellShape
-TST_DIR   = $(ROOT_DIR)/src
+LIBCS_DIR = lib/libCellShape
+TST_DIR   = src
+QMAKE     = qmake
+# Edit the above line as necessary, e.g., as follows:
+#QMAKE 	  = /Applications/Qt5/6.4.0/macos/bin/qmake
+
+.PHONY: all XSDE MCDS LIBCS TST clean
 
 all: TST
 
 XSDE:
-	cd  "$(XSDE_DIR)" && $(MAKE)
+	$(MAKE) -C $(XSDE_DIR)
 
 MCDS: XSDE
-	cd "$(MCDS_DIR)" && $(MAKE) objects
+	$(MAKE) -C $(MCDS_DIR) objects
 
-LIBCS: MCDS 
-	cd "$(LIBCS_DIR)" && $(MAKE)
+LIBCS: MCDS
+	$(MAKE) -C $(LIBCS_DIR)
 
 TST: MCDS LIBCS
-	cd "$(TST_DIR)" && qmake && $(MAKE)
+	cd $(TST_DIR) && $(QMAKE)
+	$(MAKE) -C $(TST_DIR)
 
-clean: 
-	cd "$(XSDE_DIR)" && $(MAKE) clean
-	cd "$(MCDS_DIR)" && $(MAKE) clean
-	cd "$(LIBCS_DIR)" && $(MAKE) clean
-	cd "$(TST_DIR)" && $(MAKE) clean
+clean:
+	$(MAKE) -C $(XSDE_DIR) clean
+	# MCDS make clean is broken, so do it by hand here
+	rm -f $(MCDS_DIR)/libMCDS/mcds_api/*.o $(MCDS_DIR)/libMCDS/mcds_api/*.a
+	$(MAKE) -C $(LIBCS_DIR) clean
+	$(MAKE) -C $(TST_DIR) clean
+	rm -rf bin $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash

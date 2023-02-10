@@ -1,0 +1,4 @@
+bin/
+build_files/
+**/*.swp
+**/*.swo

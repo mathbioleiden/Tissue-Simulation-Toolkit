@@ -1,11 +1,18 @@
-# Tissue-Simulation-Toolkit
+# Tissue-Simulation-Toolkit 2.0
 
-Welcome to the Tissue Simulation Toolkit, a library for
+Welcome to Tissue Simulation Toolkit (TST) 2.0, a library for
 two-dimensional simulations of Glazier and Graner's Cellular Potts
 model (Glazier and Graner, 1993).
 
-The TST aims to provide a simple set of computational tools to get you
-started with Cellular Potts Simulations.
+TST 2.0 is an efficient C++ library for two-dimensional Cellular Potts Simulations. It is suitable for simulations with live visualization as well as batch simulations on clusters.
+
+TST 2.0 provides many recent extensions to the CPM, including
+* Efficient edgelist algorithm
+* Infinite number of PDE layers (forward Euler)
+* Interaction of CPM cells and PDE (secretion, absorption)
+* Chemotaxis
+* Length and connectivity constraints
+* Act-CPM model (Niculescu et al., PLOS Comput Biol 2015)
 
 The current version of the TST includes example programs for the
 following published simulations:
@@ -14,111 +21,130 @@ following published simulations:
 * Cell elongation dependent vasculogenesis (blood vessel growth) (Merks et al., 2006) 
 * Contact-inhibition dependent vasculogenesis and angiogenesis (Merks and Glazier, 2005; Merks and Glazier, 2006; Merks et al, PLoS Comput Biol 2008)
 
-The TST provides many recent extensions to the CPM, including
-
-* Infinite number of PDE layers (forward Euler)
-* Interaction of CPM cells and PDE (secretion, absorption)
-* Chemotaxis
-* Length and connectivity constraints
 
 and visualization of:
 
 * Cells, according to cell type or anything you wish
 * Chemical fields, using color ramps and contour lines (level sets)
 
-### Required software: C++ compiler and libraries ###
+## Downloading and installing
 
-Using the TST requires basic knowledge of the use of the terminal and a C++ compiler. To acquire these skills, please refer to the appropriate books or internet tutorials. 
+TST 2.0 is available from GitHub at https://github.com/rmerks/Tissue-Simulation-Toolkit. It can be built and run on Windows, macOS and Linux using the instructions below.
 
-C++ compiler: For Windows, unless you have Microsoft Visual Studio installed and you are familiar with its use (you will be on your own), install version gcc4.4 of the GNU MinGW compiler, from https://code.google.com/p/psi-dev/downloads/detail?name=MinGW-gcc-4.4.0-2.7z. Unpack the folder and rename/move it to C:\MinGW. Note that the required Qt library (below) will only work correctly on Windows with this particular version of MinGW. 
+### Windows
 
-On MacOSX install the XCode Development environment from the MacOSX DVDs, including the Command Line tools. You will need to specifically select these in the installer. On Linux, make sure that gcc and g++, and make are installed. 
+The easiest way to install and work with the TST on Windows is via the Windows Subsystem for Linux. This provides an Ubuntu Linux-like environment within Windows, within which you can install TST. Opening a WSL2 terminal and following the Linux instructions should get you there.
 
-Qt Libraries: Download and install the Qt Library, version 4.8.5 from http://qt-project.org/downloads. The download page presents you with a list of Qt downloads for a range of operating systems and machine architectures. Download the Qt libraries appropriate for the operating system you are using. On Windows you will need the version "4.8.5 mingw4.4" (Note 1) Download Qt installer for windows version "4.8.5 mingw4.4" at http://qt-project.org/downloads. The Windows Qt installer will ask for the location of your MinGW directory during installation (C:/MinGW). 
+### macOS
 
-LibPNG and LibZ: The TST also need libpng and libz, both of which are often already installed on Linux and MacOSX. So for these operating systems, first attempt to compile the code (Section 2.2) before deciding to install these additional libraries. Only if necessary download sources or executables of these libraries from http://libpng.sourceforge.net and from http://www.zlib.net. On Windows, download the installers for these libraries from http://gnuwin32.sourceforge.net/packages/zlib.htm (complete package, except sources) and from http://gnuwin32.sourceforge.net/packages/libpng.htm (complete package, except sources).  Install both libraries in C:\Program Files\GnuWin32\ so that the compiler can find them there, or alternatively edit CellularPotts2.pro if you are familiar with ‘qmake’.
+On macOS, you need to install the XCode development environment from Apple to get the required tools, including the command line tools. You will need to specifically select the command line tools in the installer.
 
-### Source code of the Tissue Simulation Toolkit ###
-Download the source code of the Tissue Simulation Toolkit from http://sourceforge.net/projects/tst. This tutorial is based on TST version 0.1.4.1, with download file called TST0.1.4.1.tgz. 
-Unpack the source code to the folder where you would like to install the TST. On Linux and MacOSX open a terminal, make a working folder, change directory to (‘cd [name folder]’) and type:
+To install the dependencies, we recommend installing [Homebrew](https://brew.sh). Once you have that installed, you can install QT5, libpng and zlib using (see note on Qt below)
 
-> tar xzf [name download folder]/TST0.1.4.1.tgz
-where “>” indicates the command prompt (i.e. start typing from ‘tar’). Replace ‘[name download folder]’ for the location of your Download folder (e.g., on MacOSX you would typically type “tar xzf ~/Downloads/TST0.1.4.1.tgz”) 
+```
+brew install qt@5 libpng zlib
+```
 
-On Windows or MacOSX you can also unpack the archive by double-clicking it. Move the unpacked folder to a convenient location.
+You may have to edit `src/Tissue-Simulation-Toolkit.pro` for qmake to be able to find them. 
 
-If you clone the repository use 
-'git submodule init' and 
-'git submodule update'
-to retrieve the submodule MulticellDS. This is required to run Tissue Simulation Toolkit.
+Note on Qt: If you have an existing Qt installation (e.g. the open source installation through qt.io)  do not install Qt again through homebrew. Instead, ensure that qmake is in the path or edit the Makefile such that the full path for qmake is given. 
 
-### Compile the Tissue Simulation Toolkit ###
+Next, you can get the source by cloning the repository from GitHub. You can use the following commands in a Terminal:
 
-Windows: 
-Open a Qt Command prompt by choosing “Qt Command Prompt” from the “start” menu, then go to the folder where you have unpacked the source code of TST, e.g., (replace “[user]” for your own user name)
-> cd c:\Documents and Settings\[user]\simulations
+```
+git clone --recursive -b TST2.0 git@github.com:rmerks/Tissue-Simulation-Toolkit.git
+```
 
-* Change to the TST source directory.
+If you are on a Mac then you will have to modify the file `lib/MultiCellDS/v1.0/v1.0.0/Makefile` to get the TST to compile. Find the line
 
-> cd TST0.1.4.1\src
+```
+export COMPILE_CFLAGS := -O3 -s -mfpmath=both -m64 -std=c++11
+```
 
-* Start the compilation procedure.
-> qmake
-> mingw32-make
+And remove the `-s -mfpmath=both` so that it reads
 
-* Linux and MacOSX:
+```
+export COMPILE_CFLAGS := -O3 -m64 -std=c++11
+```
 
-Open a terminal (on MacOSX: type “Terminal” in Spotlight and press enter; Terminal is in /Applications/Utilities/).
+The TST can then be built using
 
-* Go to the directory where you unpacked the Tissue Simulation Toolkit. E.g,
+```
+Tissue-Simulation-Toolkit$ make
+```
 
-> cd ~/simulations
+See below for how to run a simple simulation to test if it's all working.
 
-* Change to the Tissue Simulation Toolkit source directory.
+### Linux
 
-> cd TST0.1.4.1/src
+To compile the TST, C and C++ compilers are needed, as well as the usual helper tools like `ar` and `ranlib`, and `make` for the build system. The TST also requires the zlib, libpng, OpenCL and QT5 libraries. On a recent Ubuntu or another Debian-based distribution (we tested Ubuntu 22.04), you can install the requirements using
 
-* Start the compilation procedure.
+```apt install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev```
 
-Linux: 
+To get the source, clone the repository from GitHub:
 
-Type:
-> qmake
-> make
+```
+git clone --recursive -b TST2.0 git@github.com:rmerks/Tissue-Simulation-Toolkit.git
+```
 
-MacOSX:
-> qmake –spec macx-g++
-> make
+The TST can then be built using
 
-* Test the Tissue Simulation Toolkit
+```
+Tissue-Simulation-Toolkit$ make
+```
 
-If the compilation process has proceeded well, the ‘src’-folder will now contain an executable called ‘vessel’ (Linux and MacOSX) or ‘vessel.exe’ (Windows). In TST0.1.4.1, the parameter files and source files are neatly stored in different folders. Unless you are a proficient user of the TST, it is easiest to keep all the files that TST needs together in one folder. Assuming that you are currently in the src directory, type:
+See below for how to run a simple simulation to test if it's all working.
 
-Windows:
+## Test the Tissue Simulation Toolkit
 
-> copy ..\data\* 
+If compilation was successful, then the 'bin/' folder contains an executable called 'vessel'. This executable needs to be run from the `bin/` folder, and passed the location of a parameter file. You can run a test simulation like this:
 
-Also retrieve the executables (e.g., vessel.exe) from the “release” folder:
+```
+Tissue-Simulation-Toolkit$ cd bin
+Tissue-Simulation-Toolkit/bin$ ./vessel ../data/chemotaxis.par
+```
 
-> copy ..\release\*.exe
+## Troubleshooting
 
-Linux and MacOSX:
+### MultiCellDS not found
 
-> cp ../data/* .
+If you get the error
 
-(note the space between “*” and “.”)
+```
+lib/MultiCellDS/v1.0/v1.0.0/libMCDS/xsde: No such file or directory
+```
 
-Next, type:
+you probablly forgot to specify the '--recursive' keyword when cloning from github. You can solve this with
 
-Windows:
+```
+cd Tissue-Simulation-Toolkit
+Tissue-Simulation-Toolkit$ git submodule init
+Tissue-Simulation-Toolkit$ git submodule update
+```
 
-> .\vessel chemotaxis.par 
+### Unkown FP unit
 
-Linux and MacOSX:
+If you get the error:
 
-> ./vessel chemotaxis.par
+```
+error: unknown FP unit 'both'
+make[2]: *** [MultiCellDS.o] Error 1
+make[1]: *** [objects] Error 2
+make: *** [MCDS] Error 2
+```
 
+Find the line
 
-### Who do I talk to? ###
+```
+export COMPILE_CFLAGS := -O3 -s -mfpmath=both -m64 -std=c++11
+```
+
+And remove the `-s -mfpmath=both` so that it reads
+
+```
+export COMPILE_CFLAGS := -O3 -m64 -std=c++11
+```
+
+## Who do I talk to?
 
 * Roeland Merks
