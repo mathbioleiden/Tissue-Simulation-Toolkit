@@ -2,3 +2,6 @@
 	path = lib/MultiCellDS
 	url = https://gitlab.com/Guacimo/MultiCellDS.git
 	branch = boundary
+[submodule "lib/Catch2/src"]
+	path = lib/Catch2/src
+	url = https://github.com/catchorg/Catch2.git
