@@ -9,10 +9,13 @@ QMAKE     = qmake
 
 MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
 
-.PHONY: all XSDE MCDS LIBCS TST clean
+.PHONY: all XSDE MCDS LIBCS TST test clean
+
 
 all: $(MODELS)
 
+
+# Dependencies
 
 XSDE:
 	$(MAKE) -C $(XSDE_DIR)
@@ -26,9 +29,25 @@ LIBCS: MCDS
 Catch2:
 	$(MAKE) -C $(CATCH2_DIR)
 
+
+# Models
+
 bin/%: MCDS LIBCS
 	cd $(TST_DIR) && $(QMAKE) $(@:bin/%=%).pro
 	$(MAKE) -C $(TST_DIR)
+
+
+# Tests
+
+CATCH2_BASE = $(CATCH2_DIR)/catch2
+export CATCH2_BASE
+
+test: Catch2 MCDS LIBCS
+	# Add new directories with tests here and also below under clean:
+	$(MAKE) -C $(TST_DIR)/cellular_potts/tests run_all_tests
+
+
+# Cleanup
 
 clean:
 	$(MAKE) -C $(XSDE_DIR) clean
@@ -36,5 +55,7 @@ clean:
 	rm -f $(MCDS_DIR)/libMCDS/mcds_api/*.o $(MCDS_DIR)/libMCDS/mcds_api/*.a
 	$(MAKE) -C $(LIBCS_DIR) clean
 	$(MAKE) -C $(CATCH2_DIR) clean
-	$(MAKE) -C $(TST_DIR) clean
+	# This fails if it hasn't been built and there's no Makefile, that's fine
+	-$(MAKE) -C $(TST_DIR) clean
 	rm -rf bin $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash
+	$(MAKE) -C $(TST_DIR)/cellular_potts/tests clean
