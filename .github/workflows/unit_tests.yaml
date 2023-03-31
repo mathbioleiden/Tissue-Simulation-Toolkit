@@ -13,4 +13,4 @@ jobs:
       run: |
         sudo apt-get install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev
         cd $GITHUB_WORKSPACE
-        make test
+        make -j 3 test
