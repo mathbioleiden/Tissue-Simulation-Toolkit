@@ -227,11 +227,19 @@ void CellularPotts::InitializeEdgeList(void){
   int x, y;
   int xp, yp;
   int c, cp;
+  
+  //Initialize both edgelist and orderedgelist to have -1 everywhere
   for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
     edgelist[k] = -1;
     orderedgelist[k] = -1;
   }
+  
   for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
+    //Loop over all edges
+    //Outermost loop is over the y-coordinate
+    //Middle loop is over the x-coordinate
+    //Innermost loop is over the neighbours.
+    
     pixel = k/nbh_level[par.neighbours];
     neighbour = k%nbh_level[par.neighbours]+1;    
     x = pixel%(sizex-2)+1;
@@ -257,8 +265,11 @@ void CellularPotts::InitializeEdgeList(void){
       cp=-1;
     else
       cp=sigma[xp][yp];
-    if (cp != c && cp != -1){       
-      edgelist [k] = sizeedgelist;  
+    if (cp != c && cp != -1){
+      //if a pixel and its neighbour have a different sigma, add a unique 
+      //interger to edgelist       
+      edgelist[k] = sizeedgelist;
+      //also add a unique integer to the end of orderedgelist, making a bijection between the lists
       orderedgelist[sizeedgelist] = k;
       sizeedgelist ++;
     }
@@ -1012,14 +1023,20 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
 
   loop = static_cast<float>(sizeedgelist) / static_cast<float>(n_nb);
   for (int i = 0; i < loop; i++){
-    positionedge = (int)(RANDOM()*sizeedgelist); // take a entry of the edgelist
+    // take a random entry of the edgelist
+    positionedge = (int)(RANDOM()*sizeedgelist); 
+    // find the corresponding edge
     targetedge = orderedgelist[positionedge];
+    // find the lattice site corresponding to this edge
     targetsite = targetedge / n_nb;
+    // find the neighbour corresponding to this edge
     targetneighbour = (targetedge % n_nb)+1;
     
+    // find the x and y coordinate corresponding to the target site
     x = targetsite%(sizex-2)+1;
     y = targetsite/(sizex-2)+1; 
     
+    // find the neighbouring site corresponding to this edge
     xp = nx[targetneighbour]+x;
     yp = ny[targetneighbour]+y;
     if (par.periodic_boundaries) {
@@ -1062,12 +1079,17 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
             yn=yn-sizey+2;
         } 
         if (xn>0 && yn>0 && xn<sizex-1 && yn<sizey-1){//if the neighbour site is within the lattice
-          if (edgelist[edgeadjusting] == -1 && sigma[xn][yn] != sigma[x][y]){ //if we should add the edge to the edgelist, add it
+          if (edgelist[edgeadjusting] == -1 && sigma[xn][yn] != sigma[x][y]){ 
+            //if there should be an edge between (x,y) and (xn,yn) and it is not there yet, add it
             AddEdgeToEdgelist(edgeadjusting);
+            //adjust loop because two edges were removeed
             loop += 2.0/n_nb;
+            
           }
-          if (edgelist[edgeadjusting] != -1 && sigma[xn][yn] == sigma[x][y]){//if the sites have the same celltype and they have an edge, remove it           
+          if (edgelist[edgeadjusting] != -1 && sigma[xn][yn] == sigma[x][y]){
+            //if there should be no edge between (x,y) and (xn,yn), but there is an edge remove it        
             RemoveEdgeFromEdgelist(edgeadjusting); 
+            //adjust loop because two edges were removed
             loop -= 2.0/n_nb;   
           }             
         }
@@ -1078,13 +1100,17 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
   return SumDH;  
 }
 
-void CellularPotts::AddEdgeToEdgelist(int edge) {
+void CellularPotts::AddEdgeToEdgelist(int edge) {//add an edge to the end of edgelist
   int counteredge = CounterEdge(edge);  
 
+  //assign a unique integer to position 'edge' in the edgelist
   edgelist[edge] = sizeedgelist;
+  //assign a unique integer at the end of orderedgelist, maintaining the bijection between the lists
   orderedgelist[sizeedgelist] = edge;
+  //Increase the size of the array
   sizeedgelist++;
 
+  //Repeat for the counteredge
   edgelist[counteredge] = sizeedgelist;
   orderedgelist[sizeedgelist] = counteredge;
   sizeedgelist++;
@@ -1118,17 +1144,23 @@ void CellularPotts::WriteData(void){
 
 }
 
-void CellularPotts::RemoveEdgeFromEdgelist(int edge) { //remove the site from the edgelist and rearrange a bit if needed
+void CellularPotts::RemoveEdgeFromEdgelist(int edge) { //remove an edge from the edgelist
   int counteredge = CounterEdge(edge);  
 
-  if(edgelist[edge] != sizeedgelist-1){ //if edge is not last one in edgelist
+  if(edgelist[edge] != sizeedgelist-1){ //if edge is not the last edge in orderedgelist
+    // move the edge in the last position to the position of the edge that must be deleted
     orderedgelist[edgelist[edge]] = orderedgelist[sizeedgelist-1];
     edgelist[orderedgelist[sizeedgelist-1]] = edgelist[edge];
   }
+  // remove the edge from the edgelist
   edgelist[edge] = -1;
+  // free the last position of orderedgelist
   orderedgelist[sizeedgelist-1] = -1;
+  //decrease the size of the edgelist
   sizeedgelist--;
-  if(edgelist[counteredge] != sizeedgelist-1){ //if counteredge is not last one in edgelist
+  
+  //Repeat for counteredge
+  if(edgelist[counteredge] != sizeedgelist-1){ 
     orderedgelist[edgelist[counteredge]] = orderedgelist[sizeedgelist-1];
     edgelist[orderedgelist[sizeedgelist-1]] = edgelist[counteredge];
   }
@@ -1138,16 +1170,22 @@ void CellularPotts::RemoveEdgeFromEdgelist(int edge) { //remove the site from th
 }
 
 int CellularPotts::CounterEdge(int edge){
+  // For an edge from (x,y) to (xn,yn), this function returns the edge from (xn,yn) to (x,y)
+  
+  // find the corresponding lattice site and neighbour for the edge.
   int which_site = edge / n_nb;
   int which_neighbour = edge % n_nb + 1;
-  int counterneighbour = 3;
+  int counterneighbour = 0;
 
+  // find the x and y coordinate corresponding to the lattice site
   int x = which_site%(sizex-2)+1;
   int y = which_site/(sizex-2)+1; 
 
+  // find the x and y coordinate corresponding at the other end of the edge
   int xp = nx[which_neighbour]+x; 
   int yp = ny[which_neighbour]+y; 
 
+  // correct for periodic boundaries of necessary
   if (par.periodic_boundaries) {  
     // since we are asynchronic, we cannot just copy the borders once 
     // every MCS
@@ -1160,11 +1198,13 @@ int CellularPotts::CounterEdge(int edge){
     if (yp>=sizey-1)
       yp=yp-sizey+2;
   }
-
+  // lattice site corresponding to other site of the edge
   int neighbourlocation = xp-1 + (yp-1)*(par.sizex-2);
-
+  
+  // find the neighbour pointing the other direction
   const int counterneighbourlist[20] = {3, 4, 1, 2, 7, 8, 5, 6, 11, 12, 9, 10, 17, 18, 19, 20, 13, 14, 15, 16};
   counterneighbour = counterneighbourlist[ which_neighbour - 1 ];
+  // compute the final counteredge
   int counteredge = neighbourlocation * n_nb + counterneighbour-1;
   return counteredge;
 }
