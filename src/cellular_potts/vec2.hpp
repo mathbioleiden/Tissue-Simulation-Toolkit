@@ -1,6 +1,7 @@
 #pragma once
 
 #include <initializer_list>
+#include <iostream>
 #include <limits>
 
 
@@ -45,11 +46,23 @@ struct Vec2 {
     constexpr Vec2 & operator=(Vec2 const &) = default;
     constexpr Vec2 & operator=(Vec2 &&) = default;
 
+    /** Return the length (L2 norm).
+     *
+     * This is only implemented for float and double template arguments.
+     */
+    constexpr Coordinate length() const;
+
     /** Add two vectors. */
     constexpr Vec2 & operator+=(Vec2 const & rhs);
 
     /** Subtract two vectors. */
     constexpr Vec2 & operator-=(Vec2 const & rhs);
+
+    /** Return the dot product.
+     *
+     * @param rhs The vector to multiply with.
+     */
+    constexpr Coordinate dot(Vec2 const & rhs) const;
 };
 
 
@@ -60,6 +73,10 @@ Vec2<Coordinate> operator+(Vec2<Coordinate> const & lhs, Vec2<Coordinate> const 
 /** Subtract a vector from another. */
 template <typename Coordinate>
 Vec2<Coordinate> operator-(Vec2<Coordinate> const & lhs, Vec2<Coordinate> const & rhs);
+
+/** Stream a vector. */
+template <typename Coordinate>
+std::ostream & operator<<(std::ostream & os, Vec2<Coordinate> v);
 
 
 /** Coordinates of a pixel in the Cellular Potts grid.
