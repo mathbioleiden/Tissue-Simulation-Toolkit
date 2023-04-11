@@ -61,6 +61,9 @@ endif
 # Additional source files for the tests. Do not add headers here.
 build/test_vec2: ../vec2.cpp
 
+build/test_ecm: ../ecm.cpp
+
+
 build/test_%: test_%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(filter %.cpp,$^) $(LDFLAGS)
 

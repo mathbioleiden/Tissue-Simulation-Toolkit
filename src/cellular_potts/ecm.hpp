@@ -53,6 +53,9 @@ enum class ParticleType {
  * Particles have a location in a 2D space, and a type.
  */
 struct Particle {
+    /// Create a Particle
+    Particle(ParPos pos, ParticleType type);
+
     /// Location
     ParPos pos;
 
@@ -67,6 +70,12 @@ struct Particle {
  * constant.
  */
 struct BondType {
+    /// Create an uninitialised bond type
+    BondType() = default;
+
+    /// Create a bond type with given parameters
+    BondType(double r0, double k);
+
     /// Rest length
     double r0;
 
@@ -80,6 +89,8 @@ struct BondType {
  * A bond connects two particles and is of a given type.
  */
 struct Bond {
+    Bond(par_id p1, par_id p2, bond_type_id type);
+
     /// Bonded particles
     par_id p1, p2;
 
@@ -107,6 +118,12 @@ enum class NamedBondTypes : bond_type_id {
  * angle.
  */
 struct AngleCstType {
+    /// Create an uninitialised angle constraint type
+    AngleCstType() = default;
+
+    /// Create an angle constraint type with given parameters
+    AngleCstType(double t0, double k);
+
     /// Rest angle
     double t0;
 
@@ -121,6 +138,9 @@ struct AngleCstType {
  * relative to the other two.
  */
 struct AngleCst {
+    /// Create an angle constraint
+    AngleCst(par_id p1, par_id p2, par_id p3, angle_cst_type_id type);
+
     /// Involved particles
     par_id p1, p2, p3;
 
@@ -165,7 +185,7 @@ struct ExtraCellularMatrix {
      *
      * The particle id of a particle is its index in this vector.
      *
-     * particles[par_id].x, .y or .type
+     * particles[par_id].pos.x, .pos.y or .type
      */
     std::vector<Particle> particles;
 
