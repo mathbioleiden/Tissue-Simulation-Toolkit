@@ -83,6 +83,11 @@ Parameter::Parameter() {
   useopencl = true;
   opencl_core_path = strdup("../src/reaction_diffusion/pdecore.cl");
   opencl_pref_platform = 0;
+  adhesion_extension_mechanism = strdup("sticky");
+  adhesion_displacement_selection = strdup("uniform");
+  adhesion_annihilation_penalty = 0;
+  adhesions_per_pixel_overflow = 1;
+  adhesions_per_pixel_overflow_penalty = 600;
   colortable = strdup("../data/default.ctb");
 }
 
@@ -101,6 +106,10 @@ void Parameter::CleanUp(void) {
      free(decay_rate);
   if (secr_rate) 
      free(secr_rate);
+  if (adhesion_extension_mechanism)
+      free(adhesion_extension_mechanism);
+  if (adhesion_displacement_selection)
+      free(adhesion_displacement_selection);
   if (datadir) 
      free(datadir);
 }
@@ -172,6 +181,11 @@ void Parameter::Read(const char *filename) {
   opencl_core_path = sgetpar(fp, "opencl_core_path", "../src/reaction_diffusion/pdecore.cl", true);
   opencl_pref_platform = igetpar(fp, "opencl_pref_platform", 0, true);
   adhesion_storage_stride = igetpar(fp, "adhesion_storage_stride", mcs+1, true);
+  adhesion_extension_mechanism = sgetpar(fp, "adhesion_extension_mechanism", "sticky", true);
+  adhesion_displacement_selection = sgetpar(fp, "adhesion_displacement_selection", "uniform", true);
+  adhesion_annihilation_penalty = igetpar(fp, "adhesion_extension_penalty", 0, true);
+  adhesions_per_pixel_overflow = igetpar(fp, "adhesions_per_pixel_overflow", 1, true);
+  adhesions_per_pixel_overflow_penalty = igetpar(fp, "adhesions_per_pixel_overflow_penalty", 600, true);
   graphics = bgetpar(fp, "graphics", true, true);
   store = bgetpar(fp, "store", false, true);
   datadir = sgetpar(fp, "datadir", "data_film", true);
@@ -260,8 +274,12 @@ void Parameter::Write(ostream &os) const {
   os << " useopencl = " << useopencl << endl;
   os << " opencl_pref_platform" << opencl_pref_platform << endl;
   os << " opencl_core_path = " << opencl_core_path << endl;
-  if (datadir) 
   os << " adhesion_storage_stride = " << adhesion_storage_stride << endl;
+  os << " adhesion_extension_mechanism = " << adhesion_extension_mechanism << endl;
+  os << " adhesion_displacement_selection = " << adhesion_displacement_selection << endl;
+  os << " adhesion_annihilation_penalty = " << adhesion_annihilation_penalty << endl;
+  os << " adhesions_per_pixel_overflow = " << adhesions_per_pixel_overflow << endl;
+  os << " adhesions_per_pixel_overflow_penalty = " << adhesions_per_pixel_overflow_penalty << endl;
   os << " graphics = " << sbool(graphics) << endl;
   os << " store = " << sbool(store) << endl;
   //Act model
