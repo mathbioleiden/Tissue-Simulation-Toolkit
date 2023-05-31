@@ -34,4 +34,9 @@ inline double DSQR(double a) {
   return a * a;
 }
 
+template <typename T>
+T sqr(T a) {
+  return a * a;
+}
+
 #endif
