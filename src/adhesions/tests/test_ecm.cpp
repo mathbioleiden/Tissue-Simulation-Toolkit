@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "ecm.hpp"
+#include "ecm.cpp"
 
 /** There's not much to test here, since this file just defines some data
  * structures. But we can play with them a bit and see if things compile at
