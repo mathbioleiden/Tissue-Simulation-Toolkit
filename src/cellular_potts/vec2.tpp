@@ -56,6 +56,22 @@ Vec2<Coordinate> operator-(
 
 
 template <typename Coordinate>
+bool operator==(
+        Vec2<Coordinate> const & lhs, Vec2<Coordinate> const & rhs
+) {
+    return (lhs.x == rhs.x) && (lhs.y == rhs.y);
+}
+
+
+template <typename Coordinate>
+bool operator!=(
+        Vec2<Coordinate> const & lhs, Vec2<Coordinate> const & rhs
+) {
+    return (lhs.x != rhs.x) || (lhs.y != rhs.y);
+}
+
+
+template <typename Coordinate>
 std::ostream & operator<<(std::ostream & os, Vec2<Coordinate> v) {
     return os << "(" << v.x << ", " << v.y << ")";
 }

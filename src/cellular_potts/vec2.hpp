@@ -30,10 +30,6 @@ struct Vec2 {
 
     /** Convert from a different coordinate type.
      *
-     * This is explicit, so that it won't silently convert. If you have a
-     * Vec2<int> a and want a Vec2<double>, then you have to explicitly write
-     * Vec2<double>(a).
-     *
      * Currently only implemented for Vec2<int> to Vec2<float> and
      * Vec2<int> to Vec2<double> conversion.
      */
@@ -65,6 +61,14 @@ struct Vec2 {
     constexpr Coordinate dot(Vec2 const & rhs) const;
 };
 
+// Declare the specific types for which conversion is implemented
+template <>
+template <>
+Vec2<float>::Vec2(Vec2<int> const & v);
+
+template <>
+template <>
+Vec2<double>::Vec2(Vec2<int> const & v);
 
 /** Add two vectors together. */
 template <typename Coordinate>
@@ -74,6 +78,14 @@ Vec2<Coordinate> operator+(Vec2<Coordinate> const & lhs, Vec2<Coordinate> const 
 template <typename Coordinate>
 Vec2<Coordinate> operator-(Vec2<Coordinate> const & lhs, Vec2<Coordinate> const & rhs);
 
+/** Compare for equality. */
+template <typename Coordinate>
+bool operator==(Vec2<Coordinate> const & lhs, Vec2<Coordinate> const & rhs);
+
+/** Compare for inequality. */
+template <typename Coordinate>
+bool operator!=(Vec2<Coordinate> const & lhs, Vec2<Coordinate> const & rhs);
+
 /** Stream a vector. */
 template <typename Coordinate>
 std::ostream & operator<<(std::ostream & os, Vec2<Coordinate> v);
@@ -82,6 +94,15 @@ std::ostream & operator<<(std::ostream & os, Vec2<Coordinate> v);
 /** Coordinates of a pixel in the Cellular Potts grid.
  */
 using PixelPos = Vec2<int>;
+
+/** Allow use in unordered_map. */
+template<>
+struct std::hash<PixelPos> {
+    std::size_t operator()(PixelPos const & p) const noexcept {
+        std::hash<int> hasher;
+        return hasher(p.x) ^ (hasher(p.y) * 257);
+    }
+};
 
 
 /** Difference of two PixelPos's.
