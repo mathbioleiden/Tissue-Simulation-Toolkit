@@ -49,6 +49,7 @@ export CATCH2_BASE
 test: Catch2 MCDS LIBCS
 	# Add new directories with tests here and also below under clean:
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests run_all_tests
+	$(MAKE) -C $(TST_DIR)/util/tests run_all_tests
 
 
 # Cleanup
@@ -68,3 +69,4 @@ clean:
 
 	# Add new test directories here
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests clean
+	$(MAKE) -C $(TST_DIR)/util/tests clean

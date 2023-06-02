@@ -11,7 +11,7 @@ ifneq "$(filter $(MAKECMDGOALS),clean)" "clean"
     CATCH2_INCLUDES := $(shell PKG_CONFIG_PATH=$(PCPATH) pkg-config --cflags catch2-with-main)
     CATCH2_LIBS := $(shell PKG_CONFIG_PATH=$(PCPATH) pkg-config --libs catch2-with-main)
 
-    CXXFLAGS := $(CATCH2_INCLUDES) $(CXXFLAGS) -I.. -I../../util
+    CXXFLAGS := $(CATCH2_INCLUDES) $(CXXFLAGS) -I..
     LDFLAGS := $(CATCH2_LIBS) $(LDFLAGS)
 
     CATCH2_INCLUDE_DIR := ../../../lib/Catch2/catch2/include
@@ -60,8 +60,6 @@ endif
 
 # Additional source files for the tests. Do not add headers here.
 build/test_vec2: ../vec2.cpp
-
-build/test_ecm: ../ecm.cpp
 
 
 build/test_%: test_%.cpp
