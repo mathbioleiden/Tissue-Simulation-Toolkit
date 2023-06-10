@@ -31,7 +31,7 @@
 
 extern MockParameter par;
 
-using std::get;
+using std::make_tuple;
 using Catch::Matchers::Contains;
 
 
@@ -53,10 +53,9 @@ TEST_CASE("Move no adhesions", "[adhesion_mover]") {
 
     MockAdhesionIndex::get_adhesions_return_values[{0, 0}] = {};
     MockAdhesionIndex::get_adhesions_return_values[{0, 1}] = {};
-    auto dh_disps = mover.move_dh({0, 0}, {0, 1});
 
-    double const & dh = get<0>(dh_disps);
-    AdhesionDisplacements const & disps = get<1>(dh_disps);
+    AdhesionDisplacements disps;
+    double dh = mover.move_dh({0, 0}, {0, 1}, disps);
 
     REQUIRE(dh == 0.0);
     REQUIRE(disps.source == PixelDisplacement{0, 0});
@@ -120,39 +119,42 @@ TEST_CASE("Move some adhesions in various ways", "[adhesion_mover]") {
         par.adhesion_extension_mechanism = "lazy";
         par.adhesion_displacement_selection = "gradient";
 
-        auto dh_disps = mover.move_dh({4, 5}, {5, 5});
-        CHECK(get<0>(dh_disps) == -1.0);
-        CHECK(get<1>(dh_disps).source == PixelDisplacement{0, 0});
-        CHECK(get<1>(dh_disps).target == PixelDisplacement{1, 0});
+        AdhesionDisplacements disps;
+        double dh = mover.move_dh({4, 5}, {5, 5}, disps);
+        CHECK(dh == -1.0);
+        CHECK(disps.source == PixelDisplacement{0, 0});
+        CHECK(disps.target == PixelDisplacement{1, 0});
     }
 
     SECTION("sticky extension and gradient selection") {
         par.adhesion_extension_mechanism = "sticky";
         par.adhesion_displacement_selection = "gradient";
 
-        auto dh_disps = mover.move_dh({4, 5}, {5, 5});
-        CHECK(get<0>(dh_disps) == 3.0);
-        CHECK(get<1>(dh_disps).source == PixelDisplacement{1, 0});
-        CHECK(get<1>(dh_disps).target == PixelDisplacement{1, 0});
+        AdhesionDisplacements disps;
+        double dh = mover.move_dh({4, 5}, {5, 5}, disps);
+        CHECK(dh == 3.0);
+        CHECK(disps.source == PixelDisplacement{1, 0});
+        CHECK(disps.target == PixelDisplacement{1, 0});
     }
 
     SECTION("mixed extension and gradient selection") {
         par.adhesion_extension_mechanism = "mixed";
         par.adhesion_displacement_selection = "gradient";
 
-        auto dh_disps = mover.move_dh({4, 5}, {5, 5});
-        CHECK(get<0>(dh_disps) == -1.0);
-        CHECK(get<1>(dh_disps).source == PixelDisplacement{0, 0});
-        CHECK(get<1>(dh_disps).target == PixelDisplacement{1, 0});
+        AdhesionDisplacements disps;
+        double dh = mover.move_dh({4, 5}, {5, 5}, disps);
+        CHECK(dh == -1.0);
+        CHECK(disps.source == PixelDisplacement{0, 0});
+        CHECK(disps.target == PixelDisplacement{1, 0});
 
         // make lazy more expensive, then we should get sticky
         auto & a1 = MockAdhesionIndex::get_adhesions_return_values[{4, 5}][0];
         a1.move_dh_return_values[{0, 0}] = 10.0;
 
-        dh_disps = mover.move_dh({4, 5}, {5, 5});
-        CHECK(get<0>(dh_disps) == 3.0);
-        CHECK(get<1>(dh_disps).source == PixelDisplacement{1, 0});
-        CHECK(get<1>(dh_disps).target == PixelDisplacement{1, 0});
+        dh = mover.move_dh({4, 5}, {5, 5}, disps);
+        CHECK(dh == 3.0);
+        CHECK(disps.source == PixelDisplacement{1, 0});
+        CHECK(disps.target == PixelDisplacement{1, 0});
     }
 
     SECTION("random extension and gradient selection") {
@@ -164,12 +166,12 @@ TEST_CASE("Move some adhesions in various ways", "[adhesion_mover]") {
         par.adhesion_extension_mechanism = "random";
         par.adhesion_displacement_selection = "gradient";
 
-        auto dh_disps = mover.move_dh({4, 5}, {5, 5});
-        CHECK(get<0>(dh_disps) == -5.0);
-        CHECK(get<1>(dh_disps).source == PixelDisplacement{-1, 1});
-        CHECK(get<1>(dh_disps).target == PixelDisplacement{1, 0});
+        AdhesionDisplacements disps;
+        double dh = mover.move_dh({4, 5}, {5, 5}, disps);
+        CHECK(dh == -5.0);
+        CHECK(disps.source == PixelDisplacement{-1, 1});
+        CHECK(disps.target == PixelDisplacement{1, 0});
     }
-
 
     SECTION("lazy extension and uniform selection") {
         par.adhesion_extension_mechanism = "lazy";
@@ -179,9 +181,10 @@ TEST_CASE("Move some adhesions in various ways", "[adhesion_mover]") {
             {5.0, AdhesionDisplacements({0, 0}, {0, -1})},
             {-1.0, AdhesionDisplacements({0, 0}, {1, 0})}};
 
+        AdhesionDisplacements disps;
         for (int i = 0; i < 20; ++i) {
-            auto dh_disps = mover.move_dh({4, 5}, {5, 5});
-            CHECK_THAT(expected, Contains(dh_disps));
+            double dh = mover.move_dh({4, 5}, {5, 5}, disps);
+            CHECK_THAT(expected, Contains(std::make_tuple(dh, disps)));
         }
     }
 
@@ -193,9 +196,10 @@ TEST_CASE("Move some adhesions in various ways", "[adhesion_mover]") {
             {9.0, AdhesionDisplacements({1, 0}, {0, -1})},
             {3.0, AdhesionDisplacements({1, 0}, {1, 0})}};
 
+        AdhesionDisplacements disps;
         for (int i = 0; i < 20; ++i) {
-            auto dh_disps = mover.move_dh({4, 5}, {5, 5});
-            CHECK_THAT(expected, Contains(dh_disps));
+            double dh = mover.move_dh({4, 5}, {5, 5}, disps);
+            CHECK_THAT(expected, Contains(make_tuple(dh, disps)));
         }
     }
 
@@ -209,9 +213,10 @@ TEST_CASE("Move some adhesions in various ways", "[adhesion_mover]") {
             {9.0, AdhesionDisplacements({1, 0}, {0, -1})},
             {3.0, AdhesionDisplacements({1, 0}, {1, 0})}};
 
+        AdhesionDisplacements disps;
         for (int i = 0; i < 20; ++i) {
-            auto dh_disps = mover.move_dh({4, 5}, {5, 5});
-            CHECK_THAT(expected, Contains(dh_disps));
+            double dh = mover.move_dh({4, 5}, {5, 5}, disps);
+            CHECK_THAT(expected, Contains(make_tuple(dh, disps)));
         }
     }
 
@@ -236,10 +241,12 @@ TEST_CASE("Move some adhesions in various ways", "[adhesion_mover]") {
 
         std::vector<int> counts(expected.size(), 0);
 
+        AdhesionDisplacements disps;
         int n = 160;
         for (int i = 0; i < n; ++i) {
-            auto dh_disps = mover.move_dh({4, 5}, {5, 5});
-            auto it = std::find(expected.begin(), expected.end(), dh_disps);
+            double dh = mover.move_dh({4, 5}, {5, 5}, disps);
+            auto it = std::find(
+                    expected.begin(), expected.end(), make_tuple(dh, disps));
             CHECK(it != expected.end());
             if (it != expected.end()) {
                 std::size_t i = std::distance(expected.begin(), it);

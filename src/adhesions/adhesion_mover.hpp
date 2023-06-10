@@ -9,6 +9,9 @@
 /** Describes where the adhesions go during a copy attempt. */
 class AdhesionDisplacements {
     public:
+        /** Create an object where no adhesions move. */
+        AdhesionDisplacements();
+
         /** Create an object representing the given displacements.
          *
          * @param source Displacement of adhesions in the source pixel.
@@ -59,11 +62,13 @@ class AdhesionMover {
          *
          * @param from Pixel to be copied from
          * @param to Pixel to copied to
-         * @return The work required and the chosen adhesion displacements
-         *         requiring that work.
+         * @param displacements Out parameter returning the chosen adhesion
+         *      displacements
+         * @return The work required.
          */
-        std::tuple<double, AdhesionDisplacements> move_dh(
-                PixelPos from, PixelPos to) const;
+        double move_dh(
+                PixelPos from, PixelPos to,
+                AdhesionDisplacements & displacements) const;
 
         /** Update the adhesions following a move.
          *
