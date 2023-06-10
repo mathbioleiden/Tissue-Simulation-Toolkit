@@ -2,6 +2,7 @@
 
 #include "sqr.hpp"
 
+
 AttachedBond::AttachedBond(
         ParPos const & neighbour, BondType const & bond_type)
     : neighbour(neighbour)
@@ -179,8 +180,10 @@ std::vector<AdhesionWithEnvironment> const & AdhesionIndex::get_adhesions(
 void AdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {
     auto it = adhesions_by_pixel_.find(from);
     if (it != adhesions_by_pixel_.end()) {
-        for (auto const & awe: it->second)
+        for (auto & awe: it->second) {
+            awe.position += to - from;
             adhesions_by_pixel_[to].push_back(awe);
+        }
         it->second.clear();
     }
 }

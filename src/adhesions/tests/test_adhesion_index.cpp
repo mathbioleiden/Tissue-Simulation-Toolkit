@@ -310,10 +310,22 @@ TEST_CASE("Move adhesions from one pixel to another", "[adhesion_index]") {
 
     CHECK(index.get_adhesions({2, 4}).empty());
     CHECK(index.get_adhesions({3, 4}).size() == 4u);
+    for (auto const & adh: index.get_adhesions({3, 4})) {
+        CHECK(adh.position.x >= 3.0);
+        CHECK(adh.position.x < 4.0);
+        CHECK(adh.position.y >= 4.0);
+        CHECK(adh.position.y < 5.0);
+    }
 
     index.move_adhesions({4, 4}, {3, 4});
     CHECK(index.get_adhesions({4, 4}).empty());
     CHECK(index.get_adhesions({3, 4}).size() == 4u);
+    for (auto const & adh: index.get_adhesions({3, 4})) {
+        CHECK(adh.position.x >= 3.0);
+        CHECK(adh.position.x < 4.0);
+        CHECK(adh.position.y >= 4.0);
+        CHECK(adh.position.y < 5.0);
+    }
 }
 
 TEST_CASE("Remove adhesions from a pixel", "[adhesion_index]") {
@@ -328,9 +340,21 @@ TEST_CASE("Remove adhesions from a pixel", "[adhesion_index]") {
 
     CHECK(index.get_adhesions({2, 4}).empty());
     CHECK(index.get_adhesions({3, 4}).size() == 1u);
+    for (auto const & adh: index.get_adhesions({3, 4})) {
+        CHECK(adh.position.x >= 3.0);
+        CHECK(adh.position.x < 4.0);
+        CHECK(adh.position.y >= 4.0);
+        CHECK(adh.position.y < 5.0);
+    }
 
     index.remove_adhesions({1, 4});
     CHECK(index.get_adhesions({1, 4}).empty());
     CHECK(index.get_adhesions({3, 4}).size() == 1u);
+    for (auto const & adh: index.get_adhesions({3, 4})) {
+        CHECK(adh.position.x >= 3.0);
+        CHECK(adh.position.x < 4.0);
+        CHECK(adh.position.y >= 4.0);
+        CHECK(adh.position.y < 5.0);
+    }
 }
 
