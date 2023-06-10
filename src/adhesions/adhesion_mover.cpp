@@ -59,26 +59,31 @@ void AdhesionMover::commit_move(
         PixelPos source_pixel, PixelPos target_pixel,
         AdhesionDisplacements const & displacements
 ) {
-    // update the ECM
+    // Source pixel
     auto const & source_adhesions = index_.get_adhesions(source_pixel);
-    for (auto const & adhesion: source_adhesions)
-        ecm_.particles[adhesion.particle_id].pos += displacements.source;
+    if (displacements.source != PixelDisplacement(0, 0)) {
+        for (auto const & adhesion: source_adhesions)
+            ecm_.particles[adhesion.particle_id].pos += displacements.source;
 
-    auto const & target_adhesions = index_.get_adhesions(target_pixel);
-    for (auto const & adhesion: target_adhesions) {
-        if (displacements.target != AdhesionDisplacements::annihilated)
-            ecm_.particles[adhesion.particle_id].pos += displacements.target;
-        else
-            ecm_.particles[adhesion.particle_id].type = ParticleType::free;
+        index_.move_adhesions(source_pixel, source_pixel + displacements.source);
     }
 
-    // update the index
-    index_.move_adhesions(source_pixel, source_pixel + displacements.source);
-    if (displacements.target != AdhesionDisplacements::annihilated)
-        index_.move_adhesions(
-                target_pixel, target_pixel + displacements.target);
-    else
-        index_.remove_adhesions(target_pixel);
+    // Target pixel
+    if (displacements.target != PixelDisplacement(0, 0)) {
+        auto const & target_adhesions = index_.get_adhesions(target_pixel);
+        if (displacements.target != AdhesionDisplacements::annihilated) {
+            for (auto const & adhesion: target_adhesions)
+                ecm_.particles[adhesion.particle_id].pos += displacements.target;
+
+            index_.move_adhesions(
+                    target_pixel, target_pixel + displacements.target);
+        }
+        else {
+            for (auto const & adhesion: target_adhesions)
+                ecm_.particles[adhesion.particle_id].type = ParticleType::free;
+            index_.remove_adhesions(target_pixel);
+        }
+    }
 }
 
 void AdhesionMover::update() {

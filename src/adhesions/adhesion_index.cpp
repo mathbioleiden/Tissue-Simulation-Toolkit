@@ -178,6 +178,7 @@ std::vector<AdhesionWithEnvironment> const & AdhesionIndex::get_adhesions(
 }
 
 void AdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {
+    if (from == to) return;
     auto it = adhesions_by_pixel_.find(from);
     if (it != adhesions_by_pixel_.end()) {
         for (auto & awe: it->second) {
