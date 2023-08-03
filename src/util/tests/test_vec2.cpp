@@ -1,6 +1,9 @@
-#include <catch2/catch_test_macros.hpp>
+// Load the code to be tested
+#include "vec2.cpp"
 
-#include "vec2.hpp"
+
+// Dependencies for the test itself
+#include <catch2/catch_test_macros.hpp>
 
 
 TEST_CASE("Default-constructing Vec2 values", "[vec2]") {

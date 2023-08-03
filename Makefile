@@ -66,7 +66,7 @@ clean:
 
 	# This fails if it hasn't been built and there's no Makefile, that's fine
 	-$(MAKE) -C $(TST_DIR) clean
-	rm -rf bin $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash
+	rm -rf bin build_files/* $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash
 
 	# Add new test directories here
 	$(MAKE) -C $(TST_DIR)/adhesions/tests clean

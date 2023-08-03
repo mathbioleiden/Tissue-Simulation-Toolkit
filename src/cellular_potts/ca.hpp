@@ -28,6 +28,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 /*! Implementation of the Glazier & Graner cellular Potts model **/
 #ifndef _CA_HH_
 #define _CA_HH_
+
+#ifdef _MOCK_CA_HPP_
+#include _MOCK_CA_HPP_
+#else
+
 #include <vector>
 #include <stdio.h>
 #include <unordered_set>
@@ -434,3 +439,5 @@ private:
 };
 
 #endif
+#endif
+
