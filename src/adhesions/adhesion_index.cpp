@@ -2,7 +2,6 @@
 
 #include "sqr.hpp"
 
-
 AttachedBond::AttachedBond(
         ParPos const & neighbour, BondType const & bond_type)
     : neighbour(neighbour)
@@ -32,8 +31,16 @@ double AttachedAngleCst::move_dh(ParPos from, ParPos to) const {
     auto x_to = to - middle;
     auto y = far - middle;
 
-    auto theta_from = acos((x_from).dot(y) / (x_from.length() * y.length()));
-    auto theta_to = acos((x_to).dot(y) / (x_to.length() * y.length()));
+    auto cos_theta_from = x_from.dot(y) / (x_from.length() * y.length());
+    if (cos_theta_from < -1.0) cos_theta_from = -1.0;
+    if (cos_theta_from > 1.0) cos_theta_from = 1.0;
+
+    auto cos_theta_to = x_to.dot(y) / (x_to.length() * y.length());
+    if (cos_theta_to < -1.0) cos_theta_to = -1.0;
+    if (cos_theta_to > 1.0) cos_theta_to = 1.0;
+
+    auto theta_from = acos(cos_theta_from);
+    auto theta_to = acos(cos_theta_to);
 
     auto H_from = angle_cst_type.k * 0.5 * sqr((theta_from - angle_cst_type.t0));
     auto H_to = angle_cst_type.k * 0.5 * sqr((theta_to - angle_cst_type.t0));

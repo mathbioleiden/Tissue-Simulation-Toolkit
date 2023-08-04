@@ -5,11 +5,14 @@
 
 
 // Dependencies for the test itself
+#include <random>
+
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 using Catch::Matchers::WithinRel;
 using Catch::Matchers::WithinULP;
+using Catch::Matchers::IsNaN;
 
 
 constexpr double degrees = 3.14159265358979323846 / 180.0;
@@ -79,6 +82,7 @@ TEST_CASE("Create an AttachedAngleCst", "[adhesion_index]") {
     REQUIRE(c.angle_cst_type.k == 1.5);
 }
 
+
 TEST_CASE("Calculate Delta-H for an AttachedAngleCst", "[adhesion_index]") {
     AttachedAngleCst c(
             {1.0, 1.0}, {2.0, 2.0}, AngleCstType{165.0 * degrees, 1.5});
@@ -100,6 +104,43 @@ TEST_CASE("Calculate Delta-H for an AttachedAngleCst", "[adhesion_index]") {
     REQUIRE_THAT(
             c.move_dh({2.0, 0.0}, {2.0, 0.125}),
             WithinRel(0.40208932274113485, 1e-17));
+}
+
+
+TEST_CASE("Regression-test acos domain error", "[adhesion_index]") {
+    // Just checking that this doesn't crash because of a domain error
+    // For a 180 degree angle at -45 degrees, the calculation of the
+    // cosine rounds off to an absolute value of just a tiny bit above 1,
+    // which then causes the acos() to return NaN. So there's a clamp now,
+    // and this test makes sure it works.
+    AttachedAngleCst c(
+            {144.836836830561367, 186.707216898972149},
+            {145.055796016773854, 186.488257712759662},
+            AngleCstType{180.0 * degrees, 1.5});
+
+    auto dh = c.move_dh(
+            {144.61787764434888, 186.926176085184636},
+            {144.61787764434788, 186.926176084184636});
+
+    REQUIRE_THAT(dh, !IsNaN());
+
+    // Now repeat with some random values just in case different round-off
+    // modes throw a spanner in the works and the above passes.
+    std::default_random_engine generator;
+    std::uniform_real_distribution<double> cdist(128.0, 256.0);
+    std::uniform_real_distribution<double> ddist(0.0, 1.0);
+
+    for (int i = 0; i < 10; ++i) {
+        double cx = cdist(generator);
+        double cy = cdist(generator);
+        double d = ddist(generator);
+
+        AttachedAngleCst c(
+                {cx, cy}, {cx + d, cy - d}, AngleCstType{180.0 * degrees, 1.5});
+
+        auto dh = c.move_dh({cx - d, cy + d}, {cx - d - 1e-14, cy - d + 1e-14});
+        REQUIRE_THAT(dh, !IsNaN());
+    }
 }
 
 
@@ -281,6 +322,7 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     CHECK(awe.angle_csts.empty());
 }
 
+
 TEST_CASE("Get adhesions for a given pixel", "[adhesion_index]") {
     ExtraCellularMatrix ecm;
     AdhesionIndex index(ecm);
@@ -296,6 +338,7 @@ TEST_CASE("Get adhesions for a given pixel", "[adhesion_index]") {
 
     CHECK(index2.get_adhesions({2, 5}).size() == 0u);
 }
+
 
 TEST_CASE("Move adhesions from one pixel to another", "[adhesion_index]") {
     ExtraCellularMatrix ecm;
@@ -327,6 +370,7 @@ TEST_CASE("Move adhesions from one pixel to another", "[adhesion_index]") {
         CHECK(adh.position.y < 5.0);
     }
 }
+
 
 TEST_CASE("Remove adhesions from a pixel", "[adhesion_index]") {
     ExtraCellularMatrix ecm;
