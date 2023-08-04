@@ -50,8 +50,8 @@ double AttachedAngleCst::move_dh(ParPos from, ParPos to) const {
 
 
 AdhesionWithEnvironment::AdhesionWithEnvironment(
-        par_id particle_id, ParPos const & position)
-    : particle_id(particle_id)
+        ParId par_id, ParPos const & position)
+    : par_id(par_id)
     , position(position)
 {}
 
@@ -82,11 +82,11 @@ namespace {
     // the anonymous namespace.
 
     // Map adhesion particles to bonds attached to them
-    std::unordered_map<par_id, std::vector<bond_id>> make_bond_index(
+    std::unordered_map<ParId, std::vector<BondId>> make_bond_index(
             ExtraCellularMatrix const & ecm)
     {
-        std::unordered_map<par_id, std::vector<bond_id>> bond_index;
-        for (bond_id bid = 0; bid < ecm.bonds.size(); ++bid) {
+        std::unordered_map<ParId, std::vector<BondId>> bond_index;
+        for (BondId bid = 0; bid < ecm.bonds.size(); ++bid) {
             Bond const & bond = ecm.bonds[bid];
 
             ParticleType p1_type = ecm.particles[bond.p1].type;
@@ -107,11 +107,11 @@ namespace {
     }
 
     // Map adhesion particles to angle constraints attached to them
-    std::unordered_map<par_id, std::vector<angle_cst_id>> make_angle_cst_index(
+    std::unordered_map<ParId, std::vector<AngleCstId>> make_angle_cst_index(
             ExtraCellularMatrix const & ecm)
     {
-        std::unordered_map<par_id, std::vector<angle_cst_id>> angle_cst_index;
-        for (angle_cst_id aid = 0; aid < ecm.angle_csts.size(); ++aid) {
+        std::unordered_map<ParId, std::vector<AngleCstId>> angle_cst_index;
+        for (AngleCstId aid = 0; aid < ecm.angle_csts.size(); ++aid) {
             AngleCst const & angle_cst = ecm.angle_csts[aid];
 
             ParticleType p1_type = ecm.particles[angle_cst.p1].type;
@@ -138,14 +138,14 @@ void AdhesionIndex::rebuild(ExtraCellularMatrix const & ecm) {
     auto angle_csts_for = make_angle_cst_index(ecm);
 
     adhesions_by_pixel_.clear();
-    for (par_id pid = 0; pid < ecm.particles.size(); ++pid) {
+    for (ParId pid = 0; pid < ecm.particles.size(); ++pid) {
         if (ecm.particles[pid].type == ParticleType::adhesion) {
             auto const & pos = ecm.particles[pid].pos;
             PixelPos containing_pixel(floor(pos.x), floor(pos.y));
             adhesions_by_pixel_[containing_pixel].emplace_back(pid, pos);
             auto & awe = adhesions_by_pixel_[containing_pixel].back();
 
-            for (bond_id bid: bonds_for[pid]) {
+            for (BondId bid: bonds_for[pid]) {
                 auto const & bond = ecm.bonds[bid];
 
                 ParPos neighbor_pos;
@@ -157,7 +157,7 @@ void AdhesionIndex::rebuild(ExtraCellularMatrix const & ecm) {
                 awe.bonds.emplace_back(neighbor_pos, ecm.bond_types[bond.type]);
             }
 
-            for (angle_cst_id aid: angle_csts_for[pid]) {
+            for (AngleCstId aid: angle_csts_for[pid]) {
                 auto const & angle_cst = ecm.angle_csts[aid];
 
                 ParPos middle_pos = ecm.particles[angle_cst.p2].pos;

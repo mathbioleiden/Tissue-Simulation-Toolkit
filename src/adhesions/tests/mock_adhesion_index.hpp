@@ -8,9 +8,9 @@
 
 
 struct MockAdhesionWithEnvironment {
-    MockAdhesionWithEnvironment(par_id particle_id, ParPos const & position);
+    MockAdhesionWithEnvironment(ParId par_id, ParPos const & position);
 
-    par_id particle_id;
+    ParId par_id;
 
     ParPos position;
 

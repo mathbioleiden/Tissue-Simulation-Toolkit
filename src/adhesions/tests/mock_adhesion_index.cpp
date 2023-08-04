@@ -5,8 +5,8 @@ MockAdhesionIndex::MockAdhesionIndex(ExtraCellularMatrix & ecm) {}
 
 
 MockAdhesionWithEnvironment::MockAdhesionWithEnvironment(
-        par_id particle_id, ParPos const & position)
-    : particle_id(particle_id)
+        ParId par_id, ParPos const & position)
+    : par_id(par_id)
     , position(position)
 {}
 

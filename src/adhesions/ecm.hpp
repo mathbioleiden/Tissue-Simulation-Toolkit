@@ -7,19 +7,19 @@
 
 
 /// Typedef for particle ids, for clarity
-typedef int par_id;
+typedef int ParId;
 
 /// Typedef for bond type ids, for clarity
-typedef int bond_type_id;
+typedef int BondTypeId;
 
 /// Typedef for bond ids, for clarity
-typedef int bond_id;
+typedef int BondId;
 
 /// Typedef for angle constraint type ids, for clarity
-typedef int angle_cst_type_id;
+typedef int AngleCstTypeId;
 
 ///// Typedef for angle constraint ids, for clarity
-typedef int angle_cst_id;
+typedef int AngleCstId;
 
 
 /** Types of particles in the ECM.
@@ -89,13 +89,13 @@ struct BondType {
  * A bond connects two particles and is of a given type.
  */
 struct Bond {
-    Bond(par_id p1, par_id p2, bond_type_id type);
+    Bond(ParId p1, ParId p2, BondTypeId type);
 
     /// Bonded particles
-    par_id p1, p2;
+    ParId p1, p2;
 
     /// Bond type
-    bond_type_id type;
+    BondTypeId type;
 };
 
 
@@ -105,7 +105,7 @@ struct Bond {
  * for convenience. The numerical value is the bond type id (see
  * ExtraCellularMatrix::bond_types).
  */
-enum class NamedBondTypes : bond_type_id {
+enum class NamedBondTypes : BondTypeId {
     fiber = 0
 };
 
@@ -139,13 +139,13 @@ struct AngleCstType {
  */
 struct AngleCst {
     /// Create an angle constraint
-    AngleCst(par_id p1, par_id p2, par_id p3, angle_cst_type_id type);
+    AngleCst(ParId p1, ParId p2, ParId p3, AngleCstTypeId type);
 
     /// Involved particles
-    par_id p1, p2, p3;
+    ParId p1, p2, p3;
 
     /// Constraint type
-    angle_cst_type_id type;
+    AngleCstTypeId type;
 };
 
 
@@ -185,7 +185,7 @@ struct ExtraCellularMatrix {
      *
      * The particle id of a particle is its index in this vector.
      *
-     * particles[par_id].pos.x, .pos.y or .type
+     * particles[ParId].pos.x, .pos.y or .type
      */
     std::vector<Particle> particles;
 

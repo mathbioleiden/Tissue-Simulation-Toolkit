@@ -79,10 +79,10 @@ struct AdhesionWithEnvironment {
      *
      * @param position Position of the adhesion particle
      */
-    AdhesionWithEnvironment(par_id particle_id, ParPos const & position);
+    AdhesionWithEnvironment(ParId par_id, ParPos const & position);
 
     /// Adhesion particle id
-    par_id particle_id;
+    ParId par_id;
 
     /// Adhesion particle position
     ParPos position;

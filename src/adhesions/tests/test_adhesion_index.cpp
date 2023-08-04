@@ -147,7 +147,7 @@ TEST_CASE("Regression-test acos domain error", "[adhesion_index]") {
 TEST_CASE("Create an AdhesionWithEnvironment", "[adhesion_index]") {
     AdhesionWithEnvironment a(12, {1.3, 1.4});
 
-    REQUIRE(a.particle_id == 12);
+    REQUIRE(a.par_id == 12);
     REQUIRE(a.position.x == 1.3);
     REQUIRE(a.position.y == 1.4);
 }
@@ -201,7 +201,7 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     REQUIRE(abp.count({2, 4}) == 1u);
     REQUIRE(abp.at({2, 4}).size() == 1u);
     auto awe = abp.at({2, 4})[0];
-    CHECK(awe.particle_id == 1);
+    CHECK(awe.par_id == 1);
     CHECK(awe.position == ParPos{2.3, 4.5});
     CHECK(awe.bonds.empty());
     CHECK(awe.angle_csts.empty());
@@ -215,7 +215,7 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     REQUIRE(abp.at({2, 4}).size() == 1u);
 
     awe = abp.at({2, 4})[0];
-    CHECK(awe.particle_id == 1);
+    CHECK(awe.par_id == 1);
     CHECK(awe.position == ParPos{2.3, 4.5});
 
     REQUIRE(awe.bonds.size() == 1);
@@ -232,7 +232,7 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     REQUIRE(abp.count({1, 1}) == 1u);
     REQUIRE(abp.at({1, 1}).size() == 1u);
     awe = abp.at({1, 1})[0];
-    CHECK(awe.particle_id == 0);
+    CHECK(awe.par_id == 0);
     CHECK(awe.position == ParPos{1.2, 1.3});
     CHECK(awe.bonds.empty());
     CHECK(awe.angle_csts.empty());
@@ -240,7 +240,7 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     REQUIRE(abp.count({2, 4}) == 1u);
     REQUIRE(abp.at({2, 4}).size() == 1u);
     awe = abp.at({2, 4})[0];
-    CHECK(awe.particle_id == 1);
+    CHECK(awe.par_id == 1);
     CHECK(awe.position == ParPos{2.3, 4.5});
     CHECK(awe.bonds.empty());
     CHECK(awe.angle_csts.empty());
@@ -253,7 +253,7 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     REQUIRE(abp.count({2, 4}) == 1u);
     REQUIRE(abp.at({2, 4}).size() == 1u);
     awe = abp.at({2, 4})[0];
-    CHECK(awe.particle_id == 1);
+    CHECK(awe.par_id == 1);
     CHECK(awe.position == ParPos{2.3, 4.5});
     CHECK(awe.bonds.empty());
     CHECK(awe.angle_csts.empty());
@@ -271,7 +271,7 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     REQUIRE(abp.count({2, 4}) == 1u);
     REQUIRE(abp.at({2, 4}).size() == 1u);
     awe = abp.at({2, 4})[0];
-    CHECK(awe.particle_id == 1);
+    CHECK(awe.par_id == 1);
     CHECK(awe.position == ParPos{2.3, 4.5});
 
     REQUIRE(awe.bonds.size() == 2);
@@ -312,11 +312,11 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     REQUIRE(abp.count({2, 4}) == 1u);
     REQUIRE(abp.at({2, 4}).size() == 2u);
     awe = abp.at({2, 4})[0];
-    CHECK(awe.particle_id == 1);
+    CHECK(awe.par_id == 1);
     CHECK(awe.position == ParPos{2.3, 4.5});
 
     awe = abp.at({2, 4})[1];
-    CHECK(awe.particle_id == 4);
+    CHECK(awe.par_id == 4);
     CHECK(awe.position == ParPos{2.7, 4.1});
     CHECK(awe.bonds.empty());
     CHECK(awe.angle_csts.empty());
@@ -333,7 +333,7 @@ TEST_CASE("Get adhesions for a given pixel", "[adhesion_index]") {
     AdhesionIndex index2(ecm);
 
     REQUIRE(index2.get_adhesions({2, 4}).size() == 1u);
-    CHECK(index2.get_adhesions({2, 4})[0].particle_id == 0);
+    CHECK(index2.get_adhesions({2, 4})[0].par_id == 0);
     CHECK(index2.get_adhesions({2, 4})[0].position == ParPos{2.3, 4.8});
 
     CHECK(index2.get_adhesions({2, 5}).size() == 0u);

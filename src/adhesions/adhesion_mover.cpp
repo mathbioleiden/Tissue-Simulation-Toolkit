@@ -63,7 +63,7 @@ void AdhesionMover::commit_move(
     auto const & source_adhesions = index_.get_adhesions(source_pixel);
     if (displacements.source != PixelDisplacement(0, 0)) {
         for (auto const & adhesion: source_adhesions)
-            ecm_.particles[adhesion.particle_id].pos += displacements.source;
+            ecm_.particles[adhesion.par_id].pos += displacements.source;
 
         index_.move_adhesions(source_pixel, source_pixel + displacements.source);
     }
@@ -73,14 +73,14 @@ void AdhesionMover::commit_move(
         auto const & target_adhesions = index_.get_adhesions(target_pixel);
         if (displacements.target != AdhesionDisplacements::annihilated) {
             for (auto const & adhesion: target_adhesions)
-                ecm_.particles[adhesion.particle_id].pos += displacements.target;
+                ecm_.particles[adhesion.par_id].pos += displacements.target;
 
             index_.move_adhesions(
                     target_pixel, target_pixel + displacements.target);
         }
         else {
             for (auto const & adhesion: target_adhesions)
-                ecm_.particles[adhesion.particle_id].type = ParticleType::free;
+                ecm_.particles[adhesion.par_id].type = ParticleType::free;
             index_.remove_adhesions(target_pixel);
         }
     }
