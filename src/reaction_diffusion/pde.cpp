@@ -215,8 +215,9 @@ void PDE::SetupOpenCL(){
   //Secretion and diffusion variables
   PDEFIELD_TYPE dt = (PDEFIELD_TYPE) par.dt;
   PDEFIELD_TYPE dx2 = (PDEFIELD_TYPE) par.dx*par.dx;
-  PDEFIELD_TYPE decay_rate = (PDEFIELD_TYPE) * par.decay_rate;
-  PDEFIELD_TYPE secr_rate = (PDEFIELD_TYPE) * par.secr_rate;
+  // This ignores all but the first value?!
+  PDEFIELD_TYPE decay_rate = (PDEFIELD_TYPE) * par.decay_rate.data();
+  PDEFIELD_TYPE secr_rate = (PDEFIELD_TYPE) * par.secr_rate.data();
   
   int btype = 3;
   if (par.periodic_boundaries) btype=2;

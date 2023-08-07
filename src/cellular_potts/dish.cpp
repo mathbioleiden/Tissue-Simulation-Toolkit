@@ -249,7 +249,7 @@ void Dish::MCDS_import_cell(MCDS_io *mcds, int cell_id){
   n_cell->SetTargetArea(0); 
 }
 
-void Dish::ImportMultiCellDS(const char *fname){
+void Dish::ImportMultiCellDS(std::string const & fname){
   MCDS_io mcds(fname);
   mcds.process_cellshapes();
   mcds.lattice_from_vector();
@@ -279,7 +279,7 @@ void Dish::MCDS_export_cell(MCDS_io *mcds, Cell * cell){
   cell->MajorMinorAxis(&iocell->major_axis, &iocell->minor_axis, &ovx, &ovy);
 }
 
-void Dish::ExportMultiCellDS(const char *fname){
+void Dish::ExportMultiCellDS(std::string const & fname){
   int ** sigma = CPM->get_annealed_sigma(par.mcds_anneal_steps);
   MCDS_io mcds;
   for (vector<Cell>::iterator c = cell.begin()+1; c != cell.end(); c++){
