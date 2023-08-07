@@ -20,7 +20,7 @@
 
 SECTION("General settings")
 
-    PARAMETER(bool, useopencl, true, "Whether to use OpenCL for PDE calculations")
+    PARAMETER(bool, useopencl, false, "Whether to use OpenCL for PDE calculations")
     PARAMETER(std::string, opencl_core_path, "../src/reaction_diffusion/pdecore.cl", \
             "Path to the OpenCL compute kernel source")
     PARAMETER(int, opencl_pref_platform, 0, \
