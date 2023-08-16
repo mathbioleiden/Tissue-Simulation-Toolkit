@@ -3,7 +3,7 @@
 #include "vec2.hpp"
 
 #include <array>
-#include <vector>
+#include <unordered_map>
 
 
 /// Typedef for particle ids, for clarity
@@ -53,8 +53,14 @@ enum class ParticleType {
  * Particles have a location in a 2D space, and a type.
  */
 struct Particle {
+    /// Create an uninitialised particle
+    Particle() = default;
+
     /// Create a Particle
-    Particle(ParPos pos, ParticleType type);
+    Particle(ParId par_id, ParPos pos, ParticleType type);
+
+    // Id
+    ParId par_id;
 
     /// Location
     ParPos pos;
@@ -89,6 +95,10 @@ struct BondType {
  * A bond connects two particles and is of a given type.
  */
 struct Bond {
+    /// Create an uninitialised bond
+    Bond() = default;
+
+    /// Create a bond with the given parameters
     Bond(ParId p1, ParId p2, BondTypeId type);
 
     /// Bonded particles
@@ -138,6 +148,9 @@ struct AngleCstType {
  * relative to the other two.
  */
 struct AngleCst {
+    /// Create an uninitialised angle constraint
+    AngleCst() = default;
+
     /// Create an angle constraint
     AngleCst(ParId p1, ParId p2, ParId p3, AngleCstTypeId type);
 
@@ -149,7 +162,7 @@ struct AngleCst {
 };
 
 
-/** Coarse-grained MD representation of the extracellular matrix (ECM).
+/** Boundary of the MD representation of the extracellular matrix (ECM).
  *
  * The ECM can be viewed from different perspectives. From a biological
  * perspective, it is (in the simplified representation used here) a collection
@@ -160,59 +173,53 @@ struct AngleCst {
  * When seen as a coarse-grained MD simulation, the ECM is a collection of
  * particles, with linear springs constraining the distance between designated
  * pairs of particles and torsion springs constraining angles formed by groups
- * of three particles each.
+ * of three particles each. Most of these particles represent the ECM, but some
+ * of them represent adhesions and/or other parts of the cells.
  *
  * Finally, from a Cellular Potts perspective, the ECM is a substance covering
  * the domain between the cells which affects the work required to copy pixels.
  * Interaction between a cell and the ECM is via ECM particles that are adhered
  * to by the cell and are dragged along as we attempt to copy the pixel they
- * are in. In this implementation, updates to the ECM and the CPM are
- * alternated, so that the ECM is held fixed while the CPM updates, and vice
- * versa. As a result, only a small boundary region of the ECM is involved in
- * the interaction with the CPM. We call this the interface region.
+ * are in.
  *
- * Since this is the CPM, the latter perspectives are most relevant, and this
- * class models the ECM as a collection of MD particles, bond constraints and
- * angle constraints, with no explicit representation of fibers.
+ * In this implementation, the ECM and the CPM interact via special particles
+ * of type ParticleType::adhesion. These particles and the particles they
+ * attach to via bonds and angle constraints form a subset of the MD simulation
+ * state that is directly affected by both models. We call this subset the
+ * *boundary* between the two models.
+ *
+ * This class contains the complete state of the boundary: the type and location
+ * of the particles in it, and any bonds and angle constraints between them. It
+ * does not contain particles that aren't attached to an adhesion particle
+ * directly, and it doesn't contain any bonds or angle constraints that do not
+ * include an adhesion particle.
  *
  * The representation used here is chosen mostly for flexibility. If a faster
  * representation is needed, then it can usually be generated once after each
- * MD update, and then used for many copy attempts. See Adhesions for an
+ * MD update, and then used for many copy attempts. See AdhesionIndex for an
  * example.
  */
-struct ExtraCellularMatrix {
-    /** Particles making up the ECM.
-     *
-     * The particle id of a particle is its index in this vector.
+struct ECMBoundaryState {
+    /** Particles making up the ECM - CPM boundary.
      *
      * particles[ParId].pos.x, .pos.y or .type
      */
-    std::vector<Particle> particles;
+    std::unordered_map<ParId, Particle> particles;
 
     /** The different types of bonds available.
-     *
-     * The bond type id of a bond type is its index in this vector.
      */
-    std::vector<BondType> bond_types;
+    std::unordered_map<BondTypeId, BondType> bond_types;
 
     /** Bonds between two particles.
-     *
-     * The index of a bond in this vector is its bond id.
      */
-    std::vector<Bond> bonds;
+    std::unordered_map<BondId, Bond> bonds;
 
     /** Types of angle constraints.
-     *
-     * The angle constraint type id of an angle constraint type is its index
-     * into this vector.
      */
-    std::vector<AngleCstType> angle_cst_types;
+    std::unordered_map<AngleCstTypeId, AngleCstType> angle_cst_types;
 
     /** Angle constraints.
-     *
-     * The index of an angle constraint in this vector is its angle constraint
-     * id.
      */
-    std::vector<AngleCst> angle_csts;
+    std::unordered_map<AngleCstId, AngleCst> angle_csts;
 };
 

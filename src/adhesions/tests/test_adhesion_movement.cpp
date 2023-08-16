@@ -5,7 +5,7 @@
 
 // Now load the real implementations, which will now use the mocks
 #include "adhesion_movement.cpp"
-#include "ecm.cpp"
+#include "ecm_boundary_state.cpp"
 #include "random.cpp"
 #include "vec2.cpp"
 

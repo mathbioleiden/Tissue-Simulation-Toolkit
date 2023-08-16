@@ -4,7 +4,7 @@
 #include _MOCK_ADHESION_INDEX_HPP_
 #else
 
-#include "ecm.hpp"
+#include "ecm_boundary_state.hpp"
 #include "vec2.hpp"
 
 #include <unordered_map>
@@ -112,23 +112,15 @@ struct AdhesionWithEnvironment {
  */
 class AdhesionIndex {
     public:
-        /** Construct an AdhesionIndex.
-         *
-         * This object maintains a cache of the adhesions and attached
-         * constraints and particles. If the ECM is updated, you must call
-         * update() to resynchronise, or the results will be incorrect.
-         *
-         * @param ecm The ECM to get adhesions from.
-         */
-        AdhesionIndex(ExtraCellularMatrix const & ecm);
-
-        /** Rebuild the cached data to match the ECM again.
+        /** Rebuild the cached data to match the ECM boundary again.
          *
          * This must be called after every change to the ECM, except for
          * changes that only move adhesions from one pixel to another, for
          * which move_adhesions() should be used because it's more efficient.
+         *
+         * @param ecm_boundary The current state of the ECM boundary
          */
-        void rebuild(ExtraCellularMatrix const & ecm);
+        void rebuild(ECMBoundaryState const & ecm_boundary);
 
         /** Get adhesions at a given pixel.
          *

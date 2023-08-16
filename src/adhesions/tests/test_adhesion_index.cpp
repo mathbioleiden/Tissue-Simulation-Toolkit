@@ -1,6 +1,6 @@
-// Load the code to be tested
+// Load the code to be tested and its dependencies
 #include "adhesion_index.cpp"
-#include "ecm.cpp"
+#include "ecm_boundary_state.cpp"
 #include "vec2.cpp"
 
 
@@ -24,6 +24,17 @@ std::unordered_map<
     > const &
 adhesions_by_pixel(AdhesionIndex const & index) {
     return index.adhesions_by_pixel_;
+}
+
+
+// Helper comparison operators
+
+bool operator==(BondType const & lhs, BondType const & rhs) {
+    return (lhs.r0 == rhs.r0) && (lhs.k == rhs.k);
+}
+
+bool operator==(AttachedBond const & lhs, AttachedBond const & rhs) {
+    return (lhs.neighbour == rhs.neighbour) && (lhs.bond_type == rhs.bond_type);
 }
 
 
@@ -184,18 +195,18 @@ TEST_CASE("Calculate Delta-H for an AdhesionWithEnvironment", "[adhesion_index]"
 
 
 TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
-    ExtraCellularMatrix ecm;
-    AdhesionIndex index(ecm);
+    ECMBoundaryState ecm_boundary;
+    AdhesionIndex index;
     auto const & abp = adhesions_by_pixel(index);
 
     // Check build without adhesions
-    ecm.particles.emplace_back(ParPos{1.2, 1.3}, ParticleType::free);   // 0
-    index.rebuild(ecm);
+    ecm_boundary.particles[0] = Particle(0, ParPos{1.2, 1.3}, ParticleType::free);
+    index.rebuild(ecm_boundary);
     CHECK(adhesions_by_pixel(index).empty());
 
     // Check a single adhesion without bonds
-    ecm.particles.emplace_back(ParPos{2.3, 4.5}, ParticleType::adhesion);  // 1
-    index.rebuild(ecm);
+    ecm_boundary.particles[1] = Particle(1, ParPos{2.3, 4.5}, ParticleType::adhesion);
+    index.rebuild(ecm_boundary);
 
     REQUIRE(abp.size() == 1u);
     REQUIRE(abp.count({2, 4}) == 1u);
@@ -207,9 +218,9 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     CHECK(awe.angle_csts.empty());
 
     // Add a bond
-    ecm.bond_types.emplace_back(1.5, 5.0);
-    ecm.bonds.emplace_back(0, 1, 0);
-    index.rebuild(ecm);
+    ecm_boundary.bond_types[0] = BondType(1.5, 5.0);
+    ecm_boundary.bonds[0] = Bond(0, 1, 0);
+    index.rebuild(ecm_boundary);
     REQUIRE(abp.size() == 1u);
     REQUIRE(abp.count({2, 4}) == 1u);
     REQUIRE(abp.at({2, 4}).size() == 1u);
@@ -224,8 +235,8 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     CHECK(awe.bonds.at(0).bond_type.k == 5.0);
 
     // Check that bonds with other adhesion particles are ignored
-    ecm.particles[0].type = ParticleType::adhesion;
-    index.rebuild(ecm);
+    ecm_boundary.particles[0].type = ParticleType::adhesion;
+    index.rebuild(ecm_boundary);
 
     REQUIRE(abp.size() == 2u);
 
@@ -246,8 +257,8 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     CHECK(awe.angle_csts.empty());
 
     // Check that bonds with excluded particles are ignored
-    ecm.particles[0].type = ParticleType::excluded;
-    index.rebuild(ecm);
+    ecm_boundary.particles[0].type = ParticleType::excluded;
+    index.rebuild(ecm_boundary);
     REQUIRE(abp.size() == 1u);
 
     REQUIRE(abp.count({2, 4}) == 1u);
@@ -259,12 +270,12 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     CHECK(awe.angle_csts.empty());
 
     // Restore first and add a second bond
-    ecm.particles[0].type = ParticleType::free;
-    ecm.particles.emplace_back(ParPos{3.3, 1.5}, ParticleType::free);   // 2
-    ecm.bond_types.emplace_back(1.7, 3.0);
-    ecm.bonds.emplace_back(2, 1, 1);
+    ecm_boundary.particles[0].type = ParticleType::free;
+    ecm_boundary.particles[2] = Particle(2, ParPos{3.3, 1.5}, ParticleType::free);
+    ecm_boundary.bond_types[1] = BondType(1.7, 3.0);
+    ecm_boundary.bonds[1] = Bond(2, 1, 1);
 
-    index.rebuild(ecm);
+    index.rebuild(ecm_boundary);
 
     REQUIRE(abp.size() == 1u);
 
@@ -275,22 +286,21 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     CHECK(awe.position == ParPos{2.3, 4.5});
 
     REQUIRE(awe.bonds.size() == 2);
-    CHECK(awe.bonds.at(0).neighbour == ParPos{1.2, 1.3});
-    CHECK(awe.bonds.at(0).bond_type.r0 == 1.5);
-    CHECK(awe.bonds.at(0).bond_type.k == 5.0);
+    AttachedBond ref_abond_01({1.2, 1.3}, BondType(1.5, 5.0));
+    AttachedBond ref_abond_21({3.3, 1.5}, BondType(1.7, 3.0));
 
-    CHECK(awe.bonds.at(1).neighbour == ParPos{3.3, 1.5});
-    CHECK(awe.bonds.at(1).bond_type.r0 == 1.7);
-    CHECK(awe.bonds.at(1).bond_type.k == 3.0);
+    CHECK((
+            (awe.bonds.at(0) == ref_abond_01 && awe.bonds.at(1) == ref_abond_21) ||
+            (awe.bonds.at(1) == ref_abond_01 && awe.bonds.at(0) == ref_abond_21)));
 
     CHECK(awe.angle_csts.empty());
 
     // Add an angle constraint
-    ecm.particles.emplace_back(ParPos{4.1, 0.3}, ParticleType::free);   // 3
-    ecm.angle_cst_types.emplace_back(3.141593, 6.7);
-    ecm.angle_csts.emplace_back(1, 2, 3, 0);
+    ecm_boundary.particles[3] = Particle(3, ParPos{4.1, 0.3}, ParticleType::free);
+    ecm_boundary.angle_cst_types[0] = AngleCstType(3.141593, 6.7);
+    ecm_boundary.angle_csts[0] = AngleCst(1, 2, 3, 0);
 
-    index.rebuild(ecm);
+    index.rebuild(ecm_boundary);
 
     REQUIRE(abp.size() == 1u);
     REQUIRE(abp.count({2, 4}) == 1u);
@@ -305,32 +315,46 @@ TEST_CASE("Build Adhesionindex", "[adhesion_index]") {
     CHECK(cst.angle_cst_type.k == 6.7);
 
     // Check multiple adhesions in the same pixel
-    ecm.particles.emplace_back(ParPos{2.7, 4.1}, ParticleType::adhesion);  // 4
-    index.rebuild(ecm);
+    ecm_boundary.particles[4] = Particle(4, ParPos{2.7, 4.1}, ParticleType::adhesion);
+    index.rebuild(ecm_boundary);
 
     REQUIRE(abp.size() == 1u);
     REQUIRE(abp.count({2, 4}) == 1u);
     REQUIRE(abp.at({2, 4}).size() == 2u);
-    awe = abp.at({2, 4})[0];
-    CHECK(awe.par_id == 1);
-    CHECK(awe.position == ParPos{2.3, 4.5});
 
-    awe = abp.at({2, 4})[1];
-    CHECK(awe.par_id == 4);
-    CHECK(awe.position == ParPos{2.7, 4.1});
-    CHECK(awe.bonds.empty());
-    CHECK(awe.angle_csts.empty());
+    // We don't know the order, so this check is a bit tricky
+    // If we had a lot of these, we could define some more operator==s and use
+    // Catch2's UnorderedRangeEquals.
+    int count = 0;
+    for (auto const & id_awe : abp.at({2, 4})) {
+        if (awe.par_id == 1) {
+            CHECK(awe.position == ParPos{2.3, 4.5});
+            ++count;
+        }
+        else if (awe.par_id == 4) {
+            CHECK(awe.position == ParPos{2.7, 4.1});
+            CHECK(awe.bonds.empty());
+            CHECK(awe.angle_csts.empty());
+            ++count;
+        }
+        else {
+            // found an unexpected AdhesionWithEnvironment
+            REQUIRE(false);
+        }
+    }
+    CHECK(count == 2);
 }
 
 
 TEST_CASE("Get adhesions for a given pixel", "[adhesion_index]") {
-    ExtraCellularMatrix ecm;
-    AdhesionIndex index(ecm);
+    AdhesionIndex index;
 
     CHECK(index.get_adhesions({123, 76}).empty());
 
-    ecm.particles.emplace_back(ParPos{2.3, 4.8}, ParticleType::adhesion);
-    AdhesionIndex index2(ecm);
+    ECMBoundaryState ecm_boundary;
+    ecm_boundary.particles[0] = Particle(0, ParPos{2.3, 4.8}, ParticleType::adhesion);
+    AdhesionIndex index2;
+    index2.rebuild(ecm_boundary);
 
     REQUIRE(index2.get_adhesions({2, 4}).size() == 1u);
     CHECK(index2.get_adhesions({2, 4})[0].par_id == 0);
@@ -341,13 +365,14 @@ TEST_CASE("Get adhesions for a given pixel", "[adhesion_index]") {
 
 
 TEST_CASE("Move adhesions from one pixel to another", "[adhesion_index]") {
-    ExtraCellularMatrix ecm;
-    ecm.particles.emplace_back(ParPos{2.3, 4.8}, ParticleType::adhesion);
-    ecm.particles.emplace_back(ParPos{2.2, 4.3}, ParticleType::adhesion);
-    ecm.particles.emplace_back(ParPos{3.3, 4.0}, ParticleType::adhesion);
-    ecm.particles.emplace_back(ParPos{3.8, 4.2}, ParticleType::adhesion);
+    AdhesionIndex index;
 
-    AdhesionIndex index(ecm);
+    ECMBoundaryState ecm_boundary;
+    ecm_boundary.particles[0] = Particle(0, ParPos{2.3, 4.8}, ParticleType::adhesion);
+    ecm_boundary.particles[1] = Particle(1, ParPos{2.2, 4.3}, ParticleType::adhesion);
+    ecm_boundary.particles[2] = Particle(2, ParPos{3.3, 4.0}, ParticleType::adhesion);
+    ecm_boundary.particles[3] = Particle(3, ParPos{3.8, 4.2}, ParticleType::adhesion);
+    index.rebuild(ecm_boundary);
 
     index.move_adhesions({2, 4}, {3, 4});
 
@@ -373,12 +398,13 @@ TEST_CASE("Move adhesions from one pixel to another", "[adhesion_index]") {
 
 
 TEST_CASE("Remove adhesions from a pixel", "[adhesion_index]") {
-    ExtraCellularMatrix ecm;
-    ecm.particles.emplace_back(ParPos{2.3, 4.8}, ParticleType::adhesion);
-    ecm.particles.emplace_back(ParPos{2.2, 4.3}, ParticleType::adhesion);
-    ecm.particles.emplace_back(ParPos{3.3, 4.0}, ParticleType::adhesion);
+    AdhesionIndex index;
 
-    AdhesionIndex index(ecm);
+    ECMBoundaryState ecm_boundary;
+    ecm_boundary.particles[0] = Particle(0, ParPos{2.3, 4.8}, ParticleType::adhesion);
+    ecm_boundary.particles[1] = Particle(1, ParPos{2.2, 4.3}, ParticleType::adhesion);
+    ecm_boundary.particles[2] = Particle(2, ParPos{3.3, 4.0}, ParticleType::adhesion);
+    index.rebuild(ecm_boundary);
 
     index.remove_adhesions({2, 4});
 

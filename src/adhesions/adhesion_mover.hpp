@@ -1,8 +1,8 @@
 #pragma once
 
 #include "adhesion_index.hpp"
-#include "ca.hpp"
-#include "ecm.hpp"
+#include "ca_fwd.hpp"
+#include "ecm_boundary_state.hpp"
 #include "vec2.hpp"
 
 
@@ -39,9 +39,8 @@ class AdhesionMover {
         /** Construct an AdhesionMover object.
          *
          * @param ca The CPM to work with.
-         * @param ecm The ECM to work with.
          */
-        AdhesionMover(CellularPotts const & ca, ExtraCellularMatrix & ecm);
+        AdhesionMover(CellularPotts const & ca);
 
         /** Compute the amount of work involved in an attempted copy.
          *
@@ -91,15 +90,14 @@ class AdhesionMover {
          * access. It keeps this up to date when any adhesions are moved via
          * commit_move, but if external changes are made to the ECM then this
          * function must be called to get the AdhesionMover back in sync.
+         *
+         * @param ecm_boundary ECM boundary state to update from
          */
-        void update();
+        void update(ECMBoundaryState const & ecm_boundary);
 
     private:
         /// The CPM grid to work with
         CellularPotts const & ca_;
-
-        /// The ECM to work with
-        ExtraCellularMatrix &ecm_;
 
         /// Adhesion index for efficiently calculating work
         AdhesionIndex index_;

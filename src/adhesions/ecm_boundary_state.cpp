@@ -1,8 +1,9 @@
-#include "ecm.hpp"
+#include "ecm_boundary_state.hpp"
 
 
-Particle::Particle(ParPos pos, ParticleType type)
-    : pos(pos)
+Particle::Particle(ParId par_id, ParPos pos, ParticleType type)
+    : par_id(par_id)
+    , pos(pos)
     , type(type)
 {}
 

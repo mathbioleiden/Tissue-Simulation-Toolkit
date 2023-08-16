@@ -1,12 +1,13 @@
 // Tell the preprocessor to replace some real files with mocks
 #define _MOCK_ADHESION_INDEX_HPP_ "mock_adhesion_index.hpp"
 #define _MOCK_CA_HPP_ "mock_ca.hpp"
+#define _MOCK_CA_FWD_HPP_ "mock_ca_fwd.hpp"
 #define _MOCK_PARAMETER_HPP_ "mock_parameter.hpp"
 
 // Now load the real implementations, which will now use the mocks
 #include "adhesion_mover.cpp"
 #include "adhesion_movement.cpp"
-#include "ecm.cpp"
+#include "ecm_boundary_state.cpp"
 #include "random.cpp"
 #include "vec2.cpp"
 
@@ -39,18 +40,14 @@ bool operator==(AdhesionDisplacements const & lhs, AdhesionDisplacements const &
 
 TEST_CASE("Create an AdhesionMover", "[adhesion_mover]") {
     MockCellularPotts mock_ca;
-    ExtraCellularMatrix ecm;
-
-    AdhesionMover(mock_ca, ecm);
+    AdhesionMover mover(mock_ca);
     REQUIRE(true);
 }
 
 
 TEST_CASE("Move no adhesions", "[adhesion_mover]") {
     MockCellularPotts mock_ca;
-    ExtraCellularMatrix ecm;
-
-    AdhesionMover mover(mock_ca, ecm);
+    AdhesionMover mover(mock_ca);
 
     MockAdhesionIndex::get_adhesions_return_values[{0, 0}] = {};
     MockAdhesionIndex::get_adhesions_return_values[{0, 1}] = {};
@@ -75,9 +72,7 @@ TEST_CASE("Move no adhesions", "[adhesion_mover]") {
  */
 TEST_CASE("Move some adhesions in various ways", "[adhesion_mover]") {
     MockCellularPotts mock_ca;
-    ExtraCellularMatrix ecm;
-
-    AdhesionMover mover(mock_ca, ecm);
+    AdhesionMover mover(mock_ca);
 
     // Note: keep this in sync with sigma below
     MockAdhesionWithEnvironment a1(1, {4.2, 5.4});

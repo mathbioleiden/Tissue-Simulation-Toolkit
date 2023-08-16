@@ -1,7 +1,7 @@
 #pragma once
 
+#include "ecm_boundary_state.hpp"
 #include "vec2.hpp"
-#include "ecm.hpp"
 
 #include <unordered_map>
 #include <vector>
@@ -22,8 +22,6 @@ struct MockAdhesionWithEnvironment {
 
 class MockAdhesionIndex {
     public:
-        MockAdhesionIndex(ExtraCellularMatrix & ecm);
-
         std::vector<MockAdhesionWithEnvironment> const & get_adhesions(
                 PixelPos pixel) const;
 
@@ -36,7 +34,7 @@ class MockAdhesionIndex {
 
         void remove_adhesions(PixelPos pixel);
 
-        void rebuild(ExtraCellularMatrix const & ecm);
+        void rebuild(ECMBoundaryState const & ecm_boundary);
 };
 
 

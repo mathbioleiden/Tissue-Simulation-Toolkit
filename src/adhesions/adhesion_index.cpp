@@ -72,28 +72,24 @@ double AdhesionWithEnvironment::move_dh(PixelDisplacement move) const {
 }
 
 
-AdhesionIndex::AdhesionIndex(ExtraCellularMatrix const & ecm) {
-    rebuild(ecm);
-}
-
-
 namespace {
     // Helper functions for rebuild(), only visible within this file because of
     // the anonymous namespace.
 
     // Map adhesion particles to bonds attached to them
     std::unordered_map<ParId, std::vector<BondId>> make_bond_index(
-            ExtraCellularMatrix const & ecm)
+            ECMBoundaryState const & ecm_boundary)
     {
         std::unordered_map<ParId, std::vector<BondId>> bond_index;
-        for (BondId bid = 0; bid < ecm.bonds.size(); ++bid) {
-            Bond const & bond = ecm.bonds[bid];
+        for (auto const & id_bond : ecm_boundary.bonds) {
+            BondId bid = id_bond.first;
+            Bond const & bond = id_bond.second;
 
-            ParticleType p1_type = ecm.particles[bond.p1].type;
+            ParticleType p1_type = ecm_boundary.particles.at(bond.p1).type;
             bool p1_adh = p1_type == ParticleType::adhesion;
             bool p1_unfit = p1_adh || (p1_type == ParticleType::excluded);
 
-            ParticleType p2_type = ecm.particles[bond.p2].type;
+            ParticleType p2_type = ecm_boundary.particles.at(bond.p2).type;
             bool p2_adh = p2_type == ParticleType::adhesion;
             bool p2_unfit = p2_adh || (p2_type == ParticleType::excluded);
 
@@ -108,17 +104,18 @@ namespace {
 
     // Map adhesion particles to angle constraints attached to them
     std::unordered_map<ParId, std::vector<AngleCstId>> make_angle_cst_index(
-            ExtraCellularMatrix const & ecm)
+            ECMBoundaryState const & ecm_boundary)
     {
         std::unordered_map<ParId, std::vector<AngleCstId>> angle_cst_index;
-        for (AngleCstId aid = 0; aid < ecm.angle_csts.size(); ++aid) {
-            AngleCst const & angle_cst = ecm.angle_csts[aid];
+        for (auto const & id_angle_cst : ecm_boundary.angle_csts) {
+            AngleCstId aid = id_angle_cst.first;
+            AngleCst const & angle_cst = id_angle_cst.second;
 
-            ParticleType p1_type = ecm.particles[angle_cst.p1].type;
+            ParticleType p1_type = ecm_boundary.particles.at(angle_cst.p1).type;
             bool p1_adh = p1_type == ParticleType::adhesion;
             bool p1_unfit = p1_adh || (p1_type == ParticleType::excluded);
 
-            ParticleType p3_type = ecm.particles[angle_cst.p3].type;
+            ParticleType p3_type = ecm_boundary.particles.at(angle_cst.p3).type;
             bool p3_adh = p3_type == ParticleType::adhesion;
             bool p3_unfit = p3_adh || (p3_type == ParticleType::excluded);
 
@@ -133,43 +130,47 @@ namespace {
 }
 
 
-void AdhesionIndex::rebuild(ExtraCellularMatrix const & ecm) {
-    auto bonds_for = make_bond_index(ecm);
-    auto angle_csts_for = make_angle_cst_index(ecm);
+void AdhesionIndex::rebuild(ECMBoundaryState const & ecm_boundary) {
+    auto bonds_for = make_bond_index(ecm_boundary);
+    auto angle_csts_for = make_angle_cst_index(ecm_boundary);
 
     adhesions_by_pixel_.clear();
-    for (ParId pid = 0; pid < ecm.particles.size(); ++pid) {
-        if (ecm.particles[pid].type == ParticleType::adhesion) {
-            auto const & pos = ecm.particles[pid].pos;
-            PixelPos containing_pixel(floor(pos.x), floor(pos.y));
-            adhesions_by_pixel_[containing_pixel].emplace_back(pid, pos);
+    for (auto const id_par : ecm_boundary.particles) {
+        ParId pid = id_par.first;
+        Particle const & par = id_par.second;
+
+        if (par.type == ParticleType::adhesion) {
+            PixelPos containing_pixel(floor(par.pos.x), floor(par.pos.y));
+            adhesions_by_pixel_[containing_pixel].emplace_back(pid, par.pos);
             auto & awe = adhesions_by_pixel_[containing_pixel].back();
 
             for (BondId bid: bonds_for[pid]) {
-                auto const & bond = ecm.bonds[bid];
+                auto const & bond = ecm_boundary.bonds.at(bid);
 
                 ParPos neighbor_pos;
                 if (bond.p1 == pid)
-                    neighbor_pos = ecm.particles[bond.p2].pos;
+                    neighbor_pos = ecm_boundary.particles.at(bond.p2).pos;
                 else
-                    neighbor_pos = ecm.particles[bond.p1].pos;
+                    neighbor_pos = ecm_boundary.particles.at(bond.p1).pos;
 
-                awe.bonds.emplace_back(neighbor_pos, ecm.bond_types[bond.type]);
+                awe.bonds.emplace_back(
+                        neighbor_pos, ecm_boundary.bond_types.at(bond.type));
             }
 
             for (AngleCstId aid: angle_csts_for[pid]) {
-                auto const & angle_cst = ecm.angle_csts[aid];
+                auto const & angle_cst = ecm_boundary.angle_csts.at(aid);
 
-                ParPos middle_pos = ecm.particles[angle_cst.p2].pos;
+                ParPos middle_pos = ecm_boundary.particles.at(angle_cst.p2).pos;
 
                 ParPos far_pos;
                 if (angle_cst.p1 == pid)
-                    far_pos = ecm.particles[angle_cst.p3].pos;
+                    far_pos = ecm_boundary.particles.at(angle_cst.p3).pos;
                 else
-                    far_pos = ecm.particles[angle_cst.p1].pos;
+                    far_pos = ecm_boundary.particles.at(angle_cst.p1).pos;
 
                 awe.angle_csts.emplace_back(
-                        middle_pos, far_pos, ecm.angle_cst_types[angle_cst.type]);
+                        middle_pos, far_pos,
+                        ecm_boundary.angle_cst_types.at(angle_cst.type));
             }
         }
     }

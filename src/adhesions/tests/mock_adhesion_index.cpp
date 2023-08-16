@@ -1,9 +1,6 @@
 #include "mock_adhesion_index.hpp"
 
 
-MockAdhesionIndex::MockAdhesionIndex(ExtraCellularMatrix & ecm) {}
-
-
 MockAdhesionWithEnvironment::MockAdhesionWithEnvironment(
         ParId par_id, ParPos const & position)
     : par_id(par_id)
@@ -33,5 +30,5 @@ void MockAdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {}
 
 void MockAdhesionIndex::remove_adhesions(PixelPos pixel) {}
 
-void MockAdhesionIndex::rebuild(ExtraCellularMatrix const & ecm) {}
+void MockAdhesionIndex::rebuild(ECMBoundaryState const & ecm) {}
 

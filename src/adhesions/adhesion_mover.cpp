@@ -13,11 +13,8 @@ const PixelDisplacement AdhesionDisplacements::annihilated(
         std::numeric_limits<int>::min(), std::numeric_limits<int>::min());
 
 
-AdhesionMover::AdhesionMover(
-        CellularPotts const & ca, ExtraCellularMatrix & ecm)
+AdhesionMover::AdhesionMover(CellularPotts const & ca)
     : ca_(ca)
-    , ecm_(ecm)
-    , index_(ecm)
 {}
 
 
@@ -61,32 +58,22 @@ void AdhesionMover::commit_move(
 ) {
     // Source pixel
     auto const & source_adhesions = index_.get_adhesions(source_pixel);
-    if (displacements.source != PixelDisplacement(0, 0)) {
-        for (auto const & adhesion: source_adhesions)
-            ecm_.particles[adhesion.par_id].pos += displacements.source;
-
+    if (displacements.source != PixelDisplacement(0, 0))
         index_.move_adhesions(source_pixel, source_pixel + displacements.source);
-    }
 
     // Target pixel
     if (displacements.target != PixelDisplacement(0, 0)) {
         auto const & target_adhesions = index_.get_adhesions(target_pixel);
         if (displacements.target != AdhesionDisplacements::annihilated) {
-            for (auto const & adhesion: target_adhesions)
-                ecm_.particles[adhesion.par_id].pos += displacements.target;
-
             index_.move_adhesions(
                     target_pixel, target_pixel + displacements.target);
         }
-        else {
-            for (auto const & adhesion: target_adhesions)
-                ecm_.particles[adhesion.par_id].type = ParticleType::free;
+        else
             index_.remove_adhesions(target_pixel);
-        }
     }
 }
 
-void AdhesionMover::update() {
-    index_.rebuild(ecm_);
+void AdhesionMover::update(ECMBoundaryState const & ecm_boundary) {
+    index_.rebuild(ecm_boundary);
 }
 
