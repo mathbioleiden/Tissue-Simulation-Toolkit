@@ -5,6 +5,7 @@
 #else
 
 #include "ecm_boundary_state.hpp"
+#include "ecm_interaction_tracker.hpp"
 #include "vec2.hpp"
 
 #include <unordered_map>
@@ -152,11 +153,27 @@ class AdhesionIndex {
          */
         void remove_adhesions(PixelPos pixel);
 
+        /** Get accumulated changes to the adhesions.
+         *
+         * AdhesionIndex keeps track of any changes to the adhesions it applies.
+         * This function returns the accumulated changes.
+         */
+         CellECMInteractions get_cell_ecm_interactions() const;
+
+        /** Reset the adhesion change administration.
+         *
+         * This clears the recorded adhesion change history.
+         */
+        void reset_cell_ecm_interactions();
+
     private:
         // TODO: short string optimisation?
         /// Index of adhesion beads per grid cell, (re)created by update().
         std::unordered_map<
             PixelPos, std::vector<AdhesionWithEnvironment>> adhesions_by_pixel_;
+
+        // Tracks changes for later communication with ECM
+        ECMInteractionTracker ecm_interaction_tracker_;
 
         // Return value for get_adhesions if there are none
         static std::vector<AdhesionWithEnvironment> no_adhesions_;

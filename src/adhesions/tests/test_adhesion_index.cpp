@@ -1,6 +1,8 @@
 // Load the code to be tested and its dependencies
 #include "adhesion_index.cpp"
 #include "ecm_boundary_state.cpp"
+#include "ecm_interaction_tracker.cpp"
+#include "cell_ecm_interactions.cpp"
 #include "vec2.cpp"
 
 

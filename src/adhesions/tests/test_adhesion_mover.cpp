@@ -7,7 +7,9 @@
 // Now load the real implementations, which will now use the mocks
 #include "adhesion_mover.cpp"
 #include "adhesion_movement.cpp"
+#include "cell_ecm_interactions.cpp"
 #include "ecm_boundary_state.cpp"
+#include "ecm_interaction_tracker.cpp"
 #include "random.cpp"
 #include "vec2.cpp"
 
@@ -59,6 +61,10 @@ TEST_CASE("Move no adhesions", "[adhesion_mover]") {
     REQUIRE(dh == 0.0);
     REQUIRE(disps.source == PixelDisplacement{0, 0});
     REQUIRE(disps.target == PixelDisplacement{0, 0});
+
+    CellECMInteractions interactions = mover.get_cell_ecm_interactions();
+    REQUIRE(interactions.move_adhesion_particles.par_id.empty());
+    REQUIRE(interactions.move_adhesion_particles.new_pos.empty());
 }
 
 
@@ -257,6 +263,9 @@ TEST_CASE("Move some adhesions in various ways", "[adhesion_mover]") {
         CHECK(test_stat < 31.264);
     }
 }
+
+
+// TODO: commit_move() and check that the tracker is tracking
 
 
 // TODO: test update()?

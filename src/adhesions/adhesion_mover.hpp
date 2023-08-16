@@ -84,6 +84,19 @@ class AdhesionMover {
                 PixelPos source_pixel, PixelPos target_pixel,
                 AdhesionDisplacements const & displacements);
 
+        /** Get accumulated changes to the adhesions.
+         *
+         * AdhesionMover keeps track of any changes to the adhesions it applies.
+         * This function returns the accumulated changes.
+         */
+         CellECMInteractions get_cell_ecm_interactions() const;
+
+        /** Reset the adhesion change administration.
+         *
+         * This clears the recorded adhesion change history.
+         */
+        void reset_cell_ecm_interactions();
+
         /** Update the internal administration after an update to the ECM.
          *
          * AdhesionMover keeps a partial copy of the ECM internally for faster

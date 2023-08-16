@@ -191,6 +191,7 @@ void AdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {
     if (it != adhesions_by_pixel_.end()) {
         for (auto & awe: it->second) {
             awe.position += to - from;
+            ecm_interaction_tracker_.record_move_particle(awe.par_id, awe.position);
             adhesions_by_pixel_[to].push_back(awe);
         }
         it->second.clear();
@@ -199,8 +200,19 @@ void AdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {
 
 void AdhesionIndex::remove_adhesions(PixelPos pixel) {
     auto it = adhesions_by_pixel_.find(pixel);
-    if (it != adhesions_by_pixel_.end())
+    if (it != adhesions_by_pixel_.end()) {
+        for (auto & awe: it->second)
+            ecm_interaction_tracker_.record_remove_particle(awe.par_id);
         it->second.clear();
+    }
+}
+
+CellECMInteractions AdhesionIndex::get_cell_ecm_interactions() const {
+    return ecm_interaction_tracker_.get_changes();
+}
+
+void AdhesionIndex::reset_cell_ecm_interactions() {
+    ecm_interaction_tracker_.reset();
 }
 
 std::vector<AdhesionWithEnvironment> AdhesionIndex::no_adhesions_;

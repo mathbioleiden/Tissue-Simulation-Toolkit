@@ -32,3 +32,11 @@ void MockAdhesionIndex::remove_adhesions(PixelPos pixel) {}
 
 void MockAdhesionIndex::rebuild(ECMBoundaryState const & ecm) {}
 
+CellECMInteractions MockAdhesionIndex::get_cell_ecm_interactions_return_value;
+
+CellECMInteractions MockAdhesionIndex::get_cell_ecm_interactions() const {
+    return get_cell_ecm_interactions_return_value;
+};
+
+void MockAdhesionIndex::reset_cell_ecm_interactions() {};
+

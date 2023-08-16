@@ -73,6 +73,14 @@ void AdhesionMover::commit_move(
     }
 }
 
+CellECMInteractions AdhesionMover::get_cell_ecm_interactions() const {
+    return index_.get_cell_ecm_interactions();
+}
+
+void AdhesionMover::reset_cell_ecm_interactions() {
+    index_.reset_cell_ecm_interactions();
+}
+
 void AdhesionMover::update(ECMBoundaryState const & ecm_boundary) {
     index_.rebuild(ecm_boundary);
 }

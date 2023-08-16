@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cell_ecm_interactions.hpp"
 #include "ecm_boundary_state.hpp"
 #include "vec2.hpp"
 
@@ -35,6 +36,12 @@ class MockAdhesionIndex {
         void remove_adhesions(PixelPos pixel);
 
         void rebuild(ECMBoundaryState const & ecm_boundary);
+
+        static CellECMInteractions get_cell_ecm_interactions_return_value;
+
+        CellECMInteractions get_cell_ecm_interactions() const;
+
+        void reset_cell_ecm_interactions();
 };
 
 
