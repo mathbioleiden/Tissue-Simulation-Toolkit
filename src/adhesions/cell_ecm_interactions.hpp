@@ -15,6 +15,9 @@
  * a bit funny biologically, but may be useful as a reference or something.
  */
 struct ChangeTypeInArea {
+    //! Create a ChangeTypeInArea representing no changes
+    ChangeTypeInArea();
+
     //! Area within which to change particles, as a list of pixels
     std::vector<PixelPos> change_area;
 

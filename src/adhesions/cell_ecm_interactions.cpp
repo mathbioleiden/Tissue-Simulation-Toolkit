@@ -1,6 +1,11 @@
 #include "cell_ecm_interactions.hpp"
 
 
+ChangeTypeInArea::ChangeTypeInArea() {
+    clear();
+}
+
+
 void ChangeTypeInArea::clear() {
     change_area.clear();
     num_particles = 0;
