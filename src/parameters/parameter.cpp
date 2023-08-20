@@ -84,6 +84,8 @@ Parameter::Parameter() {
   opencl_core_path = strdup("../src/reaction_diffusion/pdecore.cl");
   opencl_pref_platform = 0;
   adhesions_enabled = false;
+  adhesion_zone_radius = 10.0;
+  num_adhesions = 50;
   adhesion_extension_mechanism = strdup("sticky");
   adhesion_displacement_selection = strdup("uniform");
   adhesion_annihilation_penalty = 0;
@@ -183,6 +185,8 @@ void Parameter::Read(const char *filename) {
   opencl_pref_platform = igetpar(fp, "opencl_pref_platform", 0, true);
   adhesion_storage_stride = igetpar(fp, "adhesion_storage_stride", mcs+1, true);
   adhesions_enabled = bgetpar(fp, "adhesions_enabled", false, true);
+  adhesion_zone_radius = fgetpar(fp, "adhesion_zone_radius", 10.0, true);
+  num_adhesions = igetpar(fp, "num_adhesions", 50, true);
   adhesion_extension_mechanism = sgetpar(fp, "adhesion_extension_mechanism", "sticky", true);
   adhesion_displacement_selection = sgetpar(fp, "adhesion_displacement_selection", "uniform", true);
   adhesion_annihilation_penalty = igetpar(fp, "adhesion_extension_penalty", 0, true);
@@ -278,6 +282,8 @@ void Parameter::Write(ostream &os) const {
   os << " opencl_core_path = " << opencl_core_path << endl;
   os << " adhesion_storage_stride = " << adhesion_storage_stride << endl;
   os << " adhesions_enabled = " << sbool(adhesions_enabled) << endl;
+  os << " adhesion_zone_radius = " << adhesion_zone_radius << endl;
+  os << " num_adhesions = " << num_adhesions << endl;
   os << " adhesion_extension_mechanism = " << adhesion_extension_mechanism << endl;
   os << " adhesion_displacement_selection = " << adhesion_displacement_selection << endl;
   os << " adhesion_annihilation_penalty = " << adhesion_annihilation_penalty << endl;

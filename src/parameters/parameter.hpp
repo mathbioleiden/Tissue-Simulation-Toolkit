@@ -87,8 +87,20 @@ class Parameter {
   int adhesion_storage_stride;
 
   // Adhesions
+
   /** Whether to use the adhesion simulation. */
   bool adhesions_enabled;
+
+  /** Radius of the adhesion creation zone
+   *
+   * Adhesions are created in the adhesion creation zone, which contains all
+   * pixels that are in a cell and within a certain radius from the edge of the
+   * cell. This parameter specifies that radius.
+   */
+  double adhesion_zone_radius;
+
+  /** Number of adhesions to initially create */
+  int num_adhesions;
 
   /** How to move adhesions at the source pixel of a copy attempt.
    *

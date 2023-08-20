@@ -3,6 +3,9 @@
 
 class MockParameter {
     public:
+        double adhesion_zone_radius;
+        int num_adhesions;
+
         char const * adhesion_extension_mechanism;
         char const * adhesion_displacement_selection;
         int adhesion_annihilation_penalty;
