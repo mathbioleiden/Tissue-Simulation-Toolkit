@@ -87,6 +87,9 @@ class Parameter {
   int adhesion_storage_stride;
 
   // Adhesions
+  /** Whether to use the adhesion simulation. */
+  bool adhesions_enabled;
+
   /** How to move adhesions at the source pixel of a copy attempt.
    *
    * lazy: Leave them where they are.

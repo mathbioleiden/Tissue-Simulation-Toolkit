@@ -45,6 +45,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 #include "pde.hpp"
 #include "cell.hpp"
+#include "adhesion_mover.hpp"
+#include "cell_ecm_interactions.hpp"
 
 using namespace std;
 
@@ -233,6 +235,15 @@ public:
    */
   int PottsNeighborMove(PDE *PDEfield);
   
+  /*! Returns changes made to the adhesions since the last reset.
+   * \return The accumulated changes
+   */
+  CellECMInteractions GetCellECMInteractions() const;
+
+  /*! Clears recorded changes to the adhesions.
+   */
+  void ResetCellECMInteractions();
+
   /*! \brief Read initial cell shape from XPM file.
     Reads the initial cell shape from an 
     include xpm picture called "ZYGXPM(ZYGOTE)",
@@ -386,7 +397,20 @@ public:
 
 private:
   void IndexShuffle(void);
-  int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+  /** Calculate the work required to make a copy.
+   *
+   * @param x x coordinate of target pixel
+   * @param y y coordinate of target pixel
+   * @param xp x coordinate of source pixel
+   * @param yp y coordinate of source pixel
+   * @param adh_disp Optional out parameter that receives displacements of
+   *        adhesions if the copy is taken. Must not be null if adhesions are
+   *        enabled.
+   * @param PDEfield Optional concentrations to use for chemotaxis
+   */
+  int DeltaH(
+          int x, int y, int xp, int yp, PDE *PDEfield=0,
+          AdhesionDisplacements * adh_disp = nullptr);
   int Act_DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
 
   int KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
@@ -436,6 +460,7 @@ private:
   int zygote_area;
   int thetime;
   int n_nb;
+  AdhesionMover adhesion_mover;
 };
 
 #endif

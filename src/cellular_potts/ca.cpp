@@ -83,7 +83,9 @@ void CellularPotts::BaseInitialisation(vector<Cell> *cells) {
 }
 
 CellularPotts::CellularPotts(vector<Cell> *cells,
-           const int sx, const int sy) {
+           const int sx, const int sy)
+    : adhesion_mover(*this)
+{
   sigma=0;
   frozen=false;
   thetime=0;
@@ -114,8 +116,9 @@ CellularPotts::CellularPotts(vector<Cell> *cells,
     throw "Panic in CellularPotts: parameter neighbours invalid (choose [1-4])";
 }
 
-CellularPotts::CellularPotts(void) {
-
+CellularPotts::CellularPotts(void)
+    : adhesion_mover(*this)
+{
   sigma=0;
   sizex=0; sizey=0;
   frozen=false;
@@ -500,7 +503,9 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
 }
 
 
-int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)       
+int CellularPotts::DeltaH(
+        int x, int y, int xp, int yp, PDE *PDEfield,
+        AdhesionDisplacements * adh_disp)
 {
   int DH = 0;
   int i, sxy, sxyp;
@@ -563,6 +568,19 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
     if (!( par.extensiononly && sxyp==0)) {
       int DDH=(int)(par.chemotaxis*(sat(PDEfield->Sigma(0,x,y))-sat(PDEfield->Sigma(0,xp,yp))));
       DH-=DDH;
+    }
+  }
+
+  /* Individual adhesions with ECM */
+  if (par.adhesions_enabled) {
+    if (adh_disp) {
+      double adh_dh = adhesion_mover.move_dh({xp, yp}, {x, y}, *adh_disp);
+      DH += static_cast<int>(round(adh_dh));
+    }
+    else {
+      throw std::runtime_error(
+              "Adhesions are enabled but not adh_disp argument was passed to"
+              " CellularPotts::DeltaH()");
     }
   }
 
@@ -1057,9 +1075,12 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
     if (!ConnectivityPreservedP(x,y)) 
       H_diss=par.conn_diss;
     
-    D_H=DeltaH(x,y,xp,yp,PDEfield);
+    AdhesionDisplacements adh_disp;
+    D_H = DeltaH(x, y, xp, yp, PDEfield, &adh_disp);
     
     if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
+      if (par.adhesions_enabled)
+        adhesion_mover.commit_move({xp, yp}, {x, y}, adh_disp);
       ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
       for (int j = 1; j <= n_nb; j++){
         xn = nx[j]+x; 
@@ -1387,6 +1408,16 @@ int CellularPotts::PottsNeighborMove(PDE *PDEfield) {
     //std::cerr << "[ " << D_H << ", p = " << p << " ]";
   }
   return SumDH;
+}
+
+
+CellECMInteractions CellularPotts::GetCellECMInteractions() const {
+  return adhesion_mover.get_cell_ecm_interactions();
+}
+
+
+void CellularPotts::ResetCellECMInteractions() {
+  return adhesion_mover.reset_cell_ecm_interactions();
 }
 
 
