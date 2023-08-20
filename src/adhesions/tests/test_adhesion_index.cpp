@@ -11,10 +11,12 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
+#include <catch2/matchers/catch_matchers_range_equals.hpp>
 
+using Catch::Matchers::IsNaN;
+using Catch::Matchers::UnorderedRangeEquals;
 using Catch::Matchers::WithinRel;
 using Catch::Matchers::WithinULP;
-using Catch::Matchers::IsNaN;
 
 
 constexpr double degrees = 3.14159265358979323846 / 180.0;
@@ -387,6 +389,22 @@ TEST_CASE("Move adhesions from one pixel to another", "[adhesion_index]") {
         CHECK(adh.position.y < 5.0);
     }
 
+    CellECMInteractions actions = index.get_cell_ecm_interactions();
+    CHECK(actions.change_type_in_area.num_particles == 0);
+    CHECK(actions.add_adhesion_particles.new_pos.empty());
+    CHECK(actions.move_adhesion_particles.par_id.size() == 2u);
+    std::vector<ParId> ids(2u);
+    if (actions.move_adhesion_particles.par_id[0] == 0)
+        ids = {0, 1};
+    else
+        ids = {1, 0};
+
+    CHECK(actions.move_adhesion_particles.par_id == ids);
+    CHECK(actions.move_adhesion_particles.new_pos[ids[0]] == ParPos{3.3, 4.8});
+    CHECK(actions.move_adhesion_particles.new_pos[ids[1]] == ParPos{3.2, 4.3});
+
+    CHECK(actions.remove_adhesion_particles.par_id.empty());
+
     index.move_adhesions({4, 4}, {3, 4});
     CHECK(index.get_adhesions({4, 4}).empty());
     CHECK(index.get_adhesions({3, 4}).size() == 4u);
@@ -396,6 +414,22 @@ TEST_CASE("Move adhesions from one pixel to another", "[adhesion_index]") {
         CHECK(adh.position.y >= 4.0);
         CHECK(adh.position.y < 5.0);
     }
+
+    actions = index.get_cell_ecm_interactions();
+    CHECK(actions.change_type_in_area.num_particles == 0);
+    CHECK(actions.add_adhesion_particles.new_pos.empty());
+    CHECK(actions.move_adhesion_particles.par_id.size() == 2u);
+
+    if (actions.move_adhesion_particles.par_id[0] == 0)
+        ids = {0, 1};
+    else
+        ids = {1, 0};
+
+    CHECK(actions.move_adhesion_particles.par_id == ids);
+    CHECK(actions.move_adhesion_particles.new_pos[ids[0]] == ParPos{3.3, 4.8});
+    CHECK(actions.move_adhesion_particles.new_pos[ids[1]] == ParPos{3.2, 4.3});
+
+    CHECK(actions.remove_adhesion_particles.par_id.empty());
 }
 
 
@@ -419,6 +453,17 @@ TEST_CASE("Remove adhesions from a pixel", "[adhesion_index]") {
         CHECK(adh.position.y < 5.0);
     }
 
+    CellECMInteractions actions = index.get_cell_ecm_interactions();
+    CHECK(actions.change_type_in_area.num_particles == 0);
+    CHECK(actions.add_adhesion_particles.new_pos.empty());
+    CHECK(actions.move_adhesion_particles.par_id.empty());
+
+    CHECK_THAT(
+            actions.remove_adhesion_particles.par_id,
+            UnorderedRangeEquals(std::vector<ParId>{0, 1}));
+
+    index.reset_cell_ecm_interactions();
+
     index.remove_adhesions({1, 4});
     CHECK(index.get_adhesions({1, 4}).empty());
     CHECK(index.get_adhesions({3, 4}).size() == 1u);
@@ -428,5 +473,11 @@ TEST_CASE("Remove adhesions from a pixel", "[adhesion_index]") {
         CHECK(adh.position.y >= 4.0);
         CHECK(adh.position.y < 5.0);
     }
+
+    actions = index.get_cell_ecm_interactions();
+    CHECK(actions.change_type_in_area.num_particles == 0);
+    CHECK(actions.add_adhesion_particles.new_pos.empty());
+    CHECK(actions.move_adhesion_particles.par_id.empty());
+    CHECK(actions.remove_adhesion_particles.par_id.empty());
 }
 
