@@ -2,6 +2,7 @@ MCDS_DIR  = lib/MultiCellDS/v1.0/v1.0.0
 XSDE_DIR  = $(MCDS_DIR)/libMCDS/xsde
 LIBCS_DIR = lib/libCellShape
 CATCH2_DIR = lib/Catch2
+HOOMD_DIR = lib/hoomd
 TST_DIR   = src
 QMAKE     = qmake
 # Edit the above line as necessary, e.g., as follows:
@@ -9,7 +10,8 @@ QMAKE     = qmake
 
 MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
 
-.PHONY: all XSDE MCDS LIBCS Catch2 TST test clean
+.PHONY: all XSDE MCDS LIBCS Catch2 python_components python_dependencies TST
+.PHONY: test clean clean_hoomd
 
 
 # The models can not be compiled in parallel, because the qmake run for one
@@ -32,6 +34,17 @@ LIBCS: MCDS
 
 Catch2:
 	$(MAKE) -C $(CATCH2_DIR)
+
+
+# Python virtual environment and components
+
+venv:
+	python3 -m venv venv
+
+
+python_dependencies: venv
+	. venv/bin/activate && python3 -m pip install numpy
+	. venv/bin/activate && $(MAKE) -C $(HOOMD_DIR) install
 
 
 # Models
@@ -66,9 +79,18 @@ clean:
 
 	# This fails if it hasn't been built and there's no Makefile, that's fine
 	-$(MAKE) -C $(TST_DIR) clean
-	rm -rf bin build_files/* $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash
+	rm -rf bin build_files/* $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash venv
 
 	# Add new test directories here
 	$(MAKE) -C $(TST_DIR)/adhesions/tests clean
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests clean
 	$(MAKE) -C $(TST_DIR)/util/tests clean
+
+	@echo
+	@echo "Note: 'make clean' does not remove hoomd, because hoomd takes a long time to"
+	@echo "recompile and you probably don't want to do that. If you do want to rebuild"
+	@echo "hoomd, use 'make clean_hoomd' to clean it up."
+
+clean_hoomd:
+	$(MAKE) -C $(HOOMD_DIR) clean
+
