@@ -3,10 +3,11 @@ XSDE_DIR  = $(MCDS_DIR)/libMCDS/xsde
 LIBCS_DIR = lib/libCellShape
 CATCH2_DIR = lib/Catch2
 HOOMD_DIR = lib/hoomd
+MUSCLE3_DIR = lib/muscle3
 TST_DIR   = src
 QMAKE     = qmake
 # Edit the above line as necessary, e.g., as follows:
-#QMAKE 	  = /Applications/Qt5/6.4.0/macos/bin/qmake
+#QMAKE    = /Applications/Qt5/6.4.0/macos/bin/qmake
 
 MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
 
@@ -34,6 +35,9 @@ LIBCS: MCDS
 
 Catch2:
 	$(MAKE) -C $(CATCH2_DIR)
+
+muscle3:
+	$(MAKE) -C $(MUSCLE3_DIR)
 
 
 # Python virtual environment and components

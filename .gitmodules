@@ -8,3 +8,6 @@
 [submodule "lib/hoomd/hoomd-blue"]
 	path = lib/hoomd/hoomd-blue
 	url = https://github.com/glotzerlab/hoomd-blue
+[submodule "lib/muscle3/muscle3_src"]
+	path = lib/muscle3/muscle3_src
+	url = git@github.com:multiscale/muscle3.git
