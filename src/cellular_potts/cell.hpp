@@ -25,6 +25,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 #include "parameter.hpp"
 //#define EMPTY -1
+#include <iostream>
 #include <math.h>
 
 extern Parameter par;
@@ -262,9 +263,9 @@ public:
     double iyy=(double)sum_yy-(double)sum_y*sum_y/(double)area;
     double ixy=(double)sum_xy-(double)sum_x*sum_y/(double)area;
 
-    cerr << "ixx = " << ixx << "\n";
-    cerr << "iyy = " << iyy << "\n";
-    cerr << "ixy = " << ixy << "\n";
+    std::cerr << "ixx = " << ixx << "\n";
+    std::cerr << "iyy = " << iyy << "\n";
+    std::cerr << "ixy = " << ixy << "\n";
   }
 
   // return the current length
@@ -402,7 +403,7 @@ private:
     First line: number of types (including medium)
     Next lines: diagonal matrix, starting with 1 element (0 0)
     ending with n elements */
-  static void ReadStaticJTable(const char *fname);
+  static void ReadStaticJTable(std::string const & fname);
 
   // used internally by dish in "CellGrowthAndDivision"
   inline int GrowthThreshold(void) const { return growth_threshold; }
@@ -493,7 +494,7 @@ private:
     // Must divide by mass!!!!!!
 
     // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
-    //    cerr << "n = " << n << "\n";
+    //    std::cerr << "n = " << n << "\n";
     return 4*sqrt(lambda_b/n);
 
     // 2*sqrt(lambda_b/n) give semimajor axis. We want the length.
@@ -514,7 +515,7 @@ private:
         double lambda_a=rhs1-rhs2;
         
         // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
-        //    cerr << "n = " << n << "\n";
+        //    std::cerr << "n = " << n << "\n";
         *major_axis=4*sqrt(lambda_b/area);
         *minor_axis=4*sqrt(lambda_a/area);
 
