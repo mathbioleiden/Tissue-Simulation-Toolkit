@@ -113,8 +113,8 @@ public:
   void MeasureChemConcentrations(void);
     
   //MultiCellDS Functions
-  void ExportMultiCellDS(const char *fname);
-  void ImportMultiCellDS(const char *fname);
+  void ExportMultiCellDS(std::string const & fname);
+  void ImportMultiCellDS(std::string const & fname);
 
 protected:
   //! Assign a the cell to the current Dish

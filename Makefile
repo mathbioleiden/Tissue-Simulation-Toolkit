@@ -68,6 +68,7 @@ test: Catch2 MCDS LIBCS
 	$(MAKE) -C $(TST_DIR)/adhesions/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/util/tests run_all_tests
+	$(MAKE) -C $(TST_DIR)/parameters/tests run_all_tests
 
 
 # Cleanup
@@ -89,6 +90,7 @@ clean:
 	$(MAKE) -C $(TST_DIR)/adhesions/tests clean
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests clean
 	$(MAKE) -C $(TST_DIR)/util/tests clean
+	$(MAKE) -C $(TST_DIR)/parameters/tests clean
 
 	@echo
 	@echo "Note: 'make clean' does not remove hoomd, because hoomd takes a long time to"
@@ -97,4 +99,3 @@ clean:
 
 clean_hoomd:
 	$(MAKE) -C $(HOOMD_DIR) clean
-
