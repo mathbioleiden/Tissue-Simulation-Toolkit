@@ -42,6 +42,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "crash.hpp"
 #include "hull.hpp"
 #include "graph.hpp"
+#include "../lib/json/json.hpp"
+using json = nlohmann::json_abi_v3_11_2::json;
 
 #define ZYGFILE(Z) <Z.xpm>
 #define XPM(Z) Z ## _xpm
@@ -1128,7 +1130,8 @@ void CellularPotts::WriteData(void){
       if (sigma[x][y] != sigma[x2][y2]){
         if ((*cell)[sigma[x][y]].getTau() == 1 && (*cell)[sigma[x2][y2]].getTau() == 1) RedRedSurface ++;
         if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1) RedYellowSurface ++;
-        if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1) YellowYellowSurface ++;
+        if ((*cell)[sigma[x][y]].getTau() == 1 && (*cell)[sigma[x2][y2]].getTau() == 2) RedYellowSurface ++;
+        if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 2) YellowYellowSurface ++;
       
       }
     }
@@ -1141,6 +1144,53 @@ void CellularPotts::WriteData(void){
   myfile.open("Data_original.txt", std::ofstream::out | std::ofstream::app);
   myfile << RedYellowSurface <<endl;
   myfile.close();
+
+}
+
+void CellularPotts::WriteConfiguration(char* write_loc){
+  //Write the current configuration in json format
+  json Configuration;
+  //Convert sigmafield to vector
+  int* sigmafieldarray= getSigma()[0];
+  int size = sizex * sizey;
+  vector<int> sigmafieldvector(sigmafieldarray, sigmafieldarray + size);
+  //Write sigmafield to json
+  Configuration["sigma"] = sigmafieldvector;
+
+  //Construct a cell types matrix
+  vector<int> celltypes;
+  vector<Cell>::iterator c=cell->begin(); ++c;
+  for (; c!=cell->end(); c++) {
+    celltypes.push_back(c->getTau());
+  }
+  //Write celltypes to json
+  Configuration["tau"] = celltypes;
+
+  //Write configuration to file
+  ofstream myfile;
+  myfile.open(write_loc, std::ofstream::out);
+  myfile << Configuration;
+  myfile.close(); 
+
+}
+
+void CellularPotts::ReadConfiguration(Dish &beast){
+  ifstream f(par.initial_configuration_file);
+  json Configuration = json::parse(f);
+  
+  /* Fill CA plane with imported configuration */
+  { for (int i=0;i<sizex*sizey;i++) 
+     sigma[0][i]=Configuration["sigma"][i];
+  }
+
+  // Construct the cells
+  ConstructInitCells(beast);
+
+  // Assign celltypes
+  vector<Cell>::iterator c=cell->begin(); ++c;
+  for (; c!=cell->end(); c++) {
+    c->setTau(Configuration["tau"][c->sigma-1]);
+  }
 
 }
 

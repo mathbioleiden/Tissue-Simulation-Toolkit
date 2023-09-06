@@ -181,6 +181,9 @@ public:
   void PlotSigma(Graphics *g, int mag=2);
   void WriteData(void);
 
+  void WriteConfiguration(char* write_loc);
+  void ReadConfiguration(Dish &beast);
+
   /*! A simple method to count all sigma's and write the output to an ostream */
   void CountSigma(std::ostream &os);
   
