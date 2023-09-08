@@ -83,9 +83,6 @@ TIMESTEP {
         dish=new Dish();
     }
     
-    if (i == 100){
-      dish->io->WriteConfiguration("test.json");
-    }
     static Info *info=new Info(*dish, *this);
     static Plotter * plotter = new Plotter(dish, this);
     
