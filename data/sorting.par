@@ -16,6 +16,7 @@ neighbours = 3
 periodic_boundaries = false
 
 # PDE parameters (irrelevant for this simulation)
+initial_configuration_file = test.json
 n_chem = 1
 diff_coeff = 1e-13
 decay_rate = 1.8e-4

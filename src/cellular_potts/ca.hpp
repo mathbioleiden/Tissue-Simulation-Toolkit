@@ -102,6 +102,14 @@ class CellularPotts {
   friend class Morphometry;
     
 public:
+  inline int getNbhx(int i){
+    return nx[i];
+  }
+
+  inline int getNbhy(int i){
+    return ny[i];
+  }
+
   int GetMatrixLevel(int x, int y);
   int GetActLevel(int x, int y);
   std::unordered_set<std::array<int,2>> alivePixels;
@@ -179,13 +187,7 @@ public:
   */
     
   void PlotSigma(Graphics *g, int mag=2);
-  void WriteData(void);
-
-  void WriteConfiguration(char* write_loc);
-  void ReadConfiguration(Dish &beast);
-
-  /*! A simple method to count all sigma's and write the output to an ostream */
-  void CountSigma(std::ostream &os);
+  
   
   //! Divide all cells.
   void DivideCells(void) {
@@ -342,6 +344,10 @@ public:
   
   inline Cell &getCell(int c) {
     return (*cell)[c];
+  }
+
+  inline vector<Cell>* getCellArray() {
+    return cell;
   }
 
   /*! Draw convex hull around all cells.
