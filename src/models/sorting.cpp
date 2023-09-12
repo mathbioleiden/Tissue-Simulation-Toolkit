@@ -105,10 +105,12 @@ TIMESTEP {
     }
 
     if (par.store && !(i%par.storage_stride)) {
-      char fname[200];
-      sprintf(fname,"%s/extend%07d.png",par.datadir.c_string(),i);
-      PROFILE(plotter_2, plotter->Plot();)
+      char fname[200],fname_mcds[200];
+      snprintf(fname,199,"%s/extend%05d.png",par.datadir,i);
+      snprintf(fname_mcds,199,"%s/extend%05d.xml",par.datadir,i);
       Write(fname);
+      if (!(i%(par.storage_stride*10)))
+        dish->ExportMultiCellDS(fname_mcds);
     }
 
     if (!info->IsPaused()){
