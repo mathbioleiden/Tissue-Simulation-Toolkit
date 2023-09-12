@@ -82,7 +82,7 @@ TIMESTEP {
     }
     if (par.store && !(i%par.storage_stride)) {
       char fname[200];
-      sprintf(fname,"%s/extend%07d.png",par.datadir,i);
+      sprintf(fname,"%s/extend%07d.png",par.datadir.c_string(),i);
       plotter->Plot();
       Write(fname);
     }
