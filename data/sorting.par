@@ -41,5 +41,3 @@ storage_stride = 100
 graphics = true
 store = false
 datadir = ../out
-
-

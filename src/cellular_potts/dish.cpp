@@ -34,6 +34,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "info.hpp"
 #include "crash.hpp"
 #include "pde.hpp"
+#include "inputoutput.hpp"
+
+#include "../lib/json/json.hpp"
+using json = nlohmann::json_abi_v3_11_2::json;
 
 #define EXTERNAL_OFF
 
@@ -50,6 +54,8 @@ Dish::Dish() {
     else{
     // Initial cell distribution is defined by user in INIT {} block
       CPM=new CellularPotts(&cell, par.sizex, par.sizey);
+      io = new IO(*this);
+
       if (par.n_chem)
         PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
       Init();
@@ -75,6 +81,7 @@ Dish::Dish() {
 Dish::~Dish() {
     cell.clear();
     delete CPM;
+    delete io;
  }
 
 void Dish::Plot(Graphics *g) {
@@ -296,6 +303,7 @@ void Dish::ExportMultiCellDS(std::string const & fname){
   mcds.write(fname);
   std::cout << "Done exporting!" << std::endl; 
 }
+
 
 int Dish::SizeX(void) { return CPM->SizeX(); }
 int Dish::SizeY(void) { return CPM->SizeY(); }	

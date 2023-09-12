@@ -38,26 +38,33 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "graph.hpp"
 #include "plotter.hpp"
 #include "profiler.hpp"
+#include "inputoutput.hpp"
 
 using namespace std;
 
 INIT {
   try {
-    // Define initial distribution of cells
-    CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
-    CPM->ConstructInitCells(*this);
-    
-    // If we have only one big cell and divide it a few times
-    // we start with a nice initial clump of cells. 
-    // 
-    // The behavior can be changed in the parameter file using 
-    // parameters n_init_cells, size_init_cells and divisions
-    for (int i=0;i<par.divisions;i++) {
-      CPM->DivideCells();
+    if (par.initial_configuration_file == "None"){ // If no configuration file is provided
+      // Define initial distribution of cells
+      CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+      CPM->ConstructInitCells(*this);
+      
+      // If we have only one big cell and divide it a few times
+      // we start with a nice initial clump of cells. 
+      // 
+      // The behavior can be changed in the parameter file using 
+      // parameters n_init_cells, size_init_cells and divisions
+      for (int i=0;i<par.divisions;i++) {
+        CPM->DivideCells();
+      }
+      
+      // Assign a random type to each of the cells
+      CPM->SetRandomTypes();
+    }
+    else{ //If a configuration file is provided
+      io->ReadConfiguration();
     }
     
-    // Assign a random type to each of the cells
-    CPM->SetRandomTypes();
     CPM->InitializeEdgeList();
     
   } catch(const char* error) {
@@ -92,7 +99,7 @@ TIMESTEP {
     if (!info->IsPaused()){
       PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
     }  
-    cout << "Compactness = " << dish-> CPM -> Compactness() << endl;
+    //cout << "Compactness = " << dish-> CPM -> Compactness() << endl;
 
     if ( i == par.mcs){
       dish->ExportMultiCellDS(par.mcds_output);

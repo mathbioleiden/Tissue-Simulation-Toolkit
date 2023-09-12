@@ -79,6 +79,8 @@ SECTION("Cellular Potts Model - Initialisation")
     PARAMETER(int, divisions, 0, \
             "Number of times to divide each cell after creating them")
 
+    PARAMETER(std::string, initial_configuration_file, "None", \
+            "json file may be provided to import a cpm configuration")
 
 SECTION("Cellular Potts Model - Dynamics")
 
