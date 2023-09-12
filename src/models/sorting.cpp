@@ -38,12 +38,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "graph.hpp"
 #include "plotter.hpp"
 #include "profiler.hpp"
+#include "inputoutput.hpp"
 
 using namespace std;
 
 INIT {
   try {
-    if (par.initial_configuration_file == string("None")){ // If no configuration file is provided
+    if (par.initial_configuration_file == "None"){ // If no configuration file is provided
       // Define initial distribution of cells
       CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
       CPM->ConstructInitCells(*this);
@@ -61,7 +62,7 @@ INIT {
       CPM->SetRandomTypes();
     }
     else{ //If a configuration file is provided
-      CPM->ReadConfiguration(*this);
+      io->ReadConfiguration();
     }
     
     CPM->InitializeEdgeList();
