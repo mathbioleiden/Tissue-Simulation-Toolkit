@@ -39,5 +39,5 @@ relaxation = 0
 # output
 storage_stride = 100
 graphics = true
-store = false
+store = true
 datadir = ../out
