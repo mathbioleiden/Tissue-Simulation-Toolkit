@@ -80,8 +80,8 @@ TIMESTEP {
     }
   
     if (par.store && !(i%par.storage_stride)) {
-      char fname[200];
-      sprintf(fname,"%s/extend%05d.png",par.datadir,i);
+      char fname[200],fname_mcds[200];
+      snprintf(fname,199,"%s/extend%05d.png",par.datadir.c_str(),i);
     
       BeginScene();
     
