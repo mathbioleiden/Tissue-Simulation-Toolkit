@@ -53,6 +53,9 @@ python_dependencies: venv
 	. venv/bin/activate && python3 -m pip install numpy
 	. venv/bin/activate && $(MAKE) -C $(HOOMD_DIR) install
 
+python: venv
+	. venv/bin/activate && python3 -m pip install -e .
+
 
 # Models
 
@@ -69,7 +72,8 @@ CATCH2_BASE = $(CATCH2_DIR)/catch2
 export CATCH2_BASE
 
 test: Catch2 MCDS LIBCS
-	# Add new directories with tests here and also below under clean:
+	tox
+	# Add new directories with C++ tests here and also below under clean:
 	$(MAKE) -C $(TST_DIR)/adhesions/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/util/tests run_all_tests
@@ -91,6 +95,7 @@ clean:
 	# This fails if it hasn't been built and there's no Makefile, that's fine
 	-$(MAKE) -C $(TST_DIR) clean
 	rm -rf bin build_files/* $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash venv
+	rm -rf build
 
 	# Add new test directories here
 	$(MAKE) -C $(TST_DIR)/adhesions/tests clean

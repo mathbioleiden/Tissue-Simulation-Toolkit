@@ -1,0 +1,50 @@
+[project]
+name = "tissue_simulation_toolkit"
+version = "0.0.1"
+dependencies = [
+    "muscle3==0.7.0",
+    "numpy",
+]
+
+[build-system]
+requires = [
+    "setuptools >= 61.0.0",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+tissue_simulation_toolkit = "src"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+min_version = 4.0
+skip_missing_interpreters = true
+env_list =
+    py37
+    py38
+    py39
+    py310
+    py311
+
+[testenv]
+deps =
+    setuptools >= 61.0.0
+    mypy
+
+commands =
+    mypy
+"""
+
+[tool.mypy]
+mypy_path = "src"
+files = "src/**/*.py"
+
+[[tool.mypy.overrides]]
+module = [
+    'ruamel',
+    'libmuscle',
+    ]
+
+ignore_missing_imports = true
+
