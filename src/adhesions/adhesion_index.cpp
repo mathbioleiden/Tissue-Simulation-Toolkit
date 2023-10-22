@@ -2,6 +2,7 @@
 
 #include "sqr.hpp"
 
+
 AttachedBond::AttachedBond(
         ParPos const & neighbour, BondType const & bond_type)
     : neighbour(neighbour)
@@ -131,6 +132,19 @@ namespace {
 
 
 void AdhesionIndex::rebuild(ECMBoundaryState const & ecm_boundary) {
+    // Adhesion particles' positions are sent along by the other side,
+    // but the adhesion particles are part of our state, so they don't
+    // get to say where they are, we decided that. Unless they have
+    // created new adhesion particles for us and picked the location,
+    // which is weird but can happen with the original adhesion
+    // generation algorithm. So we save our existing adhesion
+    // particles' positions here, and keep them, only using the sent
+    // positions for adhesions particles we didn't have yet.
+    std::unordered_map<ParId, ParPos> adh_par_pos;
+    for (auto const & pixel_awes : adhesions_by_pixel_)
+        for (auto const & awe : pixel_awes.second)
+            adh_par_pos[awe.par_id] = awe.position;
+
     auto bonds_for = make_bond_index(ecm_boundary);
     auto angle_csts_for = make_angle_cst_index(ecm_boundary);
 
@@ -140,8 +154,9 @@ void AdhesionIndex::rebuild(ECMBoundaryState const & ecm_boundary) {
         Particle const & par = id_par.second;
 
         if (par.type == ParticleType::adhesion) {
-            PixelPos containing_pixel(floor(par.pos.x), floor(par.pos.y));
-            adhesions_by_pixel_[containing_pixel].emplace_back(pid, par.pos);
+            ParPos pos = adh_par_pos.count(pid) ? adh_par_pos[pid] : par.pos;
+            PixelPos containing_pixel(floor(pos.x), floor(pos.y));
+            adhesions_by_pixel_[containing_pixel].emplace_back(pid, pos);
             auto & awe = adhesions_by_pixel_[containing_pixel].back();
 
             for (BondId bid: bonds_for[pid]) {

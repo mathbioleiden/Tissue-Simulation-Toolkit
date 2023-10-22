@@ -244,6 +244,10 @@ public:
    */
   void ResetCellECMInteractions();
 
+  /*! Set ECM boundary state, overwriting the current state.
+   */
+  void SetECMBoundaryState(ECMBoundaryState const & ecm_boundary_state);
+
   /*! \brief Read initial cell shape from XPM file.
     Reads the initial cell shape from an 
     include xpm picture called "ZYGXPM(ZYGOTE)",

@@ -1421,6 +1421,12 @@ void CellularPotts::ResetCellECMInteractions() {
 }
 
 
+void CellularPotts::SetECMBoundaryState(ECMBoundaryState const & ecm_boundary_state) {
+  return adhesion_mover.update(ecm_boundary_state);
+
+}
+
+
 /** A simple method to plot all sigma's in window
     without the black lines */
 void CellularPotts::PlotSigma(Graphics *g, int mag) {
@@ -2751,7 +2757,7 @@ void CellularPotts::RandomSigma(int n_cells) {
 
 bool CellularPotts::plotPos(int x, int y, Graphics * graphics){
   int self = sigma[x][y];
-  if (self == 0) return true;
+  if (self <= 0) return true;
   graphics->Rectangle((*cell)[self].Colour(), x, y);
   return false;
 }

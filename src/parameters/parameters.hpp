@@ -187,7 +187,7 @@ SECTION("Adhesions")
             "Adhesions are created in the adhesion creation zone, which contains all\n"
             "pixels that are in a cell and within a certain radius from the edge of\n"
             "the cell. This parameter specifies that radius.\n")
-    PARAMETER(int, num_adhesions, 50, \
+    PARAMETER(int, num_initial_adhesions, 50, \
             "Number of adhesions to initially create.")
     PARAMETER(std::string, adhesion_extension_mechanism, "sticky", \
             "How to move adhesions at the source pixel of a copy attempt\n"

@@ -21,6 +21,9 @@ MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
 .NOTPARALLEL: all
 all: $(MODELS)
 
+.NOTPARALLEL: with_adhesions
+with_adhesions: $(MODELS) bin/adhesions
+
 
 # Dependencies
 
@@ -56,6 +59,8 @@ python_dependencies: venv
 bin/%: MCDS LIBCS
 	cd $(TST_DIR) && $(QMAKE) $(@:bin/%=%).pro
 	$(MAKE) -C $(TST_DIR)
+
+bin/adhesions: MUSCLE3
 
 
 # Tests
