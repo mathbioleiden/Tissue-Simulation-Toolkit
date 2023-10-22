@@ -36,7 +36,7 @@ LIBCS: MCDS
 Catch2:
 	$(MAKE) -C $(CATCH2_DIR)
 
-muscle3:
+MUSCLE3:
 	$(MAKE) -C $(MUSCLE3_DIR)
 
 
@@ -81,6 +81,7 @@ clean:
 
 	$(MAKE) -C $(LIBCS_DIR) clean
 	$(MAKE) -C $(CATCH2_DIR) clean
+	$(MAKE) -C $(MUSCLE3_DIR) clean
 
 	# This fails if it hasn't been built and there's no Makefile, that's fine
 	-$(MAKE) -C $(TST_DIR) clean
