@@ -4,7 +4,11 @@ version = "0.0.1"
 dependencies = [
     "muscle3==0.7.0",
     "numpy",
+    "scipy"
 ]
+
+[project.scripts]
+make_ecm = "tissue_simulation_toolkit.ecm.make_ecm:main"
 
 [build-system]
 requires = [
@@ -44,6 +48,8 @@ files = "src/**/*.py"
 module = [
     'ruamel',
     'libmuscle',
+    'scipy.stats',
+    'scipy.signal'
     ]
 
 ignore_missing_imports = true
