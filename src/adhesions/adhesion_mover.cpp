@@ -61,13 +61,11 @@ void AdhesionMover::commit_move(
         AdhesionDisplacements const & displacements
 ) {
     // Source pixel
-    auto const & source_adhesions = index_.get_adhesions(source_pixel);
     if (displacements.source != PixelDisplacement(0, 0))
         index_.move_adhesions(source_pixel, source_pixel + displacements.source);
 
     // Target pixel
     if (displacements.target != PixelDisplacement(0, 0)) {
-        auto const & target_adhesions = index_.get_adhesions(target_pixel);
         if (displacements.target != AdhesionDisplacements::annihilated) {
             index_.move_adhesions(
                     target_pixel, target_pixel + displacements.target);
