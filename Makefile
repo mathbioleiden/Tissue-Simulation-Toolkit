@@ -26,7 +26,7 @@ VENV_PKG = venv/lib/$(PYTHON_VERSION)/site-packages
 all: $(MODELS)
 
 .NOTPARALLEL: with_adhesions
-with_adhesions: $(MODELS) bin/adhesions ecm
+with_adhesions: $(MODELS) bin/adhesions ecm ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl
 
 
 # Dependencies
@@ -97,6 +97,12 @@ bin/%: MCDS LIBCS
 	$(MAKE) -C $(TST_DIR)
 
 bin/adhesions: MUSCLE3
+
+ymmsl:
+	mkdir ymmsl
+
+ymmsl/%.ymmsl: src/models/%.ymmsl.in ymmsl
+	sed -e 's&Tissue-Simulation-Toolkit&$(CURDIR)&g' $< >$@
 
 
 # Tests
