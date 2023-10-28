@@ -12,6 +12,10 @@ dependencies = [
 [project.scripts]
 make_ecm = "tissue_simulation_toolkit.ecm.make_ecm:main"
 simulate_ecm = "tissue_simulation_toolkit.ecm.simulate_ecm:main"
+state_viewer = "tissue_simulation_toolkit.cpm_ecm.state_viewer:main"
+state_dumper = "tissue_simulation_toolkit.cpm_ecm.state_dumper:main"
+plot_states = "tissue_simulation_toolkit.scripts.plot_states:main"
+
 
 [build-system]
 requires = [
