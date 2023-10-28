@@ -38,7 +38,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "sticky.hpp"
 #include "x11graph.hpp"
 #include "parameter.hpp"
-#include "output.hpp"
+#include "inputoutput.hpp"
 #include <iostream>
 #include <string>
 

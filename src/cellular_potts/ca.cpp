@@ -1137,33 +1137,6 @@ void CellularPotts::AddEdgeToEdgelist(int edge) {//add an edge to the end of edg
   sizeedgelist++;
 }
 
-void CellularPotts::WriteData(void){
-    int RedRedSurface = 0;
-    int RedYellowSurface = 0;
-    int YellowYellowSurface = 0;
-  for (int x = 1; x<sizex-1; x++)
-  for (int y = 1; y<sizey-1; y++){
-    for (int i = 1; i<=4; i++){
-      int x2,y2;
-      x2=x+nx[i]; y2=y+ny[i];
-      if (sigma[x][y] != sigma[x2][y2]){
-        if ((*cell)[sigma[x][y]].getTau() == 1 && (*cell)[sigma[x2][y2]].getTau() == 1) RedRedSurface ++;
-        if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1) RedYellowSurface ++;
-        if ((*cell)[sigma[x][y]].getTau() == 2 && (*cell)[sigma[x2][y2]].getTau() == 1) YellowYellowSurface ++;
-      
-      }
-    }
-  }
-  //cout << "Red-red surface = " << RedRedSurface << endl;
-  //cout << "Red-yellow surface = " << RedYellowSurface << endl;
-  //cout << "Yellow-yellow surface = " << YellowYellowSurface << endl;
-
-  ofstream myfile;
-  myfile.open("Data_original.txt", std::ofstream::out | std::ofstream::app);
-  myfile << RedYellowSurface <<endl;
-  myfile.close();
-
-}
 
 void CellularPotts::RemoveEdgeFromEdgelist(int edge) { //remove an edge from the edgelist
   int counteredge = CounterEdge(edge);  
@@ -1448,24 +1421,6 @@ void CellularPotts::PlotIsing(Graphics *g, int mag) {
                     g->Point( sigma[x][y]==0?0:1, mag*x+xm, mag*y+ym);
         }
 }
-
-/** A simple method to count all sigma's and write the output to an ostream */
-void CellularPotts::CountSigma(std::ostream &os) {
-    int *sum_sigma = new int[Cell::MaxSigma()];
-    for (int i=0;i<Cell::MaxSigma();i++) {
-        sum_sigma[i]=0;
-    }
-    for (int x=1;x<sizex-1;x++) {
-        for (int y=1;y<sizey-1;y++) {
-            sum_sigma[sigma[x][y]]++;
-        }
-    }
-    for (int i=0;i<Cell::MaxSigma();i++) {
-        os << i << " " << sum_sigma[i] << endl;
-    }
-    delete[] sum_sigma;
-}
-
 
 int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours)
 {

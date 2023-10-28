@@ -35,6 +35,7 @@ class Cell {
   friend class Dish;
   friend class CellularPotts;
   friend class Info;
+  friend class IO;
 
 public:
   /*! \brief Constructor to insert a cell into Dish "who"

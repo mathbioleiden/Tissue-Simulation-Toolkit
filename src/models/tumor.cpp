@@ -120,8 +120,8 @@ TIMESTEP {
     
     if (par.store && !(i%par.storage_stride)) {
 
-      char fname[200];
-      sprintf(fname,"%s/extend%05d.png",par.datadir,i);
+      char fname[200],fname_mcds[200];
+      snprintf(fname,199,"%s/extend%05d.png",par.datadir.c_str(),i);
     
       BeginScene();
 
@@ -129,7 +129,7 @@ TIMESTEP {
       //ClearImage();
       dish->Plot(this);
       if (i>=par.relaxation)
-	dish->PDEfield->ContourPlot(this,0,7);
+	    dish->PDEfield->ContourPlot(this,0,7);
    
       EndScene();
       
