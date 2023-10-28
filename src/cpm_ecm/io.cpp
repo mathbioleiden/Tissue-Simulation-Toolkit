@@ -2,8 +2,8 @@
 
 #include "cell_ecm_interactions.hpp"
 #include "ecm_boundary_state.hpp"
-#include "muscle3/io.hpp"
-#include "muscle3/muscle3_grid.hpp"
+#include "cpm_ecm/io.hpp"
+#include "util/muscle3/muscle3_grid.hpp"
 
 #include <cinttypes>
 #include <unordered_map>

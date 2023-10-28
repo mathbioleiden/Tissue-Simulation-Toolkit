@@ -5,8 +5,8 @@ MAINFILE = "models/adhesions.cpp"
 
 include(Tissue_Simulation_Toolkit.pri)
 
-HEADERS += adhesions/muscle3/*.hpp
-SOURCES += adhesions/muscle3/*.cpp
+HEADERS += util/muscle3/*.hpp cpm_ecm/*.hpp
+SOURCES += util/muscle3/*.cpp cpm_ecm/*.cpp
 
 INCLUDEPATH += $$MUSCLE3_DIR/include
 LIBS += -L$$MUSCLE3_DIR/lib -lmuscle -lymmsl

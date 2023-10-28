@@ -46,8 +46,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "plotter.hpp"
 #include "profiler.hpp"
 #include "graph.hpp"
-#include "muscle3/io.hpp"
-#include "muscle3/settings.hpp"
+#include "cpm_ecm/io.hpp"
+#include "util/muscle3/settings.hpp"
 
 #include <libmuscle/libmuscle.hpp>
 #include <ymmsl/ymmsl.hpp>

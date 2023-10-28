@@ -1,4 +1,4 @@
-#include "muscle3/settings.hpp"
+#include "util/muscle3/settings.hpp"
 
 #include "parameter.hpp"
 
