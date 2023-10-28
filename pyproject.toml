@@ -1,6 +1,6 @@
 [project]
 name = "tissue_simulation_toolkit"
-version = "0.0.1"
+version = "2.0.0-dev"
 dependencies = [
     # "hoomd",          # Cannot be installed by pip, installed by Makefile
     # "mpi4py",         # Optional, installed by Makefile if needed
