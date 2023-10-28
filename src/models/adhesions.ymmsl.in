@@ -24,7 +24,7 @@ model:
         s: ecm_boundary_state_in
 
     simulate_ecm:
-      implementation: simulate_ecm_mpi
+      implementation: simulate_ecm
       ports:
         f_init: ecm_in
         o_i:
@@ -136,8 +136,8 @@ resources:
   cellular_potts:
     threads: 1
   simulate_ecm:
-    # threads: 1
-    mpi_processes: 5
+    threads: 1
+    # mpi_processes: 4
 
 implementations:
   init_ecm:
