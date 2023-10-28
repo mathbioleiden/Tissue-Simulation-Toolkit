@@ -2,7 +2,8 @@ from tissue_simulation_toolkit.ecm.muscle3 import encode_net, from_settings
 from tissue_simulation_toolkit.ecm.network.network import generate_network
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
 
-from libmuscle import Instance, KEEPS_NO_STATE_FOR_NEXT_USE, Message
+from libmuscle import Instance, Message
+from libmuscle import KEEPS_NO_STATE_FOR_NEXT_USE   # type: ignore
 import numpy as np
 from ymmsl import Operator
 

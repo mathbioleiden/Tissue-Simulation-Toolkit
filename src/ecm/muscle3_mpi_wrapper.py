@@ -73,7 +73,7 @@ class Instance:
         """
         value = None    # type: Any
         if self._is_root():
-            value = self._instance().get_setting(name, typ)
+            value = self._instance().get_setting(name, typ)     # type: ignore
 
         value = self._comm.bcast(value)
         return value

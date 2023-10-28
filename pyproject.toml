@@ -4,7 +4,7 @@ version = "0.0.1"
 dependencies = [
     # "hoomd",          # Cannot be installed by pip, installed by Makefile
     # "mpi4py",         # Optional, installed by Makefile if needed
-    "muscle3==0.7.0",
+    "muscle3==0.7.1",
     "numpy",
     "scipy"
 ]
@@ -56,7 +56,6 @@ module = [
     'hoomd',
     'hoomd.data',
     'hoomd.md',
-    'libmuscle',
     'mpi4py',
     'ruamel',
     'scipy.stats',
