@@ -1,6 +1,5 @@
-from tissue_simulation_toolkit.ecm.ecm import ExtraCellularMatrix, ParticleType
 from tissue_simulation_toolkit.ecm.muscle3 import (
-        decode_cell_ecm_interactions, decode_ecm, encode_ecm,
+        decode_cell_ecm_interactions, decode_mdstate, encode_mdstate,
         encode_ecm_boundary_state, from_settings)
 from tissue_simulation_toolkit.ecm.muscle3_mpi_wrapper import Instance
 from tissue_simulation_toolkit.ecm.parameters import EvolutionParameters
@@ -38,7 +37,7 @@ def main() -> None:
             state_output_interval = mcs + 1
 
         msg = instance.receive('ecm_in')
-        ecm = decode_ecm(msg.data)
+        ecm = decode_mdstate(msg.data)
         sim = Simulation(par, ecm)
 
         for i in range(mcs):
@@ -46,7 +45,7 @@ def main() -> None:
             if instance.is_connected('state_out'):
                 if i % state_output_interval == 0:
                     state = sim.get_state()
-                    instance.send('state_out', Message(i, data=encode_ecm(state)))
+                    instance.send('state_out', Message(i, data=encode_mdstate(state)))
 
             boundary = encode_ecm_boundary_state(sim.get_boundary_state())
             msg = Message(msg.timestamp, data=boundary)
@@ -60,7 +59,7 @@ def main() -> None:
             sim.run()
 
         # O_F
-        message = Message(msg.timestamp, data=encode_ecm(sim.get_state()))
+        message = Message(msg.timestamp, data=encode_mdstate(sim.get_state()))
         instance.send('ecm_out', message)
 
 

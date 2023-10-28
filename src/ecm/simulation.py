@@ -1,5 +1,5 @@
 from tissue_simulation_toolkit.ecm.ecm import (
-        AngleCstTypes, AngleCsts, BondTypes, Bonds, ExtraCellularMatrix, ParticleType,
+        AngleCstTypes, AngleCsts, BondTypes, Bonds, MDState, ParticleType,
         Particles)
 from tissue_simulation_toolkit.ecm.cell_ecm_interactions import (
         CellECMInteractions, ChangeTypeInArea, MoveAdhesionParticles)
@@ -153,7 +153,7 @@ class Boundary:
 class Simulation:
     """Simulates the ECM using hoomd."""
     def __init__(
-            self, par: EvolutionParameters, ecm: ExtraCellularMatrix) -> None:
+            self, par: EvolutionParameters, ecm: MDState) -> None:
         """Create an ECMSimulation.
 
         Args:
@@ -208,7 +208,7 @@ class Simulation:
         with self._sim.state.cpu_local_snapshot as snapshot:
             self._boundary = Boundary(self._comm, snapshot)
 
-    def get_state(self) -> Optional[ExtraCellularMatrix]:
+    def get_state(self) -> Optional[MDState]:
         """Get the whole state of the MD system as an ECM
 
         When running under MPI, this returns the state only for rank 0, on
@@ -278,7 +278,7 @@ class Simulation:
             angles_typeid = np.concatenate(l_angles_typeid)
             angle_csts = AngleCsts(angles_group, angles_typeid)
 
-            result = ExtraCellularMatrix(
+            result = MDState(
                     particles, bond_types, bonds, angle_cst_types, angle_csts)
             tb = monotonic_ns()
             _logger.debug(f'get_state took {(tb - ta) * 1e-6} ms')
@@ -488,7 +488,7 @@ class Simulation:
         # This doesn't change the topology, so no need to update the boundary
         tb = monotonic_ns()
 
-    def _set_state_from_ecm(self, ecm: ExtraCellularMatrix) -> None:
+    def _set_state_from_ecm(self, ecm: MDState) -> None:
         """Updates the simulation with a new ECM description.
 
         This overwrites the current state with the one represented by ecm.

@@ -113,7 +113,7 @@ struct Bond {
  *
  * Some bond types are treated specially by the code, and they're named here
  * for convenience. The numerical value is the bond type id (see
- * ExtraCellularMatrix::bond_types).
+ * MDState::bond_types).
  */
 enum class NamedBondTypes : BondTypeId {
     fiber = 0

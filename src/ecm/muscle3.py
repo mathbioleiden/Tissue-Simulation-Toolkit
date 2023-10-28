@@ -14,7 +14,7 @@ from tissue_simulation_toolkit.ecm.cell_ecm_interactions import (
         AddAdhesionParticles, CellECMInteractions, ChangeTypeInArea,
         MoveAdhesionParticles, RemoveAdhesionParticles)
 from tissue_simulation_toolkit.ecm.ecm import (
-        AngleCsts, AngleCstTypes, Bonds, BondTypes, ExtraCellularMatrix, Particles,
+        AngleCsts, AngleCstTypes, Bonds, BondTypes, MDState, Particles,
         ParticleType)
 from tissue_simulation_toolkit.ecm.ecm_boundary_state import ECMBoundaryState
 from tissue_simulation_toolkit.ecm.muscle3_mpi_wrapper import Instance
@@ -47,34 +47,34 @@ def from_settings(ParType: Type[T], instance: Instance) -> T:
         for field in fields(ParType)})          # type: ignore [arg-type]
 
 
-def encode_ecm(ecm: Optional[ExtraCellularMatrix]) -> Any:
-    """Encode an ECM into a MUSCLE3 message-compatible data object
+def encode_mdstate(state: Optional[MDState]) -> Any:
+    """Encode an MDState into a MUSCLE3 message-compatible data object
 
-    This does not copy the data, so the ECM object passed in must not
+    This does not copy the data, so the state object passed in must not
     be changed or the result will change too.
 
     Args:
-        ecm: The ECM to encode
+        state: The MDState to encode
     """
-    if ecm is None:
+    if state is None:
         return None
 
     return {
             'particles': {
-                'positions': ecm.particles.positions,
-                'types': ecm.particles.type_ids.astype(np.int32)},
+                'positions': state.particles.positions,
+                'types': state.particles.type_ids.astype(np.int32)},
             'bond_types': {
-                'r0': ecm.bond_types.r0,
-                'k': ecm.bond_types.k},
+                'r0': state.bond_types.r0,
+                'k': state.bond_types.k},
             'bonds': {
-                'groups': ecm.bonds.particle_groups.astype(np.int32),
-                'types': ecm.bonds.typ.astype(np.int32)},
+                'groups': state.bonds.particle_groups.astype(np.int32),
+                'types': state.bonds.typ.astype(np.int32)},
             'angle_cst_types': {
-                't0': ecm.angle_cst_types.t0,
-                'k': ecm.angle_cst_types.k},
+                't0': state.angle_cst_types.t0,
+                'k': state.angle_cst_types.k},
             'angle_csts': {
-                'groups': ecm.angle_csts.particle_groups.astype(np.int32),
-                'types': ecm.angle_csts.typ.astype(np.int32)}
+                'groups': state.angle_csts.particle_groups.astype(np.int32),
+                'types': state.angle_csts.typ.astype(np.int32)}
             }
 
 
@@ -114,11 +114,8 @@ def encode_net(net: Network) -> Any:
             }
 
 
-def decode_ecm(data: Any) -> ExtraCellularMatrix:
-    """"Decode an ECM from a MUSCLE3 data object.
-
-    This does not copy the data, so the data object passed in must not
-    be changed or the result will change too.
+def decode_mdstate(data: Any) -> MDState:
+    """"Decode an MDState from a MUSCLE3 data object.
 
     Args:
         data: The received message data to decode
@@ -138,7 +135,7 @@ def decode_ecm(data: Any) -> ExtraCellularMatrix:
             data['angle_csts']['groups'].array.copy(),
             data['angle_csts']['types'].array.copy())
 
-    return ExtraCellularMatrix(
+    return MDState(
             particles, bond_types, bonds, angle_cst_types, angle_csts)
 
 

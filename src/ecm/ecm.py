@@ -84,7 +84,7 @@ class NamedBondTypes(Enum):
 
     Some bond types are treated specially by the code, and they're named here
     for convenience. The numerical value is the bond type id (see
-    ExtraCellularMatrix.bond_types).
+    MDState.bond_types).
     """
     fiber = 0
 
@@ -125,37 +125,13 @@ class AngleCsts:
 
 
 @dataclass
-class ExtraCellularMatrix:
-    """Coarse-grained MD representation of the extracellular matrix (ECM).
+class MDState:
+    """Coarse-grained MD simulation state.
 
-    The ECM can be viewed from different perspectives. From a biological
-    perspective, it is (in the simplified representation used here) a collection
-    of collagen strands held together by crosslinkers. The strands consist of
-    strings of a fixed number of beads each, with each bead a coarse-grained MD
-    particle.
-
-    When seen as a coarse-grained MD simulation, the ECM is a collection of
-    particles, with linear springs constraining the distance between designated
-    pairs of particles and torsion springs constraining angles formed by groups
-    of three particles each.
-
-    Finally, from a Cellular Potts perspective, the ECM is a substance covering
-    the domain between the cells which affects the work required to copy pixels.
-    Interaction between a cell and the ECM is via ECM particles that are adhered
-    to by the cell and are dragged along as we attempt to copy the pixel they
-    are in. In this implementation, updates to the ECM and the CPM are
-    alternated, so that the ECM is held fixed while the CPM updates, and vice
-    versa. As a result, only a small boundary region of the ECM is involved in
-    the interaction with the CPM. We call this the interface region.
-
-    Since this is the CPM, the latter perspectives are most relevant, and this
-    class models the ECM as a collection of MD particles, bond constraints and
-    angle constraints, with no explicit representation of fibers.
-
-    The representation used here is chosen mostly for flexibility. If a faster
-    representation is needed, then it can usually be generated once after each
-    MD update, and then used for many copy attempts. See Adhesions for an
-    example.
+    This represents the state of the course-grained molecular dynamics model.
+    It comprises a collection of particles, with linear springs constraining the
+    distance between designated pairs of particles and torsion springs
+    constraining angles formed by groups of three particles each.
 
     Attributes:
         particles: Particles making up the ECM. The particle id of a particle

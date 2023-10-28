@@ -98,7 +98,7 @@ class SparseAngleCsts:
 class ECMBoundaryState:
     """Coarse-grained MD representation of the ECM boundary.
 
-    This is similar to ExtraCellularMatrix, but contains only the particles
+    This is similar to MDState, but contains only the particles
     relevant to the Cellular Potts model. These are all particles of type
     adhesion, and any particles of any type that they share a bond or an
     angle constraint with.
