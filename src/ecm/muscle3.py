@@ -8,12 +8,16 @@ from dataclasses import asdict, fields
 import logging
 from typing import Any, Optional, Type, TypeVar
 
-from libmuscle import Instance
 import numpy as np
 
+from tissue_simulation_toolkit.ecm.cell_ecm_interactions import (
+        AddAdhesionParticles, CellECMInteractions, ChangeTypeInArea,
+        MoveAdhesionParticles, RemoveAdhesionParticles)
 from tissue_simulation_toolkit.ecm.ecm import (
         AngleCsts, AngleCstTypes, Bonds, BondTypes, ExtraCellularMatrix, Particles,
         ParticleType)
+from tissue_simulation_toolkit.ecm.ecm_boundary_state import ECMBoundaryState
+from tissue_simulation_toolkit.ecm.muscle3_mpi_wrapper import Instance
 from tissue_simulation_toolkit.ecm.network.network import Network
 
 
@@ -136,3 +140,47 @@ def decode_ecm(data: Any) -> ExtraCellularMatrix:
 
     return ExtraCellularMatrix(
             particles, bond_types, bonds, angle_cst_types, angle_csts)
+
+
+def decode_cell_ecm_interactions(data: Any) -> CellECMInteractions:
+    """Decode a CellECMInteractions from received data
+
+    Args:
+        data: The received data
+    """
+    ctia = data['change_type_in_area']
+    change_type_in_area = ChangeTypeInArea(
+            change_area = ctia['change_area'].array,
+            num_particles = ctia['num_particles'],
+            from_type = ParticleType(ctia['from_type']),
+            to_type = ParticleType(ctia['to_type']))
+
+    aap = data['add_adhesion_particles']
+    add_adhesion_particles = AddAdhesionParticles(
+            new_pos = aap['new_pos'].array,
+            bond_attempt_radius = aap['bond_attempt_radius'].array)
+
+    maps = data['move_adhesion_particles']
+    move_adhesion_particles = MoveAdhesionParticles(
+            par_id = maps['par_id'].array,
+            new_pos = maps['new_pos'].array)
+
+    rap = data['move_adhesion_particles']
+    remove_adhesion_particles = RemoveAdhesionParticles(par_id = rap['par_id'].array)
+
+    return CellECMInteractions(
+            change_type_in_area = change_type_in_area,
+            add_adhesion_particles = add_adhesion_particles,
+            move_adhesion_particles = move_adhesion_particles,
+            remove_adhesion_particles = remove_adhesion_particles)
+
+
+def encode_ecm_boundary_state(boundary: Optional[ECMBoundaryState]) -> Any:
+    """Encode the state of the ECM boundary.
+
+    Args:
+        boundary: The current state of the boundary to encode
+    """
+    if boundary is None:
+        return None
+    return asdict(boundary)

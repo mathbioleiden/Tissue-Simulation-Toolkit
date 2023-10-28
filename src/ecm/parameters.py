@@ -70,3 +70,42 @@ class GenerationParameters:
     crosslink_max_r: float
     crosslink_quant_step: float
     crosslink_bin_size: float
+
+
+@dataclass
+class EvolutionParameters:
+    """Relevant parameters for ECM evolution.
+
+    Attributes:
+        box_size_x (int): Twice Lx, make sure it matches `sizex` in the .par
+                file
+        box_size_y (int): Twice Ly, make sure it matches `sizey` in the .par
+                file
+
+        contour_length (float): Length of fiber along the curve
+
+        md_use_gpu (bool): Whether to run the md simulation on GPU or not
+        md_seed (int): Random seed for reproducibility
+
+        md_dt (float): MD timestep
+        md_its (int): Number of timesteps to run for subsequent equilibrations
+
+        overdamped (bool): Whether to use an overdamped integrator during
+                initial equilibration (Brownian dynamics) or not (Langevin
+                dynamics)
+        md_kT (float): Integrator kT
+        viscosity (float): Integrator viscosity setting
+    """
+    box_size_x: int
+    box_size_y: int
+    contour_length: float
+
+    md_use_gpu: bool
+    md_seed: int
+
+    md_dt: float
+    md_its: int
+
+    overdamped: bool
+    md_kT: float
+    viscosity: float

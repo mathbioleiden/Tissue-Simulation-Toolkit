@@ -2,6 +2,8 @@
 name = "tissue_simulation_toolkit"
 version = "0.0.1"
 dependencies = [
+    # "hoomd",          # Cannot be installed by pip, installed by Makefile
+    # "mpi4py",         # Optional, installed by Makefile if needed
     "muscle3==0.7.0",
     "numpy",
     "scipy"
@@ -9,6 +11,7 @@ dependencies = [
 
 [project.scripts]
 make_ecm = "tissue_simulation_toolkit.ecm.make_ecm:main"
+simulate_ecm = "tissue_simulation_toolkit.ecm.simulate_ecm:main"
 
 [build-system]
 requires = [
@@ -46,8 +49,12 @@ files = "src/**/*.py"
 
 [[tool.mypy.overrides]]
 module = [
-    'ruamel',
+    'hoomd',
+    'hoomd.data',
+    'hoomd.md',
     'libmuscle',
+    'mpi4py',
+    'ruamel',
     'scipy.stats',
     'scipy.signal'
     ]
