@@ -2,15 +2,17 @@
 
 #SBATCH -J cpm_ecm
 #SBATCH --time=00:10:00
-#SBATCH -p gpu
-#SBATCH -N 1
-#SBATCH --gpus-per-node=4
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --ntasks=18
+#SBATCH --cpus-per-task=1
+#SBATCH --gpus=1
 
 
 module load 2022
-module load Qt5/5.15.5-GCCcore-11.3.0 OpenMPI/4.1.4-GCC-11.3.0 Python/3.10.4-GCCcore-11.3.0 CUDA/11.8.0
+module load Python/3.10.4-GCCcore-11.3.0
 
-cd /scratch-shared/lveen/tissueopt/Tissue-Simulation-Toolkit
+cd ${HOME}/Tissue-Simulation-Toolkit
 
 source venv/bin/activate
 

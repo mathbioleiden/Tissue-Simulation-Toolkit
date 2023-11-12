@@ -133,11 +133,12 @@ resources:
     threads: 1
   equilibrate_ecm:
     threads: 1
+    # mpi_processes: 1
   cellular_potts:
     threads: 1
   simulate_ecm:
     threads: 1
-    # mpi_processes: 4
+    # mpi_processes: 1
 
 implementations:
   init_ecm:
@@ -149,6 +150,14 @@ implementations:
     executable: make_ecm
 
   tst_adhesions:
+    env:
+      +LD_LIBRARY_PATH: :Tissue-Simulation-Toolkit/lib/muscle3/muscle3/lib
+    executable: Tissue-Simulation-Toolkit/bin/adhesions
+
+  tst_adhesions_snellius:
+    modules:
+    - "2022"
+    - Qt5/5.15.5-GCCcore-11.3.0
     env:
       +LD_LIBRARY_PATH: :Tissue-Simulation-Toolkit/lib/muscle3/muscle3/lib
     executable: Tissue-Simulation-Toolkit/bin/adhesions
@@ -169,6 +178,16 @@ implementations:
     executable: simulate_ecm
 
   simulate_ecm_mpi:
+    virtual_env: Tissue-Simulation-Toolkit/venv
+    executable: simulate_ecm
+    execution_model: openmpi
+
+  simulate_ecm_snellius:
+    modules:
+    - "2022"
+    - OpenMPI/4.1.4-GCC-11.3.0
+    - Python/3.10.4-GCCcore-11.3.0
+    - CUDA/11.8.0
     virtual_env: Tissue-Simulation-Toolkit/venv
     executable: simulate_ecm
     execution_model: openmpi
