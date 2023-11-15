@@ -45,6 +45,9 @@ def main() -> None:
     plotter: Optional[StatePlotter] = None
 
     for data_file in files:
+        if data_file.with_suffix('.png').exists():
+            continue
+
         with data_file.open('rb') as f:
             data = pickle.load(f)
 
