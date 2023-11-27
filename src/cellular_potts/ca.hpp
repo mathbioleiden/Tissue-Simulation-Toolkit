@@ -409,6 +409,7 @@ private:
   int CounterEdge(int edge);
   void MeasureCellSize(Cell &c);
   void CopyProb(double T);
+  bool LocalConnectedness(int x, int y, int s);
   bool ConnectivityPreservedP(int x, int y);
   bool ConnectivityPreservedPCluster(int x, int y);
 
