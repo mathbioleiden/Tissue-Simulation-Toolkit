@@ -2233,6 +2233,43 @@ int CellularPotts::SquareCell(int sig, int cx, int cy, int size) {
 }
 
 
+bool CellularPotts::LocalConnectedness(int x, int y, int s){
+
+  //Algorithm from Durand, M., & Guesnet, E. (2016). An efficient Cellular Potts Model algorithm that forbids cell fragmentation. Computer Physics Communications, 208, 54-63.
+  //Checks if cell sigma is locally connected at lattice point (x,y) if using LocalConnectedness(x,y,sigma[x][y]) and LocalConnectedness(x,y,sigma[xp][yp] both are true
+
+
+   // Use local nx and ny in a cyclic order (starts at upper left corner)
+  const int cyc_nx[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+  const int cyc_ny[8] = {0, -1, -1, -1, 0, 1, 1, 1};
+  bool connected_component = false; 
+  //Currently in a connected component
+  int nr_connected_components = 0;
+  //Total number of conncected components around x,y
+  for (int i = 0; i <= 7; i++){
+    int s_nb = sigma[x + cyc_nx[i]][y + cyc_ny[i]];
+    if (s_nb == s && !connected_component){
+      //start of a connected component
+      connected_component = true;
+      nr_connected_components++;
+    }
+    else if (s_nb != s && connected_component){
+      //end of a conencted component
+      connected_component = false;
+    }
+  }
+  bool looped = false;
+  if (sigma[x + cyc_nx[0]][y + cyc_ny[0]] == s && sigma[x + cyc_nx[7]][y + cyc_ny[7]] == s)
+    looped = true;
+  //Check if the first and last element are connected
+  if ((nr_connected_components >= 2 && !looped) || nr_connected_components >= 3 && looped)
+  //permit one more component when the first and last element are connected
+    return false;
+  else
+    return true;
+}
+
+
 // Predicate returns true when connectivity is locally preserved
 // if the value of the central site would be changed
 bool CellularPotts::ConnectivityPreservedP(int x, int y) {
