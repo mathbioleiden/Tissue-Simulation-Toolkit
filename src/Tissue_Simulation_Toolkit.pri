@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 
 #CONFIG += release
 CONFIG += debug
+CONFIG += c++17
 
 # Select the graphics backend by uncommenting it.
 # - GL graphics requires the GLUT and GLEW libraries.
