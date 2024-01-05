@@ -19,8 +19,8 @@ hoomd: $(HOOMD_LIB)
 # Build with venv enabled, hoomd will pick it up and install into it later
 $(HOOMD_LIB):
 	python3 hoomd-blue/install-prereq-headers.py -y
-	mkdir -p build
-	cmake -B build/hoomd -S hoomd-blue -DBUILD_TESTING=OFF $(HOOMD_BUILD_OPTIONS)
+	mkdir -p build/hoomd
+	cd build/hoomd && cmake ../../hoomd-blue -DBUILD_TESTING=OFF $(HOOMD_BUILD_OPTIONS)
 	cmake --build build/hoomd -j $(HOOMD_CORES)
 
 # Build with venv enabled to install dependencies correctly
