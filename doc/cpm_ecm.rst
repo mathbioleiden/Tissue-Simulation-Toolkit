@@ -624,6 +624,23 @@ the remaining M-2 cores for the ECM simulation. If you are running on GPU
 (see below), then you need to set N equal to the number of GPUs you are using,
 as hoomd is designed to use one MPI process per GPU.
 
+If you're getting a message
+
+.. code-block::
+
+    RuntimeError: Error registering instance: An instance with name simulate_ecm was already registered. Did you start a non-MPI component using mpirun?
+
+
+then you probably somehow ended up with a virtual environment without ``mpi4py``
+installed. You can use
+
+.. code-block:: bash
+
+    $ make mpi4py
+
+
+in the ``Tissue-Simulation-Toolkit`` directory to resolve this.
+
 
 ECM with GPU support
 ''''''''''''''''''''
