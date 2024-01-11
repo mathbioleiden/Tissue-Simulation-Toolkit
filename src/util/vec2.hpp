@@ -39,8 +39,8 @@ struct Vec2 {
     /* Copying, moving and assignment as per defaults. */
     Vec2(Vec2 const &) = default;
     Vec2(Vec2 &&) = default;
-    constexpr Vec2 & operator=(Vec2 const &) = default;
-    constexpr Vec2 & operator=(Vec2 &&) = default;
+    Vec2 & operator=(Vec2 const &) = default;
+    Vec2 & operator=(Vec2 &&) = default;
 
     /** Return the length (L2 norm).
      *
