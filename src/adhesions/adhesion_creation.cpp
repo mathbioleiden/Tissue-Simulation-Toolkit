@@ -41,7 +41,7 @@ std::vector<PixelPos> adhesion_zone(CellularPotts const & ca) {
             PixelPos pixel(x, y);
 
             int cur_cell = ca.Sigma(x, y);
-            if (cur_cell != 0) {
+            if (cur_cell > 0) {
                 for (PixelDisplacement nb : neighbors) {
                     PixelPos np = pixel + nb;
                     if (
