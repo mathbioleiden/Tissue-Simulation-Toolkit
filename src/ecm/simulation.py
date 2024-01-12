@@ -201,7 +201,7 @@ class Simulation:
         self._sim.operations.integrator = self._integrator
        
         filter_updater = hoomd.update.FilterUpdater(
-             trigger=1, #par.md_its,
+             trigger=1, # Periodic, might also work with par.md_its but that should be tested.
              filters=[free_only]
          )
         self._sim.operations.updaters.append(filter_updater) 
