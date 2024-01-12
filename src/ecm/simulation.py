@@ -199,6 +199,13 @@ class Simulation:
         integration_method.gamma['free'] = par.viscosity
         self._integrator.methods.append(integration_method)
         self._sim.operations.integrator = self._integrator
+       
+        filter_updater = hoomd.update.FilterUpdater(
+             trigger=1, #par.md_its,
+             filters=[free_only]
+         )
+        self._sim.operations.updaters.append(filter_updater) 
+
 
         self._dt = par.md_dt
         self._its = par.md_its
