@@ -89,6 +89,10 @@ class Network:
         num_total_particles = par.strands*par.beads
         num_fibers          = par.strands
         particles_per_fiber = par.beads
+        seed = par.network_seed
+        
+        np.random.seed(seed)
+
 
         # The particles are seeded in a slightly larger area than the simulation box.
         # This prevents low fiber concentration at the edges.
