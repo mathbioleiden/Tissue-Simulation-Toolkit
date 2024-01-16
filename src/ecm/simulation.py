@@ -438,18 +438,19 @@ class Simulation:
         potential_changes = [par_id for l in all_potential_changes for par_id in l]
 
         if len(potential_changes) < change_type_in_area.num_particles:
-            raise RuntimeError(
+            _logger.warning(
                     'There are not enough particles in the adhesion zone to'
                     ' create the requested number of adhesions. Please increase'
                     ' adhesion_zone_radius, decrease num_initial_adhesions, or'
                     ' provide an ECM with higher particle density.')
+        
 
         # Randomly select the required number of particles
         selected_changes = list()
         if self.device.communicator.rank == 0:
 
             available = len(potential_changes)
-            needed = change_type_in_area.num_particles
+            needed = min(change_type_in_area.num_particles, available)
             while needed > 0:
                 if random() <= needed / available:
                     selected_changes.append(potential_changes[available - 1])

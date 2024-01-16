@@ -47,16 +47,16 @@ def main() -> None:
                     state = sim.get_state()
                     instance.send('state_out', Message(i, data=encode_mdstate(state)))
 
-            boundary = encode_ecm_boundary_state(sim.get_boundary_state())
-            msg = Message(msg.timestamp, data=boundary)
-            instance.send('ecm_boundary_state_out', msg)
-
-            # S
             msg = instance.receive('cell_ecm_interactions_in', default=Message(0.0))
             if msg.data is not None:
                 sim.apply_interactions(decode_cell_ecm_interactions(msg.data))
 
             sim.run()
+                    
+            boundary = encode_ecm_boundary_state(sim.get_boundary_state())
+            msg = Message(msg.timestamp, data=boundary)
+            instance.send('ecm_boundary_state_out', msg)
+
 
         # O_F
         message = Message(msg.timestamp, data=encode_mdstate(sim.get_state()))
