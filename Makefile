@@ -26,7 +26,7 @@ VENV_PKG = venv/lib/$(PYTHON_VERSION)/site-packages
 all: $(MODELS)
 
 .NOTPARALLEL: with_adhesions
-with_adhesions: $(MODELS) bin/adhesions ecm ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl
+with_adhesions: $(MODELS) bin/adhesions ecm ymmsl/focaladhesions.ymmsl ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl bin/focaladhesions
 
 
 # Dependencies

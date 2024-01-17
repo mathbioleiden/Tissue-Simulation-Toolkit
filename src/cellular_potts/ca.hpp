@@ -47,6 +47,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell.hpp"
 #include "adhesion_mover.hpp"
 #include "cell_ecm_interactions.hpp"
+#include "extension_history.hpp"
 
 using namespace std;
 
@@ -460,6 +461,8 @@ protected:
   int **sigma;
   int sizex;
   int sizey;
+public:
+  ExtensionHistory history;
 
 private:
   bool frozen;

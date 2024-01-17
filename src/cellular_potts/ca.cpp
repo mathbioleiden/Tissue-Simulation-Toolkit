@@ -1081,6 +1081,8 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
     if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
       if (par.adhesions_enabled)
         adhesion_mover.commit_move({xp, yp}, {x, y}, adh_disp);
+      if (sigma[xp][yp] != 0)
+        history.add_extension({x, y}, sigma[xp][yp]);
       ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
       for (int j = 1; j <= n_nb; j++){
         xn = nx[j]+x; 
@@ -1118,6 +1120,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
       SumDH+=D_H;     
     }
   } 
+  history.validate(sigma);
   return SumDH;  
 }
 
