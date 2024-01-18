@@ -162,7 +162,7 @@ def decode_cell_ecm_interactions(data: Any) -> CellECMInteractions:
             par_id = maps['par_id'].array,
             new_pos = maps['new_pos'].array)
 
-    rap = data['move_adhesion_particles']
+    rap = data['remove_adhesion_particles']
     remove_adhesion_particles = RemoveAdhesionParticles(par_id = rap['par_id'].array)
 
     return CellECMInteractions(
