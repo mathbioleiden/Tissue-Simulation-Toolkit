@@ -135,3 +135,5 @@ std::tuple<PixelDisplacement, double> select_displacement(
         AdhesionIndex const & index, PixelPos target_pixel,
         std::vector<PixelDisplacement> const & possibilities);
 
+double compute_yielding_penalty(const std::vector<AdhesionWithEnvironment> adh);
+        

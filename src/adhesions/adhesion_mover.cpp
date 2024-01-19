@@ -1,5 +1,6 @@
 #include "adhesion_mover.hpp"
 #include "adhesion_movement.hpp"
+#include <algorithm>
 
 
 AdhesionDisplacements::AdhesionDisplacements()
@@ -38,17 +39,23 @@ double AdhesionMover::move_dh(
                 index_, source_pixel, possible_displacements);
     }
 
-    auto num_target_adhesions = index_.get_adhesions(target_pixel).size();
+    auto adhesions_at_pixel = index_.get_adhesions(target_pixel);
+    auto num_target_adhesions = adhesions_at_pixel.size();
     if (num_target_adhesions > 0) {
-        auto possible_displacements = retraction_displacements(
-                ca_, source_pixel, target_pixel);
-        if (possible_displacements.empty()) {
+        if (par.adhesion_yielding) {
+            target_dh = compute_yielding_penalty(adhesions_at_pixel);
             displacements.target = AdhesionDisplacements::annihilated;
-            target_dh = annihilation_penalty(num_target_adhesions);
-        }
-        else {
-            std::tie(displacements.target, target_dh) = select_displacement(
-                    index_, target_pixel, possible_displacements);
+        } else {
+            auto possible_displacements = retraction_displacements(
+                    ca_, source_pixel, target_pixel);
+            if (possible_displacements.empty()) {
+                displacements.target = AdhesionDisplacements::annihilated;
+                target_dh = annihilation_penalty(num_target_adhesions);
+            }
+            else {
+                std::tie(displacements.target, target_dh) = select_displacement(
+                        index_, target_pixel, possible_displacements);
+            }
         }
     }
 
@@ -87,3 +94,15 @@ void AdhesionMover::update(ECMBoundaryState const & ecm_boundary) {
     index_.rebuild(ecm_boundary);
 }
 
+double compute_yielding_penalty(const std::vector<AdhesionWithEnvironment> adhesions) {
+    Integrin total(0);
+    for (auto const & adh : adhesions) {
+        total += adh.size;     
+    }
+
+    Integrin resisting = std::max(0, total - par.adhesion_integrin_N0);
+    // The 1.0 (with .0) makes the division a division of doubles instead of division of ints.
+    double fraction(resisting / (1.0 + resisting));
+
+    return fraction * par.adhesion_yielding_lambda;
+}

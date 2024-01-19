@@ -80,13 +80,16 @@ struct AdhesionWithEnvironment {
      *
      * @param position Position of the adhesion particle
      */
-    AdhesionWithEnvironment(ParId par_id, ParPos const & position);
+    AdhesionWithEnvironment(ParId par_id, ParPos const & position, Integrin size = 1);
 
     /// Adhesion particle id
     ParId par_id;
 
     /// Adhesion particle position
     ParPos position;
+    
+    /// Number of bound Integrin
+    Integrin size;
 
     /// Bond constraints for this particle
     std::vector<AttachedBond> bonds;

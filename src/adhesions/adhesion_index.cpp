@@ -51,9 +51,10 @@ double AttachedAngleCst::move_dh(ParPos from, ParPos to) const {
 
 
 AdhesionWithEnvironment::AdhesionWithEnvironment(
-        ParId par_id, ParPos const & position)
+        ParId par_id, ParPos const & position, Integrin size)
     : par_id(par_id)
     , position(position)
+    , size(size)
 {}
 
 
@@ -202,6 +203,8 @@ std::vector<AdhesionWithEnvironment> const & AdhesionIndex::get_adhesions(
 
 void AdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {
     if (from == to) return;
+    std::cout << "Moving particles at pixel " << from.x << ',' << from.y
+              << "to" << from.x << ',' << from.y << std::endl;
     auto it = adhesions_by_pixel_.find(from);
     if (it != adhesions_by_pixel_.end()) {
         for (auto & awe: it->second) {
@@ -214,6 +217,7 @@ void AdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {
 }
 
 void AdhesionIndex::remove_adhesions(PixelPos pixel) {
+    std::cout << "Removing particles at pixel " << pixel.x << ',' << pixel.y << std::endl;
     auto it = adhesions_by_pixel_.find(pixel);
     if (it != adhesions_by_pixel_.end()) {
         for (auto & awe: it->second)

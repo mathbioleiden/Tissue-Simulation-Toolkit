@@ -48,6 +48,8 @@ enum class ParticleType {
 };
 
 
+typedef int Integrin;
+
 /** Defines a particle.
  *
  * Particles have a location in a 2D space, and a type.
@@ -67,6 +69,9 @@ struct Particle {
 
     // Particle type
     ParticleType type;
+    
+    /// If the particle is an adhesion, it has a size
+    Integrin size;
 };
 
 

@@ -2,7 +2,7 @@ from tissue_simulation_toolkit.ecm.ecm import (
         AngleCstTypes, AngleCsts, BondTypes, Bonds, MDState, ParticleType,
         Particles)
 from tissue_simulation_toolkit.ecm.cell_ecm_interactions import (
-        CellECMInteractions, ChangeTypeInArea, MoveAdhesionParticles)
+        CellECMInteractions, ChangeTypeInArea, MoveAdhesionParticles,RemoveAdhesionParticles)
 from tissue_simulation_toolkit.ecm.ecm_boundary_state import (
         ECMBoundaryState, SparseParticles, SparseBondTypes, SparseBonds,
         SparseAngleCstTypes, SparseAngleCsts)
@@ -100,6 +100,7 @@ class Boundary:
         if par_ids is None:
             par_ids = snapshot.particles.tag[
                     snapshot.particles.typeid == ParticleType.adhesion.value]
+            print("Adding adhesions with ids: ", par_ids)
 
         new_par_ids = int_array_to_set(np.array(par_ids))
         new_bond_ids = set()
@@ -145,9 +146,10 @@ class Boundary:
             snapshot: State of the simulation
             par_ids: 1D array of ids of the particles to remove
         """
+        self.reinit(snapshot)
         # note: we'll probably need to refcount non-adhesion particles to make
         # this work. See collections.Counter
-        raise NotImplementedError()
+        # raise NotImplementedError()
 
 
 class Simulation:
@@ -402,13 +404,31 @@ class Simulation:
         Args:
             interactions: Description of the desired interactions
         """
+        print("Recieved interactions.")
+        print(f"Asked to change { interactions.change_type_in_area.num_particles } particles")
+        print(f"Asked to move { interactions.move_adhesion_particles.new_pos.shape[0] } particles")
+        print(f"Asked to remove { interactions.remove_adhesion_particles.par_id.shape[0] } particles")
+
         with self._sim.state.cpu_local_snapshot as snapshot:
             self._apply_particle_type_changes(
                     interactions.change_type_in_area, snapshot)
             # TODO: interactions.add_adhesion_particles
             self._apply_adhesion_particle_moves(
                     interactions.move_adhesion_particles, snapshot)
-            # TODO: interactions.remove_adhesion_particles
+            self._apply_adhesion_removal(
+                interactions.remove_adhesion_particles,
+                snapshot
+            )
+    def _apply_adhesion_removal(self,
+            remove_adhesion_particles: RemoveAdhesionParticles, snapshot: LocalSnapshot):
+        print("Removing the following: ")
+        print(remove_adhesion_particles.par_id)
+
+        ids_to_remove = remove_adhesion_particles.par_id
+        indices_to_remove = snapshot.particles.rtag[ids_to_remove]
+        snapshot.particles.typeid[indices_to_remove] = ParticleType.free.value
+
+        self._boundary.remove_adhesions(snapshot, ids_to_remove)
 
     def _apply_particle_type_changes(
             self, change_type_in_area: ChangeTypeInArea, snapshot: LocalSnapshot
