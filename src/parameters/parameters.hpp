@@ -213,6 +213,19 @@ SECTION("Adhesions")
     PARAMETER(int, adhesions_per_pixel_overflow_penalty, 600, \
             "Per-adhesion penalty (in DH units) in case of crowding")
 
+SECTION("Adhesion yielding")    
+
+    PARAMETER(bool, adhesion_yielding, true, \
+            "Whether the cell removes adhesions based on their size." \
+            "If false, the cell tries to move the adhesion around. " \
+            "If true, the cell can remove the adhesion for which some work is required.")
+    
+    PARAMETER(int, adhesion_yielding_lambda, 0, \
+            "The scale for the amount of work required for an adhesion to yield.")
+
+    PARAMETER(int, adhesion_integrin_N0, 50, \
+            "The number of bound integrin for a nascent adhesions")
+
 
 SECTION("Obsolete and unused")
 
