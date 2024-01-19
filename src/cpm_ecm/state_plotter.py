@@ -19,7 +19,6 @@ from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
 _logger = logging.getLogger(__name__)
 
-
 class StatePlotter:
     """Plots the simulation state on the screen or to a PNG."""
     def __init__(self, Lx: float, Ly: float, img_height: int = 480) -> None:
@@ -64,7 +63,8 @@ class StatePlotter:
 
     def draw(
             self, i: int, par_pos: npt.NDArray[np.float64],
-            par_type: npt.NDArray[np.int32], bond_groups: npt.NDArray[np.int32],
+            par_type: npt.NDArray[np.int32], bond_groups: npt.NDArray[np.int32], 
+            bond_types: npt.NDArray[np.int32],
             pde: npt.NDArray[np.float64], cpm: npt.NDArray[np.int32],
             draw: bool = True, save: bool = True, out_dir: Optional[Path] = None
             ) -> None:
@@ -152,7 +152,9 @@ class StatePlotter:
         if self._cpm_contour_fill:
             for c in self._cpm_contour_fill.collections:
                 c.remove()
-
+        
+        if np.sum( cpm[cpm>0] ) == 0:
+            return
         # this skips the contour at the edge, between -1 and 0
         levels = np.array([0.5, np.max(cpm) + 0.5])
         self._cpm_contour_fill = plt.contourf(

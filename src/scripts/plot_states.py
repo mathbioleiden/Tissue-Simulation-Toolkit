@@ -7,6 +7,7 @@ import pickle
 from typing import Optional
 
 from tissue_simulation_toolkit.cpm_ecm.state_plotter import StatePlotter
+from tissue_simulation_toolkit.cpm_ecm.qt_state_plotter import QtStatePlotter
 
 
 def find_data_dir(input_dir_str: str) -> Path:
@@ -30,6 +31,7 @@ def parse_args() -> Namespace:
     parser.add_argument(
             '--image-height', type=int, default=600,
             help='Height of the image in pixels')
+    parser.add_argument("--fast", "-f", action='store_true')
     args = parser.parse_args()
     return args
 
@@ -57,7 +59,10 @@ def main() -> None:
         print(f'mcs: {mcs}')
 
         if plotter is None:
-            plotter = StatePlotter(Lx, Ly, args.image_height)
+            if args.fast:
+                plotter = QtStatePlotter(Lx, Ly, args.image_height)
+            else:
+                plotter = StatePlotter(Lx, Ly, args.image_height)
             set_Lx = Lx
             set_Ly = Ly
         else:
@@ -71,6 +76,7 @@ def main() -> None:
                 particles['positions'].array,
                 particles['types'].array,
                 data['ecm_state']['bonds']['groups'].array,
+                data['ecm_state']['bonds']['types'].array,
                 data['cpm_state']['pde'].array,
                 data['cpm_state']['cpm'].array,
                 draw=False, save=True, out_dir=data_dir)
