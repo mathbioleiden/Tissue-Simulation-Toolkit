@@ -1079,8 +1079,9 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
     D_H = DeltaH(x, y, xp, yp, PDEfield, &adh_disp);
     
     if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
-      if (par.adhesions_enabled)
+      if (par.adhesions_enabled){
         adhesion_mover.commit_move({xp, yp}, {x, y}, adh_disp);
+      }
       if (sigma[xp][yp] != 0)
         history.add_extension({x, y}, sigma[xp][yp]);
       ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
@@ -2750,4 +2751,35 @@ int ** CellularPotts::get_annealed_sigma(int steps){
   tmp_b = sigma;
   sigma = tmp_a;
   return tmp_b;
+}
+
+
+void CellularPotts::GrowFocalAdhesion() {
+  std::unordered_map<int, Vec2<double>> centerOfMasses;
+
+  for (auto & c : *cell) {
+      auto center_x = c.getCenterX(); 
+      auto center_y = c.getCenterY(); 
+      centerOfMasses[c.Sigma()] = {center_x, center_y};
+  }
+  
+  for (int i = 0; i < sizex; i++){
+    for (int j = 0; j < sizey; j++){
+      auto spin = sigma[i][j];
+      if (spin > 0){
+        auto adhs = adhesion_mover.index_.get_adhesions({i,j});
+        if (adhs.size() > 0){
+          Vec2<double> pixel(1.0 * i, 1.0 * j);
+          auto c = (*cell)[spin];
+          Vec2<double> center = {c.getCenterX(), c.getCenterY()};
+
+          auto force = center - pixel;
+          for (auto  & adh : adhs ){
+            adh.size = std::sqrt(force.dot(force));
+            std::cout << "Making FA of size " << adh.size << '\n';
+          }
+        }
+      }
+    }
+  }
 }

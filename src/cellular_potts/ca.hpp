@@ -462,7 +462,9 @@ protected:
   int sizex;
   int sizey;
 public:
+  void GrowFocalAdhesion();
   ExtensionHistory history;
+  AdhesionMover adhesion_mover;
 
 private:
   bool frozen;
@@ -476,7 +478,6 @@ private:
   int zygote_area;
   int thetime;
   int n_nb;
-  AdhesionMover adhesion_mover;
 };
 
 #endif

@@ -27,7 +27,7 @@ _logger = logging.getLogger(__name__)
 # I took this color map as the first 10 values from default.ctb in TST/data.
 # I changed some of the alpha values to make them look nicer.
 _color_map = {
-    'pos': [0,1],
+    'pos': [0,1], # must be between 0 and 1
     'color': [
         [254, 254, 254, 0],
 #        [  0,   0,   0, 150],

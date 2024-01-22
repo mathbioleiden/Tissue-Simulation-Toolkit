@@ -49,7 +49,7 @@ settings:
   Lx: 100.0
   Ly: 100.0
 
-  mcs: 2000
+  mcs: 500
   rseed: -1
 
   make_ecm.fixed_boundary: false
@@ -88,7 +88,7 @@ settings:
   simulate_ecm.md_its: 100
 
   cellular_potts.storage_stride: 1
-  cellular_potts.graphics: true
+  cellular_potts.graphics: false
   cellular_potts.store: false
   cellular_potts.datadir: .
   cellular_potts.colortable: Tissue-Simulation-Toolkit/data/default.ctb
@@ -129,6 +129,11 @@ settings:
   # adhesions
   cellular_potts.adhesions_enabled: true
   cellular_potts.num_initial_adhesions: 50
+  cellular_potts.adhesion_extension_mechanism: "lazy" # needed when adhesion_yielding is true
+
+  cellular_potts.adhesion_yielding: true
+  cellular_potts.adhesion_integrin_N0: 0
+  cellular_potts.adhesion_yielding_lambda: 1000
 
 resources:
   make_ecm:

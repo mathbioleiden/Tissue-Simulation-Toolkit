@@ -113,11 +113,11 @@ class AdhesionMover {
          */
         void update(ECMBoundaryState const & ecm_boundary);
 
+        /// Adhesion index for efficiently calculating work
+        AdhesionIndex index_;
     private:
         /// The CPM grid to work with
         CellularPotts const & ca_;
 
-        /// Adhesion index for efficiently calculating work
-        AdhesionIndex index_;
 };
 
