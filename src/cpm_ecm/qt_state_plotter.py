@@ -172,7 +172,7 @@ class QtStatePlotter:
         
         color = pg.mkColor('blue')
         spi = pg.ScatterPlotItem(frame_x, frame_y, pen=color, brush=color, alpha=0.5,
-                                 size = 2)
+                                 size = 5)
 
         self._plotwidget.addItem(spi)
 

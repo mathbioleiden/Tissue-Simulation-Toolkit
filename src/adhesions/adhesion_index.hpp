@@ -146,6 +146,14 @@ class AdhesionIndex {
          * @param to Pixel to move adhesions to
          */
         void move_adhesions(PixelPos from, PixelPos to);
+        
+        /** Moves a single adhesion to a place
+         * 
+         * Note, the from parameter is needed because of the way adhesion are stored in this class. 
+         * TODO: refactor this.
+         * 
+        */
+        void move_adhesion(ParId who, PixelPos from, ParPos to);
 
         /** Remove adhesions at the given pixel.
          *
@@ -168,6 +176,9 @@ class AdhesionIndex {
          * This clears the recorded adhesion change history.
          */
         void reset_cell_ecm_interactions();
+        
+        const std::unordered_map<
+            PixelPos, std::vector<AdhesionWithEnvironment>> & get_all_adhesions() const;
 
     private:
         // TODO: short string optimisation?

@@ -2753,9 +2753,13 @@ int ** CellularPotts::get_annealed_sigma(int steps){
   return tmp_b;
 }
 
+void CellularPotts::MoveAdhesions() {
+    adhesion_mover.ContractAdhesionInCells(par.adhesion_contraction_force);
+}
+
 
 void CellularPotts::GrowFocalAdhesion() {
-  std::unordered_map<int, Vec2<double>> centerOfMasses;
+/*  std::unordered_map<int, Vec2<double>> centerOfMasses;
 
   for (auto & c : *cell) {
       auto center_x = c.getCenterX(); 
@@ -2782,4 +2786,5 @@ void CellularPotts::GrowFocalAdhesion() {
       }
     }
   }
+  */
 }

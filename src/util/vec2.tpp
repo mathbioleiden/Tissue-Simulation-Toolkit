@@ -75,3 +75,10 @@ std::ostream & operator<<(std::ostream & os, Vec2<Coordinate> v) {
     return os << "(" << v.x << ", " << v.y << ")";
 }
 
+template <typename Coordinate>
+Vec2<Coordinate> operator*(
+        double const & lhs, Vec2<Coordinate> const & rhs
+) {
+    return Vec2<Coordinate>( lhs*rhs.x, lhs*rhs.y );
+}
+

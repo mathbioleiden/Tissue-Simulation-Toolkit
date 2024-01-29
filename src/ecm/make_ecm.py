@@ -1,9 +1,12 @@
-from tissue_simulation_toolkit.ecm.muscle3 import encode_net, from_settings
-from tissue_simulation_toolkit.ecm.network.network import generate_network
+from tissue_simulation_toolkit.ecm.muscle3 import from_settings
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
+from tissue_simulation_toolkit.ecm.ecm import ParticleType
+
+from ecmgen import random_network, Network
+
 
 from libmuscle import Instance, Message
-from libmuscle import KEEPS_NO_STATE_FOR_NEXT_USE   # type: ignore
+from libmuscle import KEEPS_NO_STATE_FOR_NEXT_USE  # type: ignore
 import numpy as np
 from ymmsl import Operator
 
@@ -13,17 +16,97 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+def generate_network(par):
+    return random_network(
+        sizex=par.box_size_x,
+        sizey=par.box_size_y,
+        number_of_beads_per_strand=par.beads,
+        number_of_strands=par.strands,
+        contour_length_of_strand=par.contour_length,
+        crosslink_max_r=par.crosslink_max_r,
+        maximal_number_of_initial_crosslinks=par.num_init_crosslinks,
+        crosslink_bin_size=par.crosslink_bin_size,
+        seed=par.network_seed,
+    )
+
+
+def encode_net_as_dict(par, network: Network):
+    # Decode particles
+    particles_positions = np.array(network.beads_positions, dtype=np.float64)
+    particles_types = []
+    ParticleTypeDict = {
+        i.name: i.value for i in ParticleType
+    }
+    print(ParticleTypeDict)
+    for typ in network.beads_types:
+        if not typ in ParticleTypeDict.keys():
+            raise RuntimeError(f"Particle type {typ} is not known.")
+        particles_types.append(ParticleTypeDict[typ])
+    particles_types = np.array(particles_types, dtype=np.int32)  # type:ignore
+
+    # Decode bonds
+    bonds_groups = np.array(network.bonds_groups, dtype=np.int32)
+    bonds_types = []
+
+    bonds_possible_types = {
+        "polymer": {"id": 0, "r0": par.spring_r0, "k": par.spring_k}
+    }
+    id_counter = 1
+    for typ in network.bonds_types:
+        if typ not in bonds_possible_types.keys():
+            bonds_possible_types[typ] = {
+                "id": id_counter,
+                "r0": network.details_of_bondtypes[typ]["r0"],
+                "k": par.spring_k,
+            }
+            id_counter += 1
+        bonds_types.append(bonds_possible_types[typ]["id"])
+    bonds_types = np.array(bonds_types, dtype=np.int32) # type: ignore
+
+    bonds_r0 = []
+    bonds_k = []
+    for name, value in sorted(
+        bonds_possible_types.items(), key=lambda keyvalue: keyvalue[1]["id"]
+    ):
+        bonds_r0.append(value["r0"])
+        bonds_k.append(value["k"])
+    bonds_r0 = np.array(bonds_r0,dtype=np.float64) # type: ignore
+    bonds_k = np.array(bonds_k,dtype=np.float64) # type: ignore
+
+    return {
+        'particles': {
+            'positions': particles_positions,
+            'types': particles_types
+        },
+        'bond_types': {
+            'r0': bonds_r0,
+            'k': bonds_k,
+        },
+        'bonds': {
+            'groups': bonds_groups,
+            'types': bonds_types
+        },
+        'angle_cst_types': {
+            't0': np.array([par.bend_t0], dtype=np.float64),
+            'k': np.array([par.bend_k], dtype=np.float64),
+        }, 
+        'angle_csts': {
+            'groups': np.array(network.angle_groups, dtype=np.int32),
+            'types': np.array([0] * len(network.angle_groups), dtype=np.int32),
+        }
+    }
+
 def main():
     logging.basicConfig(level=logging.INFO)
-    instance = Instance(
-            {Operator.O_F: ['ecm_out']}, KEEPS_NO_STATE_FOR_NEXT_USE)
+    instance = Instance({Operator.O_F: ["ecm_out"]}, KEEPS_NO_STATE_FOR_NEXT_USE)
 
     while instance.reuse_instance():
         par = from_settings(GenerationParameters, instance)
         net = generate_network(par)
-        instance.send('ecm_out', Message(0.0, data=encode_net(net)))
+        instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par,net)))
+                                        # encode_net(net)))
 
-        _logger.info(f'Generated {len(net.particles_typeid)} particles')
-        _logger.info(f'Generated {len(net.bonds_typeid)} bonds')
-        _logger.info(f'Generated {len(net.angles_typeid)} angle constraints')
-        _logger.info(f'Generated {len(net.crosslink_typeid)} crosslinkers')
+        _logger.info(f"Generated {len(net.beads_positions)} particles")
+        _logger.info(f"Generated {len(net.bonds_groups)} bonds")
+        _logger.info(f"Generated {len(net.angle_groups)} angle constraints")
+        _logger.info(f"Generated {len([x for x in net.bonds_types if x.startswith('cross_')])} crosslinkers")

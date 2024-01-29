@@ -18,7 +18,6 @@ from tissue_simulation_toolkit.ecm.ecm import (
         ParticleType)
 from tissue_simulation_toolkit.ecm.ecm_boundary_state import ECMBoundaryState
 from tissue_simulation_toolkit.ecm.muscle3_mpi_wrapper import Instance
-from tissue_simulation_toolkit.ecm.network.network import Network
 
 
 _logger = logging.getLogger(__name__)
@@ -78,40 +77,6 @@ def encode_mdstate(state: Optional[MDState]) -> Any:
             }
 
 
-def encode_net(net: Network) -> Any:
-    """Encode a Network into a MUSCLE3 message-compatible ECM object
-
-    This does not copy the data, so the Network object passed in must not
-    be changed or the result will change too.
-
-    Args:
-        net: The Network to encode
-    """
-    # This is a hack because the implementation of a limited set of
-    # bond types in Network is a hack. That needs to be refactored,
-    # meanwhile this is what we can do.
-    bond_types_r0 = [net.bonds_r0[0]] + net.possible_r0
-    bond_types_k = [net.bonds_k[0]] + net.possible_k
-    _logger.debug(f'sending bond types r0: {bond_types_r0}')
-    _logger.debug(f'sending bond types k: {bond_types_k}')
-    return {
-            'particles': {
-                'positions': net.pos,
-                'types': net.particles_typeid.astype(np.int32, casting='same_kind')},
-            'bond_types': {
-                'r0': np.array(bond_types_r0, dtype=np.float64),
-                'k': np.array(bond_types_k, dtype=np.float64)
-            },
-            'bonds': {
-                'groups': np.array(net.bonds_group, dtype=np.int32),
-                'types': np.array(net.bonds_typeid, dtype=np.int32)},
-            'angle_cst_types': {
-                't0': np.array(net.angle_types_t0, dtype=np.float64),
-                'k': np.array(net.angle_types_k, dtype=np.float64)},
-            'angle_csts': {
-                'groups': np.array(net.angles_group, dtype=np.int32),
-                'types': np.array(net.angles_typeid, dtype=np.int32)}
-            }
 
 
 def decode_mdstate(data: Any) -> MDState:

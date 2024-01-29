@@ -31,7 +31,8 @@ def parse_args() -> Namespace:
     parser.add_argument(
             '--image-height', type=int, default=600,
             help='Height of the image in pixels')
-    parser.add_argument("--fast", "-f", action='store_true')
+    parser.add_argument("--matplotlib", "-m", action='store_true', default=False)
+    parser.add_argument("--override", "-f", action='store_true', default=False)
     args = parser.parse_args()
     return args
 
@@ -47,7 +48,7 @@ def main() -> None:
     plotter: Optional[StatePlotter] = None
 
     for data_file in files:
-        if data_file.with_suffix('.png').exists():
+        if not args.override and data_file.with_suffix('.png').exists():
             continue
 
         with data_file.open('rb') as f:
@@ -59,10 +60,10 @@ def main() -> None:
         print(f'mcs: {mcs}')
 
         if plotter is None:
-            if args.fast:
-                plotter = QtStatePlotter(Lx, Ly, args.image_height)
-            else:
+            if args.matplotlib:
                 plotter = StatePlotter(Lx, Ly, args.image_height)
+            else:
+                plotter = QtStatePlotter(Lx, Ly, args.image_height)
             set_Lx = Lx
             set_Ly = Ly
         else:

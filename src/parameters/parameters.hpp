@@ -225,6 +225,9 @@ SECTION("Adhesion yielding")
 
     PARAMETER(int, adhesion_integrin_N0, 50, \
             "The number of bound integrin for a nascent adhesions")
+    
+    PARAMETER(double, adhesion_contraction_force, 0.001, \
+            "A constant with which adhesions are pulled inwards")
 
 
 SECTION("Obsolete and unused")

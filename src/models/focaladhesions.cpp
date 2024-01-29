@@ -142,6 +142,13 @@ TIMESTEP {
         
         {
             int total_sum = 0;
+            for (auto const particle : interactions.change_type_in_area.change_area) {
+                total_sum ++;
+            }
+            std::cout << "Sending for the creation of " << total_sum << " fas" << std::endl;
+        }
+        {
+            int total_sum = 0;
             for (auto const particle : interactions.remove_adhesion_particles.par_id) {
                 total_sum ++;
             }
@@ -176,6 +183,7 @@ TIMESTEP {
         }
 
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
+        
 
         std::string err = "Before AmoebaeMove " + std::to_string(i) + '\n';
         if (not ValidateBoundary(*(dish->CPM), ecm_boundary_state, err)) {
@@ -183,9 +191,13 @@ TIMESTEP {
         } else
             std::cout << "OK BEFORE" << std::endl;
         
-        dish->CPM->GrowFocalAdhesion(); 
+        if (par.adhesion_yielding)
+            dish->CPM->GrowFocalAdhesion(); 
 
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
+
+        if (par.adhesion_yielding)
+            dish->CPM->MoveAdhesions();
 
         if (instance->is_connected("state_out")) {
             if (i % instance->get_setting_as<int64_t>("state_output_interval") == 0) {

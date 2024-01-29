@@ -363,7 +363,7 @@ public:
   */
   void GrowAndDivideCells(int growth_rate);
   
-  inline Cell &getCell(int c) {
+  inline Cell &getCell(int c) const {
     return (*cell)[c];
   }
 
@@ -464,7 +464,7 @@ protected:
 public:
   void GrowFocalAdhesion();
   ExtensionHistory history;
-  AdhesionMover adhesion_mover;
+  void MoveAdhesions();
 
 private:
   bool frozen;
@@ -478,6 +478,7 @@ private:
   int zygote_area;
   int thetime;
   int n_nb;
+  AdhesionMover adhesion_mover;
 };
 
 #endif
