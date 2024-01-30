@@ -603,6 +603,7 @@ int CellularPotts::DeltaH(
           - DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x,y) - 
            (*cell)[sxy].TargetLength()) ) ));
   }
+  cout << " total " << DH << '\n';
   return DH;
 }
 
@@ -2759,7 +2760,7 @@ void CellularPotts::MoveAdhesions() {
 
 
 void CellularPotts::GrowFocalAdhesion() {
-/*  std::unordered_map<int, Vec2<double>> centerOfMasses;
+  std::unordered_map<int, Vec2<double>> centerOfMasses;
 
   for (auto & c : *cell) {
       auto center_x = c.getCenterX(); 
@@ -2786,5 +2787,4 @@ void CellularPotts::GrowFocalAdhesion() {
       }
     }
   }
-  */
 }

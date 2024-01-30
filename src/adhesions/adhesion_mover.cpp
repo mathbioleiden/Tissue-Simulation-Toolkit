@@ -80,6 +80,7 @@ double AdhesionMover::move_dh(
         if (par.adhesion_yielding) {
             target_dh = compute_yielding_penalty(adhesions_at_pixel);
             displacements.target = AdhesionDisplacements::annihilated;
+            std::cout << " yielding delta = " << target_dh << ' ';
         } else {
             auto possible_displacements = retraction_displacements(
                 ca_, source_pixel, target_pixel);

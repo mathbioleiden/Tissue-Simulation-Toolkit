@@ -122,5 +122,8 @@ class AdhesionMover {
         /// Adhesion index for efficiently calculating work
         AdhesionIndex index_;
 
+        /// Hack right now, this function gets updated at some poitn 
+        friend CellularPotts;
+
 };
 
