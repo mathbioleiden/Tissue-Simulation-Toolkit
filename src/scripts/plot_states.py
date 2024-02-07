@@ -31,7 +31,7 @@ def parse_args() -> Namespace:
     parser.add_argument(
             '--image-height', type=int, default=600,
             help='Height of the image in pixels')
-    parser.add_argument("--matplotlib", "-m", action='store_true', default=False)
+    parser.add_argument("--matplotlib", action='store_true', default=False)
     parser.add_argument("--override", "-f", action='store_true', default=False)
     args = parser.parse_args()
     return args
@@ -73,7 +73,7 @@ def main() -> None:
         particles = data['ecm_state']['particles']
 
         if 'adh' in data['cpm_state'].keys():
-            adh = data['cpm_state']['adh'],
+            adh, = data['cpm_state']['adh'],
         else:
             adh = None
         plotter.draw(

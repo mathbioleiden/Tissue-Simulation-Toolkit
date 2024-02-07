@@ -65,7 +65,7 @@ class StatePlotter:
             self, i: int, par_pos: npt.NDArray[np.float64],
             par_type: npt.NDArray[np.int32], bond_groups: npt.NDArray[np.int32], 
             bond_types: npt.NDArray[np.int32],
-            pde: npt.NDArray[np.float64], cpm: npt.NDArray[np.int32],
+            pde: npt.NDArray[np.float64], cpm: npt.NDArray[np.int32], ade = None,
             draw: bool = True, save: bool = True, out_dir: Optional[Path] = None
             ) -> None:
         """Update the diagram with new data

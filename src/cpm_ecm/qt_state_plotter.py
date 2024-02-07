@@ -67,8 +67,8 @@ class QtStatePlotter:
         offset = 0.0
 
         self._figsize = (
-            self._image_scale * self._img_width / self._dpi,
-            self._image_scale * self._img_height / self._dpi,
+             self._image_scale*self._img_width / self._dpi,
+             self._image_scale*self._img_height / self._dpi,
         )
 
         self._plotwidget = pg.plot(title="I should put a more descriptive title")
@@ -77,8 +77,8 @@ class QtStatePlotter:
         viewbox.setAspectLocked(lock=True, ratio=1)
         viewbox.setDefaultPadding(padding=0)
 
-        viewbox.setFixedWidth(self._img_width / self._dpi)
-        viewbox.setFixedHeight(self._img_height / self._dpi)
+        viewbox.setFixedWidth(self._figsize[0])
+        viewbox.setFixedHeight(self._figsize[1])
 
         # Disable auto-ranging
         self._plotwidget.enableAutoRange(x=False, y=False)
@@ -89,10 +89,10 @@ class QtStatePlotter:
         self._plotwidget.hideAxis("top")
 
         self._plotwidget.setBackground("white")
-        self._plotwidget.setXRange(-offset, offset + 2 * self._Lx)
+        self._plotwidget.setXRange(-offset*self._image_scale, self._image_scale*(offset + 2 * self._Lx))
 
         # flip y-axis to match TST graphics
-        self._plotwidget.setYRange(-offset, 2 * self._Ly + offset)
+        self._plotwidget.setYRange(-offset*self._image_scale,self._image_scale*( 2 * self._Ly + offset))
         self._plotwidget.invertY()
 
     def draw(
@@ -122,9 +122,9 @@ class QtStatePlotter:
             out_dir: Where to write output, if any
         """
         self._plotwidget.clear()
-        self._draw_ecm(par_pos, par_type, bond_groups, bond_types)
         self._draw_pde(pde)
         self._draw_cpm(cpm)
+        self._draw_ecm(par_pos, par_type, bond_groups, bond_types)
         self._draw_adhesions(par_pos, par_type, adh)
 
         if save:
@@ -193,10 +193,11 @@ class QtStatePlotter:
             ]
 
             colors = [pg.mkColor((255, 255, tension)) for tension in tensions]
-            sizes = [i / 50 for i in integrins]
+            sizes = [self._image_scale*2*i / 50 for i in integrins]
         else:
             colors = "yellow"
-            sizes = 1
+            sizes = self._image_scale*2
+            print("Warning: Not loaded adhesion data")
 
         spi = pg.ScatterPlotItem(
             frame_x, frame_y, pen=colors, brush=colors, alpha=0.5, size=sizes
@@ -210,7 +211,8 @@ class QtStatePlotter:
         Args:
             pde: Concentrations, L x SizeX x SizeY array
         """
-        pass
+        def _pde_color_function(layer: int):
+            return _color_map[-1]
 
     def _draw_cpm(self, cpm: npt.NDArray[np.int32]) -> None:
         """Update the CPM state part of the diagram
@@ -267,7 +269,10 @@ class QtStatePlotter:
 
         image = pg.ImageItem()
         image.setImage(image_data)
-
+        #image.setImage(cpm)
+        image.setRect(0, 0, 800, 800)
+        #image.setRect(0, 0, self._image_scale*2*int(self._Lx), self._image_scale*2*int(self._Ly))
+        
         self._plotwidget.addItem(image)
 
     """
