@@ -12,6 +12,7 @@ ifneq "$(filter $(MAKECMDGOALS),clean)" "clean"
     CATCH2_LIBS := $(shell PKG_CONFIG_PATH=$(PCPATH) pkg-config --libs catch2-with-main)
 
     CXXFLAGS := $(CATCH2_INCLUDES) $(CXXFLAGS) -g
+    CXXFLAGS += -std=c++17
     CXXFLAGS += -I. -I.. -I../.. -I../../graphics -I../../models
     CXXFLAGS += -I../../parameters -I../../plotting -I../../reaction_diffusion
     CXXFLAGS += -I../../util -I../../xpm -I../../compute

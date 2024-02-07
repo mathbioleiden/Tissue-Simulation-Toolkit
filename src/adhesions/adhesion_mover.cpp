@@ -26,14 +26,21 @@ void AdhesionMover::ContractAdhesionInCells(double cell_force) {
 
         auto spin = ca_.Sigma(pos.x, pos.y);
         ParPos cell_center = {ca_.getCell(spin).getCenterX(), ca_.getCell(spin).getCenterY()};
+        
+        cout << "Pos, cell_center =  " << pos << cell_center << '\n';
 
         for (auto const & adh : adhs) {
             auto deltaR = cell_center - adh.position;
             // Use the infinty norm because we want to map the vector
             // to the moore neighbourhood and moore neighbourhood = circle in (R^2, |.|_\infty).
             auto deltaR_norm = std::max(std::abs(deltaR.x), std::abs(deltaR.y));
-            if (deltaR_norm == 0.0)
+
+            std::cout << "||deltaR||^2 = " << deltaR.dot(deltaR)
+                      << " < "  << par.adhesion_maximum_contractile_percentage* par.adhesion_maximum_contractile_percentage * par.target_area/3.14 << '\n';
+            std::cout << par.adhesion_maximum_contractile_percentage << '\n';
+            if ( (deltaR_norm == 0.0) || (deltaR.dot(deltaR) < par.adhesion_maximum_contractile_percentage* par.adhesion_maximum_contractile_percentage * par.target_area/3.14 )) {
                 continue;
+            }
             auto deltaR_normalized = (1.0 / deltaR_norm) * deltaR;
             PixelDisplacement delta(std::round(deltaR_normalized.x), std::round(deltaR_normalized.y));
 
@@ -41,14 +48,18 @@ void AdhesionMover::ContractAdhesionInCells(double cell_force) {
             ParPos new_pos = adh.position + ParPos(delta.x, delta.y);
             std::cout << "delta " << delta
                       << "new_pos " << new_pos
-                      << "pos " << pos << std::endl;
+                      << "pos " << pos << "\n";
 
             if (ca_.Sigma(new_pixel.x, new_pixel.y) == spin) {
                 // Here should be a check on the tension
                 auto new_deltaR = cell_center - new_pos;
+                
                 double delta_energy_ecm = adh.move_dh(delta);
                 double delta_energy_cyto = cell_force * 0.5 * (new_deltaR.dot(new_deltaR) - deltaR.dot(deltaR));
                 double delta_energy = delta_energy_ecm + delta_energy_cyto;
+                std::cout << "delta_cyot = " << delta_energy_cyto
+                          << "\ndelta_ecm = " << adh.move_dh(delta)
+                          << "\ntotal = " << delta_energy;
                 if (delta_energy < 0) {
                     std::cout << "Moving FA from " << pos << " to " << new_pixel << std::endl;
                     index_.move_adhesion(

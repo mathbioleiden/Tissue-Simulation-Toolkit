@@ -52,6 +52,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "profiler.hpp"
 #include "random.hpp"
 #include "util/muscle3/settings.hpp"
+#include "force_calculation.hpp"
 
 using namespace std;
 
@@ -176,14 +177,22 @@ TIMESTEP {
         {
             int total_sum = 0;
             for (auto const particle : ecm_boundary_state.particles) {
-                if (particle.second.type == ParticleType::adhesion)
+                if (particle.second.type == ParticleType::adhesion) {
                     total_sum++;
+                }
             }
             std::cout << "Recieved boundary state with " << total_sum << " fas" << std::endl;
         }
 
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
-        
+
+        {
+            std::cout << "These FA exists: ";
+            for (auto const & fa : dish->CPM->getAdhesions()) {
+                std::cout << '(' << fa.par_id << "," << fa.tension << "," << fa.size << ") ";
+            }
+            std::cout << std::endl;
+        }
 
         std::string err = "Before AmoebaeMove " + std::to_string(i) + '\n';
         if (not ValidateBoundary(*(dish->CPM), ecm_boundary_state, err)) {
@@ -191,13 +200,11 @@ TIMESTEP {
         } else
             std::cout << "OK BEFORE" << std::endl;
         
-        if (par.adhesion_yielding)
-            dish->CPM->GrowFocalAdhesion(); 
-
+        
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
 
         if (par.adhesion_yielding)
-            dish->CPM->MoveAdhesions();
+         dish->CPM->MoveAdhesions();
 
         if (instance->is_connected("state_out")) {
             if (i % instance->get_setting_as<int64_t>("state_output_interval") == 0) {
@@ -217,9 +224,18 @@ TIMESTEP {
                      static_cast<std::size_t>(pde->SizeX()),
                      static_cast<std::size_t>(pde->SizeY())},
                     {"layer", "x", "y"}, StorageOrder::first_adjacent);
+                Data adh_state = Data::dict(); 
+                for (const auto & awe : dish->CPM->getAdhesions()){
+                    adh_state[std::to_string(awe.par_id)] = Data::dict(
+                        "size", awe.size,
+                        "tension", awe.tension
+                    ) ;
+                }
+
                 Data state = Data::dict(
                     "cpm", cpm_state,
-                    "pde", pde_state);
+                    "pde", pde_state,
+                    "adh", adh_state);
                 instance->send("state_out", Message(i, state));
             }
         }

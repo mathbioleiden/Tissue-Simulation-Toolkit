@@ -42,6 +42,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "crash.hpp"
 #include "hull.hpp"
 #include "graph.hpp"
+#include "novikova_storm.hpp"
 
 #define ZYGFILE(Z) <Z.xpm>
 #define XPM(Z) Z ## _xpm
@@ -2759,32 +2760,21 @@ void CellularPotts::MoveAdhesions() {
 }
 
 
-void CellularPotts::GrowFocalAdhesion() {
-  std::unordered_map<int, Vec2<double>> centerOfMasses;
-
-  for (auto & c : *cell) {
-      auto center_x = c.getCenterX(); 
-      auto center_y = c.getCenterY(); 
-      centerOfMasses[c.Sigma()] = {center_x, center_y};
-  }
-  
-  for (int i = 0; i < sizex; i++){
-    for (int j = 0; j < sizey; j++){
-      auto spin = sigma[i][j];
-      if (spin > 0){
-        auto adhs = adhesion_mover.index_.get_adhesions({i,j});
-        if (adhs.size() > 0){
-          Vec2<double> pixel(1.0 * i, 1.0 * j);
-          auto c = (*cell)[spin];
-          Vec2<double> center = {c.getCenterX(), c.getCenterY()};
-
-          auto force = center - pixel;
-          for (auto  & adh : adhs ){
-            adh.size = std::sqrt(force.dot(force));
-            std::cout << "Making FA of size " << adh.size << '\n';
-          }
+vector<AdhesionWithEnvironment> CellularPotts::getAdhesions() {
+  std::vector<AdhesionWithEnvironment> output;  
+  std::vector<ParId> parids;  
+  int count(0); 
+  for (int i=0; i< par.sizex; i++)
+    for (int j=0; j< par.sizey; j++)
+      for (const auto & awe : adhesion_mover.index_.get_adhesions({i,j})){
+        count++;
+        if (std::find(parids.begin(), parids.end(), awe.par_id) == parids.end()){
+          parids.push_back(awe.par_id);
+          output.push_back(awe);
         }
       }
-    }
-  }
+  std::cout << "Got " << count << " adhesions.\n";
+  std::cout << "Got " << output.size() << " unqiue adhesions.\n";
+
+  return output; 
 }

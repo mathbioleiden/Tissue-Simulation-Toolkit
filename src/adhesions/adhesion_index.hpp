@@ -7,6 +7,7 @@
 #include "ecm_boundary_state.hpp"
 #include "ecm_interaction_tracker.hpp"
 #include "vec2.hpp"
+#include "force_calculation.hpp"
 
 #include <unordered_map>
 #include <vector>
@@ -90,6 +91,9 @@ struct AdhesionWithEnvironment {
     
     /// Number of bound Integrin
     Integrin size;
+    
+    /// Tension on adhesion
+    double tension;
 
     /// Bond constraints for this particle
     std::vector<AttachedBond> bonds;
@@ -178,7 +182,9 @@ class AdhesionIndex {
         void reset_cell_ecm_interactions();
         
         const std::unordered_map<
-            PixelPos, std::vector<AdhesionWithEnvironment>> & get_all_adhesions() const;
+            PixelPos, std::vector<AdhesionWithEnvironment>> get_all_adhesions() const;
+        
+        void remove_adhesion(ParId Particle);
 
     private:
         // TODO: short string optimisation?
@@ -191,6 +197,12 @@ class AdhesionIndex {
 
         // Return value for get_adhesions if there are none
         static std::vector<AdhesionWithEnvironment> no_adhesions_;
+        
+        /// Helper function in rebuild(), run before  setting_size.
+        void setting_force_on_adhesions();
+        
+        /// Helper function in rebuild(), run after setting_force.
+        void setting_size_on_adhesions();
 
         // accessor for tests
         friend std::unordered_map<

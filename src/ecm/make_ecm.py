@@ -2,7 +2,7 @@ from tissue_simulation_toolkit.ecm.muscle3 import from_settings
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
 from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
-from ecmgen import random_network, Network
+from ecmgen import random_network, single_strand, Network, single_spring
 
 
 from libmuscle import Instance, Message
@@ -34,9 +34,7 @@ def encode_net_as_dict(par, network: Network):
     # Decode particles
     particles_positions = np.array(network.beads_positions, dtype=np.float64)
     particles_types = []
-    ParticleTypeDict = {
-        i.name: i.value for i in ParticleType
-    }
+    ParticleTypeDict = {i.name: i.value for i in ParticleType}
     print(ParticleTypeDict)
     for typ in network.beads_types:
         if not typ in ParticleTypeDict.keys():
@@ -61,7 +59,7 @@ def encode_net_as_dict(par, network: Network):
             }
             id_counter += 1
         bonds_types.append(bonds_possible_types[typ]["id"])
-    bonds_types = np.array(bonds_types, dtype=np.int32) # type: ignore
+    bonds_types = np.array(bonds_types, dtype=np.int32)  # type: ignore
 
     bonds_r0 = []
     bonds_k = []
@@ -70,31 +68,26 @@ def encode_net_as_dict(par, network: Network):
     ):
         bonds_r0.append(value["r0"])
         bonds_k.append(value["k"])
-    bonds_r0 = np.array(bonds_r0,dtype=np.float64) # type: ignore
-    bonds_k = np.array(bonds_k,dtype=np.float64) # type: ignore
+    bonds_r0 = np.array(bonds_r0, dtype=np.float64)  # type: ignore
+    bonds_k = np.array(bonds_k, dtype=np.float64)  # type: ignore
 
     return {
-        'particles': {
-            'positions': particles_positions,
-            'types': particles_types
+        "particles": {"positions": particles_positions, "types": particles_types},
+        "bond_types": {
+            "r0": bonds_r0,
+            "k": bonds_k,
         },
-        'bond_types': {
-            'r0': bonds_r0,
-            'k': bonds_k,
+        "bonds": {"groups": bonds_groups, "types": bonds_types},
+        "angle_cst_types": {
+            "t0": np.array([par.bend_t0], dtype=np.float64),
+            "k": np.array([par.bend_k], dtype=np.float64),
         },
-        'bonds': {
-            'groups': bonds_groups,
-            'types': bonds_types
+        "angle_csts": {
+            "groups": np.array(network.angle_groups, dtype=np.int32),
+            "types": np.array([0] * len(network.angle_groups), dtype=np.int32),
         },
-        'angle_cst_types': {
-            't0': np.array([par.bend_t0], dtype=np.float64),
-            'k': np.array([par.bend_k], dtype=np.float64),
-        }, 
-        'angle_csts': {
-            'groups': np.array(network.angle_groups, dtype=np.int32),
-            'types': np.array([0] * len(network.angle_groups), dtype=np.int32),
-        }
     }
+
 
 def main():
     logging.basicConfig(level=logging.INFO)
@@ -102,11 +95,40 @@ def main():
 
     while instance.reuse_instance():
         par = from_settings(GenerationParameters, instance)
-        net = generate_network(par)
-        instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par,net)))
-                                        # encode_net(net)))
+        try:
+            nettype = instance.get_setting("network_type", "str")
+        except KeyError:
+            nettype = 'random'
+
+        if nettype == 'single_strand':
+            net = single_strand(
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                start_x=100,
+                start_y=93,
+                angle=0.0,
+                number_of_beads_per_strand=par.beads,
+                contour_length_of_strand=par.contour_length,
+                seed=None,
+            )
+        elif nettype == 'random':
+            net = generate_network(par)        
+        elif nettype == 'single_spring':
+            net = single_spring(
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                number_of_strands=par.strands,
+                number_of_beads_per_strand=par.beads,
+                contour_length_of_strand=(par.beads-1 )* par.spring_r0,
+                seed=None
+            )
+
+        instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par, net)))
+        # encode_net(net)))
 
         _logger.info(f"Generated {len(net.beads_positions)} particles")
         _logger.info(f"Generated {len(net.bonds_groups)} bonds")
         _logger.info(f"Generated {len(net.angle_groups)} angle constraints")
-        _logger.info(f"Generated {len([x for x in net.bonds_types if x.startswith('cross_')])} crosslinkers")
+        _logger.info(
+            f"Generated {len([x for x in net.bonds_types if x.startswith('cross_')])} crosslinkers"
+        )

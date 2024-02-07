@@ -409,6 +409,7 @@ public:
     }
   };
 
+  vector<AdhesionWithEnvironment> getAdhesions();
 private:
   void IndexShuffle(void);
   /** Calculate the work required to make a copy.
@@ -445,6 +446,7 @@ private:
   void CopyProb(double T);
   bool ConnectivityPreservedP(int x, int y);
   bool ConnectivityPreservedPCluster(int x, int y);
+  
 
   // little debugging function to print the site and its neighbourhood
   inline void PrintSite(int x,int y) {

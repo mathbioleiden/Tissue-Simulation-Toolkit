@@ -72,6 +72,10 @@ def main() -> None:
 
         particles = data['ecm_state']['particles']
 
+        if 'adh' in data['cpm_state'].keys():
+            adh = data['cpm_state']['adh'],
+        else:
+            adh = None
         plotter.draw(
                 mcs,
                 particles['positions'].array,
@@ -80,6 +84,7 @@ def main() -> None:
                 data['ecm_state']['bonds']['types'].array,
                 data['cpm_state']['pde'].array,
                 data['cpm_state']['cpm'].array,
+                adh,
                 draw=False, save=True, out_dir=data_dir)
 
 if __name__ == '__main__':

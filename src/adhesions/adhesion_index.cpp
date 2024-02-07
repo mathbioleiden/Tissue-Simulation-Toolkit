@@ -1,5 +1,7 @@
+#include "parameter.hpp"
+extern Parameter par;
 #include "adhesion_index.hpp"
-
+#include "novikova_storm.hpp"
 #include "sqr.hpp"
 
 AttachedBond::AttachedBond(
@@ -125,9 +127,12 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
     // particles' positions here, and keep them, only using the sent
     // positions for adhesions particles we didn't have yet.
     std::unordered_map<ParId, ParPos> adh_par_pos;
+    std::unordered_map<ParId, double> adh_par_size;
     for (auto const& pixel_awes : adhesions_by_pixel_)
-        for (auto const& awe : pixel_awes.second)
+        for (auto const& awe : pixel_awes.second) {
             adh_par_pos[awe.par_id] = awe.position;
+            adh_par_size[awe.par_id] = awe.size;
+        }
 
     auto bonds_for = make_bond_index(ecm_boundary);
     auto angle_csts_for = make_angle_cst_index(ecm_boundary);
@@ -135,13 +140,15 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
     adhesions_by_pixel_.clear();
     for (auto const id_par : ecm_boundary.particles) {
         ParId pid = id_par.first;
-        Particle const& par = id_par.second;
+        Particle const& particle = id_par.second;
 
-        if (par.type == ParticleType::adhesion) {
-            ParPos pos = adh_par_pos.count(pid) ? adh_par_pos[pid] : par.pos;
+        if (particle.type == ParticleType::adhesion) {
+            double size = adh_par_size.count(pid) ? adh_par_size[pid] : par.adhesion_integrin_N0;
+            ParPos pos = adh_par_pos.count(pid) ? adh_par_pos[pid] : particle.pos;
             PixelPos containing_pixel(floor(pos.x), floor(pos.y));
             adhesions_by_pixel_[containing_pixel].emplace_back(pid, pos);
             auto& awe = adhesions_by_pixel_[containing_pixel].back();
+            awe.size = size;
 
             for (BondId bid : bonds_for[pid]) {
                 auto const& bond = ecm_boundary.bonds.at(bid);
@@ -173,6 +180,52 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
             }
         }
     }
+    setting_force_on_adhesions();
+    setting_size_on_adhesions();
+}
+
+void AdhesionIndex::setting_force_on_adhesions() {
+    for (auto& pos_adhesions : adhesions_by_pixel_) {
+        for (auto& awe : pos_adhesions.second) {
+            Force force(0.0, 0.0);
+            for (auto const& bond : awe.bonds) {
+                force += getLinearHarmonicForceOnB(
+                    bond.neighbour,
+                    awe.position,
+                    bond.bond_type.k,
+                    bond.bond_type.r0);
+            }
+            for (auto const& acst : awe.angle_csts) {
+                force += getAngularHarmonicForceOnA(
+                    awe.position,
+                    acst.middle,
+                    acst.far,
+                    acst.angle_cst_type.k,
+                    acst.angle_cst_type.t0);
+            }
+            awe.tension = std::sqrt(force.dot(force));
+            std::cout << "Setting force on " << awe.par_id << " to " << force << " mag = " << awe.tension << '\n';
+        }
+    }
+}
+
+void AdhesionIndex::setting_size_on_adhesions() {
+    NS::Parameter nspar(
+        par.ns_Nt,
+        par.ns_phi_s,
+        par.ns_phi_c,
+        par.ns_d0,
+        par.ns_gamma,
+        par.ns_dt,
+        par.ns_T,
+        par.adhesion_integrin_N0,
+        par.ns_f_star);
+    for (auto& pos_adhesions : adhesions_by_pixel_) {
+        for (auto& awe : pos_adhesions.second) {
+            awe.size = NS::integrate(awe.tension, awe.size, nspar);
+            std::cout << "Setting size on " << awe.par_id << " to " << awe.size << "\n";
+        }
+    }
 }
 
 std::vector<AdhesionWithEnvironment> const& AdhesionIndex::get_adhesions(
@@ -199,17 +252,22 @@ void AdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {
 }
 
 void AdhesionIndex::move_adhesion(ParId who, PixelPos from, ParPos to) {
-    auto adhs = adhesions_by_pixel_[from];
-    PixelPos to_as_pixel(floor(to.x), floor(to.y));
-    for (auto& adh : adhs) {
-        if (adh.par_id == who) {
-            adh.position += to_as_pixel - from;
-            ecm_interaction_tracker_.record_move_particle(adh.par_id, adh.position);
-            adhesions_by_pixel_[to_as_pixel].push_back(adh);
+    auto it = adhesions_by_pixel_.find(from);
+    if (it != adhesions_by_pixel_.end()) {
+        PixelPos to_as_pixel(floor(to.x), floor(to.y));
+        for (auto& adh : it->second) {
+            if (adh.par_id == who) {
+                adh.position += to_as_pixel - from;
+                ecm_interaction_tracker_.record_move_particle(adh.par_id, adh.position);
+                adhesions_by_pixel_[to_as_pixel].push_back(adh);
+            }
         }
     }
 }
 
+void AdhesionIndex::remove_adhesion(ParId particle) {
+    ecm_interaction_tracker_.record_remove_particle(particle);
+}
 void AdhesionIndex::remove_adhesions(PixelPos pixel) {
     std::cout << "Removing particles at pixel " << pixel.x << ',' << pixel.y << std::endl;
     auto it = adhesions_by_pixel_.find(pixel);
@@ -231,7 +289,7 @@ void AdhesionIndex::reset_cell_ecm_interactions() {
 std::vector<AdhesionWithEnvironment> AdhesionIndex::no_adhesions_;
 
 const std::unordered_map<
-    PixelPos, std::vector<AdhesionWithEnvironment>>&
+    PixelPos, std::vector<AdhesionWithEnvironment>>
 AdhesionIndex::get_all_adhesions() const {
     return adhesions_by_pixel_;
 }

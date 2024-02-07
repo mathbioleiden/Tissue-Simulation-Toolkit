@@ -228,6 +228,16 @@ SECTION("Adhesion yielding")
     
     PARAMETER(double, adhesion_contraction_force, 0.001, \
             "A constant with which adhesions are pulled inwards")
+    PARAMETER(double, adhesion_maximum_contractile_percentage, 0.9, " ")
+    
+    PARAMETER(double, ns_Nt, 1000, "max number of integrins in a FA")
+    PARAMETER(double, ns_phi_s, 5.0, "cut off where integrin slip bonds start playing a role")
+    PARAMETER(double, ns_phi_c, 5.0, "from where catch integrin start playing a role")
+    PARAMETER(double, ns_d0, 1.0, "degradation parameter")
+    PARAMETER(double, ns_gamma, 1.0, "binding parameter")
+    PARAMETER(double, ns_f_star, 1, "force scale")
+    PARAMETER(double, ns_dt, 0.001, "FE timestep")
+    PARAMETER(double, ns_T, 0.01, "How long the NS equation is integrated")
 
 
 SECTION("Obsolete and unused")
