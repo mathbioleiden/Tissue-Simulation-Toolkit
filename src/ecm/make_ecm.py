@@ -27,6 +27,7 @@ def generate_network(par):
         maximal_number_of_initial_crosslinks=par.num_init_crosslinks,
         crosslink_bin_size=par.crosslink_bin_size,
         seed=par.network_seed,
+        fix_boundary=par.fixed_boundary,
     )
 
 
@@ -98,9 +99,9 @@ def main():
         try:
             nettype = instance.get_setting("network_type", "str")
         except KeyError:
-            nettype = 'random'
+            nettype = "random"
 
-        if nettype == 'single_strand':
+        if nettype == "single_strand":
             net = single_strand(
                 sizex=par.box_size_x,
                 sizey=par.box_size_y,
@@ -111,16 +112,16 @@ def main():
                 contour_length_of_strand=par.contour_length,
                 seed=None,
             )
-        elif nettype == 'random':
-            net = generate_network(par)        
-        elif nettype == 'single_spring':
+        elif nettype == "random":
+            net = generate_network(par)
+        elif nettype == "single_spring":
             net = single_spring(
                 sizex=par.box_size_x,
                 sizey=par.box_size_y,
                 number_of_strands=par.strands,
                 number_of_beads_per_strand=par.beads,
-                contour_length_of_strand=(par.beads-1 )* par.spring_r0,
-                seed=None
+                contour_length_of_strand=(par.beads - 1) * par.spring_r0,
+                seed=None,
             )
 
         instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par, net)))
