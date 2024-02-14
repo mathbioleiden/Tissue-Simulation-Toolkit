@@ -1,4 +1,5 @@
 #include "novikova_storm.hpp"
+#include <cmath>
 
 #include <iostream>
 
