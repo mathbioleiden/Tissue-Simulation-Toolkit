@@ -1,4 +1,5 @@
 #include "extension_history.hpp"
+#include <algorithm>
 
 void ExtensionHistory::add_extension(PixelPos pixel, int spin)
 {
