@@ -48,6 +48,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "adhesion_mover.hpp"
 #include "cell_ecm_interactions.hpp"
 #include "extension_history.hpp"
+#include "act.hpp"
 
 using namespace std;
 
@@ -107,6 +108,7 @@ public:
 class CellularPotts {
 
   friend class Info;
+  friend class Plotter;
   friend class Morphometry;
     
 public:
@@ -481,6 +483,7 @@ private:
   int thetime;
   int n_nb;
   AdhesionMover adhesion_mover;
+  ACT::ActField act_field;
 };
 
 #endif

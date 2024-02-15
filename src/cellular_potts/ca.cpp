@@ -604,6 +604,13 @@ int CellularPotts::DeltaH(
           - DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x,y) - 
            (*cell)[sxy].TargetLength()) ) ));
   }
+  
+  if (par.lambda_Act > 0) {
+    auto DH_act = ACT::DeltaH(act_field, sigma, {xp, yp}, {x,y});
+    cout << "DH_act = " << DH_act << '\n';
+    DH -= static_cast<int>(DH_act);
+  }
+
   cout << " total " << DH << '\n';
   return DH;
 }
@@ -1084,6 +1091,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
       if (par.adhesions_enabled){
         adhesion_mover.commit_move({xp, yp}, {x, y}, adh_disp);
       }
+      ACT::commit_move(act_field, sigma, {xp,yp}, {x,y});
       if (sigma[xp][yp] != 0)
         history.add_extension({x, y}, sigma[xp][yp]);
       ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
@@ -1124,6 +1132,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
     }
   } 
   history.validate(sigma);
+  act_field.Decrease();
   return SumDH;  
 }
 
