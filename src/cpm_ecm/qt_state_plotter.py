@@ -33,7 +33,7 @@ _color_map = [
     [254, 254, 254, 0],  # wit
     [0, 0, 0, 254],  # zwart
     [254, 0, 0, 150],  # rood
-    [254, 254, 0, 150],
+    # [254, 254, 0, 150],
     [0, 0, 254, 150],
     [255, 0, 255, 150],
     [0, 255, 255, 150],
@@ -136,7 +136,7 @@ class QtStatePlotter:
         if draw:
             pass
 
-    def _draw_bonds(self, par_pos, bond_groups, color):
+    def _draw_bonds(self, par_pos, bond_groups, color, width=1):
         pos_x = self._image_scale * par_pos[:, 0]
         pos_y = self._image_scale * par_pos[:, 1]
 
@@ -147,7 +147,7 @@ class QtStatePlotter:
 
         path = pg.arrayToQPath(frame_x, frame_y, connect="pairs")
         p = pg.QtWidgets.QGraphicsPathItem(path)
-        p.setPen(pg.mkPen(color))
+        p.setPen(pg.mkPen(color, width=width))
         self._plotwidget.addItem(p)
 
     def _draw_ecm(
@@ -169,7 +169,7 @@ class QtStatePlotter:
         self._draw_bonds(par_pos, polymer_group, "black")
 
         crosslink_group = bond_groups[bond_types > 0]
-        self._draw_bonds(par_pos, crosslink_group, "green")
+        self._draw_bonds(par_pos, crosslink_group, "green", width=3)
 
     def _draw_adhesions(
         self,
@@ -221,7 +221,7 @@ class QtStatePlotter:
             cpm: Cellular Potts state, SizeX x SizeY array
         """
 
-        def _cell_color_function(spin: int) -> int:
+        def _cell_color_function(spin: int):
             """Turns the spin into an index of _color_map.
 
             Should be a function of the type of cell as well, but I don't have acces to this
