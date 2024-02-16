@@ -45,7 +45,14 @@ double ActField::Value(PixelPos pos) const
     return 0.0;
 }
 
-void ActField::SetValue(PixelPos pos, double value) { value_[pos] = value; }
+void ActField::SetValue(PixelPos pos, double value)
+{
+    if (value > 0.0)
+        value_[pos] = value;
+    else{
+        value_.erase(pos);
+    }
+}
 
 void ActField::Decrease()
 {
@@ -68,13 +75,23 @@ double ACT::DeltaH(ActField const &act_field, int **sigma, PixelPos from,
                    PixelPos to)
 {
     double GM_source = GeoMetricMean(act_field, sigma, from);
+    if (sigma[from.x][from.y] == 0 && GM_source >0)
+        throw std::runtime_error("from medium has positive act!!");
+
     double GM_target = GeoMetricMean(act_field, sigma, to);
+    if (sigma[to.x][to.y] == 0 && GM_target >0)
+        throw std::runtime_error("to medium has positive act!!");
+
     return (par.lambda_Act / par.max_Act) * (GM_source - GM_target);
 }
 
 void ACT::commit_move(ActField &act_field, int **sigma, PixelPos from,
                       PixelPos to)
 {
-    if (sigma[to.x][to.y] > 0)
+    if (sigma[from.x][from.y] > 0){
         act_field.SetValue(to, par.max_Act);
+    }
+
+    if (sigma[from.x][from.y] == 0)
+        act_field.SetValue(to, 0);
 }

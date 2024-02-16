@@ -224,9 +224,14 @@ TEST_CASE("Act Model")
         REQUIRE(actin_field.Value({10,10}) == 0.0);
 
         auto values = getValue(actin_field);
-        for (auto x : values) {
-            std::cout << "found = " << x.first << ',' << x.second << '\n';
-        }
+        REQUIRE( values.size() == 0);
+        
+        actin_field.SetValue({20, 10}, 10.0);
+        values = getValue(actin_field);
+        REQUIRE( values.size() == 1);
+
+        actin_field.SetValue({20, 10}, 0.0);
+        values = getValue(actin_field);
         REQUIRE( values.size() == 0);
         
     }

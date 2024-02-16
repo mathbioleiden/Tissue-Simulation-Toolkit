@@ -10,6 +10,7 @@ class Plotter {
     void plotPDEDensity();
     void plotCPMLines();
     void plotPDEContourLines();
+    void plotActModel();
 
     Dish * dish;
     Graphics * graphics;
