@@ -110,7 +110,15 @@ public:
     return ny[i];
   }
 
+
+  /*! \brief Obtain the level of matrix
+  \return Matrix concentration concentration
+  */
   int GetMatrixLevel(int x, int y);
+
+  /*! \brief Obtain the level of act
+  \return Act concentration
+  */
   int GetActLevel(int x, int y);
   std::unordered_set<std::array<int,2>> alivePixels;
   std::unordered_map<std::array<int,2>,int> actPixels;
@@ -123,15 +131,25 @@ public:
   // (necessary for derivation)
   CellularPotts(void);
 
-  void InitializeEdgeList(void); //Set the initial edgelist which are eligible to change
+  /*! \brief Initialises the edgelist at the beginning of a simulation
+   
+  The edgelist keeps track of pairs of lattice points that are eligible to change
+  the CPM configuration. This function initialises the edgelist at the start.
+  */
+  void InitialiseEdgeList(void); 
 
-  // Keyword virtual means, that derived classed (cppvmCellularPotts) can override
-  // this function and carry out the memory allocation in their preferred way
-  // Every time AllocateSigma is called in the base class methods
-  // the function belonging the actual type will be called
+
+  /*! \brief Allocates data for the sigma array
+   
+   Keyword virtual means, that derived classed (cppvmCellularPotts) can override
+   this function and carry out the memory allocation in their preferred way
+   Every time AllocateSigma is called in the base class methods
+   the function belonging the actual type will be called
+  */
   virtual void AllocateSigma(int sx, int sy);
-  
-  virtual void InitializeMatrix(Dish &beast);
+
+  /*! \brief Allocates data for the matrix array*/
+  virtual void AllocateMatrix(Dish &beast);
 
   // destructor must also be virtual
   virtual ~CellularPotts();
@@ -142,7 +160,11 @@ public:
    These distinct tasks have been lumped together in the
    same method because both for drawing the black lines between the
    cells and for searching the neighbours the cell borders have to be
-   determined. */
+   determined. 
+   
+   \return neighborhood array
+   */
+
   int **SearchNandPlot(Graphics *g=0, bool get_neighbours=true);
   
   //! Plot the dish to Graphics window g
@@ -150,23 +172,40 @@ public:
     SearchNandPlot(g, false);
   }
   
-  //! Special plotting for Ising model
+  /*!  \brief Special plotting for Ising model
+  Only plot lines between the two states.
+  */
   void PlotIsing(Graphics *g, int mag);
   
+  /*! \brief Plot the neighbours between cells*/
   void SearchNandPlotClear(Graphics *g=0);
+
+  /*! \brief Obtain the neighbour matrix of cells
+  \return Neighborhood array
+  */
   int **SearchNeighboursMatrix();
 
   //Functions needed for the perimeter constraint
 
+  /*! \brief Get perimeter if new pixel is added
+  \return New perimeter
+  */
   int GetNewPerimeterIfXYWereAdded(int sxyp,int x, int y);
 
+  /*! \brief Get perimeter if pixel is removed
+  \return New perimeter
+  */
   int GetNewPerimeterIfXYWereRemoved(int sxy,int x, int y);
 
+   /*! \brief Set the target perimeter
+  */
   void SetTargetPerimeter(int tau, int value);
 
+  /*! \brief Set the strength of the perimeter constraint
+  */
   void SetLambdaPerimeter(int tau, int value);
 
-  //! Searches the cells' neighbors without plotting
+  //! Searches the cells' neighbours without plotting
   inline int **SearchNeighbours(void) {
     return SearchNandPlot(0, true);
   }
@@ -179,17 +218,20 @@ public:
     }
     return mass;
   }
-    
-  void SetBoundingBox(void);
 
-  /*! Plot the cells according to their cell identity, not their type.
+  /*! \brief Find a bounding box that contains all cells
+  Currently has no output
+  */  
+  void FindBoundingBox(void);
+
+  /*! \brief Plot the cells according to their cell identity, not their type.
   The black lines are omitted.
   */
-    
   void PlotSigma(Graphics *g, int mag=2);
   
   
-  //! Divide all cells.
+  /*! \brief Divide all cells.
+  Divide along cell elongation axis */
   void DivideCells(void) {
     std::vector<bool> tmp;
     DivideCells(tmp);
@@ -209,7 +251,9 @@ public:
   */
   int AmoebaeMove(PDE *PDEfield=0, bool anneal = false);
  
-  
+  /*! Implements the core CPM algorithm including Act dynamics. Carries out one MCS with the edge lsit algorithmAMo.
+    \return Total energy change during MCS.
+  */
   int Act_AmoebaeMove(PDE *PDEfield);
  
 
@@ -228,23 +272,26 @@ public:
     */
   int PottsMove(PDE *PDEfield=0);
   
-  /*! Implements standard large q-Potts model via Neighbor copies.  Carries out one MCS.
+  /*! Implements standard large q-Potts model via Neighbour copies.  Carries out one MCS.
    \return Total energy change during MCS.
    */
-  int PottsNeighborMove(PDE *PDEfield);
+  int PottsNeighbourMove(PDE *PDEfield);
   
   /*! \brief Read initial cell shape from XPM file.
     Reads the initial cell shape from an 
     include xpm picture called "ZYGXPM(ZYGOTE)",
     and it allocates enough cells for it to the Dish */
   void ReadZygotePicture(void);
-
   // Used internally to assign a Cell object to each "blob"
   // "blobs" should already have different indices.
   //
   // (i.e. to start from a binary image you'd probably first want
   // to apply a blob counting algorithm
   
+
+  /*! \brief Construct initial cells
+    Construct the cells from the sigma-field
+  */
   void ConstructInitCells(Dish &beast);
   //void ConstructInitCells(Dish &beast, int tau, int TArea,int TPerimeter);
   //void ConstructInitCells(Dish &beast, int tau, int TArea,int TPerimeter, int AdArea);
@@ -288,21 +335,40 @@ public:
   */
   Dir *FindCellDirections(void) const;
 
-  /*! \brief Initialize the CA plane with n circular cells fitting in
+  /*! \brief Initialise the CA plane with n circular cells fitting in
     a cellsize^2 square.*/
   int ThrowInCells(int n, int cellsize);
 
-  /*! \brief Initialize the CA plane with n cells using an Eden growth algorithm.
-
+  /*! \brief Initialise the subfield in which eden growth takes place.
   \param n: Number of cells.
   \param cellsize: Number of Eden growth iterations.
   \param subfield: Defines a centered frame of size (size/subfield)^2 in which all cell will be positioned. 
   \return Index of last cell inserted.
   */
   int GrowInCells(int n_cells, int cellsize, double subfield=1., int posx=-1, int posy=-1);
+
+  /*! \brief Initialise the CA plane with n cells using an Eden growth algorithm.
+  \param n: Number of cells.
+  \param cell_size: Number of Eden growth iterations.
+  \param sx: x-size of subfield.
+  \param sy: y-size of subfield.
+  \param offset_x: x location for subfield. 
+  \param offset_y: y location for subfield.
+  \return Index of last cell inserted.
+  */
   int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x, int offset_y);
+
+  /*! \brief Initialise cpm field with a random sigma of 0 or 1 of every pixel
+  \param prob: This fraction of pixels will be a medium pixel
+  */
   void RandomSpins(double prob);
     
+  /*! \brief Initialise a square cell
+  \param sig: sigma value of the cell
+  \param cx: x-coordinate of the cell
+  \param cy: y-coordinate of the cell
+  \param size: length of the square cells
+  */
   int SquareCell(int sig, int cx, int cy, int size);
 
   
@@ -357,12 +423,24 @@ public:
   
   /*! Calculate compactness (summed_area/hull_area) of all cells.
     This is a good measure for the density.
+    Function allows a bounding box.
     \return Compactness.
   */
   double Compactness(void);  
+
+  /*! \brief Assign random sigma to every lattice point
+    \par n_cells: total number of cells
+  */
   void RandomSigma(int n_cells);
   
+  /*! \brief Measure the initial cell sizes 
+    Measure cell sizes of all initial size and assign them to the cells
+  */
   void MeasureCellSizes(void);
+
+  /*! \brief Measure the initial cell perimeters
+    Measure cell perimeters of all initial size and assign them to the cells
+  */
   void MeasureCellPerimeters();  
 
   void anneal(int steps);
@@ -373,7 +451,12 @@ public:
     return sigma;
   }
 
+  /*! \brief plot the sigma at (x,y)
+  \return True if cell belongs to medium
+  */
   bool plotPos(int x, int y, Graphics * graphics);
+  /*! \brief plot cell outlines
+  */
   void linePlotPos(int x, int y, Graphics * graphics);
   
   inline void fillCellColArr(int * arr){
@@ -389,28 +472,77 @@ public:
   };
 
 private:
-  void IndexShuffle(void);
+  /*! \brief Standard deltaH with are constraint, length constraint and chemotaxis
+   */
   int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+
+  /*! \brief DeltaH, including act dynamics
+   */
   int Act_DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
 
+  /*! \brief Compute deltaH for Kawasaki dynamics
+   */
   int KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+
+  /*! \brief Compute deltaH for Ising dynamics
+   */
   int IsingDeltaH(int x,int y, PDE *PDEfield=0);
+
+  /*! \brief Compute deltaH for Potts dynamics
+   */
   int PottsDeltaH(int x,int y, int new_state);
-    
-  bool Probability(int DH);
+
+  /*! \brief Change the spin at site (x,y) to the spin at (xp,yp)
+   */  
   void ConvertSpin(int x,int y,int xp,int yp);
+
+  /*! \brief Exhange the spins at (x,y) and (xp,yp)
+  */
   void ExchangeSpin(int x,int y,int xp,int yp);
     
   void SprayMedium(void);
+
+  /*! \brief Compute if a copy attempt should get accepted
+  */
   int CopyvProb(int DH,  double stiff, bool anneal);
+
+  /*! \brief Freeze the CPM configuration
+  */
   void FreezeAmoebae(void);
+
+    /*! \brief Add a new edge to the edge list
+  */
   void AddEdgeToEdgelist(int edge);
+
+  /*! \brief Remove an edge from the edge list
+  */
   void RemoveEdgeFromEdgelist(int edge);
+
+  /*! \brief Find the edge in the other direction for the edge list
+  */
   int CounterEdge(int edge);
+
+  /*! \brief Find the cell size of cell c
+  */
   void MeasureCellSize(Cell &c);
+
+  /*! \brief Compute large deltaH 'on-the-fly'
+  */
   void CopyProb(double T);
+
+  /*! \brief Check if the cell is locally connected at (x,y)
+  From Durand, M., & Guesnet, E. (2016). An efficient Cellular Potts Model algorithm that forbids cell fragmentation. Computer Physics Communications, 208, 54-63.
+  Checks if cell sigma is locally connected at lattice point (x,y) if using LocalConnectedness(x,y,sigma[x][y]) and LocalConnectedness(x,y,sigma[xp][yp] both are true
+  This prevents cell fragementation, as well as holes within a cell.
+  \return Local connectedness of cell s at site (x,y)
+  */
   bool LocalConnectedness(int x, int y, int s);
+
+  /*! \brief Checks if connectivity is preserved if (x,y) would be changed 
+  */
   bool ConnectivityPreservedP(int x, int y);
+  /*! \brief Checks if a cluster of cell would remain conencted if (x,y) would be changed
+  */
   bool ConnectivityPreservedPCluster(int x, int y);
 
   // little debugging function to print the site and its neighbourhood
@@ -422,7 +554,9 @@ private:
   }
 
 protected:
-	void BaseInitialisation(std::vector<Cell> *cell);
+    /*! \brief Initialise CPM class
+    */
+	void BaseInitialization(std::vector<Cell> *cell);
 
 protected:
   int **sigma;
