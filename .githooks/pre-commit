@@ -1,5 +1,3 @@
 #!/bin/sh
-gitdir=$(git rev-parse --show-toplevel)
-git diff --staged --name-only | \
-         grep -E '(hpp|cpp)$' | \
-         xargs clang-format -i -style=file:${gitdir}/.clang_format
+what=$(git diff --staged --name-only |  grep -E '(hpp|cpp)$')
+[ -z "$what" ] || clang-format -i -style=file:${gitdir}/.clang_format $what
