@@ -2,14 +2,13 @@
 #include <chrono>
 #include <vector>
 
-//#define PROFILING_ENABLED
-
 #ifdef PROFILING_ENABLED
 #define PROFILE(a,b) static int a = profiler.new_timer(#a); profiler.start_timer(a); b profiler.stop_timer(a);
+#define PROFILE_PRINT profiler.print_all();
 #else
 #define PROFILE(a,b) b
+#define PROFILE_PRINT 
 #endif
-
 
 struct timer {
   std::string name;
@@ -38,6 +37,6 @@ class Profiler {
     int index;
 };
 
-
+#ifdef PROFILING_ENABLED
 extern Profiler profiler;
- 
+#endif 

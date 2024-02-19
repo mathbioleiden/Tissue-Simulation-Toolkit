@@ -35,6 +35,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "pde.hpp"
 #include "cell.hpp"
 #include "ca.hpp"
+#include "inputoutput.hpp"
 
 namespace ColourMode {
   enum {
@@ -106,6 +107,7 @@ public:
   
   PDE *PDEfield;
   CellularPotts *CPM;
+  IO *io;
 
   // Was used for gradient measurements, not functional now.
   void ClearGrads(void);
@@ -113,8 +115,10 @@ public:
   void MeasureChemConcentrations(void);
     
   //MultiCellDS Functions
-  void ExportMultiCellDS(const char *fname);
-  void ImportMultiCellDS(const char *fname);
+  void ExportMultiCellDS(std::string const & fname);
+  void ImportMultiCellDS(std::string const & fname);
+
+
 
 protected:
   //! Assign a the cell to the current Dish

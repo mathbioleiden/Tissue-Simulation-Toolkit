@@ -1,0 +1,29 @@
+# Run the examples to test whether everything works
+# This is somewhat limited, as it doesn't check whether the results make sense,
+# just that it doesn't crash.
+
+name: Test running an example
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Build TST on the latest Ubuntu
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev
+        cd $GITHUB_WORKSPACE
+        make -j 3
+
+    - name: Run the vessel example
+      run: |
+        cd $GITHUB_WORKSPACE/bin
+        sed -i -e 's/mcs = .*/mcs = 100/' ../data/chemotaxis.par
+        echo 'useopencl = false' >>../data/chemotaxis.par
+        sed -i -e 's/^graphics.*/graphics = false/' ../data/chemotaxis.par
+        ./vessel ../data/chemotaxis.par -platform offscreen

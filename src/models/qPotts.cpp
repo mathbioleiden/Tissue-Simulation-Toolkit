@@ -35,12 +35,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "info.hpp"
 #include "parameter.hpp"
 #include "sqr.hpp"
-
-#ifdef QTGRAPHICS
-#include "qtgraph.hpp"
-#else
-#include "x11graph.hpp"
-#endif
+#include "graph.hpp"
+#include "plotter.hpp"
 
 
 using namespace std;
@@ -69,48 +65,27 @@ INIT {
 }
 
 TIMESTEP { 
- 
   try {
-
     static int i=0;
   
     static Dish *dish=new Dish();
     static Info *info=new Info(*dish, *this);
+    static Plotter * plotter = new Plotter(dish, this);
     
-    //dish->CPM->PottsNeighborMove(dish->PDEfield);
-    dish->CPM->AmoebaeMove(dish->PDEfield);
-    //cerr << "Done\n";
+    dish->CPM->PottsNeighborMove(dish->PDEfield);
+    //dish->CPM->AmoebaeMove(dish->PDEfield);
     if (par.graphics && !(i%par.storage_stride)) {
-      
       //cerr << "Plot " << i << endl;
-      BeginScene();
-      ClearImage();
-      //dish->CPM->PlotSigma(this,2);
-        dish->CPM->Plot(this);
-      //char title[400];
-      //snprintf(title,399,"CellularPotts: %d MCS",i);
-      //ChangeTitle(title);
-      EndScene();
+      plotter->Plot();
       info->Menu();
-        // dish->CPM->SetBoundingBox();
+      // dish->CPM->SetBoundingBox();
     }
-  
     if (par.store && !(i%par.storage_stride)) {
-      char fname[200];
-      sprintf(fname,"%s/extend%07d.png",par.datadir,i);
-    
-      BeginScene();
-      ClearImage();
-      dish->Plot(this);
-      //  dish->CPM->PlotSigma(this,2);
-      
-      EndScene();
-    
+      char fname[200],fname_mcds[200];
+      snprintf(fname,199,"%s/extend%05d.png",par.datadir.c_str(),i);
+      plotter->Plot();
       Write(fname);
-    
-        
     }
-
     i++;
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -119,51 +94,29 @@ TIMESTEP {
   }
 }
 
-int PDE::MapColour(double val) {
+void Plotter::Plot()  {
+  graphics->BeginScene();
+  graphics->ClearImage();
   
+  plotCPMCellTypes();
+  plotCPMLines(); 
+  
+  graphics->EndScene();
+}
+
+int PDE::MapColour(double val) {
   return (((int)((val/((val)+1.))*100))%100)+155;
 }
 
 int main(int argc, char *argv[]) {
-  
-	
-  try {
-
-#ifdef QTGRAPHICS
-    QApplication a(argc, argv);
-#endif
-    // Read parameters
+  extern Parameter par;
+  try {  
     par.Read(argv[1]);
-    
     Seed(par.rseed);
-    
-    //QMainWindow mainwindow w;
-#ifdef QTGRAPHICS
-    QtGraphics g(par.sizex*2,par.sizey*2);
-    //a.setMainWidget( &g );
-    a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
-
-    if (par.graphics)
-      g.show();
-    
-    a.exec();
-#else
-    X11Graphics g(par.sizex*2,par.sizey*2);
-    int t;
-
-    for (t=0;t<par.mcs;t++) {
-
-      g.TimeStep();
-    
-    }
-#endif
-    
+    start_graphics(argc, argv);
   } catch(const char* error) {
-    std::cerr << error << "\n";
-    exit(1);
-  }
-  catch(...) {
-    std::cerr << "An unknown exception was caught\n";
+    std::cerr << error << std::endl;
+    return 1;
   }
   return 0;
 }

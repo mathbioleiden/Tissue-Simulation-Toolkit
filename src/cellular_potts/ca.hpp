@@ -33,20 +33,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <unordered_set>
 #include <unordered_map>
 #include <vector>
-#include "graph.hpp"
-#include "pde.hpp"
-//#include "dish.h"
-#include "cell.hpp"
-
-// MultiCellDS 
-#include <MultiCellDS.hpp>
-#include <MultiCellDS-pimpl.hpp>
-#include <MultiCellDS-simpl.hpp>
 #include <array>
-
 #include <random>
 #include <cstddef>
 #include <functional>
+
+#include "pde.hpp"
+#include "cell.hpp"
 
 using namespace std;
 
@@ -109,6 +102,14 @@ class CellularPotts {
   friend class Morphometry;
     
 public:
+  inline int getNbhx(int i){
+    return nx[i];
+  }
+
+  inline int getNbhy(int i){
+    return ny[i];
+  }
+
   int GetMatrixLevel(int x, int y);
   int GetActLevel(int x, int y);
   std::unordered_set<std::array<int,2>> alivePixels;
@@ -186,10 +187,7 @@ public:
   */
     
   void PlotSigma(Graphics *g, int mag=2);
-  void WriteData(void);
-
-  /*! A simple method to count all sigma's and write the output to an ostream */
-  void CountSigma(std::ostream &os);
+  
   
   //! Divide all cells.
   void DivideCells(void) {
@@ -348,6 +346,10 @@ public:
     return (*cell)[c];
   }
 
+  inline vector<Cell>* getCellArray() {
+    return cell;
+  }
+
   /*! Draw convex hull around all cells.
     \return The area of the convex hull in lattice sites.
   */
@@ -357,9 +359,7 @@ public:
     This is a good measure for the density.
     \return Compactness.
   */
-  double Compactness(double *res_compactness = 0, 
-		     double *res_area = 0, 
-		     double *res_cell_area = 0);
+  double Compactness(void);  
   void RandomSigma(int n_cells);
   
   void MeasureCellSizes(void);
@@ -409,6 +409,7 @@ private:
   int CounterEdge(int edge);
   void MeasureCellSize(Cell &c);
   void CopyProb(double T);
+  bool LocalConnectedness(int x, int y, int s);
   bool ConnectivityPreservedP(int x, int y);
   bool ConnectivityPreservedPCluster(int x, int y);
 

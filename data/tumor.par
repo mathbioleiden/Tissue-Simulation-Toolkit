@@ -20,9 +20,9 @@ periodic_boundaries = false
 
 # PDE parameters
 n_chem = 2
-diff_coeff = 1e-13
-decay_rate = 1.25e-3
-secr_rate = 2.5e-3
+diff_coeff = 1e-13, 0
+decay_rate = 1.25e-3, 0
+secr_rate = 2.5e-3, 0
 saturation = 0.
 dt = 2.
 dx = 2e-6

@@ -1,0 +1,17 @@
+name: Run the unit tests
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Build and run the unit tests
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev
+        cd $GITHUB_WORKSPACE
+        make -j 3 test

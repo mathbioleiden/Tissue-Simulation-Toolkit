@@ -2,26 +2,29 @@
 #include <fstream> 
 #include <sstream>
 #include "cl_manager.hpp"
+#include "parameter.hpp"
 
 CLManager clm = CLManager();
 
 
-CLManager::CLManager() {
-  if (!make_context()){
-    exit(1);
-  } 
-}
-
-
 int CLManager::make_context() {
+  extern Parameter par;
+  int platform = 0;
   std::vector<cl::Platform> all_platforms;
   cl::Platform::get(&all_platforms);
-  if(all_platforms.size() == 0){
+  int num_plat = all_platforms.size();
+  if(num_plat == 0){
     std::cout<<" No platforms found. Check OpenCL installation!" << std::endl;
     return 0;
   }
-  cl::Platform default_platform=all_platforms[0];
-  std::cout << "Using platform: "<< default_platform.getInfo<CL_PLATFORM_NAME>() << std::endl;  
+  std::cout << "num_plat" << num_plat << std::endl;
+  if (par.opencl_pref_platform < num_plat) {
+    platform = par.opencl_pref_platform;
+  } else { 
+    std::cout << "Could not select platform: [" << par.opencl_pref_platform << "]" << std::endl;
+  }
+  cl::Platform default_platform=all_platforms[platform];
+  std::cout << "Using platform: [" << platform << "] "<< default_platform.getInfo<CL_PLATFORM_NAME>() << std::endl;  
 
   std::vector<cl::Device> all_devices;
   default_platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
@@ -39,6 +42,7 @@ int CLManager::make_context() {
 
 
 cl::Program CLManager::make_program(std::string filename, std::string head) {
+  if (!context_prepared) make_context();
   cl::Program::Sources sources;
   std::ifstream inFile;
   inFile.open(filename); 
