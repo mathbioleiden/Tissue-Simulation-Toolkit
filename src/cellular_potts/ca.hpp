@@ -443,7 +443,14 @@ public:
   */
   void MeasureCellPerimeters();  
 
+
+  /*! \brief Run amoebaemove while only accepting negative delta H
+  */
   void anneal(int steps);
+  /*! \brief Find the sigma field after annealing steps
+  \param steps: Number of annealing MCS
+  \return sigma-field after annealing
+  */
   int ** get_annealed_sigma(int steps);
 
   //Return Sigma Array for use on GPU
