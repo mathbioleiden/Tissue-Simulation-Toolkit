@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcl_1_1_image2_d" kind="class" language="C++" prot="public">
+    <compoundname>cl::Image2D</compoundname>
+    <basecompoundref refid="classcl_1_1_image" prot="public" virt="non-virtual">cl::Image</basecompoundref>
+    <derivedcompoundref refid="classcl_1_1_c_l___e_x_t___s_u_f_f_i_x_____v_e_r_s_i_o_n__1__1___d_e_p_r_e_c_a_t_e_d" prot="public" virt="non-virtual">cl::CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED</derivedcompoundref>
+    <includes refid="cl_8hpp" local="no">cl.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcl_1_1_image2_d_1a010917974522103765c29ebcb4b40f58" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Image2D::Image2D</definition>
+        <argsstring>(const Context &amp;context, cl_mem_flags flags, ImageFormat format, ::size_t width, ::size_t height, ::size_t row_pitch=0, void *host_ptr=NULL, cl_int *err=NULL)</argsstring>
+        <name>Image2D</name>
+        <qualifiedname>cl::Image2D::Image2D</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>cl_mem_flags</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type><ref refid="structcl_1_1_image_format" kindref="compound">ImageFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>row_pitch</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>host_ptr</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a 1D <ref refid="classcl_1_1_image" kindref="compound">Image</ref> in a specified context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wraps clCreateImage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="3495" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="3495" bodyend="3546"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_image2_d_1a6ef2c932d8846c4ad7205c5352df687a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Image2D::Image2D</definition>
+        <argsstring>()</argsstring>
+        <name>Image2D</name>
+        <qualifiedname>cl::Image2D::Image2D</qualifiedname>
+        <briefdescription>
+<para>Default constructor - initializes to NULL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="3549" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="3549" bodyend="3549"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_image2_d_1a4275ee4a87732d57e03440cc64fccd84" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>__CL_EXPLICIT_CONSTRUCTORS</type>
+        <definition>__CL_EXPLICIT_CONSTRUCTORS cl::Image2D::Image2D</definition>
+        <argsstring>(const cl_mem &amp;image2D)</argsstring>
+        <name>Image2D</name>
+        <qualifiedname>cl::Image2D::Image2D</qualifiedname>
+        <param>
+          <type>const cl_mem &amp;</type>
+          <declname>image2D</declname>
+        </param>
+        <briefdescription>
+<para>Constructor from cl_mem - takes ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for further details. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="3555" column="30" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="3555" bodyend="3555"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_image2_d_1a9e7a068876d97b608706d26d1715226e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_image2_d" kindref="compound">Image2D</ref> &amp;</type>
+        <definition>Image2D &amp; cl::Image2D::operator=</definition>
+        <argsstring>(const cl_mem &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::Image2D::operator=</qualifiedname>
+        <param>
+          <type>const cl_mem &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Assignment from cl_mem - performs shallow copy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for further details. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="3561" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="3561" bodyend="3564"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_image2_d_1a01f30cbb6b4e74d81de88beb993b3d58" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Image2D::Image2D</definition>
+        <argsstring>(const Image2D &amp;img)</argsstring>
+        <name>Image2D</name>
+        <qualifiedname>cl::Image2D::Image2D</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_image2_d" kindref="compound">Image2D</ref> &amp;</type>
+          <declname>img</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="3569" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="3569" bodyend="3569"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_image2_d_1a93cec62a902cda998fbf1b47fbc497eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_image2_d" kindref="compound">Image2D</ref> &amp;</type>
+        <definition>Image2D &amp; cl::Image2D::operator=</definition>
+        <argsstring>(const Image2D &amp;img)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::Image2D::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_image2_d" kindref="compound">Image2D</ref> &amp;</type>
+          <declname>img</declname>
+        </param>
+        <briefdescription>
+<para>Copy assignment to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="3574" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="3574" bodyend="3577"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Class interface for 2D <ref refid="classcl_1_1_image" kindref="compound">Image</ref> <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> objects. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for details about copy semantics, etc.</para>
+<para><simplesect kind="see"><para><ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>cl::detail::Wrapper&lt; cl_mem &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="5">
+        <label>cl::CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED</label>
+        <link refid="classcl_1_1_c_l___e_x_t___s_u_f_f_i_x_____v_e_r_s_i_o_n__1__1___d_e_p_r_e_c_a_t_e_d"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl::Image</label>
+        <link refid="classcl_1_1_image"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>cl::Image2D</label>
+        <link refid="classcl_1_1_image2_d"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cl::Memory</label>
+        <link refid="classcl_1_1_memory"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>cl::detail::Wrapper&lt; cl_mem &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="2">
+        <label>cl::Image</label>
+        <link refid="classcl_1_1_image"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>cl::Image2D</label>
+        <link refid="classcl_1_1_image2_d"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cl::Memory</label>
+        <link refid="classcl_1_1_memory"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="3489" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="3489" bodyend="3593"/>
+    <listofallmembers>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a83841267bac5ad4411ec8935f78315d8" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>cl_type</name></member>
+      <member refid="classcl_1_1_image_1a7bf98f36e2e0bd8627377cfdfc260259" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>getImageInfo</name></member>
+      <member refid="classcl_1_1_image_1a224a182d9b7efcd8257570796b530b2c" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>getImageInfo</name></member>
+      <member refid="classcl_1_1_memory_1ab86d24b2a4f9a7090148fb8e77d73135" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1_memory_1a8795d4f88a9f16cc4b4a0af07cf4d335" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1_image_1ad9a2f4b6a5ccbb7056613946bc6ee0b7" prot="protected" virt="non-virtual"><scope>cl::Image2D</scope><name>Image</name></member>
+      <member refid="classcl_1_1_image_1abb03618ce14da81b145b72174315ae69" prot="protected" virt="non-virtual"><scope>cl::Image2D</scope><name>Image</name></member>
+      <member refid="classcl_1_1_image_1a263dda8ec8a4a43e98a2dadde1b2ea31" prot="protected" virt="non-virtual"><scope>cl::Image2D</scope><name>Image</name></member>
+      <member refid="classcl_1_1_image2_d_1a010917974522103765c29ebcb4b40f58" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Image2D</name></member>
+      <member refid="classcl_1_1_image2_d_1a6ef2c932d8846c4ad7205c5352df687a" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Image2D</name></member>
+      <member refid="classcl_1_1_image2_d_1a4275ee4a87732d57e03440cc64fccd84" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Image2D</name></member>
+      <member refid="classcl_1_1_image2_d_1a01f30cbb6b4e74d81de88beb993b3d58" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Image2D</name></member>
+      <member refid="classcl_1_1_memory_1a9926612772ae6e016f1118ef4148da22" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Memory</name></member>
+      <member refid="classcl_1_1_memory_1af53ac1080cb1e14cd079bb38680defbc" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Memory</name></member>
+      <member refid="classcl_1_1_memory_1a23691d3d5e70f47538f1cde3741b0367" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Memory</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a1292547dd0c591aa972e25b793481583" prot="protected" virt="non-virtual"><scope>cl::Image2D</scope><name>object_</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a83936d9a0be85837d0d2603bce850b31" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>operator()</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a30993cd6ba246771306e4164ce2202eb" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>operator()</name></member>
+      <member refid="classcl_1_1_image2_d_1a9e7a068876d97b608706d26d1715226e" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_image2_d_1a93cec62a902cda998fbf1b47fbc497eb" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_image_1a9d06b3b8e6b129eb43f6df48ee73a041" prot="protected" virt="non-virtual" ambiguityscope="cl::Image::"><scope>cl::Image2D</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_memory_1a03b06142c52b67a38d70231009e54612" prot="public" virt="non-virtual" ambiguityscope="cl::Memory::"><scope>cl::Image2D</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a49b3fcc3a16d0e2ad3295b3e38fb1bf8" prot="public" virt="non-virtual" ambiguityscope="Wrapper&lt; cl_mem &gt;::"><scope>cl::Image2D</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a207374e201c6c33c01bdc7ee09e92d76" prot="protected" virt="non-virtual"><scope>cl::Image2D</scope><name>release</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1adfdff8a6c98ca62fedc6a9ffced47a06" prot="protected" virt="non-virtual"><scope>cl::Image2D</scope><name>retain</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1aa1b916a75114fe3217018378d5f1eb71" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a514167f4ed7af4cc0ff0002bf082798f" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1af91bafdf8593c34e0d0722cdd93010be" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1aa254b6401dc19abcc7c21d2a664cadf9" prot="public" virt="non-virtual"><scope>cl::Image2D</scope><name>~Wrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,141 @@
+\doxysection{parameter\+\_\+file.\+cpp}
+\hypertarget{parameter__file_8cpp_source}{}\label{parameter__file_8cpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/parameters/parameter\_file.cpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/parameters/parameter\_file.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}parameter\_file.hpp"{}}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cctype>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ std::string\ trim(std::string\ \textcolor{keyword}{const}\ \&s)\ \{}
+\DoxyCodeLine{00012\ \ \ std::size\_t\ i\ =\ 0,\ j\ =\ s.length();}
+\DoxyCodeLine{00013\ \ \ \textcolor{keywordflow}{while}\ (i\ <\ s.length()\ \&\&\ (std::isspace(s[i])\ ||\ std::iscntrl(s[i])))}
+\DoxyCodeLine{00014\ \ \ \ \ ++i;}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordflow}{while}\ (j\ >\ 0\ \&\&\ (std::isspace(s[j\ -\/\ 1])\ ||\ std::iscntrl(s[j\ -\/\ 1])))}
+\DoxyCodeLine{00017\ \ \ \ \ -\/-\/j;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \textcolor{keywordflow}{return}\ s.substr(i,\ j\ -\/\ i);}
+\DoxyCodeLine{00020\ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \}\ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \mbox{\hyperlink{class_parameter_file_a9ddbfc68303bcdf52f8220c731a5b69c}{ParameterFile::ParameterFile}}(std::string\ \textcolor{keyword}{const}\ \&filename)\ \{}
+\DoxyCodeLine{00025\ \ \ std::ifstream\ in\_file(filename);}
+\DoxyCodeLine{00026\ \ \ \textcolor{keywordflow}{if}\ (!in\_file.good())}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Could\ not\ open\ "{}}\ +\ filename\ +}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ for\ reading\ parameters"{}});}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{int}\ lineno\ =\ 0;}
+\DoxyCodeLine{00031\ \ \ \textcolor{keywordflow}{while}\ (in\_file.good())\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ std::string\ \mbox{\hyperlink{structline}{line}};}
+\DoxyCodeLine{00033\ \ \ \ \ std::getline(in\_file,\ \mbox{\hyperlink{structline}{line}});}
+\DoxyCodeLine{00034\ \ \ \ \ ++lineno;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{structline}{line}}\ =\ trim(\mbox{\hyperlink{structline}{line}});}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structline}{line}}.empty())}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structline}{line}}[0]\ ==\ \textcolor{charliteral}{'\#'})}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ std::size\_t\ mid\ =\ \mbox{\hyperlink{structline}{line}}.find(\textcolor{stringliteral}{"{}="{}});}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{if}\ (mid\ ==\ \mbox{\hyperlink{structline}{line}}.npos)}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Error\ in\ "{}}\ +\ filename\ +\ \textcolor{stringliteral}{"{}\ on\ line\ "{}}\ +}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(lineno)\ +\ \textcolor{stringliteral}{"{}:\(\backslash\)n\ \ \ \ "{}}\ +\ \mbox{\hyperlink{structline}{line}}\ +}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)nNo\ '='\ found,\ and\ this\ line\ is\ not\ a\ comment"{}}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ either\ (use\ \#\ to\ start\ a\ comment)"{}});}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ std::string\ name\ =\ trim(\mbox{\hyperlink{structline}{line}}.substr(0,\ mid));}
+\DoxyCodeLine{00052\ \ \ \ \ std::string\ value\ =\ trim(\mbox{\hyperlink{structline}{line}}.substr(mid\ +\ 1,\ \mbox{\hyperlink{structline}{line}}.npos));}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ entries\_[name]\ =\ value;}
+\DoxyCodeLine{00055\ \ \ \}}
+\DoxyCodeLine{00056\ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_parameter_file_a493dac00c0f19f025a7355bf4a3cb091}{ParameterFile::has}}(std::string\ \textcolor{keyword}{const}\ \&name)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00059\ \ \ \textcolor{keywordflow}{return}\ entries\_.count(name)\ >\ 0;}
+\DoxyCodeLine{00060\ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{template}\ <>\ \textcolor{keywordtype}{bool}\ ParameterFile::get<bool>(std::string\ \textcolor{keyword}{const}\ \&name)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00063\ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ \&value\ =\ entries\_.at(name);}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{stringliteral}{"{}false"{}})}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00066\ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{stringliteral}{"{}true"{}})}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00068\ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}When\ reading\ parameter\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}:"{}}\ +\ \textcolor{stringliteral}{"{}\ \(\backslash\)"{}"{}}\ +}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ +}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)"{}\ is\ not\ a\ valid\ boolean\ value.\ Please\ use"{}}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \(\backslash\)"{}true\(\backslash\)"{}\ or\ \(\backslash\)"{}false\(\backslash\)"{}"{}});}
+\DoxyCodeLine{00072\ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{template}\ <>\ \textcolor{keywordtype}{double}\ ParameterFile::get<double>(std::string\ \textcolor{keyword}{const}\ \&name)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ \&svalue\ =\ entries\_.at(name);}
+\DoxyCodeLine{00076\ \ \ std::size\_t\ idx;}
+\DoxyCodeLine{00077\ \ \ \textcolor{keywordtype}{double}\ value\ =\ std::stod(svalue,\ \&idx);}
+\DoxyCodeLine{00078\ \ \ \textcolor{keywordflow}{if}\ (idx\ !=\ svalue.length())}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}When\ reading\ parameter\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}:"{}}\ +}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ Extra\ characters\ found\ after\ double\ value:\ "{}}\ +\ svalue);}
+\DoxyCodeLine{00082\ \ \ \textcolor{keywordflow}{return}\ value;}
+\DoxyCodeLine{00083\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{template}\ <>\ \textcolor{keywordtype}{int}\ ParameterFile::get<int>(std::string\ \textcolor{keyword}{const}\ \&name)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00086\ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ \&svalue\ =\ entries\_.at(name);}
+\DoxyCodeLine{00087\ \ \ std::size\_t\ idx;}
+\DoxyCodeLine{00088\ \ \ \textcolor{keywordtype}{int}\ value\ =\ std::stoi(svalue,\ \&idx);}
+\DoxyCodeLine{00089\ \ \ \textcolor{keywordflow}{if}\ (idx\ !=\ svalue.length())}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}When\ reading\ parameter\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}:"{}}\ +}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ Extra\ characters\ found\ after\ int\ value:\ "{}}\ +\ svalue);}
+\DoxyCodeLine{00093\ \ \ \textcolor{keywordflow}{return}\ value;}
+\DoxyCodeLine{00094\ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00097\ std::string\ ParameterFile::get<std::string>(std::string\ \textcolor{keyword}{const}\ \&name)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00098\ \ \ \textcolor{keywordflow}{return}\ entries\_.at(name);}
+\DoxyCodeLine{00099\ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00102\ std::vector<double>}
+\DoxyCodeLine{00103\ ParameterFile::get<std::vector<double>>(std::string\ \textcolor{keyword}{const}\ \&name)\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00104\ \ \ std::string\ svalue\ =\ entries\_.at(name);}
+\DoxyCodeLine{00105\ \ \ std::size\_t\ idx\ =\ 0u;}
+\DoxyCodeLine{00106\ \ \ std::vector<double>\ result;}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ result.emplace\_back(std::stod(svalue,\ \&idx));}
+\DoxyCodeLine{00110\ \ \ \}\ \textcolor{keywordflow}{catch}\ (std::invalid\_argument\ \textcolor{keyword}{const}\ \&e)\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}When\ reading\ parameter\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}:"{}}\ +}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ Expected\ a\ comma-\/separated\ list\ of\ doubles\ but\ got\ "{}}\ +\ svalue);}
+\DoxyCodeLine{00114\ \ \ \}}
+\DoxyCodeLine{00115\ \ \ svalue\ =\ trim(svalue.substr(idx,\ svalue.npos));}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \textcolor{keywordflow}{while}\ (!svalue.empty())\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{if}\ (svalue[0]\ !=\ \textcolor{charliteral}{','})}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}When\ reading\ parameter\ "{}}\ +\ name\ +\ \textcolor{stringliteral}{"{}:"{}}\ +}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ Expected\ a\ comma\ but\ found\ "{}}\ +\ svalue);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ svalue\ =\ trim(svalue.substr(1,\ svalue.npos));}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ result.emplace\_back(std::stod(svalue,\ \&idx));}
+\DoxyCodeLine{00126\ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (std::invalid\_argument\ \textcolor{keyword}{const}\ \&e)\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}When\ reading\ parameter\ "{}}\ +\ name\ +}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}:\ Expected\ a\ double\ value\ but"{}}\ +\ \textcolor{stringliteral}{"{}\ got\ "{}}\ +}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ svalue);}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ svalue\ =\ trim(svalue.substr(idx,\ svalue.npos));}
+\DoxyCodeLine{00133\ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00135\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1_local_space_arg" kind="struct" language="C++" prot="public">
+    <compoundname>cl::LocalSpaceArg</compoundname>
+    <includes refid="cl_8hpp" local="no">cl.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcl_1_1_local_space_arg_1a71bf0871d5858308682f80f98668849e" prot="public" static="no" mutable="no">
+        <type>::size_t</type>
+        <definition>::size_t cl::LocalSpaceArg::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>cl::LocalSpaceArg::size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4256" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Local address wrapper for use with Kernel::setArg. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>cl::LocalSpaceArg</label>
+        <link refid="structcl_1_1_local_space_arg"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>size_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl::size_t&lt; N &gt;</label>
+        <link refid="classcl_1_1size__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4255" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4255" bodyend="4257"/>
+    <listofallmembers>
+      <member refid="structcl_1_1_local_space_arg_1a71bf0871d5858308682f80f98668849e" prot="public" virt="non-virtual"><scope>cl::LocalSpaceArg</scope><name>size_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

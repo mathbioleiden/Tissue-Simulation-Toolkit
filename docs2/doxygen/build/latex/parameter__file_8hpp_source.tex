@@ -1,0 +1,25 @@
+\doxysection{parameter\+\_\+file.\+hpp}
+\hypertarget{parameter__file_8hpp_source}{}\label{parameter__file_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/parameters/parameter\_file.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/parameters/parameter\_file.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_PARAMETER\_FILE\_HPP\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_PARAMETER\_FILE\_HPP\_}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_parameter_file}{ParameterFile}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \mbox{\hyperlink{class_parameter_file}{ParameterFile}}(std::string\ \textcolor{keyword}{const}\ \&filename);}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00020\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_parameter_file_a493dac00c0f19f025a7355bf4a3cb091}{has}}(std::string\ \textcolor{keyword}{const}\ \&name)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00028\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ T\ \mbox{\hyperlink{class_parameter_file_a83e358c013e90125f282f6383386720c}{get}}(std::string\ \textcolor{keyword}{const}\ \&name)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00031\ \ \ std::unordered\_map<std::string,\ std::string>\ entries\_;}
+\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

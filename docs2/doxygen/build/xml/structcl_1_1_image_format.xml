@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1_image_format" kind="struct" language="C++" prot="public">
+    <compoundname>cl::ImageFormat</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">cl_image_format</basecompoundref>
+    <includes refid="cl_8hpp" local="no">cl.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structcl_1_1_image_format_1adf48b6e9dfdfefb7583e20826c3b4a14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::ImageFormat::ImageFormat</definition>
+        <argsstring>()</argsstring>
+        <name>ImageFormat</name>
+        <qualifiedname>cl::ImageFormat::ImageFormat</qualifiedname>
+        <briefdescription>
+<para>Default constructor - performs no initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1839" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1839" bodyend="1839"/>
+      </memberdef>
+      <memberdef kind="function" id="structcl_1_1_image_format_1a039deeaa451a52448014794e7dae30ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::ImageFormat::ImageFormat</definition>
+        <argsstring>(cl_channel_order order, cl_channel_type type)</argsstring>
+        <name>ImageFormat</name>
+        <qualifiedname>cl::ImageFormat::ImageFormat</qualifiedname>
+        <param>
+          <type>cl_channel_order</type>
+          <declname>order</declname>
+        </param>
+        <param>
+          <type>cl_channel_type</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Initializing constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1842" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1842" bodyend="1845"/>
+      </memberdef>
+      <memberdef kind="function" id="structcl_1_1_image_format_1a74296cd49ed08b0521e8b6b26e51608f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structcl_1_1_image_format" kindref="compound">ImageFormat</ref> &amp;</type>
+        <definition>ImageFormat &amp; cl::ImageFormat::operator=</definition>
+        <argsstring>(const ImageFormat &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::ImageFormat::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structcl_1_1_image_format" kindref="compound">ImageFormat</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Assignment operator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1848" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1848" bodyend="1854"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adds constructors and member functions for cl_image_format. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>\stuct <ref refid="structcl_1_1_image_format" kindref="compound">ImageFormat</ref> </para>
+<para><simplesect kind="see"><para>cl_image_format </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>cl::ImageFormat</label>
+        <link refid="structcl_1_1_image_format"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl_image_format</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>cl::ImageFormat</label>
+        <link refid="structcl_1_1_image_format"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl_image_format</label>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1837" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1837" bodyend="1855"/>
+    <listofallmembers>
+      <member refid="structcl_1_1_image_format_1adf48b6e9dfdfefb7583e20826c3b4a14" prot="public" virt="non-virtual"><scope>cl::ImageFormat</scope><name>ImageFormat</name></member>
+      <member refid="structcl_1_1_image_format_1a039deeaa451a52448014794e7dae30ba" prot="public" virt="non-virtual"><scope>cl::ImageFormat</scope><name>ImageFormat</name></member>
+      <member refid="structcl_1_1_image_format_1a74296cd49ed08b0521e8b6b26e51608f" prot="public" virt="non-virtual"><scope>cl::ImageFormat</scope><name>operator=</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

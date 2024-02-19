@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad" kind="struct" language="C++" prot="public">
+    <compoundname>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T0</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1ac58d3f9969cb25d70e04d6af670c1acb" prot="public" static="no">
+        <type><ref refid="classcl_1_1detail_1_1_kernel_functor_global" kindref="compound">detail::KernelFunctorGlobal</ref>&lt; T0, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref>, <ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref> &gt;</type>
+        <definition>typedef detail::KernelFunctorGlobal&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType&gt; cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::FunctorType</definition>
+        <argsstring></argsstring>
+        <name>FunctorType</name>
+        <qualifiedname>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::FunctorType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="7896" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="7896" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1aef998d4ce2deaab42cae1f10468f51da" prot="public" static="no">
+        <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref></type>
+        <definition>typedef Event cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::result_type</definition>
+        <argsstring></argsstring>
+        <name>result_type</name>
+        <qualifiedname>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::result_type</qualifiedname>
+        <briefdescription>
+<para>Return type of the functor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="7913" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="7913" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1a549adc6ed9d95aa14c3bfc83d30686db" prot="public" static="no">
+        <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref></type>
+        <definition>typedef Event cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::type_(const EnqueueArgs &amp;, T0)</definition>
+        <argsstring>(const EnqueueArgs &amp;, T0)</argsstring>
+        <name>type_</name>
+        <qualifiedname>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::type_</qualifiedname>
+        <briefdescription>
+<para>Function signature of kernel functor with no event dependency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="7916" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="7916" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1acd307e2fc2db194f4865655493a399d8" prot="public" static="no" mutable="no">
+        <type><ref refid="classcl_1_1detail_1_1_kernel_functor_global" kindref="compound">FunctorType</ref></type>
+        <definition>FunctorType cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::functor_</definition>
+        <argsstring></argsstring>
+        <name>functor_</name>
+        <qualifiedname>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::functor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="7898" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="7898" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1ae16141ed740a445698ee799b12e44131" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::functionImplementation_</definition>
+        <argsstring>(const FunctorType &amp;functor)</argsstring>
+        <name>functionImplementation_</name>
+        <qualifiedname>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::functionImplementation_</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1detail_1_1_kernel_functor_global" kindref="compound">FunctorType</ref> &amp;</type>
+          <declname>functor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="7900" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="7900" bodyend="7910"/>
+      </memberdef>
+      <memberdef kind="function" id="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1a8bdac772a75ad831419c5ada591b780d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref></type>
+        <definition>Event cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::operator()</definition>
+        <argsstring>(const EnqueueArgs &amp;enqueueArgs, T0 arg0)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structcl_1_1_enqueue_args" kindref="compound">EnqueueArgs</ref> &amp;</type>
+          <declname>enqueueArgs</declname>
+        </param>
+        <param>
+          <type>T0</type>
+          <declname>arg0</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="7918" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="7918" bodyend="7920"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>cl::detail::KernelFunctorGlobal&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</label>
+        <link refid="classcl_1_1detail_1_1_kernel_functor_global"/>
+      </node>
+      <node id="1">
+        <label>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</label>
+        <link refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>functor_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="7884" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="7889" bodyend="7921"/>
+    <listofallmembers>
+      <member refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1ae16141ed740a445698ee799b12e44131" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</scope><name>functionImplementation_</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1acd307e2fc2db194f4865655493a399d8" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</scope><name>functor_</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1ac58d3f9969cb25d70e04d6af670c1acb" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</scope><name>FunctorType</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1a8bdac772a75ad831419c5ada591b780d" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</scope><name>operator()</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1aef998d4ce2deaab42cae1f10468f51da" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</scope><name>result_type</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad_1a549adc6ed9d95aa14c3bfc83d30686db" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</scope><name>type_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,751 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecl" kind="namespace" language="C++">
+    <compoundname>cl</compoundname>
+    <innerclass refid="classcl_1_1_buffer" prot="public">cl::Buffer</innerclass>
+    <innerclass refid="classcl_1_1_buffer_g_l" prot="public">cl::BufferGL</innerclass>
+    <innerclass refid="classcl_1_1_buffer_render_g_l" prot="public">cl::BufferRenderGL</innerclass>
+    <innerclass refid="classcl_1_1_c_l___e_x_t___s_u_f_f_i_x_____v_e_r_s_i_o_n__1__1___d_e_p_r_e_c_a_t_e_d" prot="public">cl::CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED</innerclass>
+    <innerclass refid="classcl_1_1_command_queue" prot="public">cl::CommandQueue</innerclass>
+    <innerclass refid="classcl_1_1_context" prot="public">cl::Context</innerclass>
+    <innerclass refid="classcl_1_1_device" prot="public">cl::Device</innerclass>
+    <innerclass refid="structcl_1_1_enqueue_args" prot="public">cl::EnqueueArgs</innerclass>
+    <innerclass refid="classcl_1_1_event" prot="public">cl::Event</innerclass>
+    <innerclass refid="classcl_1_1_image" prot="public">cl::Image</innerclass>
+    <innerclass refid="classcl_1_1_image2_d" prot="public">cl::Image2D</innerclass>
+    <innerclass refid="classcl_1_1_image3_d" prot="public">cl::Image3D</innerclass>
+    <innerclass refid="classcl_1_1_image3_d_g_l" prot="public">cl::Image3DGL</innerclass>
+    <innerclass refid="structcl_1_1_image_format" prot="public">cl::ImageFormat</innerclass>
+    <innerclass refid="classcl_1_1_kernel" prot="public">cl::Kernel</innerclass>
+    <innerclass refid="structcl_1_1_local_space_arg" prot="public">cl::LocalSpaceArg</innerclass>
+    <innerclass refid="structcl_1_1make__kernel" prot="public">cl::make_kernel</innerclass>
+    <innerclass refid="classcl_1_1_memory" prot="public">cl::Memory</innerclass>
+    <innerclass refid="classcl_1_1_n_d_range" prot="public">cl::NDRange</innerclass>
+    <innerclass refid="classcl_1_1_platform" prot="public">cl::Platform</innerclass>
+    <innerclass refid="classcl_1_1_program" prot="public">cl::Program</innerclass>
+    <innerclass refid="classcl_1_1_sampler" prot="public">cl::Sampler</innerclass>
+    <innerclass refid="classcl_1_1size__t" prot="public">cl::size_t</innerclass>
+    <innernamespace refid="namespacecl_1_1detail">cl::detail</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacecl_1ad3ff55c5fe80ec84842876af323559c7" prot="public" static="no">
+        <type>std::string</type>
+        <definition>typedef std::string cl::STRING_CLASS</definition>
+        <argsstring></argsstring>
+        <name>STRING_CLASS</name>
+        <qualifiedname>cl::STRING_CLASS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CL 1.2 marker and barrier commands </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="464" column="21" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="464" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacecl_1afbb06364f32694f32b6944a3794d8af7" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classcl_1_1_n_d_range" kindref="compound">NDRange</ref></type>
+        <definition>const NDRange cl::NullRange</definition>
+        <argsstring></argsstring>
+        <name>NullRange</name>
+        <qualifiedname>cl::NullRange</qualifiedname>
+        <briefdescription>
+<para>A zero-dimensional range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4252" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4252" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacecl_1aa3b8d552cc65636a82b9f48ca0ebd149" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>static cl_int cl::WaitForEvents</definition>
+        <argsstring>(const VECTOR_CLASS&lt; Event &gt; &amp;events)</argsstring>
+        <name>WaitForEvents</name>
+        <qualifiedname>cl::WaitForEvents</qualifiedname>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Blocks the calling thread until every event specified is complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wraps clWaitForEvents(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2721" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2721" bodyend="2727"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a1197a833cdd6664f206b079f2bebd2eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename IteratorType</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::copy</definition>
+        <argsstring>(IteratorType startIterator, IteratorType endIterator, cl::Buffer &amp;buffer)</argsstring>
+        <name>copy</name>
+        <qualifiedname>cl::copy</qualifiedname>
+        <param>
+          <type>IteratorType</type>
+          <declname>startIterator</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>endIterator</declname>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_buffer" kindref="compound">cl::Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocking copy operation between iterators and a buffer. Host to <ref refid="classcl_1_1_device" kindref="compound">Device</ref>. Uses default command queue. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6029" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6029" bodyend="6037" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" declline="2834" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a05791e9d5da23b21abd6e319fb262c9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename IteratorType</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::copy</definition>
+        <argsstring>(const cl::Buffer &amp;buffer, IteratorType startIterator, IteratorType endIterator)</argsstring>
+        <name>copy</name>
+        <qualifiedname>cl::copy</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">cl::Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>startIterator</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>endIterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocking copy operation between iterators and a buffer. <ref refid="classcl_1_1_device" kindref="compound">Device</ref> to Host. Uses default command queue. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6045" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6045" bodyend="6053" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" declline="2837" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a2f71ed9a316daf59c03c0f3ba62f1bd3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename IteratorType</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::copy</definition>
+        <argsstring>(const CommandQueue &amp;queue, IteratorType startIterator, IteratorType endIterator, cl::Buffer &amp;buffer)</argsstring>
+        <name>copy</name>
+        <qualifiedname>cl::copy</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_command_queue" kindref="compound">CommandQueue</ref> &amp;</type>
+          <declname>queue</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>startIterator</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>endIterator</declname>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_buffer" kindref="compound">cl::Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocking copy operation between iterators and a buffer. Host to <ref refid="classcl_1_1_device" kindref="compound">Device</ref>. Uses specified queue. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6061" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6061" bodyend="6089" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" declline="2840" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a02c4368c6ce7a1a99132eafd5dc96fa9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename IteratorType</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::copy</definition>
+        <argsstring>(const CommandQueue &amp;queue, const cl::Buffer &amp;buffer, IteratorType startIterator, IteratorType endIterator)</argsstring>
+        <name>copy</name>
+        <qualifiedname>cl::copy</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_command_queue" kindref="compound">CommandQueue</ref> &amp;</type>
+          <declname>queue</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">cl::Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>startIterator</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>endIterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocking copy operation between iterators and a buffer. <ref refid="classcl_1_1_device" kindref="compound">Device</ref> to Host. Uses specified queue. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6097" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6097" bodyend="6120" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" declline="2843" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a8c0bd8b2f6874ca5a62e2f25e5116c64" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>CL_EXT_PREFIX__VERSION_1_1_DEPRECATED <ref refid="structcl_1_1_local_space_arg" kindref="compound">LocalSpaceArg</ref></type>
+        <definition>LocalSpaceArg cl::__local</definition>
+        <argsstring>(::size_t size) CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED</argsstring>
+        <name>__local</name>
+        <qualifiedname>cl::__local</qualifiedname>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Helper function for generating <ref refid="structcl_1_1_local_space_arg" kindref="compound">LocalSpaceArg</ref> objects. Deprecated. Replaced with Local. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>__local </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4280" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4280" bodyend="4283" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" declline="4279" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a861d36f255ea512d3aba2c40ce952e44" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structcl_1_1_local_space_arg" kindref="compound">LocalSpaceArg</ref></type>
+        <definition>LocalSpaceArg cl::Local</definition>
+        <argsstring>(::size_t size)</argsstring>
+        <name>Local</name>
+        <qualifiedname>cl::Local</qualifiedname>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Helper function for generating <ref refid="structcl_1_1_local_space_arg" kindref="compound">LocalSpaceArg</ref> objects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Local </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4288" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4288" bodyend="4291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a5610ad7d382b6ab02d9063cfa413ae3c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueReadBuffer</definition>
+        <argsstring>(const Buffer &amp;buffer, cl_bool blocking, ::size_t offset, ::size_t size, void *ptr, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueReadBuffer</name>
+        <qualifiedname>cl::enqueueReadBuffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>cl_bool</type>
+          <declname>blocking</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="5924" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="5924" bodyend="5937"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a1c4a6c7dda08ae8c2aa18366f5fe5981" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueWriteBuffer</definition>
+        <argsstring>(const Buffer &amp;buffer, cl_bool blocking, ::size_t offset, ::size_t size, const void *ptr, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueWriteBuffer</name>
+        <qualifiedname>cl::enqueueWriteBuffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>cl_bool</type>
+          <declname>blocking</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="5939" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="5939" bodyend="5953"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a8f9e888c5887260997de0e3c6f49618b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * cl::enqueueMapBuffer</definition>
+        <argsstring>(const Buffer &amp;buffer, cl_bool blocking, cl_map_flags flags, ::size_t offset, ::size_t size, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL, cl_int *err=NULL)</argsstring>
+        <name>enqueueMapBuffer</name>
+        <qualifiedname>cl::enqueueMapBuffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>cl_bool</type>
+          <declname>blocking</declname>
+        </param>
+        <param>
+          <type>cl_map_flags</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="5955" column="13" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="5955" bodyend="5979"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1abb9786b5faa37a5124a9a8205e0703df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueUnmapMemObject</definition>
+        <argsstring>(const Memory &amp;memory, void *mapped_ptr, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueUnmapMemObject</name>
+        <qualifiedname>cl::enqueueUnmapMemObject</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> &amp;</type>
+          <declname>memory</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>mapped_ptr</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="5981" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="5981" bodyend="6005"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1ab4d3257868ecd7d2387cbb4166a76f95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueCopyBuffer</definition>
+        <argsstring>(const Buffer &amp;src, const Buffer &amp;dst, ::size_t src_offset, ::size_t dst_offset, ::size_t size, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueCopyBuffer</name>
+        <qualifiedname>cl::enqueueCopyBuffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>src_offset</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>dst_offset</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6007" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6007" bodyend="6021"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a168ceb56f757f62477945d72baa5a26b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueReadImage</definition>
+        <argsstring>(const Image &amp;image, cl_bool blocking, const size_t&lt; 3 &gt; &amp;origin, const size_t&lt; 3 &gt; &amp;region, ::size_t row_pitch, ::size_t slice_pitch, void *ptr, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueReadImage</name>
+        <qualifiedname>cl::enqueueReadImage</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_image" kindref="compound">Image</ref> &amp;</type>
+          <declname>image</declname>
+        </param>
+        <param>
+          <type>cl_bool</type>
+          <declname>blocking</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>origin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>row_pitch</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>slice_pitch</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6178" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6178" bodyend="6193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1aa6727a78de7191d6aea6a392031d6a3d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueWriteImage</definition>
+        <argsstring>(const Image &amp;image, cl_bool blocking, const size_t&lt; 3 &gt; &amp;origin, const size_t&lt; 3 &gt; &amp;region, ::size_t row_pitch, ::size_t slice_pitch, void *ptr, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueWriteImage</name>
+        <qualifiedname>cl::enqueueWriteImage</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_image" kindref="compound">Image</ref> &amp;</type>
+          <declname>image</declname>
+        </param>
+        <param>
+          <type>cl_bool</type>
+          <declname>blocking</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>origin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>row_pitch</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>slice_pitch</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6195" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6195" bodyend="6210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a26f3b361603d543c0eee11ebd6c4d344" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueCopyImage</definition>
+        <argsstring>(const Image &amp;src, const Image &amp;dst, const size_t&lt; 3 &gt; &amp;src_origin, const size_t&lt; 3 &gt; &amp;dst_origin, const size_t&lt; 3 &gt; &amp;region, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueCopyImage</name>
+        <qualifiedname>cl::enqueueCopyImage</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_image" kindref="compound">Image</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1_image" kindref="compound">Image</ref> &amp;</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>src_origin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>dst_origin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6212" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6212" bodyend="6227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a824ccdd6e63275c821b0f0447398e2bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueCopyImageToBuffer</definition>
+        <argsstring>(const Image &amp;src, const Buffer &amp;dst, const size_t&lt; 3 &gt; &amp;src_origin, const size_t&lt; 3 &gt; &amp;region, ::size_t dst_offset, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueCopyImageToBuffer</name>
+        <qualifiedname>cl::enqueueCopyImageToBuffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_image" kindref="compound">Image</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>src_origin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>dst_offset</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6229" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6229" bodyend="6244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a6d6df68bd2845b894702c2d21efd90a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::enqueueCopyBufferToImage</definition>
+        <argsstring>(const Buffer &amp;src, const Image &amp;dst, ::size_t src_offset, const size_t&lt; 3 &gt; &amp;dst_origin, const size_t&lt; 3 &gt; &amp;region, const VECTOR_CLASS&lt; Event &gt; *events=NULL, Event *event=NULL)</argsstring>
+        <name>enqueueCopyBufferToImage</name>
+        <qualifiedname>cl::enqueueCopyBufferToImage</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1_image" kindref="compound">Image</ref> &amp;</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>src_offset</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>dst_origin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; 3 &gt; &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_event" kindref="compound">Event</ref> &gt; *</type>
+          <declname>events</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref> *</type>
+          <declname>event</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6246" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6246" bodyend="6261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1aec3275453ec57a74dfa7a34653cfa194" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::flush</definition>
+        <argsstring>(void)</argsstring>
+        <name>flush</name>
+        <qualifiedname>cl::flush</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6263" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6263" bodyend="6272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecl_1a10f66d5f5f17570f71d7cbf467c0930f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::finish</definition>
+        <argsstring>(void)</argsstring>
+        <name>finish</name>
+        <qualifiedname>cl::finish</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6274" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6274" bodyend="6283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The OpenCL C++ bindings are defined within this namespace. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="231" column="1"/>
+  </compounddef>
+</doxygen>

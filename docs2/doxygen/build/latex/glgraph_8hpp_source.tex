@@ -1,0 +1,173 @@
+\doxysection{glgraph.\+hpp}
+\hypertarget{glgraph_8hpp_source}{}\label{glgraph_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/graphics/glgraph.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/graphics/glgraph.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ 1996-\/2006\ Roeland\ Merks}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Tissue\ Simulation\ Toolkit.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ free\ software;\ you\ can\ redistribute}}
+\DoxyCodeLine{00008\ \textcolor{comment}{it\ and/or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public}}
+\DoxyCodeLine{00009\ \textcolor{comment}{License\ as\ published\ by\ the\ Free\ Software\ Foundation;\ either}}
+\DoxyCodeLine{00010\ \textcolor{comment}{version\ 2\ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ distributed\ in\ the\ hope\ that\ it\ will}}
+\DoxyCodeLine{00013\ \textcolor{comment}{be\ useful,\ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied}}
+\DoxyCodeLine{00014\ \textcolor{comment}{warranty\ of\ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{See\ the\ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00018\ \textcolor{comment}{along\ with\ Tissue\ Simulation\ Toolkit;\ if\ not,\ write\ to\ the\ Free}}
+\DoxyCodeLine{00019\ \textcolor{comment}{Software\ Foundation,\ Inc.,\ 51\ Franklin\ St,\ Fifth\ Floor,\ Boston,\ MA}}
+\DoxyCodeLine{00020\ \textcolor{comment}{02110-\/1301\ USA}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}graph.hpp"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <GL/glut.h>}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcolor}{color}}\ \{}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{float}\ r;}
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{float}\ g;}
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{float}\ b;}
+\DoxyCodeLine{00031\ \ \ \textcolor{keywordtype}{float}\ a;}
+\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpoint}{point}}\ \{}
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordtype}{float}\ x;}
+\DoxyCodeLine{00036\ \ \ \textcolor{keywordtype}{float}\ y;}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{float}\ z;}
+\DoxyCodeLine{00038\ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structrect}{rect}}\ \{}
+\DoxyCodeLine{00041\ \ \ \mbox{\hyperlink{structpoint}{point}}\ p1;}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structline}{line}}\ \{}
+\DoxyCodeLine{00045\ \ \ \mbox{\hyperlink{structpoint}{point}}\ p1;}
+\DoxyCodeLine{00046\ \ \ \mbox{\hyperlink{structpoint}{point}}\ p2;}
+\DoxyCodeLine{00047\ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_g_l_graphics}{GLGraphics}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphics}{Graphics}}\ \{}
+\DoxyCodeLine{00050\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00051\ \ \ \mbox{\hyperlink{class_g_l_graphics}{GLGraphics}}(\textcolor{keywordtype}{int}\ xfield,\ \textcolor{keywordtype}{int}\ yfield,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *movie\_file\ =\ 0);}
+\DoxyCodeLine{00052\ \ \ \mbox{\hyperlink{class_g_l_graphics}{GLGraphics}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ xfield,\ \textcolor{keywordtype}{int}\ yfield);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_g_l_graphics}{\string~GLGraphics}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_l_graphics_a9541e472edde3e6277fc2b0b50685718}{BeginScene}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_l_graphics_ac21513e1c744c4a9104b9c21e4801a7d}{EndScene}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_point}{Point}}(\textcolor{keywordtype}{int}\ colour,\ \textcolor{keywordtype}{int}\ i,\ \textcolor{keywordtype}{int}\ j);}
+\DoxyCodeLine{00060\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_l_graphics_ac9112d005bb9b7c1664e55c5a31e07a5}{Line}}(\textcolor{keywordtype}{float}\ x1,\ \textcolor{keywordtype}{float}\ y1,\ \textcolor{keywordtype}{float}\ x2,\ \textcolor{keywordtype}{float}\ y2,\ \textcolor{keywordtype}{int}\ colour);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \textcolor{keywordtype}{void}\ Start();}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ PointAlpha(\textcolor{keywordtype}{int}\ alpha,\ \textcolor{keywordtype}{int}\ i,\ \textcolor{keywordtype}{int}\ j);}
+\DoxyCodeLine{00065\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Rectangle(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{structcolor}{color}},\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00066\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Arrow(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ colour);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{keywordtype}{void}\ DensityPlot(\textcolor{keywordtype}{float}\ *data,\ \textcolor{keywordtype}{int}\ xsize,\ \textcolor{keywordtype}{int}\ ysize,\ \textcolor{keywordtype}{float}\ r,\ \textcolor{keywordtype}{float}\ g,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ b);}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordtype}{void}\ intPlot(\textcolor{keywordtype}{int}\ *data,\ \textcolor{keywordtype}{int}\ xsize,\ \textcolor{keywordtype}{int}\ ysize);}
+\DoxyCodeLine{00071\ \ \ \textcolor{keywordtype}{void}\ cpmLinePlot(\textcolor{keywordtype}{int}\ *data,\ \textcolor{keywordtype}{int}\ xsize,\ \textcolor{keywordtype}{int}\ ysize,\ \textcolor{keywordtype}{float}\ r,\ \textcolor{keywordtype}{float}\ g,\ \textcolor{keywordtype}{float}\ b);}
+\DoxyCodeLine{00072\ \ \ \textcolor{keywordtype}{void}\ contourPlot(\textcolor{keywordtype}{float}\ *data,\ \textcolor{keywordtype}{int}\ xsize,\ \textcolor{keywordtype}{int}\ ysize,\ \textcolor{keywordtype}{float}\ r,\ \textcolor{keywordtype}{float}\ g,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ b);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_g_l_graphics_a1067db869b62942164be5ede9f5c782a}{GetXYCoo}}(\textcolor{keywordtype}{int}\ *X,\ \textcolor{keywordtype}{int}\ *Y);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_g_l_graphics_a62ed9d00b9e17ef6d8b416a5c995f6bd}{XField}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ width;\ \}}
+\DoxyCodeLine{00078\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_g_l_graphics_a57d0cc7fc2f98b7809c1dd81b941c5c3}{YField}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ height;\ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_l_graphics_ac96adad4ba03351550b4ed02c368c14e}{Write}}(\textcolor{keywordtype}{char}\ *fname,\ \textcolor{keywordtype}{int}\ quality\ =\ -\/1);}
+\DoxyCodeLine{00081\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ ClearImage(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Resize(\textcolor{keywordtype}{int}\ xfield,\ \textcolor{keywordtype}{int}\ yfield);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_Paused()\ \{\ paused\ =\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00086\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_unPaused()\ \{\ paused\ =\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_l_graphics_a7398d676c9822821beb28b27a2e2aae8}{TimeStep}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \textcolor{keywordtype}{void}\ TimeStepWrap(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \textcolor{keywordtype}{void}\ SimulationDone(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \textcolor{keywordtype}{void}\ Draw();}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00097\ \ \ \textcolor{keywordtype}{int}\ mouse\_x;}
+\DoxyCodeLine{00098\ \ \ \textcolor{keywordtype}{int}\ mouse\_y;}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \textcolor{keywordtype}{int}\ init\_size\_x;}
+\DoxyCodeLine{00101\ \ \ \textcolor{keywordtype}{int}\ init\_size\_y;}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \textcolor{keywordtype}{int}\ width;}
+\DoxyCodeLine{00104\ \ \ \textcolor{keywordtype}{int}\ height;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \textcolor{keywordtype}{int}\ key;}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \textcolor{keywordtype}{float}\ uniform\_size[3];}
+\DoxyCodeLine{00109\ \ \ \textcolor{keywordtype}{float}\ window\_size[2];}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ GLuint\ VertexArrayID;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ GLuint\ vertexbuffer;}
+\DoxyCodeLine{00114\ \ \ GLuint\ colbuffer;}
+\DoxyCodeLine{00115\ \ \ GLuint\ floatbuffer;}
+\DoxyCodeLine{00116\ \ \ GLuint\ intbuffer;}
+\DoxyCodeLine{00117\ \ \ GLuint\ coltablebuffer;}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ GLint\ basic\_program;}
+\DoxyCodeLine{00120\ \ \ GLint\ squares\_program;}
+\DoxyCodeLine{00121\ \ \ GLint\ densityplot\_program;}
+\DoxyCodeLine{00122\ \ \ GLint\ intplot\_program;}
+\DoxyCodeLine{00123\ \ \ GLint\ cpmlineplot\_program;}
+\DoxyCodeLine{00124\ \ \ GLint\ contourplot\_program;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ GLint\ posAttrib\ =\ 1;}
+\DoxyCodeLine{00127\ \ \ GLint\ uni\_size\ =\ 2;}
+\DoxyCodeLine{00128\ \ \ GLint\ colAttrib\ =\ 3;}
+\DoxyCodeLine{00129\ \ \ GLint\ floatDataAttrib\ =\ 5;}
+\DoxyCodeLine{00130\ \ \ GLint\ windowSizeAttrib\ =\ 6;}
+\DoxyCodeLine{00131\ \ \ GLint\ intDataAttrib\ =\ 7;}
+\DoxyCodeLine{00132\ \ \ GLint\ colTableAttrib\ =\ 8;}
+\DoxyCodeLine{00133\ \ \ GLint\ lineWidthAttrib\ =\ 9;}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \textcolor{keywordtype}{int}\ rect\_pos\ =\ 0;}
+\DoxyCodeLine{00136\ \ \ \mbox{\hyperlink{structrect}{rect}}\ *rects\ =\ 0;}
+\DoxyCodeLine{00137\ \ \ \textcolor{keywordtype}{int}\ rect\_col\_pos\ =\ 0;}
+\DoxyCodeLine{00138\ \ \ \mbox{\hyperlink{structcolor}{color}}\ *rect\_cols\ =\ 0;}
+\DoxyCodeLine{00139\ \ \ \textcolor{keywordtype}{int}\ line\_pos\ =\ 0;}
+\DoxyCodeLine{00140\ \ \ \mbox{\hyperlink{structline}{line}}\ *lines\ =\ 0;}
+\DoxyCodeLine{00141\ \ \ \textcolor{keywordtype}{int}\ line\_col\_pos\ =\ 0;}
+\DoxyCodeLine{00142\ \ \ \mbox{\hyperlink{structcolor}{color}}\ *line\_cols\ =\ 0;}
+\DoxyCodeLine{00143\ \ \ \textcolor{keywordtype}{int}\ point\_pos\ =\ 0;}
+\DoxyCodeLine{00144\ \ \ \mbox{\hyperlink{structpoint}{point}}\ *points\ =\ 0;}
+\DoxyCodeLine{00145\ \ \ \mbox{\hyperlink{structcolor}{color}}\ *point\_cols\ =\ 0;}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \mbox{\hyperlink{structcolor}{color}}\ colors[300];}
+\DoxyCodeLine{00148\ \ \ \textcolor{keywordtype}{int}\ col\_num;}
+\DoxyCodeLine{00149\ \ \ \textcolor{keywordtype}{bool}\ paused\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00150\ \ \ \textcolor{keywordtype}{double}\ mag;}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \textcolor{keywordtype}{void}\ ReadColorTable();}
+\DoxyCodeLine{00153\ \ \ \textcolor{keywordtype}{void}\ SetupBuffers();}
+\DoxyCodeLine{00154\ \ \ \textcolor{keywordtype}{int}\ LinkProgram(GLint\ program);}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \textcolor{keywordtype}{void}\ DrawRects();}
+\DoxyCodeLine{00157\ \ \ \textcolor{keywordtype}{void}\ DrawLines();}
+\DoxyCodeLine{00158\ \ \ \textcolor{keywordtype}{void}\ DrawPoints();}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \textcolor{keywordtype}{void}\ make\_context();}
+\DoxyCodeLine{00161\ \ \ GLuint\ LoadShader(std::string\ filename,\ GLenum\ shader\_type);}
+\DoxyCodeLine{00162\ \ \ \textcolor{keywordtype}{int}\ SetupShaders();}
+\DoxyCodeLine{00163\ \};}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{class_g_l_graphics}{GLGraphics}}\ *graphics\_object;}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ TIMESTEP\ void\ GLGraphics::TimeStep(void)}}
+
+\end{DoxyCode}

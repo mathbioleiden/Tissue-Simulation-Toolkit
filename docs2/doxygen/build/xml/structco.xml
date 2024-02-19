@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structco" kind="struct" language="C++" prot="public">
+    <compoundname>co</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structco_1aa2a442cbad252e0913325d91bdca57e9" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long co::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>co::x</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/x11graph.cpp" line="60" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/x11graph.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structco_1a7b2b62fdcde442d48678336b406cac15" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long co::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>co::y</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/x11graph.cpp" line="61" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/x11graph.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/x11graph.cpp" line="59" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/x11graph.cpp" bodystart="59" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structco_1aa2a442cbad252e0913325d91bdca57e9" prot="public" virt="non-virtual"><scope>co</scope><name>x</name></member>
+      <member refid="structco_1a7b2b62fdcde442d48678336b406cac15" prot="public" virt="non-virtual"><scope>co</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

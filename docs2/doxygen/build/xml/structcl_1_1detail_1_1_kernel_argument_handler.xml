@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1detail_1_1_kernel_argument_handler" kind="struct" language="C++" prot="public">
+    <compoundname>cl::detail::KernelArgumentHandler</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structcl_1_1detail_1_1_kernel_argument_handler_1af00fa9216acedd38b900354a98da021b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>::size_t</type>
+        <definition>::size_t cl::detail::KernelArgumentHandler&lt; T &gt;::size</definition>
+        <argsstring>(const T &amp;)</argsstring>
+        <name>size</name>
+        <qualifiedname>cl::detail::KernelArgumentHandler::size</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4262" column="19" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4262" bodyend="4262"/>
+      </memberdef>
+      <memberdef kind="function" id="structcl_1_1detail_1_1_kernel_argument_handler_1a64db0041b50af9c5de965ddd17fa6804" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T *</type>
+        <definition>static const T * cl::detail::KernelArgumentHandler&lt; T &gt;::ptr</definition>
+        <argsstring>(const T &amp;value)</argsstring>
+        <name>ptr</name>
+        <qualifiedname>cl::detail::KernelArgumentHandler::ptr</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4263" column="18" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4263" bodyend="4263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4261" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4261" bodyend="4264"/>
+    <listofallmembers>
+      <member refid="structcl_1_1detail_1_1_kernel_argument_handler_1a64db0041b50af9c5de965ddd17fa6804" prot="public" virt="non-virtual"><scope>cl::detail::KernelArgumentHandler</scope><name>ptr</name></member>
+      <member refid="structcl_1_1detail_1_1_kernel_argument_handler_1af00fa9216acedd38b900354a98da021b" prot="public" virt="non-virtual"><scope>cl::detail::KernelArgumentHandler</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

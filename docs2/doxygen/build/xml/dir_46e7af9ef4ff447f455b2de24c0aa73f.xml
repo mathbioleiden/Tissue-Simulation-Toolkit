@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_46e7af9ef4ff447f455b2de24c0aa73f" kind="dir">
+    <compoundname>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts</compoundname>
+    <innerdir refid="dir_344f87b0225b3105bcff8f54fb27d7b2">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/tests</innerdir>
+    <innerfile refid="ca_8cpp">ca.cpp</innerfile>
+    <innerfile refid="ca_8hpp">ca.hpp</innerfile>
+    <innerfile refid="cell_8cpp">cell.cpp</innerfile>
+    <innerfile refid="cell_8hpp">cell.hpp</innerfile>
+    <innerfile refid="dish_8cpp">dish.cpp</innerfile>
+    <innerfile refid="dish_8hpp">dish.hpp</innerfile>
+    <innerfile refid="edges_8hpp">edges.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/"/>
+  </compounddef>
+</doxygen>

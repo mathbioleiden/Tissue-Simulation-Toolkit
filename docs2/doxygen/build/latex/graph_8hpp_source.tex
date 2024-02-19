@@ -1,0 +1,92 @@
+\doxysection{graph.\+hpp}
+\hypertarget{graph_8hpp_source}{}\label{graph_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/graphics/graph.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/graphics/graph.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ 1996-\/2006\ Roeland\ Merks}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Tissue\ Simulation\ Toolkit.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ free\ software;\ you\ can\ redistribute}}
+\DoxyCodeLine{00008\ \textcolor{comment}{it\ and/or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public}}
+\DoxyCodeLine{00009\ \textcolor{comment}{License\ as\ published\ by\ the\ Free\ Software\ Foundation;\ either}}
+\DoxyCodeLine{00010\ \textcolor{comment}{version\ 2\ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ distributed\ in\ the\ hope\ that\ it\ will}}
+\DoxyCodeLine{00013\ \textcolor{comment}{be\ useful,\ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied}}
+\DoxyCodeLine{00014\ \textcolor{comment}{warranty\ of\ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{See\ the\ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00018\ \textcolor{comment}{along\ with\ Tissue\ Simulation\ Toolkit;\ if\ not,\ write\ to\ the\ Free}}
+\DoxyCodeLine{00019\ \textcolor{comment}{Software\ Foundation,\ Inc.,\ 51\ Franklin\ St,\ Fifth\ Floor,\ Boston,\ MA}}
+\DoxyCodeLine{00020\ \textcolor{comment}{02110-\/1301\ USA}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#ifndef\ \_GRAPH\_H\_}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ \_GRAPH\_H\_}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Base\ class\ for\ Graphics\ interface.\ No\ implementation}}
+\DoxyCodeLine{00037\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_graphics}{Graphics}}\ \{}
+\DoxyCodeLine{00038\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \textcolor{comment}{//\ \ Graphics(int\ xfield,\ int\ yfield,\ const\ char\ *movie\_file=0);}}
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_graphics}{\string~Graphics}}(\textcolor{keywordtype}{void})\{\};}
+\DoxyCodeLine{00042\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graphics_afc5b72e258d26775418c72c78d078e4b}{BeginScene}}(\textcolor{keywordtype}{void})\{\};}
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graphics_a9f97b7c6506dcba845a1da457398fa90}{EndScene}}(\textcolor{keywordtype}{void})\{\};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ ClearImage(\textcolor{keywordtype}{void})\{\};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00056\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graphics_a123e1b2c757c39bf329517af332c24eb}{Point}}(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{structcolor}{color}},\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)\ =\ 0;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ PointAlpha(\textcolor{keywordtype}{int}\ alpha,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)\ =\ 0;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Rectangle(\textcolor{keywordtype}{int}\ colour,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)\ =\ 0;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graphics_a12444978b168c200b4e82afe852d1600}{Line}}(\textcolor{keywordtype}{float}\ x1,\ \textcolor{keywordtype}{float}\ y1,\ \textcolor{keywordtype}{float}\ x2,\ \textcolor{keywordtype}{float}\ y2,\ \textcolor{keywordtype}{int}\ colour)\ =\ 0;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_graphics_a39257f929b38739ed42e8d463c4f42c3}{GetXYCoo}}(\textcolor{keywordtype}{int}\ *X,\ \textcolor{keywordtype}{int}\ *Y)\ =\ 0;\ \textcolor{comment}{//\ \{return\ 0;\}}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00081\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_graphics_a2848865fca459505dc83dccfba3c1217}{XField}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00084\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_graphics_a82379c9ce18dc3b946e2cf6b4bd4a85b}{YField}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00095\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graphics_af98a333b8be25817669e615b1cd6c73d}{Write}}(\textcolor{keywordtype}{char}\ *fname,\ \textcolor{keywordtype}{int}\ quality\ =\ -\/1)\ =\ 0;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00103\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graphics_aa1b61fa6f6bc50aceff6f320ce5b9be2}{TimeStep}}(\textcolor{keywordtype}{void})\{\};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00114\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graphics_a22105e059337daabadfa68838811099f}{Field}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ **f,\ \textcolor{keywordtype}{int}\ mag\ =\ 1)\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{stringliteral}{"{}Graphics::Field\ not\ implemented.\ Try\ X11\ graphics.\(\backslash\)n"{}};}
+\DoxyCodeLine{00116\ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Resize(\textcolor{keywordtype}{int}\ xfield,\ \textcolor{keywordtype}{int}\ yfield)\{\};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_Paused()\{\};}
+\DoxyCodeLine{00121\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_unPaused()\{\};}
+\DoxyCodeLine{00122\ \};}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{comment}{//\ Graphics\ implementations}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#ifdef\ QTGRAPHICS}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#include\ "{}qtgraph.hpp"{}}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#ifdef\ GLGRAPHICS}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#include\ "{}glgraph.hpp"{}}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#ifdef\ QTGLGRAPHICS}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#include\ "{}qtglgraph.hpp"{}}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#ifdef\ X11GRAPHICS}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#include\ "{}x11graph.hpp"{}}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{keywordtype}{void}\ start\_graphics(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ **argv);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

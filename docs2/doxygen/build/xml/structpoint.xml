@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structpoint" kind="struct" language="C++" prot="public">
+    <compoundname>point</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structpoint_1a8293fd2de3ce739deb6d53691fd21fcf" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float point::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>point::x</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="35" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structpoint_1a616ad85a2096d1566f5971666bbc3b3f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float point::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>point::y</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="36" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structpoint_1a3c15cf62431e51a4d9432ca40b3b04f5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float point::z</definition>
+        <argsstring></argsstring>
+        <name>z</name>
+        <qualifiedname>point::z</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="37" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="34" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="34" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structpoint_1a8293fd2de3ce739deb6d53691fd21fcf" prot="public" virt="non-virtual"><scope>point</scope><name>x</name></member>
+      <member refid="structpoint_1a616ad85a2096d1566f5971666bbc3b3f" prot="public" virt="non-virtual"><scope>point</scope><name>y</name></member>
+      <member refid="structpoint_1a3c15cf62431e51a4d9432ca40b3b04f5" prot="public" virt="non-virtual"><scope>point</scope><name>z</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1detail_1_1_set_arg_3_01index_00_01_null_type_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>cl::detail::SetArg&lt; index, NullType &gt;</compoundname>
+    <templateparamlist>
+      <param>
+        <type>int</type>
+        <declname>index</declname>
+        <defname>index</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structcl_1_1detail_1_1_set_arg_3_01index_00_01_null_type_01_4_1a7e357f4b353eb6576b2f484e2ae43a47" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void cl::detail::SetArg&lt; index, NullType &gt;::set</definition>
+        <argsstring>(Kernel, NullType)</argsstring>
+        <name>set</name>
+        <qualifiedname>cl::detail::SetArg&lt; index, NullType &gt;::set</qualifiedname>
+        <param>
+          <type><ref refid="classcl_1_1_kernel" kindref="compound">Kernel</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1detail_1_1_null_type" kindref="compound">NullType</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6391" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6391" bodyend="6391"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6390" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6390" bodyend="6392"/>
+    <listofallmembers>
+      <member refid="structcl_1_1detail_1_1_set_arg_3_01index_00_01_null_type_01_4_1a7e357f4b353eb6576b2f484e2ae43a47" prot="public" virt="non-virtual"><scope>cl::detail::SetArg&lt; index, NullType &gt;</scope><name>set</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,614 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="class_dish" kind="class" language="C++" prot="public">
+    <compoundname>Dish</compoundname>
+    <includes refid="dish_8hpp" local="no">dish.hpp</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="class_dish_1a4838ff865b8d8625c61d208a420f8212" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Info</definition>
+        <argsstring></argsstring>
+        <name>Info</name>
+        <qualifiedname>Dish::Info</qualifiedname>
+        <param>
+          <type><ref refid="class_info" kindref="compound">Info</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="45" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_dish_1a096ba06e44f54deb7c9b16669876cd2c" prot="public" static="no" mutable="no">
+        <type><ref refid="class_p_d_e" kindref="compound">PDE</ref> *</type>
+        <definition>PDE* Dish::PDEfield</definition>
+        <argsstring></argsstring>
+        <name>PDEfield</name>
+        <qualifiedname>Dish::PDEfield</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="101" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dish_1a61c008708298cb9c949546af9ce2c98d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_cellular_potts" kindref="compound">CellularPotts</ref> *</type>
+        <definition>CellularPotts* Dish::CPM</definition>
+        <argsstring></argsstring>
+        <name>CPM</name>
+        <qualifiedname>Dish::CPM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="102" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dish_1a915bdd43b573adcfc95cb3c4b1c583ad" prot="public" static="no" mutable="no">
+        <type><ref refid="class_i_o" kindref="compound">IO</ref> *</type>
+        <definition>IO* Dish::io</definition>
+        <argsstring></argsstring>
+        <name>io</name>
+        <qualifiedname>Dish::io</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="103" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_dish_1a7da0ac37ed62504947f4ddd6eb9fbb2d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Dish::sizechange</definition>
+        <argsstring></argsstring>
+        <name>sizechange</name>
+        <qualifiedname>Dish::sizechange</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="122" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_dish_1a033f004ac525f6edbf0af46819acf707" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_cell" kindref="compound">Cell</ref> &gt;</type>
+        <definition>std::vector&lt;Cell&gt; Dish::cell</definition>
+        <argsstring></argsstring>
+        <name>cell</name>
+        <qualifiedname>Dish::cell</qualifiedname>
+        <briefdescription>
+<para>The cells in the Petri dish; accessible to derived classes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="127" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_dish_1ad5e0a97dc1bf5ec1967ca92d63f3f5f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Dish::Dish</definition>
+        <argsstring>()</argsstring>
+        <name>Dish</name>
+        <qualifiedname>Dish::Dish</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="48" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="48" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1aae99b3ba84abb07cacdaba97e35844bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::Init</definition>
+        <argsstring>(void)</argsstring>
+        <name>Init</name>
+        <qualifiedname>Dish::Init</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Init defines the initial state of the virtual cell culture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Define <ref refid="class_dish_1aae99b3ba84abb07cacdaba97e35844bd" kindref="member">Init()</ref> in your main file describing the simulation set up, within the block INIT { }. See for examples vessel.cpp and sorting.cpp. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="56" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a7180a1e281da830a4d64a630ce728017" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::ConstructorBody</definition>
+        <argsstring>(void)</argsstring>
+        <name>ConstructorBody</name>
+        <qualifiedname>Dish::ConstructorBody</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="58" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="94" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a6ea34b164531bdf29a57e3b4060af111" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>Dish::~Dish</definition>
+        <argsstring>()</argsstring>
+        <name>~Dish</name>
+        <qualifiedname>Dish::~Dish</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="60" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1aac30508ed8fdc83a659451f738786ee6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::Plot</definition>
+        <argsstring>(Graphics *g)</argsstring>
+        <name>Plot</name>
+        <qualifiedname>Dish::Plot</qualifiedname>
+        <param>
+          <type><ref refid="class_graphics" kindref="compound">Graphics</ref> *</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>Plot the <ref refid="class_dish" kindref="compound">Dish</ref> to graphics window g. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simply calls CPM-&gt;Plot. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="65" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="85" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a9cb2def061afee7fb80b78bc85bf84c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::Erase</definition>
+        <argsstring>(void)</argsstring>
+        <name>Erase</name>
+        <qualifiedname>Dish::Erase</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Erase all cells. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="68" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1ad23b0464443d15b2fbbf32da3331d427" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Dish::ZygoteArea</definition>
+        <argsstring>(void) const</argsstring>
+        <name>ZygoteArea</name>
+        <qualifiedname>Dish::ZygoteArea</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="70" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a6b658e8fc9319152205518588bf53587" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Dish::Time</definition>
+        <argsstring>(void) const</argsstring>
+        <name>Time</name>
+        <qualifiedname>Dish::Time</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the number of completed Monte Carlo Steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="73" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1ac0e346a1c7242449b148d4765aaa9ff7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Dish::CountCells</definition>
+        <argsstring>(void) const</argsstring>
+        <name>CountCells</name>
+        <qualifiedname>Dish::CountCells</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the number of cells in the dish, excluding apoptosed cells. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="76" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="149" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a41c5667d06a94812b78a83355b266770" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::CellGrowthAndDivision</definition>
+        <argsstring>(void)</argsstring>
+        <name>CellGrowthAndDivision</name>
+        <qualifiedname>Dish::CellGrowthAndDivision</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Stretched induced cell growth and division. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>See Hogeweg (2000), Journal of Theoretical Biology.</para>
+<para>Find stretched cells, and increase their target area. Find enlarged cells, and divide them. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="84" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="120" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a9e0e66bef40b8aa33fa28ea4e0a78d87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Dish::Area</definition>
+        <argsstring>(void) const</argsstring>
+        <name>Area</name>
+        <qualifiedname>Dish::Area</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>. Returns the summed area of all cells in the dish </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="87" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="162" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1af370945f41e9730ee5884b1e56e6be9c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Dish::TargetArea</definition>
+        <argsstring>(void) const</argsstring>
+        <name>TargetArea</name>
+        <qualifiedname>Dish::TargetArea</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the summed of all cells target area in the dish. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="90" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="171" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a403577ee8ef78a8cb7b2b4d888167649" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Dish::SizeX</definition>
+        <argsstring>(void)</argsstring>
+        <name>SizeX</name>
+        <qualifiedname>Dish::SizeX</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the horizontal size of the dish. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="93" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="280" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1aee8463a854b44635bb7917c39af70040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Dish::SizeY</definition>
+        <argsstring>(void)</argsstring>
+        <name>SizeY</name>
+        <qualifiedname>Dish::SizeY</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the horizontal size of the dish. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="96" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="281" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a69ed4f7b657b0b1734384ecb171f89e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+        <definition>Cell &amp; Dish::getCell</definition>
+        <argsstring>(int c)</argsstring>
+        <name>getCell</name>
+        <qualifiedname>Dish::getCell</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Returns a reference to cell number &quot;c&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="99" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1acf2e4c3b278746cdeef77fe4e4ed16c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::ClearGrads</definition>
+        <argsstring>(void)</argsstring>
+        <name>ClearGrads</name>
+        <qualifiedname>Dish::ClearGrads</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="106" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="183" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a8590b706fcf6bc66b52004b0289d1353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::MeasureChemConcentrations</definition>
+        <argsstring>(void)</argsstring>
+        <name>MeasureChemConcentrations</name>
+        <qualifiedname>Dish::MeasureChemConcentrations</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="108" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="194" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a889c38443275fa6dac8627e4facc7a3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::ExportMultiCellDS</definition>
+        <argsstring>(std::string const &amp;fname)</argsstring>
+        <name>ExportMultiCellDS</name>
+        <qualifiedname>Dish::ExportMultiCellDS</qualifiedname>
+        <param>
+          <type>std::string const &amp;</type>
+          <declname>fname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="111" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="262" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a170e0e08edab94dcf4d59ac78b3176ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::ImportMultiCellDS</definition>
+        <argsstring>(std::string const &amp;fname)</argsstring>
+        <name>ImportMultiCellDS</name>
+        <qualifiedname>Dish::ImportMultiCellDS</qualifiedname>
+        <param>
+          <type>std::string const &amp;</type>
+          <declname>fname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="112" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="231" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_dish_1a1e73feecedc005f2782aaf2e37ab2df6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::SetCellOwner</definition>
+        <argsstring>(Cell &amp;which_cell)</argsstring>
+        <name>SetCellOwner</name>
+        <qualifiedname>Dish::SetCellOwner</qualifiedname>
+        <param>
+          <type><ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+          <declname>which_cell</declname>
+        </param>
+        <briefdescription>
+<para>Assign a the cell to the current <ref refid="class_dish" kindref="compound">Dish</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="116" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="181" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_dish_1ac35f2035809cb6fb252f0a65d09508bb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Dish::CellLonelyP</definition>
+        <argsstring>(const Cell &amp;c, int **neighbours) const</argsstring>
+        <name>CellLonelyP</name>
+        <qualifiedname>Dish::CellLonelyP</qualifiedname>
+        <param>
+          <type>const <ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>int **</type>
+          <declname>neighbours</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="119" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="108" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a97b6db859cdd2fa9608d67db51aa1e7c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::MCDS_import_cell</definition>
+        <argsstring>(MCDS_io *mcds, int cell_id)</argsstring>
+        <name>MCDS_import_cell</name>
+        <qualifiedname>Dish::MCDS_import_cell</qualifiedname>
+        <param>
+          <type>MCDS_io *</type>
+          <declname>mcds</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cell_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="120" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="222" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a5f58c537dc5704e1d71a783fe4497a0d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::MCDS_export_cell</definition>
+        <argsstring>(MCDS_io *mcds, Cell *cell)</argsstring>
+        <name>MCDS_export_cell</name>
+        <qualifiedname>Dish::MCDS_export_cell</qualifiedname>
+        <param>
+          <type>MCDS_io *</type>
+          <declname>mcds</declname>
+        </param>
+        <param>
+          <type><ref refid="class_cell" kindref="compound">Cell</ref> *</type>
+          <declname>cell</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="121" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp" bodystart="251" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dish_1a31c9fccac4038d035f7360605d969949" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Dish::anneal</definition>
+        <argsstring>(int count)</argsstring>
+        <name>anneal</name>
+        <qualifiedname>Dish::anneal</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="123" column="8"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The virtual Petri dish. Hosts the cells with states and the CA-plane. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>CellularPotts</label>
+        <link refid="class_cellular_potts"/>
+      </node>
+      <node id="1">
+        <label>Dish</label>
+        <link refid="class_dish"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>PDEfield</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>CPM</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>io</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>IO</label>
+        <link refid="class_i_o"/>
+      </node>
+      <node id="2">
+        <label>PDE</label>
+        <link refid="class_p_d_e"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="44" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="44" bodyend="128"/>
+    <listofallmembers>
+      <member refid="class_dish_1a31c9fccac4038d035f7360605d969949" prot="private" virt="non-virtual"><scope>Dish</scope><name>anneal</name></member>
+      <member refid="class_dish_1a9e0e66bef40b8aa33fa28ea4e0a78d87" prot="public" virt="non-virtual"><scope>Dish</scope><name>Area</name></member>
+      <member refid="class_dish_1a033f004ac525f6edbf0af46819acf707" prot="protected" virt="non-virtual"><scope>Dish</scope><name>cell</name></member>
+      <member refid="class_dish_1a41c5667d06a94812b78a83355b266770" prot="public" virt="non-virtual"><scope>Dish</scope><name>CellGrowthAndDivision</name></member>
+      <member refid="class_dish_1ac35f2035809cb6fb252f0a65d09508bb" prot="private" virt="non-virtual"><scope>Dish</scope><name>CellLonelyP</name></member>
+      <member refid="class_dish_1acf2e4c3b278746cdeef77fe4e4ed16c3" prot="public" virt="non-virtual"><scope>Dish</scope><name>ClearGrads</name></member>
+      <member refid="class_dish_1a7180a1e281da830a4d64a630ce728017" prot="public" virt="non-virtual"><scope>Dish</scope><name>ConstructorBody</name></member>
+      <member refid="class_dish_1ac0e346a1c7242449b148d4765aaa9ff7" prot="public" virt="non-virtual"><scope>Dish</scope><name>CountCells</name></member>
+      <member refid="class_dish_1a61c008708298cb9c949546af9ce2c98d" prot="public" virt="non-virtual"><scope>Dish</scope><name>CPM</name></member>
+      <member refid="class_dish_1ad5e0a97dc1bf5ec1967ca92d63f3f5f9" prot="public" virt="non-virtual"><scope>Dish</scope><name>Dish</name></member>
+      <member refid="class_dish_1a9cb2def061afee7fb80b78bc85bf84c1" prot="public" virt="non-virtual"><scope>Dish</scope><name>Erase</name></member>
+      <member refid="class_dish_1a889c38443275fa6dac8627e4facc7a3c" prot="public" virt="non-virtual"><scope>Dish</scope><name>ExportMultiCellDS</name></member>
+      <member refid="class_dish_1a69ed4f7b657b0b1734384ecb171f89e5" prot="public" virt="non-virtual"><scope>Dish</scope><name>getCell</name></member>
+      <member refid="class_dish_1a170e0e08edab94dcf4d59ac78b3176ca" prot="public" virt="non-virtual"><scope>Dish</scope><name>ImportMultiCellDS</name></member>
+      <member refid="class_dish_1a4838ff865b8d8625c61d208a420f8212" prot="private" virt="non-virtual"><scope>Dish</scope><name>Info</name></member>
+      <member refid="class_dish_1aae99b3ba84abb07cacdaba97e35844bd" prot="public" virt="non-virtual"><scope>Dish</scope><name>Init</name></member>
+      <member refid="class_dish_1a915bdd43b573adcfc95cb3c4b1c583ad" prot="public" virt="non-virtual"><scope>Dish</scope><name>io</name></member>
+      <member refid="class_dish_1a5f58c537dc5704e1d71a783fe4497a0d" prot="private" virt="non-virtual"><scope>Dish</scope><name>MCDS_export_cell</name></member>
+      <member refid="class_dish_1a97b6db859cdd2fa9608d67db51aa1e7c" prot="private" virt="non-virtual"><scope>Dish</scope><name>MCDS_import_cell</name></member>
+      <member refid="class_dish_1a8590b706fcf6bc66b52004b0289d1353" prot="public" virt="non-virtual"><scope>Dish</scope><name>MeasureChemConcentrations</name></member>
+      <member refid="class_dish_1a096ba06e44f54deb7c9b16669876cd2c" prot="public" virt="non-virtual"><scope>Dish</scope><name>PDEfield</name></member>
+      <member refid="class_dish_1aac30508ed8fdc83a659451f738786ee6" prot="public" virt="non-virtual"><scope>Dish</scope><name>Plot</name></member>
+      <member refid="class_dish_1a1e73feecedc005f2782aaf2e37ab2df6" prot="protected" virt="non-virtual"><scope>Dish</scope><name>SetCellOwner</name></member>
+      <member refid="class_dish_1a7da0ac37ed62504947f4ddd6eb9fbb2d" prot="private" virt="non-virtual"><scope>Dish</scope><name>sizechange</name></member>
+      <member refid="class_dish_1a403577ee8ef78a8cb7b2b4d888167649" prot="public" virt="non-virtual"><scope>Dish</scope><name>SizeX</name></member>
+      <member refid="class_dish_1aee8463a854b44635bb7917c39af70040" prot="public" virt="non-virtual"><scope>Dish</scope><name>SizeY</name></member>
+      <member refid="class_dish_1af370945f41e9730ee5884b1e56e6be9c" prot="public" virt="non-virtual"><scope>Dish</scope><name>TargetArea</name></member>
+      <member refid="class_dish_1a6b658e8fc9319152205518588bf53587" prot="public" virt="non-virtual"><scope>Dish</scope><name>Time</name></member>
+      <member refid="class_dish_1ad23b0464443d15b2fbbf32da3331d427" prot="public" virt="non-virtual"><scope>Dish</scope><name>ZygoteArea</name></member>
+      <member refid="class_dish_1a6ea34b164531bdf29a57e3b4060af111" prot="public" virt="virtual"><scope>Dish</scope><name>~Dish</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

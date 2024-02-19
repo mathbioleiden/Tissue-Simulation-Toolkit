@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1detail_1_1_set_arg" kind="struct" language="C++" prot="public">
+    <compoundname>cl::detail::SetArg</compoundname>
+    <templateparamlist>
+      <param>
+        <type>int</type>
+        <declname>index</declname>
+        <defname>index</defname>
+      </param>
+      <param>
+        <type>typename T0</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structcl_1_1detail_1_1_set_arg_1a946f6fbcb4a05b37437c9493466f4855" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void cl::detail::SetArg&lt; index, T0 &gt;::set</definition>
+        <argsstring>(Kernel kernel, T0 arg)</argsstring>
+        <name>set</name>
+        <qualifiedname>cl::detail::SetArg::set</qualifiedname>
+        <param>
+          <type><ref refid="classcl_1_1_kernel" kindref="compound">Kernel</ref></type>
+          <declname>kernel</declname>
+        </param>
+        <param>
+          <type>T0</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6387" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6387" bodyend="6387"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6386" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6386" bodyend="6388"/>
+    <listofallmembers>
+      <member refid="structcl_1_1detail_1_1_set_arg_1a946f6fbcb4a05b37437c9493466f4855" prot="public" virt="non-virtual"><scope>cl::detail::SetArg</scope><name>set</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

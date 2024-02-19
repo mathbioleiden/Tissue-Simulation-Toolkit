@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcolor" kind="struct" language="C++" prot="public">
+    <compoundname>color</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcolor_1a243deecd95d1ee332b7119b17d54435c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float color::r</definition>
+        <argsstring></argsstring>
+        <name>r</name>
+        <qualifiedname>color::r</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="28" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcolor_1ab8f3c1452a83cb8a775a7d30edf47f6c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float color::g</definition>
+        <argsstring></argsstring>
+        <name>g</name>
+        <qualifiedname>color::g</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="29" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcolor_1ab3ba8fa73820004898d32bb43cd6e4c7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float color::b</definition>
+        <argsstring></argsstring>
+        <name>b</name>
+        <qualifiedname>color::b</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="30" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcolor_1afd0df6a6e32654e9f06831fd7e1a2357" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float color::a</definition>
+        <argsstring></argsstring>
+        <name>a</name>
+        <qualifiedname>color::a</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="31" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" line="27" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp" bodystart="27" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structcolor_1afd0df6a6e32654e9f06831fd7e1a2357" prot="public" virt="non-virtual"><scope>color</scope><name>a</name></member>
+      <member refid="structcolor_1ab3ba8fa73820004898d32bb43cd6e4c7" prot="public" virt="non-virtual"><scope>color</scope><name>b</name></member>
+      <member refid="structcolor_1ab8f3c1452a83cb8a775a7d30edf47f6c" prot="public" virt="non-virtual"><scope>color</scope><name>g</name></member>
+      <member refid="structcolor_1a243deecd95d1ee332b7119b17d54435c" prot="public" virt="non-virtual"><scope>color</scope><name>r</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

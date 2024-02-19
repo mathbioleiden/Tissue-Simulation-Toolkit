@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="class_profiler" kind="class" language="C++" prot="public">
+    <compoundname>Profiler</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_profiler_1a17da313de132697b4490a00b62b9acd9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structtimer" kindref="compound">timer</ref> &gt;</type>
+        <definition>std::vector&lt;timer&gt; Profiler::timers</definition>
+        <argsstring></argsstring>
+        <name>timers</name>
+        <qualifiedname>Profiler::timers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="38" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_profiler_1a5035de019932e50049f1a3dcc68bb5c2" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Profiler::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>Profiler::index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="39" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_profiler_1aa131f152086fc9020e81d8d1b839cd1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Profiler::start_new_timer</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>start_new_timer</name>
+        <qualifiedname>Profiler::start_new_timer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="28" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.cpp" bodystart="18" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_profiler_1a5a8044a0895b6a63a1afd725e51c3305" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Profiler::new_timer</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>new_timer</name>
+        <qualifiedname>Profiler::new_timer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="29" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.cpp" bodystart="8" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_profiler_1a192ccce62f6c11665125351d89b347dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Profiler::start_timer</definition>
+        <argsstring>(int timer)</argsstring>
+        <name>start_timer</name>
+        <qualifiedname>Profiler::start_timer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="30" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_profiler_1aeed2186c61c700f088600bd5d7287620" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Profiler::stop_timer</definition>
+        <argsstring>(int timer)</argsstring>
+        <name>stop_timer</name>
+        <qualifiedname>Profiler::stop_timer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="31" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.cpp" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_profiler_1a29268384307d9f0d9fb8779b4d5abdfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Profiler::stop_print</definition>
+        <argsstring>(int timer)</argsstring>
+        <name>stop_print</name>
+        <qualifiedname>Profiler::stop_print</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="32" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_profiler_1a35c479a8b5cb6cfbe79efe5e5670b477" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structtimer" kindref="compound">timer</ref></type>
+        <definition>timer Profiler::get_timer</definition>
+        <argsstring>(int timer)</argsstring>
+        <name>get_timer</name>
+        <qualifiedname>Profiler::get_timer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="33" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_profiler_1a84cf943289cd9fe33f55ba94d74cd2d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Profiler::print_timer</definition>
+        <argsstring>(int timer)</argsstring>
+        <name>print_timer</name>
+        <qualifiedname>Profiler::print_timer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="34" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.cpp" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_profiler_1aea71112d5606ea7688abc8808f3aedc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Profiler::print_all</definition>
+        <argsstring>()</argsstring>
+        <name>print_all</name>
+        <qualifiedname>Profiler::print_all</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="35" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="26" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="26" bodyend="40"/>
+    <listofallmembers>
+      <member refid="class_profiler_1a35c479a8b5cb6cfbe79efe5e5670b477" prot="public" virt="non-virtual"><scope>Profiler</scope><name>get_timer</name></member>
+      <member refid="class_profiler_1a5035de019932e50049f1a3dcc68bb5c2" prot="private" virt="non-virtual"><scope>Profiler</scope><name>index</name></member>
+      <member refid="class_profiler_1a5a8044a0895b6a63a1afd725e51c3305" prot="public" virt="non-virtual"><scope>Profiler</scope><name>new_timer</name></member>
+      <member refid="class_profiler_1aea71112d5606ea7688abc8808f3aedc8" prot="public" virt="non-virtual"><scope>Profiler</scope><name>print_all</name></member>
+      <member refid="class_profiler_1a84cf943289cd9fe33f55ba94d74cd2d9" prot="public" virt="non-virtual"><scope>Profiler</scope><name>print_timer</name></member>
+      <member refid="class_profiler_1aa131f152086fc9020e81d8d1b839cd1a" prot="public" virt="non-virtual"><scope>Profiler</scope><name>start_new_timer</name></member>
+      <member refid="class_profiler_1a192ccce62f6c11665125351d89b347dd" prot="public" virt="non-virtual"><scope>Profiler</scope><name>start_timer</name></member>
+      <member refid="class_profiler_1a29268384307d9f0d9fb8779b4d5abdfa" prot="public" virt="non-virtual"><scope>Profiler</scope><name>stop_print</name></member>
+      <member refid="class_profiler_1aeed2186c61c700f088600bd5d7287620" prot="public" virt="non-virtual"><scope>Profiler</scope><name>stop_timer</name></member>
+      <member refid="class_profiler_1a17da313de132697b4490a00b62b9acd9" prot="private" virt="non-virtual"><scope>Profiler</scope><name>timers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

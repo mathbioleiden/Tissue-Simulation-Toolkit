@@ -1,0 +1,355 @@
+\doxysection{Cell Class Reference}
+\hypertarget{class_cell}{}\label{class_cell}\index{Cell@{Cell}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cell_a822aecd83d8aa95fab97641a88e60225}\label{class_cell_a822aecd83d8aa95fab97641a88e60225} 
+{\bfseries Cell} (const \mbox{\hyperlink{class_dish}{Dish}} \&who, int settau=1)
+\begin{DoxyCompactList}\small\item\em Constructor to insert a cell into \doxylink{class_dish}{Dish} "{}who"{} Used to add a new \doxylink{class_cell}{Cell} to the dish\+: new \doxylink{class_cell}{Cell(dish, celtype)}. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a8a36eee6405552ddb5a27d2ce1a7272c}\label{class_cell_a8a36eee6405552ddb5a27d2ce1a7272c} 
+{\bfseries Cell} (const \mbox{\hyperlink{class_cell}{Cell}} \&src)
+\begin{DoxyCompactList}\small\item\em Default copy constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cell_a387af5e97fced410b231aa730d87dd33}{Cell\+Birth}} (\mbox{\hyperlink{class_cell}{Cell}} \&mother)
+\begin{DoxyCompactList}\small\item\em Add a new cell to the dish. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cell}{Cell}} \& \mbox{\hyperlink{class_cell_a351061fe41e3da9a7baa081b32ac0581}{operator=}} (const \mbox{\hyperlink{class_cell}{Cell}} \&src)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_ade77ea0722ba814fc84c144e086595ae}\label{class_cell_ade77ea0722ba814fc84c144e086595ae} 
+bool {\bfseries AliveP} (void) const
+\begin{DoxyCompactList}\small\item\em Returns false if \doxylink{class_cell}{Cell} has apoptosed (vanished). \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a340d0f54404eb809d75f38a2da8aec56}\label{class_cell_a340d0f54404eb809d75f38a2da8aec56} 
+int {\bfseries Colour} (void) const
+\begin{DoxyCompactList}\small\item\em Returns the cell colour. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_af3a3882fdf4e48130af67184cc70fe9d}\label{class_cell_af3a3882fdf4e48130af67184cc70fe9d} 
+void {\bfseries set\+Tau} (int settau)
+\begin{DoxyCompactList}\small\item\em Set cell type of this \doxylink{class_cell}{Cell}. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_ac4e9f38d7041e9cf42100930698f6a1f}\label{class_cell_ac4e9f38d7041e9cf42100930698f6a1f} 
+int {\bfseries Set\+Adhesive\+Area} (int new\+\_\+area)
+\item 
+\Hypertarget{class_cell_a93e90b450545ec4b0c7fd6b69809ed57}\label{class_cell_a93e90b450545ec4b0c7fd6b69809ed57} 
+int {\bfseries Get\+Adhesive\+Area} ()
+\item 
+\Hypertarget{class_cell_a5c3cb78c1c034dba41e1704d2a67a663}\label{class_cell_a5c3cb78c1c034dba41e1704d2a67a663} 
+void {\bfseries Set\+Border\+Number} (double n)
+\item 
+\Hypertarget{class_cell_a4bedbebd1d69446af56cbc10118c3461}\label{class_cell_a4bedbebd1d69446af56cbc10118c3461} 
+double {\bfseries Get\+Border\+Number} ()
+\item 
+\Hypertarget{class_cell_a174383c89c2dd78964f0b787b730722a}\label{class_cell_a174383c89c2dd78964f0b787b730722a} 
+void {\bfseries Increment\+Border\+Number} (double n)
+\item 
+\Hypertarget{class_cell_a05ffecff7700480faaf8cd907049e5aa}\label{class_cell_a05ffecff7700480faaf8cd907049e5aa} 
+void {\bfseries Decrement\+Border\+Number} (double n)
+\item 
+\Hypertarget{class_cell_a9fbfdfe12c82591083e673987d35570a}\label{class_cell_a9fbfdfe12c82591083e673987d35570a} 
+int {\bfseries get\+Tau} (void)
+\begin{DoxyCompactList}\small\item\em Get cell type of this \doxylink{class_cell}{Cell}. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_abaaa9503d4189a31cff2e1ae204c61cb}\label{class_cell_abaaa9503d4189a31cff2e1ae204c61cb} 
+double {\bfseries get\+CenterX} (void)
+\item 
+\Hypertarget{class_cell_a162425e5630eac0393e3b519ba2cd0ac}\label{class_cell_a162425e5630eac0393e3b519ba2cd0ac} 
+double {\bfseries get\+SumX} (void)
+\item 
+\Hypertarget{class_cell_a6f77adc7f454b4bc35bcc343fcef21ec}\label{class_cell_a6f77adc7f454b4bc35bcc343fcef21ec} 
+double {\bfseries get\+SumY} (void)
+\item 
+\Hypertarget{class_cell_a03d9caf050695c24d7af6b62d0a9d628}\label{class_cell_a03d9caf050695c24d7af6b62d0a9d628} 
+double {\bfseries get\+CenterY} (void)
+\item 
+\Hypertarget{class_cell_aeafe2f67bdc876223f8871eb9f3e16ef}\label{class_cell_aeafe2f67bdc876223f8871eb9f3e16ef} 
+int {\bfseries Set\+Colour} (const int new\+\_\+colour)
+\begin{DoxyCompactList}\small\item\em Set color of this cell to new\+\_\+colour, irrespective of type. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_af18bc7d48b0898a2221de4e4ec8a7b7d}\label{class_cell_af18bc7d48b0898a2221de4e4ec8a7b7d} 
+int {\bfseries Energy\+Difference} (const \mbox{\hyperlink{class_cell}{Cell}} \&cell2) const
+\item 
+\Hypertarget{class_cell_a04ef81805a0166850b928c1b9f1befe6}\label{class_cell_a04ef81805a0166850b928c1b9f1befe6} 
+int {\bfseries Area} () const
+\begin{DoxyCompactList}\small\item\em Return \doxylink{class_cell}{Cell}\textquotesingle{}s actual area. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a89c1434b90e43eb5addbfa7840daf81d}\label{class_cell_a89c1434b90e43eb5addbfa7840daf81d} 
+int {\bfseries Target\+Area} () const
+\begin{DoxyCompactList}\small\item\em Return \doxylink{class_cell}{Cell}\textquotesingle{}s target area. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a54c99795fc4f9964b75cf2847ed6e820}\label{class_cell_a54c99795fc4f9964b75cf2847ed6e820} 
+int {\bfseries Perimeter} ()
+\item 
+\Hypertarget{class_cell_a0c582fad9fe4808a04b03970377dedc3}\label{class_cell_a0c582fad9fe4808a04b03970377dedc3} 
+int {\bfseries Target\+Perimeter} ()
+\item 
+\Hypertarget{class_cell_a5c2af99edf15bf8962236d43469ee37d}\label{class_cell_a5c2af99edf15bf8962236d43469ee37d} 
+int {\bfseries Set\+Target\+Perimeter} (const int new\+\_\+perimeter)
+\item 
+\Hypertarget{class_cell_a56e35974c7d334b8e34bb16ea7e3fc49}\label{class_cell_a56e35974c7d334b8e34bb16ea7e3fc49} 
+int {\bfseries Set\+Perimeter} (const int new\+\_\+perimeter)
+\item 
+\Hypertarget{class_cell_ad51763beabd21428946df72ff57269fa}\label{class_cell_ad51763beabd21428946df72ff57269fa} 
+double {\bfseries Target\+Length} () const
+\item 
+\Hypertarget{class_cell_af4cacfabcefaec22f4c875bf7566f67d}\label{class_cell_af4cacfabcefaec22f4c875bf7566f67d} 
+double {\bfseries Set\+Target\+Length} (double l)
+\begin{DoxyCompactList}\small\item\em Set the \doxylink{class_cell}{Cell}\textquotesingle{}s target length. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cell_a4cdc14c24736d472c100a3382c3577c8}{Print\+Inertia}} (void)
+\item 
+\Hypertarget{class_cell_ac038876b1cc38b8efea7338c853b98ca}\label{class_cell_ac038876b1cc38b8efea7338c853b98ca} 
+double {\bfseries Length} (void)
+\item 
+\Hypertarget{class_cell_aa7117746e515e58cddc97362a9e244b0}\label{class_cell_aa7117746e515e58cddc97362a9e244b0} 
+void {\bfseries Renorm\+Polar\+Vec} (void)
+\item 
+\Hypertarget{class_cell_a8253cf71ca6b44d78c7b9d45721a286b}\label{class_cell_a8253cf71ca6b44d78c7b9d45721a286b} 
+int {\bfseries Sigma} () const
+\begin{DoxyCompactList}\small\item\em Returns the cell\textquotesingle{}s cell identity number. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a0f78f87720f0eca3520678bea6194b9f}\label{class_cell_a0f78f87720f0eca3520678bea6194b9f} 
+int {\bfseries Set\+Target\+Area} (const int new\+\_\+area)
+\begin{DoxyCompactList}\small\item\em Sets the target area of the cell. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a2b598309713229d89b14d7c1aa7d151a}\label{class_cell_a2b598309713229d89b14d7c1aa7d151a} 
+void {\bfseries Apoptose} ()
+\begin{DoxyCompactList}\small\item\em Sends the current cell into apoptosis. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a89086e3c8e2c7619030f86b0fcd2a0b2}\label{class_cell_a89086e3c8e2c7619030f86b0fcd2a0b2} 
+int {\bfseries Increment\+Target\+Area} ()
+\begin{DoxyCompactList}\small\item\em Decrement the cell\textquotesingle{}s target area by one unit. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a9b90cf417c4fb1df8b4b005e6858a754}\label{class_cell_a9b90cf417c4fb1df8b4b005e6858a754} 
+int {\bfseries Decrement\+Target\+Area} ()
+\begin{DoxyCompactList}\small\item\em Increment the cell\textquotesingle{}s target area by one unit. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a8a555f0a92c9463548118e01371b83dc}\label{class_cell_a8a555f0a92c9463548118e01371b83dc} 
+int {\bfseries Mother} (void) const
+\begin{DoxyCompactList}\small\item\em \doxylink{class_cell}{Cell} lineage tracking\+: get the cell\textquotesingle{}s parent. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a82167c3e1b4470d8b53ad9f94b31c715}\label{class_cell_a82167c3e1b4470d8b53ad9f94b31c715} 
+int {\bfseries Daughter} (void) const
+\begin{DoxyCompactList}\small\item\em \doxylink{class_cell}{Cell} lineage tracking\+: get the cell\textquotesingle{}s daughter. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_ab17fc62a0abbc8fd7677be6400c42c9c}\label{class_cell_ab17fc62a0abbc8fd7677be6400c42c9c} 
+int {\bfseries Times\+Divided} (void) const
+\begin{DoxyCompactList}\small\item\em Returns a counter keeping track of the number of divisions. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_ae5e0dd938e98194cecf4c7a824aec46b}\label{class_cell_ae5e0dd938e98194cecf4c7a824aec46b} 
+int {\bfseries Date\+Of\+Birth} (void) const
+\begin{DoxyCompactList}\small\item\em Returns Monte Carlo Step (MCS) when this cell originated. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_acfac036798be1bc5068a7240f861d09a}\label{class_cell_acfac036798be1bc5068a7240f861d09a} 
+int {\bfseries Colour\+Of\+Birth} (void) const
+\begin{DoxyCompactList}\small\item\em Returns the cell type at the time of birth. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a4c43f50dcf2ef91c4e812d29c7d6d6ad}\label{class_cell_a4c43f50dcf2ef91c4e812d29c7d6d6ad} 
+int {\bfseries GetJ} (const \mbox{\hyperlink{class_cell}{Cell}} \&c2) const
+\begin{DoxyCompactList}\small\item\em Returns the bond energy J between this cell and cell c2. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_adab03cbda7ceee7924b21c97488308e8}\label{class_cell_adab03cbda7ceee7924b21c97488308e8} 
+double \texorpdfstring{$\ast$}{*} {\bfseries Set\+Grad} (double \texorpdfstring{$\ast$}{*}g)
+\begin{DoxyCompactList}\small\item\em Set the current gradient of the cell to g. Currently not in use. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a0787b5ffd8811a5b750042d7681b4bc0}\label{class_cell_a0787b5ffd8811a5b750042d7681b4bc0} 
+const double \texorpdfstring{$\ast$}{*} {\bfseries Get\+Grad} (void) const
+\begin{DoxyCompactList}\small\item\em Returns the cell\textquotesingle{}s measured gradient. Currently not in use. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a9e28fe1be875ed24c060ca9ecb275cd9}\label{class_cell_a9e28fe1be875ed24c060ca9ecb275cd9} 
+double {\bfseries GradX} () const
+\begin{DoxyCompactList}\small\item\em Returns the cell\textquotesingle{}s measured gradient. Currently not in use. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a1bde26a220fbe70969333729446afa5c}\label{class_cell_a1bde26a220fbe70969333729446afa5c} 
+double {\bfseries GradY} () const
+\begin{DoxyCompactList}\small\item\em Returns the cell\textquotesingle{}s measured gradient. Currently not in use. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a43a174450c9f7f5cb582d2e9eb39cb19}\label{class_cell_a43a174450c9f7f5cb582d2e9eb39cb19} 
+double \texorpdfstring{$\ast$}{*} {\bfseries Add\+To\+Grad} (double \texorpdfstring{$\ast$}{*}g)
+\begin{DoxyCompactList}\small\item\em Currently not in use (remove?) \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a9c3fd8e71b9272d5229e3fad2761c321}\label{class_cell_a9c3fd8e71b9272d5229e3fad2761c321} 
+void {\bfseries Clear\+Grad} (void)
+\begin{DoxyCompactList}\small\item\em Currently not in use (remove?) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cell_a8e798cf1b3cacb03713a9e45bca961e1}{Measure\+Cell\+Size}} (\mbox{\hyperlink{class_cell}{Cell}} \&c)
+\item 
+\Hypertarget{class_cell_a6770a2b70404fa64595d2eeb8f47f682}\label{class_cell_a6770a2b70404fa64595d2eeb8f47f682} 
+void {\bfseries set\+Area} (int n\+\_\+area)
+\item 
+\Hypertarget{class_cell_a6db0b354f2b49457d96e5d64ce9a34f1}\label{class_cell_a6db0b354f2b49457d96e5d64ce9a34f1} 
+int {\bfseries Increment\+Adhesive\+Area} (int increment)
+\begin{DoxyCompactList}\small\item\em Increments the cell\textquotesingle{}s actual adhesive area by 1 unit. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a8a75e9e4131ee1575237d6e6b7c2ebce}\label{class_cell_a8a75e9e4131ee1575237d6e6b7c2ebce} 
+int {\bfseries Decrement\+Adhesive\+Area} (int decrement)
+\begin{DoxyCompactList}\small\item\em Decrement the cell\textquotesingle{}s actual adhesive area by 1 unit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_cell_a8baa793d28c592ee85d63ad52ac2fb7d}{ClearJ}} (void)
+\begin{DoxyCompactList}\small\item\em Clears the table of J\textquotesingle{}s. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a8b1e24a10e09376d69e7e52a39c5fad1}\label{class_cell_a8b1e24a10e09376d69e7e52a39c5fad1} 
+static int {\bfseries Max\+Sigma} ()
+\begin{DoxyCompactList}\small\item\em Returns the maximum cell identity number in the \doxylink{class_dish}{Dish}. This would normally be the number of cells in the \doxylink{class_dish}{Dish}, although the number includes apoptosed cells. \end{DoxyCompactList}\item 
+\Hypertarget{class_cell_a98f324f5c5829e53188c589373dc9f98}\label{class_cell_a98f324f5c5829e53188c589373dc9f98} 
+static int {\bfseries SetJ} (int t1, int t2, int val)
+\begin{DoxyCompactList}\small\item\em Sets bond energy J between cell type t1 and t2 to val. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cell_ad740a0c567d6adc4f5a4446f6066aefa}\label{class_cell_ad740a0c567d6adc4f5a4446f6066aefa} 
+double {\bfseries polarvec} \mbox{[}9\mbox{]}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cell_a3a62f75d92e0a0225554c963e543f428}\label{class_cell_a3a62f75d92e0a0225554c963e543f428} 
+int {\bfseries colour}
+\item 
+\Hypertarget{class_cell_a516ed0ccc2782e870bfe6ba56d15d86b}\label{class_cell_a516ed0ccc2782e870bfe6ba56d15d86b} 
+bool {\bfseries alive}
+\item 
+\Hypertarget{class_cell_ab33b3a598d18d996805c9e9b255534af}\label{class_cell_ab33b3a598d18d996805c9e9b255534af} 
+int {\bfseries sigma}
+\item 
+\Hypertarget{class_cell_a2126c6575810792e5d287223ca86c0f0}\label{class_cell_a2126c6575810792e5d287223ca86c0f0} 
+int {\bfseries tau}
+\item 
+\Hypertarget{class_cell_a10a70197c4e757ad39177b146b5c2a67}\label{class_cell_a10a70197c4e757ad39177b146b5c2a67} 
+double {\bfseries length}
+\item 
+\Hypertarget{class_cell_a82397282c1f177eb3f1c52184b1a48a2}\label{class_cell_a82397282c1f177eb3f1c52184b1a48a2} 
+double {\bfseries target\+\_\+length}
+\item 
+\Hypertarget{class_cell_a74435ead6958823c8c2f3e8f55d4429a}\label{class_cell_a74435ead6958823c8c2f3e8f55d4429a} 
+int {\bfseries mother}
+\item 
+\Hypertarget{class_cell_a90a992f97f2316d043904caaffd7e439}\label{class_cell_a90a992f97f2316d043904caaffd7e439} 
+int {\bfseries daughter}
+\item 
+\Hypertarget{class_cell_ab184f2651d0e764bf957b9a3f2e59df9}\label{class_cell_ab184f2651d0e764bf957b9a3f2e59df9} 
+int {\bfseries times\+\_\+divided}
+\item 
+\Hypertarget{class_cell_a9c97f4e44e305b2f39e953ba607e729a}\label{class_cell_a9c97f4e44e305b2f39e953ba607e729a} 
+int {\bfseries date\+\_\+of\+\_\+birth}
+\item 
+\Hypertarget{class_cell_a7e116fda8ff80b6ebb03b9c43584a68c}\label{class_cell_a7e116fda8ff80b6ebb03b9c43584a68c} 
+int {\bfseries colour\+\_\+of\+\_\+birth}
+\item 
+\Hypertarget{class_cell_ab8c82c118a975064f24933950c225133}\label{class_cell_ab8c82c118a975064f24933950c225133} 
+int {\bfseries area}
+\item 
+\Hypertarget{class_cell_a8b499ccc349212bde880a1ebfcd61d31}\label{class_cell_a8b499ccc349212bde880a1ebfcd61d31} 
+int {\bfseries target\+\_\+area}
+\item 
+\Hypertarget{class_cell_a966a0da984bd36cb526f2e867a0c39be}\label{class_cell_a966a0da984bd36cb526f2e867a0c39be} 
+int {\bfseries adhesive\+\_\+area}
+\item 
+\Hypertarget{class_cell_a1dd8ef08cc6729067cedd63d0fb8aeb7}\label{class_cell_a1dd8ef08cc6729067cedd63d0fb8aeb7} 
+int {\bfseries ref\+\_\+adhesive\+\_\+area}
+\item 
+\Hypertarget{class_cell_ac0ec22ca2c2b77be00ade91ec2c176e2}\label{class_cell_ac0ec22ca2c2b77be00ade91ec2c176e2} 
+int {\bfseries growth\+\_\+threshold}
+\item 
+\Hypertarget{class_cell_af5b765beb3a7ce557624f5fdff14a852}\label{class_cell_af5b765beb3a7ce557624f5fdff14a852} 
+int {\bfseries perimeter}
+\item 
+\Hypertarget{class_cell_ac264b167460ad919c37dcdb20eae502e}\label{class_cell_ac264b167460ad919c37dcdb20eae502e} 
+int {\bfseries target\+\_\+perimeter}
+\item 
+\Hypertarget{class_cell_ae2955e9ae15e9e549eaea9fb093fce33}\label{class_cell_ae2955e9ae15e9e549eaea9fb093fce33} 
+double {\bfseries v} \mbox{[}2\mbox{]}
+\item 
+\Hypertarget{class_cell_ac374476768b00e014877a8ff9097ebb8}\label{class_cell_ac374476768b00e014877a8ff9097ebb8} 
+int {\bfseries n\+\_\+copies}
+\item 
+\Hypertarget{class_cell_aba7f037648153483d44f04d3cea7ef37}\label{class_cell_aba7f037648153483d44f04d3cea7ef37} 
+double {\bfseries grad} \mbox{[}2\mbox{]}
+\item 
+\Hypertarget{class_cell_a67e85d8f9025fc82f44ce7e266021133}\label{class_cell_a67e85d8f9025fc82f44ce7e266021133} 
+double \texorpdfstring{$\ast$}{*} {\bfseries chem}
+\item 
+\Hypertarget{class_cell_a353ab5a64fff6d6474053135faaa1b4f}\label{class_cell_a353ab5a64fff6d6474053135faaa1b4f} 
+long int {\bfseries sum\+\_\+x}
+\item 
+\Hypertarget{class_cell_ac1e03d62523446833f65ea7644e7b349}\label{class_cell_ac1e03d62523446833f65ea7644e7b349} 
+long int {\bfseries sum\+\_\+y}
+\item 
+\Hypertarget{class_cell_ac2393f2cef20f69299d2d5554b65d1db}\label{class_cell_ac2393f2cef20f69299d2d5554b65d1db} 
+long int {\bfseries sum\+\_\+xx}
+\item 
+\Hypertarget{class_cell_a7d1d8b070b6359988a7a52ee5487a356}\label{class_cell_a7d1d8b070b6359988a7a52ee5487a356} 
+long int {\bfseries sum\+\_\+yy}
+\item 
+\Hypertarget{class_cell_ab0045032513131a0aace38724fde0dbf}\label{class_cell_ab0045032513131a0aace38724fde0dbf} 
+long int {\bfseries sum\+\_\+xy}
+\item 
+\Hypertarget{class_cell_adda0955a75d9a2b8047a362a5b27a521}\label{class_cell_adda0955a75d9a2b8047a362a5b27a521} 
+double {\bfseries border}
+\item 
+\Hypertarget{class_cell_a5ba3270256dca27969f1888cd9eb7a35}\label{class_cell_a5ba3270256dca27969f1888cd9eb7a35} 
+const \mbox{\hyperlink{class_dish}{Dish}} \texorpdfstring{$\ast$}{*} {\bfseries owner}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cell_a7c7fb58882da8d7185438d4dcf44b291}\label{class_cell_a7c7fb58882da8d7185438d4dcf44b291} 
+static int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries J} = 0
+\item 
+\Hypertarget{class_cell_aca2b6fa3035757ea4c2cd8f30f7610ae}\label{class_cell_aca2b6fa3035757ea4c2cd8f30f7610ae} 
+static int {\bfseries maxtau} = 0
+\item 
+\Hypertarget{class_cell_a92a252a4aec7850e2bea34fcfd6ec5f0}\label{class_cell_a92a252a4aec7850e2bea34fcfd6ec5f0} 
+static int {\bfseries amount} = 0
+\item 
+\Hypertarget{class_cell_a13afbf7c2a81d591cc414e8cc6965ad4}\label{class_cell_a13afbf7c2a81d591cc414e8cc6965ad4} 
+static int {\bfseries capacity} = 0
+\item 
+\Hypertarget{class_cell_ab423587adbfdc733ae4311c7e1ed3065}\label{class_cell_ab423587adbfdc733ae4311c7e1ed3065} 
+static int {\bfseries maxsigma} = 0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cell_aed9cb4dbc4f47dbc026e3287f7c2831b}\label{class_cell_aed9cb4dbc4f47dbc026e3287f7c2831b} 
+class {\bfseries Dish}
+\item 
+\Hypertarget{class_cell_ac0d1ad5d66ebb242178dd5da9c9d6fca}\label{class_cell_ac0d1ad5d66ebb242178dd5da9c9d6fca} 
+class {\bfseries Cellular\+Potts}
+\item 
+\Hypertarget{class_cell_a4838ff865b8d8625c61d208a420f8212}\label{class_cell_a4838ff865b8d8625c61d208a420f8212} 
+class {\bfseries Info}
+\item 
+\Hypertarget{class_cell_a326e329be4ec9ba0cb88d0426291d89d}\label{class_cell_a326e329be4ec9ba0cb88d0426291d89d} 
+class {\bfseries IO}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cell_a387af5e97fced410b231aa730d87dd33}\label{class_cell_a387af5e97fced410b231aa730d87dd33} 
+\index{Cell@{Cell}!CellBirth@{CellBirth}}
+\index{CellBirth@{CellBirth}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{CellBirth()}{CellBirth()}}
+{\footnotesize\ttfamily void Cell\+::\+Cell\+Birth (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cell}{Cell}} \&}]{mother }\end{DoxyParamCaption})}
+
+
+
+Add a new cell to the dish. 
+
+Call it as\+: new \doxylink{class_cell}{Cell(parent, true)}; mother will be modified for ancestry administration!
+
+
+\begin{DoxyParams}{Parameters}
+{\em settau} & \doxylink{class_cell}{Cell} type of daughter cell. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cell_a8baa793d28c592ee85d63ad52ac2fb7d}\label{class_cell_a8baa793d28c592ee85d63ad52ac2fb7d} 
+\index{Cell@{Cell}!ClearJ@{ClearJ}}
+\index{ClearJ@{ClearJ}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{ClearJ()}{ClearJ()}}
+{\footnotesize\ttfamily void Cell\+::\+ClearJ (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Clears the table of J\textquotesingle{}s. 
+
+This is only important for a feature called "{}\+Dynamic\+J\textquotesingle{}s"{}, where J-\/values depend on internal states of the cells (such as a genetic network; see e.\+g. Hogeweg et al. 2000). The current version of TST does not include such functionality. \Hypertarget{class_cell_a8e798cf1b3cacb03713a9e45bca961e1}\label{class_cell_a8e798cf1b3cacb03713a9e45bca961e1} 
+\index{Cell@{Cell}!MeasureCellSize@{MeasureCellSize}}
+\index{MeasureCellSize@{MeasureCellSize}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{MeasureCellSize()}{MeasureCellSize()}}
+{\footnotesize\ttfamily void Cell\+::\+Measure\+Cell\+Size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cell}{Cell}} \&}]{c }\end{DoxyParamCaption})}
+
+After introducing a new \doxylink{class_cell}{Cell} (e.\+g. with Grow\+In\+Cell) call this function to set the moments and areas right. \Hypertarget{class_cell_a351061fe41e3da9a7baa081b32ac0581}\label{class_cell_a351061fe41e3da9a7baa081b32ac0581} 
+\index{Cell@{Cell}!operator=@{operator=}}
+\index{operator=@{operator=}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_cell}{Cell}} \& Cell\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_cell}{Cell}} \&}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Assignment operator. 
+
+Called if one cell is assigned to another. Remember to change both assignment operator and copy constructor when adding new attributes to \doxylink{class_cell}{Cell}. \Hypertarget{class_cell_a4cdc14c24736d472c100a3382c3577c8}\label{class_cell_a4cdc14c24736d472c100a3382c3577c8} 
+\index{Cell@{Cell}!PrintInertia@{PrintInertia}}
+\index{PrintInertia@{PrintInertia}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{PrintInertia()}{PrintInertia()}}
+{\footnotesize\ttfamily void Cell\+::\+Print\+Inertia (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Debugging function used to print the cell\textquotesingle{}s current inertia tensor (as used for calculations of the length ) 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/cellular\+\_\+potts/cell.\+hpp\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/cellular\+\_\+potts/cell.\+cpp\end{DoxyCompactItemize}

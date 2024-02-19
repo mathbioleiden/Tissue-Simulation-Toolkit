@@ -1,0 +1,129 @@
+\doxysection{cl\+::Kernel Class Reference}
+\hypertarget{classcl_1_1_kernel}{}\label{classcl_1_1_kernel}\index{cl::Kernel@{cl::Kernel}}
+
+
+Class interface for cl\+\_\+kernel.  
+
+
+
+
+{\ttfamily \#include $<$cl.\+hpp$>$}
+
+Inheritance diagram for cl\+::Kernel\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcl_1_1_kernel}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcl_1_1_kernel_a351422a7e7125812c23610628b0f9de7}\label{classcl_1_1_kernel_a351422a7e7125812c23610628b0f9de7} 
+{\bfseries Kernel} (const \mbox{\hyperlink{classcl_1_1_program}{Program}} \&program, const char \texorpdfstring{$\ast$}{*}name, cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL)
+\item 
+\Hypertarget{classcl_1_1_kernel_a69b2fc97f80d90a23927a74395d09ec9}\label{classcl_1_1_kernel_a69b2fc97f80d90a23927a74395d09ec9} 
+{\bfseries Kernel} ()
+\begin{DoxyCompactList}\small\item\em Default constructor -\/ initializes to NULL. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS \mbox{\hyperlink{classcl_1_1_kernel_aaeecc4a7a7a3bed7f8c7d22563b78384}{Kernel}} (const cl\+\_\+kernel \&kernel)
+\begin{DoxyCompactList}\small\item\em Constructor from cl\+\_\+kernel -\/ takes ownership. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_kernel}{Kernel}} \& \mbox{\hyperlink{classcl_1_1_kernel_ab9fbaa8ff250cc478a84387c017493f0}{operator=}} (const cl\+\_\+kernel \&rhs)
+\begin{DoxyCompactList}\small\item\em Assignment operator from cl\+\_\+kernel -\/ takes ownership. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_kernel_a93b516f37993297101dd9d30a4572b23}\label{classcl_1_1_kernel_a93b516f37993297101dd9d30a4572b23} 
+{\bfseries Kernel} (const \mbox{\hyperlink{classcl_1_1_kernel}{Kernel}} \&kernel)
+\begin{DoxyCompactList}\small\item\em Copy constructor to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_kernel_a52ba1d47a5dae7b90d57760cac3507d0}\label{classcl_1_1_kernel_a52ba1d47a5dae7b90d57760cac3507d0} 
+\mbox{\hyperlink{classcl_1_1_kernel}{Kernel}} \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1_kernel}{Kernel}} \&kernel)
+\begin{DoxyCompactList}\small\item\em Copy assignment to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_kernel_a32b57f5ba1c9fb5d3fe1c8f5c8f067f9}\label{classcl_1_1_kernel_a32b57f5ba1c9fb5d3fe1c8f5c8f067f9} 
+{\footnotesize template$<$typename T $>$ }\\cl\+\_\+int {\bfseries get\+Info} (cl\+\_\+kernel\+\_\+info name, T \texorpdfstring{$\ast$}{*}param) const
+\item 
+\Hypertarget{classcl_1_1_kernel_adb440842026bdfdd9451b183aa55508f}\label{classcl_1_1_kernel_adb440842026bdfdd9451b183aa55508f} 
+{\footnotesize template$<$cl\+\_\+int name$>$ }\\\mbox{\hyperlink{structcl_1_1detail_1_1param__traits}{detail\+::param\+\_\+traits}}$<$ detail\+::cl\+\_\+kernel\+\_\+info, name $>$\+::param\+\_\+type {\bfseries get\+Info} (cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL) const
+\item 
+\Hypertarget{classcl_1_1_kernel_ae4e8cba9366c1198454766e6b392ed1d}\label{classcl_1_1_kernel_ae4e8cba9366c1198454766e6b392ed1d} 
+{\footnotesize template$<$typename T $>$ }\\cl\+\_\+int {\bfseries get\+Work\+Group\+Info} (const \mbox{\hyperlink{classcl_1_1_device}{Device}} \&device, cl\+\_\+kernel\+\_\+work\+\_\+group\+\_\+info name, T \texorpdfstring{$\ast$}{*}param) const
+\item 
+\Hypertarget{classcl_1_1_kernel_a7f497343cb5112734a23779307bf5efd}\label{classcl_1_1_kernel_a7f497343cb5112734a23779307bf5efd} 
+{\footnotesize template$<$cl\+\_\+int name$>$ }\\\mbox{\hyperlink{structcl_1_1detail_1_1param__traits}{detail\+::param\+\_\+traits}}$<$ detail\+::cl\+\_\+kernel\+\_\+work\+\_\+group\+\_\+info, name $>$\+::param\+\_\+type {\bfseries get\+Work\+Group\+Info} (const \mbox{\hyperlink{classcl_1_1_device}{Device}} \&device, cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL) const
+\item 
+\Hypertarget{classcl_1_1_kernel_ae8fd90bcf9d6783a132c59aa228c6077}\label{classcl_1_1_kernel_ae8fd90bcf9d6783a132c59aa228c6077} 
+{\footnotesize template$<$typename T $>$ }\\cl\+\_\+int {\bfseries set\+Arg} (cl\+\_\+uint index, const T \&value)
+\item 
+\Hypertarget{classcl_1_1_kernel_af2de65bc284925e1954e3957d300a379}\label{classcl_1_1_kernel_af2de65bc284925e1954e3957d300a379} 
+cl\+\_\+int {\bfseries set\+Arg} (cl\+\_\+uint index, \+::size\+\_\+t size, const void \texorpdfstring{$\ast$}{*}arg\+Ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+kernel $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Wrapper} (const cl\+\_\+type \&obj)
+\item 
+{\bfseries Wrapper} (const \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \&rhs)
+\item 
+\mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \&rhs)
+\item 
+\mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \& {\bfseries operator=} (const cl\+\_\+type \&rhs)
+\item 
+cl\+\_\+type {\bfseries operator()} () const
+\item 
+cl\+\_\+type \& {\bfseries operator()} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+kernel $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef cl\+\_\+kernel {\bfseries cl\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+kernel $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+cl\+\_\+int {\bfseries retain} () const
+\item 
+cl\+\_\+int {\bfseries release} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+kernel $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+cl\+\_\+type {\bfseries object\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class interface for cl\+\_\+kernel. 
+
+\begin{DoxyNote}{Note}
+Copies of these objects are shallow, meaning that the copy will refer to the same underlying cl\+\_\+kernel as the original. For details, see cl\+Retain\+Kernel() and cl\+Release\+Kernel().
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+cl\+\_\+kernel 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcl_1_1_kernel_aaeecc4a7a7a3bed7f8c7d22563b78384}\label{classcl_1_1_kernel_aaeecc4a7a7a3bed7f8c7d22563b78384} 
+\index{cl::Kernel@{cl::Kernel}!Kernel@{Kernel}}
+\index{Kernel@{Kernel}!cl::Kernel@{cl::Kernel}}
+\doxysubsubsection{\texorpdfstring{Kernel()}{Kernel()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS cl\+::\+Kernel\+::\+Kernel (\begin{DoxyParamCaption}\item[{const cl\+\_\+kernel \&}]{kernel }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor from cl\+\_\+kernel -\/ takes ownership. 
+
+This effectively transfers ownership of a refcount on the cl\+\_\+kernel into the new \doxylink{classcl_1_1_kernel}{Kernel} object. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcl_1_1_kernel_ab9fbaa8ff250cc478a84387c017493f0}\label{classcl_1_1_kernel_ab9fbaa8ff250cc478a84387c017493f0} 
+\index{cl::Kernel@{cl::Kernel}!operator=@{operator=}}
+\index{operator=@{operator=}!cl::Kernel@{cl::Kernel}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcl_1_1_kernel}{Kernel}} \& cl\+::\+Kernel\+::operator= (\begin{DoxyParamCaption}\item[{const cl\+\_\+kernel \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Assignment operator from cl\+\_\+kernel -\/ takes ownership. 
+
+This effectively transfers ownership of a refcount on the rhs and calls cl\+Release\+Kernel() on the value previously held by this instance. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/compute/\mbox{\hyperlink{cl_8hpp}{cl.\+hpp}}\end{DoxyCompactItemize}

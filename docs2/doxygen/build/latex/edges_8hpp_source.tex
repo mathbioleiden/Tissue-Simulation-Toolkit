@@ -1,0 +1,38 @@
+\doxysection{edges.\+hpp}
+\hypertarget{edges_8hpp_source}{}\label{edges_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/cellular\_potts/edges.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/cellular\_potts/edges.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_edges}{Edges}}\ \{}
+\DoxyCodeLine{00002\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00003\ \ \ \textcolor{keyword}{const}\ std::array<int,\ 4>\ \&operator[](\textcolor{keywordtype}{unsigned}\ index)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{keywordflow}{return}\ edgemap[edgeVector[index]];}
+\DoxyCodeLine{00005\ \ \ \}}
+\DoxyCodeLine{00006\ \ \ std::array<int,\ 4>\ \&operator[](\textcolor{keywordtype}{unsigned}\ index)\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordflow}{return}\ edgemap[edgeVector[index]];}
+\DoxyCodeLine{00008\ \ \ \}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \textcolor{keywordtype}{void}\ insert(std::array<int,\ 4>\ edge)\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ std::pair<iterator,\ bool>\ insertion\ =}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ edgemap.insert(edge,\ edgevector.size())\ \textcolor{keywordflow}{if}\ (insertion-\/>second)\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ edgevector.push\_back(insertion-\/>first);}
+\DoxyCodeLine{00014\ \ \ \ \ \}}
+\DoxyCodeLine{00015\ \ \ \}}
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordtype}{void}\ erase(std::array<int,\ 4>\ edge)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ index\ =\ edgemap.at(edge);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \textcolor{comment}{//\ std::unordered\_map<std::array<int,4>,int>::iterator\ last\_it\ =}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \textcolor{comment}{//\ edgevector}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ edgevector.swap(index,\ edgevector.size()\ -\/\ 1);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ edgemap[egdevector[index]]\ =\ index;}
+\DoxyCodeLine{00023\ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::out\_of\_range\ \&oor)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \}}
+\DoxyCodeLine{00026\ \ \ \textcolor{keywordtype}{unsigned}\ size\_map()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ edgemap.size();\ \}}
+\DoxyCodeLine{00027\ \ \ \textcolor{keywordtype}{unsigned}\ size\_vector()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ edgevector.size();\ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00030\ \ \ std::unordered\_map<std::array<int,\ 4>,\ \textcolor{keywordtype}{int}>\ edgemap;}
+\DoxyCodeLine{00031\ \ \ std::vector<std::unordered\_map<std::array<int,\ 4>,\ \textcolor{keywordtype}{int}>::iterator>\ edgevector;}
+\DoxyCodeLine{00032\ \};}
+
+\end{DoxyCode}

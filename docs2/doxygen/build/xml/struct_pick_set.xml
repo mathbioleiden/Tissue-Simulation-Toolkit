@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="struct_pick_set" kind="struct" language="C++" prot="public">
+    <compoundname>PickSet</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>typename H</type>
+        <defval>std::hash&lt;T&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_pick_set_1a1b8620c0770e8ccc356761af64ae2220" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; const T *, <ref refid="struct_hasher" kindref="compound">Hasher</ref>&lt; T, H &gt;, <ref refid="struct_equal_to" kindref="compound">EqualTo</ref>&lt; T, H &gt; &gt;</type>
+        <definition>std::unordered_set&lt;const T *, Hasher&lt;T, H&gt;, EqualTo&lt;T, H&gt; &gt; PickSet&lt; T, H &gt;::_unorderedSet</definition>
+        <argsstring></argsstring>
+        <name>_unorderedSet</name>
+        <qualifiedname>PickSet::_unorderedSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="55" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_pick_set_1a5a14919344e6ffddbcf4d83253630d1b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt;T&gt; PickSet&lt; T, H &gt;::_vector</definition>
+        <argsstring></argsstring>
+        <name>_vector</name>
+        <qualifiedname>PickSet::_vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="56" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="struct_pick_set_1ac47a8a9444fe00721dd328f98412af9d" prot="public" static="yes" mutable="no">
+        <type>std::default_random_engine</type>
+        <definition>std::default_random_engine PickSet&lt; T, H &gt;::_generator</definition>
+        <argsstring></argsstring>
+        <name>_generator</name>
+        <qualifiedname>PickSet::_generator</qualifiedname>
+        <initializer>=
+    std::default_random_engine()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="58" column="37" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_pick_set_1a99929f8c8ebd60cf84daca8c627fe628" prot="public" static="yes" mutable="no">
+        <type>std::uniform_int_distribution&lt; std::size_t &gt;</type>
+        <definition>std::uniform_int_distribution&lt; std::size_t &gt; PickSet&lt; T, H &gt;::_distribution</definition>
+        <argsstring></argsstring>
+        <name>_distribution</name>
+        <qualifiedname>PickSet::_distribution</qualifiedname>
+        <initializer>=
+    std::uniform_int_distribution&lt;std::size_t&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="59" column="40" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_pick_set_1a105f87e7aa10e4eb2fc7981e1d680e2d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PickSet&lt; T, H &gt;::rebuildAndReserve</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildAndReserve</name>
+        <qualifiedname>PickSet::rebuildAndReserve</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="19" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="19" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_pick_set_1a5bed3dae6216396a9a49b11f03f687c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PickSet&lt; T, H &gt;::insert</definition>
+        <argsstring>(const T &amp;t)</argsstring>
+        <name>insert</name>
+        <qualifiedname>PickSet::insert</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="26" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="26" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_pick_set_1a16f20bb2e2f7b8209ad222f558e15627" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PickSet&lt; T, H &gt;::erase</definition>
+        <argsstring>(const T &amp;t)</argsstring>
+        <name>erase</name>
+        <qualifiedname>PickSet::erase</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="38" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_pick_set_1ac4a0fa8da65d9acb0857d4af623c8d0b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int PickSet&lt; T, H &gt;::size</definition>
+        <argsstring>(const T &amp;t)</argsstring>
+        <name>size</name>
+        <qualifiedname>PickSet::size</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="49" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_pick_set_1a29a431533b821e2058ab325f16929df6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; PickSet&lt; T, H &gt;::pickRandom</definition>
+        <argsstring>() const</argsstring>
+        <name>pickRandom</name>
+        <qualifiedname>PickSet::pickRandom</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="51" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="17" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="17" bodyend="60"/>
+    <listofallmembers>
+      <member refid="struct_pick_set_1a99929f8c8ebd60cf84daca8c627fe628" prot="public" virt="non-virtual"><scope>PickSet</scope><name>_distribution</name></member>
+      <member refid="struct_pick_set_1ac47a8a9444fe00721dd328f98412af9d" prot="public" virt="non-virtual"><scope>PickSet</scope><name>_generator</name></member>
+      <member refid="struct_pick_set_1a1b8620c0770e8ccc356761af64ae2220" prot="public" virt="non-virtual"><scope>PickSet</scope><name>_unorderedSet</name></member>
+      <member refid="struct_pick_set_1a5a14919344e6ffddbcf4d83253630d1b" prot="public" virt="non-virtual"><scope>PickSet</scope><name>_vector</name></member>
+      <member refid="struct_pick_set_1a16f20bb2e2f7b8209ad222f558e15627" prot="public" virt="non-virtual"><scope>PickSet</scope><name>erase</name></member>
+      <member refid="struct_pick_set_1a5bed3dae6216396a9a49b11f03f687c2" prot="public" virt="non-virtual"><scope>PickSet</scope><name>insert</name></member>
+      <member refid="struct_pick_set_1a29a431533b821e2058ab325f16929df6" prot="public" virt="non-virtual"><scope>PickSet</scope><name>pickRandom</name></member>
+      <member refid="struct_pick_set_1a105f87e7aa10e4eb2fc7981e1d680e2d" prot="public" virt="non-virtual"><scope>PickSet</scope><name>rebuildAndReserve</name></member>
+      <member refid="struct_pick_set_1ac4a0fa8da65d9acb0857d4af623c8d0b" prot="public" virt="non-virtual"><scope>PickSet</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

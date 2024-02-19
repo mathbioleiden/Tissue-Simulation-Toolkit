@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="misc_8hpp" kind="file" language="C++">
+    <compoundname>misc.hpp</compoundname>
+    <includedby refid="info_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/info.cpp</includedby>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="misc_8hpp_1aa93f0eb578d23995850d61f7d61c55c1" prot="public" static="no">
+        <name>FALSE</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="23" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="misc_8hpp_1aa8cecfc5c5c054d2875c03e77b7be15d" prot="public" static="no">
+        <name>TRUE</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="24" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="misc_8hpp_1aba51915c87d64af47fb1cc59348961c9" prot="public" static="no">
+        <name>OK</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="25" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="misc_8hpp_1ace9fba7267bf6a9a92654ce7f25c5516" prot="public" static="no">
+        <name>REMARK</name>
+        <initializer>56</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="26" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="misc_8hpp_1ab1000566635b3292ea889a41b92f12b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ReadNumber</definition>
+        <argsstring>(FILE *file, int *number)</argsstring>
+        <name>ReadNumber</name>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PUBLIC </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="28" column="5" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.cpp" bodystart="70" bodyend="84" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" declline="28" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="misc_8hpp_1aa67ef0a1d41408ed07b342be6de4c37c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int YesNoP</definition>
+        <argsstring>(const char *message)</argsstring>
+        <name>YesNoP</name>
+        <param>
+          <type>const char *</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="29" column="5" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.cpp" bodystart="120" bodyend="138" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" declline="29" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="misc_8hpp_1a1a1fdd3e5d1635af2f2482a923017b33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char * GetFileName</definition>
+        <argsstring>(const char *message, const char *ftype)</argsstring>
+        <name>GetFileName</name>
+        <param>
+          <type>const char *</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>ftype</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="30" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.cpp" bodystart="140" bodyend="177" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" declline="30" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="misc_8hpp_1ae59164878311b840e5846c64ae238126" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int FileExists</definition>
+        <argsstring>(FILE **fp, const char *fname, const char *ftype)</argsstring>
+        <name>FileExists</name>
+        <param>
+          <type>FILE **</type>
+          <declname>fp</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>fname</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>ftype</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="31" column="5" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.cpp" bodystart="105" bodyend="118" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" declline="31" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="misc_8hpp_1a1065caf5bb7bf5a871c0bb6cce4e5d69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ReadDouble</definition>
+        <argsstring>(FILE *file, double *number)</argsstring>
+        <name>ReadDouble</name>
+        <param>
+          <type>FILE *</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" line="32" column="5" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.cpp" bodystart="86" bodyend="103" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp" declline="32" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"></highlight></codeline>
+<codeline lineno="3"><highlight class="comment">Copyright<sp/>1996-2006<sp/>Roeland<sp/>Merks</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"></highlight></codeline>
+<codeline lineno="5"><highlight class="comment">This<sp/>file<sp/>is<sp/>part<sp/>of<sp/>Tissue<sp/>Simulation<sp/>Toolkit.</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"></highlight></codeline>
+<codeline lineno="7"><highlight class="comment">Tissue<sp/>Simulation<sp/>Toolkit<sp/>is<sp/>free<sp/>software;<sp/>you<sp/>can<sp/>redistribute</highlight></codeline>
+<codeline lineno="8"><highlight class="comment">it<sp/>and/or<sp/>modify<sp/>it<sp/>under<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public</highlight></codeline>
+<codeline lineno="9"><highlight class="comment">License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software<sp/>Foundation;<sp/>either</highlight></codeline>
+<codeline lineno="10"><highlight class="comment">version<sp/>2<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later<sp/>version.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"></highlight></codeline>
+<codeline lineno="12"><highlight class="comment">Tissue<sp/>Simulation<sp/>Toolkit<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will</highlight></codeline>
+<codeline lineno="13"><highlight class="comment">be<sp/>useful,<sp/>but<sp/>WITHOUT<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied</highlight></codeline>
+<codeline lineno="14"><highlight class="comment">warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.</highlight></codeline>
+<codeline lineno="15"><highlight class="comment">See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more<sp/>details.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"></highlight></codeline>
+<codeline lineno="17"><highlight class="comment">You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License</highlight></codeline>
+<codeline lineno="18"><highlight class="comment">along<sp/>with<sp/>Tissue<sp/>Simulation<sp/>Toolkit;<sp/>if<sp/>not,<sp/>write<sp/>to<sp/>the<sp/>Free</highlight></codeline>
+<codeline lineno="19"><highlight class="comment">Software<sp/>Foundation,<sp/>Inc.,<sp/>51<sp/>Franklin<sp/>St,<sp/>Fifth<sp/>Floor,<sp/>Boston,<sp/>MA</highlight></codeline>
+<codeline lineno="20"><highlight class="comment">02110-1301<sp/>USA</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"></highlight></codeline>
+<codeline lineno="22"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FALSE<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRUE<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>OK<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>REMARK<sp/>56</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ReadNumber(FILE<sp/>*file,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*number);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>YesNoP(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*message);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*GetFileName(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*message,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*ftype);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>FileExists(FILE<sp/>**fp,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*fname,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*ftype);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ReadDouble(FILE<sp/>*file,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*number);</highlight></codeline>
+    </programlisting>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/misc.hpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="crash_8hpp" kind="file" language="C++">
+    <compoundname>crash.hpp</compoundname>
+    <includedby refid="ca_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/ca.cpp</includedby>
+    <includedby refid="dish_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.cpp</includedby>
+    <includedby refid="pde_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/reaction_diffusion/pde.cpp</includedby>
+    <includedby refid="crash_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.cpp</includedby>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="crash_8hpp_1a8f556bfd09e856fb90fcd0d8569102ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void StartSIGINTHandling</definition>
+        <argsstring>()</argsstring>
+        <name>StartSIGINTHandling</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" line="23" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.cpp" bodystart="42" bodyend="46" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" declline="23" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="crash_8hpp_1a9204dc74d558cf88808a07563c0720e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void HandleSIGINT</definition>
+        <argsstring>(int dummy)</argsstring>
+        <name>HandleSIGINT</name>
+        <param>
+          <type>int</type>
+          <declname>dummy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" line="24" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.cpp" bodystart="48" bodyend="50" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" declline="24" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="crash_8hpp_1ad8a6bbf5a9b18ae6a4f66ae84d16d48a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void StartSIGSEGVHandling</definition>
+        <argsstring>()</argsstring>
+        <name>StartSIGSEGVHandling</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" line="25" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.cpp" bodystart="52" bodyend="56" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" declline="25" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="crash_8hpp_1a8b93c1fe9e113ae0de5b3fec7d9c96c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void HandleSIGSEGV</definition>
+        <argsstring>(int dummy)</argsstring>
+        <name>HandleSIGSEGV</name>
+        <param>
+          <type>int</type>
+          <declname>dummy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" line="26" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.cpp" bodystart="58" bodyend="70" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" declline="26" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="crash_8hpp_1a12d2cdb667c7fc02143f95f6caf5b299" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void NiceMessage</definition>
+        <argsstring>()</argsstring>
+        <name>NiceMessage</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" line="27" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.cpp" bodystart="72" bodyend="77" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" declline="27" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="crash_8hpp_1aa7a71c80db8162c3dbcf8d4343abd3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MemoryWarning</definition>
+        <argsstring>(void)</argsstring>
+        <name>MemoryWarning</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" line="28" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.cpp" bodystart="79" bodyend="85" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" declline="28" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="crash_8hpp_1a9c7ac3bf9df7b356ef19db45f4907a3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Crash</definition>
+        <argsstring>(const char *message)</argsstring>
+        <name>Crash</name>
+        <param>
+          <type>const char *</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" line="29" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.cpp" bodystart="87" bodyend="97" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp" declline="29" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"></highlight></codeline>
+<codeline lineno="3"><highlight class="comment">Copyright<sp/>1996-2006<sp/>Roeland<sp/>Merks</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"></highlight></codeline>
+<codeline lineno="5"><highlight class="comment">This<sp/>file<sp/>is<sp/>part<sp/>of<sp/>Tissue<sp/>Simulation<sp/>Toolkit.</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"></highlight></codeline>
+<codeline lineno="7"><highlight class="comment">Tissue<sp/>Simulation<sp/>Toolkit<sp/>is<sp/>free<sp/>software;<sp/>you<sp/>can<sp/>redistribute</highlight></codeline>
+<codeline lineno="8"><highlight class="comment">it<sp/>and/or<sp/>modify<sp/>it<sp/>under<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public</highlight></codeline>
+<codeline lineno="9"><highlight class="comment">License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software<sp/>Foundation;<sp/>either</highlight></codeline>
+<codeline lineno="10"><highlight class="comment">version<sp/>2<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later<sp/>version.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"></highlight></codeline>
+<codeline lineno="12"><highlight class="comment">Tissue<sp/>Simulation<sp/>Toolkit<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will</highlight></codeline>
+<codeline lineno="13"><highlight class="comment">be<sp/>useful,<sp/>but<sp/>WITHOUT<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied</highlight></codeline>
+<codeline lineno="14"><highlight class="comment">warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.</highlight></codeline>
+<codeline lineno="15"><highlight class="comment">See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more<sp/>details.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"></highlight></codeline>
+<codeline lineno="17"><highlight class="comment">You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License</highlight></codeline>
+<codeline lineno="18"><highlight class="comment">along<sp/>with<sp/>Tissue<sp/>Simulation<sp/>Toolkit;<sp/>if<sp/>not,<sp/>write<sp/>to<sp/>the<sp/>Free</highlight></codeline>
+<codeline lineno="19"><highlight class="comment">Software<sp/>Foundation,<sp/>Inc.,<sp/>51<sp/>Franklin<sp/>St,<sp/>Fifth<sp/>Floor,<sp/>Boston,<sp/>MA</highlight></codeline>
+<codeline lineno="20"><highlight class="comment">02110-1301<sp/>USA</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"></highlight></codeline>
+<codeline lineno="22"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>StartSIGINTHandling();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>HandleSIGINT(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dummy);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>StartSIGSEGVHandling();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>HandleSIGSEGV(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dummy);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>NiceMessage();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MemoryWarning(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Crash(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*message);</highlight></codeline>
+    </programlisting>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/crash.hpp"/>
+  </compounddef>
+</doxygen>

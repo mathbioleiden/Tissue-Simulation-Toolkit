@@ -1,0 +1,526 @@
+\doxysection{cell.\+hpp}
+\hypertarget{cell_8hpp_source}{}\label{cell_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/cellular\_potts/cell.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/cellular\_potts/cell.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ 1996-\/2006\ Roeland\ Merks}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Tissue\ Simulation\ Toolkit.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ free\ software;\ you\ can\ redistribute}}
+\DoxyCodeLine{00008\ \textcolor{comment}{it\ and/or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public}}
+\DoxyCodeLine{00009\ \textcolor{comment}{License\ as\ published\ by\ the\ Free\ Software\ Foundation;\ either}}
+\DoxyCodeLine{00010\ \textcolor{comment}{version\ 2\ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ distributed\ in\ the\ hope\ that\ it\ will}}
+\DoxyCodeLine{00013\ \textcolor{comment}{be\ useful,\ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied}}
+\DoxyCodeLine{00014\ \textcolor{comment}{warranty\ of\ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{See\ the\ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00018\ \textcolor{comment}{along\ with\ Tissue\ Simulation\ Toolkit;\ if\ not,\ write\ to\ the\ Free}}
+\DoxyCodeLine{00019\ \textcolor{comment}{Software\ Foundation,\ Inc.,\ 51\ Franklin\ St,\ Fifth\ Floor,\ Boston,\ MA}}
+\DoxyCodeLine{00020\ \textcolor{comment}{02110-\/1301\ USA}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ \_CELL\_HH\_}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ \_CELL\_HH\_}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}parameter.hpp"{}}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ \#define\ EMPTY\ -\/1}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{class_parameter}{Parameter}}\ par;}
+\DoxyCodeLine{00032\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dish}{Dish}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_cell}{Cell}}\ \{}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dish}{Dish}};}
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_cellular_potts}{CellularPotts}};}
+\DoxyCodeLine{00037\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_info}{Info}};}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_i_o}{IO}};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00045\ \ \ \mbox{\hyperlink{class_cell_a822aecd83d8aa95fab97641a88e60225}{Cell}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_dish}{Dish}}\ \&who,\ \textcolor{keywordtype}{int}\ settau\ =\ 1)\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ owner\ =\ \&who;}
+\DoxyCodeLine{00047\ \ \ \ \ ConstructorBody(settau);}
+\DoxyCodeLine{00048\ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \mbox{\hyperlink{class_cell}{Cell}}(\textcolor{keywordtype}{void})\ \{\ chem\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{double}[par.n\_chem];\ \};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \mbox{\hyperlink{class_cell}{\string~Cell}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00055\ \ \ \mbox{\hyperlink{class_cell_a8a36eee6405552ddb5a27d2ce1a7272c}{Cell}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_cell}{Cell}}\ \&src)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ make\ an\ exact\ copy\ (for\ internal\ use)}}
+\DoxyCodeLine{00057\ \ \ \ \ sigma\ =\ src.sigma;}
+\DoxyCodeLine{00058\ \ \ \ \ amount++;}
+\DoxyCodeLine{00059\ \ \ \ \ area\ =\ src.area;}
+\DoxyCodeLine{00060\ \ \ \ \ target\_area\ =\ src.target\_area;}
+\DoxyCodeLine{00061\ \ \ \ \ length\ =\ src.length;}
+\DoxyCodeLine{00062\ \ \ \ \ adhesive\_area\ =\ src.adhesive\_area;}
+\DoxyCodeLine{00063\ \ \ \ \ ref\_adhesive\_area\ =\ src.ref\_adhesive\_area;}
+\DoxyCodeLine{00064\ \ \ \ \ perimeter\ =\ src.perimeter;}
+\DoxyCodeLine{00065\ \ \ \ \ target\_perimeter\ =\ src.target\_perimeter;}
+\DoxyCodeLine{00066\ \ \ \ \ length\ =\ src.length;}
+\DoxyCodeLine{00067\ \ \ \ \ target\_length\ =\ src.target\_length;}
+\DoxyCodeLine{00068\ \ \ \ \ growth\_threshold\ =\ src.growth\_threshold;}
+\DoxyCodeLine{00069\ \ \ \ \ mother\ =\ src.mother;}
+\DoxyCodeLine{00070\ \ \ \ \ daughter\ =\ src.daughter;}
+\DoxyCodeLine{00071\ \ \ \ \ times\_divided\ =\ src.times\_divided;}
+\DoxyCodeLine{00072\ \ \ \ \ date\_of\_birth\ =\ src.date\_of\_birth;}
+\DoxyCodeLine{00073\ \ \ \ \ colour\_of\_birth\ =\ src.colour\_of\_birth;}
+\DoxyCodeLine{00074\ \ \ \ \ tau\ =\ src.tau;}
+\DoxyCodeLine{00075\ \ \ \ \ alive\ =\ src.alive;}
+\DoxyCodeLine{00076\ \ \ \ \ v[0]\ =\ src.v[0];}
+\DoxyCodeLine{00077\ \ \ \ \ v[1]\ =\ src.v[1];}
+\DoxyCodeLine{00078\ \ \ \ \ n\_copies\ =\ src.n\_copies;}
+\DoxyCodeLine{00079\ \ \ \ \ sum\_x\ =\ src.sum\_x;}
+\DoxyCodeLine{00080\ \ \ \ \ sum\_y\ =\ src.sum\_y;}
+\DoxyCodeLine{00081\ \ \ \ \ sum\_xx\ =\ src.sum\_xx;}
+\DoxyCodeLine{00082\ \ \ \ \ sum\_yy\ =\ src.sum\_yy;}
+\DoxyCodeLine{00083\ \ \ \ \ sum\_xy\ =\ src.sum\_xy;}
+\DoxyCodeLine{00084\ \ \ \ \ owner\ =\ src.owner;}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ chem\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{double}[par.n\_chem];}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ ch\ =\ 0;\ ch\ <\ par.n\_chem;\ ch++)}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ chem[ch]\ =\ src.chem[ch];}
+\DoxyCodeLine{00089\ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00099\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cell_a387af5e97fced410b231aa730d87dd33}{CellBirth}}(\mbox{\hyperlink{class_cell}{Cell}}\ \&mother);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00107\ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{class_cell}{Cell}}\ \&\mbox{\hyperlink{class_cell_a351061fe41e3da9a7baa081b32ac0581}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_cell}{Cell}}\ \&src)\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ colour\ =\ src.colour;}
+\DoxyCodeLine{00109\ \ \ \ \ alive\ =\ src.alive;}
+\DoxyCodeLine{00110\ \ \ \ \ sigma\ =\ src.sigma;}
+\DoxyCodeLine{00111\ \ \ \ \ area\ =\ src.area;}
+\DoxyCodeLine{00112\ \ \ \ \ tau\ =\ src.tau;}
+\DoxyCodeLine{00113\ \ \ \ \ target\_area\ =\ src.target\_area;}
+\DoxyCodeLine{00114\ \ \ \ \ v[0]\ =\ src.v[0];}
+\DoxyCodeLine{00115\ \ \ \ \ v[1]\ =\ src.v[1];}
+\DoxyCodeLine{00116\ \ \ \ \ n\_copies\ =\ src.n\_copies;}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ sum\_x\ =\ src.sum\_x;}
+\DoxyCodeLine{00119\ \ \ \ \ sum\_y\ =\ src.sum\_y;}
+\DoxyCodeLine{00120\ \ \ \ \ sum\_xx\ =\ src.sum\_xx;}
+\DoxyCodeLine{00121\ \ \ \ \ sum\_yy\ =\ src.sum\_yy;}
+\DoxyCodeLine{00122\ \ \ \ \ sum\_xy\ =\ src.sum\_xy;}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ border\ =\ src.border;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ length\ =\ src.length;}
+\DoxyCodeLine{00127\ \ \ \ \ target\_length\ =\ src.target\_length;}
+\DoxyCodeLine{00128\ \ \ \ \ amount++;}
+\DoxyCodeLine{00129\ \ \ \ \ owner\ =\ src.owner;}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ chem\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{double}[par.n\_chem];}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ ch\ =\ 0;\ ch\ <\ par.n\_chem;\ ch++)}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ chem[ch]\ =\ src.chem[ch];}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ perimeter\ =\ src.perimeter;}
+\DoxyCodeLine{00136\ \ \ \ \ target\_perimeter\ =\ src.target\_perimeter;}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00138\ \ \ \}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00141\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_cell_ade77ea0722ba814fc84c144e086595ae}{AliveP}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ alive;\ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00144\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a340d0f54404eb809d75f38a2da8aec56}{Colour}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{comment}{/*\ if\ (par.dynamicJ)}}
+\DoxyCodeLine{00146\ \textcolor{comment}{\ \ \ \ \ \ return\ colour;}}
+\DoxyCodeLine{00147\ \textcolor{comment}{\ \ \ \ \ \ else\ */}}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordflow}{return}\ tau\ +\ 1;}
+\DoxyCodeLine{00149\ \ \ \};}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00152\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cell_af3a3882fdf4e48130af67184cc70fe9d}{setTau}}(\textcolor{keywordtype}{int}\ settau)\ \{\ tau\ =\ settau;\ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ SetAdhesiveArea(\textcolor{keywordtype}{int}\ new\_area)\ \{\ \textcolor{keywordflow}{return}\ adhesive\_area\ =\ new\_area;\ \}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ GetAdhesiveArea()\ \{\ \textcolor{keywordflow}{return}\ adhesive\_area;\ \}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ SetBorderNumber(\textcolor{keywordtype}{double}\ n)\ \{\ border\ =\ n;\ \}}
+\DoxyCodeLine{00159\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ GetBorderNumber()\ \{\ \textcolor{keywordflow}{return}\ border;\ \}}
+\DoxyCodeLine{00160\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ IncrementBorderNumber(\textcolor{keywordtype}{double}\ n)\ \{\ border\ +=\ n;\ \}}
+\DoxyCodeLine{00161\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ DecrementBorderNumber(\textcolor{keywordtype}{double}\ n)\ \{\ border\ -\/=\ n;\ \}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00164\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a9fbfdfe12c82591083e673987d35570a}{getTau}}(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ tau;\ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ getCenterX(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{double})sum\_x\ /\ (double)area;\ \}}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ getSumX(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ sum\_x;\ \}}
+\DoxyCodeLine{00169\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ getSumY(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ sum\_y;\ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \textcolor{comment}{//\ inline\ double\ recomputeCenterXFromSum(void)\{}}
+\DoxyCodeLine{00172\ \ \ \textcolor{comment}{//\ \ \ center\_x=\ (double)\ sum\_x/\ (double)\ area;}}
+\DoxyCodeLine{00173\ \ \ \textcolor{comment}{//\ \ \ return\ center\_x;}}
+\DoxyCodeLine{00174\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00175\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00176\ \ \ \textcolor{comment}{//\ inline\ double\ recomputeCenterYFromSum(void)\{}}
+\DoxyCodeLine{00177\ \ \ \textcolor{comment}{//\ \ \ center\_y=\ (double)\ sum\_y/\ (double)\ area;}}
+\DoxyCodeLine{00178\ \ \ \textcolor{comment}{//\ \ \ return\ center\_y;}}
+\DoxyCodeLine{00179\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00180\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00181\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ getCenterY(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{double})sum\_y\ /\ (double)area;\ \}}
+\DoxyCodeLine{00182\ \ \ \textcolor{comment}{//\ inline\ void\ setCenterX(double\ newX)\{}}
+\DoxyCodeLine{00183\ \ \ \textcolor{comment}{//\ \ \ center\_x=newX;}}
+\DoxyCodeLine{00184\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00185\ \ \ \textcolor{comment}{//\ inline\ void\ setCenterY(double\ newY)\{}}
+\DoxyCodeLine{00186\ \ \ \textcolor{comment}{//\ \ \ center\_y=newY;}}
+\DoxyCodeLine{00187\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00189\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_aeafe2f67bdc876223f8871eb9f3e16ef}{SetColour}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ new\_colour)\ \{\ \textcolor{keywordflow}{return}\ colour\ =\ new\_colour;\ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \textcolor{comment}{/*\ \(\backslash\)brief\ Returns\ the\ energy\ between\ this\ cell\ and\ cell2.}}
+\DoxyCodeLine{00192\ \textcolor{comment}{}}
+\DoxyCodeLine{00193\ \textcolor{comment}{\ \ Called\ from\ CellularPotts::DeltaH.}}
+\DoxyCodeLine{00194\ \textcolor{comment}{\ \ **/}}
+\DoxyCodeLine{00195\ \ \ \textcolor{keywordtype}{int}\ EnergyDifference(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_cell}{Cell}}\ \&cell2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00198\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a04ef81805a0166850b928c1b9f1befe6}{Area}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ area;\ \}}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00201\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a89c1434b90e43eb5addbfa7840daf81d}{TargetArea}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ target\_area;\ \}}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \textcolor{comment}{//\ !\ Return\ Cell's\ perimeter}}
+\DoxyCodeLine{00204\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ Perimeter()\ \{\ \textcolor{keywordflow}{return}\ perimeter;\ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \textcolor{comment}{//\ !\ Return\ Cell's\ target\ perimeter}}
+\DoxyCodeLine{00207\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ TargetPerimeter()\ \{\ \textcolor{keywordflow}{return}\ target\_perimeter;\ \}}
+\DoxyCodeLine{00208\ \ \ \textcolor{comment}{//\ !\ Set\ Cell's\ target\ perimeter}}
+\DoxyCodeLine{00209\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ SetTargetPerimeter(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ new\_perimeter)\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keywordflow}{return}\ target\_perimeter\ =\ new\_perimeter;}
+\DoxyCodeLine{00211\ \ \ \}}
+\DoxyCodeLine{00212\ \ \ \textcolor{comment}{//\ !\ Set\ Cell's\ perimeter}}
+\DoxyCodeLine{00213\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ SetPerimeter(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ new\_perimeter)\ \{}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordflow}{return}\ perimeter\ =\ new\_perimeter;}
+\DoxyCodeLine{00215\ \ \ \}}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ TargetLength()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ target\_length;\ \}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00220\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_cell_af4cacfabcefaec22f4c875bf7566f67d}{SetTargetLength}}(\textcolor{keywordtype}{double}\ l)\ \{\ \textcolor{keywordflow}{return}\ target\_length\ =\ l;\ \}}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00224\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cell_a4cdc14c24736d472c100a3382c3577c8}{PrintInertia}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordtype}{double}\ ixx\ =\ (double)sum\_xx\ -\/\ (\textcolor{keywordtype}{double})sum\_x\ *\ sum\_x\ /\ (double)area;}
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keywordtype}{double}\ iyy\ =\ (double)sum\_yy\ -\/\ (\textcolor{keywordtype}{double})sum\_y\ *\ sum\_y\ /\ (double)area;}
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordtype}{double}\ ixy\ =\ (double)sum\_xy\ -\/\ (\textcolor{keywordtype}{double})sum\_x\ *\ sum\_y\ /\ (double)area;}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}ixx\ =\ "{}}\ <<\ ixx\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00230\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}iyy\ =\ "{}}\ <<\ iyy\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00231\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}ixy\ =\ "{}}\ <<\ ixy\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00232\ \ \ \}}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ \ \ \textcolor{comment}{//\ return\ the\ current\ length}}
+\DoxyCodeLine{00235\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ Length(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ length;\ \}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00244\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cell_a8baa793d28c592ee85d63ad52ac2fb7d}{ClearJ}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00245\ \ \ \textcolor{keywordtype}{double}\ polarvec[9];}
+\DoxyCodeLine{00246\ \ \ \textcolor{keywordtype}{void}\ RenormPolarVec(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00252\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a8b1e24a10e09376d69e7e52a39c5fad1}{MaxSigma}}()\ \{\ \textcolor{keywordflow}{return}\ maxsigma;\ \}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00255\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a8253cf71ca6b44d78c7b9d45721a286b}{Sigma}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ sigma;\ \}}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00258\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a0f78f87720f0eca3520678bea6194b9f}{SetTargetArea}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ new\_area)\ \{}
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordflow}{return}\ target\_area\ =\ new\_area;}
+\DoxyCodeLine{00260\ \ \ \}}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00263\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cell_a2b598309713229d89b14d7c1aa7d151a}{Apoptose}}()\ \{\ alive\ =\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00266\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a89086e3c8e2c7619030f86b0fcd2a0b2}{IncrementTargetArea}}()\ \{\ \textcolor{keywordflow}{return}\ ++target\_area;\ \}}
+\DoxyCodeLine{00268\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a9b90cf417c4fb1df8b4b005e6858a754}{DecrementTargetArea}}()\ \{\ \textcolor{keywordflow}{return}\ -\/-\/target\_area;\ \}}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00271\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a8a555f0a92c9463548118e01371b83dc}{Mother}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mother;\ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00274\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a82167c3e1b4470d8b53ad9f94b31c715}{Daughter}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ daughter;\ \}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00277\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_ab17fc62a0abbc8fd7677be6400c42c9c}{TimesDivided}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ times\_divided;\ \}}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00280\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_ae5e0dd938e98194cecf4c7a824aec46b}{DateOfBirth}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ date\_of\_birth;\ \}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00283\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_acfac036798be1bc5068a7240f861d09a}{ColourOfBirth}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ colour\_of\_birth;\ \}}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00286\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a4c43f50dcf2ef91c4e812d29c7d6d6ad}{GetJ}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_cell}{Cell}}\ \&c2)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ J[sigma][c2.sigma];\ \}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00289\ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a98f324f5c5829e53188c589373dc9f98}{SetJ}}(\textcolor{keywordtype}{int}\ t1,\ \textcolor{keywordtype}{int}\ t2,\ \textcolor{keywordtype}{int}\ val)\ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordflow}{return}\ J[t2][t1]\ =\ J[t1][t2]\ =\ val;}
+\DoxyCodeLine{00291\ \ \ \}}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \ \ \textcolor{comment}{//\ Deal\ with\ gradient\ measurements:}}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00296\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ *\mbox{\hyperlink{class_cell_adab03cbda7ceee7924b21c97488308e8}{SetGrad}}(\textcolor{keywordtype}{double}\ *g)\ \{}
+\DoxyCodeLine{00297\ \ \ \ \ grad[0]\ =\ g[0];}
+\DoxyCodeLine{00298\ \ \ \ \ grad[1]\ =\ g[1];}
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keywordflow}{return}\ grad;}
+\DoxyCodeLine{00300\ \ \ \}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00303\ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ *\mbox{\hyperlink{class_cell_a0787b5ffd8811a5b750042d7681b4bc0}{GetGrad}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ grad;\ \}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00306\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_cell_a9e28fe1be875ed24c060ca9ecb275cd9}{GradX}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ grad[0];\ \}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00309\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_cell_a1bde26a220fbe70969333729446afa5c}{GradY}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ grad[1];\ \}}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00312\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ *\mbox{\hyperlink{class_cell_a43a174450c9f7f5cb582d2e9eb39cb19}{AddToGrad}}(\textcolor{keywordtype}{double}\ *g)\ \{}
+\DoxyCodeLine{00313\ \ \ \ \ grad[0]\ +=\ g[0];}
+\DoxyCodeLine{00314\ \ \ \ \ grad[1]\ +=\ g[1];}
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keywordflow}{return}\ grad;}
+\DoxyCodeLine{00316\ \ \ \}}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00319\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cell_a9c3fd8e71b9272d5229e3fad2761c321}{ClearGrad}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00320\ \ \ \ \ grad[0]\ =\ 0.;}
+\DoxyCodeLine{00321\ \ \ \ \ grad[1]\ =\ 0.;}
+\DoxyCodeLine{00322\ \ \ \}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00327\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cell_a8e798cf1b3cacb03713a9e45bca961e1}{MeasureCellSize}}(\mbox{\hyperlink{class_cell}{Cell}}\ \&c);}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \ \ \textcolor{keywordtype}{void}\ setArea(\textcolor{keywordtype}{int}\ n\_area)\ \{\ area\ =\ n\_area;\ \}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00332\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a6db0b354f2b49457d96e5d64ce9a34f1}{IncrementAdhesiveArea}}(\textcolor{keywordtype}{int}\ increment)\ \{}
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordflow}{return}\ adhesive\_area\ =\ adhesive\_area\ +\ increment;}
+\DoxyCodeLine{00334\ \ \ \}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00337\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cell_a8a75e9e4131ee1575237d6e6b7c2ebce}{DecrementAdhesiveArea}}(\textcolor{keywordtype}{int}\ decrement)\ \{}
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keywordflow}{return}\ adhesive\_area\ =\ adhesive\_area\ -\/\ decrement;}
+\DoxyCodeLine{00339\ \ \ \}}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00346\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ReadStaticJTable(std::string\ \textcolor{keyword}{const}\ \&fname);}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ \ \ \textcolor{comment}{//\ used\ internally\ by\ dish\ in\ "{}CellGrowthAndDivision"{}}}
+\DoxyCodeLine{00349\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ GrowthThreshold(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ growth\_threshold;\ \}}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \ \ \textcolor{comment}{//\ used\ internally\ by\ class\ CellularPotts}}
+\DoxyCodeLine{00352\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ CleanMoments(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00353\ \ \ \ \ sum\_x\ =\ sum\_y\ =\ sum\_xx\ =\ sum\_xy\ =\ sum\_yy\ =\ area\ =\ target\_area\ =\ 0;}
+\DoxyCodeLine{00354\ \ \ \}}
+\DoxyCodeLine{00355\ \ \ \textcolor{comment}{//\ used\ internally\ by\ class\ CellularPotts}}
+\DoxyCodeLine{00356\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ AddSiteToMoments(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{double}\ new\_l\ =\ -\/1.)\ \{}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{comment}{//\ Add\ a\ site\ to\ the\ raw\ moments,\ then\ update\ and\ return\ the}}
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{comment}{//\ length\ of\ the\ cell}}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{comment}{//\ sum\_x,\ sum\_y,\ sum\_xx,\ sum\_xy\ and\ sum\_yy\ are\ adjusted}}
+\DoxyCodeLine{00362\ \ \ \ \ \textcolor{comment}{//\ Eventually\ this\ function\ may\ be\ used\ to\ carry}}
+\DoxyCodeLine{00363\ \ \ \ \ \textcolor{comment}{//\ out\ all\ necessary\ adminstration\ at\ once}}
+\DoxyCodeLine{00364\ \ \ \ \ sum\_x\ +=\ x;}
+\DoxyCodeLine{00365\ \ \ \ \ sum\_y\ +=\ y;}
+\DoxyCodeLine{00366\ \ \ \ \ sum\_xx\ +=\ x\ *\ x;}
+\DoxyCodeLine{00367\ \ \ \ \ sum\_yy\ +=\ y\ *\ y;}
+\DoxyCodeLine{00368\ \ \ \ \ sum\_xy\ +=\ x\ *\ y;}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00370\ \ \ \ \ \textcolor{comment}{//\ update\ length\ (see\ appendix.\ A,\ Zajac.jtb03),\ if\ length\ is\ not\ given}}
+\DoxyCodeLine{00371\ \ \ \ \ \textcolor{comment}{//\ NB.\ 24\ NOV\ 2004.\ Found\ mistake\ in\ Zajac's\ paper.\ See\ remarks\ in}}
+\DoxyCodeLine{00372\ \ \ \ \ \textcolor{comment}{//\ method\ "{}Length(..)"{}.}}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \ \ \textcolor{keywordflow}{if}\ (new\_l\ <\ 0.)\ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ length\ =\ Length(sum\_x,\ sum\_y,\ sum\_xx,\ sum\_yy,\ sum\_xy,\ area);}
+\DoxyCodeLine{00376\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ length\ =\ new\_l;}
+\DoxyCodeLine{00378\ \ \ \ \ \}}
+\DoxyCodeLine{00379\ \ \ \ \ \textcolor{keywordflow}{return}\ length;}
+\DoxyCodeLine{00380\ \ \ \}}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00382\ \ \ \textcolor{comment}{//\ used\ internally\ by\ class\ CellularPotts}}
+\DoxyCodeLine{00383\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ RemoveSiteFromMoments(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{double}\ new\_l\ =\ -\/1.)\ \{}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{comment}{//\ Remove\ a\ site\ from\ the\ raw\ moments,\ then\ update\ and\ return\ the}}
+\DoxyCodeLine{00386\ \ \ \ \ \textcolor{comment}{//\ length\ of\ the\ cell}}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{comment}{//\ sum\_x,\ sum\_y,\ sum\_xx,\ sum\_xy\ and\ sum\_yy\ are\ adjusted}}
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{comment}{//\ Eventually\ this\ function\ may\ be\ used\ to\ carry}}
+\DoxyCodeLine{00390\ \ \ \ \ \textcolor{comment}{//\ out\ all\ necessary\ adminstration\ at\ once}}
+\DoxyCodeLine{00391\ \ \ \ \ sum\_x\ -\/=\ x;}
+\DoxyCodeLine{00392\ \ \ \ \ sum\_y\ -\/=\ y;}
+\DoxyCodeLine{00393\ \ \ \ \ sum\_xx\ -\/=\ x\ *\ x;}
+\DoxyCodeLine{00394\ \ \ \ \ sum\_yy\ -\/=\ y\ *\ y;}
+\DoxyCodeLine{00395\ \ \ \ \ sum\_xy\ -\/=\ x\ *\ y;}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{comment}{//\ update\ length\ (see\ app.\ A,\ Zajac.jtb03),\ if\ length\ is\ not\ given}}
+\DoxyCodeLine{00398\ \ \ \ \ \textcolor{keywordflow}{if}\ (new\_l\ <\ 0.)\ \{}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ length\ =\ Length(sum\_x,\ sum\_y,\ sum\_xx,\ sum\_yy,\ sum\_xy,\ area);}
+\DoxyCodeLine{00400\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ length\ =\ new\_l;}
+\DoxyCodeLine{00402\ \ \ \ \ \}}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordflow}{return}\ length;}
+\DoxyCodeLine{00404\ \ \ \}}
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00407\ \ \ \textcolor{comment}{//\ components\ (used\ internally)}}
+\DoxyCodeLine{00408\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ Length(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ s\_x,\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ s\_y,\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ s\_xx,\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ s\_yy,}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ s\_xy,\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ n)\ \{}
+\DoxyCodeLine{00410\ \ \ \ \ \textcolor{comment}{//\ prevent\ NaN\ when\ last\ pixel\ is\ deleted}}
+\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ 0)\ \{}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.;}
+\DoxyCodeLine{00413\ \ \ \ \ \}}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ \textcolor{comment}{//\ prevent\ NaN\ when\ last\ pixel\ is\ deleted}}
+\DoxyCodeLine{00416\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ 0)\ \{}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.;}
+\DoxyCodeLine{00418\ \ \ \ \ \}}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ \ \ \ \ \textcolor{comment}{//\ inertia\ tensor\ (constructed\ from\ the\ raw\ momenta,\ see\ notebook)}}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordtype}{double}\ iyy\ =\ (double)s\_xx\ -\/\ (\textcolor{keywordtype}{double})s\_x\ *\ s\_x\ /\ (double)n;}
+\DoxyCodeLine{00422\ \ \ \ \ \textcolor{keywordtype}{double}\ ixx\ =\ (double)s\_yy\ -\/\ (\textcolor{keywordtype}{double})s\_y\ *\ s\_y\ /\ (double)n;}
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordtype}{double}\ ixy\ =\ -\/(double)s\_xy\ +\ (\textcolor{keywordtype}{double})s\_x\ *\ s\_y\ /\ (double)n;}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordtype}{double}\ rhs1\ =\ (ixx\ +\ iyy)\ /\ 2.,}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ rhs2\ =\ sqrt((ixx\ -\/\ iyy)\ *\ (ixx\ -\/\ iyy)\ +\ 4\ *\ ixy\ *\ ixy)\ /\ 2.;}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ \ \ \ \ \textcolor{keywordtype}{double}\ lambda\_b\ =\ rhs1\ +\ rhs2;}
+\DoxyCodeLine{00429\ \ \ \ \ \textcolor{comment}{//\ double\ lambda\_a=rhs1-\/rhs2;}}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{comment}{//\ according\ to\ Zajac\ et\ al.\ 2003:}}
+\DoxyCodeLine{00432\ \ \ \ \ \textcolor{comment}{//\ return\ 2*sqrt(lambda\_b);}}
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{comment}{//\ Grumble,\ this\ is\ not\ right!!!}}
+\DoxyCodeLine{00434\ \ \ \ \ \textcolor{comment}{//\ Must\ divide\ by\ mass!!!!!!}}
+\DoxyCodeLine{00435\ }
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{comment}{//\ see:\ http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html}}
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{comment}{//\ \ \ \ std::cerr\ <<\ "{}n\ =\ "{}\ <<\ n\ <<\ "{}\(\backslash\)n"{};}}
+\DoxyCodeLine{00438\ \ \ \ \ \textcolor{keywordflow}{return}\ 4\ *\ sqrt(lambda\_b\ /\ n);}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \ \ \textcolor{comment}{//\ 2*sqrt(lambda\_b/n)\ give\ semimajor\ axis.\ We\ want\ the\ length.}}
+\DoxyCodeLine{00441\ \ \ \}}
+\DoxyCodeLine{00444\ \ \ \textcolor{comment}{//\ components}}
+\DoxyCodeLine{00445\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ MajorMinorAxis(\textcolor{keywordtype}{double}\ *major\_axis,\ \textcolor{keywordtype}{double}\ *minor\_axis,\ \textcolor{keywordtype}{double}\ *v1,}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ *v2)\ \{}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \ \ \ \ \textcolor{comment}{//\ inertia\ tensor\ (constructed\ from\ the\ raw\ momenta,\ see\ notebook)}}
+\DoxyCodeLine{00449\ \ \ \ \ \textcolor{keywordtype}{double}\ iyy\ =\ (double)sum\_xx\ -\/\ (\textcolor{keywordtype}{double})sum\_x\ *\ sum\_x\ /\ (double)area;}
+\DoxyCodeLine{00450\ \ \ \ \ \textcolor{keywordtype}{double}\ ixx\ =\ (double)sum\_yy\ -\/\ (\textcolor{keywordtype}{double})sum\_y\ *\ sum\_y\ /\ (double)area;}
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordtype}{double}\ ixy\ =\ -\/(double)sum\_xy\ +\ (\textcolor{keywordtype}{double})sum\_x\ *\ sum\_y\ /\ (double)area;}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00453\ \ \ \ \ \textcolor{keywordtype}{double}\ rhs1\ =\ (ixx\ +\ iyy)\ /\ 2.,}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ rhs2\ =\ sqrt((ixx\ -\/\ iyy)\ *\ (ixx\ -\/\ iyy)\ +\ 4\ *\ ixy\ *\ ixy)\ /\ 2.;}
+\DoxyCodeLine{00455\ }
+\DoxyCodeLine{00456\ \ \ \ \ \textcolor{keywordtype}{double}\ lambda\_b\ =\ rhs1\ +\ rhs2;}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keywordtype}{double}\ lambda\_a\ =\ rhs1\ -\/\ rhs2;}
+\DoxyCodeLine{00458\ }
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{comment}{//\ see:\ http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html}}
+\DoxyCodeLine{00460\ \ \ \ \ \textcolor{comment}{//\ \ \ \ std::cerr\ <<\ "{}n\ =\ "{}\ <<\ n\ <<\ "{}\(\backslash\)n"{};}}
+\DoxyCodeLine{00461\ \ \ \ \ *major\_axis\ =\ 4\ *\ sqrt(lambda\_b\ /\ area);}
+\DoxyCodeLine{00462\ \ \ \ \ *minor\_axis\ =\ 4\ *\ sqrt(lambda\_a\ /\ area);}
+\DoxyCodeLine{00463\ }
+\DoxyCodeLine{00464\ \ \ \ \ \textcolor{keywordflow}{if}\ (ixy\ !=\ 0)\ \{}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ *v1\ =\ lambda\_a\ -\/\ iyy;}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ *v2\ =\ ixy;}
+\DoxyCodeLine{00467\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ *v1\ =\ 0;}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ *v2\ =\ 1;}
+\DoxyCodeLine{00470\ \ \ \ \ \}}
+\DoxyCodeLine{00471\ }
+\DoxyCodeLine{00472\ \ \ \ \ \textcolor{comment}{//\ normalize\ vector}}
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keywordtype}{double}\ norm\ =\ sqrt((*v1)\ *\ (*v1)\ +\ (*v2)\ *\ (*v2));}
+\DoxyCodeLine{00474\ \ \ \ \ *v1\ /=\ norm;}
+\DoxyCodeLine{00475\ \ \ \ \ *v2\ /=\ norm;}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ \ \ \ \ \textcolor{comment}{//\ 2*sqrt(lambda\_b/n)\ give\ semimajor\ axis.\ We\ want\ the\ length.}}
+\DoxyCodeLine{00478\ \ \ \}}
+\DoxyCodeLine{00479\ }
+\DoxyCodeLine{00480\ \ \ \textcolor{comment}{//\ return\ the\ new\ length\ that\ the\ cell\ would\ have}}
+\DoxyCodeLine{00481\ \ \ \textcolor{comment}{//\ if\ site\ (x,y)\ were\ added.}}
+\DoxyCodeLine{00482\ \ \ \textcolor{comment}{//\ used\ internally\ by\ CellularPotts}}
+\DoxyCodeLine{00483\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ GetNewLengthIfXYWereAdded(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)\ \{}
+\DoxyCodeLine{00484\ \ \ \ \ \textcolor{keywordflow}{return}\ Length(sum\_x\ +\ x,\ sum\_y\ +\ y,\ sum\_xx\ +\ x\ *\ x,\ sum\_yy\ +\ y\ *\ y,}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sum\_xy\ +\ x\ *\ y,\ area\ +\ 1);}
+\DoxyCodeLine{00486\ \ \ \}}
+\DoxyCodeLine{00487\ }
+\DoxyCodeLine{00488\ \ \ \textcolor{comment}{//\ return\ the\ new\ length\ that\ the\ cell\ would\ have}}
+\DoxyCodeLine{00489\ \ \ \textcolor{comment}{//\ if\ site\ (x,y)\ were\ removed}}
+\DoxyCodeLine{00490\ \ \ \textcolor{comment}{//\ used\ internally\ by\ CellularPotts}}
+\DoxyCodeLine{00491\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ GetNewLengthIfXYWereRemoved(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)\ \{}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordflow}{return}\ Length(sum\_x\ -\/\ x,\ sum\_y\ -\/\ y,\ sum\_xx\ -\/\ x\ *\ x,\ sum\_yy\ -\/\ y\ *\ y,}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sum\_xy\ -\/\ x\ *\ y,\ area\ -\/\ 1);}
+\DoxyCodeLine{00495\ \ \ \}}
+\DoxyCodeLine{00496\ }
+\DoxyCodeLine{00497\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setSigma(\textcolor{keywordtype}{int}\ nsigma)\ \{\ sigma\ =\ nsigma;\ \}}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00501\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ IncrementArea()\ \{\ \textcolor{keywordflow}{return}\ ++area;\ \}}
+\DoxyCodeLine{00502\ }
+\DoxyCodeLine{00504\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ DecrementArea()\ \{\ \textcolor{keywordflow}{return}\ -\/-\/area;\ \}}
+\DoxyCodeLine{00505\ }
+\DoxyCodeLine{00507\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ SetReferenceAdhesiveArea(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ new\_area)\ \{}
+\DoxyCodeLine{00508\ \ \ \ \ \textcolor{keywordflow}{return}\ ref\_adhesive\_area\ =\ new\_area;}
+\DoxyCodeLine{00509\ \ \ \}}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00512\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ IncrementPerimeter()\ \{\ \textcolor{keywordflow}{return}\ ++perimeter;\ \}}
+\DoxyCodeLine{00513\ }
+\DoxyCodeLine{00515\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ DecrementPerimeter()\ \{\ \textcolor{keywordflow}{return}\ ++perimeter;\ \}}
+\DoxyCodeLine{00516\ }
+\DoxyCodeLine{00517\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ IncrementTargetPerimeter()\ \{\ \textcolor{keywordflow}{return}\ ++target\_perimeter;\ \}}
+\DoxyCodeLine{00518\ }
+\DoxyCodeLine{00519\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ DecrementTargetPerimeter()\ \{\ \textcolor{keywordflow}{return}\ -\/-\/target\_perimeter;\ \}}
+\DoxyCodeLine{00520\ }
+\DoxyCodeLine{00525\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ SetAreaToTarget(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ area\ =\ target\_area;\ \}}
+\DoxyCodeLine{00526\ }
+\DoxyCodeLine{00528\ \ \ \textcolor{keywordtype}{void}\ ConstructorBody(\textcolor{keywordtype}{int}\ settau\ =\ 1);}
+\DoxyCodeLine{00529\ \ \ \textcolor{comment}{//\ returns\ the\ maximum\ cell\ type\ index}}
+\DoxyCodeLine{00530\ \ \ \textcolor{comment}{//\ (depends\ on\ Jtable)}}
+\DoxyCodeLine{00531\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ MaxTau(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ maxtau;\ \}}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00533\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ GetCentroid(\textcolor{keywordtype}{double}\ *cx,\ \textcolor{keywordtype}{double}\ *cy)\ \{}
+\DoxyCodeLine{00534\ \ \ \ \ *cx\ =\ sum\_x\ /\ area;}
+\DoxyCodeLine{00535\ \ \ \ \ *cy\ =\ sum\_y\ /\ area;}
+\DoxyCodeLine{00536\ \ \ \}}
+\DoxyCodeLine{00537\ }
+\DoxyCodeLine{00538\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00539\ \ \ \textcolor{keywordtype}{int}\ colour;}
+\DoxyCodeLine{00540\ \ \ \textcolor{keywordtype}{bool}\ alive;}
+\DoxyCodeLine{00541\ \ \ \textcolor{keywordtype}{int}\ sigma;\ \textcolor{comment}{//\ cell\ identity,\ 0\ if\ medium}}
+\DoxyCodeLine{00542\ \ \ \textcolor{keywordtype}{int}\ tau;\ \ \ \textcolor{comment}{//\ Cell\ type,\ when\ dynamicJ's\ are\ not\ used}}
+\DoxyCodeLine{00543\ }
+\DoxyCodeLine{00544\ \ \ \textcolor{comment}{//\ Two\ dimensional\ (square)\ array\ of\ ints,\ containing\ the\ J's.}}
+\DoxyCodeLine{00545\ \ \ \textcolor{keywordtype}{double}\ length;\ \textcolor{comment}{//\ length\ of\ the\ cell;}}
+\DoxyCodeLine{00546\ \ \ \textcolor{keywordtype}{double}\ target\_length;}
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00548\ \ \ \textcolor{comment}{//\ Dynamically\ increased\ when\ cells\ are\ added\ to\ the\ system}}
+\DoxyCodeLine{00549\ \ \ \textcolor{comment}{//\ unless\ a\ static\ Jtable\ is\ used\ (currently\ this\ is\ the\ default\ situation)}}
+\DoxyCodeLine{00550\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ **J;}
+\DoxyCodeLine{00551\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ maxtau;}
+\DoxyCodeLine{00552\ }
+\DoxyCodeLine{00553\ \ \ \textcolor{comment}{//\ Amount:\ the\ number\ of\ Cell\ instantations,\ INCLUDING\ copies}}
+\DoxyCodeLine{00554\ \ \ \textcolor{comment}{//\ For\ internal\ use\ only.}}
+\DoxyCodeLine{00555\ \ \ \textcolor{comment}{//\ Reading\ amount\ is\ NOT\ the\ way\ to\ get\ the\ number\ of\ cells!!}}
+\DoxyCodeLine{00556\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ amount;}
+\DoxyCodeLine{00557\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ capacity;}
+\DoxyCodeLine{00558\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ maxsigma;\ \textcolor{comment}{//\ the\ last\ cell\ identity\ number\ given\ out}}
+\DoxyCodeLine{00559\ }
+\DoxyCodeLine{00560\ \ \ \textcolor{comment}{//\ indices\ of\ mother\ and\ daughter}}
+\DoxyCodeLine{00561\ \ \ \textcolor{comment}{//\ (Note:\ no\ pointers,\ cells\ may\ be\ relocated)}}
+\DoxyCodeLine{00562\ \ \ \textcolor{keywordtype}{int}\ mother;}
+\DoxyCodeLine{00563\ \ \ \textcolor{keywordtype}{int}\ daughter;}
+\DoxyCodeLine{00564\ \ \ \textcolor{keywordtype}{int}\ times\_divided;}
+\DoxyCodeLine{00565\ \ \ \textcolor{keywordtype}{int}\ date\_of\_birth;}
+\DoxyCodeLine{00566\ \ \ \textcolor{keywordtype}{int}\ colour\_of\_birth;}
+\DoxyCodeLine{00567\ }
+\DoxyCodeLine{00568\ \ \ \textcolor{keywordtype}{int}\ area;}
+\DoxyCodeLine{00569\ \ \ \textcolor{keywordtype}{int}\ target\_area;}
+\DoxyCodeLine{00570\ \ \ \textcolor{keywordtype}{int}\ adhesive\_area;}
+\DoxyCodeLine{00571\ \ \ \textcolor{keywordtype}{int}\ ref\_adhesive\_area;}
+\DoxyCodeLine{00572\ \ \ \textcolor{keywordtype}{int}\ growth\_threshold;}
+\DoxyCodeLine{00573\ }
+\DoxyCodeLine{00574\ \ \ \textcolor{keywordtype}{int}\ perimeter;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ amount\ of\ cell's\ membrane}}
+\DoxyCodeLine{00575\ \ \ \textcolor{keywordtype}{int}\ target\_perimeter;\ \textcolor{comment}{//\ cell's\ target\ membrane\ length}}
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \ \ \textcolor{keywordtype}{double}\ v[2];}
+\DoxyCodeLine{00578\ \ \ \textcolor{keywordtype}{int}\ n\_copies;\ \textcolor{comment}{//\ number\ of\ expansions\ of\ this\ cell}}
+\DoxyCodeLine{00579\ \ \ \textcolor{comment}{//\ gradient\ of\ a\ chemical\ (to\ be\ extended\ to\ the\ total\ number\ chemicals)}}
+\DoxyCodeLine{00580\ \ \ \textcolor{keywordtype}{double}\ grad[2];}
+\DoxyCodeLine{00581\ \ \ \textcolor{keywordtype}{double}\ *chem;}
+\DoxyCodeLine{00582\ \ \ \textcolor{comment}{//\ Raw\ moments\ of\ the\ cells}}
+\DoxyCodeLine{00583\ \ \ \textcolor{comment}{//\ Are\ used\ to\ calculate\ minor\ and\ major\ axes}}
+\DoxyCodeLine{00584\ \ \ \textcolor{comment}{//\ and\ center\ of\ mass}}
+\DoxyCodeLine{00585\ \ \ \textcolor{comment}{//\ are\ locally\ adjusted,\ so\ axes\ are\ easily}}
+\DoxyCodeLine{00586\ \ \ \textcolor{comment}{//\ and\ quickly\ calculated!}}
+\DoxyCodeLine{00587\ \ \ \textcolor{comment}{//\ N.B:\ N\ is\ area!}}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ sum\_x;}
+\DoxyCodeLine{00590\ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ sum\_y;}
+\DoxyCodeLine{00591\ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ sum\_xx;}
+\DoxyCodeLine{00592\ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ sum\_yy;}
+\DoxyCodeLine{00593\ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ sum\_xy;}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00595\ \ \ \textcolor{keywordtype}{double}\ border;}
+\DoxyCodeLine{00596\ }
+\DoxyCodeLine{00597\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_dish}{Dish}}\ *owner;\ \textcolor{comment}{//\ pointer\ to\ owner\ of\ cell}}
+\DoxyCodeLine{00598\ \};}
+\DoxyCodeLine{00599\ }
+\DoxyCodeLine{00600\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,88 @@
+\doxysection{Info Class Reference}
+\hypertarget{class_info}{}\label{class_info}\index{Info@{Info}}
+
+
+Enables interactive querying of the simulation. Only using key presses, to be defined in \doxylink{class_info_af684a1acfe0ed9c185bbc6a886856f2f}{Info\+::\+Menu()}.  
+
+
+
+
+{\ttfamily \#include $<$info.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_info_a11adc40bc41bed325a30dc5f75d4f813}{Info}} (\mbox{\hyperlink{class_dish}{Dish}} \&dish, \mbox{\hyperlink{class_graphics}{Graphics}} \&graphics, std\+::ostream \&out=std\+::cout)
+\begin{DoxyCompactList}\small\item\em Constructs and \doxylink{class_info}{Info} class dish with specified graphics window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_info_af684a1acfe0ed9c185bbc6a886856f2f}{Menu}} (void)
+\begin{DoxyCompactList}\small\item\em Reads out key presses in the \doxylink{class_graphics}{Graphics} window and interprets them. If you want to define extra interactive queries, redefine this method. \end{DoxyCompactList}\item 
+\Hypertarget{class_info_a45d87e9467834ab5f24f7e5cbc3b228e}\label{class_info_a45d87e9467834ab5f24f7e5cbc3b228e} 
+void {\bfseries Write\+COM} (int cell\+\_\+id, std\+::ostream \&out=std\+::cout)
+\begin{DoxyCompactList}\small\item\em Writes center of mass of cell "{}cell\+\_\+id"{} to stream out. \end{DoxyCompactList}\item 
+\Hypertarget{class_info_ad66d701be2b8fa2cfde606da7cb88037}\label{class_info_ad66d701be2b8fa2cfde606da7cb88037} 
+\mbox{\hyperlink{class_cell}{Cell}} \& {\bfseries Click\+Cell} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g)
+\begin{DoxyCompactList}\small\item\em Waits until the user clicks a cell and returns a reference to it. \end{DoxyCompactList}\item 
+\Hypertarget{class_info_a6a2b74398787c8148b96e9caaaebc016}\label{class_info_a6a2b74398787c8148b96e9caaaebc016} 
+bool {\bfseries Is\+Paused} (void)
+\item 
+\Hypertarget{class_info_a14af3b1424334fc1f25345c82c3fd70a}\label{class_info_a14af3b1424334fc1f25345c82c3fd70a} 
+void {\bfseries set\+\_\+\+Paused} ()
+\item 
+\Hypertarget{class_info_aca7edd8e39d6958efde6faa626b4aa93}\label{class_info_aca7edd8e39d6958efde6faa626b4aa93} 
+void {\bfseries set\+\_\+un\+Paused} ()
+\item 
+\Hypertarget{class_info_a59aa8a305b01b50ec4d604c63bc25150}\label{class_info_a59aa8a305b01b50ec4d604c63bc25150} 
+void {\bfseries Write\+COMs} (std\+::ostream \&out=std\+::cout)
+\item 
+\Hypertarget{class_info_a6fb4439adcfd21bb3800db3b00ab7c0f}\label{class_info_a6fb4439adcfd21bb3800db3b00ab7c0f} 
+void {\bfseries Write\+COMs\+Torus} (std\+::ostream \&out)
+\item 
+\Hypertarget{class_info_a47a063e85aac6680093cf8942208039b}\label{class_info_a47a063e85aac6680093cf8942208039b} 
+void {\bfseries Write\+Adhesions\+Locations\+Per\+Cell} (int cell\+\_\+id, int field\+\_\+id, std\+::ostream \&out=std\+::cout)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Enables interactive querying of the simulation. Only using key presses, to be defined in \doxylink{class_info_af684a1acfe0ed9c185bbc6a886856f2f}{Info\+::\+Menu()}. 
+
+Right-\/click menu in future Qt-\/linked versions? 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_info_a11adc40bc41bed325a30dc5f75d4f813}\label{class_info_a11adc40bc41bed325a30dc5f75d4f813} 
+\index{Info@{Info}!Info@{Info}}
+\index{Info@{Info}!Info@{Info}}
+\doxysubsubsection{\texorpdfstring{Info()}{Info()}}
+{\footnotesize\ttfamily Info\+::\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_dish}{Dish}} \&}]{dish,  }\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \&}]{graphics,  }\item[{std\+::ostream \&}]{out = {\ttfamily std\+:\+:cout} }\end{DoxyParamCaption})}
+
+
+
+Constructs and \doxylink{class_info}{Info} class dish with specified graphics window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dish} & The virtual Petri dish to query. \\
+\hline
+{\em graphics} & The \doxylink{class_graphics}{Graphics} window displaying the dish. \\
+\hline
+{\em out} & (optional) Stream into which info is written. Default\+: console. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_info_af684a1acfe0ed9c185bbc6a886856f2f}\label{class_info_af684a1acfe0ed9c185bbc6a886856f2f} 
+\index{Info@{Info}!Menu@{Menu}}
+\index{Menu@{Menu}!Info@{Info}}
+\doxysubsubsection{\texorpdfstring{Menu()}{Menu()}}
+{\footnotesize\ttfamily void Info\+::\+Menu (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Reads out key presses in the \doxylink{class_graphics}{Graphics} window and interprets them. If you want to define extra interactive queries, redefine this method. 
+
+If you want a nice GUI menu, reimplement this method. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/util/info.\+hpp\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/util/info.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1detail_1_1function_implementation__" kind="struct" language="C++" prot="public">
+    <compoundname>cl::detail::functionImplementation_</compoundname>
+    <derivedcompoundref refid="structcl_1_1make__kernel" prot="public" virt="non-virtual">cl::make_kernel&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;</derivedcompoundref>
+    <templateparamlist>
+      <param>
+        <type>typename T0</type>
+      </param>
+      <param>
+        <type>typename T1</type>
+      </param>
+      <param>
+        <type>typename T2</type>
+      </param>
+      <param>
+        <type>typename T3</type>
+      </param>
+      <param>
+        <type>typename T4</type>
+      </param>
+      <param>
+        <type>typename T5</type>
+      </param>
+      <param>
+        <type>typename T6</type>
+      </param>
+      <param>
+        <type>typename T7</type>
+      </param>
+      <param>
+        <type>typename T8</type>
+      </param>
+      <param>
+        <type>typename T9</type>
+      </param>
+      <param>
+        <type>typename T10</type>
+      </param>
+      <param>
+        <type>typename T11</type>
+      </param>
+      <param>
+        <type>typename T12</type>
+      </param>
+      <param>
+        <type>typename T13</type>
+      </param>
+      <param>
+        <type>typename T14</type>
+      </param>
+      <param>
+        <type>typename T15</type>
+      </param>
+      <param>
+        <type>typename T16</type>
+      </param>
+      <param>
+        <type>typename T17</type>
+      </param>
+      <param>
+        <type>typename T18</type>
+      </param>
+      <param>
+        <type>typename T19</type>
+      </param>
+      <param>
+        <type>typename T20</type>
+      </param>
+      <param>
+        <type>typename T21</type>
+      </param>
+      <param>
+        <type>typename T22</type>
+      </param>
+      <param>
+        <type>typename T23</type>
+      </param>
+      <param>
+        <type>typename T24</type>
+      </param>
+      <param>
+        <type>typename T25</type>
+      </param>
+      <param>
+        <type>typename T26</type>
+      </param>
+      <param>
+        <type>typename T27</type>
+      </param>
+      <param>
+        <type>typename T28</type>
+      </param>
+      <param>
+        <type>typename T29</type>
+      </param>
+      <param>
+        <type>typename T30</type>
+      </param>
+      <param>
+        <type>typename T31</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structcl_1_1detail_1_1function_implementation___1ac000120c937207e4a6e334190e3ef1b3" prot="public" static="no">
+        <type><ref refid="classcl_1_1detail_1_1_kernel_functor_global" kindref="compound">detail::KernelFunctorGlobal</ref>&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;</type>
+        <definition>typedef detail::KernelFunctorGlobal&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31&gt; cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;::FunctorType</definition>
+        <argsstring></argsstring>
+        <name>FunctorType</name>
+        <qualifiedname>cl::detail::functionImplementation_::FunctorType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6478" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structcl_1_1detail_1_1function_implementation___1ac89946f0f3652ede18d012cd0e36fc37" prot="public" static="no">
+        <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref></type>
+        <definition>typedef Event cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;::result_type</definition>
+        <argsstring></argsstring>
+        <name>result_type</name>
+        <qualifiedname>cl::detail::functionImplementation_::result_type</qualifiedname>
+        <briefdescription>
+<para>Return type of the functor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6495" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structcl_1_1detail_1_1function_implementation___1a13620f87c30d333a5ffbea23e818c809" prot="public" static="no">
+        <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref></type>
+        <definition>typedef Event cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;::type_(const EnqueueArgs &amp;, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31)</definition>
+        <argsstring>(const EnqueueArgs &amp;, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31)</argsstring>
+        <name>type_</name>
+        <qualifiedname>cl::detail::functionImplementation_::type_</qualifiedname>
+        <briefdescription>
+<para>Function signature of kernel functor with no event dependency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6498" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6498" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcl_1_1detail_1_1function_implementation___1a8e23cfe39eb7af2fd73ef345d6b94d31" prot="public" static="no" mutable="no">
+        <type><ref refid="classcl_1_1detail_1_1_kernel_functor_global" kindref="compound">FunctorType</ref></type>
+        <definition>FunctorType cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;::functor_</definition>
+        <argsstring></argsstring>
+        <name>functor_</name>
+        <qualifiedname>cl::detail::functionImplementation_::functor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6480" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6480" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structcl_1_1detail_1_1function_implementation___1a198594ef898672560b72d125a0ea50e0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;::functionImplementation_</definition>
+        <argsstring>(const FunctorType &amp;functor)</argsstring>
+        <name>functionImplementation_</name>
+        <qualifiedname>cl::detail::functionImplementation_::functionImplementation_</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1detail_1_1_kernel_functor_global" kindref="compound">FunctorType</ref> &amp;</type>
+          <declname>functor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6482" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6482" bodyend="6492"/>
+      </memberdef>
+      <memberdef kind="function" id="structcl_1_1detail_1_1function_implementation___1a9709c83a90f236427d8233d2c2b15cd9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_event" kindref="compound">Event</ref></type>
+        <definition>Event cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;::operator()</definition>
+        <argsstring>(const EnqueueArgs &amp;enqueueArgs, T0 arg0, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16, T17 arg17, T18 arg18, T19 arg19, T20 arg20, T21 arg21, T22 arg22, T23 arg23, T24 arg24, T25 arg25, T26 arg26, T27 arg27, T28 arg28, T29 arg29, T30 arg30, T31 arg31)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>cl::detail::functionImplementation_::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structcl_1_1_enqueue_args" kindref="compound">EnqueueArgs</ref> &amp;</type>
+          <declname>enqueueArgs</declname>
+        </param>
+        <param>
+          <type>T0</type>
+          <declname>arg0</declname>
+        </param>
+        <param>
+          <type>T1</type>
+          <declname>arg1</declname>
+        </param>
+        <param>
+          <type>T2</type>
+          <declname>arg2</declname>
+        </param>
+        <param>
+          <type>T3</type>
+          <declname>arg3</declname>
+        </param>
+        <param>
+          <type>T4</type>
+          <declname>arg4</declname>
+        </param>
+        <param>
+          <type>T5</type>
+          <declname>arg5</declname>
+        </param>
+        <param>
+          <type>T6</type>
+          <declname>arg6</declname>
+        </param>
+        <param>
+          <type>T7</type>
+          <declname>arg7</declname>
+        </param>
+        <param>
+          <type>T8</type>
+          <declname>arg8</declname>
+        </param>
+        <param>
+          <type>T9</type>
+          <declname>arg9</declname>
+        </param>
+        <param>
+          <type>T10</type>
+          <declname>arg10</declname>
+        </param>
+        <param>
+          <type>T11</type>
+          <declname>arg11</declname>
+        </param>
+        <param>
+          <type>T12</type>
+          <declname>arg12</declname>
+        </param>
+        <param>
+          <type>T13</type>
+          <declname>arg13</declname>
+        </param>
+        <param>
+          <type>T14</type>
+          <declname>arg14</declname>
+        </param>
+        <param>
+          <type>T15</type>
+          <declname>arg15</declname>
+        </param>
+        <param>
+          <type>T16</type>
+          <declname>arg16</declname>
+        </param>
+        <param>
+          <type>T17</type>
+          <declname>arg17</declname>
+        </param>
+        <param>
+          <type>T18</type>
+          <declname>arg18</declname>
+        </param>
+        <param>
+          <type>T19</type>
+          <declname>arg19</declname>
+        </param>
+        <param>
+          <type>T20</type>
+          <declname>arg20</declname>
+        </param>
+        <param>
+          <type>T21</type>
+          <declname>arg21</declname>
+        </param>
+        <param>
+          <type>T22</type>
+          <declname>arg22</declname>
+        </param>
+        <param>
+          <type>T23</type>
+          <declname>arg23</declname>
+        </param>
+        <param>
+          <type>T24</type>
+          <declname>arg24</declname>
+        </param>
+        <param>
+          <type>T25</type>
+          <declname>arg25</declname>
+        </param>
+        <param>
+          <type>T26</type>
+          <declname>arg26</declname>
+        </param>
+        <param>
+          <type>T27</type>
+          <declname>arg27</declname>
+        </param>
+        <param>
+          <type>T28</type>
+          <declname>arg28</declname>
+        </param>
+        <param>
+          <type>T29</type>
+          <declname>arg29</declname>
+        </param>
+        <param>
+          <type>T30</type>
+          <declname>arg30</declname>
+        </param>
+        <param>
+          <type>T31</type>
+          <declname>arg31</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6502" column="9" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6502" bodyend="6513"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;</label>
+        <link refid="structcl_1_1detail_1_1function_implementation__"/>
+      </node>
+      <node id="2">
+        <label>cl::make_kernel&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 &gt;</label>
+        <link refid="structcl_1_1make__kernel"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="6474" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="6474" bodyend="6514"/>
+    <listofallmembers>
+      <member refid="structcl_1_1detail_1_1function_implementation___1a198594ef898672560b72d125a0ea50e0" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_</scope><name>functionImplementation_</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___1a8e23cfe39eb7af2fd73ef345d6b94d31" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_</scope><name>functor_</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___1ac000120c937207e4a6e334190e3ef1b3" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_</scope><name>FunctorType</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___1a9709c83a90f236427d8233d2c2b15cd9" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_</scope><name>operator()</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___1ac89946f0f3652ede18d012cd0e36fc37" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_</scope><name>result_type</name></member>
+      <member refid="structcl_1_1detail_1_1function_implementation___1a13620f87c30d333a5ffbea23e818c809" prot="public" virt="non-virtual"><scope>cl::detail::functionImplementation_</scope><name>type_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

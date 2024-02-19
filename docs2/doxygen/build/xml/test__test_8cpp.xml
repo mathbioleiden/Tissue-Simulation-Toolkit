@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="test__test_8cpp" kind="file" language="C++">
+    <compoundname>test_test.cpp</compoundname>
+    <includes local="no">catch2/catch_test_macros.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/tests/test_test.cpp</label>
+        <link refid="test__test_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>catch2/catch_test_macros.hpp</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__test_8cpp_1a8a8bb5489f8a7a739b080c637e444030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_CASE</definition>
+        <argsstring>(&quot;The test system works&quot;, &quot;[test]&quot;)</argsstring>
+        <name>TEST_CASE</name>
+        <param>
+          <type>&quot;The test system works&quot;</type>
+        </param>
+        <param>
+          <type>&quot;&quot;</type>
+          <array>[test]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/tests/test_test.cpp" line="3" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/tests/test_test.cpp" bodystart="3" bodyend="3"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;catch2/catch_test_macros.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal">TEST_CASE(</highlight><highlight class="stringliteral">&quot;The<sp/>test<sp/>system<sp/>works&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;[test]&quot;</highlight><highlight class="normal">)<sp/>{<sp/>REQUIRE(1<sp/>==<sp/>1);<sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/tests/test_test.cpp"/>
+  </compounddef>
+</doxygen>

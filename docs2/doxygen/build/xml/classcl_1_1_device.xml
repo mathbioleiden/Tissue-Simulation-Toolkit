@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcl_1_1_device" kind="class" language="C++" prot="public">
+    <compoundname>cl::Device</compoundname>
+    <basecompoundref refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4" prot="public" virt="non-virtual">cl::detail::Wrapper&lt; cl_device_id &gt;</basecompoundref>
+    <includes refid="cl_8hpp" local="no">cl.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcl_1_1_device_1a6131ff3eb77c31dfba11091a3c0f4235" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Device::Device</definition>
+        <argsstring>()</argsstring>
+        <name>Device</name>
+        <qualifiedname>cl::Device::Device</qualifiedname>
+        <briefdescription>
+<para>Default constructor - initializes to NULL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1867" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1867" bodyend="1867"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_device_1aac39f3ad86d65419fafa1a92690c4547" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>__CL_EXPLICIT_CONSTRUCTORS</type>
+        <definition>__CL_EXPLICIT_CONSTRUCTORS cl::Device::Device</definition>
+        <argsstring>(const cl_device_id &amp;device)</argsstring>
+        <name>Device</name>
+        <qualifiedname>cl::Device::Device</qualifiedname>
+        <param>
+          <type>const cl_device_id &amp;</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>Constructor from cl_device_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simply copies the device ID value, which is an inexpensive operation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1873" column="30" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1873" bodyend="1874"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_device_1a24478e608183c70319367afec954e779" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_device" kindref="compound">Device</ref> &amp;</type>
+        <definition>Device &amp; cl::Device::operator=</definition>
+        <argsstring>(const cl_device_id &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::Device::operator=</qualifiedname>
+        <param>
+          <type>const cl_device_id &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Assignment operator from cl_device_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This simply copies the device ID value, which is an inexpensive operation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1886" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1886" bodyend="1889"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_device_1a8445328fa0af11c93f20615f820b93fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Device::Device</definition>
+        <argsstring>(const Device &amp;dev)</argsstring>
+        <name>Device</name>
+        <qualifiedname>cl::Device::Device</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>dev</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1894" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1894" bodyend="1894"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_device_1a1f39426d96c76588310d3edd77fa17e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_device" kindref="compound">Device</ref> &amp;</type>
+        <definition>Device &amp; cl::Device::operator=</definition>
+        <argsstring>(const Device &amp;dev)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::Device::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>dev</declname>
+        </param>
+        <briefdescription>
+<para>Copy assignment to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1899" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1899" bodyend="1902"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_device_1a575493c25049dae087540ed8a65efd6d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::Device::getInfo</definition>
+        <argsstring>(cl_device_info name, T *param) const</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>cl::Device::getInfo</qualifiedname>
+        <param>
+          <type>cl_device_info</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+<para>Wrapper for clGetDeviceInfo(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1921" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1921" bodyend="1925"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_device_1a80887bb6e52b92225dca31fdad796ffa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>cl_int</type>
+            <declname>name</declname>
+            <defname>name</defname>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structcl_1_1detail_1_1param__traits" kindref="compound">detail::param_traits</ref>&lt; detail::cl_device_info, name &gt;::param_type</type>
+        <definition>detail::param_traits&lt; detail::cl_device_info, name &gt;::param_type cl::Device::getInfo</definition>
+        <argsstring>(cl_int *err=NULL) const</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>cl::Device::getInfo</qualifiedname>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Wrapper for clGetDeviceInfo() that returns by value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1930" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1930" bodyend="1938"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classcl_1_1_device_1a0de0c069e06a2cbc5193d15c4f9ed27f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device cl::Device::getDefault</definition>
+        <argsstring>(cl_int *err=NULL)</argsstring>
+        <name>getDefault</name>
+        <qualifiedname>cl::Device::getDefault</qualifiedname>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Returns the first device on the default context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="classcl_1_1_context_1ad180f6f7d8b5a95710ab72f96162b051" kindref="member">Context::getDefault()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1880" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2532" bodyend="2551"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Class interface for cl_device_id. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Copies of these objects are inexpensive, since they don&apos;t &apos;own&apos; any underlying resources or data structures.</para>
+</simplesect>
+<simplesect kind="see"><para>cl_device_id </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>cl::Device</label>
+        <link refid="classcl_1_1_device"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl::detail::Wrapper&lt; cl_device_id &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>cl::Device</label>
+        <link refid="classcl_1_1_device"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl::detail::Wrapper&lt; cl_device_id &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1864" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1864" bodyend="1997"/>
+    <listofallmembers>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a2c117e3bbe52e50aa462f8da53278484" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>cl_type</name></member>
+      <member refid="classcl_1_1_device_1a6131ff3eb77c31dfba11091a3c0f4235" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>Device</name></member>
+      <member refid="classcl_1_1_device_1aac39f3ad86d65419fafa1a92690c4547" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>Device</name></member>
+      <member refid="classcl_1_1_device_1a8445328fa0af11c93f20615f820b93fc" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>Device</name></member>
+      <member refid="classcl_1_1_device_1a0de0c069e06a2cbc5193d15c4f9ed27f" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>getDefault</name></member>
+      <member refid="classcl_1_1_device_1a575493c25049dae087540ed8a65efd6d" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1_device_1a80887bb6e52b92225dca31fdad796ffa" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a708c4af6087d158e8c685c52c07c7066" prot="protected" virt="non-virtual"><scope>cl::Device</scope><name>isReferenceCountable</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a34bae3d4d284c0ea2921182962c210df" prot="protected" virt="non-virtual"><scope>cl::Device</scope><name>object_</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a2b325132167823ef1de86e30134cf6d7" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>operator()</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1ae5870d1196822aef55b985eb8aeb100f" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>operator()</name></member>
+      <member refid="classcl_1_1_device_1a24478e608183c70319367afec954e779" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_device_1a1f39426d96c76588310d3edd77fa17e1" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1abcfc7a06b7653b4568271c33f3e37282" prot="public" virt="non-virtual" ambiguityscope="cl::detail::Wrapper&lt; cl_device_id &gt;::"><scope>cl::Device</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a6bf49a144579823e03d4e88cafc4fb9d" prot="protected" virt="non-virtual"><scope>cl::Device</scope><name>referenceCountable_</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a5ec1f410d9e0564c990300308be2fa76" prot="protected" virt="non-virtual"><scope>cl::Device</scope><name>release</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a6b9c9bb8cab1ef5e8c684d6c382b4522" prot="protected" virt="non-virtual"><scope>cl::Device</scope><name>retain</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a6881f47b159f53e2efefc3325127bdc5" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a1987e1fd937f2cbfc53f68bb8289fb5f" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1a0abf5113a5123b8de94685ddfa214bd0" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4_1adc34e0d2c80d7994fd7077902e8ceb68" prot="public" virt="non-virtual"><scope>cl::Device</scope><name>~Wrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

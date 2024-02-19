@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="class_subset_vector" kind="class" language="C++" prot="public">
+    <compoundname>SubsetVector</compoundname>
+    <innerclass refid="struct_subset_vector_1_1_entry" prot="private">SubsetVector::Entry</innerclass>
+    <templateparamlist>
+      <param>
+        <type>class T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_subset_vector_1abd64391b42a109c5a5aa66235856e2c2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Entry &gt;</type>
+        <definition>std::vector&lt;Entry&gt; SubsetVector&lt; T &gt;::m_entries</definition>
+        <argsstring></argsstring>
+        <name>m_entries</name>
+        <qualifiedname>SubsetVector::m_entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="44" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_subset_vector_1a1f3c213d887416cd9daa4c6fb12cdeed" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; SubsetVector&lt; T &gt;::m_subset_indices</definition>
+        <argsstring></argsstring>
+        <name>m_subset_indices</name>
+        <qualifiedname>SubsetVector::m_subset_indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="45" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_subset_vector_1a8233dba742174e6f606760dd8a66cd41" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SubsetVector&lt; T &gt;::SubsetVector</definition>
+        <argsstring>(unsigned size=0)</argsstring>
+        <name>SubsetVector</name>
+        <qualifiedname>SubsetVector::SubsetVector</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>size</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="9" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_subset_vector_1aa0043f61ebf53d816c6b4afeb40c7ce3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SubsetVector&lt; T &gt;::push_back</definition>
+        <argsstring>(const T &amp;element)</argsstring>
+        <name>push_back</name>
+        <qualifiedname>SubsetVector::push_back</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>element</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="13" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="13" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_subset_vector_1aab31b2c64a2e9d857b75581322f8d091" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; SubsetVector&lt; T &gt;::operator[]</definition>
+        <argsstring>(unsigned index) const</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>SubsetVector::operator[]</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="14" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="14" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_subset_vector_1ace02efb50e5790c4f7131ca083be7028" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; SubsetVector&lt; T &gt;::operator[]</definition>
+        <argsstring>(unsigned index)</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>SubsetVector::operator[]</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="15" column="5" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="15" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_subset_vector_1a04a177d70521545853abb3c8bba475fe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SubsetVector&lt; T &gt;::insert_in_subset</definition>
+        <argsstring>(unsigned index)</argsstring>
+        <name>insert_in_subset</name>
+        <qualifiedname>SubsetVector::insert_in_subset</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="17" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="17" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_subset_vector_1a21d624812d766398e7189ab6b2c8a31c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SubsetVector&lt; T &gt;::erase_from_subset</definition>
+        <argsstring>(unsigned index)</argsstring>
+        <name>erase_from_subset</name>
+        <qualifiedname>SubsetVector::erase_from_subset</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="23" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="23" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_subset_vector_1a318990aff784c71d9a547532ff2d3a9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>unsigned</type>
+        <definition>unsigned SubsetVector&lt; T &gt;::subset_size</definition>
+        <argsstring>() const</argsstring>
+        <name>subset_size</name>
+        <qualifiedname>SubsetVector::subset_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="33" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_subset_vector_1a74e329e8b56fa8aff6142fcaac89434d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; SubsetVector&lt; T &gt;::subset_at</definition>
+        <argsstring>(unsigned subset_index)</argsstring>
+        <name>subset_at</name>
+        <qualifiedname>SubsetVector::subset_at</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>subset_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="34" column="5" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_subset_vector_1a481452290cded27611e863bb93bebf44" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; SubsetVector&lt; T &gt;::subset_at</definition>
+        <argsstring>(unsigned subset_index) const</argsstring>
+        <name>subset_at</name>
+        <qualifiedname>SubsetVector::subset_at</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>subset_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="38" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" line="1" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/subset.hpp" bodystart="1" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_subset_vector_1a21d624812d766398e7189ab6b2c8a31c" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>erase_from_subset</name></member>
+      <member refid="class_subset_vector_1a04a177d70521545853abb3c8bba475fe" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>insert_in_subset</name></member>
+      <member refid="class_subset_vector_1abd64391b42a109c5a5aa66235856e2c2" prot="private" virt="non-virtual"><scope>SubsetVector</scope><name>m_entries</name></member>
+      <member refid="class_subset_vector_1a1f3c213d887416cd9daa4c6fb12cdeed" prot="private" virt="non-virtual"><scope>SubsetVector</scope><name>m_subset_indices</name></member>
+      <member refid="class_subset_vector_1aab31b2c64a2e9d857b75581322f8d091" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>operator[]</name></member>
+      <member refid="class_subset_vector_1ace02efb50e5790c4f7131ca083be7028" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>operator[]</name></member>
+      <member refid="class_subset_vector_1aa0043f61ebf53d816c6b4afeb40c7ce3" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>push_back</name></member>
+      <member refid="class_subset_vector_1a74e329e8b56fa8aff6142fcaac89434d" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>subset_at</name></member>
+      <member refid="class_subset_vector_1a481452290cded27611e863bb93bebf44" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>subset_at</name></member>
+      <member refid="class_subset_vector_1a318990aff784c71d9a547532ff2d3a9e" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>subset_size</name></member>
+      <member refid="class_subset_vector_1a8233dba742174e6f606760dd8a66cd41" prot="public" virt="non-virtual"><scope>SubsetVector</scope><name>SubsetVector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

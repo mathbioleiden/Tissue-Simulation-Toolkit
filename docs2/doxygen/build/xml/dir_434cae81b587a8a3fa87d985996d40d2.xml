@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_434cae81b587a8a3fa87d985996d40d2" kind="dir">
+    <compoundname>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/parameters</compoundname>
+    <innerdir refid="dir_8cbcb72b283a7a4343a713ceae68379d">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/parameters/tests</innerdir>
+    <innerfile refid="parameter_8cpp">parameter.cpp</innerfile>
+    <innerfile refid="parameter_8hpp">parameter.hpp</innerfile>
+    <innerfile refid="parameter__file_8cpp">parameter_file.cpp</innerfile>
+    <innerfile refid="parameter__file_8hpp">parameter_file.hpp</innerfile>
+    <innerfile refid="parameters_8hpp">parameters.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/parameters/"/>
+  </compounddef>
+</doxygen>

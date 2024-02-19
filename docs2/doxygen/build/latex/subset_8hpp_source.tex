@@ -1,0 +1,52 @@
+\doxysection{subset.\+hpp}
+\hypertarget{subset_8hpp_source}{}\label{subset_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/util/subset.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/util/subset.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_subset_vector}{SubsetVector}}\ \{}
+\DoxyCodeLine{00002\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00003\ \ \ \textcolor{keyword}{struct\ }Entry\ \{}
+\DoxyCodeLine{00004\ \ \ \ \ T\ element;}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{keywordtype}{int}\ index\_in\_subset\ =\ -\/1;}
+\DoxyCodeLine{00006\ \ \ \};}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_subset_vector}{SubsetVector}}(\textcolor{keywordtype}{unsigned}\ size\ =\ 0)\ :\ m\_entries(size)\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ m\_subset\_indices.reserve(size);}
+\DoxyCodeLine{00011\ \ \ \}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \textcolor{keywordtype}{void}\ push\_back(\textcolor{keyword}{const}\ T\ \&element)\ \{\ m\_entries.push\_back(Entry\{element,\ -\/1\});\ \}}
+\DoxyCodeLine{00014\ \ \ \textcolor{keyword}{const}\ T\ \&operator[](\textcolor{keywordtype}{unsigned}\ index)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_entries[index].element;\ \}}
+\DoxyCodeLine{00015\ \ \ T\ \&operator[](\textcolor{keywordtype}{unsigned}\ index)\ \{\ \textcolor{keywordflow}{return}\ m\_entries[index].element;\ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordtype}{void}\ insert\_in\_subset(\textcolor{keywordtype}{unsigned}\ index)\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_entries[index].index\_in\_subset\ <\ 0)\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ m\_entries[index].index\_in\_subset\ =\ m\_subset\_indices.size();}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ m\_subset\_indices.push\_back(index);}
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ \ \ \}}
+\DoxyCodeLine{00023\ \ \ \textcolor{keywordtype}{void}\ erase\_from\_subset(\textcolor{keywordtype}{unsigned}\ index)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_entries[index].index\_in\_subset\ >=\ 0)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ subset\_index\ =\ m\_entries[index].index\_in\_subset;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&entry\_to\_fix\ =\ m\_entries[m\_subset\_indices.back()];}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ std::swap(m\_subset\_indices[subset\_index],\ m\_subset\_indices.back());}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ entry\_to\_fix.index\_in\_subset\ =\ subset\_index;}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ m\_subset\_indices.pop\_back();}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ m\_entries[index].index\_in\_subset\ =\ -\/1;}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ \ \ \}}
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{unsigned}\ subset\_size()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_subset\_indices.size();\ \}}
+\DoxyCodeLine{00034\ \ \ T\ \&subset\_at(\textcolor{keywordtype}{unsigned}\ subset\_index)\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{auto}\ index\ =\ m\_subset\_indices.at(subset\_index);}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{return}\ m\_entries.at(index).element;}
+\DoxyCodeLine{00037\ \ \ \}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{const}\ T\ \&subset\_at(\textcolor{keywordtype}{unsigned}\ subset\_index)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{auto}\ index\ =\ m\_subset\_indices.at(subset\_index);}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{return}\ m\_entries.at(index).element;}
+\DoxyCodeLine{00041\ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00044\ \ \ std::vector<Entry>\ m\_entries;}
+\DoxyCodeLine{00045\ \ \ std::vector<unsigned>\ m\_subset\_indices;}
+\DoxyCodeLine{00046\ \};}
+
+\end{DoxyCode}

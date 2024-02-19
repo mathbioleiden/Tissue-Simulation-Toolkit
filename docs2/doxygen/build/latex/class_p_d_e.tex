@@ -1,0 +1,435 @@
+\doxysection{PDE Class Reference}
+\hypertarget{class_p_d_e}{}\label{class_p_d_e}\index{PDE@{PDE}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_p_d_e_a26e55d038cf6f7a74f23c6b9fe42e21a}{PDE}} (const int layers, const int sizex, const int sizey)
+\begin{DoxyCompactList}\small\item\em Constructor for \doxylink{class_p_d_e}{PDE} object containing arbitrary number of planes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_a5ee8b22db3003bc67582f2bf9f8ff70f}{Plot}} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g, const int layer=0)
+\begin{DoxyCompactList}\small\item\em Plots one layer of the \doxylink{class_p_d_e}{PDE} plane to a \doxylink{class_graphics}{Graphics} window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_aa98ccb03f76ac2b901cc4eb59eb1feda}{Plot}} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g, \mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}cpm, const int layer=0)
+\begin{DoxyCompactList}\small\item\em Plots one layer of the \doxylink{class_p_d_e}{PDE} to a \doxylink{class_graphics}{Graphics} window, but not over the cells. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_ab5043669e9ad1706078f8e70f8fcfff9}{Contour\+Plot}} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g, int layer=0, int colour=1)
+\begin{DoxyCompactList}\small\item\em Plots the \doxylink{class_p_d_e}{PDE} field using contour lines. \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_ab67a2b8d9113a2a30a71a83f6d9f41cf}\label{class_p_d_e_ab67a2b8d9113a2a30a71a83f6d9f41cf} 
+int {\bfseries SizeX} () const
+\begin{DoxyCompactList}\small\item\em Returns the horizontal size of the \doxylink{class_p_d_e}{PDE} planes. \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_ae451dbccae72247e28139604f19708ef}\label{class_p_d_e_ae451dbccae72247e28139604f19708ef} 
+int {\bfseries SizeY} () const
+\begin{DoxyCompactList}\small\item\em Returns the vertical size of the \doxylink{class_p_d_e}{PDE} planes. \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_a712526b2de5bcfeae7a6c1901578af1b}\label{class_p_d_e_a712526b2de5bcfeae7a6c1901578af1b} 
+int {\bfseries Layers} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of \doxylink{class_p_d_e}{PDE} layers in the \doxylink{class_p_d_e}{PDE} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_af5e25f6328f8f33fd7a67e79e273bbfd}{Set\+Species\+Name}} (int l, const char \texorpdfstring{$\ast$}{*}name)
+\begin{DoxyCompactList}\small\item\em Set the. \end{DoxyCompactList}\item 
+PDEFIELD\+\_\+\+TYPE \mbox{\hyperlink{class_p_d_e_a1af66fa14990bc666d9bf549cc753100}{Sigma}} (const int layer, const int x, const int y) const
+\begin{DoxyCompactList}\small\item\em Returns the value of grid point x,y of \doxylink{class_p_d_e}{PDE} plane "{}layer"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_a523ba06feffab5b8ba8231e9a7773223}{set\+Value}} (const int layer, const int x, const int y, const PDEFIELD\+\_\+\+TYPE value)
+\begin{DoxyCompactList}\small\item\em Sets grid point x,y of \doxylink{class_p_d_e}{PDE} plane "{}layer"{} to value "{}value"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_aad327b2b5cf3e56cd6fd05f7e66742b8}{addto\+Value}} (const int layer, const int x, const int y, const PDEFIELD\+\_\+\+TYPE value)
+\begin{DoxyCompactList}\small\item\em Adds a number to a \doxylink{class_p_d_e}{PDE} grid point. \end{DoxyCompactList}\item 
+PDEFIELD\+\_\+\+TYPE \mbox{\hyperlink{class_p_d_e_a10809f8bec9c0662c016b79b9e3ea3d7}{Max}} (int l)
+\begin{DoxyCompactList}\small\item\em Gets the maximum value of \doxylink{class_p_d_e}{PDE} layer l. \end{DoxyCompactList}\item 
+PDEFIELD\+\_\+\+TYPE \mbox{\hyperlink{class_p_d_e_ad119f572bf614e473783ff424efb426c}{Min}} (int l)
+\begin{DoxyCompactList}\small\item\em Returns the minimum value of \doxylink{class_p_d_e}{PDE} layer l. \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_a0d26fcbd12c62cb3b2fd03f19d584cbf}\label{class_p_d_e_a0d26fcbd12c62cb3b2fd03f19d584cbf} 
+void {\bfseries Initialize\+Age\+Layer} (int l, double value, \mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}cpm)
+\begin{DoxyCompactList}\small\item\em Carry out \$n\$ diffusion steps for all \doxylink{class_p_d_e}{PDE} planes. We use a forward Euler method here. Can be replaced for better algorithm. Function for the Act model. The whole field is initialized, usually with 0. \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_a360313600173d1aa9e9ae150f2036510}\label{class_p_d_e_a360313600173d1aa9e9ae150f2036510} 
+void {\bfseries Age\+Layer} (int l, double value, \mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}cpm, \mbox{\hyperlink{class_dish}{Dish}} \texorpdfstring{$\ast$}{*}dish)
+\item 
+\Hypertarget{class_p_d_e_a74197ff826a54bc954dca87e0c8d803e}\label{class_p_d_e_a74197ff826a54bc954dca87e0c8d803e} 
+void {\bfseries Plot\+In\+Cells} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g, \mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}cpm, const int l=0)
+\item 
+\Hypertarget{class_p_d_e_aaa79ef145a109fcaca235fd1de3b755a}\label{class_p_d_e_aaa79ef145a109fcaca235fd1de3b755a} 
+void {\bfseries MILayer\+CA} (int l, double value, \mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}cpm, \mbox{\hyperlink{class_dish}{Dish}} \texorpdfstring{$\ast$}{*}dish)
+\item 
+void \mbox{\hyperlink{class_p_d_e_a87267de223db53722e17b69983a5d544}{Diffuse}} (int repeat)
+\begin{DoxyCompactList}\small\item\em Carry out \$n\$ diffusion steps for all \doxylink{class_p_d_e}{PDE} planes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_ad90263eebb1f949b3d895a72eadb5c99}{No\+Flux\+Boundaries}} (void)
+\begin{DoxyCompactList}\small\item\em Implementation of no-\/flux boundaries. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_afac99f334bc55268bca1233a588754a5}{Absorbing\+Boundaries}} (void)
+\begin{DoxyCompactList}\small\item\em Implementation of absorbing boundaries. \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_a325a81a07e4d90037cab41bcef052e48}\label{class_p_d_e_a325a81a07e4d90037cab41bcef052e48} 
+void {\bfseries Periodic\+Boundaries} (void)
+\begin{DoxyCompactList}\small\item\em Implementation of periodic boundaries. Called internally (optionally) by \doxylink{class_p_d_e_a87267de223db53722e17b69983a5d544}{Diffuse()}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_ae0133274ce74a52b159ee1d9626c934d}{Secrete}} (\mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}cpm)
+\begin{DoxyCompactList}\small\item\em Reaction and interaction of CPM plane with \doxylink{class_p_d_e}{PDE} planes. \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_af25e1905d7bc5e71371a029dc74d7701}\label{class_p_d_e_af25e1905d7bc5e71371a029dc74d7701} 
+void {\bfseries Secrete\+And\+Diffuse\+CL} (\mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}cpm, int repeat)
+\item 
+\Hypertarget{class_p_d_e_a7fbfa877f9b380a571adc69ef18dbcbf}\label{class_p_d_e_a7fbfa877f9b380a571adc69ef18dbcbf} 
+double {\bfseries The\+Time} (void) const
+\begin{DoxyCompactList}\small\item\em Returns cumulative "{}simulated"{} time, i.\+e. number of time steps \texorpdfstring{$\ast$}{*} dt. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_p_d_e_a673bc12536828414a609ed3ff9947af6}{Get\+Chem\+Amount}} (const int layer=-\/1)
+\begin{DoxyCompactList}\small\item\em Returns summed amount of chemical in \doxylink{class_p_d_e}{PDE} plane "{}layer"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_p_d_e_adc6288d408d24a6aec3789aa61e05750}{GradC}} (int layer=0, int first\+\_\+grad\+\_\+layer=1)
+\item 
+void \mbox{\hyperlink{class_p_d_e_a1b7cbc32113d7fe9edeac9e5f5d52d21}{Plot\+Vector\+Field}} (\mbox{\hyperlink{class_graphics}{Graphics}} \&g, int stride, int linelength, int first\+\_\+grad\+\_\+layer=1)
+\item 
+\Hypertarget{class_p_d_e_ac9de05e94ac435ea19f838e4b668dd2a}\label{class_p_d_e_ac9de05e94ac435ea19f838e4b668dd2a} 
+void {\bfseries Init\+Linear\+YGradient} (int spec, double conc\+\_\+top, double conc\+\_\+bottom)
+\item 
+\Hypertarget{class_p_d_e_aefa53656f351b58f656413cb18632bd7}\label{class_p_d_e_aefa53656f351b58f656413cb18632bd7} 
+bool {\bfseries plot\+Pos} (int x, int y, \mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}graphics, int layer)
+\item 
+\Hypertarget{class_p_d_e_ab0630fb03e29c5c337a9d7c5e6c3fe9f}\label{class_p_d_e_ab0630fb03e29c5c337a9d7c5e6c3fe9f} 
+void {\bfseries reset\+\_\+plot} ()
+\item 
+\Hypertarget{class_p_d_e_a570677656717a19f42b531ebfef6af3d}\label{class_p_d_e_a570677656717a19f42b531ebfef6af3d} 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries get\+Sigma} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_p_d_e_a1f938cd0e159c59ef7fa600a2c505be1}\label{class_p_d_e_a1f938cd0e159c59ef7fa600a2c505be1} 
+double {\bfseries highest}
+\item 
+\Hypertarget{class_p_d_e_a8086460ee3ef5b9af634ddbd32299633}\label{class_p_d_e_a8086460ee3ef5b9af634ddbd32299633} 
+double {\bfseries lowest}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual int \mbox{\hyperlink{class_p_d_e_a33986e19d9010ffa56b0859c0405480b}{Map\+Colour}} (double val)
+\begin{DoxyCompactList}\small\item\em Used in Plot. Takes a color and turns it into a grey value. \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_a5b65074e6bd20cc1f25d23e22e4a045f}\label{class_p_d_e_a5b65074e6bd20cc1f25d23e22e4a045f} 
+{\bfseries PDE} (void)
+\begin{DoxyCompactList}\small\item\em empty constructor (necessary for derivation) \end{DoxyCompactList}\item 
+\Hypertarget{class_p_d_e_a1e2175aa28c2222430d472daae5bf658}\label{class_p_d_e_a1e2175aa28c2222430d472daae5bf658} 
+virtual PDEFIELD\+\_\+\+TYPE \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries Allocate\+Sigma} (const int layers, const int sx, const int sy)
+\begin{DoxyCompactList}\small\item\em Allocates a \doxylink{class_p_d_e}{PDE} plane (internal use). For internal use, can be reimplemented in derived class to change method of memory allocation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_p_d_e_a2ee44a111c1d69de50498c8c82a4e46f}\label{class_p_d_e_a2ee44a111c1d69de50498c8c82a4e46f} 
+PDEFIELD\+\_\+\+TYPE \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries sigma}
+\item 
+\Hypertarget{class_p_d_e_afa05c70f7d587e6adf1483b411c6863e}\label{class_p_d_e_afa05c70f7d587e6adf1483b411c6863e} 
+PDEFIELD\+\_\+\+TYPE \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries alt\+\_\+sigma}
+\item 
+\Hypertarget{class_p_d_e_a48207ac0f367e49e8d0b7a9a70447ec9}\label{class_p_d_e_a48207ac0f367e49e8d0b7a9a70447ec9} 
+int {\bfseries sizex}
+\item 
+\Hypertarget{class_p_d_e_a483039b76c63f705b94aee757573af4d}\label{class_p_d_e_a483039b76c63f705b94aee757573af4d} 
+int {\bfseries sizey}
+\item 
+\Hypertarget{class_p_d_e_a8991908f6b46d1f53c2f95c2bb342253}\label{class_p_d_e_a8991908f6b46d1f53c2f95c2bb342253} 
+int {\bfseries layers}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_p_d_e_a4838ff865b8d8625c61d208a420f8212}\label{class_p_d_e_a4838ff865b8d8625c61d208a420f8212} 
+class {\bfseries Info}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_p_d_e_a26e55d038cf6f7a74f23c6b9fe42e21a}\label{class_p_d_e_a26e55d038cf6f7a74f23c6b9fe42e21a} 
+\index{PDE@{PDE}!PDE@{PDE}}
+\index{PDE@{PDE}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{PDE()}{PDE()}}
+{\footnotesize\ttfamily PDE\+::\+PDE (\begin{DoxyParamCaption}\item[{const int}]{l,  }\item[{const int}]{sx,  }\item[{const int}]{sy }\end{DoxyParamCaption})}
+
+
+
+Constructor for \doxylink{class_p_d_e}{PDE} object containing arbitrary number of planes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layers} & Number of \doxylink{class_p_d_e}{PDE} planes \\
+\hline
+{\em sizex} & horizontal size of \doxylink{class_p_d_e}{PDE} planes \\
+\hline
+{\em sizey} & vertical size of \doxylink{class_p_d_e}{PDE} planes\\
+\hline
+\end{DoxyParams}
+PRIVATE 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_p_d_e_afac99f334bc55268bca1233a588754a5}\label{class_p_d_e_afac99f334bc55268bca1233a588754a5} 
+\index{PDE@{PDE}!AbsorbingBoundaries@{AbsorbingBoundaries}}
+\index{AbsorbingBoundaries@{AbsorbingBoundaries}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{AbsorbingBoundaries()}{AbsorbingBoundaries()}}
+{\footnotesize\ttfamily void PDE\+::\+Absorbing\+Boundaries (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Implementation of absorbing boundaries. 
+
+Called internally (optionally) by \doxylink{class_p_d_e_a87267de223db53722e17b69983a5d544}{Diffuse()}. \Hypertarget{class_p_d_e_aad327b2b5cf3e56cd6fd05f7e66742b8}\label{class_p_d_e_aad327b2b5cf3e56cd6fd05f7e66742b8} 
+\index{PDE@{PDE}!addtoValue@{addtoValue}}
+\index{addtoValue@{addtoValue}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{addtoValue()}{addtoValue()}}
+{\footnotesize\ttfamily void PDE\+::addto\+Value (\begin{DoxyParamCaption}\item[{const int}]{layer,  }\item[{const int}]{x,  }\item[{const int}]{y,  }\item[{const PDEFIELD\+\_\+\+TYPE}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Adds a number to a \doxylink{class_p_d_e}{PDE} grid point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & \doxylink{class_p_d_e}{PDE} plane. \\
+\hline
+{\em x,y} & grid point \\
+\hline
+{\em value} & value to add \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_ab5043669e9ad1706078f8e70f8fcfff9}\label{class_p_d_e_ab5043669e9ad1706078f8e70f8fcfff9} 
+\index{PDE@{PDE}!ContourPlot@{ContourPlot}}
+\index{ContourPlot@{ContourPlot}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{ContourPlot()}{ContourPlot()}}
+{\footnotesize\ttfamily void PDE\+::\+Contour\+Plot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}}]{g,  }\item[{int}]{layer = {\ttfamily 0},  }\item[{int}]{colour = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Plots the \doxylink{class_p_d_e}{PDE} field using contour lines. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxylink{class_graphics}{Graphics} window. \\
+\hline
+{\em layer} & The \doxylink{class_p_d_e}{PDE} plane to be plotted. Default layer 0. \\
+\hline
+{\em colour} & Color to use for the contour lines, as defined in the "{}default.\+ctb"{} color map file, which should be in the same directory as the executable. Default color 1 (black in the default color map). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_a87267de223db53722e17b69983a5d544}\label{class_p_d_e_a87267de223db53722e17b69983a5d544} 
+\index{PDE@{PDE}!Diffuse@{Diffuse}}
+\index{Diffuse@{Diffuse}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{Diffuse()}{Diffuse()}}
+{\footnotesize\ttfamily void PDE\+::\+Diffuse (\begin{DoxyParamCaption}\item[{int}]{repeat }\end{DoxyParamCaption})}
+
+
+
+Carry out \$n\$ diffusion steps for all \doxylink{class_p_d_e}{PDE} planes. 
+
+We use a forward Euler method here. Can be replaced for better algorithm.
+
+
+\begin{DoxyParams}{Parameters}
+{\em repeat} & Number of steps.\\
+\hline
+\end{DoxyParams}
+Time step dt, space step dx, diffusion coefficient diff\+\_\+coeff and boundary conditions (bool periodic\+\_\+boundary) are set as global parameters in a parameter file using class \doxylink{class_parameter}{Parameter}. \Hypertarget{class_p_d_e_a673bc12536828414a609ed3ff9947af6}\label{class_p_d_e_a673bc12536828414a609ed3ff9947af6} 
+\index{PDE@{PDE}!GetChemAmount@{GetChemAmount}}
+\index{GetChemAmount@{GetChemAmount}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{GetChemAmount()}{GetChemAmount()}}
+{\footnotesize\ttfamily double PDE\+::\+Get\+Chem\+Amount (\begin{DoxyParamCaption}\item[{const int}]{layer = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+
+
+Returns summed amount of chemical in \doxylink{class_p_d_e}{PDE} plane "{}layer"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & The \doxylink{class_p_d_e}{PDE} plane of which to sum the chemicals. layer=-\/1 (default) returns the summed amount of chemical in all planes. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_adc6288d408d24a6aec3789aa61e05750}\label{class_p_d_e_adc6288d408d24a6aec3789aa61e05750} 
+\index{PDE@{PDE}!GradC@{GradC}}
+\index{GradC@{GradC}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{GradC()}{GradC()}}
+{\footnotesize\ttfamily void PDE\+::\+GradC (\begin{DoxyParamCaption}\item[{int}]{layer = {\ttfamily 0},  }\item[{int}]{first\+\_\+grad\+\_\+layer = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Calculates the first and second order gradients, i.\+e. gradx, grady, gradxx, gradxy and gradyy and puts them in the next three chemical fields. Not currently used and might need some redoing. Make sure you have allocated sufficient fields (this method generates five planes).
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & \doxylink{class_p_d_e}{PDE} plane of which to calculate the gradients (default 0)\\
+\hline
+{\em first\+\_\+grad\+\_\+layer} & first plane of five in which to write the results (default 1). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_a33986e19d9010ffa56b0859c0405480b}\label{class_p_d_e_a33986e19d9010ffa56b0859c0405480b} 
+\index{PDE@{PDE}!MapColour@{MapColour}}
+\index{MapColour@{MapColour}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{MapColour()}{MapColour()}}
+{\footnotesize\ttfamily virtual int PDE\+::\+Map\+Colour (\begin{DoxyParamCaption}\item[{double}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Used in Plot. Takes a color and turns it into a grey value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Value from \doxylink{class_p_d_e}{PDE} plane. Implement this function in you main simulation code. See e.\+g. vessel.\+cpp. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_a10809f8bec9c0662c016b79b9e3ea3d7}\label{class_p_d_e_a10809f8bec9c0662c016b79b9e3ea3d7} 
+\index{PDE@{PDE}!Max@{Max}}
+\index{Max@{Max}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{Max()}{Max()}}
+{\footnotesize\ttfamily PDEFIELD\+\_\+\+TYPE PDE\+::\+Max (\begin{DoxyParamCaption}\item[{int}]{l }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the maximum value of \doxylink{class_p_d_e}{PDE} layer l. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & layer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Maximum value in layer l. 
+\end{DoxyReturn}
+\Hypertarget{class_p_d_e_ad119f572bf614e473783ff424efb426c}\label{class_p_d_e_ad119f572bf614e473783ff424efb426c} 
+\index{PDE@{PDE}!Min@{Min}}
+\index{Min@{Min}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{Min()}{Min()}}
+{\footnotesize\ttfamily PDEFIELD\+\_\+\+TYPE PDE\+::\+Min (\begin{DoxyParamCaption}\item[{int}]{l }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the minimum value of \doxylink{class_p_d_e}{PDE} layer l. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & layer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Minimum value in layer l. 
+\end{DoxyReturn}
+\Hypertarget{class_p_d_e_ad90263eebb1f949b3d895a72eadb5c99}\label{class_p_d_e_ad90263eebb1f949b3d895a72eadb5c99} 
+\index{PDE@{PDE}!NoFluxBoundaries@{NoFluxBoundaries}}
+\index{NoFluxBoundaries@{NoFluxBoundaries}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{NoFluxBoundaries()}{NoFluxBoundaries()}}
+{\footnotesize\ttfamily void PDE\+::\+No\+Flux\+Boundaries (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Implementation of no-\/flux boundaries. 
+
+Called internally (optionally) by \doxylink{class_p_d_e_a87267de223db53722e17b69983a5d544}{Diffuse()}. \Hypertarget{class_p_d_e_aa98ccb03f76ac2b901cc4eb59eb1feda}\label{class_p_d_e_aa98ccb03f76ac2b901cc4eb59eb1feda} 
+\index{PDE@{PDE}!Plot@{Plot}}
+\index{Plot@{Plot}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{Plot()}{Plot()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void PDE\+::\+Plot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}}]{g,  }\item[{\mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}}]{cpm,  }\item[{const int}]{layer = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Plots one layer of the \doxylink{class_p_d_e}{PDE} to a \doxylink{class_graphics}{Graphics} window, but not over the cells. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxylink{class_graphics}{Graphics} window.\\
+\hline
+{\em cpm} & \doxylink{class_cellular_potts}{Cellular\+Potts} object containing the cells.\\
+\hline
+{\em layer} & The \doxylink{class_p_d_e}{PDE} plane to be plotted. Default layer 0. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_a5ee8b22db3003bc67582f2bf9f8ff70f}\label{class_p_d_e_a5ee8b22db3003bc67582f2bf9f8ff70f} 
+\index{PDE@{PDE}!Plot@{Plot}}
+\index{Plot@{Plot}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{Plot()}{Plot()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void PDE\+::\+Plot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}}]{g,  }\item[{const int}]{layer = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Plots one layer of the \doxylink{class_p_d_e}{PDE} plane to a \doxylink{class_graphics}{Graphics} window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxylink{class_graphics}{Graphics} window. \\
+\hline
+{\em layer} & The \doxylink{class_p_d_e}{PDE} plane to be plotted. Default layer 0. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_a1b7cbc32113d7fe9edeac9e5f5d52d21}\label{class_p_d_e_a1b7cbc32113d7fe9edeac9e5f5d52d21} 
+\index{PDE@{PDE}!PlotVectorField@{PlotVectorField}}
+\index{PlotVectorField@{PlotVectorField}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{PlotVectorField()}{PlotVectorField()}}
+{\footnotesize\ttfamily void PDE\+::\+Plot\+Vector\+Field (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \&}]{g,  }\item[{int}]{stride,  }\item[{int}]{linelength,  }\item[{int}]{first\+\_\+grad\+\_\+layer = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Plots a field of the first order gradients, i.\+e. gradx and grady; assumes you have called GradC before. Not currently used and might need some redoing. 
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxylink{class_graphics}{Graphics} window \\
+\hline
+{\em stride} & Number of grid points between vectors (drawn as lines, currently.\\
+\hline
+{\em linelength} & Length of vector lines, in pixels.\\
+\hline
+{\em first\+\_\+grad\+\_\+layer} & first plane of two which contain the calculated gradients (default 1). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_ae0133274ce74a52b159ee1d9626c934d}\label{class_p_d_e_ae0133274ce74a52b159ee1d9626c934d} 
+\index{PDE@{PDE}!Secrete@{Secrete}}
+\index{Secrete@{Secrete}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{Secrete()}{Secrete()}}
+{\footnotesize\ttfamily void PDE\+::\+Secrete (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cellular_potts}{Cellular\+Potts}} \texorpdfstring{$\ast$}{*}}]{cpm }\end{DoxyParamCaption})}
+
+
+
+Reaction and interaction of CPM plane with \doxylink{class_p_d_e}{PDE} planes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cpm} & \doxylink{class_cellular_potts}{Cellular\+Potts} plane the \doxylink{class_p_d_e}{PDE} plane interacts with You should implement this member function as part of your main simulation code. See for an example vessel.\+cpp. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_af5e25f6328f8f33fd7a67e79e273bbfd}\label{class_p_d_e_af5e25f6328f8f33fd7a67e79e273bbfd} 
+\index{PDE@{PDE}!SetSpeciesName@{SetSpeciesName}}
+\index{SetSpeciesName@{SetSpeciesName}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{SetSpeciesName()}{SetSpeciesName()}}
+{\footnotesize\ttfamily void PDE\+::\+Set\+Species\+Name (\begin{DoxyParamCaption}\item[{int}]{l,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{name }\end{DoxyParamCaption})}
+
+
+
+Set the. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & of the species in layer\\
+\hline
+{\em l} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_a523ba06feffab5b8ba8231e9a7773223}\label{class_p_d_e_a523ba06feffab5b8ba8231e9a7773223} 
+\index{PDE@{PDE}!setValue@{setValue}}
+\index{setValue@{setValue}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}}
+{\footnotesize\ttfamily void PDE\+::set\+Value (\begin{DoxyParamCaption}\item[{const int}]{layer,  }\item[{const int}]{x,  }\item[{const int}]{y,  }\item[{const PDEFIELD\+\_\+\+TYPE}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets grid point x,y of \doxylink{class_p_d_e}{PDE} plane "{}layer"{} to value "{}value"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & \doxylink{class_p_d_e}{PDE} plane. \\
+\hline
+{\em x,y} & grid point \\
+\hline
+{\em value} & new contents \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_p_d_e_a1af66fa14990bc666d9bf549cc753100}\label{class_p_d_e_a1af66fa14990bc666d9bf549cc753100} 
+\index{PDE@{PDE}!Sigma@{Sigma}}
+\index{Sigma@{Sigma}!PDE@{PDE}}
+\doxysubsubsection{\texorpdfstring{Sigma()}{Sigma()}}
+{\footnotesize\ttfamily PDEFIELD\+\_\+\+TYPE PDE\+::\+Sigma (\begin{DoxyParamCaption}\item[{const int}]{layer,  }\item[{const int}]{x,  }\item[{const int}]{y }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the value of grid point x,y of \doxylink{class_p_d_e}{PDE} plane "{}layer"{}. 
+
+Warning, no range checking done.
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & the \doxylink{class_p_d_e}{PDE} plane to probe. \\
+\hline
+{\em x,y} & grid point to probe. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/reaction\+\_\+diffusion/pde.\+hpp\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/reaction\+\_\+diffusion/pde.\+cpp\end{DoxyCompactItemize}

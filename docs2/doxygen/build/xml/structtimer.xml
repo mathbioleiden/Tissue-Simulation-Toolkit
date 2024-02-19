@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structtimer" kind="struct" language="C++" prot="public">
+    <compoundname>timer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structtimer_1a89c6031b01d91e957358a36b7bb33b5a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string timer::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>timer::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="17" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtimer_1a08f3964febbf247410ca83f617c68507" prot="public" static="no" mutable="no">
+        <type>std::chrono::time_point&lt; std::chrono::system_clock &gt;</type>
+        <definition>std::chrono::time_point&lt;std::chrono::system_clock&gt; timer::start</definition>
+        <argsstring></argsstring>
+        <name>start</name>
+        <qualifiedname>timer::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="18" column="27" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtimer_1a975efaadc2d5d67d9e1efd2ad5603870" prot="public" static="no" mutable="no">
+        <type>std::chrono::time_point&lt; std::chrono::system_clock &gt;</type>
+        <definition>std::chrono::time_point&lt;std::chrono::system_clock&gt; timer::stop</definition>
+        <argsstring></argsstring>
+        <name>stop</name>
+        <qualifiedname>timer::stop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="19" column="27" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtimer_1a5720495dc307d7eea4fbbed0e7e6786b" prot="public" static="no" mutable="no">
+        <type>std::chrono::duration&lt; double &gt;</type>
+        <definition>std::chrono::duration&lt;double&gt; timer::delta</definition>
+        <argsstring></argsstring>
+        <name>delta</name>
+        <qualifiedname>timer::delta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="20" column="25" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtimer_1a8537d0332a14831f0f8c801352079a1a" prot="public" static="no" mutable="no">
+        <type>std::chrono::duration&lt; double &gt;</type>
+        <definition>std::chrono::duration&lt;double&gt; timer::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>timer::sum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="21" column="25" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtimer_1a3139d441f6b4422400b605ec45f62f66" prot="public" static="no" mutable="no">
+        <type>std::chrono::duration&lt; double &gt;</type>
+        <definition>std::chrono::duration&lt;double&gt; timer::avg</definition>
+        <argsstring></argsstring>
+        <name>avg</name>
+        <qualifiedname>timer::avg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="22" column="25" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtimer_1a4b8a6c4d4ef4598fd957c1a1b52e85df" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int timer::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>timer::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="23" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" line="16" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/profiler.hpp" bodystart="16" bodyend="24"/>
+    <listofallmembers>
+      <member refid="structtimer_1a3139d441f6b4422400b605ec45f62f66" prot="public" virt="non-virtual"><scope>timer</scope><name>avg</name></member>
+      <member refid="structtimer_1a4b8a6c4d4ef4598fd957c1a1b52e85df" prot="public" virt="non-virtual"><scope>timer</scope><name>count</name></member>
+      <member refid="structtimer_1a5720495dc307d7eea4fbbed0e7e6786b" prot="public" virt="non-virtual"><scope>timer</scope><name>delta</name></member>
+      <member refid="structtimer_1a89c6031b01d91e957358a36b7bb33b5a" prot="public" virt="non-virtual"><scope>timer</scope><name>name</name></member>
+      <member refid="structtimer_1a08f3964febbf247410ca83f617c68507" prot="public" virt="non-virtual"><scope>timer</scope><name>start</name></member>
+      <member refid="structtimer_1a975efaadc2d5d67d9e1efd2ad5603870" prot="public" virt="non-virtual"><scope>timer</scope><name>stop</name></member>
+      <member refid="structtimer_1a8537d0332a14831f0f8c801352079a1a" prot="public" virt="non-virtual"><scope>timer</scope><name>sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

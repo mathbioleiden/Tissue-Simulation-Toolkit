@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="graph_8hpp" kind="file" language="C++">
+    <compoundname>graph.hpp</compoundname>
+    <includes local="no">iostream</includes>
+    <includedby refid="ca_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/ca.cpp</includedby>
+    <includedby refid="dish_8hpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp</includedby>
+    <includedby refid="glgraph_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.cpp</includedby>
+    <includedby refid="glgraph_8hpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp</includedby>
+    <includedby refid="graph_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.cpp</includedby>
+    <includedby refid="qtglgraph_8hpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/qtglgraph.hpp</includedby>
+    <includedby refid="qtgraph_8hpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/qtgraph.hpp</includedby>
+    <includedby refid="x11graph_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/x11graph.cpp</includedby>
+    <includedby refid="_act__model_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/models/Act_model.cpp</includedby>
+    <includedby refid="engulfment_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/models/engulfment.cpp</includedby>
+    <includedby refid="pushing_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/models/pushing.cpp</includedby>
+    <includedby refid="q_potts_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/models/qPotts.cpp</includedby>
+    <includedby refid="sorting_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/models/sorting.cpp</includedby>
+    <includedby refid="vessel_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/models/vessel.cpp</includedby>
+    <includedby refid="conrec_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting/conrec.cpp</includedby>
+    <includedby refid="plotter_8hpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting/plotter.hpp</includedby>
+    <includedby refid="pde_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/reaction_diffusion/pde.cpp</includedby>
+    <includedby refid="pde_8hpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/reaction_diffusion/pde.hpp</includedby>
+    <includedby refid="info_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/info.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.hpp</label>
+        <link refid="graph_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>iostream</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="10">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/ca.hpp</label>
+        <link refid="ca_8hpp_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp</label>
+        <link refid="dish_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/glgraph.hpp</label>
+        <link refid="glgraph_8hpp_source"/>
+      </node>
+      <node id="1">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.hpp</label>
+        <link refid="graph_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/qtglgraph.hpp</label>
+        <link refid="qtglgraph_8hpp_source"/>
+      </node>
+      <node id="8">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/qtgraph.hpp</label>
+        <link refid="qtgraph_8hpp_source"/>
+      </node>
+      <node id="5">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/x11graph.hpp</label>
+        <link refid="x11graph_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting/plotter.hpp</label>
+        <link refid="plotter_8hpp_source"/>
+      </node>
+      <node id="9">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/reaction_diffusion/pde.hpp</label>
+        <link refid="pde_8hpp_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/inputoutput.hpp</label>
+        <link refid="inputoutput_8hpp_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_graphics" prot="public">Graphics</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="graph_8hpp_1aaa44314cab3255916c592afc62ea291e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void start_graphics</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>start_graphics</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.hpp" line="141" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.cpp" bodystart="7" bodyend="41" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.hpp" declline="141" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"></highlight></codeline>
+<codeline lineno="3"><highlight class="comment">Copyright<sp/>1996-2006<sp/>Roeland<sp/>Merks</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"></highlight></codeline>
+<codeline lineno="5"><highlight class="comment">This<sp/>file<sp/>is<sp/>part<sp/>of<sp/>Tissue<sp/>Simulation<sp/>Toolkit.</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"></highlight></codeline>
+<codeline lineno="7"><highlight class="comment">Tissue<sp/>Simulation<sp/>Toolkit<sp/>is<sp/>free<sp/>software;<sp/>you<sp/>can<sp/>redistribute</highlight></codeline>
+<codeline lineno="8"><highlight class="comment">it<sp/>and/or<sp/>modify<sp/>it<sp/>under<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public</highlight></codeline>
+<codeline lineno="9"><highlight class="comment">License<sp/>as<sp/>published<sp/>by<sp/>the<sp/>Free<sp/>Software<sp/>Foundation;<sp/>either</highlight></codeline>
+<codeline lineno="10"><highlight class="comment">version<sp/>2<sp/>of<sp/>the<sp/>License,<sp/>or<sp/>(at<sp/>your<sp/>option)<sp/>any<sp/>later<sp/>version.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"></highlight></codeline>
+<codeline lineno="12"><highlight class="comment">Tissue<sp/>Simulation<sp/>Toolkit<sp/>is<sp/>distributed<sp/>in<sp/>the<sp/>hope<sp/>that<sp/>it<sp/>will</highlight></codeline>
+<codeline lineno="13"><highlight class="comment">be<sp/>useful,<sp/>but<sp/>WITHOUT<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the<sp/>implied</highlight></codeline>
+<codeline lineno="14"><highlight class="comment">warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.</highlight></codeline>
+<codeline lineno="15"><highlight class="comment">See<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License<sp/>for<sp/>more<sp/>details.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"></highlight></codeline>
+<codeline lineno="17"><highlight class="comment">You<sp/>should<sp/>have<sp/>received<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>GNU<sp/>General<sp/>Public<sp/>License</highlight></codeline>
+<codeline lineno="18"><highlight class="comment">along<sp/>with<sp/>Tissue<sp/>Simulation<sp/>Toolkit;<sp/>if<sp/>not,<sp/>write<sp/>to<sp/>the<sp/>Free</highlight></codeline>
+<codeline lineno="19"><highlight class="comment">Software<sp/>Foundation,<sp/>Inc.,<sp/>51<sp/>Franklin<sp/>St,<sp/>Fifth<sp/>Floor,<sp/>Boston,<sp/>MA</highlight></codeline>
+<codeline lineno="20"><highlight class="comment">02110-1301<sp/>USA</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"></highlight></codeline>
+<codeline lineno="22"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>_GRAPH_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GRAPH_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Base<sp/>class<sp/>for<sp/>Graphics<sp/>interface.<sp/>No<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_graphics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_graphics" kindref="compound">Graphics</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Graphics(int<sp/>xfield,<sp/>int<sp/>yfield,<sp/>const<sp/>char<sp/>*movie_file=0);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_graphics" kindref="compound">~Graphics</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">){};</highlight></codeline>
+<codeline lineno="42" refid="class_graphics_1afc5b72e258d26775418c72c78d078e4b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1afc5b72e258d26775418c72c78d078e4b" kindref="member">BeginScene</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">){};</highlight></codeline>
+<codeline lineno="45" refid="class_graphics_1a9f97b7c6506dcba845a1da457398fa90" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1a9f97b7c6506dcba845a1da457398fa90" kindref="member">EndScene</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">){};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ClearImage(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">){};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="class_graphics_1a123e1b2c757c39bf329517af332c24eb" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1a123e1b2c757c39bf329517af332c24eb" kindref="member">Point</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structcolor" kindref="compound">color</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PointAlpha(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>alpha,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Rectangle(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>colour,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="class_graphics_1a12444978b168c200b4e82afe852d1600" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1a12444978b168c200b4e82afe852d1600" kindref="member">Line</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x1,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>y1,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x2,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>y2,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>colour)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="class_graphics_1a39257f929b38739ed42e8d463c4f42c3" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1a39257f929b38739ed42e8d463c4f42c3" kindref="member">GetXYCoo</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*X,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*Y)<sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>{return<sp/>0;}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="class_graphics_1a2848865fca459505dc83dccfba3c1217" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1a2848865fca459505dc83dccfba3c1217" kindref="member">XField</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="class_graphics_1a82379c9ce18dc3b946e2cf6b4bd4a85b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1a82379c9ce18dc3b946e2cf6b4bd4a85b" kindref="member">YField</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="class_graphics_1af98a333b8be25817669e615b1cd6c73d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1af98a333b8be25817669e615b1cd6c73d" kindref="member">Write</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*fname,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>quality<sp/>=<sp/>-1)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="class_graphics_1aa1b61fa6f6bc50aceff6f320ce5b9be2" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1aa1b61fa6f6bc50aceff6f320ce5b9be2" kindref="member">TimeStep</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">){};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="class_graphics_1a22105e059337daabadfa68838811099f" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graphics_1a22105e059337daabadfa68838811099f" kindref="member">Field</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>**f,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mag<sp/>=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Graphics::Field<sp/>not<sp/>implemented.<sp/>Try<sp/>X11<sp/>graphics.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Resize(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>xfield,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>yfield){};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>set_Paused(){};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>set_unPaused(){};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Graphics<sp/>implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>QTGRAPHICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;qtgraph.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>GLGRAPHICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;glgraph.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>QTGLGRAPHICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;qtglgraph.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>X11GRAPHICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;x11graph.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>start_graphics(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**argv);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.hpp"/>
+  </compounddef>
+</doxygen>

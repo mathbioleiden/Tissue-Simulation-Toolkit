@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="struct_hasher" kind="struct" language="C++" prot="public">
+    <compoundname>Hasher</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>typename H</type>
+        <defval>std::hash&lt;T&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_hasher_1a99f38564ddc11dc62baa3a4d35b6c52b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t Hasher&lt; T, H &gt;::operator()</definition>
+        <argsstring>(const T *const pt) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>Hasher::operator()</qualifiedname>
+        <param>
+          <type>const T *const</type>
+          <declname>pt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="8" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="8" bodyend="8"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" line="7" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util/pickset.hpp" bodystart="7" bodyend="9"/>
+    <listofallmembers>
+      <member refid="struct_hasher_1a99f38564ddc11dc62baa3a4d35b6c52b" prot="public" virt="non-virtual"><scope>Hasher</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

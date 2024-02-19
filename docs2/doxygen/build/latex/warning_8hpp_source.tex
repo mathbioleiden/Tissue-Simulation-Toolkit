@@ -1,0 +1,64 @@
+\doxysection{warning.\+hpp}
+\hypertarget{warning_8hpp_source}{}\label{warning_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/util/warning.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/util/warning.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ 1996-\/2006\ Roeland\ Merks}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Tissue\ Simulation\ Toolkit.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ free\ software;\ you\ can\ redistribute}}
+\DoxyCodeLine{00008\ \textcolor{comment}{it\ and/or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public}}
+\DoxyCodeLine{00009\ \textcolor{comment}{License\ as\ published\ by\ the\ Free\ Software\ Foundation;\ either}}
+\DoxyCodeLine{00010\ \textcolor{comment}{version\ 2\ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ distributed\ in\ the\ hope\ that\ it\ will}}
+\DoxyCodeLine{00013\ \textcolor{comment}{be\ useful,\ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied}}
+\DoxyCodeLine{00014\ \textcolor{comment}{warranty\ of\ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{See\ the\ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00018\ \textcolor{comment}{along\ with\ Tissue\ Simulation\ Toolkit;\ if\ not,\ write\ to\ the\ Free}}
+\DoxyCodeLine{00019\ \textcolor{comment}{Software\ Foundation,\ Inc.,\ 51\ Franklin\ St,\ Fifth\ Floor,\ Boston,\ MA}}
+\DoxyCodeLine{00020\ \textcolor{comment}{02110-\/1301\ USA}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ WARNING\_H\_}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ WARNING\_H\_}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ MEMORYCHECK(x)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ if\ ((x)\ ==\ NULL)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ fprintf(stderr,\ "{}Out\ of\ Memory\ error\ in\ "{}\ \#x\ "{}\ \(\backslash\)n"{});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ exit(0);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ UNIDENTIFIED\ 2353996}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ static\ int\ last\_value=UNIDENTIFIED;}}
+\DoxyCodeLine{00034\ \textcolor{comment}{/*\#define\ WATCH(x)\ if\ (last\_value==UNIDENTIFIED)\ \{\ \ \ last\_value=x;}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\}\ else\ \{\ if\ (x!=last\_value)\ \{\ fprintf(stderr,"{}WATCH\ value\ changed.\ Suspending}}
+\DoxyCodeLine{00036\ \textcolor{comment}{execution.\ \(\backslash\)n\ Interrupt\ within\ debugger\ to\ examine\ position\ in\ program.\(\backslash\)n"{});}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_value=x;}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ while(1);}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_value=x;}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \}*/}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{comment}{/*\ These\ functions\ were\ a\ gift\ from\ Josh\ Barnes\ */}}
+\DoxyCodeLine{00045\ \textcolor{comment}{/*\ I\ changed\ the\ name\ "{}eprintf"{}\ to\ "{}warning"{}\ */}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00048\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{void}\ error(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,\ ...);}
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{void}\ warning(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,\ ...);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00055\ \}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

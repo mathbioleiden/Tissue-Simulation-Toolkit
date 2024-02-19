@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcl_1_1_buffer_render_g_l" kind="class" language="C++" prot="public">
+    <compoundname>cl::BufferRenderGL</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Image2DGL</basecompoundref>
+    <includes refid="cl_8hpp" local="no">cl.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcl_1_1_buffer_render_g_l_1ac2f60478116d35c2a96c522205fcf932" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::BufferRenderGL::BufferRenderGL</definition>
+        <argsstring>(const Context &amp;context, cl_mem_flags flags, cl_GLuint bufobj, cl_int *err=NULL)</argsstring>
+        <name>BufferRenderGL</name>
+        <qualifiedname>cl::BufferRenderGL::BufferRenderGL</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>cl_mem_flags</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>cl_GLuint</type>
+          <declname>bufobj</declname>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classcl_1_1_buffer_render_g_l" kindref="compound">BufferRenderGL</ref> in a specified context, from a given GL Renderbuffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wraps clCreateFromGLRenderbuffer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4014" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4014" bodyend="4023"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_render_g_l_1a9ae513ba0c6664353c389764c7e1011d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::BufferRenderGL::BufferRenderGL</definition>
+        <argsstring>()</argsstring>
+        <name>BufferRenderGL</name>
+        <qualifiedname>cl::BufferRenderGL::BufferRenderGL</qualifiedname>
+        <briefdescription>
+<para>Default constructor - initializes to NULL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4029" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4029" bodyend="4029"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_render_g_l_1a6e389464dd1f004a790563a7822a5b63" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>__CL_EXPLICIT_CONSTRUCTORS</type>
+        <definition>__CL_EXPLICIT_CONSTRUCTORS cl::BufferRenderGL::BufferRenderGL</definition>
+        <argsstring>(const cl_mem &amp;buffer)</argsstring>
+        <name>BufferRenderGL</name>
+        <qualifiedname>cl::BufferRenderGL::BufferRenderGL</qualifiedname>
+        <param>
+          <type>const cl_mem &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Constructor from cl_mem - takes ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for further details. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4040" column="30" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4040" bodyend="4041"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_render_g_l_1aeb0b208f83304c4b375a844c59ad6785" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_buffer_render_g_l" kindref="compound">BufferRenderGL</ref> &amp;</type>
+        <definition>BufferRenderGL &amp; cl::BufferRenderGL::operator=</definition>
+        <argsstring>(const cl_mem &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::BufferRenderGL::operator=</qualifiedname>
+        <param>
+          <type>const cl_mem &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Assignment from cl_mem - performs shallow copy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for further details. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4048" column="18" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4048" bodyend="4056"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_render_g_l_1a9bbd05ded89c1c3d3c4fd52f0f5922b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::BufferRenderGL::BufferRenderGL</definition>
+        <argsstring>(const BufferRenderGL &amp;buf)</argsstring>
+        <name>BufferRenderGL</name>
+        <qualifiedname>cl::BufferRenderGL::BufferRenderGL</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer_render_g_l" kindref="compound">BufferRenderGL</ref> &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4064" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4064" bodyend="4064"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_render_g_l_1ae8a660abc277570d2ff69ffa76d344e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_buffer_render_g_l" kindref="compound">BufferRenderGL</ref> &amp;</type>
+        <definition>BufferRenderGL &amp; cl::BufferRenderGL::operator=</definition>
+        <argsstring>(const BufferRenderGL &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::BufferRenderGL::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer_render_g_l" kindref="compound">BufferRenderGL</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Copy assignment to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4070" column="18" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4070" bodyend="4077"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_render_g_l_1a148deb18e39ee7553a96eb8e56557f5f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::BufferRenderGL::getObjectInfo</definition>
+        <argsstring>(cl_gl_object_type *type, cl_GLuint *gl_object_name)</argsstring>
+        <name>getObjectInfo</name>
+        <qualifiedname>cl::BufferRenderGL::getObjectInfo</qualifiedname>
+        <param>
+          <type>cl_gl_object_type *</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>cl_GLuint *</type>
+          <declname>gl_object_name</declname>
+        </param>
+        <briefdescription>
+<para>Wrapper for clGetGLObjectInfo(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4106" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4106" bodyend="4110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Class interface for GL Render <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> Objects. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This is provided to facilitate interoperability with OpenGL.</para>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for details about copy semantics, etc.</para>
+<para><simplesect kind="see"><para><ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Image2DGL</label>
+      </node>
+      <node id="1">
+        <label>cl::BufferRenderGL</label>
+        <link refid="classcl_1_1_buffer_render_g_l"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Image2DGL</label>
+      </node>
+      <node id="1">
+        <label>cl::BufferRenderGL</label>
+        <link refid="classcl_1_1_buffer_render_g_l"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4001" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4007" bodyend="4111"/>
+    <listofallmembers>
+      <member refid="classcl_1_1_buffer_render_g_l_1ac2f60478116d35c2a96c522205fcf932" prot="public" virt="non-virtual"><scope>cl::BufferRenderGL</scope><name>BufferRenderGL</name></member>
+      <member refid="classcl_1_1_buffer_render_g_l_1a9ae513ba0c6664353c389764c7e1011d" prot="public" virt="non-virtual"><scope>cl::BufferRenderGL</scope><name>BufferRenderGL</name></member>
+      <member refid="classcl_1_1_buffer_render_g_l_1a6e389464dd1f004a790563a7822a5b63" prot="public" virt="non-virtual"><scope>cl::BufferRenderGL</scope><name>BufferRenderGL</name></member>
+      <member refid="classcl_1_1_buffer_render_g_l_1a9bbd05ded89c1c3d3c4fd52f0f5922b3" prot="public" virt="non-virtual"><scope>cl::BufferRenderGL</scope><name>BufferRenderGL</name></member>
+      <member refid="classcl_1_1_buffer_render_g_l_1a148deb18e39ee7553a96eb8e56557f5f" prot="public" virt="non-virtual"><scope>cl::BufferRenderGL</scope><name>getObjectInfo</name></member>
+      <member refid="classcl_1_1_buffer_render_g_l_1aeb0b208f83304c4b375a844c59ad6785" prot="public" virt="non-virtual"><scope>cl::BufferRenderGL</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_buffer_render_g_l_1ae8a660abc277570d2ff69ffa76d344e1" prot="public" virt="non-virtual"><scope>cl::BufferRenderGL</scope><name>operator=</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

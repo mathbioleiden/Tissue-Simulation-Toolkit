@@ -1,0 +1,303 @@
+\doxysection{Qt\+Graphics Class Reference}
+\hypertarget{class_qt_graphics}{}\label{class_qt_graphics}\index{QtGraphics@{QtGraphics}}
+Inheritance diagram for Qt\+Graphics\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qt_graphics}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_qt_graphics_ab6ef76ce60c71c106e36c329c6d3b594}\label{class_qt_graphics_ab6ef76ce60c71c106e36c329c6d3b594} 
+void {\bfseries Time\+Step\+Wrap} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_qt_graphics_ad3a71c2118a9f6156bd12a953c1f7788}\label{class_qt_graphics_ad3a71c2118a9f6156bd12a953c1f7788} 
+void {\bfseries Simulation\+Done} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_qt_graphics_ac88e86da51667aca614769e96dd0a139}\label{class_qt_graphics_ac88e86da51667aca614769e96dd0a139} 
+{\bfseries Qt\+Graphics} (int xfield, int yfield, const char \texorpdfstring{$\ast$}{*}movie\+\_\+file=0)
+\item 
+\Hypertarget{class_qt_graphics_afc0891f050f33443d6b74ff3d23bd4a6}\label{class_qt_graphics_afc0891f050f33443d6b74ff3d23bd4a6} 
+{\bfseries Qt\+Graphics} (QWidget \texorpdfstring{$\ast$}{*}parent, const char \texorpdfstring{$\ast$}{*}name, int xfield, int yfield, const char \texorpdfstring{$\ast$}{*}movie\+\_\+file=0)
+\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_afd6200f3cbb931d811791f7683425f84}{Begin\+Scene}} (void)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_qt_graphics_afd6200f3cbb931d811791f7683425f84}{Begin\+Scene()} must be called before calling drawing functions. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_a937c2227c5d121f56f9651d3aeccc27a}{End\+Scene}} (void)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_qt_graphics_a937c2227c5d121f56f9651d3aeccc27a}{End\+Scene()} must be called to flush the drawing buffer and display the scene. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_ad02ff8ba69d13148f79afd516563b822}{Point}} (int colour, int i, int j)
+\begin{DoxyCompactList}\small\item\em Plot a point in the \doxylink{class_graphics}{Graphics} window. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_a37c6b70205d11f8c977860af0b641dec}{Line}} (float x1, float y1, float x2, float y2, int colour)
+\begin{DoxyCompactList}\small\item\em Draws a line (obviously... \+:-\/) \end{DoxyCompactList}\item 
+\Hypertarget{class_qt_graphics_ac6663f913b772ea4913ea67d4d47b7de}\label{class_qt_graphics_ac6663f913b772ea4913ea67d4d47b7de} 
+virtual void {\bfseries key\+Release\+Event} (QKey\+Event \texorpdfstring{$\ast$}{*}e)
+\item 
+\Hypertarget{class_qt_graphics_a5252b659f71e34aeedf2366d0d53ded6}\label{class_qt_graphics_a5252b659f71e34aeedf2366d0d53ded6} 
+virtual void {\bfseries key\+Press\+Event} (QKey\+Event \texorpdfstring{$\ast$}{*}e)
+\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_a0855ec06ee1e3f582081243259228e57}{Point\+Alpha}} (int alpha, int i, int j)
+\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_a0b61df58e3f2543290c432cdf9c8a515}{Rectangle}} (int colour, int i, int j)
+\item 
+\Hypertarget{class_qt_graphics_a087b7d0aeebb4190c9dc774da9ae7346}\label{class_qt_graphics_a087b7d0aeebb4190c9dc774da9ae7346} 
+virtual void {\bfseries Arrow} (int x1, int y1, int x2, int y2, int colour)
+\item 
+virtual int \mbox{\hyperlink{class_qt_graphics_a497ca587ebbac0336589066147de3ab5}{Get\+XYCoo}} (int \texorpdfstring{$\ast$}{*}X, int \texorpdfstring{$\ast$}{*}Y)
+\begin{DoxyCompactList}\small\item\em Probes the Window for user interaction, with mouse or keyboard. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{class_qt_graphics_a5e010e34a5b8cff05f8a84cbfbb8e850}{XField}} (void) const
+\begin{DoxyCompactList}\small\item\em Returns the width of the \doxylink{class_graphics}{Graphics} window, in pixels. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{class_qt_graphics_ac559e1d06e4e653bf93631610cebb6cd}{YField}} (void) const
+\begin{DoxyCompactList}\small\item\em Returns the height of the \doxylink{class_graphics}{Graphics} window, in pixels. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_a2b3ae718854987c2746f8d723fbf3fa6}{Write}} (char \texorpdfstring{$\ast$}{*}fname, int quality=-\/1)
+\begin{DoxyCompactList}\small\item\em Writes the Image to a file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_qt_graphics_acf960a2e8ccb605bb73dcd5694150a40}{Clear\+Image}} (void)
+\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_a67e84a8039959653a95caae40456baa1}{Resize}} (int xfield, int yfield)
+\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_aa1c3c6af2bf4eda1861e8f5f45c452cd}{set\+\_\+\+Paused}} ()
+\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_a77813014844c9baafbe509c67dd83340}{set\+\_\+un\+Paused}} ()
+\item 
+virtual void \mbox{\hyperlink{class_qt_graphics_a6c3e54b681404b550417628910557ade}{Time\+Step}} (void)
+\begin{DoxyCompactList}\small\item\em Implement this member function in your simulation code. \end{DoxyCompactList}\item 
+\Hypertarget{class_qt_graphics_ae8bbdebe79908f7d0d728407438edcef}\label{class_qt_graphics_ae8bbdebe79908f7d0d728407438edcef} 
+virtual void {\bfseries resize\+Event} (QResize\+Event \texorpdfstring{$\ast$}{*}event)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_graphics}{Graphics}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_graphics_a22105e059337daabadfa68838811099f}{Field}} (const int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}f, int mag=1)
+\begin{DoxyCompactList}\small\item\em Plots a field of values given by \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}f, using color coding given by colormap file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_qt_graphics_afd6200f3cbb931d811791f7683425f84}\label{class_qt_graphics_afd6200f3cbb931d811791f7683425f84} 
+\index{QtGraphics@{QtGraphics}!BeginScene@{BeginScene}}
+\index{BeginScene@{BeginScene}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{BeginScene()}{BeginScene()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+Begin\+Scene (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxylink{class_qt_graphics_afd6200f3cbb931d811791f7683425f84}{Begin\+Scene()} must be called before calling drawing functions. 
+
+
+
+Reimplemented from \mbox{\hyperlink{class_graphics_afc5b72e258d26775418c72c78d078e4b}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_acf960a2e8ccb605bb73dcd5694150a40}\label{class_qt_graphics_acf960a2e8ccb605bb73dcd5694150a40} 
+\index{QtGraphics@{QtGraphics}!ClearImage@{ClearImage}}
+\index{ClearImage@{ClearImage}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{ClearImage()}{ClearImage()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+Clear\+Image (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_graphics}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a937c2227c5d121f56f9651d3aeccc27a}\label{class_qt_graphics_a937c2227c5d121f56f9651d3aeccc27a} 
+\index{QtGraphics@{QtGraphics}!EndScene@{EndScene}}
+\index{EndScene@{EndScene}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{EndScene()}{EndScene()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+End\+Scene (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxylink{class_qt_graphics_a937c2227c5d121f56f9651d3aeccc27a}{End\+Scene()} must be called to flush the drawing buffer and display the scene. 
+
+
+
+Reimplemented from \mbox{\hyperlink{class_graphics_a9f97b7c6506dcba845a1da457398fa90}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a497ca587ebbac0336589066147de3ab5}\label{class_qt_graphics_a497ca587ebbac0336589066147de3ab5} 
+\index{QtGraphics@{QtGraphics}!GetXYCoo@{GetXYCoo}}
+\index{GetXYCoo@{GetXYCoo}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{GetXYCoo()}{GetXYCoo()}}
+{\footnotesize\ttfamily int Qt\+Graphics\+::\+Get\+XYCoo (\begin{DoxyParamCaption}\item[{int \texorpdfstring{$\ast$}{*}}]{X,  }\item[{int \texorpdfstring{$\ast$}{*}}]{Y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Probes the Window for user interaction, with mouse or keyboard. 
+
+This function should return immediately, and return 0 if there was no user interaction.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}X,\texorpdfstring{$\ast$}{*}Y} & Pointer where the clicked coordinate will be stored. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_graphics_a39257f929b38739ed42e8d463c4f42c3}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a37c6b70205d11f8c977860af0b641dec}\label{class_qt_graphics_a37c6b70205d11f8c977860af0b641dec} 
+\index{QtGraphics@{QtGraphics}!Line@{Line}}
+\index{Line@{Line}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{Line()}{Line()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+Line (\begin{DoxyParamCaption}\item[{float}]{x1,  }\item[{float}]{y1,  }\item[{float}]{x2,  }\item[{float}]{y2,  }\item[{int}]{colour }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Draws a line (obviously... \+:-\/) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x1,y1} & First coordinate pair. \\
+\hline
+{\em x2,y2} & Second coordinate pair. \\
+\hline
+{\em color} & Color of the line, as given in the colormap file "{}default.\+ctb"{}. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_graphics_a12444978b168c200b4e82afe852d1600}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_ad02ff8ba69d13148f79afd516563b822}\label{class_qt_graphics_ad02ff8ba69d13148f79afd516563b822} 
+\index{QtGraphics@{QtGraphics}!Point@{Point}}
+\index{Point@{Point}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{Point()}{Point()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+Point (\begin{DoxyParamCaption}\item[{int}]{color,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Plot a point in the \doxylink{class_graphics}{Graphics} window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & Color index, as defined in colormap file "{}default.\+ctb"{}, which should be in the same directory as the executable.\\
+\hline
+{\em x,y} & Coordinate of point, in \doxylink{class_graphics}{Graphics} coordinates (typically twice as large as the cellular automata coordinates). \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_graphics_a123e1b2c757c39bf329517af332c24eb}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a0855ec06ee1e3f582081243259228e57}\label{class_qt_graphics_a0855ec06ee1e3f582081243259228e57} 
+\index{QtGraphics@{QtGraphics}!PointAlpha@{PointAlpha}}
+\index{PointAlpha@{PointAlpha}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{PointAlpha()}{PointAlpha()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+Point\+Alpha (\begin{DoxyParamCaption}\item[{int}]{alpha,  }\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_graphics}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a0b61df58e3f2543290c432cdf9c8a515}\label{class_qt_graphics_a0b61df58e3f2543290c432cdf9c8a515} 
+\index{QtGraphics@{QtGraphics}!Rectangle@{Rectangle}}
+\index{Rectangle@{Rectangle}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{Rectangle()}{Rectangle()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+Rectangle (\begin{DoxyParamCaption}\item[{int}]{colour,  }\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_graphics}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a67e84a8039959653a95caae40456baa1}\label{class_qt_graphics_a67e84a8039959653a95caae40456baa1} 
+\index{QtGraphics@{QtGraphics}!Resize@{Resize}}
+\index{Resize@{Resize}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{Resize()}{Resize()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+Resize (\begin{DoxyParamCaption}\item[{int}]{xfield,  }\item[{int}]{yfield }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_graphics}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_aa1c3c6af2bf4eda1861e8f5f45c452cd}\label{class_qt_graphics_aa1c3c6af2bf4eda1861e8f5f45c452cd} 
+\index{QtGraphics@{QtGraphics}!set\_Paused@{set\_Paused}}
+\index{set\_Paused@{set\_Paused}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{set\_Paused()}{set\_Paused()}}
+{\footnotesize\ttfamily virtual void Qt\+Graphics\+::set\+\_\+\+Paused (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_graphics}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a77813014844c9baafbe509c67dd83340}\label{class_qt_graphics_a77813014844c9baafbe509c67dd83340} 
+\index{QtGraphics@{QtGraphics}!set\_unPaused@{set\_unPaused}}
+\index{set\_unPaused@{set\_unPaused}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{set\_unPaused()}{set\_unPaused()}}
+{\footnotesize\ttfamily virtual void Qt\+Graphics\+::set\+\_\+un\+Paused (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_graphics}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a6c3e54b681404b550417628910557ade}\label{class_qt_graphics_a6c3e54b681404b550417628910557ade} 
+\index{QtGraphics@{QtGraphics}!TimeStep@{TimeStep}}
+\index{TimeStep@{TimeStep}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{TimeStep()}{TimeStep()}}
+{\footnotesize\ttfamily virtual void Qt\+Graphics\+::\+Time\+Step (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implement this member function in your simulation code. 
+
+Include all actions that should be carried out during a simulation step, including \doxylink{class_p_d_e}{PDE} and CPM simulation steps. See the included examples (vessel.\+cpp, sorting.\+cpp) for more information. 
+
+Reimplemented from \mbox{\hyperlink{class_graphics_aa1b61fa6f6bc50aceff6f320ce5b9be2}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a2b3ae718854987c2746f8d723fbf3fa6}\label{class_qt_graphics_a2b3ae718854987c2746f8d723fbf3fa6} 
+\index{QtGraphics@{QtGraphics}!Write@{Write}}
+\index{Write@{Write}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{Write()}{Write()}}
+{\footnotesize\ttfamily void Qt\+Graphics\+::\+Write (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{fname,  }\item[{int}]{quality = {\ttfamily -\/1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Writes the Image to a file. 
+
+File format is inferred from file extension. Currently only PNG is supported by the X-\/\+Windows implementation; the Qt-\/implentation supports all formats supported by Qt.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fname} & File name with standard image file extension (e.\+g. png). \\
+\hline
+{\em quality} & Quality of JPEG images, defaults to -\/1 (no value provided). \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_graphics_af98a333b8be25817669e615b1cd6c73d}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_a5e010e34a5b8cff05f8a84cbfbb8e850}\label{class_qt_graphics_a5e010e34a5b8cff05f8a84cbfbb8e850} 
+\index{QtGraphics@{QtGraphics}!XField@{XField}}
+\index{XField@{XField}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{XField()}{XField()}}
+{\footnotesize\ttfamily virtual int Qt\+Graphics\+::\+XField (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Returns the width of the \doxylink{class_graphics}{Graphics} window, in pixels. 
+
+
+
+Reimplemented from \mbox{\hyperlink{class_graphics_a2848865fca459505dc83dccfba3c1217}{Graphics}}.
+
+\Hypertarget{class_qt_graphics_ac559e1d06e4e653bf93631610cebb6cd}\label{class_qt_graphics_ac559e1d06e4e653bf93631610cebb6cd} 
+\index{QtGraphics@{QtGraphics}!YField@{YField}}
+\index{YField@{YField}!QtGraphics@{QtGraphics}}
+\doxysubsubsection{\texorpdfstring{YField()}{YField()}}
+{\footnotesize\ttfamily virtual int Qt\+Graphics\+::\+YField (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Returns the height of the \doxylink{class_graphics}{Graphics} window, in pixels. 
+
+
+
+Reimplemented from \mbox{\hyperlink{class_graphics_a82379c9ce18dc3b946e2cf6b4bd4a85b}{Graphics}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/graphics/qtgraph.\+hpp\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/graphics/qtgraph.\+cpp\end{DoxyCompactItemize}

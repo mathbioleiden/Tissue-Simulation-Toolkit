@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir">
+    <compoundname>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src</compoundname>
+    <innerdir refid="dir_46e7af9ef4ff447f455b2de24c0aa73f">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts</innerdir>
+    <innerdir refid="dir_e10d8d1736f2f8a793a6d4fd13649885">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute</innerdir>
+    <innerdir refid="dir_560415a5d2bc4999842279f4fc1debef">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics</innerdir>
+    <innerdir refid="dir_bdeba5f06b852fec80257c0bf4c3c36e">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/models</innerdir>
+    <innerdir refid="dir_434cae81b587a8a3fa87d985996d40d2">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/parameters</innerdir>
+    <innerdir refid="dir_887b033b39d4c60f43e2c56f27d580ed">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting</innerdir>
+    <innerdir refid="dir_409627fe10196eadb8c379e3fd9208da">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/reaction_diffusion</innerdir>
+    <innerdir refid="dir_b7878ad5ecbf2506f4125b9d34c97e45">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/util</innerdir>
+    <innerfile refid="mainpage_8hpp">mainpage.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/"/>
+  </compounddef>
+</doxygen>

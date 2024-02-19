@@ -1,0 +1,123 @@
+\doxysection{qtgraph.\+hpp}
+\hypertarget{qtgraph_8hpp_source}{}\label{qtgraph_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/graphics/qtgraph.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/graphics/qtgraph.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ 1996-\/2006\ Roeland\ Merks}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Tissue\ Simulation\ Toolkit.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ free\ software;\ you\ can\ redistribute}}
+\DoxyCodeLine{00008\ \textcolor{comment}{it\ and/or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public}}
+\DoxyCodeLine{00009\ \textcolor{comment}{License\ as\ published\ by\ the\ Free\ Software\ Foundation;\ either}}
+\DoxyCodeLine{00010\ \textcolor{comment}{version\ 2\ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ distributed\ in\ the\ hope\ that\ it\ will}}
+\DoxyCodeLine{00013\ \textcolor{comment}{be\ useful,\ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied}}
+\DoxyCodeLine{00014\ \textcolor{comment}{warranty\ of\ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{See\ the\ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00018\ \textcolor{comment}{along\ with\ Tissue\ Simulation\ Toolkit;\ if\ not,\ write\ to\ the\ Free}}
+\DoxyCodeLine{00019\ \textcolor{comment}{Software\ Foundation,\ Inc.,\ 51\ Franklin\ St,\ Fifth\ Floor,\ Boston,\ MA}}
+\DoxyCodeLine{00020\ \textcolor{comment}{02110-\/1301\ USA}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ \_QTGRAPH\_H\_}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ \_QTGRAPH\_H\_}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}graph.hpp"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <QMouseEvent>}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <QPaintEvent>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <QPicture>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <QPixmap>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <QResizeEvent>}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <QWidget>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <qlabel.h>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <qpainter.h>}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_qt_graphics}{QtGraphics}}\ :\ \textcolor{keyword}{public}\ QWidget,\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphics}{Graphics}}\ \{}
+\DoxyCodeLine{00037\ \ \ Q\_OBJECT}
+\DoxyCodeLine{00038\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \mbox{\hyperlink{class_qt_graphics}{QtGraphics}}(\textcolor{keywordtype}{int}\ xfield,\ \textcolor{keywordtype}{int}\ yfield,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *movie\_file\ =\ 0);}
+\DoxyCodeLine{00040\ \ \ \mbox{\hyperlink{class_qt_graphics}{QtGraphics}}(QWidget\ *parent,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ xfield,\ \textcolor{keywordtype}{int}\ yfield,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *movie\_file\ =\ 0)}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ :\ QWidget(parent)\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{class_qt_graphics}{QtGraphics}}(xfield,\ yfield,\ movie\_file);}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//\ set\ name\ here\ somewhere}}
+\DoxyCodeLine{00045\ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_qt_graphics}{\string~QtGraphics}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_qt_graphics_afd6200f3cbb931d811791f7683425f84}{BeginScene}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00049\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_qt_graphics_a937c2227c5d121f56f9651d3aeccc27a}{EndScene}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00050\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_point}{Point}}(\textcolor{keywordtype}{int}\ colour,\ \textcolor{keywordtype}{int}\ i,\ \textcolor{keywordtype}{int}\ j);}
+\DoxyCodeLine{00051\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_qt_graphics_a37c6b70205d11f8c977860af0b641dec}{Line}}(\textcolor{keywordtype}{float}\ x1,\ \textcolor{keywordtype}{float}\ y1,\ \textcolor{keywordtype}{float}\ x2,\ \textcolor{keywordtype}{float}\ y2,\ \textcolor{keywordtype}{int}\ colour);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ keyReleaseEvent(QKeyEvent\ *e);}
+\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ keyPressEvent(QKeyEvent\ *e);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ PointAlpha(\textcolor{keywordtype}{int}\ alpha,\ \textcolor{keywordtype}{int}\ i,\ \textcolor{keywordtype}{int}\ j);}
+\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Rectangle(\textcolor{keywordtype}{int}\ colour,\ \textcolor{keywordtype}{int}\ i,\ \textcolor{keywordtype}{int}\ j);}
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Arrow(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ colour);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_qt_graphics_a497ca587ebbac0336589066147de3ab5}{GetXYCoo}}(\textcolor{keywordtype}{int}\ *X,\ \textcolor{keywordtype}{int}\ *Y);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_qt_graphics_a5e010e34a5b8cff05f8a84cbfbb8e850}{XField}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ width();\ \}}
+\DoxyCodeLine{00063\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_qt_graphics_ac559e1d06e4e653bf93631610cebb6cd}{YField}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ height();\ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_qt_graphics_a2b3ae718854987c2746f8d723fbf3fa6}{Write}}(\textcolor{keywordtype}{char}\ *fname,\ \textcolor{keywordtype}{int}\ quality\ =\ -\/1);}
+\DoxyCodeLine{00066\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ClearImage(\textcolor{keywordtype}{void})\ \{\ pixmap-\/>fill(pens[0].\mbox{\hyperlink{structcolor}{color}}());\ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Resize(\textcolor{keywordtype}{int}\ xfield,\ \textcolor{keywordtype}{int}\ yfield);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_Paused()\ \{\ paused\ =\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00071\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_unPaused()\ \{\ paused\ =\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_qt_graphics_a6c3e54b681404b550417628910557ade}{TimeStep}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00074\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ resizeEvent(QResizeEvent\ *event);}
+\DoxyCodeLine{00075\ \textcolor{keyword}{public}\ slots:}
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{void}\ TimeStepWrap(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ signals:}
+\DoxyCodeLine{00079\ \ \ \textcolor{keywordtype}{void}\ SimulationDone(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00082\ \ \ \textcolor{keywordtype}{void}\ paintEvent(QPaintEvent\ *);}
+\DoxyCodeLine{00083\ \ \ \textcolor{keywordtype}{void}\ mousePressEvent(QMouseEvent\ *e);}
+\DoxyCodeLine{00084\ \ \ \textcolor{keywordtype}{void}\ mouseReleaseEvent(QMouseEvent\ *e);}
+\DoxyCodeLine{00085\ \ \ QPainter\ *picture;}
+\DoxyCodeLine{00086\ \ \ QLabel\ *label;}
+\DoxyCodeLine{00087\ \ \ QPicture\ pic;}
+\DoxyCodeLine{00088\ \ \ QPen\ *pens;}
+\DoxyCodeLine{00089\ \ \ QTimer\ *\mbox{\hyperlink{structtimer}{timer}};}
+\DoxyCodeLine{00090\ \ \ QPixmap\ *pixmap;}
+\DoxyCodeLine{00091\ \ \ QLabel\ *image;}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \textcolor{keywordtype}{int}\ mouse\_x;}
+\DoxyCodeLine{00094\ \ \ \textcolor{keywordtype}{int}\ mouse\_y;}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \textcolor{keywordtype}{int}\ init\_size\_x;}
+\DoxyCodeLine{00097\ \ \ \textcolor{keywordtype}{int}\ init\_size\_y;}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \textcolor{keywordtype}{int}\ key;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \textcolor{keywordtype}{int}\ col\_num;}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \textcolor{keywordtype}{bool}\ paused\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \textcolor{keywordtype}{double}\ mag;}
+\DoxyCodeLine{00106\ \ \ Qt::MouseButton\ mouse\_button;}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \textcolor{comment}{//\ private\ methods}}
+\DoxyCodeLine{00109\ \ \ \textcolor{keywordtype}{void}\ ReadColorTable(QPen\ *pens);}
+\DoxyCodeLine{00110\ \ \ QTimer\ *t;}
+\DoxyCodeLine{00111\ \};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#include\ <qapplication.h>}}
+\DoxyCodeLine{00114\ \textcolor{comment}{//\ \#include\ <qsignal.h>}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ TIMESTEP\ void\ QtGraphics::TimeStep(void)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,455 @@
+\doxysection{Cellular\+Potts Class Reference}
+\hypertarget{class_cellular_potts}{}\label{class_cellular_potts}\index{CellularPotts@{CellularPotts}}
+
+
+Brief description. Brief description continued.  
+
+
+
+
+{\ttfamily \#include $<$ca.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cellular_potts_a2266433b8633c8694679385e6a2dafc0}\label{class_cellular_potts_a2266433b8633c8694679385e6a2dafc0} 
+int {\bfseries get\+Nbhx} (int i)
+\item 
+\Hypertarget{class_cellular_potts_a7c12f43d17a927d8cb48f98df772d961}\label{class_cellular_potts_a7c12f43d17a927d8cb48f98df772d961} 
+int {\bfseries get\+Nbhy} (int i)
+\item 
+\Hypertarget{class_cellular_potts_a097de27a408be042f2c5c413b2049efa}\label{class_cellular_potts_a097de27a408be042f2c5c413b2049efa} 
+int {\bfseries Get\+Matrix\+Level} (int x, int y)
+\item 
+\Hypertarget{class_cellular_potts_a9fe4d50600de429a184627ee7baf1079}\label{class_cellular_potts_a9fe4d50600de429a184627ee7baf1079} 
+int {\bfseries Get\+Act\+Level} (int x, int y)
+\item 
+\Hypertarget{class_cellular_potts_a47dc236b8000f1f9ed6c878b8e73b93d}\label{class_cellular_potts_a47dc236b8000f1f9ed6c878b8e73b93d} 
+{\bfseries Cellular\+Potts} (std\+::vector$<$ \mbox{\hyperlink{class_cell}{Cell}} $>$ \texorpdfstring{$\ast$}{*}cells, const int sizex=200, const int sizey=200)
+\begin{DoxyCompactList}\small\item\em Constructs a CA field. This should be done in "{}\+Dish"{}. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a6489a97e7204208b1666cb54a222718e}\label{class_cellular_potts_a6489a97e7204208b1666cb54a222718e} 
+void {\bfseries Initialize\+Edge\+List} (void)
+\item 
+\Hypertarget{class_cellular_potts_a669103985248ae144731f7c94724822b}\label{class_cellular_potts_a669103985248ae144731f7c94724822b} 
+virtual void {\bfseries Allocate\+Sigma} (int sx, int sy)
+\item 
+\Hypertarget{class_cellular_potts_a97695b5f63f5dc3c5624144c0f9e751b}\label{class_cellular_potts_a97695b5f63f5dc3c5624144c0f9e751b} 
+virtual void {\bfseries Initialize\+Matrix} (\mbox{\hyperlink{class_dish}{Dish}} \&beast)
+\item 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cellular_potts_a747d71d26a03ced7b61f6a43cc8dbdbb}{Search\+Nand\+Plot}} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g=0, bool get\+\_\+neighbours=true)
+\begin{DoxyCompactList}\small\item\em Plots the dish to the screen or to a movie and searches the neighbours. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a11f6adf742a518ad543ca5d144278926}\label{class_cellular_potts_a11f6adf742a518ad543ca5d144278926} 
+void {\bfseries Plot} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g)
+\begin{DoxyCompactList}\small\item\em Plot the dish to \doxylink{class_graphics}{Graphics} window g. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cellular_potts_ad3bec6a234220d4fbaf04f9ed3a5be27}{Plot\+Ising}} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g, int mag)
+\begin{DoxyCompactList}\small\item\em Special plotting for Ising model. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_af08a62100c3e36d67a10892442148e9d}\label{class_cellular_potts_af08a62100c3e36d67a10892442148e9d} 
+void {\bfseries Search\+Nand\+Plot\+Clear} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g=0)
+\item 
+\Hypertarget{class_cellular_potts_a4e386f5813077b558c7f72d0d78712af}\label{class_cellular_potts_a4e386f5813077b558c7f72d0d78712af} 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries Search\+Neighbours\+Matrix} ()
+\item 
+\Hypertarget{class_cellular_potts_ad621be8ea38deccef8d6060bddd19f41}\label{class_cellular_potts_ad621be8ea38deccef8d6060bddd19f41} 
+int {\bfseries Get\+New\+Perimeter\+If\+XYWere\+Added} (int sxyp, int x, int y)
+\item 
+\Hypertarget{class_cellular_potts_a2c1568580d7a946eace7fe975939636f}\label{class_cellular_potts_a2c1568580d7a946eace7fe975939636f} 
+int {\bfseries Get\+New\+Perimeter\+If\+XYWere\+Removed} (int sxy, int x, int y)
+\item 
+\Hypertarget{class_cellular_potts_add752b19c71fe9f3a8d7802b18863262}\label{class_cellular_potts_add752b19c71fe9f3a8d7802b18863262} 
+void {\bfseries Set\+Target\+Perimeter} (int tau, int value)
+\item 
+\Hypertarget{class_cellular_potts_a2d62050c4038cb0409b08886b73308a6}\label{class_cellular_potts_a2d62050c4038cb0409b08886b73308a6} 
+void {\bfseries Set\+Lambda\+Perimeter} (int tau, int value)
+\item 
+\Hypertarget{class_cellular_potts_a95d146d7fc39551025cfa59ab3fe5843}\label{class_cellular_potts_a95d146d7fc39551025cfa59ab3fe5843} 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries Search\+Neighbours} (void)
+\begin{DoxyCompactList}\small\item\em Searches the cells\textquotesingle{} neighbors without plotting. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a1f4baf392d90a705fdce8231be2a2e67}\label{class_cellular_potts_a1f4baf392d90a705fdce8231be2a2e67} 
+int {\bfseries Mass} (void)
+\begin{DoxyCompactList}\small\item\em Return the total area occupied by the cells. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a3ca30d4f9711e9cfed7344c0e4d67665}\label{class_cellular_potts_a3ca30d4f9711e9cfed7344c0e4d67665} 
+void {\bfseries Set\+Bounding\+Box} (void)
+\item 
+void \mbox{\hyperlink{class_cellular_potts_a0866b5925006bafd9c492fcd52302415}{Plot\+Sigma}} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g, int mag=2)
+\item 
+\Hypertarget{class_cellular_potts_abeb159c2b9095666fa7fca2dcce71dd2}\label{class_cellular_potts_abeb159c2b9095666fa7fca2dcce71dd2} 
+void {\bfseries Divide\+Cells} (void)
+\begin{DoxyCompactList}\small\item\em Divide all cells. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cellular_potts_a651a2d70d4dd58ce00eaec5ce483c5a5}{Divide\+Cells}} (std\+::vector$<$ bool $>$ which\+\_\+cells)
+\item 
+int \mbox{\hyperlink{class_cellular_potts_a9d5e73910b835fee1171c1fa6c220f73}{Amoebae\+Move}} (\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}PDEfield=0, bool anneal=false)
+\begin{DoxyCompactList}\small\item\em Monte Carlo Step. Returns summed energy change. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a19ba4646f7a09b99a6d1b138103fa4b6}\label{class_cellular_potts_a19ba4646f7a09b99a6d1b138103fa4b6} 
+int {\bfseries Act\+\_\+\+Amoebae\+Move} (\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}PDEfield)
+\item 
+int \mbox{\hyperlink{class_cellular_potts_a74b82f8fb894878d242defd1883da849}{Kawasaki\+Move}} (\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}PDEfield=0)
+\begin{DoxyCompactList}\small\item\em Monte Carlo Step. Returns summed energy change. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_cellular_potts_a080c719d169997556834fdc0dbe247a6}{Ising\+Move}} (\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}PDEfield=0)
+\begin{DoxyCompactList}\small\item\em Monte Carlo Step. Returns summed energy change. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_cellular_potts_a83e3eb01edd9531cc0f2ee43e3cfe581}{Potts\+Move}} (\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}PDEfield=0)
+\begin{DoxyCompactList}\small\item\em Monte Carlo Step. Returns summed energy change. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_cellular_potts_a47b6913a3a82be5b701ff9f4d52bb12a}{Potts\+Neighbor\+Move}} (\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}PDEfield)
+\begin{DoxyCompactList}\small\item\em Monte Carlo Step. Returns summed energy change. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a0057e535a3050503d8c598df752be81d}\label{class_cellular_potts_a0057e535a3050503d8c598df752be81d} 
+void {\bfseries Read\+Zygote\+Picture} (void)
+\begin{DoxyCompactList}\small\item\em Read initial cell shape from XPM file. Reads the initial cell shape from an include xpm picture called "{}\+ZYGXPM(\+ZYGOTE)"{}, and it allocates enough cells for it to the \doxylink{class_dish}{Dish}. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a9566d64c6641303e85c5eef9ae341183}\label{class_cellular_potts_a9566d64c6641303e85c5eef9ae341183} 
+void {\bfseries Construct\+Init\+Cells} (\mbox{\hyperlink{class_dish}{Dish}} \&beast)
+\item 
+\Hypertarget{class_cellular_potts_ad9d48cf8ec7e117e3328958806aa9fb6}\label{class_cellular_potts_ad9d48cf8ec7e117e3328958806aa9fb6} 
+int {\bfseries Time} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of completed Monte Carlo steps. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a38fa7580abae7d2663c180bebf60e87f}\label{class_cellular_potts_a38fa7580abae7d2663c180bebf60e87f} 
+int {\bfseries Zygote\+Area} () const
+\item 
+\Hypertarget{class_cellular_potts_aac9603962bcbae57b0fff53e0e381a8f}\label{class_cellular_potts_aac9603962bcbae57b0fff53e0e381a8f} 
+int {\bfseries SizeX} () const
+\begin{DoxyCompactList}\small\item\em Return the horizontal size of the CA plane. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a8f3a3165333e6136ac2f1abe1bf0429b}\label{class_cellular_potts_a8f3a3165333e6136ac2f1abe1bf0429b} 
+int {\bfseries SizeY} () const
+\begin{DoxyCompactList}\small\item\em Return the vertical size of the CA plane. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_cellular_potts_af5bbce2aae8baeead6cf173dd3d81d02}{Sigma}} (const int x, const int y) const
+\begin{DoxyCompactList}\small\item\em Return the value of lattice site (x,y). \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_abefc69293247deaa78666c863e1ab4df}\label{class_cellular_potts_abefc69293247deaa78666c863e1ab4df} 
+void {\bfseries Replace} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g)
+\item 
+\mbox{\hyperlink{class_dir}{Dir}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cellular_potts_a19115b49e9c77e81835938a2f7a00f80}{Find\+Cell\+Directions}} (void) const
+\item 
+int \mbox{\hyperlink{class_cellular_potts_a568014835d075361e62ec6d2489a7db3}{Throw\+In\+Cells}} (int n, int cellsize)
+\begin{DoxyCompactList}\small\item\em Initialize the CA plane with n circular cells fitting in a cellsize\texorpdfstring{$^\wedge$}{\string^}2 square. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_cellular_potts_adaa7d7a5ba27ae620ed66f5eb9564257}{Grow\+In\+Cells}} (int n\+\_\+cells, int cellsize, double subfield=1., int posx=-\/1, int posy=-\/1)
+\begin{DoxyCompactList}\small\item\em Initialize the CA plane with n cells using an Eden growth algorithm. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a6ffb2aad630eaaff5a07b78a810c5c0a}\label{class_cellular_potts_a6ffb2aad630eaaff5a07b78a810c5c0a} 
+int {\bfseries Grow\+In\+Cells} (int n\+\_\+cells, int cell\+\_\+size, int sx, int sy, int offset\+\_\+x, int offset\+\_\+y)
+\item 
+\Hypertarget{class_cellular_potts_a4e7493532f148c65d960e65a8c131590}\label{class_cellular_potts_a4e7493532f148c65d960e65a8c131590} 
+void {\bfseries Random\+Spins} (double prob)
+\item 
+int \mbox{\hyperlink{class_cellular_potts_abe734e8295788f92fcc21f4188a83dde}{Square\+Cell}} (int sig, int cx, int cy, int size)
+\item 
+\Hypertarget{class_cellular_potts_afb9de13dc0bbb4919a570be2658faa79}\label{class_cellular_potts_afb9de13dc0bbb4919a570be2658faa79} 
+\mbox{\hyperlink{class_cell}{Cell}} \& {\bfseries Add\+Cell} (\mbox{\hyperlink{class_dish}{Dish}} \&beast)
+\begin{DoxyCompactList}\small\item\em Adds a new \doxylink{class_cell}{Cell} and returns a reference to it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cellular_potts_a3ce57d56c6e561ded805e13851d06c63}{Show\+Directions}} (\mbox{\hyperlink{class_graphics}{Graphics}} \&g, const \mbox{\hyperlink{class_dir}{Dir}} \texorpdfstring{$\ast$}{*}celldir) const
+\begin{DoxyCompactList}\small\item\em Display the division planes returned by Find\+Cell\+Directions. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a987a69c9442d905d298493f74dba79f2}\label{class_cellular_potts_a987a69c9442d905d298493f74dba79f2} 
+double {\bfseries Mean\+Cell\+Area} (void) const
+\begin{DoxyCompactList}\small\item\em Returns the mean area of the cells. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cellular_potts_aae05936dbf37d5469fe3d88dc365d3e9}{Cell\+Density}} (void) const
+\begin{DoxyCompactList}\small\item\em Returns the cell density. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_a67fead3fd912c9175edb9f06c4e198cb}\label{class_cellular_potts_a67fead3fd912c9175edb9f06c4e198cb} 
+void {\bfseries Reset\+Target\+Lengths} (void)
+\begin{DoxyCompactList}\small\item\em Set target lengths of all cells to the value given in parameter file. \end{DoxyCompactList}\item 
+\Hypertarget{class_cellular_potts_acb31aaed8dbbfb3b075fc21e2d666c12}\label{class_cellular_potts_acb31aaed8dbbfb3b075fc21e2d666c12} 
+void {\bfseries Set\+Random\+Types} (void)
+\begin{DoxyCompactList}\small\item\em Give each cell a random cell type. The number of cell types is defined by the J parameter file. (See Jtable in parameter file). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cellular_potts_a2b07faf41fd8c395c1f98f98f0c8eeac}{Grow\+And\+Divide\+Cells}} (int growth\+\_\+rate)
+\item 
+\Hypertarget{class_cellular_potts_a1d66ff8068a1e46e3e4a19db727f7eaf}\label{class_cellular_potts_a1d66ff8068a1e46e3e4a19db727f7eaf} 
+\mbox{\hyperlink{class_cell}{Cell}} \& {\bfseries get\+Cell} (int c)
+\item 
+\Hypertarget{class_cellular_potts_a8915e042c82581b22ff19f903f3f255a}\label{class_cellular_potts_a8915e042c82581b22ff19f903f3f255a} 
+vector$<$ \mbox{\hyperlink{class_cell}{Cell}} $>$ \texorpdfstring{$\ast$}{*} {\bfseries get\+Cell\+Array} ()
+\item 
+double \mbox{\hyperlink{class_cellular_potts_aed1233da3a36aae791fda27ed0171306}{Draw\+Convex\+Hull}} (\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}g, int \mbox{\hyperlink{structcolor}{color}}=1)
+\item 
+double \mbox{\hyperlink{class_cellular_potts_aa7e044382275fecdefeeeabc0d4de759}{Compactness}} (void)
+\item 
+\Hypertarget{class_cellular_potts_a49ac68f926e575d4b56b325dacecbb6d}\label{class_cellular_potts_a49ac68f926e575d4b56b325dacecbb6d} 
+void {\bfseries Random\+Sigma} (int n\+\_\+cells)
+\item 
+\Hypertarget{class_cellular_potts_a6025b81a4f315dfd944151e9cb0b61b3}\label{class_cellular_potts_a6025b81a4f315dfd944151e9cb0b61b3} 
+void {\bfseries Measure\+Cell\+Sizes} (void)
+\item 
+\Hypertarget{class_cellular_potts_ae852394cc178fad51c3d5eb7f6064da1}\label{class_cellular_potts_ae852394cc178fad51c3d5eb7f6064da1} 
+void {\bfseries Measure\+Cell\+Perimeters} ()
+\item 
+\Hypertarget{class_cellular_potts_a626a7d57e20559085dd7d6cb8d523865}\label{class_cellular_potts_a626a7d57e20559085dd7d6cb8d523865} 
+void {\bfseries anneal} (int steps)
+\item 
+\Hypertarget{class_cellular_potts_acff7b8b5515e8dc8d21fa8ae4e1d7a4f}\label{class_cellular_potts_acff7b8b5515e8dc8d21fa8ae4e1d7a4f} 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+annealed\+\_\+sigma} (int steps)
+\item 
+\Hypertarget{class_cellular_potts_af45f5ca6a7461e965a7e90a34922b337}\label{class_cellular_potts_af45f5ca6a7461e965a7e90a34922b337} 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries get\+Sigma} ()
+\item 
+\Hypertarget{class_cellular_potts_a60166888cf558fdca9d0f0163bb6b725}\label{class_cellular_potts_a60166888cf558fdca9d0f0163bb6b725} 
+bool {\bfseries plot\+Pos} (int x, int y, \mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}graphics)
+\item 
+\Hypertarget{class_cellular_potts_a9319311f5e1d357884bf5fc6fbf6cadc}\label{class_cellular_potts_a9319311f5e1d357884bf5fc6fbf6cadc} 
+void {\bfseries line\+Plot\+Pos} (int x, int y, \mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}graphics)
+\item 
+\Hypertarget{class_cellular_potts_a25c335f33dac20923df380a6d7a90379}\label{class_cellular_potts_a25c335f33dac20923df380a6d7a90379} 
+void {\bfseries fill\+Cell\+Col\+Arr} (int \texorpdfstring{$\ast$}{*}arr)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cellular_potts_a3658bff5d4a638fdffcbdd2761858bf1}\label{class_cellular_potts_a3658bff5d4a638fdffcbdd2761858bf1} 
+std\+::unordered\+\_\+set$<$ std\+::array$<$ int, 2 $>$ $>$ {\bfseries alive\+Pixels}
+\item 
+\Hypertarget{class_cellular_potts_a49ba01dd53aba2a405c984b029653322}\label{class_cellular_potts_a49ba01dd53aba2a405c984b029653322} 
+std\+::unordered\+\_\+map$<$ std\+::array$<$ int, 2 $>$, int $>$ {\bfseries act\+Pixels}
+\item 
+\Hypertarget{class_cellular_potts_a5485bc85171613850c4e5d5bf6b7fa3d}\label{class_cellular_potts_a5485bc85171613850c4e5d5bf6b7fa3d} 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries matrix}
+\item 
+\Hypertarget{class_cellular_potts_a988007556bb6eb946b51b158551253d6}\label{class_cellular_potts_a988007556bb6eb946b51b158551253d6} 
+int {\bfseries spins\+\_\+converted}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cellular_potts_a7c7ab77eca8e8f37409a2eb33e04259d}\label{class_cellular_potts_a7c7ab77eca8e8f37409a2eb33e04259d} 
+void {\bfseries Base\+Initialisation} (std\+::vector$<$ \mbox{\hyperlink{class_cell}{Cell}} $>$ \texorpdfstring{$\ast$}{*}cell)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cellular_potts_a917afb990a67fed9b84b5937e2302657}\label{class_cellular_potts_a917afb990a67fed9b84b5937e2302657} 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries sigma}
+\item 
+\Hypertarget{class_cellular_potts_abc15e6c75d38e40b7e0bf9e207edec6b}\label{class_cellular_potts_abc15e6c75d38e40b7e0bf9e207edec6b} 
+int {\bfseries sizex}
+\item 
+\Hypertarget{class_cellular_potts_a49d3233d669045680f343176473e946a}\label{class_cellular_potts_a49d3233d669045680f343176473e946a} 
+int {\bfseries sizey}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cellular_potts_a4838ff865b8d8625c61d208a420f8212}\label{class_cellular_potts_a4838ff865b8d8625c61d208a420f8212} 
+class {\bfseries Info}
+\item 
+\Hypertarget{class_cellular_potts_a2593c600f6299dcd541c319ed4c35e0f}\label{class_cellular_potts_a2593c600f6299dcd541c319ed4c35e0f} 
+class {\bfseries Morphometry}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Brief description. Brief description continued. 
+
+Detailed description starts here. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cellular_potts_a9d5e73910b835fee1171c1fa6c220f73}\label{class_cellular_potts_a9d5e73910b835fee1171c1fa6c220f73} 
+\index{CellularPotts@{CellularPotts}!AmoebaeMove@{AmoebaeMove}}
+\index{AmoebaeMove@{AmoebaeMove}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{AmoebaeMove()}{AmoebaeMove()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Amoebae\+Move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}}]{PDEfield = {\ttfamily 0},  }\item[{bool}]{anneal = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Monte Carlo Step. Returns summed energy change. 
+
+Implements the core CPM algorithm. Carries out one MCS. \begin{DoxyReturn}{Returns}
+Total energy change during MCS. 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_aae05936dbf37d5469fe3d88dc365d3e9}\label{class_cellular_potts_aae05936dbf37d5469fe3d88dc365d3e9} 
+\index{CellularPotts@{CellularPotts}!CellDensity@{CellDensity}}
+\index{CellDensity@{CellDensity}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{CellDensity()}{CellDensity()}}
+{\footnotesize\ttfamily double Cellular\+Potts\+::\+Cell\+Density (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the cell density. 
+
+\doxylink{class_cell}{Cell} density is defined as the area occupied by cells divided by the size of the field. \Hypertarget{class_cellular_potts_aa7e044382275fecdefeeeabc0d4de759}\label{class_cellular_potts_aa7e044382275fecdefeeeabc0d4de759} 
+\index{CellularPotts@{CellularPotts}!Compactness@{Compactness}}
+\index{Compactness@{Compactness}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{Compactness()}{Compactness()}}
+{\footnotesize\ttfamily double Cellular\+Potts\+::\+Compactness (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Calculate compactness (summed\+\_\+area/hull\+\_\+area) of all cells. This is a good measure for the density. \begin{DoxyReturn}{Returns}
+Compactness. 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_a651a2d70d4dd58ce00eaec5ce483c5a5}\label{class_cellular_potts_a651a2d70d4dd58ce00eaec5ce483c5a5} 
+\index{CellularPotts@{CellularPotts}!DivideCells@{DivideCells}}
+\index{DivideCells@{DivideCells}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{DivideCells()}{DivideCells()}}
+{\footnotesize\ttfamily void Cellular\+Potts\+::\+Divide\+Cells (\begin{DoxyParamCaption}\item[{std\+::vector$<$ bool $>$}]{which\+\_\+cells }\end{DoxyParamCaption})}
+
+Divide all cells marked "{}true"{} in which\+\_\+cells. 
+\begin{DoxyParams}{Parameters}
+{\em which\+\_\+cells} & is a vector$<$bool$>$ with the same number of elements as the number of cells. It is a mask indicating which cells should be divided; each cell marked true will be divided.\\
+\hline
+\end{DoxyParams}
+If which\+\_\+cells is empty, this method divides all cells. \Hypertarget{class_cellular_potts_aed1233da3a36aae791fda27ed0171306}\label{class_cellular_potts_aed1233da3a36aae791fda27ed0171306} 
+\index{CellularPotts@{CellularPotts}!DrawConvexHull@{DrawConvexHull}}
+\index{DrawConvexHull@{DrawConvexHull}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{DrawConvexHull()}{DrawConvexHull()}}
+{\footnotesize\ttfamily double Cellular\+Potts\+::\+Draw\+Convex\+Hull (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}}]{g,  }\item[{int}]{color = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Draw convex hull around all cells. \begin{DoxyReturn}{Returns}
+The area of the convex hull in lattice sites. 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_a19115b49e9c77e81835938a2f7a00f80}\label{class_cellular_potts_a19115b49e9c77e81835938a2f7a00f80} 
+\index{CellularPotts@{CellularPotts}!FindCellDirections@{FindCellDirections}}
+\index{FindCellDirections@{FindCellDirections}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{FindCellDirections()}{FindCellDirections()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_dir}{Dir}} \texorpdfstring{$\ast$}{*} Cellular\+Potts\+::\+Find\+Cell\+Directions (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const}
+
+In this method the principal axes of the cells are computed using the method described in "{}\+Biometry"{}, box 15.\+5 \begin{DoxyReturn}{Returns}
+a pointer to a "{}new\mbox{[}$\,$\mbox{]}"{}ed array containing the directions. The memory has to be freed afterwards using the delete\mbox{[}\mbox{]} operator 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_a2b07faf41fd8c395c1f98f98f0c8eeac}\label{class_cellular_potts_a2b07faf41fd8c395c1f98f98f0c8eeac} 
+\index{CellularPotts@{CellularPotts}!GrowAndDivideCells@{GrowAndDivideCells}}
+\index{GrowAndDivideCells@{GrowAndDivideCells}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{GrowAndDivideCells()}{GrowAndDivideCells()}}
+{\footnotesize\ttfamily void Cellular\+Potts\+::\+Grow\+And\+Divide\+Cells (\begin{DoxyParamCaption}\item[{int}]{growth\+\_\+rate }\end{DoxyParamCaption})}
+
+Cells grow until twice their original target\+\_\+length, then divide, with rate "{}growth\+\_\+rate"{} \Hypertarget{class_cellular_potts_adaa7d7a5ba27ae620ed66f5eb9564257}\label{class_cellular_potts_adaa7d7a5ba27ae620ed66f5eb9564257} 
+\index{CellularPotts@{CellularPotts}!GrowInCells@{GrowInCells}}
+\index{GrowInCells@{GrowInCells}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{GrowInCells()}{GrowInCells()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Grow\+In\+Cells (\begin{DoxyParamCaption}\item[{int}]{n\+\_\+cells,  }\item[{int}]{cellsize,  }\item[{double}]{subfield = {\ttfamily 1.},  }\item[{int}]{posx = {\ttfamily -\/1},  }\item[{int}]{posy = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+
+
+Initialize the CA plane with n cells using an Eden growth algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & Number of cells. \\
+\hline
+{\em cellsize} & Number of Eden growth iterations. \\
+\hline
+{\em subfield} & Defines a centered frame of size (size/subfield)\texorpdfstring{$^\wedge$}{\string^}2 in which all cell will be positioned. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Index of last cell inserted. 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_a080c719d169997556834fdc0dbe247a6}\label{class_cellular_potts_a080c719d169997556834fdc0dbe247a6} 
+\index{CellularPotts@{CellularPotts}!IsingMove@{IsingMove}}
+\index{IsingMove@{IsingMove}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{IsingMove()}{IsingMove()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Ising\+Move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}}]{PDEfield = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Monte Carlo Step. Returns summed energy change. 
+
+Implements Metropolis dynamics for the Ising model. Carries out one MCS. \begin{DoxyReturn}{Returns}
+Total energy change during MCS. 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_a74b82f8fb894878d242defd1883da849}\label{class_cellular_potts_a74b82f8fb894878d242defd1883da849} 
+\index{CellularPotts@{CellularPotts}!KawasakiMove@{KawasakiMove}}
+\index{KawasakiMove@{KawasakiMove}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{KawasakiMove()}{KawasakiMove()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Kawasaki\+Move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}}]{PDEfield = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Monte Carlo Step. Returns summed energy change. 
+
+Implements the core CPM algorithm with Kawasaki dynamics. Carries out one MCS. \begin{DoxyReturn}{Returns}
+Total energy change during MCS. 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_ad3bec6a234220d4fbaf04f9ed3a5be27}\label{class_cellular_potts_ad3bec6a234220d4fbaf04f9ed3a5be27} 
+\index{CellularPotts@{CellularPotts}!PlotIsing@{PlotIsing}}
+\index{PlotIsing@{PlotIsing}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{PlotIsing()}{PlotIsing()}}
+{\footnotesize\ttfamily void Cellular\+Potts\+::\+Plot\+Ising (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}}]{g,  }\item[{int}]{mag }\end{DoxyParamCaption})}
+
+
+
+Special plotting for Ising model. 
+
+Plot in black \& white for the Ising model \Hypertarget{class_cellular_potts_a0866b5925006bafd9c492fcd52302415}\label{class_cellular_potts_a0866b5925006bafd9c492fcd52302415} 
+\index{CellularPotts@{CellularPotts}!PlotSigma@{PlotSigma}}
+\index{PlotSigma@{PlotSigma}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{PlotSigma()}{PlotSigma()}}
+{\footnotesize\ttfamily void Cellular\+Potts\+::\+Plot\+Sigma (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}}]{g,  }\item[{int}]{mag = {\ttfamily 2} }\end{DoxyParamCaption})}
+
+Plot the cells according to their cell identity, not their type. The black lines are omitted.
+
+A simple method to plot all sigma\textquotesingle{}s in window without the black lines \Hypertarget{class_cellular_potts_a83e3eb01edd9531cc0f2ee43e3cfe581}\label{class_cellular_potts_a83e3eb01edd9531cc0f2ee43e3cfe581} 
+\index{CellularPotts@{CellularPotts}!PottsMove@{PottsMove}}
+\index{PottsMove@{PottsMove}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{PottsMove()}{PottsMove()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Potts\+Move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}}]{PDEfield = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Monte Carlo Step. Returns summed energy change. 
+
+Implements standard large q-\/\+Potts model. Carries out one MCS. \begin{DoxyReturn}{Returns}
+Total energy change during MCS. 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_a47b6913a3a82be5b701ff9f4d52bb12a}\label{class_cellular_potts_a47b6913a3a82be5b701ff9f4d52bb12a} 
+\index{CellularPotts@{CellularPotts}!PottsNeighborMove@{PottsNeighborMove}}
+\index{PottsNeighborMove@{PottsNeighborMove}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{PottsNeighborMove()}{PottsNeighborMove()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Potts\+Neighbor\+Move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_p_d_e}{PDE}} \texorpdfstring{$\ast$}{*}}]{PDEfield }\end{DoxyParamCaption})}
+
+
+
+Monte Carlo Step. Returns summed energy change. 
+
+Implements standard large q-\/\+Potts model via Neighbor copies. Carries out one MCS. \begin{DoxyReturn}{Returns}
+Total energy change during MCS. 
+\end{DoxyReturn}
+\Hypertarget{class_cellular_potts_a747d71d26a03ced7b61f6a43cc8dbdbb}\label{class_cellular_potts_a747d71d26a03ced7b61f6a43cc8dbdbb} 
+\index{CellularPotts@{CellularPotts}!SearchNandPlot@{SearchNandPlot}}
+\index{SearchNandPlot@{SearchNandPlot}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{SearchNandPlot()}{SearchNandPlot()}}
+{\footnotesize\ttfamily int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} Cellular\+Potts\+::\+Search\+Nand\+Plot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \texorpdfstring{$\ast$}{*}}]{g = {\ttfamily 0},  }\item[{bool}]{get\+\_\+neighbours = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Plots the dish to the screen or to a movie and searches the neighbours. 
+
+These distinct tasks have been lumped together in the same method because both for drawing the black lines between the cells and for searching the neighbours the cell borders have to be determined. \Hypertarget{class_cellular_potts_a3ce57d56c6e561ded805e13851d06c63}\label{class_cellular_potts_a3ce57d56c6e561ded805e13851d06c63} 
+\index{CellularPotts@{CellularPotts}!ShowDirections@{ShowDirections}}
+\index{ShowDirections@{ShowDirections}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{ShowDirections()}{ShowDirections()}}
+{\footnotesize\ttfamily void Cellular\+Potts\+::\+Show\+Directions (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graphics}{Graphics}} \&}]{g,  }\item[{const \mbox{\hyperlink{class_dir}{Dir}} \texorpdfstring{$\ast$}{*}}]{celldir }\end{DoxyParamCaption}) const}
+
+
+
+Display the division planes returned by Find\+Cell\+Directions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxylink{class_graphics}{Graphics} window \\
+\hline
+{\em celldir} & cell axes as returned by Find\+Cell\+Directions. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cellular_potts_af5bbce2aae8baeead6cf173dd3d81d02}\label{class_cellular_potts_af5bbce2aae8baeead6cf173dd3d81d02} 
+\index{CellularPotts@{CellularPotts}!Sigma@{Sigma}}
+\index{Sigma@{Sigma}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{Sigma()}{Sigma()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Sigma (\begin{DoxyParamCaption}\item[{const int}]{x,  }\item[{const int}]{y }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Return the value of lattice site (x,y). 
+
+i.\+e. This will return the index of the cell which occupies site (x,y). \Hypertarget{class_cellular_potts_abe734e8295788f92fcc21f4188a83dde}\label{class_cellular_potts_abe734e8295788f92fcc21f4188a83dde} 
+\index{CellularPotts@{CellularPotts}!SquareCell@{SquareCell}}
+\index{SquareCell@{SquareCell}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{SquareCell()}{SquareCell()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Square\+Cell (\begin{DoxyParamCaption}\item[{int}]{sig,  }\item[{int}]{cx,  }\item[{int}]{cy,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+Draw a square cell in at (cx,cy) \Hypertarget{class_cellular_potts_a568014835d075361e62ec6d2489a7db3}\label{class_cellular_potts_a568014835d075361e62ec6d2489a7db3} 
+\index{CellularPotts@{CellularPotts}!ThrowInCells@{ThrowInCells}}
+\index{ThrowInCells@{ThrowInCells}!CellularPotts@{CellularPotts}}
+\doxysubsubsection{\texorpdfstring{ThrowInCells()}{ThrowInCells()}}
+{\footnotesize\ttfamily int Cellular\+Potts\+::\+Throw\+In\+Cells (\begin{DoxyParamCaption}\item[{int}]{n,  }\item[{int}]{cellsize }\end{DoxyParamCaption})}
+
+
+
+Initialize the CA plane with n circular cells fitting in a cellsize\texorpdfstring{$^\wedge$}{\string^}2 square. 
+
+! Fill the plane with initial cells \begin{DoxyReturn}{Returns}
+actual amount of cells (some are not draw due to overlap) 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/cellular\+\_\+potts/ca.\+hpp\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/cellular\+\_\+potts/ca.\+cpp\end{DoxyCompactItemize}

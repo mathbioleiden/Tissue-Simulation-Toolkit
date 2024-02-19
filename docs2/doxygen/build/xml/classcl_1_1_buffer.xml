@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcl_1_1_buffer" kind="class" language="C++" prot="public">
+    <compoundname>cl::Buffer</compoundname>
+    <basecompoundref refid="classcl_1_1_memory" prot="public" virt="non-virtual">cl::Memory</basecompoundref>
+    <derivedcompoundref refid="classcl_1_1_buffer_g_l" prot="public" virt="non-virtual">cl::BufferGL</derivedcompoundref>
+    <includes refid="cl_8hpp" local="no">cl.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcl_1_1_buffer_1a8f9d6f5bc452c2171e8eaf6e49617268" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Buffer::Buffer</definition>
+        <argsstring>(const Context &amp;context, cl_mem_flags flags, ::size_t size, void *host_ptr=NULL, cl_int *err=NULL)</argsstring>
+        <name>Buffer</name>
+        <qualifiedname>cl::Buffer::Buffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>cl_mem_flags</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>host_ptr</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> in a specified context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wraps clCreateBuffer().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>host_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage to be used if the CL_MEM_USE_HOST_PTR flag was specified. Note alignment &amp; exclusivity requirements. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2861" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2861" bodyend="2870"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1aad541314b64a8ac6e94ca50315d87678" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Buffer::Buffer</definition>
+        <argsstring>(cl_mem_flags flags, ::size_t size, void *host_ptr=NULL, cl_int *err=NULL)</argsstring>
+        <name>Buffer</name>
+        <qualifiedname>cl::Buffer::Buffer</qualifiedname>
+        <param>
+          <type>cl_mem_flags</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>host_ptr</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> in the default context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wraps clCreateBuffer().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>host_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage to be used if the CL_MEM_USE_HOST_PTR flag was specified. Note alignment &amp; exclusivity requirements.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="classcl_1_1_context_1ad180f6f7d8b5a95710ab72f96162b051" kindref="member">Context::getDefault()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2881" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2881" bodyend="2893"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1aadd3663801107fabb88238565c55ba16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename IteratorType</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>cl::Buffer::Buffer</definition>
+        <argsstring>(IteratorType startIterator, IteratorType endIterator, bool readOnly, bool useHostPtr=false, cl_int *err=NULL)</argsstring>
+        <name>Buffer</name>
+        <qualifiedname>cl::Buffer::Buffer</qualifiedname>
+        <param>
+          <type>IteratorType</type>
+          <declname>startIterator</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>endIterator</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>readOnly</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useHostPtr</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> from a host container via iterators. IteratorType must be random access. If useHostPtr is specified iterators must represent contiguous data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2901" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2901" bodyend="2940"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1a96e0d46de95bd3f335c39f5b4f10c640" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename IteratorType</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>cl::Buffer::Buffer</definition>
+        <argsstring>(const Context &amp;context, IteratorType startIterator, IteratorType endIterator, bool readOnly, bool useHostPtr=false, cl_int *err=NULL)</argsstring>
+        <name>Buffer</name>
+        <qualifiedname>cl::Buffer::Buffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>startIterator</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>endIterator</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>readOnly</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useHostPtr</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> from a host container via iterators using a specified context. IteratorType must be random access. If useHostPtr is specified iterators must represent contiguous data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2948" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1a589e770b263ccedb789620860799e2c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename IteratorType</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>cl::Buffer::Buffer</definition>
+        <argsstring>(const CommandQueue &amp;queue, IteratorType startIterator, IteratorType endIterator, bool readOnly, bool useHostPtr=false, cl_int *err=NULL)</argsstring>
+        <name>Buffer</name>
+        <qualifiedname>cl::Buffer::Buffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_command_queue" kindref="compound">CommandQueue</ref> &amp;</type>
+          <declname>queue</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>startIterator</declname>
+        </param>
+        <param>
+          <type>IteratorType</type>
+          <declname>endIterator</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>readOnly</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useHostPtr</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> from a host container via iterators using a specified queue. If useHostPtr is specified iterators must represent contiguous data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2958" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="5882" bodyend="5922"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1a1c82aa24dd8a4d80b698605f60a26d71" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Buffer::Buffer</definition>
+        <argsstring>()</argsstring>
+        <name>Buffer</name>
+        <qualifiedname>cl::Buffer::Buffer</qualifiedname>
+        <briefdescription>
+<para>Default constructor - initializes to NULL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2963" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2963" bodyend="2963"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1ac980442b8e673fd6e4895ca7880b6b6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>__CL_EXPLICIT_CONSTRUCTORS</type>
+        <definition>__CL_EXPLICIT_CONSTRUCTORS cl::Buffer::Buffer</definition>
+        <argsstring>(const cl_mem &amp;buffer)</argsstring>
+        <name>Buffer</name>
+        <qualifiedname>cl::Buffer::Buffer</qualifiedname>
+        <param>
+          <type>const cl_mem &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Constructor from cl_mem - takes ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for further details. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2969" column="30" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2969" bodyend="2969"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1a7b4092e9d1481249a5111c523372bb19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+        <definition>Buffer &amp; cl::Buffer::operator=</definition>
+        <argsstring>(const cl_mem &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::Buffer::operator=</qualifiedname>
+        <param>
+          <type>const cl_mem &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Assignment from cl_mem - performs shallow copy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for further details. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2975" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2975" bodyend="2978"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1a2cfe3144f7d69d4b390edfa934641dcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Buffer::Buffer</definition>
+        <argsstring>(const Buffer &amp;buf)</argsstring>
+        <name>Buffer</name>
+        <qualifiedname>cl::Buffer::Buffer</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2983" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2983" bodyend="2983"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_buffer_1aded956cded7526705b2e734b00c8bb0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+        <definition>Buffer &amp; cl::Buffer::operator=</definition>
+        <argsstring>(const Buffer &amp;buf)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::Buffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Copy assignment to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2988" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2988" bodyend="2991"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Class interface for <ref refid="classcl_1_1_buffer" kindref="compound">Buffer</ref> <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> Objects. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>See <ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> for details about copy semantics, etc.</para>
+<para><simplesect kind="see"><para><ref refid="classcl_1_1_memory" kindref="compound">Memory</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>cl::detail::Wrapper&lt; cl_mem &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="1">
+        <label>cl::Buffer</label>
+        <link refid="classcl_1_1_buffer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cl::BufferGL</label>
+        <link refid="classcl_1_1_buffer_g_l"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl::Memory</label>
+        <link refid="classcl_1_1_memory"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>cl::detail::Wrapper&lt; cl_mem &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="1">
+        <label>cl::Buffer</label>
+        <link refid="classcl_1_1_buffer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl::Memory</label>
+        <link refid="classcl_1_1_memory"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="2852" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="2852" bodyend="3029"/>
+    <listofallmembers>
+      <member refid="classcl_1_1_buffer_1a8f9d6f5bc452c2171e8eaf6e49617268" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Buffer</name></member>
+      <member refid="classcl_1_1_buffer_1aad541314b64a8ac6e94ca50315d87678" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Buffer</name></member>
+      <member refid="classcl_1_1_buffer_1aadd3663801107fabb88238565c55ba16" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Buffer</name></member>
+      <member refid="classcl_1_1_buffer_1a96e0d46de95bd3f335c39f5b4f10c640" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Buffer</name></member>
+      <member refid="classcl_1_1_buffer_1a589e770b263ccedb789620860799e2c6" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Buffer</name></member>
+      <member refid="classcl_1_1_buffer_1a1c82aa24dd8a4d80b698605f60a26d71" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Buffer</name></member>
+      <member refid="classcl_1_1_buffer_1ac980442b8e673fd6e4895ca7880b6b6b" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Buffer</name></member>
+      <member refid="classcl_1_1_buffer_1a2cfe3144f7d69d4b390edfa934641dcf" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Buffer</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a83841267bac5ad4411ec8935f78315d8" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>cl_type</name></member>
+      <member refid="classcl_1_1_memory_1ab86d24b2a4f9a7090148fb8e77d73135" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1_memory_1a8795d4f88a9f16cc4b4a0af07cf4d335" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1_memory_1a9926612772ae6e016f1118ef4148da22" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Memory</name></member>
+      <member refid="classcl_1_1_memory_1af53ac1080cb1e14cd079bb38680defbc" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Memory</name></member>
+      <member refid="classcl_1_1_memory_1a23691d3d5e70f47538f1cde3741b0367" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Memory</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a1292547dd0c591aa972e25b793481583" prot="protected" virt="non-virtual"><scope>cl::Buffer</scope><name>object_</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a83936d9a0be85837d0d2603bce850b31" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>operator()</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a30993cd6ba246771306e4164ce2202eb" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>operator()</name></member>
+      <member refid="classcl_1_1_buffer_1a7b4092e9d1481249a5111c523372bb19" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_buffer_1aded956cded7526705b2e734b00c8bb0d" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_memory_1a03b06142c52b67a38d70231009e54612" prot="public" virt="non-virtual" ambiguityscope="cl::Memory::"><scope>cl::Buffer</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a49b3fcc3a16d0e2ad3295b3e38fb1bf8" prot="public" virt="non-virtual" ambiguityscope="Wrapper&lt; cl_mem &gt;::"><scope>cl::Buffer</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a207374e201c6c33c01bdc7ee09e92d76" prot="protected" virt="non-virtual"><scope>cl::Buffer</scope><name>release</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1adfdff8a6c98ca62fedc6a9ffced47a06" prot="protected" virt="non-virtual"><scope>cl::Buffer</scope><name>retain</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1aa1b916a75114fe3217018378d5f1eb71" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a514167f4ed7af4cc0ff0002bf082798f" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1af91bafdf8593c34e0d0722cdd93010be" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1aa254b6401dc19abcc7c21d2a664cadf9" prot="public" virt="non-virtual"><scope>cl::Buffer</scope><name>~Wrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

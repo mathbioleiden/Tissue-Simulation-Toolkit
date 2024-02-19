@@ -1,0 +1,335 @@
+\doxysection{ca.\+hpp}
+\hypertarget{ca_8hpp_source}{}\label{ca_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/cellular\_potts/ca.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/cellular\_potts/ca.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ 1996-\/2006\ Roeland\ Merks}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Tissue\ Simulation\ Toolkit.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ free\ software;\ you\ can\ redistribute}}
+\DoxyCodeLine{00008\ \textcolor{comment}{it\ and/or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public}}
+\DoxyCodeLine{00009\ \textcolor{comment}{License\ as\ published\ by\ the\ Free\ Software\ Foundation;\ either}}
+\DoxyCodeLine{00010\ \textcolor{comment}{version\ 2\ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ distributed\ in\ the\ hope\ that\ it\ will}}
+\DoxyCodeLine{00013\ \textcolor{comment}{be\ useful,\ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied}}
+\DoxyCodeLine{00014\ \textcolor{comment}{warranty\ of\ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{See\ the\ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00018\ \textcolor{comment}{along\ with\ Tissue\ Simulation\ Toolkit;\ if\ not,\ write\ to\ the\ Free}}
+\DoxyCodeLine{00019\ \textcolor{comment}{Software\ Foundation,\ Inc.,\ 51\ Franklin\ St,\ Fifth\ Floor,\ Boston,\ MA}}
+\DoxyCodeLine{00020\ \textcolor{comment}{02110-\/1301\ USA}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ mainpage.hpp\ contains\ no\ C++\ code,\ it\ is\ for\ the\ main\ page\ of\ the}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ documentation}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}mainpage.hpp"{}}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#ifndef\ \_CA\_HH\_}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ \_CA\_HH\_}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ "{}cell.hpp"{}}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#include\ "{}pde.hpp"{}}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{namespace\ }std\ \{}
+\DoxyCodeLine{00046\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keywordtype}{size\_t}\ N>\ \textcolor{keyword}{struct\ }hash<const\ array<T,\ N>>\ \{}
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{const}\ array<T,\ N>\ argument\_type;}
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{size\_t}\ result\_type;}
+\DoxyCodeLine{00049\ \ \ result\_type\ operator()(\textcolor{keyword}{const}\ argument\_type\ \&a)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00050\ \ \ \ \ hash<T>\ hasher;}
+\DoxyCodeLine{00051\ \ \ \ \ result\_type\ h\ =\ 1;}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{for}\ (result\_type\ i\ =\ 0;\ i\ <\ N;\ ++i)\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ h\ =\ h\ *\ hasher(a[i]);}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00056\ \ \ \}}
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keywordtype}{size\_t}\ N>\ \textcolor{keyword}{struct\ }hash<array<T,\ N>>\ \{}
+\DoxyCodeLine{00059\ \ \ \textcolor{keyword}{typedef}\ array<T,\ N>\ argument\_type;}
+\DoxyCodeLine{00060\ \ \ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{size\_t}\ result\_type;}
+\DoxyCodeLine{00061\ \ \ result\_type\ operator()(\textcolor{keyword}{const}\ argument\_type\ \&a)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00062\ \ \ \ \ hash<T>\ hasher;}
+\DoxyCodeLine{00063\ \ \ \ \ result\_type\ h\ =\ 1;}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{for}\ (result\_type\ i\ =\ 0;\ i\ <\ N;\ ++i)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ h\ =\ h\ *\ hasher(a[i]);}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00068\ \ \ \}}
+\DoxyCodeLine{00069\ \};}
+\DoxyCodeLine{00070\ \}\ \textcolor{comment}{//\ namespace\ std}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dish}{Dish}};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dir}{Dir}}\ \{}
+\DoxyCodeLine{00075\ \ \ \textcolor{comment}{/*\ To\ store\ a\ celldirection\ matrix\ */}}
+\DoxyCodeLine{00076\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_cellular_potts}{CellularPotts}};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00079\ \ \ \mbox{\hyperlink{class_dir}{Dir}}()\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ aa1\ =\ 0.;}
+\DoxyCodeLine{00081\ \ \ \ \ aa2\ =\ 0.;}
+\DoxyCodeLine{00082\ \ \ \ \ bb1\ =\ 0.;}
+\DoxyCodeLine{00083\ \ \ \ \ bb2\ =\ 0.;}
+\DoxyCodeLine{00084\ \ \ \ \ lb1\ =\ 0.;}
+\DoxyCodeLine{00085\ \ \ \ \ lb2\ =\ 0.;}
+\DoxyCodeLine{00086\ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \textcolor{keywordtype}{double}\ aa1,\ aa2;}
+\DoxyCodeLine{00088\ \ \ \textcolor{keywordtype}{double}\ bb1,\ bb2;}
+\DoxyCodeLine{00089\ \ \ \textcolor{keywordtype}{double}\ lb1,\ lb2;}
+\DoxyCodeLine{00090\ \};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00097\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_cellular_potts}{CellularPotts}}\ \{}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_info}{Info}};}
+\DoxyCodeLine{00100\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }Morphometry;}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00103\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ getNbhx(\textcolor{keywordtype}{int}\ i)\ \{\ \textcolor{keywordflow}{return}\ nx[i];\ \}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ getNbhy(\textcolor{keywordtype}{int}\ i)\ \{\ \textcolor{keywordflow}{return}\ ny[i];\ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \textcolor{keywordtype}{int}\ GetMatrixLevel(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00108\ \ \ \textcolor{keywordtype}{int}\ GetActLevel(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00109\ \ \ std::unordered\_set<std::array<int,\ 2>>\ alivePixels;}
+\DoxyCodeLine{00110\ \ \ std::unordered\_map<std::array<int,\ 2>,\ \textcolor{keywordtype}{int}>\ actPixels;}
+\DoxyCodeLine{00111\ \ \ \textcolor{keywordtype}{int}\ **matrix;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00114\ \ \ \mbox{\hyperlink{class_cellular_potts_a47dc236b8000f1f9ed6c878b8e73b93d}{CellularPotts}}(std::vector<Cell>\ *cells,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ sizex\ =\ 200,}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ sizey\ =\ 200);}
+\DoxyCodeLine{00116\ \ \ \textcolor{comment}{//\ empty\ constructor}}
+\DoxyCodeLine{00117\ \ \ \textcolor{comment}{//\ (necessary\ for\ derivation)}}
+\DoxyCodeLine{00118\ \ \ \mbox{\hyperlink{class_cellular_potts}{CellularPotts}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \textcolor{keywordtype}{void}\ InitializeEdgeList(}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \textcolor{keywordtype}{void});\ \textcolor{comment}{//\ Set\ the\ initial\ edgelist\ which\ are\ eligible\ to\ change}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \textcolor{comment}{//\ Keyword\ virtual\ means,\ that\ derived\ classed\ (cppvmCellularPotts)\ can}}
+\DoxyCodeLine{00124\ \ \ \textcolor{comment}{//\ override\ this\ function\ and\ carry\ out\ the\ memory\ allocation\ in\ their}}
+\DoxyCodeLine{00125\ \ \ \textcolor{comment}{//\ preferred\ way\ Every\ time\ AllocateSigma\ is\ called\ in\ the\ base\ class\ methods}}
+\DoxyCodeLine{00126\ \ \ \textcolor{comment}{//\ the\ function\ belonging\ the\ actual\ type\ will\ be\ called}}
+\DoxyCodeLine{00127\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ AllocateSigma(\textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ InitializeMatrix(\mbox{\hyperlink{class_dish}{Dish}}\ \&beast);}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \textcolor{comment}{//\ destructor\ must\ also\ be\ virtual}}
+\DoxyCodeLine{00132\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_cellular_potts}{\string~CellularPotts}}();}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00141\ \ \ \textcolor{keywordtype}{int}\ **\mbox{\hyperlink{class_cellular_potts_a747d71d26a03ced7b61f6a43cc8dbdbb}{SearchNandPlot}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g\ =\ 0,\ \textcolor{keywordtype}{bool}\ get\_neighbours\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00144\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_a11f6adf742a518ad543ca5d144278926}{Plot}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g)\ \{\ \mbox{\hyperlink{class_cellular_potts_a747d71d26a03ced7b61f6a43cc8dbdbb}{SearchNandPlot}}(g,\ \textcolor{keyword}{false});\ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00147\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_ad3bec6a234220d4fbaf04f9ed3a5be27}{PlotIsing}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g,\ \textcolor{keywordtype}{int}\ mag);}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \textcolor{keywordtype}{void}\ SearchNandPlotClear(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g\ =\ 0);}
+\DoxyCodeLine{00150\ \ \ \textcolor{keywordtype}{int}\ **SearchNeighboursMatrix();}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \textcolor{comment}{//\ Functions\ needed\ for\ the\ perimeter\ constraint}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \textcolor{keywordtype}{int}\ GetNewPerimeterIfXYWereAdded(\textcolor{keywordtype}{int}\ sxyp,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \textcolor{keywordtype}{int}\ GetNewPerimeterIfXYWereRemoved(\textcolor{keywordtype}{int}\ sxy,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \textcolor{keywordtype}{void}\ SetTargetPerimeter(\textcolor{keywordtype}{int}\ tau,\ \textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \textcolor{keywordtype}{void}\ SetLambdaPerimeter(\textcolor{keywordtype}{int}\ tau,\ \textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00163\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ **\mbox{\hyperlink{class_cellular_potts_a95d146d7fc39551025cfa59ab3fe5843}{SearchNeighbours}}(\textcolor{keywordtype}{void})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cellular_potts_a747d71d26a03ced7b61f6a43cc8dbdbb}{SearchNandPlot}}(0,\ \textcolor{keyword}{true});\ \}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00166\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_a1f4baf392d90a705fdce8231be2a2e67}{Mass}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordtype}{int}\ mass\ =\ 0;}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ sizex\ *\ sizey;\ i++)\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sigma[0][i]\ >\ 0)}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ mass++;}
+\DoxyCodeLine{00171\ \ \ \ \ \}}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{return}\ mass;}
+\DoxyCodeLine{00173\ \ \ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \textcolor{keywordtype}{void}\ SetBoundingBox(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00181\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_a0866b5925006bafd9c492fcd52302415}{PlotSigma}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g,\ \textcolor{keywordtype}{int}\ mag\ =\ 2);}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00184\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_abeb159c2b9095666fa7fca2dcce71dd2}{DivideCells}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ std::vector<bool>\ tmp;}
+\DoxyCodeLine{00186\ \ \ \ \ \mbox{\hyperlink{class_cellular_potts_abeb159c2b9095666fa7fca2dcce71dd2}{DivideCells}}(tmp);}
+\DoxyCodeLine{00187\ \ \ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00196\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_a651a2d70d4dd58ce00eaec5ce483c5a5}{DivideCells}}(std::vector<bool>\ which\_cells);}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00201\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_a9d5e73910b835fee1171c1fa6c220f73}{AmoebaeMove}}(\mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield\ =\ 0,\ \textcolor{keywordtype}{bool}\ anneal\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \textcolor{keywordtype}{int}\ Act\_AmoebaeMove(\mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield);}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00208\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_a74b82f8fb894878d242defd1883da849}{KawasakiMove}}(\mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield\ =\ 0);}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00213\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_a080c719d169997556834fdc0dbe247a6}{IsingMove}}(\mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield\ =\ 0);}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00218\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_a83e3eb01edd9531cc0f2ee43e3cfe581}{PottsMove}}(\mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield\ =\ 0);}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00223\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_a47b6913a3a82be5b701ff9f4d52bb12a}{PottsNeighborMove}}(\mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield);}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00229\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_a0057e535a3050503d8c598df752be81d}{ReadZygotePicture}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \textcolor{comment}{//\ Used\ internally\ to\ assign\ a\ Cell\ object\ to\ each\ "{}blob"{}}}
+\DoxyCodeLine{00232\ \ \ \textcolor{comment}{//\ "{}blobs"{}\ should\ already\ have\ different\ indices.}}
+\DoxyCodeLine{00233\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00234\ \ \ \textcolor{comment}{//\ (i.e.\ to\ start\ from\ a\ binary\ image\ you'd\ probably\ first\ want}}
+\DoxyCodeLine{00235\ \ \ \textcolor{comment}{//\ to\ apply\ a\ blob\ counting\ algorithm}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \textcolor{keywordtype}{void}\ ConstructInitCells(\mbox{\hyperlink{class_dish}{Dish}}\ \&beast);}
+\DoxyCodeLine{00238\ \ \ \textcolor{comment}{//\ void\ ConstructInitCells(Dish\ \&beast,\ int\ tau,\ int\ TArea,int\ TPerimeter);}}
+\DoxyCodeLine{00239\ \ \ \textcolor{comment}{//\ void\ ConstructInitCells(Dish\ \&beast,\ int\ tau,\ int\ TArea,int\ TPerimeter,\ int}}
+\DoxyCodeLine{00240\ \ \ \textcolor{comment}{//\ AdArea);}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00243\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_ad9d48cf8ec7e117e3328958806aa9fb6}{Time}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ thetime;\ \}}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \textcolor{comment}{//\ not\ currently\ used?\ In\ Critter\ implementation\ (see\ Hogeweg}}
+\DoxyCodeLine{00246\ \ \ \textcolor{comment}{//\ 2000)\ this\ was\ used\ to\ have\ cells\ divide\ at\ double\ their\ original\ area.}}
+\DoxyCodeLine{00247\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ ZygoteArea()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ zygote\_area;\ \}}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00250\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_aac9603962bcbae57b0fff53e0e381a8f}{SizeX}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ sizex;\ \}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00253\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_a8f3a3165333e6136ac2f1abe1bf0429b}{SizeY}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ sizey;\ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00258\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_af5bbce2aae8baeead6cf173dd3d81d02}{Sigma}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ sigma[x][y];\ \}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \textcolor{comment}{//\ Was\ used\ to\ make\ it\ possible\ to\ enlarge\ the\ Graphics\ window\ in}}
+\DoxyCodeLine{00261\ \ \ \textcolor{comment}{//\ X11\ and\ replace\ the\ contents\ interactively.\ Not\ currently\ supported.}}
+\DoxyCodeLine{00262\ \ \ \textcolor{keywordtype}{void}\ Replace(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g);}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00269\ \ \ \mbox{\hyperlink{class_dir}{Dir}}\ *\mbox{\hyperlink{class_cellular_potts_a19115b49e9c77e81835938a2f7a00f80}{FindCellDirections}}(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00273\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_a568014835d075361e62ec6d2489a7db3}{ThrowInCells}}(\textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{int}\ cellsize);}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00283\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_adaa7d7a5ba27ae620ed66f5eb9564257}{GrowInCells}}(\textcolor{keywordtype}{int}\ n\_cells,\ \textcolor{keywordtype}{int}\ cellsize,\ \textcolor{keywordtype}{double}\ subfield\ =\ 1.,}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ posx\ =\ -\/1,\ \textcolor{keywordtype}{int}\ posy\ =\ -\/1);}
+\DoxyCodeLine{00285\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_adaa7d7a5ba27ae620ed66f5eb9564257}{GrowInCells}}(\textcolor{keywordtype}{int}\ n\_cells,\ \textcolor{keywordtype}{int}\ cell\_size,\ \textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy,\ \textcolor{keywordtype}{int}\ offset\_x,}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ offset\_y);}
+\DoxyCodeLine{00287\ \ \ \textcolor{keywordtype}{void}\ RandomSpins(\textcolor{keywordtype}{double}\ prob);}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_cellular_potts_abe734e8295788f92fcc21f4188a83dde}{SquareCell}}(\textcolor{keywordtype}{int}\ sig,\ \textcolor{keywordtype}{int}\ cx,\ \textcolor{keywordtype}{int}\ cy,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00292\ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{class_cell}{Cell}}\ \&\mbox{\hyperlink{class_cellular_potts_afb9de13dc0bbb4919a570be2658faa79}{AddCell}}(\mbox{\hyperlink{class_dish}{Dish}}\ \&beast)\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ cell-\/>push\_back(\mbox{\hyperlink{class_cell}{Cell}}(beast));}
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keywordflow}{return}\ cell-\/>back();}
+\DoxyCodeLine{00295\ \ \ \}}
+\DoxyCodeLine{00300\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_a3ce57d56c6e561ded805e13851d06c63}{ShowDirections}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ \&g,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_dir}{Dir}}\ *celldir)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00303\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_cellular_potts_a987a69c9442d905d298493f74dba79f2}{MeanCellArea}}(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00310\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_cellular_potts_aae05936dbf37d5469fe3d88dc365d3e9}{CellDensity}}(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00314\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_a67fead3fd912c9175edb9f06c4e198cb}{ResetTargetLengths}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \ \ \textcolor{keywordtype}{int}\ spins\_converted;}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00322\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_acb31aaed8dbbfb3b075fc21e2d666c12}{SetRandomTypes}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00327\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cellular_potts_a2b07faf41fd8c395c1f98f98f0c8eeac}{GrowAndDivideCells}}(\textcolor{keywordtype}{int}\ growth\_rate);}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{class_cell}{Cell}}\ \&getCell(\textcolor{keywordtype}{int}\ c)\ \{\ \textcolor{keywordflow}{return}\ (*cell)[c];\ \}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \textcolor{keyword}{inline}\ vector<Cell>\ *getCellArray()\ \{\ \textcolor{keywordflow}{return}\ cell;\ \}}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00336\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_cellular_potts_aed1233da3a36aae791fda27ed0171306}{DrawConvexHull}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structcolor}{color}}\ =\ 1);}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00342\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_cellular_potts_aa7e044382275fecdefeeeabc0d4de759}{Compactness}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00343\ \ \ \textcolor{keywordtype}{void}\ RandomSigma(\textcolor{keywordtype}{int}\ n\_cells);}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \ \ \textcolor{keywordtype}{void}\ MeasureCellSizes(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00346\ \ \ \textcolor{keywordtype}{void}\ MeasureCellPerimeters();}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ \ \ \textcolor{keywordtype}{void}\ anneal(\textcolor{keywordtype}{int}\ steps);}
+\DoxyCodeLine{00349\ \ \ \textcolor{keywordtype}{int}\ **get\_annealed\_sigma(\textcolor{keywordtype}{int}\ steps);}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \ \ \textcolor{comment}{//\ Return\ Sigma\ Array\ for\ use\ on\ GPU}}
+\DoxyCodeLine{00352\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ **getSigma()\ \{\ \textcolor{keywordflow}{return}\ sigma;\ \}}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \textcolor{keywordtype}{bool}\ plotPos(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \mbox{\hyperlink{class_graphics}{Graphics}}\ *graphics);}
+\DoxyCodeLine{00355\ \ \ \textcolor{keywordtype}{void}\ linePlotPos(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \mbox{\hyperlink{class_graphics}{Graphics}}\ *graphics);}
+\DoxyCodeLine{00356\ }
+\DoxyCodeLine{00357\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ fillCellColArr(\textcolor{keywordtype}{int}\ *arr)\ \{}
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ dex\ =\ 0;\ dex\ <\ par.sizex\ *\ par.sizey;\ dex++)\ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ pos\ =\ sigma[0][dex];}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ !=\ 0)\ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ arr[dex]\ =\ (*cell)[pos].Colour();}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ arr[dex]\ =\ 0;}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00365\ \ \ \ \ \}}
+\DoxyCodeLine{00366\ \ \ \};}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00369\ \ \ \textcolor{keywordtype}{void}\ IndexShuffle(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00370\ \ \ \textcolor{keywordtype}{int}\ DeltaH(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ xp,\ \textcolor{keywordtype}{int}\ yp,\ \mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield\ =\ 0);}
+\DoxyCodeLine{00371\ \ \ \textcolor{keywordtype}{int}\ Act\_DeltaH(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ xp,\ \textcolor{keywordtype}{int}\ yp,\ \mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield\ =\ 0);}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \textcolor{keywordtype}{int}\ KawasakiDeltaH(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ xp,\ \textcolor{keywordtype}{int}\ yp,\ \mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield\ =\ 0);}
+\DoxyCodeLine{00374\ \ \ \textcolor{keywordtype}{int}\ IsingDeltaH(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \mbox{\hyperlink{class_p_d_e}{PDE}}\ *PDEfield\ =\ 0);}
+\DoxyCodeLine{00375\ \ \ \textcolor{keywordtype}{int}\ PottsDeltaH(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ new\_state);}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \ \ \textcolor{keywordtype}{bool}\ Probability(\textcolor{keywordtype}{int}\ DH);}
+\DoxyCodeLine{00378\ \ \ \textcolor{keywordtype}{void}\ ConvertSpin(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ xp,\ \textcolor{keywordtype}{int}\ yp);}
+\DoxyCodeLine{00379\ \ \ \textcolor{keywordtype}{void}\ ExchangeSpin(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ xp,\ \textcolor{keywordtype}{int}\ yp);}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00381\ \ \ \textcolor{keywordtype}{void}\ SprayMedium(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00382\ \ \ \textcolor{keywordtype}{int}\ CopyvProb(\textcolor{keywordtype}{int}\ DH,\ \textcolor{keywordtype}{double}\ stiff,\ \textcolor{keywordtype}{bool}\ anneal);}
+\DoxyCodeLine{00383\ \ \ \textcolor{keywordtype}{void}\ FreezeAmoebae(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00384\ \ \ \textcolor{keywordtype}{void}\ AddEdgeToEdgelist(\textcolor{keywordtype}{int}\ edge);}
+\DoxyCodeLine{00385\ \ \ \textcolor{keywordtype}{void}\ RemoveEdgeFromEdgelist(\textcolor{keywordtype}{int}\ edge);}
+\DoxyCodeLine{00386\ \ \ \textcolor{keywordtype}{int}\ CounterEdge(\textcolor{keywordtype}{int}\ edge);}
+\DoxyCodeLine{00387\ \ \ \textcolor{keywordtype}{void}\ MeasureCellSize(\mbox{\hyperlink{class_cell}{Cell}}\ \&c);}
+\DoxyCodeLine{00388\ \ \ \textcolor{keywordtype}{void}\ CopyProb(\textcolor{keywordtype}{double}\ T);}
+\DoxyCodeLine{00389\ \ \ \textcolor{keywordtype}{bool}\ LocalConnectedness(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ s);}
+\DoxyCodeLine{00390\ \ \ \textcolor{keywordtype}{bool}\ ConnectivityPreservedP(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00391\ \ \ \textcolor{keywordtype}{bool}\ ConnectivityPreservedPCluster(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00393\ \ \ \textcolor{comment}{//\ little\ debugging\ function\ to\ print\ the\ site\ and\ its\ neighbourhood}}
+\DoxyCodeLine{00394\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ PrintSite(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)\ \{}
+\DoxyCodeLine{00395\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}};}
+\DoxyCodeLine{00396\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}["{}}\ <<\ sigma[x\ -\/\ 1][y\ -\/\ 1]\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ sigma[x][y\ -\/\ 1]\ <<\ \textcolor{stringliteral}{"{}\ "{}}}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ sigma[x\ +\ 1][y\ -\/\ 1]\ <<\ \textcolor{stringliteral}{"{}]\(\backslash\)n"{}};}
+\DoxyCodeLine{00398\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}["{}}\ <<\ sigma[x\ -\/\ 1][y]\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ sigma[x][y]\ <<\ \textcolor{stringliteral}{"{}\ "{}}}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ sigma[x\ +\ 1][y]\ <<\ \textcolor{stringliteral}{"{}]\(\backslash\)n"{}};}
+\DoxyCodeLine{00400\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}["{}}\ <<\ sigma[x\ -\/\ 1][y\ +\ 1]\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ sigma[x][y\ +\ 1]\ <<\ \textcolor{stringliteral}{"{}\ "{}}}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ sigma[x\ +\ 1][y\ +\ 1]\ <<\ \textcolor{stringliteral}{"{}]\(\backslash\)n"{}};}
+\DoxyCodeLine{00402\ \ \ \}}
+\DoxyCodeLine{00403\ }
+\DoxyCodeLine{00404\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00405\ \ \ \textcolor{keywordtype}{void}\ BaseInitialisation(std::vector<Cell>\ *cell);}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00408\ \ \ \textcolor{keywordtype}{int}\ **sigma;}
+\DoxyCodeLine{00409\ \ \ \textcolor{keywordtype}{int}\ sizex;}
+\DoxyCodeLine{00410\ \ \ \textcolor{keywordtype}{int}\ sizey;}
+\DoxyCodeLine{00411\ }
+\DoxyCodeLine{00412\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00413\ \ \ \textcolor{keywordtype}{bool}\ frozen;}
+\DoxyCodeLine{00414\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ nx[21],\ ny[21];}
+\DoxyCodeLine{00415\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ nbh\_level[4];}
+\DoxyCodeLine{00416\ \ \ \textcolor{keywordtype}{int}\ *edgelist;}
+\DoxyCodeLine{00417\ \ \ \textcolor{keywordtype}{int}\ *orderedgelist;}
+\DoxyCodeLine{00418\ \ \ \textcolor{keywordtype}{int}\ sizeedgelist;}
+\DoxyCodeLine{00419\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ shuffleindex[9];}
+\DoxyCodeLine{00420\ \ \ std::vector<Cell>\ *cell;}
+\DoxyCodeLine{00421\ \ \ \textcolor{keywordtype}{int}\ zygote\_area;}
+\DoxyCodeLine{00422\ \ \ \textcolor{keywordtype}{int}\ thetime;}
+\DoxyCodeLine{00423\ \ \ \textcolor{keywordtype}{int}\ n\_nb;}
+\DoxyCodeLine{00424\ \};}
+\DoxyCodeLine{00425\ }
+\DoxyCodeLine{00426\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

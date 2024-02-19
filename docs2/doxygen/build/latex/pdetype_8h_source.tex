@@ -1,0 +1,22 @@
+\doxysection{pdetype.\+h}
+\hypertarget{pdetype_8h_source}{}\label{pdetype_8h_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/reaction\_diffusion/pdetype.h@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/reaction\_diffusion/pdetype.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//This\ file\ allows\ choosing\ wether\ the\ pdefield\ uses\ float}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//or\ double\ values.\ The\ OpenCL\ core\ should\ automatically}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//adopt\ this\ setting\ as\ well.}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ PDEFIELD\_FLOAT}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\#define\ PDEFIELD\_DOUBLE}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifdef\ PDEFIELD\_FLOAT}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ PDEFIELD\_TYPE\ float}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ OPENCL\_PDE\_TYPE\ "{}\#define\ PDEFIELD\_TYPE\ float\(\backslash\)n"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifdef\ PDEFIELD\_DOUBLE}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ PDEFIELD\_TYPE\ double}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ OPENCL\_PDE\_TYPE\ "{}\#define\ PDEFIELD\_TYPE\ double\(\backslash\)n"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

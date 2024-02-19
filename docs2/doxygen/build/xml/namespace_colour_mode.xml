@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespace_colour_mode" kind="namespace" language="C++">
+    <compoundname>ColourMode</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="dish_8hpp_1a3ec2d96e1ab9b4099be0dbd869bc629e" prot="public" static="no" strong="no">
+        <type></type>
+        <name></name>
+        <qualifiedname>ColourMode</qualifiedname>
+        <enumvalue id="dish_8hpp_1a3ec2d96e1ab9b4099be0dbd869bc629eaa583b45a74be0e904996865c18be8883" prot="public">
+          <name>State</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="dish_8hpp_1a3ec2d96e1ab9b4099be0dbd869bc629ea5d77678785d03216a2e858e7bbc02db3" prot="public">
+          <name>CellType</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="dish_8hpp_1a3ec2d96e1ab9b4099be0dbd869bc629ea55ba6056ec9c4d7abecf1bf39c7c9d5e" prot="public">
+          <name>Sigma</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="dish_8hpp_1a3ec2d96e1ab9b4099be0dbd869bc629ea462975a5d384404d59394e97552b0e8a" prot="public">
+          <name>Auxilliary</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="41" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/dish.hpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

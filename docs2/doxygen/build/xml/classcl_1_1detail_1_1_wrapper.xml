@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcl_1_1detail_1_1_wrapper" kind="class" language="C++" prot="public">
+    <compoundname>cl::detail::Wrapper</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classcl_1_1detail_1_1_wrapper_1a83841267bac5ad4411ec8935f78315d8" prot="public" static="no">
+        <type>T</type>
+        <definition>typedef T cl::detail::Wrapper&lt; T &gt;::cl_type</definition>
+        <argsstring></argsstring>
+        <name>cl_type</name>
+        <qualifiedname>cl::detail::Wrapper::cl_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1634" column="13" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1634" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classcl_1_1detail_1_1_wrapper_1a1292547dd0c591aa972e25b793481583" prot="protected" static="no" mutable="no">
+        <type>cl_type</type>
+        <definition>cl_type cl::detail::Wrapper&lt; T &gt;::object_</definition>
+        <argsstring></argsstring>
+        <name>object_</name>
+        <qualifiedname>cl::detail::Wrapper::object_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1637" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1637" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1aa1b916a75114fe3217018378d5f1eb71" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::detail::Wrapper&lt; T &gt;::Wrapper</definition>
+        <argsstring>()</argsstring>
+        <name>Wrapper</name>
+        <qualifiedname>cl::detail::Wrapper::Wrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1640" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1640" bodyend="1640"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1a514167f4ed7af4cc0ff0002bf082798f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::detail::Wrapper&lt; T &gt;::Wrapper</definition>
+        <argsstring>(const cl_type &amp;obj)</argsstring>
+        <name>Wrapper</name>
+        <qualifiedname>cl::detail::Wrapper::Wrapper</qualifiedname>
+        <param>
+          <type>const cl_type &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1642" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1642" bodyend="1642"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1aa254b6401dc19abcc7c21d2a664cadf9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::detail::Wrapper&lt; T &gt;::~Wrapper</definition>
+        <argsstring>()</argsstring>
+        <name>~Wrapper</name>
+        <qualifiedname>cl::detail::Wrapper::~Wrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1644" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1644" bodyend="1648"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1af91bafdf8593c34e0d0722cdd93010be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::detail::Wrapper&lt; T &gt;::Wrapper</definition>
+        <argsstring>(const Wrapper&lt; cl_type &gt; &amp;rhs)</argsstring>
+        <name>Wrapper</name>
+        <qualifiedname>cl::detail::Wrapper::Wrapper</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1detail_1_1_wrapper" kindref="compound">Wrapper</ref>&lt; cl_type &gt; &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1650" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1650" bodyend="1655"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1a49b3fcc3a16d0e2ad3295b3e38fb1bf8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1detail_1_1_wrapper" kindref="compound">Wrapper</ref>&lt; cl_type &gt; &amp;</type>
+        <definition>Wrapper&lt; cl_type &gt; &amp; cl::detail::Wrapper&lt; T &gt;::operator=</definition>
+        <argsstring>(const Wrapper&lt; cl_type &gt; &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::detail::Wrapper::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1detail_1_1_wrapper" kindref="compound">Wrapper</ref>&lt; cl_type &gt; &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1664" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1664" bodyend="1675"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1a26baf27de5ef59dfea529a09313f7a75" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1detail_1_1_wrapper" kindref="compound">Wrapper</ref>&lt; cl_type &gt; &amp;</type>
+        <definition>Wrapper&lt; cl_type &gt; &amp; cl::detail::Wrapper&lt; T &gt;::operator=</definition>
+        <argsstring>(const cl_type &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::detail::Wrapper::operator=</qualifiedname>
+        <param>
+          <type>const cl_type &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1690" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1690" bodyend="1696"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1a83936d9a0be85837d0d2603bce850b31" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_type</type>
+        <definition>cl_type cl::detail::Wrapper&lt; T &gt;::operator()</definition>
+        <argsstring>() const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>cl::detail::Wrapper::operator()</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1698" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1698" bodyend="1698"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1a30993cd6ba246771306e4164ce2202eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_type &amp;</type>
+        <definition>cl_type &amp; cl::detail::Wrapper&lt; T &gt;::operator()</definition>
+        <argsstring>()</argsstring>
+        <name>operator()</name>
+        <qualifiedname>cl::detail::Wrapper::operator()</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1700" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1700" bodyend="1700"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classcl_1_1detail_1_1_wrapper_1a17726beb74f709c3ed5ac06ac2737c3e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename U</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int getInfoHelper</definition>
+        <argsstring>(Func, cl_uint, U *, int, typename U::cl_type)</argsstring>
+        <name>getInfoHelper</name>
+        <qualifiedname>cl::detail::Wrapper::getInfoHelper</qualifiedname>
+        <param>
+          <type>Func</type>
+        </param>
+        <param>
+          <type>cl_uint</type>
+        </param>
+        <param>
+          <type>U *</type>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>typename U::cl_type</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1704" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1adfdff8a6c98ca62fedc6a9ffced47a06" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::Wrapper&lt; T &gt;::retain</definition>
+        <argsstring>() const</argsstring>
+        <name>retain</name>
+        <qualifiedname>cl::detail::Wrapper::retain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1707" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1707" bodyend="1707"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1detail_1_1_wrapper_1a207374e201c6c33c01bdc7ee09e92d76" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::Wrapper&lt; T &gt;::release</definition>
+        <argsstring>() const</argsstring>
+        <name>release</name>
+        <qualifiedname>cl::detail::Wrapper::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1709" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1709" bodyend="1709"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1632" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1632" bodyend="1710"/>
+    <listofallmembers>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a83841267bac5ad4411ec8935f78315d8" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>cl_type</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a17726beb74f709c3ed5ac06ac2737c3e" prot="protected" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>getInfoHelper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a1292547dd0c591aa972e25b793481583" prot="protected" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>object_</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a83936d9a0be85837d0d2603bce850b31" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>operator()</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a30993cd6ba246771306e4164ce2202eb" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>operator()</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a49b3fcc3a16d0e2ad3295b3e38fb1bf8" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a26baf27de5ef59dfea529a09313f7a75" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a207374e201c6c33c01bdc7ee09e92d76" prot="protected" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>release</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1adfdff8a6c98ca62fedc6a9ffced47a06" prot="protected" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>retain</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1aa1b916a75114fe3217018378d5f1eb71" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a514167f4ed7af4cc0ff0002bf082798f" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1af91bafdf8593c34e0d0722cdd93010be" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1aa254b6401dc19abcc7c21d2a664cadf9" prot="public" virt="non-virtual"><scope>cl::detail::Wrapper</scope><name>~Wrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

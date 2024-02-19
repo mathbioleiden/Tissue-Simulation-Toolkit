@@ -1,0 +1,567 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcl_1_1_program" kind="class" language="C++" prot="public">
+    <compoundname>cl::Program</compoundname>
+    <basecompoundref refid="classcl_1_1detail_1_1_wrapper" prot="public" virt="non-virtual">cl::detail::Wrapper&lt; cl_program &gt;</basecompoundref>
+    <includes refid="cl_8hpp" local="no">cl.hpp</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classcl_1_1_program_1a0b2445444b9d6dca76861f275b872bfc" prot="public" static="no">
+        <type>VECTOR_CLASS&lt; std::pair&lt; const void *, ::size_t &gt; &gt;</type>
+        <definition>typedef VECTOR_CLASS&lt;std::pair&lt;const void *, ::size_t&gt; &gt; cl::Program::Binaries</definition>
+        <argsstring></argsstring>
+        <name>Binaries</name>
+        <qualifiedname>cl::Program::Binaries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4436" column="24" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4436" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcl_1_1_program_1ab6c61260f089b8bf7d82e379b9545129" prot="public" static="no">
+        <type>VECTOR_CLASS&lt; std::pair&lt; const char *, ::size_t &gt; &gt;</type>
+        <definition>typedef VECTOR_CLASS&lt;std::pair&lt;const char *, ::size_t&gt; &gt; cl::Program::Sources</definition>
+        <argsstring></argsstring>
+        <name>Sources</name>
+        <qualifiedname>cl::Program::Sources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4437" column="24" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4437" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcl_1_1_program_1a610c22ad7c95f90121725f6d5da78232" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Program::Program</definition>
+        <argsstring>(const STRING_CLASS &amp;source, bool build=false, cl_int *err=NULL)</argsstring>
+        <name>Program</name>
+        <qualifiedname>cl::Program::Program</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacecl_1ad3ff55c5fe80ec84842876af323559c7" kindref="member">STRING_CLASS</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>build</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4439" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4439" bodyend="4462"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a1781efd209b2d0ec348e583986327c6f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Program::Program</definition>
+        <argsstring>(const Context &amp;context, const STRING_CLASS &amp;source, bool build=false, cl_int *err=NULL)</argsstring>
+        <name>Program</name>
+        <qualifiedname>cl::Program::Program</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacecl_1ad3ff55c5fe80ec84842876af323559c7" kindref="member">STRING_CLASS</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>build</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4464" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4464" bodyend="4486"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a400d1a7de104d98f1d3c2aa7dccc21ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Program::Program</definition>
+        <argsstring>(const Context &amp;context, const Sources &amp;sources, cl_int *err=NULL)</argsstring>
+        <name>Program</name>
+        <qualifiedname>cl::Program::Program</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const Sources &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4488" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4488" bodyend="4507"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a7c0ce0f4d9bf00088aa0db0abdf264d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Program::Program</definition>
+        <argsstring>(const Context &amp;context, const VECTOR_CLASS&lt; Device &gt; &amp;devices, const Binaries &amp;binaries, VECTOR_CLASS&lt; cl_int &gt; *binaryStatus=NULL, cl_int *err=NULL)</argsstring>
+        <name>Program</name>
+        <qualifiedname>cl::Program::Program</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_device" kindref="compound">Device</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <param>
+          <type>const Binaries &amp;</type>
+          <declname>binaries</declname>
+        </param>
+        <param>
+          <type>VECTOR_CLASS&lt; cl_int &gt; *</type>
+          <declname>binaryStatus</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a program object from a list of devices and a per-device list of binaries.<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid OpenCL context in which to construct the program.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vector of OpenCL device objects for which the program will be created.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>binaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vector of pairs of a pointer to a binary object and its length.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>binaryStatus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional vector that on completion will be resized to match the size of binaries and filled with values to specify if each binary was successfully loaded. Set to CL_SUCCESS if the binary was successfully loaded. Set to CL_INVALID_VALUE if the length is 0 or the binary pointer is NULL. Set to CL_INVALID_BINARY if the binary provided is not valid for the matching device.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if non-NULL will be set to CL_SUCCESS on successful operation or one of the following errors: CL_INVALID_CONTEXT if context is not a valid context. CL_INVALID_VALUE if the length of devices is zero; or if the length of binaries does not match the length of devices; or if any entry in binaries is NULL or has length 0. CL_INVALID_DEVICE if OpenCL devices listed in devices are not in the list of devices associated with context. CL_INVALID_BINARY if an invalid program binary was encountered for any device. binaryStatus will return specific status for each device. CL_OUT_OF_HOST_MEMORY if there is a failure to allocate resources required by the OpenCL implementation on the host. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4531" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4531" bodyend="4577"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a204c904c9fa5d0b2a65de6fc87396d30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Program::Program</definition>
+        <argsstring>()</argsstring>
+        <name>Program</name>
+        <qualifiedname>cl::Program::Program</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4606" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4606" bodyend="4606"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1ad2001d6737f827cd8ecccce998ee849e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>__CL_EXPLICIT_CONSTRUCTORS</type>
+        <definition>__CL_EXPLICIT_CONSTRUCTORS cl::Program::Program</definition>
+        <argsstring>(const cl_program &amp;program)</argsstring>
+        <name>Program</name>
+        <qualifiedname>cl::Program::Program</qualifiedname>
+        <param>
+          <type>const cl_program &amp;</type>
+          <declname>program</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4608" column="30" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4608" bodyend="4609"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a692702daa18137b4155a2a833b4c6aac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_program" kindref="compound">Program</ref> &amp;</type>
+        <definition>Program &amp; cl::Program::operator=</definition>
+        <argsstring>(const cl_program &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::Program::operator=</qualifiedname>
+        <param>
+          <type>const cl_program &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4611" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4611" bodyend="4614"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a0ec5552449e9fefc46e7bcd399d15f51" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>cl::Program::Program</definition>
+        <argsstring>(const Program &amp;program)</argsstring>
+        <name>Program</name>
+        <qualifiedname>cl::Program::Program</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_program" kindref="compound">Program</ref> &amp;</type>
+          <declname>program</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4619" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4619" bodyend="4619"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a7bd4452820d5b500c79aba740574d860" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcl_1_1_program" kindref="compound">Program</ref> &amp;</type>
+        <definition>Program &amp; cl::Program::operator=</definition>
+        <argsstring>(const Program &amp;program)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>cl::Program::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_program" kindref="compound">Program</ref> &amp;</type>
+          <declname>program</declname>
+        </param>
+        <briefdescription>
+<para>Copy assignment to forward copy to the superclass correctly. Required for MSVC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4624" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4624" bodyend="4627"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a7279e5ec14fb083e8202e8068cdcd408" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::Program::build</definition>
+        <argsstring>(const VECTOR_CLASS&lt; Device &gt; &amp;devices, const char *options=NULL, void(CL_CALLBACK *notifyFptr)(cl_program, void *)=NULL, void *data=NULL) const</argsstring>
+        <name>build</name>
+        <qualifiedname>cl::Program::build</qualifiedname>
+        <param>
+          <type>const VECTOR_CLASS&lt; <ref refid="classcl_1_1_device" kindref="compound">Device</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>options</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>void(CL_CALLBACK *notifyFptr)(cl_program, void *)</type>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4645" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4645" bodyend="4659"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a7014db5c87a6c0f4877ad506dae47a8b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::Program::build</definition>
+        <argsstring>(const char *options=NULL, void(CL_CALLBACK *notifyFptr)(cl_program, void *)=NULL, void *data=NULL) const</argsstring>
+        <name>build</name>
+        <qualifiedname>cl::Program::build</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>options</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>void(CL_CALLBACK *notifyFptr)(cl_program, void *)</type>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4661" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4661" bodyend="4667"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a9028e9b85aa9110a8dcc67e34f15956a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::Program::getInfo</definition>
+        <argsstring>(cl_program_info name, T *param) const</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>cl::Program::getInfo</qualifiedname>
+        <param>
+          <type>cl_program_info</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4679" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4679" bodyend="4683"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a3af5538e33e4d11fdc0f926a2fc759a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>cl_int</type>
+            <declname>name</declname>
+            <defname>name</defname>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structcl_1_1detail_1_1param__traits" kindref="compound">detail::param_traits</ref>&lt; detail::cl_program_info, name &gt;::param_type</type>
+        <definition>detail::param_traits&lt; detail::cl_program_info, name &gt;::param_type cl::Program::getInfo</definition>
+        <argsstring>(cl_int *err=NULL) const</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>cl::Program::getInfo</qualifiedname>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4687" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4687" bodyend="4695"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a6178a63538bdbb3b9730225a59ff465f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::Program::getBuildInfo</definition>
+        <argsstring>(const Device &amp;device, cl_program_build_info name, T *param) const</argsstring>
+        <name>getBuildInfo</name>
+        <qualifiedname>cl::Program::getBuildInfo</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <param>
+          <type>cl_program_build_info</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4698" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4698" bodyend="4703"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1afdc8dabccdde3e60670722d493b4ea9f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>cl_int</type>
+            <declname>name</declname>
+            <defname>name</defname>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structcl_1_1detail_1_1param__traits" kindref="compound">detail::param_traits</ref>&lt; detail::cl_program_build_info, name &gt;::param_type</type>
+        <definition>detail::param_traits&lt; detail::cl_program_build_info, name &gt;::param_type cl::Program::getBuildInfo</definition>
+        <argsstring>(const Device &amp;device, cl_int *err=NULL) const</argsstring>
+        <name>getBuildInfo</name>
+        <qualifiedname>cl::Program::getBuildInfo</qualifiedname>
+        <param>
+          <type>const <ref refid="classcl_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4707" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4707" bodyend="4715"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a5c0c4dd39bd2a1757b0741880c7d243c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::Program::createKernels</definition>
+        <argsstring>(VECTOR_CLASS&lt; Kernel &gt; *kernels)</argsstring>
+        <name>createKernels</name>
+        <qualifiedname>cl::Program::createKernels</qualifiedname>
+        <param>
+          <type>VECTOR_CLASS&lt; <ref refid="classcl_1_1_kernel" kindref="compound">Kernel</ref> &gt; *</type>
+          <declname>kernels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4717" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4717" bodyend="4733"/>
+      </memberdef>
+      <memberdef kind="function" id="classcl_1_1_program_1a6cbd7b1f44d93845cc85b1d827d573e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type>VECTOR_CLASS&lt; char * &gt;</type>
+        <definition>VECTOR_CLASS&lt; char * &gt; cl::Program::getInfo</definition>
+        <argsstring>(cl_int *err) const</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>cl::Program::getInfo</qualifiedname>
+        <param>
+          <type>cl_int *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4288" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4798" bodyend="4814"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classcl_1_1_program" kindref="compound">Program</ref> interface that implements cl_program. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>cl::detail::Wrapper&lt; cl_program &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="1">
+        <label>cl::Program</label>
+        <link refid="classcl_1_1_program"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>cl::detail::Wrapper&lt; cl_program &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="1">
+        <label>cl::Program</label>
+        <link refid="classcl_1_1_program"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="4434" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="4434" bodyend="4734"/>
+    <listofallmembers>
+      <member refid="classcl_1_1_program_1a0b2445444b9d6dca76861f275b872bfc" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Binaries</name></member>
+      <member refid="classcl_1_1_program_1a7279e5ec14fb083e8202e8068cdcd408" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>build</name></member>
+      <member refid="classcl_1_1_program_1a7014db5c87a6c0f4877ad506dae47a8b" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>build</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a83841267bac5ad4411ec8935f78315d8" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>cl_type</name></member>
+      <member refid="classcl_1_1_program_1a5c0c4dd39bd2a1757b0741880c7d243c" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>createKernels</name></member>
+      <member refid="classcl_1_1_program_1a6178a63538bdbb3b9730225a59ff465f" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>getBuildInfo</name></member>
+      <member refid="classcl_1_1_program_1afdc8dabccdde3e60670722d493b4ea9f" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>getBuildInfo</name></member>
+      <member refid="classcl_1_1_program_1a9028e9b85aa9110a8dcc67e34f15956a" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1_program_1a3af5538e33e4d11fdc0f926a2fc759a6" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1_program_1a6cbd7b1f44d93845cc85b1d827d573e4" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>getInfo</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a1292547dd0c591aa972e25b793481583" prot="protected" virt="non-virtual"><scope>cl::Program</scope><name>object_</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a83936d9a0be85837d0d2603bce850b31" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>operator()</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a30993cd6ba246771306e4164ce2202eb" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>operator()</name></member>
+      <member refid="classcl_1_1_program_1a692702daa18137b4155a2a833b4c6aac" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_program_1a7bd4452820d5b500c79aba740574d860" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>operator=</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a49b3fcc3a16d0e2ad3295b3e38fb1bf8" prot="public" virt="non-virtual" ambiguityscope="Wrapper&lt; cl_program &gt;::"><scope>cl::Program</scope><name>operator=</name></member>
+      <member refid="classcl_1_1_program_1a610c22ad7c95f90121725f6d5da78232" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Program</name></member>
+      <member refid="classcl_1_1_program_1a1781efd209b2d0ec348e583986327c6f" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Program</name></member>
+      <member refid="classcl_1_1_program_1a400d1a7de104d98f1d3c2aa7dccc21ba" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Program</name></member>
+      <member refid="classcl_1_1_program_1a7c0ce0f4d9bf00088aa0db0abdf264d8" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Program</name></member>
+      <member refid="classcl_1_1_program_1a204c904c9fa5d0b2a65de6fc87396d30" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Program</name></member>
+      <member refid="classcl_1_1_program_1ad2001d6737f827cd8ecccce998ee849e" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Program</name></member>
+      <member refid="classcl_1_1_program_1a0ec5552449e9fefc46e7bcd399d15f51" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Program</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a207374e201c6c33c01bdc7ee09e92d76" prot="protected" virt="non-virtual"><scope>cl::Program</scope><name>release</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1adfdff8a6c98ca62fedc6a9ffced47a06" prot="protected" virt="non-virtual"><scope>cl::Program</scope><name>retain</name></member>
+      <member refid="classcl_1_1_program_1ab6c61260f089b8bf7d82e379b9545129" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Sources</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1aa1b916a75114fe3217018378d5f1eb71" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1a514167f4ed7af4cc0ff0002bf082798f" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1af91bafdf8593c34e0d0722cdd93010be" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>Wrapper</name></member>
+      <member refid="classcl_1_1detail_1_1_wrapper_1aa254b6401dc19abcc7c21d2a664cadf9" prot="public" virt="non-virtual"><scope>cl::Program</scope><name>~Wrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="hull_8hpp" kind="file" language="C++">
+    <compoundname>hull.hpp</compoundname>
+    <includedby refid="ca_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/ca.cpp</includedby>
+    <includedby refid="hull_8cpp" local="yes">/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting/hull.cpp</includedby>
+    <innerclass refid="class_point" prot="public">Point</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="hull_8hpp_1ad687868582cf5cc0fe52ae4d93f319cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int chainHull_2D</definition>
+        <argsstring>(Point *P, int n, Point *H)</argsstring>
+        <name>chainHull_2D</name>
+        <param>
+          <type><ref refid="class_point" kindref="compound">Point</ref> *</type>
+          <declname>P</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="class_point" kindref="compound">Point</ref> *</type>
+          <declname>H</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting/hull.hpp" line="16" column="5" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting/hull.cpp" bodystart="32" bodyend="103" declfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting/hull.hpp" declline="16" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Class<sp/>point<sp/>needed<sp/>by<sp/>2D<sp/>convex<sp/>hull<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2" refid="class_point" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_point" kindref="compound">Point</ref><sp/>{</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><ref refid="class_point" kindref="compound">Point</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>xx,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>yy)<sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/>x<sp/>=<sp/>xx;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>y<sp/>=<sp/>yy;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><ref refid="class_point" kindref="compound">Point</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>x<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>y<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x,<sp/>y;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>chainHull_2D(<ref refid="class_point" kindref="compound">Point</ref><sp/>*P,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,<sp/><ref refid="class_point" kindref="compound">Point</ref><sp/>*H);</highlight></codeline>
+    </programlisting>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/plotting/hull.hpp"/>
+  </compounddef>
+</doxygen>

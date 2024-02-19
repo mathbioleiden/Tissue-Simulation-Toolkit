@@ -1,0 +1,173 @@
+\doxysection{cl\+::Image3\+DGL Class Reference}
+\hypertarget{classcl_1_1_image3_d_g_l}{}\label{classcl_1_1_image3_d_g_l}\index{cl::Image3DGL@{cl::Image3DGL}}
+
+
+Class interface for GL 3D \doxylink{classcl_1_1_image}{Image} \doxylink{classcl_1_1_memory}{Memory} objects.  
+
+
+
+
+{\ttfamily \#include $<$cl.\+hpp$>$}
+
+Inheritance diagram for cl\+::Image3\+DGL\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{classcl_1_1_image3_d_g_l}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcl_1_1_image3_d_g_l_a887ef5a5f73871e5419d9cd48cb0aae8}{Image3\+DGL}} (const \mbox{\hyperlink{classcl_1_1_context}{Context}} \&context, cl\+\_\+mem\+\_\+flags flags, cl\+\_\+\+GLenum target, cl\+\_\+\+GLint miplevel, cl\+\_\+\+GLuint texobj, cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL)
+\begin{DoxyCompactList}\small\item\em Constructs an \doxylink{classcl_1_1_image3_d_g_l}{Image3\+DGL} in a specified context, from a given GL Texture. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_image3_d_g_l_a21a8fd551430095711413e831cd42ddd}\label{classcl_1_1_image3_d_g_l_a21a8fd551430095711413e831cd42ddd} 
+{\bfseries Image3\+DGL} ()
+\begin{DoxyCompactList}\small\item\em Default constructor -\/ initializes to NULL. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS \mbox{\hyperlink{classcl_1_1_image3_d_g_l_a98e053311f1a9a53e393522a825e51cc}{Image3\+DGL}} (const cl\+\_\+mem \&image)
+\begin{DoxyCompactList}\small\item\em Constructor from cl\+\_\+mem -\/ takes ownership. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_image3_d_g_l}{Image3\+DGL}} \& \mbox{\hyperlink{classcl_1_1_image3_d_g_l_a61af1009d180963022a7107e1ecaf0c7}{operator=}} (const cl\+\_\+mem \&rhs)
+\begin{DoxyCompactList}\small\item\em Assignment from cl\+\_\+mem -\/ performs shallow copy. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_image3_d_g_l_a547ae772ea5529329b278d8d551518f4}\label{classcl_1_1_image3_d_g_l_a547ae772ea5529329b278d8d551518f4} 
+{\bfseries Image3\+DGL} (const \mbox{\hyperlink{classcl_1_1_image3_d_g_l}{Image3\+DGL}} \&img)
+\begin{DoxyCompactList}\small\item\em Copy constructor to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_image3_d_g_l_a039a8f2cab446a5202e6d7081c746033}\label{classcl_1_1_image3_d_g_l_a039a8f2cab446a5202e6d7081c746033} 
+\mbox{\hyperlink{classcl_1_1_image3_d_g_l}{Image3\+DGL}} \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1_image3_d_g_l}{Image3\+DGL}} \&img)
+\begin{DoxyCompactList}\small\item\em Copy assignment to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classcl_1_1_image3_d}{cl\+::\+Image3D}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcl_1_1_image3_d_a46cb190a8cf9886055557e3cdaee837f}{Image3D}} (const \mbox{\hyperlink{classcl_1_1_context}{Context}} \&context, cl\+\_\+mem\+\_\+flags flags, \mbox{\hyperlink{structcl_1_1_image_format}{Image\+Format}} format, \+::size\+\_\+t width, \+::size\+\_\+t height, \+::size\+\_\+t depth, \+::size\+\_\+t row\+\_\+pitch=0, \+::size\+\_\+t slice\+\_\+pitch=0, void \texorpdfstring{$\ast$}{*}host\+\_\+ptr=NULL, cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL)
+\begin{DoxyCompactList}\small\item\em Constructs a 3D \doxylink{classcl_1_1_image}{Image} in a specified context. \end{DoxyCompactList}\item 
+{\bfseries Image3D} ()
+\begin{DoxyCompactList}\small\item\em Default constructor -\/ initializes to NULL. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS \mbox{\hyperlink{classcl_1_1_image3_d_a5d73fcb28b65ad70fc0a7e8bd070b3bf}{Image3D}} (const cl\+\_\+mem \&image3D)
+\begin{DoxyCompactList}\small\item\em Constructor from cl\+\_\+mem -\/ takes ownership. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_image3_d}{Image3D}} \& \mbox{\hyperlink{classcl_1_1_image3_d_a2dde54746a648b4ff62da9b0cdc927dc}{operator=}} (const cl\+\_\+mem \&rhs)
+\begin{DoxyCompactList}\small\item\em Assignment from cl\+\_\+mem -\/ performs shallow copy. \end{DoxyCompactList}\item 
+{\bfseries Image3D} (const \mbox{\hyperlink{classcl_1_1_image3_d}{Image3D}} \&img)
+\begin{DoxyCompactList}\small\item\em Copy constructor to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_image3_d}{Image3D}} \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1_image3_d}{Image3D}} \&img)
+\begin{DoxyCompactList}\small\item\em Copy assignment to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classcl_1_1_image}{cl\+::\+Image}}}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\cl\+\_\+int {\bfseries get\+Image\+Info} (cl\+\_\+image\+\_\+info name, T \texorpdfstring{$\ast$}{*}param) const
+\begin{DoxyCompactList}\small\item\em Wrapper for cl\+Get\+Image\+Info(). \end{DoxyCompactList}\item 
+{\footnotesize template$<$cl\+\_\+int name$>$ }\\\mbox{\hyperlink{structcl_1_1detail_1_1param__traits}{detail\+::param\+\_\+traits}}$<$ detail\+::cl\+\_\+image\+\_\+info, name $>$\+::param\+\_\+type {\bfseries get\+Image\+Info} (cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL) const
+\begin{DoxyCompactList}\small\item\em Wrapper for cl\+Get\+Image\+Info() that returns by value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classcl_1_1_memory}{cl\+::\+Memory}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Memory} ()
+\begin{DoxyCompactList}\small\item\em Default constructor -\/ initializes to NULL. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS \mbox{\hyperlink{classcl_1_1_memory_af53ac1080cb1e14cd079bb38680defbc}{Memory}} (const cl\+\_\+mem \&memory)
+\begin{DoxyCompactList}\small\item\em Constructor from cl\+\_\+mem -\/ takes ownership. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_memory}{Memory}} \& \mbox{\hyperlink{classcl_1_1_memory_aa8815cba4b7ef0dd5317e60fe9ff719b}{operator=}} (const cl\+\_\+mem \&rhs)
+\begin{DoxyCompactList}\small\item\em Assignment operator from cl\+\_\+mem -\/ takes ownership. \end{DoxyCompactList}\item 
+{\bfseries Memory} (const \mbox{\hyperlink{classcl_1_1_memory}{Memory}} \&mem)
+\begin{DoxyCompactList}\small\item\em Copy constructor to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_memory}{Memory}} \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1_memory}{Memory}} \&mem)
+\begin{DoxyCompactList}\small\item\em Copy assignment to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\cl\+\_\+int {\bfseries get\+Info} (cl\+\_\+mem\+\_\+info name, T \texorpdfstring{$\ast$}{*}param) const
+\begin{DoxyCompactList}\small\item\em Wrapper for cl\+Get\+Mem\+Object\+Info(). \end{DoxyCompactList}\item 
+{\footnotesize template$<$cl\+\_\+int name$>$ }\\\mbox{\hyperlink{structcl_1_1detail_1_1param__traits}{detail\+::param\+\_\+traits}}$<$ detail\+::cl\+\_\+mem\+\_\+info, name $>$\+::param\+\_\+type {\bfseries get\+Info} (cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL) const
+\begin{DoxyCompactList}\small\item\em Wrapper for cl\+Get\+Mem\+Object\+Info() that returns by value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+mem $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Wrapper} (const cl\+\_\+type \&obj)
+\item 
+{\bfseries Wrapper} (const \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \&rhs)
+\item 
+\mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \&rhs)
+\item 
+\mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \& {\bfseries operator=} (const cl\+\_\+type \&rhs)
+\item 
+cl\+\_\+type {\bfseries operator()} () const
+\item 
+cl\+\_\+type \& {\bfseries operator()} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+mem $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef cl\+\_\+mem {\bfseries cl\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classcl_1_1_image}{cl\+::\+Image}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Image} ()
+\begin{DoxyCompactList}\small\item\em Default constructor -\/ initializes to NULL. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS \mbox{\hyperlink{classcl_1_1_image_abb03618ce14da81b145b72174315ae69}{Image}} (const cl\+\_\+mem \&image)
+\begin{DoxyCompactList}\small\item\em Constructor from cl\+\_\+mem -\/ takes ownership. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_image}{Image}} \& \mbox{\hyperlink{classcl_1_1_image_a7eefbcc63b46d4a469afd8822c4204c1}{operator=}} (const cl\+\_\+mem \&rhs)
+\begin{DoxyCompactList}\small\item\em Assignment from cl\+\_\+mem -\/ performs shallow copy. \end{DoxyCompactList}\item 
+{\bfseries Image} (const \mbox{\hyperlink{classcl_1_1_image}{Image}} \&img)
+\begin{DoxyCompactList}\small\item\em Copy constructor to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_image}{Image}} \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1_image}{Image}} \&img)
+\begin{DoxyCompactList}\small\item\em Copy assignment to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+mem $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+cl\+\_\+int {\bfseries retain} () const
+\item 
+cl\+\_\+int {\bfseries release} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+mem $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+cl\+\_\+type {\bfseries object\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class interface for GL 3D \doxylink{classcl_1_1_image}{Image} \doxylink{classcl_1_1_memory}{Memory} objects. 
+
+This is provided to facilitate interoperability with Open\+GL.
+
+See \doxylink{classcl_1_1_memory}{Memory} for details about copy semantics, etc.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{classcl_1_1_memory}{Memory} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcl_1_1_image3_d_g_l_a887ef5a5f73871e5419d9cd48cb0aae8}\label{classcl_1_1_image3_d_g_l_a887ef5a5f73871e5419d9cd48cb0aae8} 
+\index{cl::Image3DGL@{cl::Image3DGL}!Image3DGL@{Image3DGL}}
+\index{Image3DGL@{Image3DGL}!cl::Image3DGL@{cl::Image3DGL}}
+\doxysubsubsection{\texorpdfstring{Image3DGL()}{Image3DGL()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily cl\+::\+Image3\+DGL\+::\+Image3\+DGL (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcl_1_1_context}{Context}} \&}]{context,  }\item[{cl\+\_\+mem\+\_\+flags}]{flags,  }\item[{cl\+\_\+\+GLenum}]{target,  }\item[{cl\+\_\+\+GLint}]{miplevel,  }\item[{cl\+\_\+\+GLuint}]{texobj,  }\item[{cl\+\_\+int \texorpdfstring{$\ast$}{*}}]{err = {\ttfamily NULL} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs an \doxylink{classcl_1_1_image3_d_g_l}{Image3\+DGL} in a specified context, from a given GL Texture. 
+
+Wraps cl\+Create\+From\+GLTexture3\+D(). \Hypertarget{classcl_1_1_image3_d_g_l_a98e053311f1a9a53e393522a825e51cc}\label{classcl_1_1_image3_d_g_l_a98e053311f1a9a53e393522a825e51cc} 
+\index{cl::Image3DGL@{cl::Image3DGL}!Image3DGL@{Image3DGL}}
+\index{Image3DGL@{Image3DGL}!cl::Image3DGL@{cl::Image3DGL}}
+\doxysubsubsection{\texorpdfstring{Image3DGL()}{Image3DGL()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS cl\+::\+Image3\+DGL\+::\+Image3\+DGL (\begin{DoxyParamCaption}\item[{const cl\+\_\+mem \&}]{image }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor from cl\+\_\+mem -\/ takes ownership. 
+
+See \doxylink{classcl_1_1_memory}{Memory} for further details. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcl_1_1_image3_d_g_l_a61af1009d180963022a7107e1ecaf0c7}\label{classcl_1_1_image3_d_g_l_a61af1009d180963022a7107e1ecaf0c7} 
+\index{cl::Image3DGL@{cl::Image3DGL}!operator=@{operator=}}
+\index{operator=@{operator=}!cl::Image3DGL@{cl::Image3DGL}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcl_1_1_image3_d_g_l}{Image3\+DGL}} \& cl\+::\+Image3\+DGL\+::operator= (\begin{DoxyParamCaption}\item[{const cl\+\_\+mem \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Assignment from cl\+\_\+mem -\/ performs shallow copy. 
+
+See \doxylink{classcl_1_1_memory}{Memory} for further details. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/compute/\mbox{\hyperlink{cl_8hpp}{cl.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,173 @@
+\doxysection{cl\+::Context Class Reference}
+\hypertarget{classcl_1_1_context}{}\label{classcl_1_1_context}\index{cl::Context@{cl::Context}}
+
+
+Class interface for cl\+\_\+context.  
+
+
+
+
+{\ttfamily \#include $<$cl.\+hpp$>$}
+
+Inheritance diagram for cl\+::Context\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcl_1_1_context}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcl_1_1_context_a1a8dcea1218d900b914d8fd86d67e336}{Context}} (const VECTOR\+\_\+\+CLASS$<$ \mbox{\hyperlink{classcl_1_1_device}{Device}} $>$ \&devices, cl\+\_\+context\+\_\+properties \texorpdfstring{$\ast$}{*}properties=NULL, void(CL\+\_\+\+CALLBACK \texorpdfstring{$\ast$}{*}notify\+Fptr)(const char \texorpdfstring{$\ast$}{*}, const void \texorpdfstring{$\ast$}{*}, \+::size\+\_\+t, void \texorpdfstring{$\ast$}{*})=NULL, void \texorpdfstring{$\ast$}{*}data=NULL, cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL)
+\begin{DoxyCompactList}\small\item\em Constructs a context including a list of specified devices. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_context_aeedf0e52b8a09f230294f9c5a73b7f87}\label{classcl_1_1_context_aeedf0e52b8a09f230294f9c5a73b7f87} 
+{\bfseries Context} (const \mbox{\hyperlink{classcl_1_1_device}{Device}} \&device, cl\+\_\+context\+\_\+properties \texorpdfstring{$\ast$}{*}properties=NULL, void(CL\+\_\+\+CALLBACK \texorpdfstring{$\ast$}{*}notify\+Fptr)(const char \texorpdfstring{$\ast$}{*}, const void \texorpdfstring{$\ast$}{*}, \+::size\+\_\+t, void \texorpdfstring{$\ast$}{*})=NULL, void \texorpdfstring{$\ast$}{*}data=NULL, cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL)
+\item 
+\mbox{\hyperlink{classcl_1_1_context_a674f554c347eac35295908b529aaa382}{Context}} (cl\+\_\+device\+\_\+type type, cl\+\_\+context\+\_\+properties \texorpdfstring{$\ast$}{*}properties=NULL, void(CL\+\_\+\+CALLBACK \texorpdfstring{$\ast$}{*}notify\+Fptr)(const char \texorpdfstring{$\ast$}{*}, const void \texorpdfstring{$\ast$}{*}, \+::size\+\_\+t, void \texorpdfstring{$\ast$}{*})=NULL, void \texorpdfstring{$\ast$}{*}data=NULL, cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL)
+\begin{DoxyCompactList}\small\item\em Constructs a context including all or a subset of devices of a specified type. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_context_ae0a598440f95bc8457433a088cef17a1}\label{classcl_1_1_context_ae0a598440f95bc8457433a088cef17a1} 
+{\bfseries Context} (const \mbox{\hyperlink{classcl_1_1_context}{Context}} \&ctx)
+\begin{DoxyCompactList}\small\item\em Copy constructor to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_context_ae82122ba42017504ed23c4bb8f4471cb}\label{classcl_1_1_context_ae82122ba42017504ed23c4bb8f4471cb} 
+\mbox{\hyperlink{classcl_1_1_context}{Context}} \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1_context}{Context}} \&ctx)
+\begin{DoxyCompactList}\small\item\em Copy assignment to forward copy to the superclass correctly. Required for MSVC. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_context_a8f7e1c72445ca6e249bc7a6c9278984d}\label{classcl_1_1_context_a8f7e1c72445ca6e249bc7a6c9278984d} 
+{\bfseries Context} ()
+\begin{DoxyCompactList}\small\item\em Default constructor -\/ initializes to NULL. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS \mbox{\hyperlink{classcl_1_1_context_addb62b5b7e7cfa1eafd86257603df7a8}{Context}} (const cl\+\_\+context \&context)
+\begin{DoxyCompactList}\small\item\em Constructor from cl\+\_\+context -\/ takes ownership. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcl_1_1_context}{Context}} \& \mbox{\hyperlink{classcl_1_1_context_a03a8dbda2ff24417f199618fc3a90568}{operator=}} (const cl\+\_\+context \&rhs)
+\begin{DoxyCompactList}\small\item\em Assignment operator from cl\+\_\+context -\/ takes ownership. \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_context_a979d15f9228089af2a657a523b1186e8}\label{classcl_1_1_context_a979d15f9228089af2a657a523b1186e8} 
+{\footnotesize template$<$typename T $>$ }\\cl\+\_\+int {\bfseries get\+Info} (cl\+\_\+context\+\_\+info name, T \texorpdfstring{$\ast$}{*}param) const
+\begin{DoxyCompactList}\small\item\em Wrapper for cl\+Get\+Context\+Info(). \end{DoxyCompactList}\item 
+\Hypertarget{classcl_1_1_context_a4f82642c74714a1686888bab77f69493}\label{classcl_1_1_context_a4f82642c74714a1686888bab77f69493} 
+{\footnotesize template$<$cl\+\_\+int name$>$ }\\\mbox{\hyperlink{structcl_1_1detail_1_1param__traits}{detail\+::param\+\_\+traits}}$<$ detail\+::cl\+\_\+context\+\_\+info, name $>$\+::param\+\_\+type {\bfseries get\+Info} (cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL) const
+\begin{DoxyCompactList}\small\item\em Wrapper for cl\+Get\+Context\+Info() that returns by value. \end{DoxyCompactList}\item 
+cl\+\_\+int \mbox{\hyperlink{classcl_1_1_context_a0211b172b0d981cdb55e554574377b37}{get\+Supported\+Image\+Formats}} (cl\+\_\+mem\+\_\+flags flags, cl\+\_\+mem\+\_\+object\+\_\+type type, VECTOR\+\_\+\+CLASS$<$ \mbox{\hyperlink{structcl_1_1_image_format}{Image\+Format}} $>$ \texorpdfstring{$\ast$}{*}formats) const
+\begin{DoxyCompactList}\small\item\em Gets a list of supported image formats. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+context $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Wrapper} (const cl\+\_\+type \&obj)
+\item 
+{\bfseries Wrapper} (const \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \&rhs)
+\item 
+\mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \& {\bfseries operator=} (const \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \&rhs)
+\item 
+\mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{Wrapper}}$<$ cl\+\_\+type $>$ \& {\bfseries operator=} (const cl\+\_\+type \&rhs)
+\item 
+cl\+\_\+type {\bfseries operator()} () const
+\item 
+cl\+\_\+type \& {\bfseries operator()} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classcl_1_1_context}{Context}} \mbox{\hyperlink{classcl_1_1_context_ad180f6f7d8b5a95710ab72f96162b051}{get\+Default}} (cl\+\_\+int \texorpdfstring{$\ast$}{*}err=NULL)
+\begin{DoxyCompactList}\small\item\em Returns a singleton context including all devices of CL\+\_\+\+DEVICE\+\_\+\+TYPE\+\_\+\+DEFAULT. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+context $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef cl\+\_\+context {\bfseries cl\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+context $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+cl\+\_\+int {\bfseries retain} () const
+\item 
+cl\+\_\+int {\bfseries release} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classcl_1_1detail_1_1_wrapper}{cl\+::detail\+::\+Wrapper$<$ cl\+\_\+context $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+cl\+\_\+type {\bfseries object\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class interface for cl\+\_\+context. 
+
+Deprecated APIs for 1.\+2
+
+\begin{DoxyNote}{Note}
+Copies of these objects are shallow, meaning that the copy will refer to the same underlying cl\+\_\+context as the original. For details, see cl\+Retain\+Context() and cl\+Release\+Context().
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+cl\+\_\+context 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcl_1_1_context_a1a8dcea1218d900b914d8fd86d67e336}\label{classcl_1_1_context_a1a8dcea1218d900b914d8fd86d67e336} 
+\index{cl::Context@{cl::Context}!Context@{Context}}
+\index{Context@{Context}!cl::Context@{cl::Context}}
+\doxysubsubsection{\texorpdfstring{Context()}{Context()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily cl\+::\+Context\+::\+Context (\begin{DoxyParamCaption}\item[{const VECTOR\+\_\+\+CLASS$<$ \mbox{\hyperlink{classcl_1_1_device}{Device}} $>$ \&}]{devices,  }\item[{cl\+\_\+context\+\_\+properties \texorpdfstring{$\ast$}{*}}]{properties = {\ttfamily NULL},  }\item[{void(CL\+\_\+\+CALLBACK \texorpdfstring{$\ast$}{*}notify\+Fptr)(const char \texorpdfstring{$\ast$}{*}, const void \texorpdfstring{$\ast$}{*}, \+::size\+\_\+t, void \texorpdfstring{$\ast$}{*})}]{ = {\ttfamily NULL},  }\item[{void \texorpdfstring{$\ast$}{*}}]{data = {\ttfamily NULL},  }\item[{cl\+\_\+int \texorpdfstring{$\ast$}{*}}]{err = {\ttfamily NULL} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a context including a list of specified devices. 
+
+Wraps cl\+Create\+Context(). \Hypertarget{classcl_1_1_context_a674f554c347eac35295908b529aaa382}\label{classcl_1_1_context_a674f554c347eac35295908b529aaa382} 
+\index{cl::Context@{cl::Context}!Context@{Context}}
+\index{Context@{Context}!cl::Context@{cl::Context}}
+\doxysubsubsection{\texorpdfstring{Context()}{Context()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily cl\+::\+Context\+::\+Context (\begin{DoxyParamCaption}\item[{cl\+\_\+device\+\_\+type}]{type,  }\item[{cl\+\_\+context\+\_\+properties \texorpdfstring{$\ast$}{*}}]{properties = {\ttfamily NULL},  }\item[{void(CL\+\_\+\+CALLBACK \texorpdfstring{$\ast$}{*}notify\+Fptr)(const char \texorpdfstring{$\ast$}{*}, const void \texorpdfstring{$\ast$}{*}, \+::size\+\_\+t, void \texorpdfstring{$\ast$}{*})}]{ = {\ttfamily NULL},  }\item[{void \texorpdfstring{$\ast$}{*}}]{data = {\ttfamily NULL},  }\item[{cl\+\_\+int \texorpdfstring{$\ast$}{*}}]{err = {\ttfamily NULL} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a context including all or a subset of devices of a specified type. 
+
+Wraps cl\+Create\+Context\+From\+Type(). \Hypertarget{classcl_1_1_context_addb62b5b7e7cfa1eafd86257603df7a8}\label{classcl_1_1_context_addb62b5b7e7cfa1eafd86257603df7a8} 
+\index{cl::Context@{cl::Context}!Context@{Context}}
+\index{Context@{Context}!cl::Context@{cl::Context}}
+\doxysubsubsection{\texorpdfstring{Context()}{Context()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+\+CL\+\_\+\+EXPLICIT\+\_\+\+CONSTRUCTORS cl\+::\+Context\+::\+Context (\begin{DoxyParamCaption}\item[{const cl\+\_\+context \&}]{context }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor from cl\+\_\+context -\/ takes ownership. 
+
+This effectively transfers ownership of a refcount on the cl\+\_\+context into the new \doxylink{classcl_1_1_context}{Context} object. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcl_1_1_context_ad180f6f7d8b5a95710ab72f96162b051}\label{classcl_1_1_context_ad180f6f7d8b5a95710ab72f96162b051} 
+\index{cl::Context@{cl::Context}!getDefault@{getDefault}}
+\index{getDefault@{getDefault}!cl::Context@{cl::Context}}
+\doxysubsubsection{\texorpdfstring{getDefault()}{getDefault()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classcl_1_1_context}{Context}} cl\+::\+Context\+::get\+Default (\begin{DoxyParamCaption}\item[{cl\+\_\+int \texorpdfstring{$\ast$}{*}}]{err = {\ttfamily NULL} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Returns a singleton context including all devices of CL\+\_\+\+DEVICE\+\_\+\+TYPE\+\_\+\+DEFAULT. 
+
+\begin{DoxyNote}{Note}
+All calls to this function return the same cl\+\_\+context as the first. 
+\end{DoxyNote}
+\Hypertarget{classcl_1_1_context_a0211b172b0d981cdb55e554574377b37}\label{classcl_1_1_context_a0211b172b0d981cdb55e554574377b37} 
+\index{cl::Context@{cl::Context}!getSupportedImageFormats@{getSupportedImageFormats}}
+\index{getSupportedImageFormats@{getSupportedImageFormats}!cl::Context@{cl::Context}}
+\doxysubsubsection{\texorpdfstring{getSupportedImageFormats()}{getSupportedImageFormats()}}
+{\footnotesize\ttfamily cl\+\_\+int cl\+::\+Context\+::get\+Supported\+Image\+Formats (\begin{DoxyParamCaption}\item[{cl\+\_\+mem\+\_\+flags}]{flags,  }\item[{cl\+\_\+mem\+\_\+object\+\_\+type}]{type,  }\item[{VECTOR\+\_\+\+CLASS$<$ \mbox{\hyperlink{structcl_1_1_image_format}{Image\+Format}} $>$ \texorpdfstring{$\ast$}{*}}]{formats }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets a list of supported image formats. 
+
+Wraps cl\+Get\+Supported\+Image\+Formats(). \Hypertarget{classcl_1_1_context_a03a8dbda2ff24417f199618fc3a90568}\label{classcl_1_1_context_a03a8dbda2ff24417f199618fc3a90568} 
+\index{cl::Context@{cl::Context}!operator=@{operator=}}
+\index{operator=@{operator=}!cl::Context@{cl::Context}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcl_1_1_context}{Context}} \& cl\+::\+Context\+::operator= (\begin{DoxyParamCaption}\item[{const cl\+\_\+context \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Assignment operator from cl\+\_\+context -\/ takes ownership. 
+
+This effectively transfers ownership of a refcount on the rhs and calls cl\+Release\+Context() on the value previously held by this instance. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/koenkeijzer/\+Documents/\+CPM/\+Tissue-\/\+Simulation-\/\+Toolkit/src/compute/\mbox{\hyperlink{cl_8hpp}{cl.\+hpp}}\end{DoxyCompactItemize}

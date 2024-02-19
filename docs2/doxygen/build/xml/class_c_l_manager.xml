@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="class_c_l_manager" kind="class" language="C++" prot="public">
+    <compoundname>CLManager</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_c_l_manager_1a3bcaf0ba5aee13462662534a35971929" prot="public" static="no" mutable="no">
+        <type><ref refid="classcl_1_1_command_queue" kindref="compound">cl::CommandQueue</ref></type>
+        <definition>cl::CommandQueue CLManager::queue</definition>
+        <argsstring></argsstring>
+        <name>queue</name>
+        <qualifiedname>CLManager::queue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="7" column="20" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_l_manager_1af4d62ba65f4a588600a05dfc19b25c70" prot="public" static="no" mutable="no">
+        <type><ref refid="classcl_1_1_context" kindref="compound">cl::Context</ref></type>
+        <definition>cl::Context CLManager::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>CLManager::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="8" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_l_manager_1a4f1d85b398679b800bd4bd21cba5215a" prot="public" static="no" mutable="no">
+        <type><ref refid="classcl_1_1_buffer" kindref="compound">cl::Buffer</ref></type>
+        <definition>cl::Buffer CLManager::cpm</definition>
+        <argsstring></argsstring>
+        <name>cpm</name>
+        <qualifiedname>CLManager::cpm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="10" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_l_manager_1a71c4946917ec6ac0f8aa683973fd739e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CLManager::pde_AB</definition>
+        <argsstring></argsstring>
+        <name>pde_AB</name>
+        <qualifiedname>CLManager::pde_AB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="12" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_l_manager_1acf6c7909f4026d6c7a6d688a29c4737b" prot="public" static="no" mutable="no">
+        <type><ref refid="classcl_1_1_buffer" kindref="compound">cl::Buffer</ref></type>
+        <definition>cl::Buffer CLManager::pdeA</definition>
+        <argsstring></argsstring>
+        <name>pdeA</name>
+        <qualifiedname>CLManager::pdeA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="13" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_l_manager_1afae7132dac26352022dcd23997eb4dd0" prot="public" static="no" mutable="no">
+        <type><ref refid="classcl_1_1_buffer" kindref="compound">cl::Buffer</ref></type>
+        <definition>cl::Buffer CLManager::pdeB</definition>
+        <argsstring></argsstring>
+        <name>pdeB</name>
+        <qualifiedname>CLManager::pdeB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="14" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_l_manager_1af12b7dbd51e47af147c005ba57a93137" prot="public" static="no" mutable="no">
+        <type><ref refid="classcl_1_1_buffer" kindref="compound">cl::Buffer</ref></type>
+        <definition>cl::Buffer CLManager::diffco</definition>
+        <argsstring></argsstring>
+        <name>diffco</name>
+        <qualifiedname>CLManager::diffco</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="15" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_c_l_manager_1a7f35af33b71a8f354b7b4dc4264863df" prot="private" static="no" mutable="no">
+        <type><ref refid="classcl_1_1_device" kindref="compound">cl::Device</ref></type>
+        <definition>cl::Device CLManager::device</definition>
+        <argsstring></argsstring>
+        <name>device</name>
+        <qualifiedname>CLManager::device</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="20" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_l_manager_1aeac5b49c2d82560bea2cd58bb4c425f0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CLManager::context_prepared</definition>
+        <argsstring></argsstring>
+        <name>context_prepared</name>
+        <qualifiedname>CLManager::context_prepared</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="22" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_c_l_manager_1aa8263b192e18b1614790c36dbfc7a756" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcl_1_1_program" kindref="compound">cl::Program</ref></type>
+        <definition>cl::Program CLManager::make_program</definition>
+        <argsstring>(std::string filename, std::string head=&quot;&quot;)</argsstring>
+        <name>make_program</name>
+        <qualifiedname>CLManager::make_program</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>head</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="17" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.cpp" bodystart="45" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_c_l_manager_1a7c227dbe330a1e8b37ce3c71d9c7fcce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int CLManager::make_context</definition>
+        <argsstring>()</argsstring>
+        <name>make_context</name>
+        <qualifiedname>CLManager::make_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="21" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.cpp" bodystart="9" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>CLManager</label>
+        <link refid="class_c_l_manager"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>queue</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>context</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>cpm</edgelabel>
+          <edgelabel>diffco</edgelabel>
+          <edgelabel>pdeA</edgelabel>
+          <edgelabel>pdeB</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cl::detail::Wrapper&lt; cl_command_queue &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="5">
+        <label>cl::detail::Wrapper&lt; cl_context &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="8">
+        <label>cl::detail::Wrapper&lt; cl_mem &gt;</label>
+        <link refid="classcl_1_1detail_1_1_wrapper"/>
+      </node>
+      <node id="6">
+        <label>cl::Buffer</label>
+        <link refid="classcl_1_1_buffer"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cl::CommandQueue</label>
+        <link refid="classcl_1_1_command_queue"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cl::Context</label>
+        <link refid="classcl_1_1_context"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cl::Memory</label>
+        <link refid="classcl_1_1_memory"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" line="5" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl_manager.hpp" bodystart="5" bodyend="23"/>
+    <listofallmembers>
+      <member refid="class_c_l_manager_1af4d62ba65f4a588600a05dfc19b25c70" prot="public" virt="non-virtual"><scope>CLManager</scope><name>context</name></member>
+      <member refid="class_c_l_manager_1aeac5b49c2d82560bea2cd58bb4c425f0" prot="private" virt="non-virtual"><scope>CLManager</scope><name>context_prepared</name></member>
+      <member refid="class_c_l_manager_1a4f1d85b398679b800bd4bd21cba5215a" prot="public" virt="non-virtual"><scope>CLManager</scope><name>cpm</name></member>
+      <member refid="class_c_l_manager_1a7f35af33b71a8f354b7b4dc4264863df" prot="private" virt="non-virtual"><scope>CLManager</scope><name>device</name></member>
+      <member refid="class_c_l_manager_1af12b7dbd51e47af147c005ba57a93137" prot="public" virt="non-virtual"><scope>CLManager</scope><name>diffco</name></member>
+      <member refid="class_c_l_manager_1a7c227dbe330a1e8b37ce3c71d9c7fcce" prot="private" virt="non-virtual"><scope>CLManager</scope><name>make_context</name></member>
+      <member refid="class_c_l_manager_1aa8263b192e18b1614790c36dbfc7a756" prot="public" virt="non-virtual"><scope>CLManager</scope><name>make_program</name></member>
+      <member refid="class_c_l_manager_1a71c4946917ec6ac0f8aa683973fd739e" prot="public" virt="non-virtual"><scope>CLManager</scope><name>pde_AB</name></member>
+      <member refid="class_c_l_manager_1acf6c7909f4026d6c7a6d688a29c4737b" prot="public" virt="non-virtual"><scope>CLManager</scope><name>pdeA</name></member>
+      <member refid="class_c_l_manager_1afae7132dac26352022dcd23997eb4dd0" prot="public" virt="non-virtual"><scope>CLManager</scope><name>pdeB</name></member>
+      <member refid="class_c_l_manager_1a3bcaf0ba5aee13462662534a35971929" prot="public" virt="non-virtual"><scope>CLManager</scope><name>queue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

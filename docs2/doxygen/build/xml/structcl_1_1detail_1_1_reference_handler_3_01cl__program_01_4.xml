@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1detail_1_1_reference_handler_3_01cl__program_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>cl::detail::ReferenceHandler&lt; cl_program &gt;</compoundname>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structcl_1_1detail_1_1_reference_handler_3_01cl__program_01_4_1aaf548454f0e0ab20e98f93e0c1443790" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>static cl_int cl::detail::ReferenceHandler&lt; cl_program &gt;::retain</definition>
+        <argsstring>(cl_program program)</argsstring>
+        <name>retain</name>
+        <qualifiedname>cl::detail::ReferenceHandler&lt; cl_program &gt;::retain</qualifiedname>
+        <param>
+          <type>cl_program</type>
+          <declname>program</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1563" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1563" bodyend="1565"/>
+      </memberdef>
+      <memberdef kind="function" id="structcl_1_1detail_1_1_reference_handler_3_01cl__program_01_4_1ae26edbdedda89883df1baf82ab5c26da" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>static cl_int cl::detail::ReferenceHandler&lt; cl_program &gt;::release</definition>
+        <argsstring>(cl_program program)</argsstring>
+        <name>release</name>
+        <qualifiedname>cl::detail::ReferenceHandler&lt; cl_program &gt;::release</qualifiedname>
+        <param>
+          <type>cl_program</type>
+          <declname>program</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1566" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1566" bodyend="1568"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1562" column="11" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1562" bodyend="1569"/>
+    <listofallmembers>
+      <member refid="structcl_1_1detail_1_1_reference_handler_3_01cl__program_01_4_1ae26edbdedda89883df1baf82ab5c26da" prot="public" virt="non-virtual"><scope>cl::detail::ReferenceHandler&lt; cl_program &gt;</scope><name>release</name></member>
+      <member refid="structcl_1_1detail_1_1_reference_handler_3_01cl__program_01_4_1aaf548454f0e0ab20e98f93e0c1443790" prot="public" virt="non-virtual"><scope>cl::detail::ReferenceHandler&lt; cl_program &gt;</scope><name>retain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

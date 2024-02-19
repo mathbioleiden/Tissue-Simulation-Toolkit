@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="graph_8cpp" kind="file" language="C++">
+    <compoundname>graph.cpp</compoundname>
+    <includes local="no">iostream</includes>
+    <includes refid="graph_8hpp" local="yes">graph.hpp</includes>
+    <includes refid="parameter_8hpp" local="yes">parameter.hpp</includes>
+    <includes refid="random_8hpp" local="yes">random.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.cpp</label>
+        <link refid="graph_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>graph.hpp</label>
+        <link refid="graph_8hpp_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>parameter.hpp</label>
+        <link refid="parameter_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>parameters.hpp</label>
+        <link refid="parameters_8hpp_source"/>
+      </node>
+      <node id="10">
+        <label>random.hpp</label>
+        <link refid="random_8hpp_source"/>
+      </node>
+      <node id="2">
+        <label>iostream</label>
+      </node>
+      <node id="5">
+        <label>ostream</label>
+      </node>
+      <node id="9">
+        <label>parameter.tpp</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="graph_8cpp_1aaa44314cab3255916c592afc62ea291e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void start_graphics</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>start_graphics</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.cpp" line="7" column="6" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.cpp" bodystart="7" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;parameter.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;random.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>start_graphics(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**argv)<sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="class_parameter" kindref="compound">Parameter</ref><sp/>par;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>window_size_x<sp/>=<sp/>par.sizex<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>window_size_y<sp/>=<sp/>par.sizey<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>QTGRAPHICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/>QApplication<sp/>a(argc,<sp/>argv);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><ref refid="class_qt_graphics" kindref="compound">QtGraphics</ref><sp/>g(window_size_x,<sp/>window_size_y);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/>a.connect(&amp;g,<sp/>SIGNAL(SimulationDone(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)),<sp/>SLOT(quit(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/>g.show();</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/>a.exec();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>GLGRAPHICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="class_g_l_graphics" kindref="compound">GLGraphics</ref><sp/>*graphics_object;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/>glutInit(&amp;argc,<sp/>argv);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/>graphics_object<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="class_g_l_graphics" kindref="compound">GLGraphics</ref>(window_size_x,<sp/>window_size_y);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/>glutMainLoop();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>QTGLGRAPHICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/>QGuiApplication<sp/>app(argc,<sp/>argv);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><ref refid="class_qt_g_l_graphics" kindref="compound">QtGLGraphics</ref><sp/>graphics(window_size_x,<sp/>window_size_y);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/>graphics.show();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/>app.exec();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>X11GRAPHICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><ref refid="class_x11_graphics" kindref="compound">X11Graphics</ref><sp/>g(window_size_x,<sp/>window_size_y);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>par.mcs;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>g.TimeStep();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/graphics/graph.cpp"/>
+  </compounddef>
+</doxygen>

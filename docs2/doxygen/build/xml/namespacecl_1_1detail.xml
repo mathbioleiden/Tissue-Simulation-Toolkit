@@ -1,0 +1,569 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecl_1_1detail" kind="namespace" language="C++">
+    <compoundname>cl::detail</compoundname>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation__" prot="public">cl::detail::functionImplementation_</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_null_type_00_01_null_type_00_01_nuef9440cf872cfa49206345aec55f09ad" prot="public">cl::detail::functionImplementation_&lt; T0, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_null_type_00_01_null_type976790afb6cd43a46b477dbaa6c37690" prot="public">cl::detail::functionImplementation_&lt; T0, T1, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_null_type_00_01_3c1dd53f417d820e8e7f79e0e6e43940" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_null_tye7e91080ec5381eb86b6dad1933db8ee" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_02e2d91f43b17caee4c85e0cfe480cf6b" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_07150edefd2e3c81ea19f3a59d5afeda0" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_04e32c1313cc6d5853648e79e341a9b95" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_058a052ff7523a323b0c36bc04be41ac1" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0fe84ead02d0bcd4c779244e8a11c91be" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_049502b85b2c12b1b9e46020af86a2a36" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_001b475499b44e3884ba4869520ff4a4f" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0952ecc33088879a029d823fdb28962a5" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0693a344374e1cc729d7d642c217c4797" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_07da793da861de6efda0c5ef013668aba" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_06b4e7d4700ed92d76c6033b21bb53426" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0347a34949d711676b9580bc54b90fb9e" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0119b80031f65e66cb6a7049f63e61995" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0b692e5b42534b75f77dc62bd45d4471c" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0c5bdccff2376c4e65dbf601be0a7d291" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_02e0397b86d637b2eb2a2a27639d3bd7d" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_00bc8656c3a21dfb23f2db05466d0084e" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_06ff88417591e76ae209bc743223d075b" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_007aded1c077ceb6e7341ec85b07f2202" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0c335c66f80959dbf15472be3368b9f32" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, NullType, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0668421b95c44ac124458f5794d45ce5e" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, NullType, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0e699f6bc32f983b3dbb8601694ad8716" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, NullType, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0c47d12039c820db328a1eb63adda7dc4" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, NullType, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0e1f9ed5f4bce0fed2eecd96819eff69e" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, NullType, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_09ad22bbf5ec3ff70ca85c82a81e894f3" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, NullType, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_016dc3ed96ba5604ff44fcbf4b70904a7" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, NullType, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1function_implementation___3_01_t0_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_0c65074b0edbb49358e494dfca85f0c4d" prot="public">cl::detail::functionImplementation_&lt; T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, NullType &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_get_info_functor0" prot="public">cl::detail::GetInfoFunctor0</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_get_info_functor1" prot="public">cl::detail::GetInfoFunctor1</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_kernel_argument_handler" prot="public">cl::detail::KernelArgumentHandler</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_kernel_argument_handler_3_01_local_space_arg_01_4" prot="public">cl::detail::KernelArgumentHandler&lt; LocalSpaceArg &gt;</innerclass>
+    <innerclass refid="classcl_1_1detail_1_1_kernel_functor_global" prot="public">cl::detail::KernelFunctorGlobal</innerclass>
+    <innerclass refid="classcl_1_1detail_1_1_null_type" prot="public">cl::detail::NullType</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1param__traits" prot="public">cl::detail::param_traits</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler" prot="public">cl::detail::ReferenceHandler</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__command__queue_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_command_queue &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__context_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_context &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__device__id_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_device_id &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__event_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_event &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__kernel_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_kernel &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__mem_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_mem &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__platform__id_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_platform_id &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__program_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_program &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_reference_handler_3_01cl__sampler_01_4" prot="public">cl::detail::ReferenceHandler&lt; cl_sampler &gt;</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_set_arg" prot="public">cl::detail::SetArg</innerclass>
+    <innerclass refid="structcl_1_1detail_1_1_set_arg_3_01index_00_01_null_type_01_4" prot="public">cl::detail::SetArg&lt; index, NullType &gt;</innerclass>
+    <innerclass refid="classcl_1_1detail_1_1_wrapper" prot="public">cl::detail::Wrapper</innerclass>
+    <innerclass refid="classcl_1_1detail_1_1_wrapper_3_01cl__device__id_01_4" prot="public">cl::detail::Wrapper&lt; cl_device_id &gt;</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="cl_8hpp_1a55595b6b20a48d4e36ddd4553ab092a4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>static cl_int cl::detail::errHandler</definition>
+        <argsstring>(cl_int err, const char *errStr=NULL)</argsstring>
+        <name>errHandler</name>
+        <qualifiedname>cl::detail::errHandler</qualifiedname>
+        <param>
+          <type>cl_int</type>
+          <declname>err</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>errStr</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="327" column="22" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="327" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a73567071e9d89067f89c0b20f65b6d85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int cl::detail::compare_exchange</definition>
+        <argsstring>(volatile int *dest, int exchange, int comparand)</argsstring>
+        <name>compare_exchange</name>
+        <qualifiedname>cl::detail::compare_exchange</qualifiedname>
+        <param>
+          <type>volatile int *</type>
+          <declname>dest</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>exchange</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>comparand</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="932" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="932" bodyend="944"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a9b2cb5076342ab847896b34c95efb31e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void cl::detail::fence</definition>
+        <argsstring>()</argsstring>
+        <name>fence</name>
+        <qualifiedname>cl::detail::fence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="946" column="13" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="946" bodyend="954"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a5fa0595cfd70a34a662283c683f58bb1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Functor</type>
+          </param>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfoHelper</definition>
+        <argsstring>(Functor f, cl_uint name, T *param, long)</argsstring>
+        <name>getInfoHelper</name>
+        <qualifiedname>cl::detail::getInfoHelper</qualifiedname>
+        <param>
+          <type>Functor</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type>long</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="991" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="991" bodyend="993"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a24dee3a7b9cf7eda61a275609ebff0a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfoHelper</definition>
+        <argsstring>(Func f, cl_uint name, VECTOR_CLASS&lt; T &gt; *param, long)</argsstring>
+        <name>getInfoHelper</name>
+        <qualifiedname>cl::detail::getInfoHelper</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>VECTOR_CLASS&lt; T &gt; *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type>long</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="997" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="997" bodyend="1013"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a2c48548bbf2574f1b13830f68780ecfd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfoHelper</definition>
+        <argsstring>(Func f, cl_uint name, VECTOR_CLASS&lt; T &gt; *param, int, typename T::cl_type=0)</argsstring>
+        <name>getInfoHelper</name>
+        <qualifiedname>cl::detail::getInfoHelper</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>VECTOR_CLASS&lt; T &gt; *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>typename T::cl_type</type>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1022" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1022" bodyend="1047"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a9ccb36065fd82620cb54bc26aeff2e73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfoHelper</definition>
+        <argsstring>(Func f, cl_uint name, VECTOR_CLASS&lt; char * &gt; *param, int)</argsstring>
+        <name>getInfoHelper</name>
+        <qualifiedname>cl::detail::getInfoHelper</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>VECTOR_CLASS&lt; char * &gt; *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1051" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1051" bodyend="1060"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a3f9e8b3d7e23f848bbba3d122a48c71e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfoHelper</definition>
+        <argsstring>(Func f, cl_uint name, STRING_CLASS *param, long)</argsstring>
+        <name>getInfoHelper</name>
+        <qualifiedname>cl::detail::getInfoHelper</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacecl_1ad3ff55c5fe80ec84842876af323559c7" kindref="member">STRING_CLASS</ref> *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type>long</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1064" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1064" bodyend="1099"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1af7a0f3bcad6fe6232cf770142ce24eb6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>::size_t</type>
+            <declname>N</declname>
+            <defname>N</defname>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfoHelper</definition>
+        <argsstring>(Func f, cl_uint name, size_t&lt; N &gt; *param, long)</argsstring>
+        <name>getInfoHelper</name>
+        <qualifiedname>cl::detail::getInfoHelper</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classcl_1_1size__t" kindref="compound">size_t</ref>&lt; N &gt; *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type>long</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1103" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1103" bodyend="1121"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1abcfe70e7b9beebd31b874fc0e59ab147" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfoHelper</definition>
+        <argsstring>(Func f, cl_uint name, T *param, int, typename T::cl_type=0)</argsstring>
+        <name>getInfoHelper</name>
+        <qualifiedname>cl::detail::getInfoHelper</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>typename T::cl_type</type>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1132" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1132" bodyend="1147"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a5954b0e110a023571c1bed2be1efb480" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfo</definition>
+        <argsstring>(Func f, cl_uint name, T *param)</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>cl::detail::getInfo</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1445" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1445" bodyend="1447"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a7d4625d32a9763da801a3f1c2a75ab99" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename Arg0</type>
+          </param>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfo</definition>
+        <argsstring>(Func f, const Arg0 &amp;arg0, cl_uint name, T *param)</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>cl::detail::getInfo</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>const Arg0 &amp;</type>
+          <declname>arg0</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1469" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1469" bodyend="1472"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a590a1c0214938e7466f69fae3312c342" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename Arg0</type>
+          </param>
+          <param>
+            <type>typename Arg1</type>
+          </param>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::getInfo</definition>
+        <argsstring>(Func f, const Arg0 &amp;arg0, const Arg1 &amp;arg1, cl_uint name, T *param)</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>cl::detail::getInfo</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>const Arg0 &amp;</type>
+          <declname>arg0</declname>
+        </param>
+        <param>
+          <type>const Arg1 &amp;</type>
+          <declname>arg1</declname>
+        </param>
+        <param>
+          <type>cl_uint</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1475" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1475" bodyend="1479"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a10d6e589acad7a6cb0179c919d156c0e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>cl_uint</type>
+        <definition>static cl_uint cl::detail::getVersion</definition>
+        <argsstring>(const char *versionInfo)</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>cl::detail::getVersion</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>versionInfo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1583" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1583" bodyend="1599"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1ac6e0d51b5492fb1e1134fb075d60f135" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>cl_uint</type>
+        <definition>static cl_uint cl::detail::getPlatformVersion</definition>
+        <argsstring>(cl_platform_id platform)</argsstring>
+        <name>getPlatformVersion</name>
+        <qualifiedname>cl::detail::getPlatformVersion</qualifiedname>
+        <param>
+          <type>cl_platform_id</type>
+          <declname>platform</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1601" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1601" bodyend="1608"/>
+      </memberdef>
+      <memberdef kind="function" id="cl_8hpp_1a66acb3b174cb4de50019e0cbb49f9ce4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>cl_uint</type>
+        <definition>static cl_uint cl::detail::getDevicePlatformVersion</definition>
+        <argsstring>(cl_device_id device)</argsstring>
+        <name>getDevicePlatformVersion</name>
+        <qualifiedname>cl::detail::getDevicePlatformVersion</qualifiedname>
+        <param>
+          <type>cl_device_id</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1610" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1610" bodyend="1615"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="318" column="1"/>
+  </compounddef>
+</doxygen>

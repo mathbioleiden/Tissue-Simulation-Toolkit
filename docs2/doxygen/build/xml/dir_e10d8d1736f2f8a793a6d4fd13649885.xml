@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_e10d8d1736f2f8a793a6d4fd13649885" kind="dir">
+    <compoundname>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute</compoundname>
+    <innerfile refid="cl_8hpp">cl.hpp</innerfile>
+    <innerfile refid="cl__manager_8cpp">cl_manager.cpp</innerfile>
+    <innerfile refid="cl__manager_8hpp">cl_manager.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/"/>
+  </compounddef>
+</doxygen>

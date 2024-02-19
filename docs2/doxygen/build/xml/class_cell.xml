@@ -1,0 +1,2180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="class_cell" kind="class" language="C++" prot="public">
+    <compoundname>Cell</compoundname>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="class_cell_1aed9cb4dbc4f47dbc026e3287f7c2831b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Dish</definition>
+        <argsstring></argsstring>
+        <name>Dish</name>
+        <qualifiedname>Cell::Dish</qualifiedname>
+        <param>
+          <type><ref refid="class_dish" kindref="compound">Dish</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="35" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="class_cell_1ac0d1ad5d66ebb242178dd5da9c9d6fca" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class CellularPotts</definition>
+        <argsstring></argsstring>
+        <name>CellularPotts</name>
+        <qualifiedname>Cell::CellularPotts</qualifiedname>
+        <param>
+          <type><ref refid="class_cellular_potts" kindref="compound">CellularPotts</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="36" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="class_cell_1a4838ff865b8d8625c61d208a420f8212" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Info</definition>
+        <argsstring></argsstring>
+        <name>Info</name>
+        <qualifiedname>Cell::Info</qualifiedname>
+        <param>
+          <type><ref refid="class_info" kindref="compound">Info</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="37" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="class_cell_1a326e329be4ec9ba0cb88d0426291d89d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class IO</definition>
+        <argsstring></argsstring>
+        <name>IO</name>
+        <qualifiedname>Cell::IO</qualifiedname>
+        <param>
+          <type><ref refid="class_i_o" kindref="compound">IO</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="38" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_cell_1ad740a0c567d6adc4f5a4446f6066aefa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Cell::polarvec[9]</definition>
+        <argsstring>[9]</argsstring>
+        <name>polarvec</name>
+        <qualifiedname>Cell::polarvec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="245" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cell_1a3a62f75d92e0a0225554c963e543f428" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::colour</definition>
+        <argsstring></argsstring>
+        <name>colour</name>
+        <qualifiedname>Cell::colour</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="539" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a516ed0ccc2782e870bfe6ba56d15d86b" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Cell::alive</definition>
+        <argsstring></argsstring>
+        <name>alive</name>
+        <qualifiedname>Cell::alive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="540" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="540" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ab33b3a598d18d996805c9e9b255534af" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::sigma</definition>
+        <argsstring></argsstring>
+        <name>sigma</name>
+        <qualifiedname>Cell::sigma</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="541" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a2126c6575810792e5d287223ca86c0f0" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::tau</definition>
+        <argsstring></argsstring>
+        <name>tau</name>
+        <qualifiedname>Cell::tau</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="542" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="542" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a10a70197c4e757ad39177b146b5c2a67" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Cell::length</definition>
+        <argsstring></argsstring>
+        <name>length</name>
+        <qualifiedname>Cell::length</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="545" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a82397282c1f177eb3f1c52184b1a48a2" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Cell::target_length</definition>
+        <argsstring></argsstring>
+        <name>target_length</name>
+        <qualifiedname>Cell::target_length</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="546" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a74435ead6958823c8c2f3e8f55d4429a" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::mother</definition>
+        <argsstring></argsstring>
+        <name>mother</name>
+        <qualifiedname>Cell::mother</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="562" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="562" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a90a992f97f2316d043904caaffd7e439" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::daughter</definition>
+        <argsstring></argsstring>
+        <name>daughter</name>
+        <qualifiedname>Cell::daughter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="563" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="563" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ab184f2651d0e764bf957b9a3f2e59df9" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::times_divided</definition>
+        <argsstring></argsstring>
+        <name>times_divided</name>
+        <qualifiedname>Cell::times_divided</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="564" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="564" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a9c97f4e44e305b2f39e953ba607e729a" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::date_of_birth</definition>
+        <argsstring></argsstring>
+        <name>date_of_birth</name>
+        <qualifiedname>Cell::date_of_birth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="565" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="565" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a7e116fda8ff80b6ebb03b9c43584a68c" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::colour_of_birth</definition>
+        <argsstring></argsstring>
+        <name>colour_of_birth</name>
+        <qualifiedname>Cell::colour_of_birth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="566" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="566" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ab8c82c118a975064f24933950c225133" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::area</definition>
+        <argsstring></argsstring>
+        <name>area</name>
+        <qualifiedname>Cell::area</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="568" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="568" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a8b499ccc349212bde880a1ebfcd61d31" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::target_area</definition>
+        <argsstring></argsstring>
+        <name>target_area</name>
+        <qualifiedname>Cell::target_area</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="569" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a966a0da984bd36cb526f2e867a0c39be" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::adhesive_area</definition>
+        <argsstring></argsstring>
+        <name>adhesive_area</name>
+        <qualifiedname>Cell::adhesive_area</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="570" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="570" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a1dd8ef08cc6729067cedd63d0fb8aeb7" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::ref_adhesive_area</definition>
+        <argsstring></argsstring>
+        <name>ref_adhesive_area</name>
+        <qualifiedname>Cell::ref_adhesive_area</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="571" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="571" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ac0ec22ca2c2b77be00ade91ec2c176e2" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::growth_threshold</definition>
+        <argsstring></argsstring>
+        <name>growth_threshold</name>
+        <qualifiedname>Cell::growth_threshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="572" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="572" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1af5b765beb3a7ce557624f5fdff14a852" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::perimeter</definition>
+        <argsstring></argsstring>
+        <name>perimeter</name>
+        <qualifiedname>Cell::perimeter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="574" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="574" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ac264b167460ad919c37dcdb20eae502e" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::target_perimeter</definition>
+        <argsstring></argsstring>
+        <name>target_perimeter</name>
+        <qualifiedname>Cell::target_perimeter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="575" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="575" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ae2955e9ae15e9e549eaea9fb093fce33" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Cell::v[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>v</name>
+        <qualifiedname>Cell::v</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="577" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="577" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ac374476768b00e014877a8ff9097ebb8" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Cell::n_copies</definition>
+        <argsstring></argsstring>
+        <name>n_copies</name>
+        <qualifiedname>Cell::n_copies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="578" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="578" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1aba7f037648153483d44f04d3cea7ef37" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Cell::grad[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>grad</name>
+        <qualifiedname>Cell::grad</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="580" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="580" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a67e85d8f9025fc82f44ce7e266021133" prot="protected" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* Cell::chem</definition>
+        <argsstring></argsstring>
+        <name>chem</name>
+        <qualifiedname>Cell::chem</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="581" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="581" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a353ab5a64fff6d6474053135faaa1b4f" prot="protected" static="no" mutable="no">
+        <type>long int</type>
+        <definition>long int Cell::sum_x</definition>
+        <argsstring></argsstring>
+        <name>sum_x</name>
+        <qualifiedname>Cell::sum_x</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="589" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="589" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ac1e03d62523446833f65ea7644e7b349" prot="protected" static="no" mutable="no">
+        <type>long int</type>
+        <definition>long int Cell::sum_y</definition>
+        <argsstring></argsstring>
+        <name>sum_y</name>
+        <qualifiedname>Cell::sum_y</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="590" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="590" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ac2393f2cef20f69299d2d5554b65d1db" prot="protected" static="no" mutable="no">
+        <type>long int</type>
+        <definition>long int Cell::sum_xx</definition>
+        <argsstring></argsstring>
+        <name>sum_xx</name>
+        <qualifiedname>Cell::sum_xx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="591" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="591" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a7d1d8b070b6359988a7a52ee5487a356" prot="protected" static="no" mutable="no">
+        <type>long int</type>
+        <definition>long int Cell::sum_yy</definition>
+        <argsstring></argsstring>
+        <name>sum_yy</name>
+        <qualifiedname>Cell::sum_yy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="592" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="592" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ab0045032513131a0aace38724fde0dbf" prot="protected" static="no" mutable="no">
+        <type>long int</type>
+        <definition>long int Cell::sum_xy</definition>
+        <argsstring></argsstring>
+        <name>sum_xy</name>
+        <qualifiedname>Cell::sum_xy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="593" column="12" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="593" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1adda0955a75d9a2b8047a362a5b27a521" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Cell::border</definition>
+        <argsstring></argsstring>
+        <name>border</name>
+        <qualifiedname>Cell::border</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="595" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="595" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a5ba3270256dca27969f1888cd9eb7a35" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="class_dish" kindref="compound">Dish</ref> *</type>
+        <definition>const Dish* Cell::owner</definition>
+        <argsstring></argsstring>
+        <name>owner</name>
+        <qualifiedname>Cell::owner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="597" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="597" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_cell_1a7c7fb58882da8d7185438d4dcf44b291" prot="protected" static="yes" mutable="no">
+        <type>int **</type>
+        <definition>int ** Cell::J</definition>
+        <argsstring></argsstring>
+        <name>J</name>
+        <qualifiedname>Cell::J</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="550" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1aca2b6fa3035757ea4c2cd8f30f7610ae" prot="protected" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int Cell::maxtau</definition>
+        <argsstring></argsstring>
+        <name>maxtau</name>
+        <qualifiedname>Cell::maxtau</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="551" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a92a252a4aec7850e2bea34fcfd6ec5f0" prot="protected" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int Cell::amount</definition>
+        <argsstring></argsstring>
+        <name>amount</name>
+        <qualifiedname>Cell::amount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="556" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="556" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1a13afbf7c2a81d591cc414e8cc6965ad4" prot="protected" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int Cell::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>Cell::capacity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="557" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cell_1ab423587adbfdc733ae4311c7e1ed3065" prot="protected" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int Cell::maxsigma</definition>
+        <argsstring></argsstring>
+        <name>maxsigma</name>
+        <qualifiedname>Cell::maxsigma</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="558" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="558" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_cell_1a822aecd83d8aa95fab97641a88e60225" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Cell::Cell</definition>
+        <argsstring>(const Dish &amp;who, int settau=1)</argsstring>
+        <name>Cell</name>
+        <qualifiedname>Cell::Cell</qualifiedname>
+        <param>
+          <type>const <ref refid="class_dish" kindref="compound">Dish</ref> &amp;</type>
+          <declname>who</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>settau</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Constructor to insert a cell into <ref refid="class_dish" kindref="compound">Dish</ref> &quot;who&quot; Used to add a new <ref refid="class_cell" kindref="compound">Cell</ref> to the dish: new <ref refid="class_cell" kindref="compound">Cell(dish,
+celtype)</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="45" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1aab24f3f223f86c03968096edbd40a9f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Cell::Cell</definition>
+        <argsstring>(void)</argsstring>
+        <name>Cell</name>
+        <qualifiedname>Cell::Cell</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="50" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a4206c923493126fb2f01c8cf53c78e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Cell::~Cell</definition>
+        <argsstring>(void)</argsstring>
+        <name>~Cell</name>
+        <qualifiedname>Cell::~Cell</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="52" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.cpp" bodystart="52" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a8a36eee6405552ddb5a27d2ce1a7272c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Cell::Cell</definition>
+        <argsstring>(const Cell &amp;src)</argsstring>
+        <name>Cell</name>
+        <qualifiedname>Cell::Cell</qualifiedname>
+        <param>
+          <type>const <ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Default copy constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="55" column="3" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="55" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a387af5e97fced410b231aa730d87dd33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::CellBirth</definition>
+        <argsstring>(Cell &amp;mother)</argsstring>
+        <name>CellBirth</name>
+        <qualifiedname>Cell::CellBirth</qualifiedname>
+        <param>
+          <type><ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+          <declname>mother</declname>
+        </param>
+        <briefdescription>
+<para>Add a new cell to the dish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call it as: new <ref refid="class_cell" kindref="compound">Cell(parent, true)</ref>; mother will be modified for ancestry administration!</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>settau</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_cell" kindref="compound">Cell</ref> type of daughter cell. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="99" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.cpp" bodystart="66" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a351061fe41e3da9a7baa081b32ac0581" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+        <definition>Cell &amp; Cell::operator=</definition>
+        <argsstring>(const Cell &amp;src)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>Cell::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Assignment operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called if one cell is assigned to another. Remember to change both assignment operator and copy constructor when adding new attributes to <ref refid="class_cell" kindref="compound">Cell</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="107" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="107" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ade77ea0722ba814fc84c144e086595ae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Cell::AliveP</definition>
+        <argsstring>(void) const</argsstring>
+        <name>AliveP</name>
+        <qualifiedname>Cell::AliveP</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns false if <ref refid="class_cell" kindref="compound">Cell</ref> has apoptosed (vanished). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="141" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a340d0f54404eb809d75f38a2da8aec56" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::Colour</definition>
+        <argsstring>(void) const</argsstring>
+        <name>Colour</name>
+        <qualifiedname>Cell::Colour</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the cell colour. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="144" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="144" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1af3a3882fdf4e48130af67184cc70fe9d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::setTau</definition>
+        <argsstring>(int settau)</argsstring>
+        <name>setTau</name>
+        <qualifiedname>Cell::setTau</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>settau</declname>
+        </param>
+        <briefdescription>
+<para>Set cell type of this <ref refid="class_cell" kindref="compound">Cell</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="152" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ac4e9f38d7041e9cf42100930698f6a1f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::SetAdhesiveArea</definition>
+        <argsstring>(int new_area)</argsstring>
+        <name>SetAdhesiveArea</name>
+        <qualifiedname>Cell::SetAdhesiveArea</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>new_area</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="154" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a93e90b450545ec4b0c7fd6b69809ed57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::GetAdhesiveArea</definition>
+        <argsstring>()</argsstring>
+        <name>GetAdhesiveArea</name>
+        <qualifiedname>Cell::GetAdhesiveArea</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="156" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a5c3cb78c1c034dba41e1704d2a67a663" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::SetBorderNumber</definition>
+        <argsstring>(double n)</argsstring>
+        <name>SetBorderNumber</name>
+        <qualifiedname>Cell::SetBorderNumber</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="158" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a4bedbebd1d69446af56cbc10118c3461" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::GetBorderNumber</definition>
+        <argsstring>()</argsstring>
+        <name>GetBorderNumber</name>
+        <qualifiedname>Cell::GetBorderNumber</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="159" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a174383c89c2dd78964f0b787b730722a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::IncrementBorderNumber</definition>
+        <argsstring>(double n)</argsstring>
+        <name>IncrementBorderNumber</name>
+        <qualifiedname>Cell::IncrementBorderNumber</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="160" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a05ffecff7700480faaf8cd907049e5aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::DecrementBorderNumber</definition>
+        <argsstring>(double n)</argsstring>
+        <name>DecrementBorderNumber</name>
+        <qualifiedname>Cell::DecrementBorderNumber</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="161" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a9fbfdfe12c82591083e673987d35570a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::getTau</definition>
+        <argsstring>(void)</argsstring>
+        <name>getTau</name>
+        <qualifiedname>Cell::getTau</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Get cell type of this <ref refid="class_cell" kindref="compound">Cell</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="164" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1abaaa9503d4189a31cff2e1ae204c61cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::getCenterX</definition>
+        <argsstring>(void)</argsstring>
+        <name>getCenterX</name>
+        <qualifiedname>Cell::getCenterX</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="166" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a162425e5630eac0393e3b519ba2cd0ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::getSumX</definition>
+        <argsstring>(void)</argsstring>
+        <name>getSumX</name>
+        <qualifiedname>Cell::getSumX</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="168" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a6f77adc7f454b4bc35bcc343fcef21ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::getSumY</definition>
+        <argsstring>(void)</argsstring>
+        <name>getSumY</name>
+        <qualifiedname>Cell::getSumY</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="169" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a03d9caf050695c24d7af6b62d0a9d628" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::getCenterY</definition>
+        <argsstring>(void)</argsstring>
+        <name>getCenterY</name>
+        <qualifiedname>Cell::getCenterY</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="181" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1aeafe2f67bdc876223f8871eb9f3e16ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::SetColour</definition>
+        <argsstring>(const int new_colour)</argsstring>
+        <name>SetColour</name>
+        <qualifiedname>Cell::SetColour</qualifiedname>
+        <param>
+          <type>const int</type>
+          <declname>new_colour</declname>
+        </param>
+        <briefdescription>
+<para>Set color of this cell to new_colour, irrespective of type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="189" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1af18bc7d48b0898a2221de4e4ec8a7b7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::EnergyDifference</definition>
+        <argsstring>(const Cell &amp;cell2) const</argsstring>
+        <name>EnergyDifference</name>
+        <qualifiedname>Cell::EnergyDifference</qualifiedname>
+        <param>
+          <type>const <ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+          <declname>cell2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="195" column="7" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.cpp" bodystart="184" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a04ef81805a0166850b928c1b9f1befe6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::Area</definition>
+        <argsstring>() const</argsstring>
+        <name>Area</name>
+        <qualifiedname>Cell::Area</qualifiedname>
+        <briefdescription>
+<para>Return <ref refid="class_cell" kindref="compound">Cell</ref>&apos;s actual area. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="198" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a89c1434b90e43eb5addbfa7840daf81d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::TargetArea</definition>
+        <argsstring>() const</argsstring>
+        <name>TargetArea</name>
+        <qualifiedname>Cell::TargetArea</qualifiedname>
+        <briefdescription>
+<para>Return <ref refid="class_cell" kindref="compound">Cell</ref>&apos;s target area. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="201" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a54c99795fc4f9964b75cf2847ed6e820" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::Perimeter</definition>
+        <argsstring>()</argsstring>
+        <name>Perimeter</name>
+        <qualifiedname>Cell::Perimeter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="204" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a0c582fad9fe4808a04b03970377dedc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::TargetPerimeter</definition>
+        <argsstring>()</argsstring>
+        <name>TargetPerimeter</name>
+        <qualifiedname>Cell::TargetPerimeter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="207" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a5c2af99edf15bf8962236d43469ee37d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::SetTargetPerimeter</definition>
+        <argsstring>(const int new_perimeter)</argsstring>
+        <name>SetTargetPerimeter</name>
+        <qualifiedname>Cell::SetTargetPerimeter</qualifiedname>
+        <param>
+          <type>const int</type>
+          <declname>new_perimeter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="209" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="209" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a56e35974c7d334b8e34bb16ea7e3fc49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::SetPerimeter</definition>
+        <argsstring>(const int new_perimeter)</argsstring>
+        <name>SetPerimeter</name>
+        <qualifiedname>Cell::SetPerimeter</qualifiedname>
+        <param>
+          <type>const int</type>
+          <declname>new_perimeter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="213" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="213" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ad51763beabd21428946df72ff57269fa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::TargetLength</definition>
+        <argsstring>() const</argsstring>
+        <name>TargetLength</name>
+        <qualifiedname>Cell::TargetLength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="217" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1af4cacfabcefaec22f4c875bf7566f67d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::SetTargetLength</definition>
+        <argsstring>(double l)</argsstring>
+        <name>SetTargetLength</name>
+        <qualifiedname>Cell::SetTargetLength</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+<para>Set the <ref refid="class_cell" kindref="compound">Cell</ref>&apos;s target length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="220" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a4cdc14c24736d472c100a3382c3577c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::PrintInertia</definition>
+        <argsstring>(void)</argsstring>
+        <name>PrintInertia</name>
+        <qualifiedname>Cell::PrintInertia</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Debugging function used to print the cell&apos;s current inertia tensor (as used for calculations of the length ) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="224" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="224" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ac038876b1cc38b8efea7338c853b98ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::Length</definition>
+        <argsstring>(void)</argsstring>
+        <name>Length</name>
+        <qualifiedname>Cell::Length</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="235" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="235" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1aa7117746e515e58cddc97362a9e244b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::RenormPolarVec</definition>
+        <argsstring>(void)</argsstring>
+        <name>RenormPolarVec</name>
+        <qualifiedname>Cell::RenormPolarVec</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="246" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a8253cf71ca6b44d78c7b9d45721a286b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::Sigma</definition>
+        <argsstring>() const</argsstring>
+        <name>Sigma</name>
+        <qualifiedname>Cell::Sigma</qualifiedname>
+        <briefdescription>
+<para>Returns the cell&apos;s cell identity number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="255" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a0f78f87720f0eca3520678bea6194b9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::SetTargetArea</definition>
+        <argsstring>(const int new_area)</argsstring>
+        <name>SetTargetArea</name>
+        <qualifiedname>Cell::SetTargetArea</qualifiedname>
+        <param>
+          <type>const int</type>
+          <declname>new_area</declname>
+        </param>
+        <briefdescription>
+<para>Sets the target area of the cell. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="258" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="258" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a2b598309713229d89b14d7c1aa7d151a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::Apoptose</definition>
+        <argsstring>()</argsstring>
+        <name>Apoptose</name>
+        <qualifiedname>Cell::Apoptose</qualifiedname>
+        <briefdescription>
+<para>Sends the current cell into apoptosis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="263" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a89086e3c8e2c7619030f86b0fcd2a0b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::IncrementTargetArea</definition>
+        <argsstring>()</argsstring>
+        <name>IncrementTargetArea</name>
+        <qualifiedname>Cell::IncrementTargetArea</qualifiedname>
+        <briefdescription>
+<para>Decrement the cell&apos;s target area by one unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="266" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a9b90cf417c4fb1df8b4b005e6858a754" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::DecrementTargetArea</definition>
+        <argsstring>()</argsstring>
+        <name>DecrementTargetArea</name>
+        <qualifiedname>Cell::DecrementTargetArea</qualifiedname>
+        <briefdescription>
+<para>Increment the cell&apos;s target area by one unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="268" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a8a555f0a92c9463548118e01371b83dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::Mother</definition>
+        <argsstring>(void) const</argsstring>
+        <name>Mother</name>
+        <qualifiedname>Cell::Mother</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para><ref refid="class_cell" kindref="compound">Cell</ref> lineage tracking: get the cell&apos;s parent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="271" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a82167c3e1b4470d8b53ad9f94b31c715" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::Daughter</definition>
+        <argsstring>(void) const</argsstring>
+        <name>Daughter</name>
+        <qualifiedname>Cell::Daughter</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para><ref refid="class_cell" kindref="compound">Cell</ref> lineage tracking: get the cell&apos;s daughter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="274" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="274" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ab17fc62a0abbc8fd7677be6400c42c9c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::TimesDivided</definition>
+        <argsstring>(void) const</argsstring>
+        <name>TimesDivided</name>
+        <qualifiedname>Cell::TimesDivided</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns a counter keeping track of the number of divisions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="277" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="277" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ae5e0dd938e98194cecf4c7a824aec46b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::DateOfBirth</definition>
+        <argsstring>(void) const</argsstring>
+        <name>DateOfBirth</name>
+        <qualifiedname>Cell::DateOfBirth</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns Monte Carlo Step (MCS) when this cell originated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="280" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="280" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1acfac036798be1bc5068a7240f861d09a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::ColourOfBirth</definition>
+        <argsstring>(void) const</argsstring>
+        <name>ColourOfBirth</name>
+        <qualifiedname>Cell::ColourOfBirth</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the cell type at the time of birth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="283" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a4c43f50dcf2ef91c4e812d29c7d6d6ad" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::GetJ</definition>
+        <argsstring>(const Cell &amp;c2) const</argsstring>
+        <name>GetJ</name>
+        <qualifiedname>Cell::GetJ</qualifiedname>
+        <param>
+          <type>const <ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+          <declname>c2</declname>
+        </param>
+        <briefdescription>
+<para>Returns the bond energy J between this cell and cell c2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="286" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="286" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1adab03cbda7ceee7924b21c97488308e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double *</type>
+        <definition>double * Cell::SetGrad</definition>
+        <argsstring>(double *g)</argsstring>
+        <name>SetGrad</name>
+        <qualifiedname>Cell::SetGrad</qualifiedname>
+        <param>
+          <type>double *</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>Set the current gradient of the cell to g. Currently not in use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="296" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="296" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a0787b5ffd8811a5b750042d7681b4bc0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const double *</type>
+        <definition>const double * Cell::GetGrad</definition>
+        <argsstring>(void) const</argsstring>
+        <name>GetGrad</name>
+        <qualifiedname>Cell::GetGrad</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the cell&apos;s measured gradient. Currently not in use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="303" column="23" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a9e28fe1be875ed24c060ca9ecb275cd9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::GradX</definition>
+        <argsstring>() const</argsstring>
+        <name>GradX</name>
+        <qualifiedname>Cell::GradX</qualifiedname>
+        <briefdescription>
+<para>Returns the cell&apos;s measured gradient. Currently not in use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="306" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="306" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a1bde26a220fbe70969333729446afa5c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::GradY</definition>
+        <argsstring>() const</argsstring>
+        <name>GradY</name>
+        <qualifiedname>Cell::GradY</qualifiedname>
+        <briefdescription>
+<para>Returns the cell&apos;s measured gradient. Currently not in use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="309" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="309" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a43a174450c9f7f5cb582d2e9eb39cb19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double *</type>
+        <definition>double * Cell::AddToGrad</definition>
+        <argsstring>(double *g)</argsstring>
+        <name>AddToGrad</name>
+        <qualifiedname>Cell::AddToGrad</qualifiedname>
+        <param>
+          <type>double *</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>Currently not in use (remove?) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="312" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="312" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a9c3fd8e71b9272d5229e3fad2761c321" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::ClearGrad</definition>
+        <argsstring>(void)</argsstring>
+        <name>ClearGrad</name>
+        <qualifiedname>Cell::ClearGrad</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Currently not in use (remove?) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="319" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="319" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a8e798cf1b3cacb03713a9e45bca961e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::MeasureCellSize</definition>
+        <argsstring>(Cell &amp;c)</argsstring>
+        <name>MeasureCellSize</name>
+        <qualifiedname>Cell::MeasureCellSize</qualifiedname>
+        <param>
+          <type><ref refid="class_cell" kindref="compound">Cell</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>After introducing a new <ref refid="class_cell" kindref="compound">Cell</ref> (e.g. with GrowInCell) call this function to set the moments and areas right. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="327" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a6770a2b70404fa64595d2eeb8f47f682" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::setArea</definition>
+        <argsstring>(int n_area)</argsstring>
+        <name>setArea</name>
+        <qualifiedname>Cell::setArea</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n_area</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="329" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="329" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a6db0b354f2b49457d96e5d64ce9a34f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::IncrementAdhesiveArea</definition>
+        <argsstring>(int increment)</argsstring>
+        <name>IncrementAdhesiveArea</name>
+        <qualifiedname>Cell::IncrementAdhesiveArea</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>increment</declname>
+        </param>
+        <briefdescription>
+<para>Increments the cell&apos;s actual adhesive area by 1 unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="332" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="332" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a8a75e9e4131ee1575237d6e6b7c2ebce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::DecrementAdhesiveArea</definition>
+        <argsstring>(int decrement)</argsstring>
+        <name>DecrementAdhesiveArea</name>
+        <qualifiedname>Cell::DecrementAdhesiveArea</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>decrement</declname>
+        </param>
+        <briefdescription>
+<para>Decrement the cell&apos;s actual adhesive area by 1 unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="337" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="337" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_cell_1a8baa793d28c592ee85d63ad52ac2fb7d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::ClearJ</definition>
+        <argsstring>(void)</argsstring>
+        <name>ClearJ</name>
+        <qualifiedname>Cell::ClearJ</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Clears the table of J&apos;s. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is only important for a feature called &quot;DynamicJ&apos;s&quot;, where J-values depend on internal states of the cells (such as a genetic network; see e.g. Hogeweg et al. 2000). The current version of TST does not include such functionality. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="244" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.cpp" bodystart="190" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a8b1e24a10e09376d69e7e52a39c5fad1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int Cell::MaxSigma</definition>
+        <argsstring>()</argsstring>
+        <name>MaxSigma</name>
+        <qualifiedname>Cell::MaxSigma</qualifiedname>
+        <briefdescription>
+<para>Returns the maximum cell identity number in the <ref refid="class_dish" kindref="compound">Dish</ref>. This would normally be the number of cells in the <ref refid="class_dish" kindref="compound">Dish</ref>, although the number includes apoptosed cells. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="252" column="21" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a98f324f5c5829e53188c589373dc9f98" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int Cell::SetJ</definition>
+        <argsstring>(int t1, int t2, int val)</argsstring>
+        <name>SetJ</name>
+        <qualifiedname>Cell::SetJ</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>t1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>t2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Sets bond energy J between cell type t1 and t2 to val. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="289" column="21" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="289" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_cell_1ad1bbaba199c53212951c250b4d698091" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::ReadStaticJTable</definition>
+        <argsstring>(std::string const &amp;fname)</argsstring>
+        <name>ReadStaticJTable</name>
+        <qualifiedname>Cell::ReadStaticJTable</qualifiedname>
+        <param>
+          <type>std::string const &amp;</type>
+          <declname>fname</declname>
+        </param>
+        <briefdescription>
+<para>Read a table of static Js. First line: number of types (including medium) Next lines: diagonal matrix, starting with 1 element (0 0) ending with n elements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="346" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.cpp" bodystart="150" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a71729c3573c58ea678f98def5c07eb3f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int Cell::MaxTau</definition>
+        <argsstring>(void)</argsstring>
+        <name>MaxTau</name>
+        <qualifiedname>Cell::MaxTau</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="531" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="531" bodyend="531"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_cell_1a218fdc0f2171d7d75e595c1d0ba39f03" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::GrowthThreshold</definition>
+        <argsstring>(void) const</argsstring>
+        <name>GrowthThreshold</name>
+        <qualifiedname>Cell::GrowthThreshold</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="349" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="349" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a33e979401a1d08a09477407157af85d0" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::CleanMoments</definition>
+        <argsstring>(void)</argsstring>
+        <name>CleanMoments</name>
+        <qualifiedname>Cell::CleanMoments</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="352" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="352" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a78eda6c8abc3d6ab3e5263137097e246" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::AddSiteToMoments</definition>
+        <argsstring>(int x, int y, double new_l=-1.)</argsstring>
+        <name>AddSiteToMoments</name>
+        <qualifiedname>Cell::AddSiteToMoments</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>new_l</declname>
+          <defval>-1.</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="356" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="356" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a241081274ac0f5c39bbf20f6fae61a8e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::RemoveSiteFromMoments</definition>
+        <argsstring>(int x, int y, double new_l=-1.)</argsstring>
+        <name>RemoveSiteFromMoments</name>
+        <qualifiedname>Cell::RemoveSiteFromMoments</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>new_l</declname>
+          <defval>-1.</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="383" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="383" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a04170e2c137f63648b1a2012355dd4ad" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::Length</definition>
+        <argsstring>(long int s_x, long int s_y, long int s_xx, long int s_yy, long int s_xy, long int n)</argsstring>
+        <name>Length</name>
+        <qualifiedname>Cell::Length</qualifiedname>
+        <param>
+          <type>long int</type>
+          <declname>s_x</declname>
+        </param>
+        <param>
+          <type>long int</type>
+          <declname>s_y</declname>
+        </param>
+        <param>
+          <type>long int</type>
+          <declname>s_xx</declname>
+        </param>
+        <param>
+          <type>long int</type>
+          <declname>s_yy</declname>
+        </param>
+        <param>
+          <type>long int</type>
+          <declname>s_xy</declname>
+        </param>
+        <param>
+          <type>long int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Calculates the length based on the given inertia tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="408" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="408" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ac44624526ca5a500711351461e8f569a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::MajorMinorAxis</definition>
+        <argsstring>(double *major_axis, double *minor_axis, double *v1, double *v2)</argsstring>
+        <name>MajorMinorAxis</name>
+        <qualifiedname>Cell::MajorMinorAxis</qualifiedname>
+        <param>
+          <type>double *</type>
+          <declname>major_axis</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>minor_axis</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>v2</declname>
+        </param>
+        <briefdescription>
+<para>Calculates the major and minor axes based on the given inertia tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="445" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="445" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a20d56328a23a5ff8c00c95b670b5ae4d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::GetNewLengthIfXYWereAdded</definition>
+        <argsstring>(int x, int y)</argsstring>
+        <name>GetNewLengthIfXYWereAdded</name>
+        <qualifiedname>Cell::GetNewLengthIfXYWereAdded</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="483" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="483" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1aca2964137e1505ce96150bf055500315" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Cell::GetNewLengthIfXYWereRemoved</definition>
+        <argsstring>(int x, int y)</argsstring>
+        <name>GetNewLengthIfXYWereRemoved</name>
+        <qualifiedname>Cell::GetNewLengthIfXYWereRemoved</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="491" column="17" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="491" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a0462aabd65f92204a9c2bcdbe5c99741" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::setSigma</definition>
+        <argsstring>(int nsigma)</argsstring>
+        <name>setSigma</name>
+        <qualifiedname>Cell::setSigma</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>nsigma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="497" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="497" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a2e8651a2862bbde2bff62b22d6b9c3d5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::IncrementArea</definition>
+        <argsstring>()</argsstring>
+        <name>IncrementArea</name>
+        <qualifiedname>Cell::IncrementArea</qualifiedname>
+        <briefdescription>
+<para>Increments the cell&apos;s actual area by 1 unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="501" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="501" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a3f78154a41d5abb58193af48d9e26dd6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::DecrementArea</definition>
+        <argsstring>()</argsstring>
+        <name>DecrementArea</name>
+        <qualifiedname>Cell::DecrementArea</qualifiedname>
+        <briefdescription>
+<para>Decrements the cell&apos;s actual area by 1 unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="504" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="504" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a9218a94ec0e3e7854cbd9d0c33c00119" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::SetReferenceAdhesiveArea</definition>
+        <argsstring>(const int new_area)</argsstring>
+        <name>SetReferenceAdhesiveArea</name>
+        <qualifiedname>Cell::SetReferenceAdhesiveArea</qualifiedname>
+        <param>
+          <type>const int</type>
+          <declname>new_area</declname>
+        </param>
+        <briefdescription>
+<para>Sets the adhesive area of the cell. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="507" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="507" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a2f0d3f43c8730265a86bfd8842815029" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::IncrementPerimeter</definition>
+        <argsstring>()</argsstring>
+        <name>IncrementPerimeter</name>
+        <qualifiedname>Cell::IncrementPerimeter</qualifiedname>
+        <briefdescription>
+<para>Increments the cell&apos;s actual perimeter by 1 unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="512" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="512" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ad209acae8d21e6708fa80b21b082a51d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::DecrementPerimeter</definition>
+        <argsstring>()</argsstring>
+        <name>DecrementPerimeter</name>
+        <qualifiedname>Cell::DecrementPerimeter</qualifiedname>
+        <briefdescription>
+<para>Decrements the cell&apos;s actual perimeter by 1 unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="515" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="515" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1afdff516d6a6eea6bd8a47081557f1407" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::IncrementTargetPerimeter</definition>
+        <argsstring>()</argsstring>
+        <name>IncrementTargetPerimeter</name>
+        <qualifiedname>Cell::IncrementTargetPerimeter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="517" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="517" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a58ae9058b1ec4ea7dac30f4bf02b8ab4" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::DecrementTargetPerimeter</definition>
+        <argsstring>()</argsstring>
+        <name>DecrementTargetPerimeter</name>
+        <qualifiedname>Cell::DecrementTargetPerimeter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="519" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="519" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1ad0449ed0883bc76bc3db6ffa703d98b4" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Cell::SetAreaToTarget</definition>
+        <argsstring>(void)</argsstring>
+        <name>SetAreaToTarget</name>
+        <qualifiedname>Cell::SetAreaToTarget</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Sets target area to actual area, to remove &quot;pressure&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is useful when reading an initial condition from an image. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="525" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="525" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a616a7fed4b08f1e76a175142204edf94" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::ConstructorBody</definition>
+        <argsstring>(int settau=1)</argsstring>
+        <name>ConstructorBody</name>
+        <qualifiedname>Cell::ConstructorBody</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>settau</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Called whenever a cell is constructed, from constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="528" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.cpp" bodystart="98" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cell_1a31b8e4a752a115c1c5defc8d7140139c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Cell::GetCentroid</definition>
+        <argsstring>(double *cx, double *cy)</argsstring>
+        <name>GetCentroid</name>
+        <qualifiedname>Cell::GetCentroid</qualifiedname>
+        <param>
+          <type>double *</type>
+          <declname>cx</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>cy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="533" column="15" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="533" bodyend="536"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>Cell</label>
+        <link refid="class_cell"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>owner</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>CellularPotts</label>
+        <link refid="class_cellular_potts"/>
+      </node>
+      <node id="2">
+        <label>Dish</label>
+        <link refid="class_dish"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>PDEfield</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>CPM</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>io</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>IO</label>
+        <link refid="class_i_o"/>
+      </node>
+      <node id="3">
+        <label>PDE</label>
+        <link refid="class_p_d_e"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" line="34" column="1" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/cellular_potts/cell.hpp" bodystart="34" bodyend="598"/>
+    <listofallmembers>
+      <member refid="class_cell_1a78eda6c8abc3d6ab3e5263137097e246" prot="private" virt="non-virtual"><scope>Cell</scope><name>AddSiteToMoments</name></member>
+      <member refid="class_cell_1a43a174450c9f7f5cb582d2e9eb39cb19" prot="public" virt="non-virtual"><scope>Cell</scope><name>AddToGrad</name></member>
+      <member refid="class_cell_1a966a0da984bd36cb526f2e867a0c39be" prot="protected" virt="non-virtual"><scope>Cell</scope><name>adhesive_area</name></member>
+      <member refid="class_cell_1a516ed0ccc2782e870bfe6ba56d15d86b" prot="protected" virt="non-virtual"><scope>Cell</scope><name>alive</name></member>
+      <member refid="class_cell_1ade77ea0722ba814fc84c144e086595ae" prot="public" virt="non-virtual"><scope>Cell</scope><name>AliveP</name></member>
+      <member refid="class_cell_1a92a252a4aec7850e2bea34fcfd6ec5f0" prot="protected" virt="non-virtual"><scope>Cell</scope><name>amount</name></member>
+      <member refid="class_cell_1a2b598309713229d89b14d7c1aa7d151a" prot="public" virt="non-virtual"><scope>Cell</scope><name>Apoptose</name></member>
+      <member refid="class_cell_1a04ef81805a0166850b928c1b9f1befe6" prot="public" virt="non-virtual"><scope>Cell</scope><name>Area</name></member>
+      <member refid="class_cell_1ab8c82c118a975064f24933950c225133" prot="protected" virt="non-virtual"><scope>Cell</scope><name>area</name></member>
+      <member refid="class_cell_1adda0955a75d9a2b8047a362a5b27a521" prot="protected" virt="non-virtual"><scope>Cell</scope><name>border</name></member>
+      <member refid="class_cell_1a13afbf7c2a81d591cc414e8cc6965ad4" prot="protected" virt="non-virtual"><scope>Cell</scope><name>capacity</name></member>
+      <member refid="class_cell_1a822aecd83d8aa95fab97641a88e60225" prot="public" virt="non-virtual"><scope>Cell</scope><name>Cell</name></member>
+      <member refid="class_cell_1aab24f3f223f86c03968096edbd40a9f0" prot="public" virt="non-virtual"><scope>Cell</scope><name>Cell</name></member>
+      <member refid="class_cell_1a8a36eee6405552ddb5a27d2ce1a7272c" prot="public" virt="non-virtual"><scope>Cell</scope><name>Cell</name></member>
+      <member refid="class_cell_1a387af5e97fced410b231aa730d87dd33" prot="public" virt="non-virtual"><scope>Cell</scope><name>CellBirth</name></member>
+      <member refid="class_cell_1ac0d1ad5d66ebb242178dd5da9c9d6fca" prot="private" virt="non-virtual"><scope>Cell</scope><name>CellularPotts</name></member>
+      <member refid="class_cell_1a67e85d8f9025fc82f44ce7e266021133" prot="protected" virt="non-virtual"><scope>Cell</scope><name>chem</name></member>
+      <member refid="class_cell_1a33e979401a1d08a09477407157af85d0" prot="private" virt="non-virtual"><scope>Cell</scope><name>CleanMoments</name></member>
+      <member refid="class_cell_1a9c3fd8e71b9272d5229e3fad2761c321" prot="public" virt="non-virtual"><scope>Cell</scope><name>ClearGrad</name></member>
+      <member refid="class_cell_1a8baa793d28c592ee85d63ad52ac2fb7d" prot="public" virt="non-virtual"><scope>Cell</scope><name>ClearJ</name></member>
+      <member refid="class_cell_1a3a62f75d92e0a0225554c963e543f428" prot="protected" virt="non-virtual"><scope>Cell</scope><name>colour</name></member>
+      <member refid="class_cell_1a340d0f54404eb809d75f38a2da8aec56" prot="public" virt="non-virtual"><scope>Cell</scope><name>Colour</name></member>
+      <member refid="class_cell_1a7e116fda8ff80b6ebb03b9c43584a68c" prot="protected" virt="non-virtual"><scope>Cell</scope><name>colour_of_birth</name></member>
+      <member refid="class_cell_1acfac036798be1bc5068a7240f861d09a" prot="public" virt="non-virtual"><scope>Cell</scope><name>ColourOfBirth</name></member>
+      <member refid="class_cell_1a616a7fed4b08f1e76a175142204edf94" prot="private" virt="non-virtual"><scope>Cell</scope><name>ConstructorBody</name></member>
+      <member refid="class_cell_1a9c97f4e44e305b2f39e953ba607e729a" prot="protected" virt="non-virtual"><scope>Cell</scope><name>date_of_birth</name></member>
+      <member refid="class_cell_1ae5e0dd938e98194cecf4c7a824aec46b" prot="public" virt="non-virtual"><scope>Cell</scope><name>DateOfBirth</name></member>
+      <member refid="class_cell_1a82167c3e1b4470d8b53ad9f94b31c715" prot="public" virt="non-virtual"><scope>Cell</scope><name>Daughter</name></member>
+      <member refid="class_cell_1a90a992f97f2316d043904caaffd7e439" prot="protected" virt="non-virtual"><scope>Cell</scope><name>daughter</name></member>
+      <member refid="class_cell_1a8a75e9e4131ee1575237d6e6b7c2ebce" prot="public" virt="non-virtual"><scope>Cell</scope><name>DecrementAdhesiveArea</name></member>
+      <member refid="class_cell_1a3f78154a41d5abb58193af48d9e26dd6" prot="private" virt="non-virtual"><scope>Cell</scope><name>DecrementArea</name></member>
+      <member refid="class_cell_1a05ffecff7700480faaf8cd907049e5aa" prot="public" virt="non-virtual"><scope>Cell</scope><name>DecrementBorderNumber</name></member>
+      <member refid="class_cell_1ad209acae8d21e6708fa80b21b082a51d" prot="private" virt="non-virtual"><scope>Cell</scope><name>DecrementPerimeter</name></member>
+      <member refid="class_cell_1a9b90cf417c4fb1df8b4b005e6858a754" prot="public" virt="non-virtual"><scope>Cell</scope><name>DecrementTargetArea</name></member>
+      <member refid="class_cell_1a58ae9058b1ec4ea7dac30f4bf02b8ab4" prot="private" virt="non-virtual"><scope>Cell</scope><name>DecrementTargetPerimeter</name></member>
+      <member refid="class_cell_1aed9cb4dbc4f47dbc026e3287f7c2831b" prot="private" virt="non-virtual"><scope>Cell</scope><name>Dish</name></member>
+      <member refid="class_cell_1af18bc7d48b0898a2221de4e4ec8a7b7d" prot="public" virt="non-virtual"><scope>Cell</scope><name>EnergyDifference</name></member>
+      <member refid="class_cell_1a93e90b450545ec4b0c7fd6b69809ed57" prot="public" virt="non-virtual"><scope>Cell</scope><name>GetAdhesiveArea</name></member>
+      <member refid="class_cell_1a4bedbebd1d69446af56cbc10118c3461" prot="public" virt="non-virtual"><scope>Cell</scope><name>GetBorderNumber</name></member>
+      <member refid="class_cell_1abaaa9503d4189a31cff2e1ae204c61cb" prot="public" virt="non-virtual"><scope>Cell</scope><name>getCenterX</name></member>
+      <member refid="class_cell_1a03d9caf050695c24d7af6b62d0a9d628" prot="public" virt="non-virtual"><scope>Cell</scope><name>getCenterY</name></member>
+      <member refid="class_cell_1a31b8e4a752a115c1c5defc8d7140139c" prot="private" virt="non-virtual"><scope>Cell</scope><name>GetCentroid</name></member>
+      <member refid="class_cell_1a0787b5ffd8811a5b750042d7681b4bc0" prot="public" virt="non-virtual"><scope>Cell</scope><name>GetGrad</name></member>
+      <member refid="class_cell_1a4c43f50dcf2ef91c4e812d29c7d6d6ad" prot="public" virt="non-virtual"><scope>Cell</scope><name>GetJ</name></member>
+      <member refid="class_cell_1a20d56328a23a5ff8c00c95b670b5ae4d" prot="private" virt="non-virtual"><scope>Cell</scope><name>GetNewLengthIfXYWereAdded</name></member>
+      <member refid="class_cell_1aca2964137e1505ce96150bf055500315" prot="private" virt="non-virtual"><scope>Cell</scope><name>GetNewLengthIfXYWereRemoved</name></member>
+      <member refid="class_cell_1a162425e5630eac0393e3b519ba2cd0ac" prot="public" virt="non-virtual"><scope>Cell</scope><name>getSumX</name></member>
+      <member refid="class_cell_1a6f77adc7f454b4bc35bcc343fcef21ec" prot="public" virt="non-virtual"><scope>Cell</scope><name>getSumY</name></member>
+      <member refid="class_cell_1a9fbfdfe12c82591083e673987d35570a" prot="public" virt="non-virtual"><scope>Cell</scope><name>getTau</name></member>
+      <member refid="class_cell_1aba7f037648153483d44f04d3cea7ef37" prot="protected" virt="non-virtual"><scope>Cell</scope><name>grad</name></member>
+      <member refid="class_cell_1a9e28fe1be875ed24c060ca9ecb275cd9" prot="public" virt="non-virtual"><scope>Cell</scope><name>GradX</name></member>
+      <member refid="class_cell_1a1bde26a220fbe70969333729446afa5c" prot="public" virt="non-virtual"><scope>Cell</scope><name>GradY</name></member>
+      <member refid="class_cell_1ac0ec22ca2c2b77be00ade91ec2c176e2" prot="protected" virt="non-virtual"><scope>Cell</scope><name>growth_threshold</name></member>
+      <member refid="class_cell_1a218fdc0f2171d7d75e595c1d0ba39f03" prot="private" virt="non-virtual"><scope>Cell</scope><name>GrowthThreshold</name></member>
+      <member refid="class_cell_1a6db0b354f2b49457d96e5d64ce9a34f1" prot="public" virt="non-virtual"><scope>Cell</scope><name>IncrementAdhesiveArea</name></member>
+      <member refid="class_cell_1a2e8651a2862bbde2bff62b22d6b9c3d5" prot="private" virt="non-virtual"><scope>Cell</scope><name>IncrementArea</name></member>
+      <member refid="class_cell_1a174383c89c2dd78964f0b787b730722a" prot="public" virt="non-virtual"><scope>Cell</scope><name>IncrementBorderNumber</name></member>
+      <member refid="class_cell_1a2f0d3f43c8730265a86bfd8842815029" prot="private" virt="non-virtual"><scope>Cell</scope><name>IncrementPerimeter</name></member>
+      <member refid="class_cell_1a89086e3c8e2c7619030f86b0fcd2a0b2" prot="public" virt="non-virtual"><scope>Cell</scope><name>IncrementTargetArea</name></member>
+      <member refid="class_cell_1afdff516d6a6eea6bd8a47081557f1407" prot="private" virt="non-virtual"><scope>Cell</scope><name>IncrementTargetPerimeter</name></member>
+      <member refid="class_cell_1a4838ff865b8d8625c61d208a420f8212" prot="private" virt="non-virtual"><scope>Cell</scope><name>Info</name></member>
+      <member refid="class_cell_1a326e329be4ec9ba0cb88d0426291d89d" prot="private" virt="non-virtual"><scope>Cell</scope><name>IO</name></member>
+      <member refid="class_cell_1a7c7fb58882da8d7185438d4dcf44b291" prot="protected" virt="non-virtual"><scope>Cell</scope><name>J</name></member>
+      <member refid="class_cell_1a10a70197c4e757ad39177b146b5c2a67" prot="protected" virt="non-virtual"><scope>Cell</scope><name>length</name></member>
+      <member refid="class_cell_1ac038876b1cc38b8efea7338c853b98ca" prot="public" virt="non-virtual"><scope>Cell</scope><name>Length</name></member>
+      <member refid="class_cell_1a04170e2c137f63648b1a2012355dd4ad" prot="private" virt="non-virtual"><scope>Cell</scope><name>Length</name></member>
+      <member refid="class_cell_1ac44624526ca5a500711351461e8f569a" prot="private" virt="non-virtual"><scope>Cell</scope><name>MajorMinorAxis</name></member>
+      <member refid="class_cell_1ab423587adbfdc733ae4311c7e1ed3065" prot="protected" virt="non-virtual"><scope>Cell</scope><name>maxsigma</name></member>
+      <member refid="class_cell_1a8b1e24a10e09376d69e7e52a39c5fad1" prot="public" virt="non-virtual"><scope>Cell</scope><name>MaxSigma</name></member>
+      <member refid="class_cell_1aca2b6fa3035757ea4c2cd8f30f7610ae" prot="protected" virt="non-virtual"><scope>Cell</scope><name>maxtau</name></member>
+      <member refid="class_cell_1a71729c3573c58ea678f98def5c07eb3f" prot="private" virt="non-virtual"><scope>Cell</scope><name>MaxTau</name></member>
+      <member refid="class_cell_1a8e798cf1b3cacb03713a9e45bca961e1" prot="public" virt="non-virtual"><scope>Cell</scope><name>MeasureCellSize</name></member>
+      <member refid="class_cell_1a8a555f0a92c9463548118e01371b83dc" prot="public" virt="non-virtual"><scope>Cell</scope><name>Mother</name></member>
+      <member refid="class_cell_1a74435ead6958823c8c2f3e8f55d4429a" prot="protected" virt="non-virtual"><scope>Cell</scope><name>mother</name></member>
+      <member refid="class_cell_1ac374476768b00e014877a8ff9097ebb8" prot="protected" virt="non-virtual"><scope>Cell</scope><name>n_copies</name></member>
+      <member refid="class_cell_1a351061fe41e3da9a7baa081b32ac0581" prot="public" virt="non-virtual"><scope>Cell</scope><name>operator=</name></member>
+      <member refid="class_cell_1a5ba3270256dca27969f1888cd9eb7a35" prot="protected" virt="non-virtual"><scope>Cell</scope><name>owner</name></member>
+      <member refid="class_cell_1af5b765beb3a7ce557624f5fdff14a852" prot="protected" virt="non-virtual"><scope>Cell</scope><name>perimeter</name></member>
+      <member refid="class_cell_1a54c99795fc4f9964b75cf2847ed6e820" prot="public" virt="non-virtual"><scope>Cell</scope><name>Perimeter</name></member>
+      <member refid="class_cell_1ad740a0c567d6adc4f5a4446f6066aefa" prot="public" virt="non-virtual"><scope>Cell</scope><name>polarvec</name></member>
+      <member refid="class_cell_1a4cdc14c24736d472c100a3382c3577c8" prot="public" virt="non-virtual"><scope>Cell</scope><name>PrintInertia</name></member>
+      <member refid="class_cell_1ad1bbaba199c53212951c250b4d698091" prot="private" virt="non-virtual"><scope>Cell</scope><name>ReadStaticJTable</name></member>
+      <member refid="class_cell_1a1dd8ef08cc6729067cedd63d0fb8aeb7" prot="protected" virt="non-virtual"><scope>Cell</scope><name>ref_adhesive_area</name></member>
+      <member refid="class_cell_1a241081274ac0f5c39bbf20f6fae61a8e" prot="private" virt="non-virtual"><scope>Cell</scope><name>RemoveSiteFromMoments</name></member>
+      <member refid="class_cell_1aa7117746e515e58cddc97362a9e244b0" prot="public" virt="non-virtual"><scope>Cell</scope><name>RenormPolarVec</name></member>
+      <member refid="class_cell_1ac4e9f38d7041e9cf42100930698f6a1f" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetAdhesiveArea</name></member>
+      <member refid="class_cell_1a6770a2b70404fa64595d2eeb8f47f682" prot="public" virt="non-virtual"><scope>Cell</scope><name>setArea</name></member>
+      <member refid="class_cell_1ad0449ed0883bc76bc3db6ffa703d98b4" prot="private" virt="non-virtual"><scope>Cell</scope><name>SetAreaToTarget</name></member>
+      <member refid="class_cell_1a5c3cb78c1c034dba41e1704d2a67a663" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetBorderNumber</name></member>
+      <member refid="class_cell_1aeafe2f67bdc876223f8871eb9f3e16ef" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetColour</name></member>
+      <member refid="class_cell_1adab03cbda7ceee7924b21c97488308e8" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetGrad</name></member>
+      <member refid="class_cell_1a98f324f5c5829e53188c589373dc9f98" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetJ</name></member>
+      <member refid="class_cell_1a56e35974c7d334b8e34bb16ea7e3fc49" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetPerimeter</name></member>
+      <member refid="class_cell_1a9218a94ec0e3e7854cbd9d0c33c00119" prot="private" virt="non-virtual"><scope>Cell</scope><name>SetReferenceAdhesiveArea</name></member>
+      <member refid="class_cell_1a0462aabd65f92204a9c2bcdbe5c99741" prot="private" virt="non-virtual"><scope>Cell</scope><name>setSigma</name></member>
+      <member refid="class_cell_1a0f78f87720f0eca3520678bea6194b9f" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetTargetArea</name></member>
+      <member refid="class_cell_1af4cacfabcefaec22f4c875bf7566f67d" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetTargetLength</name></member>
+      <member refid="class_cell_1a5c2af99edf15bf8962236d43469ee37d" prot="public" virt="non-virtual"><scope>Cell</scope><name>SetTargetPerimeter</name></member>
+      <member refid="class_cell_1af3a3882fdf4e48130af67184cc70fe9d" prot="public" virt="non-virtual"><scope>Cell</scope><name>setTau</name></member>
+      <member refid="class_cell_1ab33b3a598d18d996805c9e9b255534af" prot="protected" virt="non-virtual"><scope>Cell</scope><name>sigma</name></member>
+      <member refid="class_cell_1a8253cf71ca6b44d78c7b9d45721a286b" prot="public" virt="non-virtual"><scope>Cell</scope><name>Sigma</name></member>
+      <member refid="class_cell_1a353ab5a64fff6d6474053135faaa1b4f" prot="protected" virt="non-virtual"><scope>Cell</scope><name>sum_x</name></member>
+      <member refid="class_cell_1ac2393f2cef20f69299d2d5554b65d1db" prot="protected" virt="non-virtual"><scope>Cell</scope><name>sum_xx</name></member>
+      <member refid="class_cell_1ab0045032513131a0aace38724fde0dbf" prot="protected" virt="non-virtual"><scope>Cell</scope><name>sum_xy</name></member>
+      <member refid="class_cell_1ac1e03d62523446833f65ea7644e7b349" prot="protected" virt="non-virtual"><scope>Cell</scope><name>sum_y</name></member>
+      <member refid="class_cell_1a7d1d8b070b6359988a7a52ee5487a356" prot="protected" virt="non-virtual"><scope>Cell</scope><name>sum_yy</name></member>
+      <member refid="class_cell_1a8b499ccc349212bde880a1ebfcd61d31" prot="protected" virt="non-virtual"><scope>Cell</scope><name>target_area</name></member>
+      <member refid="class_cell_1a82397282c1f177eb3f1c52184b1a48a2" prot="protected" virt="non-virtual"><scope>Cell</scope><name>target_length</name></member>
+      <member refid="class_cell_1ac264b167460ad919c37dcdb20eae502e" prot="protected" virt="non-virtual"><scope>Cell</scope><name>target_perimeter</name></member>
+      <member refid="class_cell_1a89c1434b90e43eb5addbfa7840daf81d" prot="public" virt="non-virtual"><scope>Cell</scope><name>TargetArea</name></member>
+      <member refid="class_cell_1ad51763beabd21428946df72ff57269fa" prot="public" virt="non-virtual"><scope>Cell</scope><name>TargetLength</name></member>
+      <member refid="class_cell_1a0c582fad9fe4808a04b03970377dedc3" prot="public" virt="non-virtual"><scope>Cell</scope><name>TargetPerimeter</name></member>
+      <member refid="class_cell_1a2126c6575810792e5d287223ca86c0f0" prot="protected" virt="non-virtual"><scope>Cell</scope><name>tau</name></member>
+      <member refid="class_cell_1ab184f2651d0e764bf957b9a3f2e59df9" prot="protected" virt="non-virtual"><scope>Cell</scope><name>times_divided</name></member>
+      <member refid="class_cell_1ab17fc62a0abbc8fd7677be6400c42c9c" prot="public" virt="non-virtual"><scope>Cell</scope><name>TimesDivided</name></member>
+      <member refid="class_cell_1ae2955e9ae15e9e549eaea9fb093fce33" prot="protected" virt="non-virtual"><scope>Cell</scope><name>v</name></member>
+      <member refid="class_cell_1a4206c923493126fb2f01c8cf53c78e69" prot="public" virt="non-virtual"><scope>Cell</scope><name>~Cell</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

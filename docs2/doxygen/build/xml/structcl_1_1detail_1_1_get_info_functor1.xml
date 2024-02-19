@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structcl_1_1detail_1_1_get_info_functor1" kind="struct" language="C++" prot="public">
+    <compoundname>cl::detail::GetInfoFunctor1</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename Func</type>
+      </param>
+      <param>
+        <type>typename Arg0</type>
+      </param>
+      <param>
+        <type>typename Arg1</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcl_1_1detail_1_1_get_info_functor1_1ac48526d11471c59ff1b7aa14feb29c4e" prot="public" static="no" mutable="no">
+        <type>Func</type>
+        <definition>Func cl::detail::GetInfoFunctor1&lt; Func, Arg0, Arg1 &gt;::f_</definition>
+        <argsstring></argsstring>
+        <name>f_</name>
+        <qualifiedname>cl::detail::GetInfoFunctor1::f_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1459" column="8" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1459" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcl_1_1detail_1_1_get_info_functor1_1a27ebe3bdb4a032c5304f4fda99e32704" prot="public" static="no" mutable="no">
+        <type>const Arg0 &amp;</type>
+        <definition>const Arg0&amp; cl::detail::GetInfoFunctor1&lt; Func, Arg0, Arg1 &gt;::arg0_</definition>
+        <argsstring></argsstring>
+        <name>arg0_</name>
+        <qualifiedname>cl::detail::GetInfoFunctor1::arg0_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1460" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcl_1_1detail_1_1_get_info_functor1_1a6b7246c928c1ec4950b748173a67aba4" prot="public" static="no" mutable="no">
+        <type>const Arg1 &amp;</type>
+        <definition>const Arg1&amp; cl::detail::GetInfoFunctor1&lt; Func, Arg0, Arg1 &gt;::arg1_</definition>
+        <argsstring></argsstring>
+        <name>arg1_</name>
+        <qualifiedname>cl::detail::GetInfoFunctor1::arg1_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1461" column="14" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1461" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structcl_1_1detail_1_1_get_info_functor1_1a44b90e5fc2c94984a64aaf03f2c66643" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>cl_int</type>
+        <definition>cl_int cl::detail::GetInfoFunctor1&lt; Func, Arg0, Arg1 &gt;::operator()</definition>
+        <argsstring>(cl_uint param, ::size_t size, void *value, ::size_t *size_ret)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>cl::detail::GetInfoFunctor1::operator()</qualifiedname>
+        <param>
+          <type>cl_uint</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type>::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>::size_t *</type>
+          <declname>size_ret</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1462" column="10" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1462" bodyend="1465"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" line="1458" column="16" bodyfile="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/compute/cl.hpp" bodystart="1458" bodyend="1466"/>
+    <listofallmembers>
+      <member refid="structcl_1_1detail_1_1_get_info_functor1_1a27ebe3bdb4a032c5304f4fda99e32704" prot="public" virt="non-virtual"><scope>cl::detail::GetInfoFunctor1</scope><name>arg0_</name></member>
+      <member refid="structcl_1_1detail_1_1_get_info_functor1_1a6b7246c928c1ec4950b748173a67aba4" prot="public" virt="non-virtual"><scope>cl::detail::GetInfoFunctor1</scope><name>arg1_</name></member>
+      <member refid="structcl_1_1detail_1_1_get_info_functor1_1ac48526d11471c59ff1b7aa14feb29c4e" prot="public" virt="non-virtual"><scope>cl::detail::GetInfoFunctor1</scope><name>f_</name></member>
+      <member refid="structcl_1_1detail_1_1_get_info_functor1_1a44b90e5fc2c94984a64aaf03f2c66643" prot="public" virt="non-virtual"><scope>cl::detail::GetInfoFunctor1</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

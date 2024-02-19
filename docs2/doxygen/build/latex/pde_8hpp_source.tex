@@ -1,0 +1,195 @@
+\doxysection{pde.\+hpp}
+\hypertarget{pde_8hpp_source}{}\label{pde_8hpp_source}\index{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/reaction\_diffusion/pde.hpp@{/Users/koenkeijzer/Documents/CPM/Tissue-\/Simulation-\/Toolkit/src/reaction\_diffusion/pde.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ 1996-\/2006\ Roeland\ Merks}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Tissue\ Simulation\ Toolkit.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ free\ software;\ you\ can\ redistribute}}
+\DoxyCodeLine{00008\ \textcolor{comment}{it\ and/or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public}}
+\DoxyCodeLine{00009\ \textcolor{comment}{License\ as\ published\ by\ the\ Free\ Software\ Foundation;\ either}}
+\DoxyCodeLine{00010\ \textcolor{comment}{version\ 2\ of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Tissue\ Simulation\ Toolkit\ is\ distributed\ in\ the\ hope\ that\ it\ will}}
+\DoxyCodeLine{00013\ \textcolor{comment}{be\ useful,\ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied}}
+\DoxyCodeLine{00014\ \textcolor{comment}{warranty\ of\ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{See\ the\ GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00018\ \textcolor{comment}{along\ with\ Tissue\ Simulation\ Toolkit;\ if\ not,\ write\ to\ the\ Free}}
+\DoxyCodeLine{00019\ \textcolor{comment}{Software\ Foundation,\ Inc.,\ 51\ Franklin\ St,\ Fifth\ Floor,\ Boston,\ MA}}
+\DoxyCodeLine{00020\ \textcolor{comment}{02110-\/1301\ USA}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#ifndef\ \_PDE\_HH\_}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ \_PDE\_HH\_}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <float.h>}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <MultiCellDS-\/pimpl.hpp>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <MultiCellDS-\/simpl.hpp>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <MultiCellDS.hpp>}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ "{}cl\_manager.hpp"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}graph.hpp"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}pdetype.h"{}}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_cellular_potts}{CellularPotts}};}
+\DoxyCodeLine{00041\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dish}{Dish}};}
+\DoxyCodeLine{00042\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_p_d_e}{PDE}}\ \{}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_info}{Info}};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00052\ \ \ \mbox{\hyperlink{class_p_d_e_a5b65074e6bd20cc1f25d23e22e4a045f}{PDE}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ layers,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ sizex,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ sizey);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \textcolor{comment}{//\ destructor\ must\ also\ be\ virtual}}
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_p_d_e}{\string~PDE}}();}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00061\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_a5ee8b22db3003bc67582f2bf9f8ff70f}{Plot}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ layer\ =\ 0);}
+\DoxyCodeLine{00067\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_a5ee8b22db3003bc67582f2bf9f8ff70f}{Plot}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g,\ \mbox{\hyperlink{class_cellular_potts}{CellularPotts}}\ *cpm,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ layer\ =\ 0);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00077\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_ab5043669e9ad1706078f8e70f8fcfff9}{ContourPlot}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g,\ \textcolor{keywordtype}{int}\ layer\ =\ 0,\ \textcolor{keywordtype}{int}\ colour\ =\ 1);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00080\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_p_d_e_ab67a2b8d9113a2a30a71a83f6d9f41cf}{SizeX}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ sizex;\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00083\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_p_d_e_ae451dbccae72247e28139604f19708ef}{SizeY}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ sizey;\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00086\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_p_d_e_a712526b2de5bcfeae7a6c1901578af1b}{Layers}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ layers;\ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00089\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_af5e25f6328f8f33fd7a67e79e273bbfd}{SetSpeciesName}}(\textcolor{keywordtype}{int}\ l,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name);}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00098\ \ \ \textcolor{keyword}{inline}\ PDEFIELD\_TYPE\ \mbox{\hyperlink{class_p_d_e_a1af66fa14990bc666d9bf549cc753100}{Sigma}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ layer,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordflow}{return}\ sigma[layer][x][y];}
+\DoxyCodeLine{00100\ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00107\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_a523ba06feffab5b8ba8231e9a7773223}{setValue}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ layer,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ PDEFIELD\_TYPE\ value)\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ sigma[layer][x][y]\ =\ value;}
+\DoxyCodeLine{00110\ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00117\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_aad327b2b5cf3e56cd6fd05f7e66742b8}{addtoValue}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ layer,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y,}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ PDEFIELD\_TYPE\ value)\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ sigma[layer][x][y]\ +=\ value;}
+\DoxyCodeLine{00120\ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00126\ \ \ \textcolor{keyword}{inline}\ PDEFIELD\_TYPE\ \mbox{\hyperlink{class_p_d_e_a10809f8bec9c0662c016b79b9e3ea3d7}{Max}}(\textcolor{keywordtype}{int}\ l)\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ PDEFIELD\_TYPE\ max\ =\ sigma[l][0][0];}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{int}\ loop\ =\ sizex\ *\ sizey;}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <\ loop;\ i++)}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sigma[l][0][i]\ >\ max)\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ max\ =\ sigma[l][0][i];}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordflow}{return}\ max;}
+\DoxyCodeLine{00134\ \ \ \}}
+\DoxyCodeLine{00139\ \ \ \textcolor{keyword}{inline}\ PDEFIELD\_TYPE\ \mbox{\hyperlink{class_p_d_e_ad119f572bf614e473783ff424efb426c}{Min}}(\textcolor{keywordtype}{int}\ l)\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ PDEFIELD\_TYPE\ min\ =\ sigma[l][0][0];}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{int}\ loop\ =\ sizex\ *\ sizey;}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <\ loop;\ i++)}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sigma[l][0][i]\ <\ min)\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ min\ =\ sigma[l][0][i];}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordflow}{return}\ min;}
+\DoxyCodeLine{00147\ \ \ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00153\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_a0d26fcbd12c62cb3b2fd03f19d584cbf}{InitializeAgeLayer}}(\textcolor{keywordtype}{int}\ l,\ \textcolor{keywordtype}{double}\ value,\ \mbox{\hyperlink{class_cellular_potts}{CellularPotts}}\ *cpm);}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \textcolor{comment}{/*\ Function\ for\ the\ Act\ model.\ All\ the\ lattice\ sites\ within\ cells\ are\ "{}aged"{}}}
+\DoxyCodeLine{00156\ \textcolor{comment}{\ \ \ *\ \ by\ decreasing\ their\ values,\ usually\ with\ 1.}}
+\DoxyCodeLine{00157\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00158\ \ \ \textcolor{keywordtype}{void}\ AgeLayer(\textcolor{keywordtype}{int}\ l,\ \textcolor{keywordtype}{double}\ value,\ \mbox{\hyperlink{class_cellular_potts}{CellularPotts}}\ *cpm,\ \mbox{\hyperlink{class_dish}{Dish}}\ *dish);}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \textcolor{comment}{/*\ Function\ for\ the\ Act\ model.\ Plots\ the\ values\ of\ the\ activity\ into\ the}}
+\DoxyCodeLine{00161\ \textcolor{comment}{\ \ \ *\ cells.}}
+\DoxyCodeLine{00162\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00163\ \ \ \textcolor{keywordtype}{void}\ PlotInCells(\mbox{\hyperlink{class_graphics}{Graphics}}\ *g,\ \mbox{\hyperlink{class_cellular_potts}{CellularPotts}}\ *cpm,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ l\ =\ 0);}
+\DoxyCodeLine{00164\ \ \ \textcolor{comment}{//\ lymphocyte\ matrix\ interaction\ function}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \textcolor{keywordtype}{void}\ MILayerCA(\textcolor{keywordtype}{int}\ l,\ \textcolor{keywordtype}{double}\ value,\ \mbox{\hyperlink{class_cellular_potts}{CellularPotts}}\ *cpm,\ \mbox{\hyperlink{class_dish}{Dish}}\ *dish);}
+\DoxyCodeLine{00178\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_a87267de223db53722e17b69983a5d544}{Diffuse}}(\textcolor{keywordtype}{int}\ repeat);}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00183\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_ad90263eebb1f949b3d895a72eadb5c99}{NoFluxBoundaries}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00188\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_afac99f334bc55268bca1233a588754a5}{AbsorbingBoundaries}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00192\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_a325a81a07e4d90037cab41bcef052e48}{PeriodicBoundaries}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00199\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_ae0133274ce74a52b159ee1d9626c934d}{Secrete}}(\mbox{\hyperlink{class_cellular_potts}{CellularPotts}}\ *cpm);}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \textcolor{comment}{//\ Secrete\ and\ diffuse\ functions\ accelerated\ using\ OpenCL}}
+\DoxyCodeLine{00202\ \ \ \textcolor{keywordtype}{void}\ SecreteAndDiffuseCL(\mbox{\hyperlink{class_cellular_potts}{CellularPotts}}\ *cpm,\ \textcolor{keywordtype}{int}\ repeat);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00206\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_p_d_e_a7fbfa877f9b380a571adc69ef18dbcbf}{TheTime}}(\textcolor{keywordtype}{void})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ thetime;\ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00212\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_p_d_e_a673bc12536828414a609ed3ff9947af6}{GetChemAmount}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ layer\ =\ -\/1);}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00224\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_adc6288d408d24a6aec3789aa61e05750}{GradC}}(\textcolor{keywordtype}{int}\ layer\ =\ 0,\ \textcolor{keywordtype}{int}\ first\_grad\_layer\ =\ 1);}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00237\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_d_e_a1b7cbc32113d7fe9edeac9e5f5d52d21}{PlotVectorField}}(\mbox{\hyperlink{class_graphics}{Graphics}}\ \&g,\ \textcolor{keywordtype}{int}\ stride,\ \textcolor{keywordtype}{int}\ linelength,}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ first\_grad\_layer\ =\ 1);}
+\DoxyCodeLine{00239\ \ \ \textcolor{keywordtype}{void}\ InitLinearYGradient(\textcolor{keywordtype}{int}\ spec,\ \textcolor{keywordtype}{double}\ conc\_top,\ \textcolor{keywordtype}{double}\ conc\_bottom);}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \textcolor{keywordtype}{bool}\ plotPos(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \mbox{\hyperlink{class_graphics}{Graphics}}\ *graphics,\ \textcolor{keywordtype}{int}\ layer);}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \textcolor{keywordtype}{void}\ reset\_plot()\ \{}
+\DoxyCodeLine{00244\ \ \ \ \ highest\ =\ \mbox{\hyperlink{class_p_d_e_a10809f8bec9c0662c016b79b9e3ea3d7}{Max}}(0);}
+\DoxyCodeLine{00245\ \ \ \ \ lowest\ =\ \mbox{\hyperlink{class_p_d_e_ad119f572bf614e473783ff424efb426c}{Min}}(0);}
+\DoxyCodeLine{00246\ \ \ \}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ ***getSigma()\ \{\ \textcolor{keywordflow}{return}\ sigma;\ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \textcolor{keywordtype}{double}\ highest;}
+\DoxyCodeLine{00251\ \ \ \textcolor{keywordtype}{double}\ lowest;}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00254\ \ \ PDEFIELD\_TYPE\ ***sigma;}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \ \ \textcolor{comment}{//\ Used\ as\ temporary\ memory\ in\ the\ diffusion\ step}}
+\DoxyCodeLine{00257\ \ \ \textcolor{comment}{//\ (addresses\ will\ be\ swapped\ for\ every\ time\ step,\ so}}
+\DoxyCodeLine{00258\ \ \ \textcolor{comment}{//\ never\ directly\ use\ them!!!\ Access\ is\ guaranteed\ to\ be\ correct}}
+\DoxyCodeLine{00259\ \ \ \textcolor{comment}{//\ through\ user\ interface)}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ PDEFIELD\_TYPE\ ***alt\_sigma;}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \textcolor{keywordtype}{int}\ sizex;}
+\DoxyCodeLine{00264\ \ \ \textcolor{keywordtype}{int}\ sizey;}
+\DoxyCodeLine{00265\ \ \ \textcolor{keywordtype}{int}\ layers;}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \ \ \textcolor{comment}{//\ Protected\ member\ functions}}
+\DoxyCodeLine{00272\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_p_d_e_a33986e19d9010ffa56b0859c0405480b}{MapColour}}(\textcolor{keywordtype}{double}\ val);}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \textcolor{comment}{//\ virtual\ int\ MapColour3(double\ val,\ int\ l);}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00277\ \ \ \mbox{\hyperlink{class_p_d_e_a5b65074e6bd20cc1f25d23e22e4a045f}{PDE}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00283\ \ \ \textcolor{keyword}{virtual}\ PDEFIELD\_TYPE\ ***\mbox{\hyperlink{class_p_d_e_a1e2175aa28c2222430d472daae5bf658}{AllocateSigma}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ layers,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ sx,}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ sy);}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00287\ \ \ PDEFIELD\_TYPE\ z[10];}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ nx[9],\ ny[9];}
+\DoxyCodeLine{00290\ \ \ \textcolor{keywordtype}{double}\ thetime;}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ Z(\textcolor{keywordtype}{double}\ k,\ \textcolor{keywordtype}{int}\ steps);}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ std::vector<std::string>\ species\_names;}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \textcolor{keywordtype}{void}\ SetupOpenCL();}
+\DoxyCodeLine{00297\ \ \ \textcolor{comment}{//\ OpenCL\ variables}}
+\DoxyCodeLine{00298\ \ \ \textcolor{keywordtype}{bool}\ openclsetup\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00299\ \ \ \mbox{\hyperlink{classcl_1_1_program}{cl::Program}}\ program;}
+\DoxyCodeLine{00300\ \ \ \mbox{\hyperlink{classcl_1_1_kernel}{cl::Kernel}}\ kernel\_SecreteAndDiffuse;}
+\DoxyCodeLine{00301\ \ \ \textcolor{keywordtype}{bool}\ first\_round\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00302\ \};}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

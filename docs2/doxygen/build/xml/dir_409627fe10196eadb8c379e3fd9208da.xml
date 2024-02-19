@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_409627fe10196eadb8c379e3fd9208da" kind="dir">
+    <compoundname>/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/reaction_diffusion</compoundname>
+    <innerfile refid="pde_8cpp">pde.cpp</innerfile>
+    <innerfile refid="pde_8hpp">pde.hpp</innerfile>
+    <innerfile refid="pdetype_8h">pdetype.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/koenkeijzer/Documents/CPM/Tissue-Simulation-Toolkit/src/reaction_diffusion/"/>
+  </compounddef>
+</doxygen>
