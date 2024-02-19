@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -24,80 +24,74 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef  __APPLE__
-#include <malloc.h> 
+#ifndef __APPLE__
+#include <malloc.h>
 #endif
 
-//#include <unistd.h>
-#include <string.h>
+// #include <unistd.h>
 #include "sticky.hpp"
-//#include "structs.h"
+#include <string.h>
+// #include "structs.h"
 #include "crash.hpp"
 #define NOPVM
 
-/* This message will be mailed to MAILREPORT if a segmentation fault is caught.  */
-static char SIGSEGVmessage[1000]; 
+/* This message will be mailed to MAILREPORT if a segmentation fault is caught.
+ */
+static char SIGSEGVmessage[1000];
 
 void StartSIGINTHandling() {
   void HandleSIGINT(int);
   void NiceMessage();
-  (void)signal(SIGINT,HandleSIGINT);
+  (void)signal(SIGINT, HandleSIGINT);
 }
 
 void HandleSIGINT(int dummy) {
   Crash("Master process is killed... \n Killing all subprocesses...\n");
-} 
-
-void StartSIGSEGVHandling() {
-  
-  void HandleSIGSEGV(int);
-  (void)signal(SIGSEGV,HandleSIGSEGV);
 }
 
+void StartSIGSEGVHandling() {
 
+  void HandleSIGSEGV(int);
+  (void)signal(SIGSEGV, HandleSIGSEGV);
+}
 
 void HandleSIGSEGV(int dummy) {
 
 #ifndef NOPVM
   if (Masterp())
-    Crash("Segmentation fault caught by master...\nKilling all subprocesses.\n");
+    Crash(
+        "Segmentation fault caught by master...\nKilling all subprocesses.\n");
   else {
     Crash(SIGSEGVmessage);
   }
 #else
-    Crash(SIGSEGVmessage);
+  Crash(SIGSEGVmessage);
 #endif
 }
 
-
-
 void NiceMessage() {
-  
-  fprintf(stderr,"You suspended the process, probably to put it in the background.\n");
-  fprintf(stderr,"The machine wishes you a good night or a good weekend!\n");
-  
-} 
-		    
 
-void MemoryWarning(void)
-{
+  fprintf(stderr,
+          "You suspended the process, probably to put it in the background.\n");
+  fprintf(stderr, "The machine wishes you a good night or a good weekend!\n");
+}
 
-  //MailReport("Allocation Problem!");
-  
-  Crash("Warning: not enough memory left to allocate.\n Sorry: exiting......\n");
-      
+void MemoryWarning(void) {
+
+  // MailReport("Allocation Problem!");
+
+  Crash(
+      "Warning: not enough memory left to allocate.\n Sorry: exiting......\n");
 }
 
 void Crash(const char *message) {
-  
-  
-  fprintf(stderr,"%s\n",message);
+
+  fprintf(stderr, "%s\n", message);
 
 #ifndef NOPVM
-  if (Masterp()) 
+  if (Masterp())
     KillAllDishes();
 #endif
-  
+
   exit(0);
 }
-

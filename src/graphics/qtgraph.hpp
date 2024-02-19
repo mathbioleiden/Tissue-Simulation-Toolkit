@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -22,67 +22,66 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 */
 #ifndef _QTGRAPH_H_
 #define _QTGRAPH_H_
-#include <QWidget>
-#include <qlabel.h>
-#include <qpainter.h>
-#include <QPicture>
-#include <QPixmap>
+#include "graph.hpp"
 #include <QMouseEvent>
 #include <QPaintEvent>
+#include <QPicture>
+#include <QPixmap>
 #include <QResizeEvent>
-#include "graph.hpp"
+#include <QWidget>
 #include <math.h>
-
+#include <qlabel.h>
+#include <qpainter.h>
 
 class QtGraphics : public QWidget, public Graphics {
   Q_OBJECT
-    public:
-  QtGraphics(int xfield, int yfield, const char *movie_file=0);
-  QtGraphics(QWidget *parent, const char *name, int xfield, int yfield, const char *movie_file=0) : QWidget(parent) {
+public:
+  QtGraphics(int xfield, int yfield, const char *movie_file = 0);
+  QtGraphics(QWidget *parent, const char *name, int xfield, int yfield,
+             const char *movie_file = 0)
+      : QWidget(parent) {
     QtGraphics(xfield, yfield, movie_file);
-    //set name here somewhere
+    // set name here somewhere
   }
-  
+
   virtual ~QtGraphics(void);
   virtual void BeginScene(void);
   virtual void EndScene(void);
-  virtual void Point( int colour, int i, int j);
-  virtual void Line ( float x1, float y1, float x2, float  y2,int colour );
- 
-  virtual void keyReleaseEvent( QKeyEvent *e);
-  virtual void keyPressEvent( QKeyEvent *e);
- 
-  virtual void PointAlpha( int alpha, int i, int j);
-  virtual void Rectangle(int colour, int i, int j);
-  virtual void Arrow (int x1, int y1, int x2, int y2, int colour);
-  
-  virtual int GetXYCoo(int *X,int *Y);
-  
-  virtual int XField(void) const {return width();}
-  virtual int YField(void) const {return height();}
+  virtual void Point(int colour, int i, int j);
+  virtual void Line(float x1, float y1, float x2, float y2, int colour);
 
-  virtual void Write(char *fname, int quality=-1);
-  inline void ClearImage(void) {
-    pixmap->fill(pens[0].color());
-  }
-  
+  virtual void keyReleaseEvent(QKeyEvent *e);
+  virtual void keyPressEvent(QKeyEvent *e);
+
+  virtual void PointAlpha(int alpha, int i, int j);
+  virtual void Rectangle(int colour, int i, int j);
+  virtual void Arrow(int x1, int y1, int x2, int y2, int colour);
+
+  virtual int GetXYCoo(int *X, int *Y);
+
+  virtual int XField(void) const { return width(); }
+  virtual int YField(void) const { return height(); }
+
+  virtual void Write(char *fname, int quality = -1);
+  inline void ClearImage(void) { pixmap->fill(pens[0].color()); }
+
   virtual void Resize(int xfield, int yfield);
-  
-  virtual void set_Paused(){paused = true;}
-  virtual void set_unPaused(){paused = false;}
+
+  virtual void set_Paused() { paused = true; }
+  virtual void set_unPaused() { paused = false; }
 
   virtual void TimeStep(void);
-	virtual void resizeEvent( QResizeEvent *event);
-  public slots:
-    void TimeStepWrap(void);
+  virtual void resizeEvent(QResizeEvent *event);
+public slots:
+  void TimeStepWrap(void);
 
-  signals:
-    void SimulationDone(void);
+signals:
+  void SimulationDone(void);
 
- private:
-  void paintEvent( QPaintEvent* );
-  void mousePressEvent( QMouseEvent *e);
-  void mouseReleaseEvent( QMouseEvent *e);
+private:
+  void paintEvent(QPaintEvent *);
+  void mousePressEvent(QMouseEvent *e);
+  void mouseReleaseEvent(QMouseEvent *e);
   QPainter *picture;
   QLabel *label;
   QPicture pic;
@@ -93,7 +92,7 @@ class QtGraphics : public QWidget, public Graphics {
 
   int mouse_x;
   int mouse_y;
-	
+
   int init_size_x;
   int init_size_y;
 
@@ -102,7 +101,7 @@ class QtGraphics : public QWidget, public Graphics {
   int col_num;
 
   bool paused = false;
-	
+
   double mag;
   Qt::MouseButton mouse_button;
 
@@ -112,7 +111,7 @@ class QtGraphics : public QWidget, public Graphics {
 };
 
 #include <qapplication.h>
-//#include <qsignal.h>
+// #include <qsignal.h>
 
 #define TIMESTEP void QtGraphics::TimeStep(void)
 #endif
