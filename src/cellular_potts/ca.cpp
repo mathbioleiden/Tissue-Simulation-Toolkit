@@ -114,7 +114,7 @@ CellularPotts::CellularPotts(vector<Cell> *cells, const int sx, const int sy) {
 
 CellularPotts::CellularPotts(void) {
 
-  sigma = 0;
+  sigma = 0   ;
   sizex = 0;
   sizey = 0;
   frozen = false;
