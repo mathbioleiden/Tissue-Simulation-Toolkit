@@ -102,6 +102,8 @@ void Plotter::Plot() {
   graphics->EndScene();
 }
 
+std::vector<PDEFIELD_TYPE> PDE::DerivativesPDE(CellularPotts *cpm, int x, int y) {}
+
 int PDE::MapColour(double val) {
   return (((int)((val / ((val) + 1.)) * 100)) % 100) + 155;
 }

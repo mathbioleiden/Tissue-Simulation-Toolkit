@@ -94,21 +94,6 @@ TIMESTEP {
   }
 }
 
-void PDE::Secrete(CellularPotts *cpm) {
-  const double dt = par.dt;
-  for (int x = 0; x < sizex; x++) {
-    for (int y = 0; y < sizey; y++) {
-      // inside cells
-      if (cpm->Sigma(x, y)) {
-        PDEvars[0][x][y] += par.secr_rate[0] * dt;
-      } else {
-        // outside cells
-        PDEvars[0][x][y] -= par.decay_rate[0] * dt * PDEvars[0][x][y];
-      }
-    }
-  }
-}
-
 void PDE::InitializeAgeLayer(int l, double value, CellularPotts *cpm) {
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
@@ -218,6 +203,8 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish) {
     }
   }
 }
+
+std::vector<PDEFIELD_TYPE> PDE::DerivativesPDE(CellularPotts *cpm, int x, int y) {}
 
 int PDE::MapColour(double val) {
   return (((int)((val / ((val) + 1.)) * 100)) % 100) + 155;

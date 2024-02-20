@@ -324,6 +324,18 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat) {
   thetime += par.dt;
 }
 
+
+void PDE::ForwardEulerStep(int repeat, CellularPotts *cpm){
+  std::vector<PDEFIELD_TYPE> derivs;
+  for (int x = 0; x < sizex; x++){
+    for (int y = 0; y < sizey; y++){
+      derivs = DerivativesPDE(cpm, x, y);
+      for (int l = 0; l < layers; l++)
+        PDEvars[l][x][y] = alt_PDEvars[l][x][y] + derivs[l] * par.dt;
+    }
+  }
+}
+
 // public
 void PDE::Diffuse(int repeat) {
 
@@ -359,9 +371,13 @@ void PDE::Diffuse(int repeat) {
     tmp = PDEvars;
     PDEvars = alt_PDEvars;
     alt_PDEvars = tmp;
-
-    thetime += dt;
   }
+}
+
+void PDE::ReactionDiffusion(CellularPotts *cpm){
+  Diffuse(1);
+  ForwardEulerStep(1, cpm);
+  thetime += par.dt;
 }
 
 double PDE::GetChemAmount(const int layer) {

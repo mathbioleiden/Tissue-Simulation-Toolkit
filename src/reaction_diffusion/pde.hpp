@@ -164,18 +164,7 @@ public:
   // lymphocyte matrix interaction function
 
   void MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish);
-  /*! \brief Carry out $n$ diffusion steps for all PDE planes.
 
-  We use a forward Euler method here. Can be replaced for better algorithm.
-
-  \param repeat: Number of steps.
-
-  Time step dt, space step dx, diffusion coefficient diff_coeff and
-  boundary conditions (bool periodic_boundary) are set as global
-  parameters in a parameter file using class Parameter.
-
-  */
-  void Diffuse(int repeat);
 
   /*! \brief Implementation of no-flux boundaries.
 
@@ -191,12 +180,45 @@ public:
   Called internally (optionally) by Diffuse(). */
   void PeriodicBoundaries(void);
 
-  /*! \brief Reaction and interaction of CPM plane with PDE planes.
+  /*! \brief Intialisation of PDE variables
+  \param cpm: CellularPotts plane the PDE plane interacts with
+  Initial conditions conditions for the PDE should be given here.
+  */
+  void InitialisePDE(CellularPotts *cpm);
+
+  /*! \brief Derivatives of PDE variables.
   \param cpm: CellularPotts plane the PDE plane interacts with
   You should implement this member function as part of your main
   simulation code. See for an example vessel.cpp.
+  \return Derivatives at pixel (x,y)
   */
-  void Secrete(CellularPotts *cpm);
+  std::vector<PDEFIELD_TYPE> DerivativesPDE(CellularPotts *cpm, int x, int y);
+
+
+  /*! \brief Do a single forward Euler step to solve the ODE
+  \param repeat: Number of steps.
+  We solve with a simple forward Euler solver. Ths can be replaced with alternative ODE solvers.
+  */
+  void ForwardEulerStep(int repeat, CellularPotts *cpm);
+
+  /*! \brief Carry out $n$ diffusion steps for all PDE planes.
+
+  We use a forward Euler method here. Can be replaced for better algorithm.
+
+  \param repeat: Number of steps.
+
+  Time step dt, space step dx, diffusion coefficient diff_coeff and
+  boundary conditions (bool periodic_boundary) are set as global
+  parameters in a parameter file using class Parameter.
+
+  */
+  void Diffuse(int repeat);
+
+  /*! \brief Do a single reaction diffusion step based on the 
+  given PDE derivatives
+  */
+  void ReactionDiffusion(CellularPotts *cpm);
+
 
   // Secrete and diffuse functions accelerated using OpenCL
   void SecreteAndDiffuseCL(CellularPotts *cpm, int repeat);
@@ -251,6 +273,7 @@ public:
   double lowest;
 
 protected:
+
   PDEFIELD_TYPE ***PDEvars;
 
   // Used as temporary memory in the diffusion step
