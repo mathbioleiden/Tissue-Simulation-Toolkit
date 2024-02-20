@@ -16,7 +16,12 @@ enum class BoundaryType
 template <typename DataType> class Array2d
 {
 public:
-    
+
+    /**
+     * @brief Default constructor, creates a 1x1 grid of 1 layer. 
+    */
+    Array2d();
+
     /**
      * @brief Constructor of an array with one layer and wall boundaries
      * @param sizex The maximum of the first coordinate.
@@ -47,6 +52,11 @@ public:
      * @param boundary_type The type of boundary used.
      */
     Array2d(int sizex, int sizey, int layers, BoundaryType boundary_type);
+    
+    /**
+     * @brief (Re-)initalizes data. Clears array and constructs a new one.
+    */
+    void initalize(int sizex, int sizey, int layers, BoundaryType boundary_type);
 
     /** Getter for data of layer 0
      *
@@ -75,11 +85,12 @@ public:
      * @param value The value that is stored.
      */
     void set(Vec2<int> coordinate, int layer, DataType value);
+    
 
 private:
-    const int sizex_;
-    const int sizey_;
-    const int layers_;
-    const BoundaryType boundary_type_;
+    int sizex_;
+    int sizey_;
+    int layers_;
+    BoundaryType boundary_type_;
     std::vector<DataType> data_;
 };

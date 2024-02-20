@@ -41,6 +41,17 @@ Array2d<DataType>::Array2d(int sizex, int sizey, int layers,
 }
 
 template <typename DataType>
+Array2d<DataType>::Array2d() { }
+
+template <typename DataType>
+void Array2d<DataType>::initalize(int sizex, int sizey, int layers, BoundaryType boundary_type) {
+    sizex_ = sizex;  
+    sizey_ = sizey;  
+    layers_ = layers;
+    boundary_type_ = boundary_type;
+}
+
+template <typename DataType>
 DataType Array2d<DataType>::get(Vec2<int> coordinate)
 {
     return get(coordinate, 0);
