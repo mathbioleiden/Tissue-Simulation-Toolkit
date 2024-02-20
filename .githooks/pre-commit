@@ -1,3 +1,0 @@
-#!/bin/sh
-what=$(git diff --staged --name-only |  grep -E '(hpp|cpp)$')
-[ -z "$what" ] || clang-format -i -style=file $what

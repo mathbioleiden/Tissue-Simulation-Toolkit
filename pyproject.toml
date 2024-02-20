@@ -1,0 +1,66 @@
+[project]
+name = "tissue_simulation_toolkit"
+version = "2.0.0-dev"
+dependencies = [
+    # "hoomd",          # Cannot be installed by pip, installed by Makefile
+    # "mpi4py",         # Optional, installed by Makefile if needed
+    "muscle3==0.7.1",
+    "numpy",
+    "scipy"
+]
+
+[project.scripts]
+make_ecm = "tissue_simulation_toolkit.ecm.make_ecm:main"
+simulate_ecm = "tissue_simulation_toolkit.ecm.simulate_ecm:main"
+state_viewer = "tissue_simulation_toolkit.cpm_ecm.state_viewer:main"
+state_dumper = "tissue_simulation_toolkit.cpm_ecm.state_dumper:main"
+plot_states = "tissue_simulation_toolkit.scripts.plot_states:main"
+
+
+[build-system]
+requires = [
+    "setuptools >= 61.0.0",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+tissue_simulation_toolkit = "src"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+min_version = 4.0
+skip_missing_interpreters = true
+env_list =
+    py37
+    py38
+    py39
+    py310
+    py311
+
+[testenv]
+deps =
+    setuptools >= 61.0.0
+    mypy
+
+commands =
+    mypy
+"""
+
+[tool.mypy]
+mypy_path = "src"
+files = "src/**/*.py"
+
+[[tool.mypy.overrides]]
+module = [
+    'hoomd',
+    'hoomd.data',
+    'hoomd.md',
+    'mpi4py',
+    'ruamel',
+    'scipy.stats',
+    'scipy.signal'
+    ]
+
+ignore_missing_imports = true
+

@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 
 #CONFIG += release
 CONFIG += debug
+CONFIG += c++17
 
 # Select the graphics backend by uncommenting it.
 # - GL graphics requires the GLUT and GLEW libraries.
@@ -57,26 +58,29 @@ QMAKE_CXXFLAGS += -Wno-unused-parameter
 
 message("Building model:" $$MODEL )
 
-HEADERS += cellular_potts/*.hpp \
+HEADERS += adhesions/*.hpp \
+           cellular_potts/*.hpp \
            parameters/*.hpp \
            plotting/*.hpp \
            reaction_diffusion/*.hpp \
-	   reaction_diffusion/*.h \
+           reaction_diffusion/*.h \
            util/*.hpp \
-	   compute/*.hpp
+           compute/*.hpp
 
 
-SOURCES += cellular_potts/*.cpp \
+SOURCES += adhesions/*.cpp \
+           cellular_potts/*.cpp \
            parameters/*.cpp \
            plotting/*.cpp \
            reaction_diffusion/*.cpp \
            util/*.cpp \
-	   compute/*.cpp \
-	   graphics/graph.cpp 
+           compute/*.cpp \
+           graphics/graph.cpp
 
 SOURCES += $$MAINFILE
 
-INCLUDEPATH += cellular_potts/ \
+INCLUDEPATH += adhesions/ \
+               cellular_potts/ \
                graphics/ \
                models/ \
                parameters/ \
