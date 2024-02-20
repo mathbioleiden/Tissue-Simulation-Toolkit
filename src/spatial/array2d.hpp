@@ -20,7 +20,7 @@ public:
     /**
      * @brief Default constructor, creates a 1x1 grid of 1 layer. 
     */
-    Array2d();
+    Array2d() = default;
 
     /**
      * @brief Constructor of an array with one layer and wall boundaries
@@ -76,7 +76,7 @@ public:
      * @param coordinate The position at which the data is stored.
      * @param value The value that is stored.
      */
-    void set(Vec2<int> coordiante , DataType value);
+    void set(Vec2<int> coordinate , DataType value);
 
     /** Sets value at given layer for given coordinate
      * 
@@ -85,8 +85,12 @@ public:
      * @param value The value that is stored.
      */
     void set(Vec2<int> coordinate, int layer, DataType value);
-    
 
+    /**
+     * @brief Used to get the underlying pointer to the continuous data;
+     * @return Pointer to the data
+     */
+    DataType* get_data();
 private:
     int sizex_;
     int sizey_;

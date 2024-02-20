@@ -11,9 +11,6 @@ extern Parameter par;
 
 using namespace std::string_literals;
 
-
-
-
 int annihilation_penalty(int num_destroyed) {
     return num_destroyed * par.adhesion_annihilation_penalty;
 }
