@@ -100,10 +100,10 @@ void PDE::Secrete(CellularPotts *cpm) {
     for (int y = 0; y < sizey; y++) {
       // inside cells
       if (cpm->Sigma(x, y)) {
-        sigma[0][x][y] += par.secr_rate[0] * dt;
+        PDEvars[0][x][y] += par.secr_rate[0] * dt;
       } else {
         // outside cells
-        sigma[0][x][y] -= par.decay_rate[0] * dt * sigma[0][x][y];
+        PDEvars[0][x][y] -= par.decay_rate[0] * dt * PDEvars[0][x][y];
       }
     }
   }
@@ -112,10 +112,10 @@ void PDE::Secrete(CellularPotts *cpm) {
 void PDE::InitializeAgeLayer(int l, double value, CellularPotts *cpm) {
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
-      if (sigma[l][x][y] > 0) {
-        sigma[l][x][y] = value;
+      if (PDEvars[l][x][y] > 0) {
+        PDEvars[l][x][y] = value;
       } else {
-        sigma[l][x][y] = 0.;
+        PDEvars[l][x][y] = 0.;
       }
     }
   }

@@ -42,19 +42,19 @@ extern Parameter par;
 /** PRIVATE **/
 
 PDE::PDE(const int l, const int sx, const int sy) {
-  sigma = 0;
+  PDEvars = 0;
   thetime = 0;
   sizex = sx;
   sizey = sy;
   layers = l;
-  sigma = AllocateSigma(l, sx, sy);
-  alt_sigma = AllocateSigma(l, sx, sy);
+  PDEvars = AllocatePDEvars(l, sx, sy);
+  alt_PDEvars = AllocatePDEvars(l, sx, sy);
 }
 
 PDE::PDE(void) {
 
-  sigma = 0;
-  alt_sigma = 0;
+  PDEvars = 0;
+  alt_PDEvars = 0;
   sizex = 0;
   sizey = 0;
   layers = 0;
@@ -66,21 +66,21 @@ PDE::PDE(void) {
 
 // destructor (virtual)
 PDE::~PDE(void) {
-  if (sigma) {
-    free(sigma[0][0]);
-    free(sigma[0]);
-    free(sigma);
-    sigma = 0;
+  if (PDEvars) {
+    free(PDEvars[0][0]);
+    free(PDEvars[0]);
+    free(PDEvars);
+    PDEvars = 0;
   }
-  if (alt_sigma) {
-    free(alt_sigma[0][0]);
-    free(alt_sigma[0]);
-    free(alt_sigma);
-    alt_sigma = 0;
+  if (alt_PDEvars) {
+    free(alt_PDEvars[0][0]);
+    free(alt_PDEvars[0]);
+    free(alt_PDEvars);
+    alt_PDEvars = 0;
   }
 }
 
-PDEFIELD_TYPE ***PDE::AllocateSigma(const int layers, const int sx,
+PDEFIELD_TYPE ***PDE::AllocatePDEvars(const int layers, const int sx,
                                     const int sy) {
   PDEFIELD_TYPE ***mem;
   sizex = sx;
@@ -117,10 +117,10 @@ void PDE::Plot(Graphics *g, const int l) {
     for (int y = 0; y < sizey; y++) {
       // Make the pixel four times as large
       // to fit with the CPM plane
-      g->Point(MapColour(sigma[l][x][y]), x, y);
-      g->Point(MapColour(sigma[l][x][y]), x + 1, y);
-      g->Point(MapColour(sigma[l][x][y]), x, y + 1);
-      g->Point(MapColour(sigma[l][x][y]), x + 1, y + 1);
+      g->Point(MapColour(PDEvars[l][x][y]), x, y);
+      g->Point(MapColour(PDEvars[l][x][y]), x + 1, y);
+      g->Point(MapColour(PDEvars[l][x][y]), x, y + 1);
+      g->Point(MapColour(PDEvars[l][x][y]), x + 1, y + 1);
     }
   }
 }
@@ -133,10 +133,10 @@ void PDE::Plot(Graphics *g, CellularPotts *cpm, const int l) {
       if (cpm->Sigma(x, y) == 0) {
         // Make the pixel four times as large
         // to fit with the CPM plane
-        g->Point(MapColour(sigma[l][x][y]), x, y);
-        g->Point(MapColour(sigma[l][x][y]), x + 1, y);
-        g->Point(MapColour(sigma[l][x][y]), x, y + 1);
-        g->Point(MapColour(sigma[l][x][y]), x + 1, y + 1);
+        g->Point(MapColour(PDEvars[l][x][y]), x, y);
+        g->Point(MapColour(PDEvars[l][x][y]), x + 1, y);
+        g->Point(MapColour(PDEvars[l][x][y]), x, y + 1);
+        g->Point(MapColour(PDEvars[l][x][y]), x + 1, y + 1);
       }
     }
   }
@@ -169,7 +169,7 @@ void PDE::ContourPlot(Graphics *g, int l, int colour) {
     y[i] = i;
   }
 
-  conrec(sigma[l], 0, sizex - 1, 0, sizey - 1, x, y, nc, z, g, colour);
+  conrec(PDEvars[l], 0, sizex - 1, 0, sizey - 1, x, y, nc, z, g, colour);
 
   free(x);
   free(y);
@@ -283,7 +283,7 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat) {
   if (first_round) {
     clm.queue.enqueueWriteBuffer(clm.pdeA, CL_TRUE, 0,
                                  sizeof(PDEFIELD_TYPE) * sizex * sizey * layers,
-                                 sigma[0][0]);
+                                 PDEvars[0][0]);
     first_round = false;
   }
   // Main loop executing kernel and switching between A and B arrays
@@ -313,11 +313,11 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat) {
   if (clm.pde_AB == 0) {
     clm.queue.enqueueReadBuffer(clm.pdeB, CL_TRUE, 0,
                                 sizeof(PDEFIELD_TYPE) * sizex * sizey * layers,
-                                sigma[0][0]);
+                                PDEvars[0][0]);
   } else {
     clm.queue.enqueueReadBuffer(clm.pdeA, CL_TRUE, 0,
                                 sizeof(PDEFIELD_TYPE) * sizex * sizey * layers,
-                                sigma[0][0]);
+                                PDEvars[0][0]);
   }
   if (errorcode != CL_SUCCESS)
     cout << "error:" << errorcode << endl;
@@ -346,19 +346,19 @@ void PDE::Diffuse(int repeat) {
       for (int x = 1; x < sizex - 1; x++)
         for (int y = 1; y < sizey - 1; y++) {
           PDEFIELD_TYPE sum = 0.;
-          sum += sigma[l][x + 1][y];
-          sum += sigma[l][x - 1][y];
-          sum += sigma[l][x][y + 1];
-          sum += sigma[l][x][y - 1];
-          sum -= 4 * sigma[l][x][y];
-          alt_sigma[l][x][y] =
-              sigma[l][x][y] + sum * dt * par.diff_coeff[l] / dx2;
+          sum += PDEvars[l][x + 1][y];
+          sum += PDEvars[l][x - 1][y];
+          sum += PDEvars[l][x][y + 1];
+          sum += PDEvars[l][x][y - 1];
+          sum -= 4 * PDEvars[l][x][y];
+          alt_PDEvars[l][x][y] =
+              PDEvars[l][x][y] + sum * dt * par.diff_coeff[l] / dx2;
         }
     }
     PDEFIELD_TYPE ***tmp;
-    tmp = sigma;
-    sigma = alt_sigma;
-    alt_sigma = tmp;
+    tmp = PDEvars;
+    PDEvars = alt_PDEvars;
+    alt_PDEvars = tmp;
 
     thetime += dt;
   }
@@ -373,14 +373,14 @@ double PDE::GetChemAmount(const int layer) {
     for (int l = 0; l < layers; l++) {
       for (int x = 1; x < sizex - 1; x++) {
         for (int y = 1; y < sizey - 1; y++) {
-          sum += sigma[l][x][y];
+          sum += PDEvars[l][x][y];
         }
       }
     }
   } else {
     for (int x = 1; x < sizex - 1; x++)
       for (int y = 1; y < sizey - 1; y++) {
-        sum += sigma[layer][x][y];
+        sum += PDEvars[layer][x][y];
       }
   }
   return sum;
@@ -394,12 +394,12 @@ void PDE::NoFluxBoundaries(void) {
   // but they aren't used in the calculations
   for (int l = 0; l < layers; l++) {
     for (int x = 0; x < sizex; x++) {
-      sigma[l][x][0] = sigma[l][x][1];
-      sigma[l][x][sizey - 1] = sigma[l][x][sizey - 2];
+      PDEvars[l][x][0] = PDEvars[l][x][1];
+      PDEvars[l][x][sizey - 1] = PDEvars[l][x][sizey - 2];
     }
     for (int y = 0; y < sizey; y++) {
-      sigma[l][0][y] = sigma[l][1][y];
-      sigma[l][sizex - 1][y] = sigma[l][sizex - 2][y];
+      PDEvars[l][0][y] = PDEvars[l][1][y];
+      PDEvars[l][sizex - 1][y] = PDEvars[l][sizex - 2][y];
     }
   }
 }
@@ -409,12 +409,12 @@ void PDE::AbsorbingBoundaries(void) {
   // all boundaries are sinks,
   for (int l = 0; l < layers; l++) {
     for (int x = 0; x < sizex; x++) {
-      sigma[l][x][0] = 0.;
-      sigma[l][x][sizey - 1] = 0.;
+      PDEvars[l][x][0] = 0.;
+      PDEvars[l][x][sizey - 1] = 0.;
     }
     for (int y = 0; y < sizey; y++) {
-      sigma[l][0][y] = 0.;
-      sigma[l][sizex - 1][y] = 0.;
+      PDEvars[l][0][y] = 0.;
+      PDEvars[l][sizex - 1][y] = 0.;
     }
   }
 }
@@ -424,12 +424,12 @@ void PDE::PeriodicBoundaries(void) {
   // periodic...
   for (int l = 0; l < layers; l++) {
     for (int x = 0; x < sizex; x++) {
-      sigma[l][x][0] = sigma[l][x][sizey - 2];
-      sigma[l][x][sizey - 1] = sigma[l][x][1];
+      PDEvars[l][x][0] = PDEvars[l][x][sizey - 2];
+      PDEvars[l][x][sizey - 1] = PDEvars[l][x][1];
     }
     for (int y = 0; y < sizey; y++) {
-      sigma[l][0][y] = sigma[l][sizex - 2][y];
-      sigma[l][sizex - 1][y] = sigma[l][1][y];
+      PDEvars[l][0][y] = PDEvars[l][sizex - 2][y];
+      PDEvars[l][sizex - 1][y] = PDEvars[l][1][y];
     }
   }
 }
@@ -444,32 +444,32 @@ void PDE::GradC(int layer, int first_grad_layer) {
   // GradX
   for (int y = 0; y < sizey; y++) {
     for (int x = 1; x < sizex - 1; x++) {
-      sigma[first_grad_layer][x][y] =
-          (sigma[layer][x + 1][y] - sigma[layer][x - 1][y]) / 2.;
+      PDEvars[first_grad_layer][x][y] =
+          (PDEvars[layer][x + 1][y] - PDEvars[layer][x - 1][y]) / 2.;
     }
   }
   // GradY
   for (int x = 0; x < sizex; x++) {
     for (int y = 1; y < sizey - 1; y++) {
-      sigma[first_grad_layer + 1][x][y] =
-          (sigma[layer][x][y + 1] - sigma[layer][x][y - 1]) / 2.;
+      PDEvars[first_grad_layer + 1][x][y] =
+          (PDEvars[layer][x][y + 1] - PDEvars[layer][x][y - 1]) / 2.;
     }
   }
   // GradXX
   for (int y = 0; y < sizey; y++) {
     for (int x = 1; x < sizex - 1; x++) {
-      sigma[first_grad_layer + 2][x][y] = sigma[layer][x + 1][y] -
-                                          sigma[layer][x - 1][y] -
-                                          2 * sigma[layer][x][y];
+      PDEvars[first_grad_layer + 2][x][y] = PDEvars[layer][x + 1][y] -
+                                          PDEvars[layer][x - 1][y] -
+                                          2 * PDEvars[layer][x][y];
     }
   }
 
   // GradYY
   for (int x = 0; x < sizex; x++) {
     for (int y = 1; y < sizey - 1; y++) {
-      sigma[first_grad_layer + 3][x][y] = sigma[layer][x][y - 1] -
-                                          sigma[layer][x][y + 1] -
-                                          2 * sigma[layer][x][y];
+      PDEvars[first_grad_layer + 3][x][y] = PDEvars[layer][x][y - 1] -
+                                          PDEvars[layer][x][y + 1] -
+                                          2 * PDEvars[layer][x][y];
     }
   }
 }
@@ -483,10 +483,10 @@ void PDE::PlotVectorField(Graphics &g, int stride, int linelength,
       // calculate line
       int x1, y1, x2, y2;
 
-      x1 = (int)(x - linelength * sigma[first_grad_layer][x][y]);
-      y1 = (int)(y - linelength * sigma[first_grad_layer + 1][x][y]);
-      x2 = (int)(x + linelength * sigma[first_grad_layer][x][y]);
-      y2 = (int)(y + linelength * sigma[first_grad_layer + 1][x][y]);
+      x1 = (int)(x - linelength * PDEvars[first_grad_layer][x][y]);
+      y1 = (int)(y - linelength * PDEvars[first_grad_layer + 1][x][y]);
+      x2 = (int)(x + linelength * PDEvars[first_grad_layer][x][y]);
+      y2 = (int)(y + linelength * PDEvars[first_grad_layer + 1][x][y]);
       if (x1 < 0)
         x1 = 0;
       if (x1 > sizex - 1)
@@ -512,7 +512,7 @@ void PDE::PlotVectorField(Graphics &g, int stride, int linelength,
 }
 
 bool PDE::plotPos(int x, int y, Graphics *graphics, int layer) {
-  double val = sigma[layer][x][y];
+  double val = PDEvars[layer][x][y];
   if (val > 0) {
     graphics->Rectangle(MapColour(val), x, y);
     return false;
@@ -529,7 +529,7 @@ void PDE::InitLinearYGradient(int spec, double conc_top, double conc_bottom) {
     double val = (double)conc_top +
                  y * ((double)(conc_bottom - conc_top) / (double)sizey);
     for (int x = 0; x < sizex; x++) {
-      sigma[spec][x][y] = val;
+      PDEvars[spec][x][y] = val;
     }
     cerr << y << " " << val << endl;
   }

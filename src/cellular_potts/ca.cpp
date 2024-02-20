@@ -559,8 +559,8 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield) {
     // If par.extensiononly == true, apply CompuCell's method, i.e.
     // only chemotactic extensions contribute to energy change
     if (!(par.extensiononly && sxyp == 0)) {
-      int DDH = (int)(par.chemotaxis * (sat(PDEfield->Sigma(0, x, y)) -
-                                        sat(PDEfield->Sigma(0, xp, yp))));
+      int DDH = (int)(par.chemotaxis * (sat(PDEfield->get_PDEvars(0, x, y)) -
+                                        sat(PDEfield->get_PDEvars(0, xp, yp))));
       DH -= DDH;
     }
   }
@@ -822,8 +822,8 @@ int CellularPotts::Act_DeltaH(int x, int y, int xp, int yp, PDE *PDEfield) {
     // If par.extensiononly == true, apply CompuCell's method, i.e.
     // only chemotactic extensions contribute to energy change
     if (!(par.extensiononly && sxyp == 0)) {
-      DDH = (int)(par.chemotaxis * (sat(PDEfield->Sigma(0, x, y)) -
-                                    sat(PDEfield->Sigma(0, xp, yp))));
+      DDH = (int)(par.chemotaxis * (sat(PDEfield->get_PDEvars(0, x, y)) -
+                                    sat(PDEfield->get_PDEvars(0, xp, yp))));
 
       DH -= DDH;
     }
@@ -885,8 +885,8 @@ int CellularPotts::Act_DeltaH(int x, int y, int xp, int yp, PDE *PDEfield) {
       }
 
     // apply the smoothing
-    // Act_expanding*= pow( PDEfield->Sigma(2,xp,yp), w-1);
-    // Act_retracting*= pow(PDEfield->Sigma(2,x,y), w-1);
+    // Act_expanding*= pow( PDEfield->get_PDEvars(2,xp,yp), w-1);
+    // Act_retracting*= pow(PDEfield->get_PDEvars(2,x,y), w-1);
     // nxp += w-1;
     // nret += w-1;
 
