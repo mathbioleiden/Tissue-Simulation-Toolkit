@@ -27,7 +27,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 // This code derives from a Cellular Potts implementation written around 1995
 // by Nick Savill
 
-#include <stdio.h>
+#include <cstdio>
 #include <math.h>
 #include <cstdlib>
 #include <cstring>
