@@ -85,8 +85,12 @@ public:
      * @param value The value that is stored.
      */
     void set(Vec2<int> coordinate, int layer, DataType value);
-    
 
+    /**
+     * @brief Used to get the underlying pointer to the continuous data;
+     * @return Pointer to the data
+     */
+    DataType* get_data();
 private:
     int sizex_;
     int sizey_;
