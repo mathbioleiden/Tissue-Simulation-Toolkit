@@ -76,7 +76,7 @@ public:
      * @param coordinate The position at which the data is stored.
      * @param value The value that is stored.
      */
-    void set(Vec2<int> coordiante , DataType value);
+    void set(Vec2<int> coordinate , DataType value);
 
     /** Sets value at given layer for given coordinate
      * 
