@@ -21,9 +21,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
-#ifndef _GRAPH_H_
-#define _GRAPH_H_
-
 /*! \class Graphics 
 
 \brief API for Graphics windows. 
@@ -31,10 +28,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 No implementation here. Implemented by X11Graphics and QtGraphics.
 
 */
+#ifndef _GRAPH_H_
+#define _GRAPH_H_
 #include <iostream>
-
 // Base class for Graphics interface. No implementation
+
 class Graphics {
+
  public:
   //  Graphics(int xfield, int yfield, const char *movie_file=0);
   virtual ~Graphics(void) {};
@@ -119,23 +119,5 @@ class Graphics {
   virtual void set_unPaused(){};
 };
 
-// Graphics implementations 
-#ifdef QTGRAPHICS
-#include "qtgraph.hpp"
-#endif
-
-#ifdef GLGRAPHICS
-#include "glgraph.hpp"
-#endif
-
-#ifdef QTGLGRAPHICS
-#include "qtglgraph.hpp"
-#endif
-
-#ifdef X11GRAPHICS
-#include "x11graph.hpp"
-#endif
-
-void start_graphics(int argc, char ** argv);
 
 #endif

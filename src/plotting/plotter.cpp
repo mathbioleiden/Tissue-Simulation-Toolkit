@@ -1,5 +1,6 @@
 #include <iostream>
 #include "parameter.hpp"
+#include "graph.hpp"
 #include "dish.hpp"
 #include "plotter.hpp"
 #include "cell.hpp"   
@@ -15,13 +16,10 @@ Plotter::Plotter(Dish * dish_pointer , Graphics * graphics_pointer) {
 #ifdef GLGRAPHICS  
   glgraphics = (GLGraphics *) graphics;
 #endif
-#ifdef QTGLGRAPHICS
-  glgraphics = (QtGLGraphics *) graphics;
-#endif
   sigma_col = new int[par.sizex*par.sizey];
 }
 
-#if defined(GLGRAPHICS) || defined(QTGLGRAPHICS)
+#ifdef GLGRAPHICS
 
 void Plotter::plotPDEDensity() {
   glgraphics->DensityPlot(dish->PDEfield->getSigma()[0][0], 

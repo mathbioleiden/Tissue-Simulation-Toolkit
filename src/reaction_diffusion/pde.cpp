@@ -25,13 +25,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
-
 #include "crash.hpp"
 #include "parameter.hpp"
 #include "ca.hpp"
 #include "pde.hpp"
 #include "conrec.hpp"
-#include "graph.hpp"
+
 
 /* STATIC DATA MEMBER INITIALISATION */
 const int PDE::nx[9] = {0, 1, 1, 1, 0,-1,-1,-1, 0 };
@@ -194,7 +193,7 @@ void PDE::PlotInCells (Graphics *g, CellularPotts *cpm, const int l) {
         }
         if (par.lambda_matrix>0) {
           if (cpm->matrix[x][y]>0) {
-            g->Rectangle(256, x, y);
+            g->Rectangle(0, x, y);
           }
         }
       } else if (cpm->Sigma(x,y)==-2) {
@@ -215,9 +214,8 @@ void PDE::SetupOpenCL(){
   //Secretion and diffusion variables
   PDEFIELD_TYPE dt = (PDEFIELD_TYPE) par.dt;
   PDEFIELD_TYPE dx2 = (PDEFIELD_TYPE) par.dx*par.dx;
-  // This ignores all but the first value?!
-  PDEFIELD_TYPE decay_rate = (PDEFIELD_TYPE) * par.decay_rate.data();
-  PDEFIELD_TYPE secr_rate = (PDEFIELD_TYPE) * par.secr_rate.data();
+  PDEFIELD_TYPE decay_rate = (PDEFIELD_TYPE) * par.decay_rate;
+  PDEFIELD_TYPE secr_rate = (PDEFIELD_TYPE) * par.secr_rate;
   
   int btype = 3;
   if (par.periodic_boundaries) btype=2;
@@ -269,10 +267,8 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat){
     CL_TRUE, 0, sizeof(int)*sizex*sizey, cpm->getSigma()[0]);
 
     //Writing pdefield sigma is only necessary if modified outside of kernel
-    if (first_round) {
-      clm.queue.enqueueWriteBuffer(clm.pdeA,  CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
-      first_round = false;
-    }
+    //queue.enqueueWriteBuffer(clm.pdeA,  CL_TRUE, 0, sizeof(PDEFIELD_TYPE)*sizex*sizey*layers, sigma[0][0]);
+
     //Main loop executing kernel and switching between A and B arrays
     for (int index = 0; index < repeat; index ++){
       if (clm.pde_AB == 1) clm.pde_AB = 0;

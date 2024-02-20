@@ -10,7 +10,7 @@ PDEFIELD_TYPE dt,
 PDEFIELD_TYPE dx2, 
 global const PDEFIELD_TYPE* diff_coeff,
 PDEFIELD_TYPE secr_rate,
-int btype) {
+int btype ) {
   //ID is used for position in array
   int id = get_global_id(0); 
   // test b 
@@ -49,6 +49,7 @@ int btype) {
   else {
     //Retrieve current value in array
     PDEFIELD_TYPE value = sigmaA[id];
+    
     //Secretion
     if (btype != 1){
       if (zpos == 0){

@@ -33,13 +33,20 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <unordered_set>
 #include <unordered_map>
 #include <vector>
+#include "graph.hpp"
+#include "pde.hpp"
+//#include "dish.h"
+#include "cell.hpp"
+
+// MultiCellDS 
+#include <MultiCellDS.hpp>
+#include <MultiCellDS-pimpl.hpp>
+#include <MultiCellDS-simpl.hpp>
 #include <array>
+
 #include <random>
 #include <cstddef>
 #include <functional>
-
-#include "pde.hpp"
-#include "cell.hpp"
 
 using namespace std;
 
@@ -228,7 +235,10 @@ public:
   The black lines are omitted.
   */
   void PlotSigma(Graphics *g, int mag=2);
-  
+  void WriteData(void);
+
+  /*! A simple method to count all sigma's and write the output to an ostream */
+  void CountSigma(std::ostream &os);
   
   /*! \brief Divide all cells.
   Divide along cell elongation axis */
@@ -412,10 +422,6 @@ public:
     return (*cell)[c];
   }
 
-  inline vector<Cell>* getCellArray() {
-    return cell;
-  }
-
   /*! Draw convex hull around all cells.
     \return The area of the convex hull in lattice sites.
   */
@@ -426,11 +432,17 @@ public:
     Function allows a bounding box.
     \return Compactness.
   */
+<<<<<<< HEAD
   double Compactness(void);  
 
   /*! \brief Assign random sigma to every lattice point
     \par n_cells: total number of cells
   */
+=======
+  double Compactness(double *res_compactness = 0, 
+		     double *res_area = 0, 
+		     double *res_cell_area = 0);
+>>>>>>> TST2.0
   void RandomSigma(int n_cells);
   
   /*! \brief Measure the initial cell sizes 
@@ -536,6 +548,7 @@ private:
   /*! \brief Compute large deltaH 'on-the-fly'
   */
   void CopyProb(double T);
+<<<<<<< HEAD
 
   /*! \brief Check if the cell is locally connected at (x,y)
   From Durand, M., & Guesnet, E. (2016). An efficient Cellular Potts Model algorithm that forbids cell fragmentation. Computer Physics Communications, 208, 54-63.
@@ -547,6 +560,8 @@ private:
 
   /*! \brief Checks if connectivity is preserved if (x,y) would be changed 
   */
+=======
+>>>>>>> TST2.0
   bool ConnectivityPreservedP(int x, int y);
   /*! \brief Checks if a cluster of cell would remain conencted if (x,y) would be changed
   */

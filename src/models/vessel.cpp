@@ -37,11 +37,25 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "parameter.hpp"
 #include "plotter.hpp"
 #include "profiler.hpp"
-#include "graph.hpp"
+
+#ifdef QTGRAPHICS
+#include "qtgraph.hpp"
+#endif
+
+#ifdef GLGRAPHICS
+//#include "glgraph.hpp"
+#include <GL/glut.h> 
+#endif
+
+#ifdef X11GRAPHICS
+#include "x11graph.hpp"
+#endif
+
 
 using namespace std;
 
 INIT {
+
   try {
     // Define initial distribution of cells
      CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
@@ -92,8 +106,11 @@ TIMESTEP {
     }
     if (par.store && !(i%par.storage_stride)) {
       char fname[200],fname_mcds[200];
-      snprintf(fname,199,"%s/extend%05d.png",par.datadir.c_str(),i);
+      snprintf(fname,199,"%s/extend%05d.png",par.datadir,i);
+      snprintf(fname_mcds,199,"%s/extend%05d.xml",par.datadir,i);
       Write(fname);
+      if (!(i%(par.storage_stride*10)))
+        dish->ExportMultiCellDS(fname_mcds);
     }
     i++;
   } catch(const char* error) {
@@ -101,7 +118,10 @@ TIMESTEP {
     std::cerr << error << "\n";
     exit(1);
   }
-  PROFILE_PRINT
+#ifdef PROFILING_ENABLED
+  profiler.print_all();
+  std::cout << std::endl;
+#endif
 }
 
 void PDE::Secrete(CellularPotts *cpm) {
@@ -117,7 +137,6 @@ void PDE::Secrete(CellularPotts *cpm) {
       }
     }
   }
-  PROFILE_PRINT
 }
 
 int PDE::MapColour(double val) {
@@ -137,14 +156,40 @@ void Plotter::Plot()  {
 }
 
 int main(int argc, char *argv[]) {
-  extern Parameter par;
-  try {  
+  try {
+#ifdef QTGRAPHICS
+    QApplication a(argc, argv);
+#endif
+    // Read parameters
     par.Read(argv[1]);
     Seed(par.rseed);
-    start_graphics(argc, argv);
+    //QMainWindow mainwindow w;
+#ifdef QTGRAPHICS
+    QtGraphics g(par.sizex*2,par.sizey*2);
+    a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
+    if (par.graphics)
+      g.show();
+    a.exec();
+#endif
+#ifdef GLGRAPHICS
+  extern GLGraphics * graphics_object;
+  glutInit(&argc, argv );
+  graphics_object = new GLGraphics(par.sizex*3, par.sizey*3);
+  glutMainLoop();
+#endif 
+#ifdef X11GRAPHICS
+    X11Graphics g(par.sizex*2,par.sizey*2);
+    int t;
+    for (t=0;t<par.mcs;t++) {
+      g.TimeStep();
+    }
+#endif
   } catch(const char* error) {
-    std::cerr << error << std::endl;
-    return 1;
+    std::cerr << error << "\n";
+    exit(1);
+  }
+  catch(...) {
+    std::cerr << "An unknown exception was caught\n";
   }
   return 0;
 }
