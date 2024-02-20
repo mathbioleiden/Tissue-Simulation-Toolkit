@@ -33,7 +33,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "info.hpp"
 #include "parameter.hpp"
 #include "sqr.hpp"
-#include "graph.hpp"
+
+#ifdef QTGRAPHICS
+#include "qtgraph.hpp"
+#else
+#include "x11graph.hpp"
+#endif
+
 
 using namespace std;
 
@@ -94,8 +100,8 @@ TIMESTEP {
     }
   
     if (par.store && !(i%par.storage_stride)) {
-      char fname[200],fname_mcds[200];
-      snprintf(fname,199,"%s/extend%05d.png",par.datadir.c_str(),i);
+      char fname[200];
+      sprintf(fname,"%s/extend%05d.png",par.datadir,i);
     
       BeginScene();
     
@@ -120,16 +126,45 @@ int PDE::MapColour(double val) {
   return (((int)((val/((val)+1.))*100))%100)+155;
 }
 
-
 int main(int argc, char *argv[]) {
-  extern Parameter par;
-  try {  
+  
+	
+  try {
+
+#ifdef QTGRAPHICS
+    QApplication a(argc, argv);
+#endif
+    // Read parameters
     par.Read(argv[1]);
+    
     Seed(par.rseed);
-    start_graphics(argc, argv);
+    
+    //QMainWindow mainwindow w;
+#ifdef QTGRAPHICS
+    QtGraphics g(par.sizex*2,par.sizey*2);
+    a.connect(&g, SIGNAL(SimulationDone(void)), SLOT(quit(void)) );
+
+    if (par.graphics)
+      g.show();
+    
+    a.exec();
+#else
+    X11Graphics g(par.sizex*2,par.sizey*2);
+    int t;
+
+    for (t=0;t<par.mcs;t++) {
+
+      g.TimeStep();
+    
+    }
+#endif
+    
   } catch(const char* error) {
-    std::cerr << error << std::endl;
-    return 1;
+    std::cerr << error << "\n";
+    exit(1);
+  }
+  catch(...) {
+    std::cerr << "An unknown exception was caught\n";
   }
   return 0;
 }

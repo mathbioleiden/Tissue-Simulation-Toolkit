@@ -125,21 +125,20 @@ void QtGraphics::ReadColorTable(QPen *pens)
 {
   extern Parameter par;
   FILE *fpc;
-  if ((fpc = fopen(par.colortable.c_str(),"r")) == NULL) {
+  if ((fpc = fopen(par.colortable,"r")) == NULL) {
     char *message=new char[2000];
     if (message==0) {
       throw "Memory panic in QtGraphics::ReadColorTable\n";
     }
-    sprintf(message,"QtGraphics::ReadColorTable: Colormap '%s' not found.",par.colortable.c_str());
+    sprintf(message,"QtGraphics::ReadColorTable: Colormap '%s' not found.",par.colortable);
     throw(message);
   }
-  int r,g,b,a;
+  int r,g,b;
   int i;
   int res = EOF;
-  col_num = 0;
   while (fscanf(fpc,"%d",&i) != EOF || res == EOF) {
-    res = fscanf(fpc,"%d %d %d %d\n",&r,&g,&b,&a);
-    QPen p(QColor(r,g,b,a));
+    res = fscanf(fpc,"%d %d %d\n",&r,&g,&b);
+    QPen p(QColor(r,g,b));
     pens[i]=p;
     col_num ++;
   }

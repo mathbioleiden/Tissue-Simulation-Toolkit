@@ -21,6 +21,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
+
 #include "graph.hpp"
 #include <GL/glut.h> 
 
@@ -81,7 +82,7 @@ class GLGraphics : public Graphics {
   virtual void ClearImage(void);
   
   virtual void Resize(int xfield, int yfield);
-
+  
   virtual void set_Paused(){paused = true;}
   virtual void set_unPaused(){paused = false;}
 

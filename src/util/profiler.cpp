@@ -1,9 +1,7 @@
 #include "profiler.hpp"
 #include <iomanip>
 
-#ifdef PROFILING_ENABLED
 Profiler profiler = Profiler();
-#endif
 
 int Profiler::new_timer(std::string name) {
   timer new_timer;
@@ -61,5 +59,4 @@ void Profiler::print_all() {
   for (int i = 0; i < index; i++) {
     print_timer(i);
   }
-  std::cout << std::endl;
 } 

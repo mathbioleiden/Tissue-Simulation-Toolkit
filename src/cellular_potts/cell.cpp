@@ -148,11 +148,11 @@ void Cell::ConstructorBody(int settau) {
  First line: number of types (including medium)
  Next lines: diagonal matrix, starting with 1 element (0 0)
  ending with n elements */
-void Cell::ReadStaticJTable(std::string const & fname) {
+void Cell::ReadStaticJTable(const char *fname) {
   cerr << "Reading J's...\n";
   ifstream jtab(fname);
   if (!jtab)  {
-    perror(fname.c_str());
+    perror(fname);
     exit(1);
   }
   
