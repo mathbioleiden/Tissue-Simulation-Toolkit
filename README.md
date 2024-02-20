@@ -145,6 +145,24 @@ And remove the `-s -mfpmath=both` so that it reads
 export COMPILE_CFLAGS := -O3 -m64 -std=c++11
 ```
 
+## Contributing
+
+Contributions are very welcome! You can contribute by forking this repository and creating a pull request.
+
+### Formatting
+Code is easier to read if it formatted in a nice way. To format your code you can use `clang-format` with the `.clang_format` style file. 
+To do this run 
+
+```
+clang-format --style=file:./clang_format YOUR_FILE
+```
+
+We also created a script that automatically formats any file that you commit using `git commit`. To activate this script you have to let git know where it is located. You can do this by running:
+
+```
+git config --local core.hooksPath .githooks/
+```
+
 ## Who do I talk to?
 
 * Roeland Merks

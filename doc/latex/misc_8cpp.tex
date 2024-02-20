@@ -1,0 +1,99 @@
+\section{misc.\-cpp File Reference}
+\label{misc_8cpp}\index{misc.\-cpp@{misc.\-cpp}}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$locale.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$cstring$>$}\\*
+{\ttfamily \#include \char`\"{}sticky.\-h\char`\"{}}\\*
+Include dependency graph for misc.\-cpp\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{misc_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf Read\-Number} (F\-I\-L\-E $\ast$file, int $\ast$number)
+\item 
+int {\bf Read\-Double} (F\-I\-L\-E $\ast$file, double $\ast$number)
+\item 
+int {\bf File\-Exists} (F\-I\-L\-E $\ast$$\ast$fp, const char $\ast$fname, const char $\ast$ftype)
+\item 
+int {\bf Yes\-No\-P} (const char $\ast$message)
+\item 
+char $\ast$ {\bf Get\-File\-Name} (const char $\ast$message, const char $\ast$ftype)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{misc.\-cpp@{misc.\-cpp}!File\-Exists@{File\-Exists}}
+\index{File\-Exists@{File\-Exists}!misc.cpp@{misc.\-cpp}}
+\subsubsection[{File\-Exists}]{\setlength{\rightskip}{0pt plus 5cm}int File\-Exists (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$$\ast$}]{fp, }
+\item[{const char $\ast$}]{fname, }
+\item[{const char $\ast$}]{ftype}
+\end{DoxyParamCaption}
+)}\label{misc_8cpp_ae59164878311b840e5846c64ae238126}
+
+
+References F\-A\-L\-S\-E, and T\-R\-U\-E.
+
+
+
+Referenced by Get\-File\-Name().
+
+\index{misc.\-cpp@{misc.\-cpp}!Get\-File\-Name@{Get\-File\-Name}}
+\index{Get\-File\-Name@{Get\-File\-Name}!misc.cpp@{misc.\-cpp}}
+\subsubsection[{Get\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Get\-File\-Name (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message, }
+\item[{const char $\ast$}]{ftype}
+\end{DoxyParamCaption}
+)}\label{misc_8cpp_afbd8290f9c5b53b8ec8b86a06bdd6ac0}
+
+
+References F\-A\-L\-S\-E, File\-Exists(), T\-R\-U\-E, and Yes\-No\-P().
+
+\index{misc.\-cpp@{misc.\-cpp}!Read\-Double@{Read\-Double}}
+\index{Read\-Double@{Read\-Double}!misc.cpp@{misc.\-cpp}}
+\subsubsection[{Read\-Double}]{\setlength{\rightskip}{0pt plus 5cm}int Read\-Double (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{file, }
+\item[{double $\ast$}]{number}
+\end{DoxyParamCaption}
+)}\label{misc_8cpp_a1065caf5bb7bf5a871c0bb6cce4e5d69}
+
+
+References O\-K, and R\-E\-M\-A\-R\-K.
+
+
+
+Referenced by Info\-::\-Menu().
+
+\index{misc.\-cpp@{misc.\-cpp}!Read\-Number@{Read\-Number}}
+\index{Read\-Number@{Read\-Number}!misc.cpp@{misc.\-cpp}}
+\subsubsection[{Read\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int Read\-Number (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{file, }
+\item[{int $\ast$}]{number}
+\end{DoxyParamCaption}
+)}\label{misc_8cpp_ab1000566635b3292ea889a41b92f12b2}
+P\-U\-B\-L\-I\-C 
+
+References O\-K, and R\-E\-M\-A\-R\-K.
+
+\index{misc.\-cpp@{misc.\-cpp}!Yes\-No\-P@{Yes\-No\-P}}
+\index{Yes\-No\-P@{Yes\-No\-P}!misc.cpp@{misc.\-cpp}}
+\subsubsection[{Yes\-No\-P}]{\setlength{\rightskip}{0pt plus 5cm}int Yes\-No\-P (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}\label{misc_8cpp_aa67ef0a1d41408ed07b342be6de4c37c}
+
+
+Referenced by Get\-File\-Name(), and Info\-::\-Menu().
+

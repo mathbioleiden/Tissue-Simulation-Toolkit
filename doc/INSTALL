@@ -1,0 +1,121 @@
+Tissue Simulation Toolkit, v0.1.4.3
+
+Welcome to the Tissue Simulation Toolkit, a library for
+two-dimensional simulations of Glazier and Graner's Cellular Potts
+model (Glazier and Graner, 1993).
+
+The TST aims to provide a simple set of computational tools to get you
+started with Cellular Potts Simulations.
+
+The current version of the TST includes example programs for the
+following published simulations:
+
+- Differential adhesion driven cell sorting (Glazier and Graner, 1993)
+- Cell elongation dependent vasculogenesis (blood vessel growth)
+(Merks et al., 2006) 
+- Contact-inhibition dependent vasculogenesis
+and angiogenesis (Merks and Glazier, 2005; Merks and Glazier, 2006;
+Merks et al, PLoS Comput Biol 2008)
+
+The TST provides many recent extensions to the CPM, including
+
+- Infinite number of PDE layers (forward Euler)
+- Interaction of CPM cells and PDE (secretion, absorption)
+- Chemotaxis
+- Length and connectivity constraints
+
+and visualization of:
+
+- Cells, according to cell type or anything you wish
+- Chemical fields, using color ramps and contour lines (level sets)
+
+** Required software: C++ compiler and libraries
+
+Using the TST requires basic knowledge of the use of the terminal and a C++ compiler. To acquire these skills, please refer to the appropriate books or internet tutorials. 
+
+C++ compiler: For Windows, unless you have Microsoft Visual Studio installed and you are familiar with its use (you will be on your own), install version gcc4.4 of the GNU MinGW compiler, from https://code.google.com/p/psi-dev/downloads/detail?name=MinGW-gcc-4.4.0-2.7z. Unpack the folder and rename/move it to C:\MinGW. Note that the required Qt library (below) will only work correctly on Windows with this particular version of MinGW. 
+
+On MacOSX install the XCode Development environment from the MacOSX DVDs, including the Command Line tools. You will need to specifically select these in the installer. On Linux, make sure that gcc and g++, and make are installed. 
+
+<<<<<<< HEAD
+Qt Libraries: Download and install the Qt Library, version 5.x from http://qt.io. The download page presents you with a list of Qt downloads for a range of operating systems and machine architectures. Download the Qt libraries appropriate for the operating system you are using.
+
+The following is probably not relevant anymore (but I have not been able to test:) On Windows you will need the version "4.8.5 mingw4.4" (Note 1) Download Qt installer for windows version "4.8.5 mingw4.4" at http://qt-project.org/downloads. The Windows Qt installer will ask for the location of your MinGW directory during installation (C:/MinGW). 
+
+LibPNG and LibZ: The TST also need libpng and libz, both of which are often already installed on Linux and MacOSX. So for these operating systems, first attempt to compile the code (Section 2.2) before deciding to install these additional libraries. Only if necessary download sources or executables of these libraries from http://libpng.sourceforge.net and from http://www.zlib.net. On Windows, download the installers for these libraries from http://gnuwin32.sourceforge.net/packages/zlib.htm (complete package, except sources) and from http://gnuwin32.sourceforge.net/packages/libpng.htm (complete package, except sources).  Install both libraries in C:\Program Files\GnuWin32\ so that the compiler can find them there, or alternatively edit CellularPotts2.pro if you are familiar with ‘qmake’.
+
+Installing:
+
+Unpack, e.g.:
+> tar xzf [name download folder]/TST0.1.4.3.tgz
+where “>” indicates the command prompt (i.e. start typing from ‘tar’). Replace ‘[name download folder]’ for the location of your Download folder (e.g., on MacOSX you would typically type “tar xzf ~/Downloads/TST0.1.4.3.tgz”) 
+
+On Windows or MacOSX you can also unpack the archive by double-clicking it. Move the unpacked folder to a convenient location.
+
+** Compile the Tissue Simulation Toolkit
+
+Windows: 
+Open a Qt Command prompt by choosing “Qt Command Prompt” from the “start” menu, then go to the folder where you have unpacked the source code of TST, e.g., (replace “[user]” for your own user name)
+> cd c:\Documents and Settings\[user]\simulations
+
+* Change to the TST source directory.
+
+> cd TST0.1.4.3\src
+
+* Start the compilation procedure.
+> qmake
+> mingw32-make
+
+* Linux and MacOSX:
+
+Open a terminal (on MacOSX: type “Terminal” in Spotlight and press enter; Terminal is in /Applications/Utilities/).
+
+* Go to the directory where you unpacked the Tissue Simulation Toolkit. E.g,
+
+> cd ~/simulations
+
+* Change to the Tissue Simulation Toolkit source directory.
+
+> cd TST0.1.4.3/src
+
+* Start the compilation procedure.
+
+Linux: 
+
+Type:
+> qmake
+> make
+
+MacOSX:
+> qmake –spec macx-g++
+> make
+
+* Test the Tissue Simulation Toolkit
+
+If the compilation process has proceeded well, the ‘src’-folder will now contain an executable called ‘vessel’ (Linux and MacOSX) or ‘vessel.exe’ (Windows). In TST0.1.4.3, the parameter files and source files are neatly stored in different folders. Unless you are a proficient user of the TST, it is easiest to keep all the files that TST needs together in one folder. Assuming that you are currently in the src directory, type:
+
+Windows:
+
+> copy ..\data\* 
+
+Also retrieve the executables (e.g., vessel.exe) from the “release” folder:
+
+> copy ..\release\*.exe
+
+Linux and MacOSX:
+
+> cp ../data/* .
+
+(note the space between “*” and “.”)
+
+Next, type:
+
+Windows:
+
+> .\vessel chemotaxis.par 
+
+Linux and MacOSX:
+
+> ./vessel chemotaxis.par
+
+

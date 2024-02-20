@@ -1,0 +1,653 @@
+\section{P\-D\-E Class Reference}
+\label{classPDE}\index{P\-D\-E@{P\-D\-E}}
+
+
+{\ttfamily \#include $<$pde.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf P\-D\-E} (const int {\bf layers}, const int {\bf sizex}, const int {\bf sizey})
+\begin{DoxyCompactList}\small\item\em Constructor for \doxyref{P\-D\-E}{p.}{classPDE} object containing arbitrary number of planes. \end{DoxyCompactList}\item 
+virtual {\bf $\sim$\-P\-D\-E} ()
+\item 
+void {\bf Plot} ({\bf Graphics} $\ast$g, const int layer=0)
+\begin{DoxyCompactList}\small\item\em Plots one layer of the \doxyref{P\-D\-E}{p.}{classPDE} plane to a \doxyref{Graphics}{p.}{classGraphics} window. \end{DoxyCompactList}\item 
+void {\bf Plot} ({\bf Graphics} $\ast$g, {\bf Cellular\-Potts} $\ast$cpm, const int layer=0)
+\begin{DoxyCompactList}\small\item\em Plots one layer of the \doxyref{P\-D\-E}{p.}{classPDE} to a \doxyref{Graphics}{p.}{classGraphics} window, but not over the cells. \end{DoxyCompactList}\item 
+void {\bf Contour\-Plot} ({\bf Graphics} $\ast$g, int layer=0, int colour=1)
+\begin{DoxyCompactList}\small\item\em Plots the \doxyref{P\-D\-E}{p.}{classPDE} field using contour lines. \end{DoxyCompactList}\item 
+int {\bf Size\-X} () const 
+\begin{DoxyCompactList}\small\item\em Returns the horizontal size of the \doxyref{P\-D\-E}{p.}{classPDE} planes. \end{DoxyCompactList}\item 
+int {\bf Size\-Y} () const 
+\begin{DoxyCompactList}\small\item\em Returns the vertical size of the \doxyref{P\-D\-E}{p.}{classPDE} planes. \end{DoxyCompactList}\item 
+int {\bf Layers} () const 
+\begin{DoxyCompactList}\small\item\em Returns the number of \doxyref{P\-D\-E}{p.}{classPDE} layers in the \doxyref{P\-D\-E}{p.}{classPDE} object. \end{DoxyCompactList}\item 
+double {\bf Sigma} (const int layer, const int x, const int y) const 
+\begin{DoxyCompactList}\small\item\em Returns the value of grid point x,y of \doxyref{P\-D\-E}{p.}{classPDE} plane \char`\"{}layer\char`\"{}. \end{DoxyCompactList}\item 
+void {\bf set\-Value} (const int layer, const int x, const int y, const double value)
+\begin{DoxyCompactList}\small\item\em Sets grid point x,y of \doxyref{P\-D\-E}{p.}{classPDE} plane \char`\"{}layer\char`\"{} to value \char`\"{}value\char`\"{}. \end{DoxyCompactList}\item 
+void {\bf addto\-Value} (const int layer, const int x, const int y, const double value)
+\begin{DoxyCompactList}\small\item\em Adds a number to a \doxyref{P\-D\-E}{p.}{classPDE} grid point. \end{DoxyCompactList}\item 
+double {\bf Max} (int l)
+\begin{DoxyCompactList}\small\item\em Gets the maximum value of \doxyref{P\-D\-E}{p.}{classPDE} layer l. \end{DoxyCompactList}\item 
+double {\bf Min} (int l)
+\begin{DoxyCompactList}\small\item\em Returns the minimum value of \doxyref{P\-D\-E}{p.}{classPDE} layer l. \end{DoxyCompactList}\item 
+void {\bf Diffuse} (int repeat)
+\begin{DoxyCompactList}\small\item\em Carry out \$n\$ diffusion steps for all \doxyref{P\-D\-E}{p.}{classPDE} planes. \end{DoxyCompactList}\item 
+void {\bf No\-Flux\-Boundaries} (void)
+\begin{DoxyCompactList}\small\item\em Implementation of no-\/flux boundaries. \end{DoxyCompactList}\item 
+void {\bf Absorbing\-Boundaries} (void)
+\begin{DoxyCompactList}\small\item\em Implementation of absorbing boundaries. \end{DoxyCompactList}\item 
+void {\bf Periodic\-Boundaries} (void)
+\begin{DoxyCompactList}\small\item\em Implementation of periodic boundaries. \end{DoxyCompactList}\item 
+void {\bf Secrete} ({\bf Cellular\-Potts} $\ast$cpm)
+\begin{DoxyCompactList}\small\item\em Reaction and interaction of C\-P\-M plane with \doxyref{P\-D\-E}{p.}{classPDE} planes. \end{DoxyCompactList}\item 
+double {\bf The\-Time} (void) const 
+\begin{DoxyCompactList}\small\item\em Returns cumulative \char`\"{}simulated\char`\"{} time, i.\-e. number of time steps $\ast$ dt. \end{DoxyCompactList}\item 
+double {\bf Get\-Chem\-Amount} (const int layer=-\/1)
+\begin{DoxyCompactList}\small\item\em Returns summed amount of chemical in \doxyref{P\-D\-E}{p.}{classPDE} plane \char`\"{}layer\char`\"{}. \end{DoxyCompactList}\item 
+void {\bf Grad\-C} (int layer=0, int first\-\_\-grad\-\_\-layer=1)
+\item 
+void {\bf Plot\-Vector\-Field} ({\bf Graphics} \&g, int stride, int linelength, int first\-\_\-grad\-\_\-layer=1)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual int {\bf Map\-Colour} (double val)
+\begin{DoxyCompactList}\small\item\em Used in Plot. Takes a color and turns it into a grey value. \end{DoxyCompactList}\item 
+{\bf P\-D\-E} (void)
+\begin{DoxyCompactList}\small\item\em empty constructor (necessary for derivation) \end{DoxyCompactList}\item 
+virtual double $\ast$$\ast$$\ast$ {\bf Allocate\-Sigma} (const int {\bf layers}, const int sx, const int sy)
+\begin{DoxyCompactList}\small\item\em Allocates a \doxyref{P\-D\-E}{p.}{classPDE} plane (internal use). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double $\ast$$\ast$$\ast$ {\bf sigma}
+\item 
+double $\ast$$\ast$$\ast$ {\bf alt\-\_\-sigma}
+\item 
+int {\bf sizex}
+\item 
+int {\bf sizey}
+\item 
+int {\bf layers}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bf Info}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{P\-D\-E@{P\-D\-E}!P\-D\-E@{P\-D\-E}}
+\index{P\-D\-E@{P\-D\-E}!PDE@{P\-D\-E}}
+\subsubsection[{P\-D\-E}]{\setlength{\rightskip}{0pt plus 5cm}P\-D\-E\-::\-P\-D\-E (
+\begin{DoxyParamCaption}
+\item[{const int}]{l, }
+\item[{const int}]{sx, }
+\item[{const int}]{sy}
+\end{DoxyParamCaption}
+)}\label{classPDE_a26e55d038cf6f7a74f23c6b9fe42e21a}
+
+
+Constructor for \doxyref{P\-D\-E}{p.}{classPDE} object containing arbitrary number of planes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layers} & Number of \doxyref{P\-D\-E}{p.}{classPDE} planes \\
+\hline
+{\em sizex} & horizontal size of \doxyref{P\-D\-E}{p.}{classPDE} planes \\
+\hline
+{\em sizey} & vertical size of \doxyref{P\-D\-E}{p.}{classPDE} planes\\
+\hline
+\end{DoxyParams}
+P\-R\-I\-V\-A\-T\-E 
+
+References Allocate\-Sigma(), alt\-\_\-sigma, layers, sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!$\sim$\-P\-D\-E@{$\sim$\-P\-D\-E}}
+\index{$\sim$\-P\-D\-E@{$\sim$\-P\-D\-E}!PDE@{P\-D\-E}}
+\subsubsection[{$\sim$\-P\-D\-E}]{\setlength{\rightskip}{0pt plus 5cm}P\-D\-E\-::$\sim$\-P\-D\-E (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classPDE_a8bbaac045dd29a9a228795bcb6e66a2e}
+
+
+References alt\-\_\-sigma, and sigma.
+
+\index{P\-D\-E@{P\-D\-E}!P\-D\-E@{P\-D\-E}}
+\index{P\-D\-E@{P\-D\-E}!PDE@{P\-D\-E}}
+\subsubsection[{P\-D\-E}]{\setlength{\rightskip}{0pt plus 5cm}P\-D\-E\-::\-P\-D\-E (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{classPDE_a5b65074e6bd20cc1f25d23e22e4a045f}
+
+
+empty constructor (necessary for derivation) 
+
+
+
+References alt\-\_\-sigma, layers, sigma, sizex, and sizey.
+
+
+
+\subsection{Member Function Documentation}
+\index{P\-D\-E@{P\-D\-E}!Absorbing\-Boundaries@{Absorbing\-Boundaries}}
+\index{Absorbing\-Boundaries@{Absorbing\-Boundaries}!PDE@{P\-D\-E}}
+\subsubsection[{Absorbing\-Boundaries}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Absorbing\-Boundaries (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classPDE_afac99f334bc55268bca1233a588754a5}
+
+
+Implementation of absorbing boundaries. 
+
+Called internally (optionally) by \doxyref{Diffuse()}{p.}{classPDE_a87267de223db53722e17b69983a5d544}. 
+
+References layers, sigma, sizex, and sizey.
+
+
+
+Referenced by Diffuse().
+
+\index{P\-D\-E@{P\-D\-E}!addto\-Value@{addto\-Value}}
+\index{addto\-Value@{addto\-Value}!PDE@{P\-D\-E}}
+\subsubsection[{addto\-Value}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::addto\-Value (
+\begin{DoxyParamCaption}
+\item[{const int}]{layer, }
+\item[{const int}]{x, }
+\item[{const int}]{y, }
+\item[{const double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_a29670e4f83b4d1b514ee2873015c01c4}
+
+
+Adds a number to a \doxyref{P\-D\-E}{p.}{classPDE} grid point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & \doxyref{P\-D\-E}{p.}{classPDE} plane. \\
+\hline
+{\em x,y} & grid point \\
+\hline
+{\em value} & value to add \\
+\hline
+\end{DoxyParams}
+
+
+References sigma.
+
+\index{P\-D\-E@{P\-D\-E}!Allocate\-Sigma@{Allocate\-Sigma}}
+\index{Allocate\-Sigma@{Allocate\-Sigma}!PDE@{P\-D\-E}}
+\subsubsection[{Allocate\-Sigma}]{\setlength{\rightskip}{0pt plus 5cm}double $\ast$$\ast$$\ast$ P\-D\-E\-::\-Allocate\-Sigma (
+\begin{DoxyParamCaption}
+\item[{const int}]{layers, }
+\item[{const int}]{sx, }
+\item[{const int}]{sy}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{classPDE_a1d1c622b27969e97339730f313fbfde5}
+
+
+Allocates a \doxyref{P\-D\-E}{p.}{classPDE} plane (internal use). 
+
+For internal use, can be reimplemented in derived class to change method of memory allocation. 
+
+References layers, Memory\-Warning(), sizex, and sizey.
+
+
+
+Referenced by P\-D\-E().
+
+\index{P\-D\-E@{P\-D\-E}!Contour\-Plot@{Contour\-Plot}}
+\index{Contour\-Plot@{Contour\-Plot}!PDE@{P\-D\-E}}
+\subsubsection[{Contour\-Plot}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Contour\-Plot (
+\begin{DoxyParamCaption}
+\item[{{\bf Graphics} $\ast$}]{g, }
+\item[{int}]{layer = {\ttfamily 0}, }
+\item[{int}]{colour = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}\label{classPDE_ab5043669e9ad1706078f8e70f8fcfff9}
+
+
+Plots the \doxyref{P\-D\-E}{p.}{classPDE} field using contour lines. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxyref{Graphics}{p.}{classGraphics} window. \\
+\hline
+{\em layer} & The \doxyref{P\-D\-E}{p.}{classPDE} plane to be plotted. Default layer 0. \\
+\hline
+{\em colour} & Color to use for the contour lines, as defined in the \char`\"{}default.\-ctb\char`\"{} color map file, which should be in the same directory as the executable. Default color 1 (black in the default color map). \\
+\hline
+\end{DoxyParams}
+
+
+References conrec(), max, Max(), min, Min(), sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!Diffuse@{Diffuse}}
+\index{Diffuse@{Diffuse}!PDE@{P\-D\-E}}
+\subsubsection[{Diffuse}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Diffuse (
+\begin{DoxyParamCaption}
+\item[{int}]{repeat}
+\end{DoxyParamCaption}
+)}\label{classPDE_a87267de223db53722e17b69983a5d544}
+
+
+Carry out \$n\$ diffusion steps for all \doxyref{P\-D\-E}{p.}{classPDE} planes. 
+
+We use a forward Euler method here. Can be replaced for better algorithm.
+
+
+\begin{DoxyParams}{Parameters}
+{\em repeat} & Number of steps.\\
+\hline
+\end{DoxyParams}
+Time step dt, space step dx, diffusion coefficient diff\-\_\-coeff and boundary conditions (bool periodic\-\_\-boundary) are set as global parameters in a parameter file using class \doxyref{Parameter}{p.}{classParameter}. 
+
+References Absorbing\-Boundaries(), alt\-\_\-sigma, Parameter\-::diff\-\_\-coeff, Parameter\-::dt, Parameter\-::dx, layers, Parameter\-::periodic\-\_\-boundaries, Periodic\-Boundaries(), sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!Get\-Chem\-Amount@{Get\-Chem\-Amount}}
+\index{Get\-Chem\-Amount@{Get\-Chem\-Amount}!PDE@{P\-D\-E}}
+\subsubsection[{Get\-Chem\-Amount}]{\setlength{\rightskip}{0pt plus 5cm}double P\-D\-E\-::\-Get\-Chem\-Amount (
+\begin{DoxyParamCaption}
+\item[{const int}]{layer = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}\label{classPDE_a673bc12536828414a609ed3ff9947af6}
+
+
+Returns summed amount of chemical in \doxyref{P\-D\-E}{p.}{classPDE} plane \char`\"{}layer\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & The \doxyref{P\-D\-E}{p.}{classPDE} plane of which to sum the chemicals. layer=-\/1 (default) returns the summed amount of chemical in all planes. \\
+\hline
+\end{DoxyParams}
+
+
+References layers, sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!Grad\-C@{Grad\-C}}
+\index{Grad\-C@{Grad\-C}!PDE@{P\-D\-E}}
+\subsubsection[{Grad\-C}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Grad\-C (
+\begin{DoxyParamCaption}
+\item[{int}]{layer = {\ttfamily 0}, }
+\item[{int}]{first\-\_\-grad\-\_\-layer = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}\label{classPDE_adc6288d408d24a6aec3789aa61e05750}
+Calculates the first and second order gradients, i.\-e. gradx, grady, gradxx, gradxy and gradyy and puts them in the next three chemical fields. Not currently used and might need some redoing. Make sure you have allocated sufficient fields (this method generates five planes).
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & \doxyref{P\-D\-E}{p.}{classPDE} plane of which to calculate the gradients (default 0) \\
+\hline
+{\em first\-\_\-grad\-\_\-layer} & first plane of five in which to write the results (default 1). \\
+\hline
+\end{DoxyParams}
+
+
+References Parameter\-::n\-\_\-chem, sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!Layers@{Layers}}
+\index{Layers@{Layers}!PDE@{P\-D\-E}}
+\subsubsection[{Layers}]{\setlength{\rightskip}{0pt plus 5cm}int P\-D\-E\-::\-Layers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_a37c666d7f0262530d11877c0d2651f7d}
+
+
+Returns the number of \doxyref{P\-D\-E}{p.}{classPDE} layers in the \doxyref{P\-D\-E}{p.}{classPDE} object. 
+
+
+
+References layers.
+
+\index{P\-D\-E@{P\-D\-E}!Map\-Colour@{Map\-Colour}}
+\index{Map\-Colour@{Map\-Colour}!PDE@{P\-D\-E}}
+\subsubsection[{Map\-Colour}]{\setlength{\rightskip}{0pt plus 5cm}virtual int P\-D\-E\-::\-Map\-Colour (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{classPDE_a33986e19d9010ffa56b0859c0405480b}
+
+
+Used in Plot. Takes a color and turns it into a grey value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Value from \doxyref{P\-D\-E}{p.}{classPDE} plane.\\
+\hline
+\end{DoxyParams}
+Implement this function in you main simulation code. See e.\-g. \doxyref{vessel.\-cpp}{p.}{vessel_8cpp}. 
+
+Referenced by Plot().
+
+\index{P\-D\-E@{P\-D\-E}!Max@{Max}}
+\index{Max@{Max}!PDE@{P\-D\-E}}
+\subsubsection[{Max}]{\setlength{\rightskip}{0pt plus 5cm}double P\-D\-E\-::\-Max (
+\begin{DoxyParamCaption}
+\item[{int}]{l}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_a779371dd76cd15a4a21dac87983281ac}
+
+
+Gets the maximum value of \doxyref{P\-D\-E}{p.}{classPDE} layer l. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & layer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Maximum value in layer l. 
+\end{DoxyReturn}
+
+
+References max, sigma, sizex, and sizey.
+
+
+
+Referenced by Contour\-Plot().
+
+\index{P\-D\-E@{P\-D\-E}!Min@{Min}}
+\index{Min@{Min}!PDE@{P\-D\-E}}
+\subsubsection[{Min}]{\setlength{\rightskip}{0pt plus 5cm}double P\-D\-E\-::\-Min (
+\begin{DoxyParamCaption}
+\item[{int}]{l}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_a01de12055a70df7c8e97935d902fb943}
+
+
+Returns the minimum value of \doxyref{P\-D\-E}{p.}{classPDE} layer l. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & layer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Minimum value in layer l. 
+\end{DoxyReturn}
+
+
+References min, sigma, sizex, and sizey.
+
+
+
+Referenced by Contour\-Plot().
+
+\index{P\-D\-E@{P\-D\-E}!No\-Flux\-Boundaries@{No\-Flux\-Boundaries}}
+\index{No\-Flux\-Boundaries@{No\-Flux\-Boundaries}!PDE@{P\-D\-E}}
+\subsubsection[{No\-Flux\-Boundaries}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-No\-Flux\-Boundaries (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classPDE_ad90263eebb1f949b3d895a72eadb5c99}
+
+
+Implementation of no-\/flux boundaries. 
+
+Called internally (optionally) by \doxyref{Diffuse()}{p.}{classPDE_a87267de223db53722e17b69983a5d544}. 
+
+References layers, sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!Periodic\-Boundaries@{Periodic\-Boundaries}}
+\index{Periodic\-Boundaries@{Periodic\-Boundaries}!PDE@{P\-D\-E}}
+\subsubsection[{Periodic\-Boundaries}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Periodic\-Boundaries (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classPDE_a325a81a07e4d90037cab41bcef052e48}
+
+
+Implementation of periodic boundaries. 
+
+Called internally (optionally) by \doxyref{Diffuse()}{p.}{classPDE_a87267de223db53722e17b69983a5d544}. 
+
+References layers, sigma, sizex, and sizey.
+
+
+
+Referenced by Diffuse().
+
+\index{P\-D\-E@{P\-D\-E}!Plot@{Plot}}
+\index{Plot@{Plot}!PDE@{P\-D\-E}}
+\subsubsection[{Plot}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Plot (
+\begin{DoxyParamCaption}
+\item[{{\bf Graphics} $\ast$}]{g, }
+\item[{const int}]{layer = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{classPDE_a5ee8b22db3003bc67582f2bf9f8ff70f}
+
+
+Plots one layer of the \doxyref{P\-D\-E}{p.}{classPDE} plane to a \doxyref{Graphics}{p.}{classGraphics} window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxyref{Graphics}{p.}{classGraphics} window. \\
+\hline
+{\em layer} & The \doxyref{P\-D\-E}{p.}{classPDE} plane to be plotted. Default layer 0. \\
+\hline
+\end{DoxyParams}
+
+
+References Map\-Colour(), Graphics\-::\-Point(), sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!Plot@{Plot}}
+\index{Plot@{Plot}!PDE@{P\-D\-E}}
+\subsubsection[{Plot}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Plot (
+\begin{DoxyParamCaption}
+\item[{{\bf Graphics} $\ast$}]{g, }
+\item[{{\bf Cellular\-Potts} $\ast$}]{cpm, }
+\item[{const int}]{layer = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{classPDE_aa98ccb03f76ac2b901cc4eb59eb1feda}
+
+
+Plots one layer of the \doxyref{P\-D\-E}{p.}{classPDE} to a \doxyref{Graphics}{p.}{classGraphics} window, but not over the cells. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxyref{Graphics}{p.}{classGraphics} window. \\
+\hline
+{\em cpm} & \doxyref{Cellular\-Potts}{p.}{classCellularPotts} object containing the cells. \\
+\hline
+{\em layer} & The \doxyref{P\-D\-E}{p.}{classPDE} plane to be plotted. Default layer 0. \\
+\hline
+\end{DoxyParams}
+
+
+References Map\-Colour(), Graphics\-::\-Point(), Cellular\-Potts\-::\-Sigma(), sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!Plot\-Vector\-Field@{Plot\-Vector\-Field}}
+\index{Plot\-Vector\-Field@{Plot\-Vector\-Field}!PDE@{P\-D\-E}}
+\subsubsection[{Plot\-Vector\-Field}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Plot\-Vector\-Field (
+\begin{DoxyParamCaption}
+\item[{{\bf Graphics} \&}]{g, }
+\item[{int}]{stride, }
+\item[{int}]{linelength, }
+\item[{int}]{first\-\_\-grad\-\_\-layer = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}\label{classPDE_a1b7cbc32113d7fe9edeac9e5f5d52d21}
+Plots a field of the first order gradients, i.\-e. gradx and grady; assumes you have called Grad\-C before. Not currently used and might need some redoing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & \doxyref{Graphics}{p.}{classGraphics} window \\
+\hline
+{\em stride} & Number of grid points between vectors (drawn as lines, currently. \\
+\hline
+{\em linelength} & Length of vector lines, in pixels. \\
+\hline
+{\em first\-\_\-grad\-\_\-layer} & first plane of two which contain the calculated gradients (default 1). \\
+\hline
+\end{DoxyParams}
+
+
+References Graphics\-::\-Line(), sigma, sizex, and sizey.
+
+\index{P\-D\-E@{P\-D\-E}!Secrete@{Secrete}}
+\index{Secrete@{Secrete}!PDE@{P\-D\-E}}
+\subsubsection[{Secrete}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::\-Secrete (
+\begin{DoxyParamCaption}
+\item[{{\bf Cellular\-Potts} $\ast$}]{cpm}
+\end{DoxyParamCaption}
+)}\label{classPDE_ae0133274ce74a52b159ee1d9626c934d}
+
+
+Reaction and interaction of C\-P\-M plane with \doxyref{P\-D\-E}{p.}{classPDE} planes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cpm} & \doxyref{Cellular\-Potts}{p.}{classCellularPotts} plane the \doxyref{P\-D\-E}{p.}{classPDE} plane interacts with\\
+\hline
+\end{DoxyParams}
+You should implement this member function as part of your main simulation code. See for an example \doxyref{vessel.\-cpp}{p.}{vessel_8cpp}. \index{P\-D\-E@{P\-D\-E}!set\-Value@{set\-Value}}
+\index{set\-Value@{set\-Value}!PDE@{P\-D\-E}}
+\subsubsection[{set\-Value}]{\setlength{\rightskip}{0pt plus 5cm}void P\-D\-E\-::set\-Value (
+\begin{DoxyParamCaption}
+\item[{const int}]{layer, }
+\item[{const int}]{x, }
+\item[{const int}]{y, }
+\item[{const double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_af61b2465812eb6625c725d9ab67817dc}
+
+
+Sets grid point x,y of \doxyref{P\-D\-E}{p.}{classPDE} plane \char`\"{}layer\char`\"{} to value \char`\"{}value\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & \doxyref{P\-D\-E}{p.}{classPDE} plane. \\
+\hline
+{\em x,y} & grid point \\
+\hline
+{\em value} & new contents \\
+\hline
+\end{DoxyParams}
+
+
+References sigma.
+
+\index{P\-D\-E@{P\-D\-E}!Sigma@{Sigma}}
+\index{Sigma@{Sigma}!PDE@{P\-D\-E}}
+\subsubsection[{Sigma}]{\setlength{\rightskip}{0pt plus 5cm}double P\-D\-E\-::\-Sigma (
+\begin{DoxyParamCaption}
+\item[{const int}]{layer, }
+\item[{const int}]{x, }
+\item[{const int}]{y}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_ab3d96517157284a7a81866fe7323aae4}
+
+
+Returns the value of grid point x,y of \doxyref{P\-D\-E}{p.}{classPDE} plane \char`\"{}layer\char`\"{}. 
+
+Warning, no range checking done.
+
+
+\begin{DoxyParams}{Parameters}
+{\em layer} & the \doxyref{P\-D\-E}{p.}{classPDE} plane to probe. \\
+\hline
+{\em x,y} & grid point to probe. \\
+\hline
+\end{DoxyParams}
+
+
+References sigma.
+
+\index{P\-D\-E@{P\-D\-E}!Size\-X@{Size\-X}}
+\index{Size\-X@{Size\-X}!PDE@{P\-D\-E}}
+\subsubsection[{Size\-X}]{\setlength{\rightskip}{0pt plus 5cm}int P\-D\-E\-::\-Size\-X (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_a4a9384f97c8839bb9d5f3823b064b10f}
+
+
+Returns the horizontal size of the \doxyref{P\-D\-E}{p.}{classPDE} planes. 
+
+
+
+References sizex.
+
+\index{P\-D\-E@{P\-D\-E}!Size\-Y@{Size\-Y}}
+\index{Size\-Y@{Size\-Y}!PDE@{P\-D\-E}}
+\subsubsection[{Size\-Y}]{\setlength{\rightskip}{0pt plus 5cm}int P\-D\-E\-::\-Size\-Y (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_acc497da736175fb117fdb15b069dbdcf}
+
+
+Returns the vertical size of the \doxyref{P\-D\-E}{p.}{classPDE} planes. 
+
+
+
+References sizey.
+
+\index{P\-D\-E@{P\-D\-E}!The\-Time@{The\-Time}}
+\index{The\-Time@{The\-Time}!PDE@{P\-D\-E}}
+\subsubsection[{The\-Time}]{\setlength{\rightskip}{0pt plus 5cm}double P\-D\-E\-::\-The\-Time (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classPDE_a3f7ae7cb94667f6d9086a3200260cc70}
+
+
+Returns cumulative \char`\"{}simulated\char`\"{} time, i.\-e. number of time steps $\ast$ dt. 
+
+
+
+\subsection{Friends And Related Function Documentation}
+\index{P\-D\-E@{P\-D\-E}!Info@{Info}}
+\index{Info@{Info}!PDE@{P\-D\-E}}
+\subsubsection[{Info}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Info}\hspace{0.3cm}{\ttfamily [friend]}}\label{classPDE_a4838ff865b8d8625c61d208a420f8212}
+
+
+\subsection{Member Data Documentation}
+\index{P\-D\-E@{P\-D\-E}!alt\-\_\-sigma@{alt\-\_\-sigma}}
+\index{alt\-\_\-sigma@{alt\-\_\-sigma}!PDE@{P\-D\-E}}
+\subsubsection[{alt\-\_\-sigma}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$$\ast$$\ast$ P\-D\-E\-::alt\-\_\-sigma\hspace{0.3cm}{\ttfamily [protected]}}\label{classPDE_a344ee7abccad1efa5163458d23455d43}
+
+
+Referenced by Diffuse(), P\-D\-E(), and $\sim$\-P\-D\-E().
+
+\index{P\-D\-E@{P\-D\-E}!layers@{layers}}
+\index{layers@{layers}!PDE@{P\-D\-E}}
+\subsubsection[{layers}]{\setlength{\rightskip}{0pt plus 5cm}int P\-D\-E\-::layers\hspace{0.3cm}{\ttfamily [protected]}}\label{classPDE_a8991908f6b46d1f53c2f95c2bb342253}
+
+
+Referenced by Absorbing\-Boundaries(), Allocate\-Sigma(), Diffuse(), Get\-Chem\-Amount(), Layers(), No\-Flux\-Boundaries(), P\-D\-E(), and Periodic\-Boundaries().
+
+\index{P\-D\-E@{P\-D\-E}!sigma@{sigma}}
+\index{sigma@{sigma}!PDE@{P\-D\-E}}
+\subsubsection[{sigma}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$$\ast$$\ast$ P\-D\-E\-::sigma\hspace{0.3cm}{\ttfamily [protected]}}\label{classPDE_a218ba62235c8368bdfbcaa9e57f920c0}
+
+
+Referenced by Absorbing\-Boundaries(), addto\-Value(), Contour\-Plot(), Diffuse(), Get\-Chem\-Amount(), Grad\-C(), Max(), Min(), No\-Flux\-Boundaries(), P\-D\-E(), Periodic\-Boundaries(), Plot(), Plot\-Vector\-Field(), set\-Value(), Sigma(), and $\sim$\-P\-D\-E().
+
+\index{P\-D\-E@{P\-D\-E}!sizex@{sizex}}
+\index{sizex@{sizex}!PDE@{P\-D\-E}}
+\subsubsection[{sizex}]{\setlength{\rightskip}{0pt plus 5cm}int P\-D\-E\-::sizex\hspace{0.3cm}{\ttfamily [protected]}}\label{classPDE_a48207ac0f367e49e8d0b7a9a70447ec9}
+
+
+Referenced by Absorbing\-Boundaries(), Allocate\-Sigma(), Contour\-Plot(), Diffuse(), Get\-Chem\-Amount(), Grad\-C(), Max(), Min(), No\-Flux\-Boundaries(), P\-D\-E(), Periodic\-Boundaries(), Plot(), Plot\-Vector\-Field(), and Size\-X().
+
+\index{P\-D\-E@{P\-D\-E}!sizey@{sizey}}
+\index{sizey@{sizey}!PDE@{P\-D\-E}}
+\subsubsection[{sizey}]{\setlength{\rightskip}{0pt plus 5cm}int P\-D\-E\-::sizey\hspace{0.3cm}{\ttfamily [protected]}}\label{classPDE_a483039b76c63f705b94aee757573af4d}
+
+
+Referenced by Absorbing\-Boundaries(), Allocate\-Sigma(), Contour\-Plot(), Diffuse(), Get\-Chem\-Amount(), Grad\-C(), Max(), Min(), No\-Flux\-Boundaries(), P\-D\-E(), Periodic\-Boundaries(), Plot(), Plot\-Vector\-Field(), and Size\-Y().
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf pde.\-h}\item 
+{\bf pde.\-cpp}\end{DoxyCompactItemize}

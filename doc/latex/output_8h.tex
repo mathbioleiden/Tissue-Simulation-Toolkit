@@ -1,0 +1,190 @@
+\section{output.\-h File Reference}
+\label{output_8h}\index{output.\-h@{output.\-h}}
+This graph shows which files directly or indirectly include this file\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{output_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf M\-E\-S\-S\-\_\-\-B\-U\-F\-\_\-\-S\-I\-Z\-E}~160
+\item 
+\#define {\bf F\-A\-L\-S\-E}~0
+\item 
+\#define {\bf T\-R\-U\-E}~1
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf Open\-File\-And\-Check\-Existance} (F\-I\-L\-E $\ast$$\ast$fp, const char $\ast$fname, char $\ast$ftype)
+\item 
+int {\bf Yes\-No\-P} (const char $\ast$message)
+\item 
+F\-I\-L\-E $\ast$ {\bf Open\-Write\-File} (const char $\ast$filename)
+\item 
+F\-I\-L\-E $\ast$ {\bf Open\-G\-Zipped\-Write\-File} (const char $\ast$filename)
+\item 
+F\-I\-L\-E $\ast$ {\bf Open\-Read\-File} (const char $\ast$filename)
+\item 
+char $\ast$ {\bf Read\-Line} (F\-I\-L\-E $\ast$fp)
+\item 
+void {\bf Check\-File} (F\-I\-L\-E $\ast$fp)
+\item 
+int {\bf File\-Exists\-P} (const char $\ast$fname)
+\item 
+char $\ast$ {\bf Chext} (char $\ast$filename)
+\item 
+void {\bf Make\-Dir} (const char $\ast$dirname)
+\item 
+bool {\bf Can\-We\-Write\-P} (char $\ast$filename)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{output.\-h@{output.\-h}!F\-A\-L\-S\-E@{F\-A\-L\-S\-E}}
+\index{F\-A\-L\-S\-E@{F\-A\-L\-S\-E}!output.h@{output.\-h}}
+\subsubsection[{F\-A\-L\-S\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-A\-L\-S\-E~0}\label{output_8h_aa93f0eb578d23995850d61f7d61c55c1}
+\index{output.\-h@{output.\-h}!M\-E\-S\-S\-\_\-\-B\-U\-F\-\_\-\-S\-I\-Z\-E@{M\-E\-S\-S\-\_\-\-B\-U\-F\-\_\-\-S\-I\-Z\-E}}
+\index{M\-E\-S\-S\-\_\-\-B\-U\-F\-\_\-\-S\-I\-Z\-E@{M\-E\-S\-S\-\_\-\-B\-U\-F\-\_\-\-S\-I\-Z\-E}!output.h@{output.\-h}}
+\subsubsection[{M\-E\-S\-S\-\_\-\-B\-U\-F\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-E\-S\-S\-\_\-\-B\-U\-F\-\_\-\-S\-I\-Z\-E~160}\label{output_8h_aba6accff3016874eb0bb95d2b197801e}
+\index{output.\-h@{output.\-h}!T\-R\-U\-E@{T\-R\-U\-E}}
+\index{T\-R\-U\-E@{T\-R\-U\-E}!output.h@{output.\-h}}
+\subsubsection[{T\-R\-U\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-R\-U\-E~1}\label{output_8h_aa8cecfc5c5c054d2875c03e77b7be15d}
+
+
+\subsection{Function Documentation}
+\index{output.\-h@{output.\-h}!Can\-We\-Write\-P@{Can\-We\-Write\-P}}
+\index{Can\-We\-Write\-P@{Can\-We\-Write\-P}!output.h@{output.\-h}}
+\subsubsection[{Can\-We\-Write\-P}]{\setlength{\rightskip}{0pt plus 5cm}bool Can\-We\-Write\-P (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\label{output_8h_af74935c6d7742547b2a1381a8a26d683}
+\index{output.\-h@{output.\-h}!Check\-File@{Check\-File}}
+\index{Check\-File@{Check\-File}!output.h@{output.\-h}}
+\subsubsection[{Check\-File}]{\setlength{\rightskip}{0pt plus 5cm}void Check\-File (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp}
+\end{DoxyParamCaption}
+)}\label{output_8h_a591057779cf6eb75e2b32e4bd5fd7e39}
+
+
+References errno, and error().
+
+
+
+Referenced by Read\-Line().
+
+\index{output.\-h@{output.\-h}!Chext@{Chext}}
+\index{Chext@{Chext}!output.h@{output.\-h}}
+\subsubsection[{Chext}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Chext (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\label{output_8h_aed9addb9669ade1f4f253421d2e584e8}
+\index{output.\-h@{output.\-h}!File\-Exists\-P@{File\-Exists\-P}}
+\index{File\-Exists\-P@{File\-Exists\-P}!output.h@{output.\-h}}
+\subsubsection[{File\-Exists\-P}]{\setlength{\rightskip}{0pt plus 5cm}int File\-Exists\-P (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fname}
+\end{DoxyParamCaption}
+)}\label{output_8h_a077e75dac8ec098c48f371324d242125}
+
+
+References F\-A\-L\-S\-E, and T\-R\-U\-E.
+
+
+
+Referenced by Open\-Write\-File().
+
+\index{output.\-h@{output.\-h}!Make\-Dir@{Make\-Dir}}
+\index{Make\-Dir@{Make\-Dir}!output.h@{output.\-h}}
+\subsubsection[{Make\-Dir}]{\setlength{\rightskip}{0pt plus 5cm}void Make\-Dir (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{dirname}
+\end{DoxyParamCaption}
+)}\label{output_8h_a4ec3db460f292e18639f4108c49e857d}
+\index{output.\-h@{output.\-h}!Open\-File\-And\-Check\-Existance@{Open\-File\-And\-Check\-Existance}}
+\index{Open\-File\-And\-Check\-Existance@{Open\-File\-And\-Check\-Existance}!output.h@{output.\-h}}
+\subsubsection[{Open\-File\-And\-Check\-Existance}]{\setlength{\rightskip}{0pt plus 5cm}int Open\-File\-And\-Check\-Existance (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$$\ast$}]{fp, }
+\item[{const char $\ast$}]{fname, }
+\item[{char $\ast$}]{ftype}
+\end{DoxyParamCaption}
+)}\label{output_8h_ae2d304b679f192150c7d56a96f704dea}
+
+
+References F\-A\-L\-S\-E, and T\-R\-U\-E.
+
+
+
+Referenced by Open\-Read\-File().
+
+\index{output.\-h@{output.\-h}!Open\-G\-Zipped\-Write\-File@{Open\-G\-Zipped\-Write\-File}}
+\index{Open\-G\-Zipped\-Write\-File@{Open\-G\-Zipped\-Write\-File}!output.h@{output.\-h}}
+\subsubsection[{Open\-G\-Zipped\-Write\-File}]{\setlength{\rightskip}{0pt plus 5cm}F\-I\-L\-E$\ast$ Open\-G\-Zipped\-Write\-File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\label{output_8h_a75d34fa70e8aef991b63e667db9beb32}
+\index{output.\-h@{output.\-h}!Open\-Read\-File@{Open\-Read\-File}}
+\index{Open\-Read\-File@{Open\-Read\-File}!output.h@{output.\-h}}
+\subsubsection[{Open\-Read\-File}]{\setlength{\rightskip}{0pt plus 5cm}F\-I\-L\-E$\ast$ Open\-Read\-File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\label{output_8h_ae65c4e75d7e0eec28ee29907349430d9}
+
+
+References F\-A\-L\-S\-E, and Open\-File\-And\-Check\-Existance().
+
+
+
+Referenced by Parameter\-::\-Read().
+
+\index{output.\-h@{output.\-h}!Open\-Write\-File@{Open\-Write\-File}}
+\index{Open\-Write\-File@{Open\-Write\-File}!output.h@{output.\-h}}
+\subsubsection[{Open\-Write\-File}]{\setlength{\rightskip}{0pt plus 5cm}F\-I\-L\-E$\ast$ Open\-Write\-File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\label{output_8h_ae665379ae0aec10a4eba6e6e9679b368}
+
+
+References File\-Exists\-P(), F\-N\-A\-M\-E\-S\-I\-Z\-E, and T\-R\-U\-E.
+
+\index{output.\-h@{output.\-h}!Read\-Line@{Read\-Line}}
+\index{Read\-Line@{Read\-Line}!output.h@{output.\-h}}
+\subsubsection[{Read\-Line}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Read\-Line (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{fp}
+\end{DoxyParamCaption}
+)}\label{output_8h_aa1a5a5360af42ce9059dc52134fdac41}
+
+
+References Check\-File(), errno, error(), I\-N\-I\-T\-I\-A\-L\-\_\-\-B\-U\-F\-S\-I\-Z\-E, and M\-E\-M\-O\-R\-Y\-C\-H\-E\-C\-K.
+
+
+
+Referenced by Search\-Token(), and Skip\-Line().
+
+\index{output.\-h@{output.\-h}!Yes\-No\-P@{Yes\-No\-P}}
+\index{Yes\-No\-P@{Yes\-No\-P}!output.h@{output.\-h}}
+\subsubsection[{Yes\-No\-P}]{\setlength{\rightskip}{0pt plus 5cm}int Yes\-No\-P (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}\label{output_8h_aa67ef0a1d41408ed07b342be6de4c37c}
+
+
+References F\-A\-L\-S\-E, and T\-R\-U\-E.
+
+
+
+Referenced by Get\-File\-Name(), and Info\-::\-Menu().
+

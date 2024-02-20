@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -25,13 +25,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef _SQR_H_
 #define _SQR_H_
 
+inline float SQR(float a) { return a * a; }
 
-inline float SQR(float a) {
-  return a * a;
-}
-
-inline double DSQR(double a) {
-  return a * a;
-}
+inline double DSQR(double a) { return a * a; }
 
 #endif
