@@ -1,4 +1,4 @@
-/*
+/* 
 
 Copyright 1996-2006 Roeland Merks
 
@@ -24,9 +24,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
 
-/*! \class Graphics
+/*! \class Graphics 
 
-\brief API for Graphics windows.
+\brief API for Graphics windows. 
 
 No implementation here. Implemented by X11Graphics and QtGraphics.
 
@@ -35,29 +35,29 @@ No implementation here. Implemented by X11Graphics and QtGraphics.
 
 // Base class for Graphics interface. No implementation
 class Graphics {
-public:
+ public:
   //  Graphics(int xfield, int yfield, const char *movie_file=0);
-  virtual ~Graphics(void){};
+  virtual ~Graphics(void) {};
   //! \brief BeginScene() must be called before calling drawing functions.
-  virtual void BeginScene(void){};
-  //! \brief EndScene() must be called to flush the drawing buffer and display
-  //! the scene.
-  virtual void EndScene(void){};
+  virtual void BeginScene(void) {
+  };
+  //! \brief EndScene() must be called to flush the drawing buffer and display the scene.
+  virtual void EndScene(void) {
+  };
 
-  virtual void ClearImage(void){};
+  virtual void ClearImage(void){
+  };
 
   /*! \brief Plot a point in the Graphics window.
 
-  \param color: Color index, as defined in colormap file "default.ctb", which
-  should be in the same directory as the executable. \param x,y: Coordinate of
-  point, in Graphics coordinates (typically twice as large as the cellular
-  automata coordinates).
+  \param color: Color index, as defined in colormap file "default.ctb", which should be in the same directory as the executable.
+  \param x,y: Coordinate of point, in Graphics coordinates (typically twice as large as the cellular automata coordinates). 
   */
-  virtual void Point(int color, int x, int y) = 0;
+  virtual void Point( int color, int x, int y)=0;
+  
+  virtual void PointAlpha( int alpha, int x, int y)=0;
 
-  virtual void PointAlpha(int alpha, int x, int y) = 0;
-
-  virtual void Rectangle(int colour, int x, int y) = 0;
+  virtual void Rectangle( int colour, int x, int y)=0;
 
   /*! \brief Draws a line (obviously... :-)
 
@@ -65,43 +65,41 @@ public:
   \param x2, y2: Second coordinate pair.
   \param color: Color of the line, as given in the colormap file "default.ctb".
   */
-  virtual void Line(float x1, float y1, float x2, float y2, int colour) = 0;
-
+  virtual void Line(float x1, float y1, float x2, float y2, int colour)=0;
+  
   /*! \brief Probes the Window for user interaction, with mouse or keyboard.
-
-  This function should return immediately, and return 0 if there was no user
-  interaction.
-
+    
+  This function should return immediately, and return 0 if there was no user interaction.
+  
   \param *X, *Y: Pointer where the clicked coordinate will be stored.
-
+ 
   */
-  virtual int GetXYCoo(int *X, int *Y) = 0; // {return 0;}
-
+  virtual int GetXYCoo(int *X,int *Y)=0;// {return 0;}
+  
   //! \brief Returns the width of the Graphics window, in pixels.
-  virtual int XField(void) const { return 0; }
-
+  virtual int XField(void) const {return 0;}
+  
   //! \brief Returns the height of the Graphics window, in pixels.
-  virtual int YField(void) const { return 0; }
-
+  virtual int YField(void) const {return 0;}
+  
   /*! \brief Writes the Image to a file.
 
   File format is inferred from file extension. Currently only PNG is
   supported by the X-Windows implementation; the Qt-implentation
-  supports all formats supported by Qt.
-
+  supports all formats supported by Qt. 
+  
   \param fname: File name with standard image file extension (e.g. png).
   \param quality: Quality of JPEG images, defaults to -1 (no value provided).
   */
-  virtual void Write(char *fname, int quality = -1) = 0;
+  virtual void Write(char *fname, int quality=-1)=0;
 
   /*! \brief Implement this member function in your simulation code.
-
+    
   Include all actions that should be carried out during a simulation
-  step, including PDE and CPM simulation steps. See the included examples
-  (vessel.cpp, sorting.cpp) for more information.
+  step, including PDE and CPM simulation steps. See the included examples (vessel.cpp, sorting.cpp) for more information. 
   */
-  virtual void TimeStep(void){};
-
+  virtual void TimeStep(void) {};
+  
   /*! \brief Plots a field of values given by **f, using color coding
     given by colormap file.
 
@@ -111,17 +109,17 @@ public:
   using standard colormap ('default.ctb').
   \param mag: magnification factor.
   */
-  virtual void Field(const int **f, int mag = 1) {
+  virtual void Field(const int **f, int mag=1) {
     throw "Graphics::Field not implemented. Try X11 graphics.\n";
   }
 
-  virtual void Resize(int xfield, int yfield){};
-
+  virtual void Resize(int xfield, int yfield) {};
+ 
   virtual void set_Paused(){};
   virtual void set_unPaused(){};
 };
 
-// Graphics implementations
+// Graphics implementations 
 #ifdef QTGRAPHICS
 #include "qtgraph.hpp"
 #endif
@@ -138,6 +136,6 @@ public:
 #include "x11graph.hpp"
 #endif
 
-void start_graphics(int argc, char **argv);
+void start_graphics(int argc, char ** argv);
 
 #endif

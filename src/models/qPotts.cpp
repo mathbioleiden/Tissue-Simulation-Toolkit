@@ -1,4 +1,4 @@
-/*
+/* 
 
 Copyright 1996-2006 Roeland Merks
 
@@ -24,19 +24,20 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef __APPLE__
 #include <malloc.h>
 #endif
-#include "cell.hpp"
+#include <iostream>
+#include <cstdlib>
+#include <algorithm>
+#include <fstream>
+#include <math.h>
 #include "dish.hpp"
-#include "graph.hpp"
+#include "random.hpp"
+#include "cell.hpp"
 #include "info.hpp"
 #include "parameter.hpp"
-#include "plotter.hpp"
-#include "random.hpp"
 #include "sqr.hpp"
-#include <algorithm>
-#include <cstdlib>
-#include <fstream>
-#include <iostream>
-#include <math.h>
+#include "graph.hpp"
+#include "plotter.hpp"
+
 
 using namespace std;
 
@@ -45,74 +46,75 @@ INIT {
   try {
 
     // Define initial distribution of cells
-    CPM->GrowInCells(par.n_init_cells, par.size_init_cells, par.subfield);
-    cerr << "About to RandomSigma\n";
-    // CPM->RandomSigma(par.n_init_cells);
-    cerr << "About to ConstructInitCells\n";
-
+    CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
+      cerr << "About to RandomSigma\n";
+     // CPM->RandomSigma(par.n_init_cells);
+      cerr << "About to ConstructInitCells\n";
+      
     CPM->ConstructInitCells(*this);
     CPM->SetRandomTypes();
     CPM->InitializeEdgeList();
     cerr << "Done init\n";
-
-  } catch (const char *error) {
+   
+  } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
     exit(1);
   }
+
 }
 
-TIMESTEP {
+TIMESTEP { 
   try {
-    static int i = 0;
-
-    static Dish *dish = new Dish();
-    static Info *info = new Info(*dish, *this);
-    static Plotter *plotter = new Plotter(dish, this);
-
+    static int i=0;
+  
+    static Dish *dish=new Dish();
+    static Info *info=new Info(*dish, *this);
+    static Plotter * plotter = new Plotter(dish, this);
+    
     dish->CPM->PottsNeighborMove(dish->PDEfield);
-    // dish->CPM->AmoebaeMove(dish->PDEfield);
-    if (par.graphics && !(i % par.storage_stride)) {
-      // cerr << "Plot " << i << endl;
+    //dish->CPM->AmoebaeMove(dish->PDEfield);
+    if (par.graphics && !(i%par.storage_stride)) {
+      //cerr << "Plot " << i << endl;
       plotter->Plot();
       info->Menu();
       // dish->CPM->SetBoundingBox();
     }
-    if (par.store && !(i % par.storage_stride)) {
-      char fname[200], fname_mcds[200];
-      snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
+    if (par.store && !(i%par.storage_stride)) {
+      char fname[200],fname_mcds[200];
+      snprintf(fname,199,"%s/extend%05d.png",par.datadir.c_str(),i);
       plotter->Plot();
       Write(fname);
     }
     i++;
-  } catch (const char *error) {
+  } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
     exit(1);
   }
 }
 
-void Plotter::Plot() {
+void Plotter::Plot()  {
   graphics->BeginScene();
   graphics->ClearImage();
-
+  
   plotCPMCellTypes();
-  plotCPMLines();
-
+  plotCPMLines(); 
+  
   graphics->EndScene();
 }
 
 int PDE::MapColour(double val) {
-  return (((int)((val / ((val) + 1.)) * 100)) % 100) + 155;
+  return (((int)((val/((val)+1.))*100))%100)+155;
 }
 
 int main(int argc, char *argv[]) {
   extern Parameter par;
-  try {
+  try {  
     par.Read(argv[1]);
     Seed(par.rseed);
     start_graphics(argc, argv);
-  } catch (const char *error) {
+  } catch(const char* error) {
     std::cerr << error << std::endl;
     return 1;
   }

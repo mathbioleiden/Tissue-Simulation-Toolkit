@@ -2,24 +2,23 @@
 #include "graph.hpp"
 
 class Plotter {
-public:
-  Plotter(Dish *dish_pointer, Graphics *graphics_pointer);
-  void Plot();
+  public:
+    Plotter(Dish * dish_pointer, Graphics * graphics_pointer);
+    void Plot();
+  private:
+    void plotCPMCellTypes();
+    void plotPDEDensity();
+    void plotCPMLines();
+    void plotPDEContourLines();
 
-private:
-  void plotCPMCellTypes();
-  void plotPDEDensity();
-  void plotCPMLines();
-  void plotPDEContourLines();
-
-  Dish *dish;
-  Graphics *graphics;
+    Dish * dish;
+    Graphics * graphics;
 
 #ifdef GLGRAPHICS
-  GLGraphics *glgraphics;
+    GLGraphics * glgraphics;
 #endif
 #ifdef QTGLGRAPHICS
-  QtGLGraphics *glgraphics;
+    QtGLGraphics * glgraphics;
 #endif
-  int *sigma_col;
+    int * sigma_col;
 };
