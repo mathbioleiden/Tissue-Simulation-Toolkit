@@ -68,3 +68,26 @@ TEST_CASE("Boundaries", "[array2d-boundary]") {
         );
     }
 }
+
+TEST_CASE("Initalize", "[array2d-initalize]") {
+    SECTION("Upscale") {
+        Array2d<int> array;
+        
+        array.initalize(10, 10, 1, BoundaryType::periodic);
+        
+        REQUIRE( array.get({4,4}) == 0);
+    }
+
+    SECTION("Downscale") {
+        Array2d<int> array(10, 10, 1);
+        
+        array.set({7,7}, 1);
+        
+        array.initalize(4, 4, 1, BoundaryType::wall);
+        
+        REQUIRE_THROWS( array.set({7,7}, 5));
+        REQUIRE( array.get({3,3}) == 0);
+
+    }
+
+}

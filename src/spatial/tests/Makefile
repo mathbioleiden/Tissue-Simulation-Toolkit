@@ -11,7 +11,7 @@ ifneq "$(filter $(MAKECMDGOALS),clean)" "clean"
     CATCH2_INCLUDES := $(shell PKG_CONFIG_PATH=$(PCPATH) pkg-config --cflags catch2-with-main)
     CATCH2_LIBS := $(shell PKG_CONFIG_PATH=$(PCPATH) pkg-config --libs catch2-with-main)
 
-    CXXFLAGS := $(CATCH2_INCLUDES) $(CXXFLAGS) -std=c++17 -I..
+    CXXFLAGS := $(CATCH2_INCLUDES) $(CXXFLAGS) -std=c++17 -I. -I.. -I../../parameters/
     LDFLAGS := $(CATCH2_LIBS) $(LDFLAGS)
 
     CATCH2_INCLUDE_DIR := ../../../lib/Catch2/catch2/include
