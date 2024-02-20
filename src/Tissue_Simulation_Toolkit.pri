@@ -65,7 +65,8 @@ HEADERS += adhesions/*.hpp \
            reaction_diffusion/*.hpp \
            reaction_diffusion/*.h \
            util/*.hpp \
-           compute/*.hpp
+           compute/*.hpp \
+           spatial/*.hpp
 
 
 SOURCES += adhesions/*.cpp \
@@ -75,6 +76,7 @@ SOURCES += adhesions/*.cpp \
            reaction_diffusion/*.cpp \
            util/*.cpp \
            compute/*.cpp \
+           spatial/*.cpp \
            graphics/graph.cpp
 
 SOURCES += $$MAINFILE
@@ -88,7 +90,8 @@ INCLUDEPATH += adhesions/ \
                reaction_diffusion/ \
                util/ \
                xpm/ \
-               compute/
+               compute/ \
+               spatial/
 
 contains( GRAPHICS, qt ) {
    message("Using QT graphics")
