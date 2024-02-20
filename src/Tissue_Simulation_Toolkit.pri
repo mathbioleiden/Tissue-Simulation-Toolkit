@@ -90,7 +90,8 @@ INCLUDEPATH += adhesions/ \
                reaction_diffusion/ \
                util/ \
                xpm/ \
-               compute/
+               compute/ \
+               spatial/
 
 contains( GRAPHICS, qt ) {
    message("Using QT graphics")
