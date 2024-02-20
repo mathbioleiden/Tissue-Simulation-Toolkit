@@ -56,6 +56,3 @@ private:
     static const PixelDisplacement d_[8];
     PixelPos center_;
 };
-
-const PixelDisplacement Neighbors::d_[] = {{-1, -1}, {0, -1}, {1, -1}, {-1, 0},
-                                           {1, 0},   {-1, 1}, {0, 1},  {1, 1}};
