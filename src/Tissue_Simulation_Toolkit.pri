@@ -66,7 +66,7 @@ HEADERS += adhesions/*.hpp \
            reaction_diffusion/*.h \
            util/*.hpp \
            compute/*.hpp \
-           spacial/*.hpp
+           spatial/*.hpp
 
 
 SOURCES += adhesions/*.cpp \
@@ -76,7 +76,7 @@ SOURCES += adhesions/*.cpp \
            reaction_diffusion/*.cpp \
            util/*.cpp \
            compute/*.cpp \
-           spacial/*.cpp \
+           spatial/*.cpp \
            graphics/graph.cpp
 
 SOURCES += $$MAINFILE
