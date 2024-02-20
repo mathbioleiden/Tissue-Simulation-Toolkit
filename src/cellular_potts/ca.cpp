@@ -54,7 +54,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include ZYGFILE(ZYGOTE)
 #endif
 
-/* STATIC DATA MEMBER INITIALISATION */
+/* STATIC DATA MEMBER INITIALIzATION */
 double copyprob[BOLTZMANN]; 
 
 
@@ -70,7 +70,7 @@ extern Parameter par;
 /** PRIVATE **/
 
 using namespace std;
-void CellularPotts::BaseInitialisation(vector<Cell> *cells) {
+void CellularPotts::BaseInitialization(vector<Cell> *cells) {
   CopyProb(par.T);
   cell=cells;
   if (par.neighbours>=1 && par.neighbours<=4)
@@ -90,7 +90,7 @@ CellularPotts::CellularPotts(vector<Cell> *cells,
   edgelist = nullptr;
   orderedgelist = nullptr;
   
-  BaseInitialisation(cells);
+  BaseInitialization(cells);
   sizex=sx;
   sizey=sy;
 
@@ -179,7 +179,7 @@ void CellularPotts::AllocateSigma(int sx, int sy) {
 
 }
 
-void CellularPotts::InitializeMatrix(Dish &beast){
+void CellularPotts::AllocateMatrix(Dish &beast){
   // sizex; sizey=sy;
 
   matrix=(int **)malloc(sizex*sizeof(int *));
@@ -200,23 +200,8 @@ void CellularPotts::InitializeMatrix(Dish &beast){
 
 }
 
-void CellularPotts::IndexShuffle() {
-  int i;
-  int temp;
-  int index1,index2;
-  
-  for (i=0;i<9;i++) {
-    index1=RandomNumber(8);
-    index2=RandomNumber(8);
 
-    temp=shuffleindex[index1];
-    shuffleindex[index1]=shuffleindex[index2];
-    shuffleindex[index2]=temp;
-
-  }
-}
-
-void CellularPotts::InitializeEdgeList(void){
+void CellularPotts::InitialiseEdgeList(void){
   edgelist= new int[(par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]];
   orderedgelist= new int[(par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]];
   sizeedgelist = 0;
@@ -225,6 +210,8 @@ void CellularPotts::InitializeEdgeList(void){
   int x, y;
   int xp, yp;
   int c, cp;
+  
+  //Initialise both edgelist and orderedgelist to have -1 everywhere
   for (int k=0; k< (par.sizex-2) * (par.sizey-2) * nbh_level[par.neighbours]; k++){
     edgelist[k] = -1;
     orderedgelist[k] = -1;
@@ -894,14 +881,6 @@ DH+=DH_matrix_interaction;
   return DH;
 }
 
-bool CellularPotts::Probability(int DH)
-{
-  if ( DH > BOLTZMANN-1 )
-    return false;
-  else if ( DH < 0 || RANDOM() < copyprob[DH] )
-    return true; 
-  return false; 
-}
 
 void CellularPotts::ConvertSpin(int x,int y,int xp,int yp)
 {
@@ -1351,7 +1330,7 @@ int CellularPotts::PottsMove(PDE *PDEfield) {
                           
 
 //! Monte Carlo Step. Returns summed energy change
-int CellularPotts::PottsNeighborMove(PDE *PDEfield) {
+int CellularPotts::PottsNeighbourMove(PDE *PDEfield) {
   int loop,p;
   //int updated=0;
   thetime++;
@@ -1680,21 +1659,7 @@ int CellularPotts::GetNewPerimeterIfXYWereAdded(int sxyp,int x, int y) {
 return perim;
 }
 
-int CellularPotts::GetActLevel(int x, int y){
-if (sigma[x][y]>0)
-  return(actPixels[{x,y}]);
-else
-  return(0);}
- //matrix array implementation
-  int CellularPotts::GetMatrixLevel(int x, int y){
-  if (matrix[x][y]>0){
-    return(matrix[x][y]);}
-  else{
-    return(0);
-  }}
-
-
-int CellularPotts:: GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
+int CellularPotts::GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
   /*int n_nb;
    if (par.neighbours>=1 && par.neighbours<=4)
     int n_nb=nbh_level[par.neighbours];
@@ -1727,6 +1692,22 @@ int CellularPotts:: GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
  }
   return perim;
  }
+
+int CellularPotts::GetActLevel(int x, int y){
+if (sigma[x][y]>0)
+  return(actPixels[{x,y}]);
+else
+  return(0);}
+  
+ //matrix array implementation
+  int CellularPotts::GetMatrixLevel(int x, int y){
+  if (matrix[x][y]>0){
+    return(matrix[x][y]);}
+  else{
+    return(0);
+  }}
+
+
 void CellularPotts::ReadZygotePicture(void) {
   int pix,cells,i,j,c,p,checkx,checky;
   char **pixelmap;
@@ -1995,7 +1976,7 @@ Dir *CellularPotts::FindCellDirections(void) const {
       celldir[i].aa2=ymean-celldir[i].bb2*xmean;     
     }
 
-  /* bevrijd gealloceerd geheugen */
+  /* free allocated memory */
   free(sumx);
   free(sumy);
   free(sumxx);
@@ -2309,7 +2290,7 @@ bool CellularPotts::ConnectivityPreservedP(int x, int y) {
 
   static int stack[8]; // stack to count number of different surrounding cells
   int stackp=-1;
-  bool one_of_neighbors_medium=false;
+  bool one_of_neighbours_medium=false;
   for (int i=1;i<=8;i++) {
     int s_nb=sigma[x+cyc_nx[i]][y+cyc_ny[i]];
     int s_next_nb=sigma[x+cyc_nx[i+1]][y+cyc_ny[i+1]];
@@ -2339,12 +2320,12 @@ bool CellularPotts::ConnectivityPreservedP(int x, int y) {
         stack[++stackp]=s_nb;
       }
     } else {
-      one_of_neighbors_medium=true;
+      one_of_neighbours_medium=true;
     }
   }
 
   // number of different neighbours is stackp+1;
-  if (n_borders>2 && ( (stackp+1)>2 || one_of_neighbors_medium) ) {
+  if (n_borders>2 && ( (stackp+1)>2 || one_of_neighbours_medium) ) {
     return false;
   }
   else
@@ -2369,7 +2350,7 @@ bool CellularPotts::ConnectivityPreservedPCluster(int x, int y) {
 
   static int stack[8]; // stack to count number of different surrounding cells
   int stackp=-1;
-  bool one_of_neighbors_medium=false;
+  bool one_of_neighbours_medium=false;
 
   for (int i=1;i<=8;i++) {
     int xcn=x+cyc_nx[i];
@@ -2425,12 +2406,12 @@ bool CellularPotts::ConnectivityPreservedPCluster(int x, int y) {
       }
     }
     else {
-      one_of_neighbors_medium=true;
+      one_of_neighbours_medium=true;
     }
   }
 
   // number of different neighbours is stackp+1;
-  if (n_borders>2 && ( (stackp+1)>2 || one_of_neighbors_medium) ) {
+  if (n_borders>2 && ( (stackp+1)>2 || one_of_neighbours_medium) ) {
     return false;
   }
   else 
@@ -2623,7 +2604,7 @@ double CellularPotts::Compactness(double *res_compactness, double *res_area, dou
 }
 
 
-void CellularPotts::SetBoundingBox(void) {
+void CellularPotts::FindBoundingBox(void) {
   int min_x=sizex+2, max_x=0;
   int min_y=sizey+2, max_y=0;
   for (int x=1;x<=sizex-2;x++) {
