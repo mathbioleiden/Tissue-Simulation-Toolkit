@@ -271,10 +271,6 @@ class PDE {
 
   void reset_plot(){ highest = Max(0); lowest = Min(0);}
 
-  inline float *** getSigma(){
-    return sigma;
-  }
-
   inline float ***getPDEvars() { return PDEvars; }
 
   double highest;
