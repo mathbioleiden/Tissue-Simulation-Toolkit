@@ -34,6 +34,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "info.hpp"
 #include "crash.hpp"
 #include "pde.hpp"
+#include "inputoutput.hpp"
+
+#include "../lib/json/json.hpp"
+using json = nlohmann::json_abi_v3_11_2::json;
 
 #define EXTERNAL_OFF
 
@@ -50,6 +54,8 @@ Dish::Dish() {
     else{
     // Initial cell distribution is defined by user in INIT {} block
       CPM=new CellularPotts(&cell, par.sizex, par.sizey);
+      io = new IO(*this);
+
       if (par.n_chem)
         PDEfield=new PDE(par.n_chem,par.sizex, par.sizey);
       Init();
@@ -75,6 +81,7 @@ Dish::Dish() {
 Dish::~Dish() {
     cell.clear();
     delete CPM;
+    delete io;
  }
 
 void Dish::Plot(Graphics *g) {
@@ -249,7 +256,7 @@ void Dish::MCDS_import_cell(MCDS_io *mcds, int cell_id){
   n_cell->SetTargetArea(0); 
 }
 
-void Dish::ImportMultiCellDS(const char *fname){
+void Dish::ImportMultiCellDS(std::string const & fname){
   MCDS_io mcds(fname);
   mcds.process_cellshapes();
   mcds.lattice_from_vector();
@@ -279,7 +286,7 @@ void Dish::MCDS_export_cell(MCDS_io *mcds, Cell * cell){
   cell->MajorMinorAxis(&iocell->major_axis, &iocell->minor_axis, &ovx, &ovy);
 }
 
-void Dish::ExportMultiCellDS(const char *fname){
+void Dish::ExportMultiCellDS(std::string const & fname){
   int ** sigma = CPM->get_annealed_sigma(par.mcds_anneal_steps);
   MCDS_io mcds;
   for (vector<Cell>::iterator c = cell.begin()+1; c != cell.end(); c++){
@@ -296,6 +303,7 @@ void Dish::ExportMultiCellDS(const char *fname){
   mcds.write(fname);
   std::cout << "Done exporting!" << std::endl; 
 }
+
 
 int Dish::SizeX(void) { return CPM->SizeX(); }
 int Dish::SizeY(void) { return CPM->SizeY(); }	

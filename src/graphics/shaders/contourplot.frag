@@ -4,15 +4,13 @@ in vec4 gl_FragCoord;
 out vec4 color;
 layout (location = 2) uniform vec3 size;
 layout (location = 6) uniform vec2 windowSize;
+layout (location = 5) uniform samplerBuffer density;
 layout (location = 9) uniform float l_width;
+
 
 in Data {
   vec4 col;
 } cin;
-
-layout (std430, binding=5) buffer density{
-  float dense[];
-};
 
 
   vec2 point0;
@@ -98,10 +96,10 @@ void main(){
 
   point0 = vec2(ix, iy); 
 
-  ul = dense[(x)*sy+(y)];
-  if (y != 0) dl = dense[(x)*sy+(y-1)];
-  if (x != sx - 1 && sy != 0) dr = dense[(x+1)*sy+(y-1)];
-  if (x != sx - 1) ur = dense[(x+1)*sy+(y)];
+  ul = texelFetch(density, (x)*sy+(y)).r;
+  if (y != 0) dl = texelFetch(density, (x)*sy+(y-1)).r;
+  if (x != sx - 1 && sy != 0) dr = texelFetch(density, (x+1)*sy+(y-1)).r;
+  if (x != sx - 1) ur = texelFetch(density, (x+1)*sy+(y)).r;
   
   color = cin.col; 
   color.a = 0;

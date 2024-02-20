@@ -24,15 +24,34 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <iostream>
+#include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "warning.hpp"
 #include "parameter.hpp"
-#include "output.hpp"
+#include "inputoutput.hpp"
+#include "cell.hpp"
+#include "pde.hpp"
+#include "dish.hpp"
+#include "parameter.hpp"
+
+#include "../lib/json/json.hpp"
+using json = nlohmann::json_abi_v3_11_2::json;
 
 #define FNAMESIZE 100
 
-int OpenFileAndCheckExistance(FILE **fp, const char *fname, const char *ftype) {
+extern Parameter par;
+
+using namespace std;
+
+
+IO::IO(Dish &d){
+  dish = &d;
+}
+
+
+int IO::OpenFileAndCheckExistence(FILE **fp, const char *fname, const char *ftype) {
   
   *fp=fopen(fname,ftype);
   if (*fp==NULL) 
@@ -44,7 +63,7 @@ int OpenFileAndCheckExistance(FILE **fp, const char *fname, const char *ftype) {
   } else return TRUE;
 }
 
-int FileExistsP(const char *fname) {
+int IO::FileExistsP(const char *fname) {
   
   FILE *fp;
   fp=fopen(fname,"r");
@@ -56,7 +75,7 @@ int FileExistsP(const char *fname) {
 
 }
 		       
-int YesNoP(const char *message) {
+int IO::YesNoP(const char *message) {
   
   char answer[100];
   int res;
@@ -77,7 +96,7 @@ int YesNoP(const char *message) {
 }
 
 
-FILE *OpenWriteFile(const char *filename) 
+FILE* IO::OpenWriteFile(const char *filename) 
 {
 
   char fname[FNAMESIZE];
@@ -111,13 +130,13 @@ FILE *OpenWriteFile(const char *filename)
 
 
 
-FILE *OpenReadFile(const char *filename) 
+FILE* IO::OpenReadFile(const char *filename) 
 {
   FILE *fp;
 
   fprintf(stderr,"Opening %s for reading\n",filename);
   
-  if((OpenFileAndCheckExistance(&fp,filename,"r"))==FALSE) {	
+  if((OpenFileAndCheckExistence(&fp,filename,"r"))==FALSE) {	
     char *message=(char *)malloc(2000*sizeof(char));
     sprintf(message," File %s not found or empty, exiting... \n"
 			,filename);
@@ -128,7 +147,7 @@ FILE *OpenReadFile(const char *filename)
 }
 
 
-char *ReadLine(FILE *fp) 
+char* IO::ReadLine(FILE *fp) 
 {
   /* does almost the same as fgetln(), but DEC Unix doesn't understand
 	 fgetln(). Also I want my function to return a real C string,
@@ -197,7 +216,7 @@ char *ReadLine(FILE *fp)
 }
 
 
-void CheckFile(FILE *fp) 
+void IO::CheckFile(FILE *fp) 
 {
   if (ftell(fp)<0) {
 	/* file is probably not open, or another error occured */
@@ -206,7 +225,7 @@ void CheckFile(FILE *fp)
   /* File pointer is ok */
 }
 
-char *Chext(char *filename) {
+char* IO::Chext(char *filename) {
 
   /* Chop the extension from a filename */
   
@@ -239,4 +258,98 @@ char *Chext(char *filename) {
   return result;
   
   
+}
+
+/** A simple method to count all sigma's and write the output to an ostream */
+void IO::CountSigma(std::ostream &os) {
+    int *sum_sigma = new int[Cell::MaxSigma()];
+    for (int i=0;i<Cell::MaxSigma();i++) {
+        sum_sigma[i]=0;
+    }
+    for (int x=1;x<par.sizex-1;x++) {
+        for (int y=1;y<par.sizey-1;y++) {
+            sum_sigma[dish->CPM->getSigma()[x][y]]++;
+        }
+    }
+    for (int i=0;i<Cell::MaxSigma();i++) {
+        os << i << " " << sum_sigma[i] << endl;
+    }
+    delete[] sum_sigma;
+}
+
+void IO::WriteContactInterfaces(void){
+    int RedRedSurface = 0;
+    int RedYellowSurface = 0;
+    int YellowYellowSurface = 0;
+  for (int x = 1; x<par.sizex-1; x++)
+  for (int y = 1; y<par.sizey-1; y++){
+    for (int i = 1; i<=4; i++){
+      int x2,y2;
+      x2=x+dish->CPM->getNbhx(i); y2=y+dish->CPM->getNbhy(i);
+      if (dish->CPM->getSigma()[x][y] != dish->CPM->getSigma()[x2][y2]){
+        //dish->CPM->getCell())[dish->CPM->getSigma()[x][y]] returns the cell corresponding to the sigma found on position (x,y)
+        if ((dish->CPM->getCell(dish->CPM->getSigma()[x][y])).getTau() == 1 && (dish->CPM->getCell(dish->CPM->getSigma()[x2][y2])).getTau() == 1) RedRedSurface ++;
+        if ((dish->CPM->getCell(dish->CPM->getSigma()[x][y])).getTau() == 2 && (dish->CPM->getCell(dish->CPM->getSigma()[x2][y2])).getTau() == 1) RedYellowSurface ++;
+        if ((dish->CPM->getCell(dish->CPM->getSigma()[x][y])).getTau() == 1 && (dish->CPM->getCell(dish->CPM->getSigma()[x2][y2])).getTau() == 2) RedYellowSurface ++;
+        if ((dish->CPM->getCell(dish->CPM->getSigma()[x][y])).getTau() == 2 && (dish->CPM->getCell(dish->CPM->getSigma()[x2][y2])).getTau() == 2) YellowYellowSurface ++;
+      
+      }
+    }
+  }
+  //cout << "Red-red surface = " << RedRedSurface << endl;
+  //cout << "Red-yellow surface = " << RedYellowSurface << endl;
+  //cout << "Yellow-yellow surface = " << YellowYellowSurface << endl;
+
+  ofstream myfile;
+  myfile.open("Data_original.txt", std::ofstream::out | std::ofstream::app);
+  myfile << RedYellowSurface <<endl;
+  myfile.close();
+
+}
+
+void IO::WriteConfiguration(char* write_loc){
+  //Write the current configuration in json format
+  json Configuration;
+  //Convert sigmafield to vector
+  int* sigmafieldarray= dish->CPM->getSigma()[0];
+  int size = par.sizex * par.sizey;
+  vector<int> sigmafieldvector(sigmafieldarray, sigmafieldarray + size);
+  //Write sigmafield to json
+  Configuration["sigma"] = sigmafieldvector;
+
+  //Construct a cell types matrix
+  vector<int> celltypes;
+  vector<Cell>::iterator c=dish->CPM->getCellArray()->begin(); ++c;
+  for (; c!=dish->CPM->getCellArray()->end(); c++) {
+    celltypes.push_back(c->getTau());
+  }
+  //Write celltypes to json
+  Configuration["tau"] = celltypes;
+
+  //Write configuration to file
+  ofstream myfile;
+  myfile.open(write_loc, std::ofstream::out);
+  myfile << Configuration;
+  myfile.close(); 
+
+}
+
+void IO::ReadConfiguration(void){
+  ifstream f(par.initial_configuration_file);
+  json Configuration = json::parse(f);
+  
+  /* Fill CA plane with imported configuration */
+  { for (int i=0;i<par.sizex*par.sizey;i++) 
+    dish->CPM->getSigma()[0][i]=Configuration["sigma"][i];
+  }
+
+  // Construct the cells
+  dish->CPM->ConstructInitCells(*dish);
+
+  // Assign celltypes
+  vector<Cell>::iterator c=dish->CPM->getCellArray()->begin(); ++c;
+  for (; c!=dish->CPM->getCellArray()->end(); c++) {
+    c->setTau(Configuration["tau"][c->sigma-1]);
+  }
+
 }

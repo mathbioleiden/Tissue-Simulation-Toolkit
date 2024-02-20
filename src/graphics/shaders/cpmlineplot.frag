@@ -3,15 +3,12 @@ in vec4 gl_FragCoord;
 out vec4 color;
 layout (location = 2) uniform vec3 size;
 layout (location = 6) uniform vec2 windowSize;
+layout (location = 7) uniform isamplerBuffer intdata;
 layout (location = 9) uniform float l_width;
 
 in Data {
   vec4 col;
 } cin;
-
-layout (std430, binding=7) buffer data{
-  int intdata[];
-};
 
 void main(){
   vec2 pos = gl_FragCoord.xy / windowSize.xy * size.xy;
@@ -21,16 +18,16 @@ void main(){
   int sx = int(size.x);
   int sy = int(size.y);
   
-  int id = intdata[x*sy+y];
+  int id = texelFetch(intdata, x*sy+y).r;
   int rid = id;
   int lid = id;
   int uid = id;
   int did = id;
 
-  if (x != size.x ) rid = intdata[(x+1)*sy+y];
-  if (x != 0 ) lid = intdata[(x-1)*sy+y];
-  if (y != size.y ) uid = intdata[x*sy+(y+1)];
-  if (y != 0 ) did = intdata[x*sy+(y-1)];
+  if (x != size.x ) rid = texelFetch(intdata, (x+1)*sy+y).r;
+  if (x != 0 ) lid = texelFetch(intdata, (x-1)*sy+y).r;
+  if (y != size.y ) uid = texelFetch(intdata, x*sy+(y+1)).r;
+  if (y != 0 ) did = texelFetch(intdata, x*sy+(y-1)).r;
 
   float right = ceil(pos.x) - pos.x;
   float left  = pos.x - floor(pos.x);

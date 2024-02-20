@@ -27,18 +27,16 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <float.h>
 #include <vector>
 #include <string>
-#include "graph.hpp"
-
-#include "cl_manager.hpp"
-#include "pdetype.h" 
+#include <stdio.h>
+#include <iostream>
 
 #include <MultiCellDS.hpp>
 #include <MultiCellDS-pimpl.hpp>
 #include <MultiCellDS-simpl.hpp>
 
-#include <stdio.h>
-#include <iostream>
-
+#include "cl_manager.hpp"
+#include "pdetype.h" 
+#include "graph.hpp"
 
 class CellularPotts;
 class Dish;
@@ -307,6 +305,7 @@ private:
   bool openclsetup = false;
   cl::Program program;
   cl::Kernel kernel_SecreteAndDiffuse;
+  bool first_round = true;
 };
 
 #endif
