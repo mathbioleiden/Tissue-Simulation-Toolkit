@@ -41,14 +41,14 @@ Array2d<DataType>::Array2d(int sizex, int sizey, int layers,
 }
 
 template <typename DataType>
-Array2d<DataType>::Array2d() { }
-
-template <typename DataType>
 void Array2d<DataType>::initalize(int sizex, int sizey, int layers, BoundaryType boundary_type) {
     sizex_ = sizex;  
     sizey_ = sizey;  
     layers_ = layers;
     boundary_type_ = boundary_type;
+    data_.clear();
+    for (int i=0; i<sizex_*sizey_*layers_; i++) 
+        data_[i] = DataType();
 }
 
 template <typename DataType>

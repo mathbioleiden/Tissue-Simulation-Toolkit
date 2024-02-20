@@ -20,7 +20,7 @@ public:
     /**
      * @brief Default constructor, creates a 1x1 grid of 1 layer. 
     */
-    Array2d();
+    Array2d() = default;
 
     /**
      * @brief Constructor of an array with one layer and wall boundaries
