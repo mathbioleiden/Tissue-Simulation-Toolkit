@@ -114,18 +114,16 @@ void PDE::InitialisePDE(CellularPotts *cpm) {
   PROFILE_PRINT
 }
 
-std::vector<PDEFIELD_TYPE> PDE::DerivativesPDE(CellularPotts *cpm, int x, int y){
-  std::vector<PDEFIELD_TYPE> PDEderivs(par.n_chem);
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){
   const double dt = par.dt;
   // inside cells
   if (cpm->Sigma(x, y)) {
-    PDEderivs[0] = par.secr_rate[0];
+    derivs[0] = par.secr_rate[0];
   } else {
     // outside cells
-    PDEderivs[0] = -par.decay_rate[0] * PDEvars.get({x,y},0);
+    derivs[0] = -par.decay_rate[0] * PDEvars.get({x,y},0);
   }
   PROFILE_PRINT
-  return PDEderivs;
 }
 
 int PDE::MapColour(double val) {

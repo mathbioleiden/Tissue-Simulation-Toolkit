@@ -61,6 +61,7 @@ DataType Array2d<DataType>::get(Vec2<int> coordinate) const
 template <typename DataType>
 DataType Array2d<DataType>::get(Vec2<int> coordinate, int layer) const
 {
+    
     if (layer < 0 or layer >= layers_)
     {
         throw std::out_of_range("Layer argument is out of range.");
