@@ -76,6 +76,12 @@ void Array2d<DataType>::set(Vec2<int> coordinate, DataType value){
     set(coordinate, 0, value);
 }
 
+
+template <typename DataType>
+DataType* Array2d<DataType>::get_data(){
+    return data_.data();
+}
+
 template <typename DataType>
 void Array2d<DataType>::set(Vec2<int> coordinate, int layer, DataType value)
 {
