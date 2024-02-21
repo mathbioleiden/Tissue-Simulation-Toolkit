@@ -15,6 +15,7 @@ class Grid {
         Grid();
         Spin get(PixelPos); 
         void set(PixelPos, Spin value);
+        void resize(int,int);
         
         // TEMPORY ONLY HAS MOORE NEIGHBOURHOOD
         Neighbors neighbors(PixelPos);

@@ -1,5 +1,6 @@
 #pragma once
 #include "vec2.hpp"
+#include <vector>
 
 enum class BoundaryType
 {

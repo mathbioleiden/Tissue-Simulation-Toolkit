@@ -17,6 +17,18 @@ Grid::Grid() {
     );
 }
 
+void Grid::resize(int sizex, int sizey){
+    auto boundary_type = BoundaryType::periodic;
+    if (!par.periodic_boundaries) 
+        boundary_type = BoundaryType::wall;
+    spinfield_.initalize(
+        sizex,
+        sizey,
+        1,
+        boundary_type
+    );
+}
+
 Spin Grid::get(PixelPos coordinate) {
     return spinfield_.get(coordinate);
 }
