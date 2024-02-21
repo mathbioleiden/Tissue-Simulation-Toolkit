@@ -47,6 +47,9 @@ void Array2d<DataType>::initialise(int sizex, int sizey, int layers, BoundaryTyp
     sizey_ = sizey;  
     layers_ = layers;
     boundary_type_ = boundary_type;
+    data_.clear();
+    for (int i=0; i<sizex_*sizey_*layers_; i++) 
+        data_.push_back(DataType());
 }
 
 template <typename DataType>

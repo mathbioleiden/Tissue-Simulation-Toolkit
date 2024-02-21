@@ -65,6 +65,8 @@ PDE::PDE(void) {
   }
 }
 
+PDE::~PDE(void){
+}
 
 void PDE::Plot(Graphics *g,const int l) {
   // l=layer: default layer is 0
