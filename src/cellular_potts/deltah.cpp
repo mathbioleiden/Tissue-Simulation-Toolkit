@@ -79,7 +79,7 @@ return DH;
 
 double DeltaH_Chemotaxis(int x,int y, int xp, int yp, PDE *PDEfield){
   double DDH;
-  DDH= - (double)(par.chemotaxis*(sat2(PDEfield->Sigma(0,x,y))-sat2(PDEfield->Sigma(0,xp,yp))));
+  DDH= - (double)(par.chemotaxis*(sat2(PDEfield->get_PDEvars(0,x,y))-sat2(PDEfield->get_PDEvars(0,xp,yp))));
   return DDH;
 }
 

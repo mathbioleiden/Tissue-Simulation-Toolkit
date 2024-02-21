@@ -85,7 +85,7 @@ INIT {
             CPM->DivideCells();
         }
 
-        CPM->InitializeEdgeList();
+        CPM->InitialiseEdgeList();
     }
     catch(const char* error) {
         cerr << "Caught exception\n";

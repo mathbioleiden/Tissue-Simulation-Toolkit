@@ -57,20 +57,20 @@ public:
     /**
      * @brief (Re-)initalizes data. Clears array and constructs a new one.
     */
-    void initalize(int sizex, int sizey, int layers, BoundaryType boundary_type);
+    void initialise(int sizex, int sizey, int layers, BoundaryType boundary_type);
 
     /** Getter for data of layer 0
      *
      * @param coordinate The position for which the data is requested. 
      */
-    DataType get(Vec2<int> coordinate);
+    DataType get(Vec2<int> coordinate) const;
 
     /** Getter for data at a layer
      *
      * @param coordinate The position for which the data is requested.
      * @param layer The layer which is queried.
      */
-    DataType get(Vec2<int> coordinate, int layer);
+    DataType get(Vec2<int> coordinate, int layer) const;
 
     /** Sets value at layer 0 of given coordinate
      * 

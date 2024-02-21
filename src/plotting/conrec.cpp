@@ -2,6 +2,8 @@
 #include <math.h>
 #include "graph.hpp"
 #include "conrec.hpp"
+#include "pdetype.h"
+#include "array2d.hpp"
 
 
 #define xsect(p1,p2) (h[p2]*xh[p1]-h[p1]*xh[p2])/(h[p2]-h[p1])
@@ -56,7 +58,8 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 //=============================================================================
 
 int linecount = 0;
-int conrec(PDEFIELD_TYPE **d,
+int conrec(Array2d<PDEFIELD_TYPE> d,
+	   int l,
 	   int ilb,
 	   int iub,
 	   int jlb,
@@ -106,11 +109,11 @@ int conrec(PDEFIELD_TYPE **d,
   for (j=(jub-1);j>=jlb;j--) {
     for (i=ilb;i<=iub-1;i++) {
       double temp1,temp2;
-      temp1 = min(d[i][j],d[i][j+1]);
-      temp2 = min(d[i+1][j],d[i+1][j+1]);
+      temp1 = min(d.get({i,j},l),d.get({i,j+1},l));
+      temp2 = min(d.get({i+1,j},l),d.get({i+1,j+1},l));
       dmin = min(temp1,temp2);
-      temp1 = max(d[i][j],d[i][j+1]);
-      temp2 = max(d[i+1][j],d[i+1][j+1]);
+      temp1 = max(d.get({i,j},l),d.get({i,j+1},l));
+      temp2 = max(d.get({i+1,j},l),d.get({i+1,j+1},l));
       dmax = max(temp1,temp2);
       if (dmax>=z[0]&&dmin<=z[nc-1]) {
 	for (k=0;k<nc;k++) {
@@ -121,7 +124,7 @@ int conrec(PDEFIELD_TYPE **d,
 		// The indexing of im and jm should be noted as it has to
 		// start from zero
 		//=============================================================
-		h[m] = d[i+im[m-1]][j+jm[m-1]]-z[k];
+		h[m] = d.get({i+im[m-1],j+jm[m-1]},l)-z[k];/////
 		xh[m] = x[i+im[m-1]];
 		yh[m] = y[j+jm[m-1]];
 	      } else {

@@ -38,6 +38,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "plotter.hpp"
 #include "profiler.hpp"
 #include "graph.hpp"
+#include "array2d.hpp"
 
 using namespace std;
 
@@ -107,7 +108,7 @@ void PDE::InitialisePDE(CellularPotts *cpm) {
   const double dt = par.dt;
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
-        PDEvars[0][x][y] = 0;
+        PDEvars.set({x,y},0,0);
     }
   }
   PROFILE_PRINT
@@ -121,7 +122,7 @@ std::vector<PDEFIELD_TYPE> PDE::DerivativesPDE(CellularPotts *cpm, int x, int y)
     PDEderivs[0] = par.secr_rate[0];
   } else {
     // outside cells
-    PDEderivs[0] = -par.decay_rate[0] * PDEvars[0][x][y];
+    PDEderivs[0] = -par.decay_rate[0] * PDEvars.get({x,y},0);
   }
   PROFILE_PRINT
   return PDEderivs;

@@ -97,10 +97,10 @@ TIMESTEP {
 void PDE::InitializeAgeLayer(int l, double value, CellularPotts *cpm) {
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
-      if (PDEvars[l][x][y] > 0) {
-        PDEvars[l][x][y] = value;
+      if (PDEvars.get({x,y},l) > 0) {
+        PDEvars.set({x,y},l,value);
       } else {
-        PDEvars[l][x][y] = 0.;
+        PDEvars.set({x,y},l,0);
       }
     }
   }

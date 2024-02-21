@@ -501,7 +501,9 @@ public:
 private:
   /*! \brief Standard deltaH with are constraint, length constraint and chemotaxis
    */
-  int DeltaH(int x,int y, int xp, int yp, PDE *PDEfield=0);
+  int DeltaH(
+        int x, int y, int xp, int yp, PDE *PDEfield,
+        AdhesionDisplacements * adh_disp);
 
   /*! \brief DeltaH, including act dynamics
    */
@@ -583,7 +585,7 @@ private:
 protected:
     /*! \brief Initialise CPM class
     */
-	void BaseInitialization(std::vector<Cell> *cell);
+	void BaseInitialisation(std::vector<Cell> *cell);
 
 protected:
   int **sigma;
