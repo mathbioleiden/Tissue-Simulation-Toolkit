@@ -94,3 +94,4 @@ void Array2d<DataType>::set(Vec2<int> coordinate, int layer, DataType value)
 
 template class Array2d<int>;
 template class Array2d<double>;
+template class Array2d<float>;
