@@ -105,7 +105,6 @@ TIMESTEP {
 }
 
 void PDE::InitialisePDE(CellularPotts *cpm) {
-  const double dt = par.dt;
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
         PDEvars.set({x,y},0,0);
@@ -115,7 +114,6 @@ void PDE::InitialisePDE(CellularPotts *cpm) {
 }
 
 void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){
-  const double dt = par.dt;
   // inside cells
   if (cpm->Sigma(x, y)) {
     derivs[0] = par.secr_rate[0];

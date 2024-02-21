@@ -319,10 +319,6 @@ void PDE::Diffuse(int repeat) {
           alt_PDEvars.set({x,y},l, PDEvars.get({x,y},l) + sum * dt * par.diff_coeff[l] / dx2);
         }
     }
-    Array2d<PDEFIELD_TYPE> tmp;
-    tmp = PDEvars;
-    PDEvars = alt_PDEvars;
-    alt_PDEvars = tmp;
   }
 }
 
