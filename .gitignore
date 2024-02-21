@@ -1,4 +1,12 @@
 bin/
+ymmsl/
 build_files/
+venv
+build
+*.egg-info
+**/__pycache__
+.tox
 **/*.swp
 **/*.swo
+
+run_*

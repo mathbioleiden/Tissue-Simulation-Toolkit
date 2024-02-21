@@ -83,7 +83,9 @@ void CellularPotts::BaseInitialization(vector<Cell> *cells) {
 }
 
 CellularPotts::CellularPotts(vector<Cell> *cells,
-           const int sx, const int sy) {
+           const int sx, const int sy)
+    : adhesion_mover(*this)
+{
   sigma=0;
   frozen=false;
   thetime=0;
@@ -114,8 +116,9 @@ CellularPotts::CellularPotts(vector<Cell> *cells,
     throw "Panic in CellularPotts: parameter neighbours invalid (choose [1-4])";
 }
 
-CellularPotts::CellularPotts(void) {
-
+CellularPotts::CellularPotts(void)
+    : adhesion_mover(*this)
+{
   sigma=0;
   sizex=0; sizey=0;
   frozen=false;
@@ -485,7 +488,9 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
 }
 
 
-int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)       
+int CellularPotts::DeltaH(
+        int x, int y, int xp, int yp, PDE *PDEfield,
+        AdhesionDisplacements * adh_disp)
 {
   int DH = 0;
   int i, sxy, sxyp;
@@ -548,6 +553,19 @@ int CellularPotts::DeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
     if (!( par.extensiononly && sxyp==0)) {
       int DDH=(int)(par.chemotaxis*(sat(PDEfield->Sigma(0,x,y))-sat(PDEfield->Sigma(0,xp,yp))));
       DH-=DDH;
+    }
+  }
+
+  /* Individual adhesions with ECM */
+  if (par.adhesions_enabled) {
+    if (adh_disp) {
+      double adh_dh = adhesion_mover.move_dh({xp, yp}, {x, y}, *adh_disp);
+      DH += static_cast<int>(round(adh_dh));
+    }
+    else {
+      throw std::runtime_error(
+              "Adhesions are enabled but not adh_disp argument was passed to"
+              " CellularPotts::DeltaH()");
     }
   }
 
@@ -1034,9 +1052,12 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
     if (!ConnectivityPreservedP(x,y)) 
       H_diss=par.conn_diss;
     
-    D_H=DeltaH(x,y,xp,yp,PDEfield);
+    AdhesionDisplacements adh_disp;
+    D_H = DeltaH(x, y, xp, yp, PDEfield, &adh_disp);
     
     if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
+      if (par.adhesions_enabled)
+        adhesion_mover.commit_move({xp, yp}, {x, y}, adh_disp);
       ConvertSpin ( x,y,xp,yp ); //sigma(x,y) will get the same value as sigma(xp,yp)
       for (int j = 1; j <= n_nb; j++){
         xn = nx[j]+x; 
@@ -1337,6 +1358,22 @@ int CellularPotts::PottsNeighbourMove(PDE *PDEfield) {
     //std::cerr << "[ " << D_H << ", p = " << p << " ]";
   }
   return SumDH;
+}
+
+
+CellECMInteractions CellularPotts::GetCellECMInteractions() const {
+  return adhesion_mover.get_cell_ecm_interactions();
+}
+
+
+void CellularPotts::ResetCellECMInteractions() {
+  return adhesion_mover.reset_cell_ecm_interactions();
+}
+
+
+void CellularPotts::SetECMBoundaryState(ECMBoundaryState const & ecm_boundary_state) {
+  return adhesion_mover.update(ecm_boundary_state);
+
 }
 
 
@@ -2212,43 +2249,6 @@ int CellularPotts::SquareCell(int sig, int cx, int cy, int size) {
 }
 
 
-bool CellularPotts::LocalConnectedness(int x, int y, int s){
-
-  //Algorithm from Durand, M., & Guesnet, E. (2016). An efficient Cellular Potts Model algorithm that forbids cell fragmentation. Computer Physics Communications, 208, 54-63.
-  //Checks if cell sigma is locally connected at lattice point (x,y) if using LocalConnectedness(x,y,sigma[x][y]) and LocalConnectedness(x,y,sigma[xp][yp] both are true
-
-
-   // Use local nx and ny in a cyclic order (starts at upper left corner)
-  const int cyc_nx[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
-  const int cyc_ny[8] = {0, -1, -1, -1, 0, 1, 1, 1};
-  bool connected_component = false; 
-  //Currently in a connected component
-  int nr_connected_components = 0;
-  //Total number of conncected components around x,y
-  for (int i = 0; i <= 7; i++){
-    int s_nb = sigma[x + cyc_nx[i]][y + cyc_ny[i]];
-    if (s_nb == s && !connected_component){
-      //start of a connected component
-      connected_component = true;
-      nr_connected_components++;
-    }
-    else if (s_nb != s && connected_component){
-      //end of a conencted component
-      connected_component = false;
-    }
-  }
-  bool looped = false;
-  if (sigma[x + cyc_nx[0]][y + cyc_ny[0]] == s && sigma[x + cyc_nx[7]][y + cyc_ny[7]] == s)
-    looped = true;
-  //Check if the first and last element are connected
-  if ((nr_connected_components >= 2 && !looped) || nr_connected_components >= 3 && looped)
-  //permit one more component when the first and last element are connected
-    return false;
-  else
-    return true;
-}
-
-
 // Predicate returns true when connectivity is locally preserved
 // if the value of the central site would be changed
 bool CellularPotts::ConnectivityPreservedP(int x, int y) {
@@ -2691,7 +2691,7 @@ void CellularPotts::RandomSigma(int n_cells) {
 
 bool CellularPotts::plotPos(int x, int y, Graphics * graphics){
   int self = sigma[x][y];
-  if (self == 0) return true;
+  if (self <= 0) return true;
   graphics->Rectangle((*cell)[self].Colour(), x, y);
   return false;
 }

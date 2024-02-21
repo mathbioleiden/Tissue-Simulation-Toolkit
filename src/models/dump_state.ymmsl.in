@@ -1,0 +1,28 @@
+ymmsl_version: v0.1
+
+model:
+  name: adhesions
+  components:
+    state_dumper:
+      implementation: state_dumper
+      ports:
+        f_init:
+        - cpm_state_in
+        - ecm_state_in
+
+  conduits:
+    cellular_potts.state_out: state_dumper.cpm_state_in
+    simulate_ecm.state_out: state_dumper.ecm_state_in
+
+settings:
+  graphics: false
+  state_output_interval: 10
+
+resources:
+  state_dumper:
+    threads: 1
+
+implementations:
+  state_dumper:
+    virtual_env: TST-HOOMD-MUSCLE3/venv
+    executable: state_dumper

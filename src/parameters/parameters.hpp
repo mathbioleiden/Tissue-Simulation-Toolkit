@@ -130,6 +130,7 @@ SECTION("Actin model")
     PARAMETER(double, decay_p, 0.02, "Something to do with adhesion destruction?")
     PARAMETER(double, eden_p, 0.25, "Something to do with adhesion generation?")
 
+
 SECTION("Chemotaxis - reaction-diffusion")
 
     PARAMETER(double, dx, 2.0e-6, "Reaction-diffusion grid spacing")
@@ -176,6 +177,41 @@ SECTION("Chemotaxis - cell response to chemicals")
     PARAMETER(bool, extensiononly, false, \
             "Make only chemotactic extensions contribute to energy change" \
             " (CompuCell's method)")
+
+
+SECTION("Adhesions")
+
+    PARAMETER(bool, adhesions_enabled, false, \
+            "Whether to use the adhesion simulation")
+    PARAMETER(double, adhesion_zone_radius, 10.0, \
+            "Radius of the adhesion creation zone\n"
+            "\n"
+            "Adhesions are created in the adhesion creation zone, which contains all\n"
+            "pixels that are in a cell and within a certain radius from the edge of\n"
+            "the cell. This parameter specifies that radius.\n")
+    PARAMETER(int, num_initial_adhesions, 50, \
+            "Number of adhesions to initially create.")
+    PARAMETER(std::string, adhesion_extension_mechanism, "sticky", \
+            "How to move adhesions at the source pixel of a copy attempt\n"
+            "\n"
+            "lazy: Leave them where they are\n"
+            "sticky: Move them to the target pixel\n"
+            "mixed: Randomly either leave them where they are, or move them to the\n"
+            "        target pixel\n"
+            "random: Move them in a random direction within the cell\n")
+    PARAMETER(std::string, adhesion_displacement_selection, "uniform", \
+            "How to select an adhesion displacement\n"
+            "\n"
+            "uniform: Pick one at random from the available possibilities\n"
+            "gradient: Pick the one with the lowest DH\n"
+            "\n"
+            "Formerly called nbhd_selection\n")
+    PARAMETER(int, adhesion_annihilation_penalty, 0, \
+            "Work required to annihilate an adhesion (in DH units)")
+    PARAMETER(int, adhesions_per_pixel_overflow, 0, \
+            "Number of adhesions per pixel above which a crowding penalty is applied")
+    PARAMETER(int, adhesions_per_pixel_overflow_penalty, 600, \
+            "Per-adhesion penalty (in DH units) in case of crowding")
 
 
 SECTION("Obsolete and unused")

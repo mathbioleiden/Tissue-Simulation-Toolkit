@@ -11,16 +11,21 @@ ifneq "$(filter $(MAKECMDGOALS),clean)" "clean"
     CATCH2_INCLUDES := $(shell PKG_CONFIG_PATH=$(PCPATH) pkg-config --cflags catch2-with-main)
     CATCH2_LIBS := $(shell PKG_CONFIG_PATH=$(PCPATH) pkg-config --libs catch2-with-main)
 
-    CXXFLAGS := $(CATCH2_INCLUDES) $(CXXFLAGS) -I..
+    CXXFLAGS := $(CATCH2_INCLUDES) $(CXXFLAGS) -g
+    CXXFLAGS += -I. -I.. -I../.. -I../../graphics -I../../models
+    CXXFLAGS += -I../../parameters -I../../plotting -I../../reaction_diffusion
+    CXXFLAGS += -I../../util -I../../xpm -I../../compute
+    CXXFLAGS += -I../../../lib/MultiCellDS/v1.0/v1.0.0/libMCDS/mcds_api/
+    CXXFLAGS += -I../../../lib/MultiCellDS/v1.0/v1.0.0/libMCDS/xsde/libxsde
     LDFLAGS := $(CATCH2_LIBS) $(LDFLAGS)
 
     CATCH2_INCLUDE_DIR := ../../../lib/Catch2/catch2/include
 endif
 
-
 # Find tests by name, then remove the .cpp extension
 TESTS := $(patsubst %.cpp, %, $(wildcard test_*.cpp))
 TEST_EXECUTABLES := $(patsubst %,build/%, $(TESTS))
+
 
 # Define targets that run tests
 .PHONY: run_%
@@ -59,7 +64,8 @@ ifneq "$(filter $(MAKECMDGOALS),clean)" "clean"
 endif
 
 build/test_%: test_%.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(filter %.cpp,$^) $(LDFLAGS)
+	$(CXX) -o $@ $(CPPFLAGS) $(CXXFLAGS) $< $(LDFLAGS)
+
 
 clean:
 	rm -f $(TEST_EXECUTABLES) build/*.d

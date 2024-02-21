@@ -28,6 +28,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 /*! Implementation of the Glazier & Graner cellular Potts model **/
 #ifndef _CA_HH_
 #define _CA_HH_
+
+#ifdef _MOCK_CA_HPP_
+#include _MOCK_CA_HPP_
+#else
+
 #include <vector>
 #include <stdio.h>
 #include <unordered_set>
@@ -40,6 +45,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 #include "pde.hpp"
 #include "cell.hpp"
+#include "adhesion_mover.hpp"
+#include "cell_ecm_interactions.hpp"
 
 using namespace std;
 
@@ -277,6 +284,19 @@ public:
    */
   int PottsNeighbourMove(PDE *PDEfield);
   
+  /*! Returns changes made to the adhesions since the last reset.
+   * \return The accumulated changes
+   */
+  CellECMInteractions GetCellECMInteractions() const;
+
+  /*! Clears recorded changes to the adhesions.
+   */
+  void ResetCellECMInteractions();
+
+  /*! Set ECM boundary state, overwriting the current state.
+   */
+  void SetECMBoundaryState(ECMBoundaryState const & ecm_boundary_state);
+
   /*! \brief Read initial cell shape from XPM file.
     Reads the initial cell shape from an 
     include xpm picture called "ZYGXPM(ZYGOTE)",
@@ -582,6 +602,9 @@ private:
   int zygote_area;
   int thetime;
   int n_nb;
+  AdhesionMover adhesion_mover;
 };
 
 #endif
+#endif
+
