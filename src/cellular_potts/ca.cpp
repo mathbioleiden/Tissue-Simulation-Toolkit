@@ -489,8 +489,7 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
 
 
 int CellularPotts::DeltaH(
-        int x, int y, int xp, int yp, PDE *PDEfield,
-        AdhesionDisplacements * adh_disp)
+        int x, int y, int xp, int yp, PDE *PDEfield)
 {
   int DH = 0;
   int i, sxy, sxyp;
@@ -557,7 +556,7 @@ int CellularPotts::DeltaH(
   }
 
   /* Individual adhesions with ECM */
-  if (par.adhesions_enabled) {
+  /*if (par.adhesions_enabled) {
     if (adh_disp) {
       double adh_dh = adhesion_mover.move_dh({xp, yp}, {x, y}, *adh_disp);
       DH += static_cast<int>(round(adh_dh));
@@ -567,7 +566,7 @@ int CellularPotts::DeltaH(
               "Adhesions are enabled but not adh_disp argument was passed to"
               " CellularPotts::DeltaH()");
     }
-  }
+  }*/
 
   const double lambda2=par.lambda2;
   /* Length constraint */
@@ -1053,7 +1052,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
       H_diss=par.conn_diss;
     
     AdhesionDisplacements adh_disp;
-    D_H = DeltaH(x, y, xp, yp, PDEfield, &adh_disp);
+    D_H = DeltaH(x, y, xp, yp, PDEfield);
     
     if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
       if (par.adhesions_enabled)

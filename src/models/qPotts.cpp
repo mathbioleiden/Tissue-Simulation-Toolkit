@@ -53,7 +53,7 @@ INIT {
       
     CPM->ConstructInitCells(*this);
     CPM->SetRandomTypes();
-    CPM->InitializeEdgeList();
+    CPM->InitialiseEdgeList();
     cerr << "Done init\n";
    
   } catch(const char* error) {
@@ -72,7 +72,7 @@ TIMESTEP {
     static Info *info=new Info(*dish, *this);
     static Plotter * plotter = new Plotter(dish, this);
     
-    dish->CPM->PottsNeighborMove(dish->PDEfield);
+    dish->CPM->PottsNeighbourMove(dish->PDEfield);
     //dish->CPM->AmoebaeMove(dish->PDEfield);
     if (par.graphics && !(i%par.storage_stride)) {
       //cerr << "Plot " << i << endl;
