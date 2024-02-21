@@ -65,7 +65,7 @@ INIT {
       io->ReadConfiguration();
     }
     
-    CPM->InitializeEdgeList();
+    CPM->InitialiseEdgeList();
     
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -89,7 +89,7 @@ TIMESTEP {
     if (par.graphics && !(i%par.storage_stride)) {
       PROFILE(all_plots, plotter->Plot();)
       info->Menu();
-      dish->CPM->SetBoundingBox();
+      dish->CPM->FindBoundingBox();//old: Setboundingbox
     }
     
     if (i == 0 && par.pause_on_start){ 

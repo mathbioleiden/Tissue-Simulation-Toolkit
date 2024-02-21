@@ -48,7 +48,7 @@ INIT {
     //CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
     CPM->ConstructInitCells(*this);
     CPM->MeasureCellPerimeters();
-    CPM->InitializeMatrix(*this);
+    CPM->AllocateMatrix(*this);
   } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
