@@ -558,7 +558,7 @@ int CellularPotts::DeltaH(
   }
 
   /* Individual adhesions with ECM */
-  /*if (par.adhesions_enabled) {
+  if (par.adhesions_enabled) {
     if (adh_disp) {
       double adh_dh = adhesion_mover.move_dh({xp, yp}, {x, y}, *adh_disp);
       DH += static_cast<int>(round(adh_dh));
@@ -568,7 +568,7 @@ int CellularPotts::DeltaH(
               "Adhesions are enabled but not adh_disp argument was passed to"
               " CellularPotts::DeltaH()");
     }
-  }*/
+  }
 
   const double lambda2=par.lambda2;
   /* Length constraint */
