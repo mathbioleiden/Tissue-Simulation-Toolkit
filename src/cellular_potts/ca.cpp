@@ -489,7 +489,8 @@ int CellularPotts::KawasakiDeltaH(int x,int y, int xp, int yp, PDE *PDEfield)
 
 
 int CellularPotts::DeltaH(
-        int x, int y, int xp, int yp, PDE *PDEfield)
+        int x, int y, int xp, int yp, PDE *PDEfield,
+        AdhesionDisplacements * adh_disp)
 {
   int DH = 0;
   int i, sxy, sxyp;
@@ -1054,7 +1055,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
       H_diss=par.conn_diss;
     
     AdhesionDisplacements adh_disp;
-    D_H = DeltaH(x, y, xp, yp, PDEfield);
+    D_H = DeltaH(x, y, xp, yp, PDEfield, &adh_disp);
     
     if ((p=CopyvProb(D_H,H_diss, anneal))>0) {
       if (par.adhesions_enabled)
