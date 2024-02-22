@@ -2,8 +2,8 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 
-#CONFIG += release
-CONFIG += debug
+CONFIG += release
+#CONFIG += debug
 
 # Select the graphics backend by uncommenting it.
 # - GL graphics requires the GLUT and GLEW libraries.

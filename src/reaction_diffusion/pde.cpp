@@ -326,10 +326,10 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat) {
 
 
 void PDE::ForwardEulerStep(int repeat, CellularPotts *cpm){
-  std::vector<PDEFIELD_TYPE> derivs;
+  PDEFIELD_TYPE derivs[layers];
   for (int x = 0; x < sizex; x++){
     for (int y = 0; y < sizey; y++){
-      derivs = DerivativesPDE(cpm, x, y);
+      DerivativesPDE(cpm, derivs, x, y);
       for (int l = 0; l < layers; l++)
         PDEvars[l][x][y] = alt_PDEvars[l][x][y] + derivs[l] * par.dt;
     }

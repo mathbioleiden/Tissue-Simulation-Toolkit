@@ -77,6 +77,8 @@ TIMESTEP {
       } else {
         for (int r = 0; r < par.pde_its; r++) {
           dish->PDEfield->ReactionDiffusion(dish->CPM);
+          //dish->PDEfield->Secrete(dish->CPM);
+          //dish->PDEfield->Diffuse(1);
         }
       }
     }
@@ -110,21 +112,33 @@ void PDE::InitialisePDE(CellularPotts *cpm) {
         PDEvars[0][x][y] = 0;
     }
   }
+}
+
+void PDE::Secrete(CellularPotts *cpm) {
+  const double dt=par.dt;
+  for (int x=0;x<sizex;x++) {
+    for (int y=0;y<sizey;y++) {
+      // inside cells
+      if (cpm->Sigma(x,y)) {
+	PDEvars[0][x][y]+=par.secr_rate[0]*dt;
+      } else {
+      // outside cells
+	PDEvars[0][x][y]-=par.decay_rate[0]*dt*PDEvars[0][x][y];
+      }
+    }
+  }
   PROFILE_PRINT
 }
 
-std::vector<PDEFIELD_TYPE> PDE::DerivativesPDE(CellularPotts *cpm, int x, int y){
-  std::vector<PDEFIELD_TYPE> PDEderivs(par.n_chem);
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){
   const double dt = par.dt;
   // inside cells
   if (cpm->Sigma(x, y)) {
-    PDEderivs[0] = par.secr_rate[0];
+    derivs[0] = par.secr_rate[0];
   } else {
     // outside cells
-    PDEderivs[0] = -par.decay_rate[0] * PDEvars[0][x][y];
+    derivs[0] = -par.decay_rate[0] * PDEvars[0][x][y];
   }
-  PROFILE_PRINT
-  return PDEderivs;
 }
 
 int PDE::MapColour(double val) {

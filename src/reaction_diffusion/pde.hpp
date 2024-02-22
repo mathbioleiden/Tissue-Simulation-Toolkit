@@ -192,7 +192,10 @@ public:
   simulation code. See for an example vessel.cpp.
   \return Derivatives at pixel (x,y)
   */
-  std::vector<PDEFIELD_TYPE> DerivativesPDE(CellularPotts *cpm, int x, int y);
+  void DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y);
+
+
+   void Secrete(CellularPotts *cpm);
 
 
   /*! \brief Do a single forward Euler step to solve the ODE
