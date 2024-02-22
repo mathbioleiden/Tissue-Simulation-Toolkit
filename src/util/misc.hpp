@@ -1,4 +1,4 @@
-/*
+/* 
 
 Copyright 1996-2006 Roeland Merks
 
@@ -20,13 +20,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA
 
 */
-#define FALSE 0
-#define TRUE 1
+#define FALSE    0
+#define TRUE     1
 #define OK 1
 #define REMARK 56
 
-int ReadNumber(FILE *file, int *number);
+
+int ReadNumber(FILE *file,int *number);
 int YesNoP(const char *message);
-char *GetFileName(const char *message, const char *ftype);
-int FileExists(FILE **fp, const char *fname, const char *ftype);
-int ReadDouble(FILE *file, double *number);
+char *GetFileName(const char *message,const char *ftype);
+int FileExists(FILE **fp,const char *fname,const char *ftype);
+int ReadDouble(FILE *file,double *number);

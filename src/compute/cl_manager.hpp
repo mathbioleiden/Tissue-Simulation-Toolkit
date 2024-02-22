@@ -1,25 +1,27 @@
 #define CL_HPP_TARGET_OPENCL_VERSION 300
 
-#include "cl.hpp"
+#include "cl.hpp" 
+
 
 class CLManager {
-public:
-  cl::CommandQueue queue;
-  cl::Context context;
+  public:
 
-  cl::Buffer cpm;
+    cl::CommandQueue queue;
+    cl::Context context;
 
-  int pde_AB;
-  cl::Buffer pdeA;
-  cl::Buffer pdeB;
-  cl::Buffer diffco;
+    cl::Buffer cpm;
 
-  cl::Program make_program(std::string filename, std::string head = "");
+    int pde_AB;
+    cl::Buffer pdeA;
+    cl::Buffer pdeB;
+    cl::Buffer diffco;
 
-private:
-  cl::Device device;
-  int make_context();
-  bool context_prepared = false;
+    cl::Program make_program(std::string filename, std::string head = "");
+  
+  private:
+    cl::Device device;
+    int make_context();
+    bool context_prepared = false;
 };
 
 extern CLManager clm;

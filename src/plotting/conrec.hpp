@@ -1,4 +1,4 @@
-/*
+/* 
 
 Copyright 1996-2006 Roeland Merks
 
@@ -71,13 +71,24 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 class Graphics;
 
 #include "pdetype.h"
+#include "array2d.hpp"
 
 /*! \brief Paul Bourke's conrec algorithm to draw contour lines of PDE fields.
-
+  
 C-code Copyright (c) 1996-1997 Nicholas Yue.
 */
-int conrec(PDEFIELD_TYPE **d, int ilb, int iub, int jlb, int jub, double *x,
-           double *y, int nc, double *z, Graphics *g, int colour = 1);
+int conrec(Array2d<PDEFIELD_TYPE> d,
+	   int l,
+	   int ilb,
+	   int iub,
+	   int jlb,
+	   int jub,
+	   double *x,
+	   double *y,
+	   int nc,
+	   double *z,
+	   Graphics *g,
+	   int colour=1);
 // d               ! matrix of data to contour
 // ilb,iub,jlb,jub ! index bounds of data matrix
 // x               ! data matrix column coordinates

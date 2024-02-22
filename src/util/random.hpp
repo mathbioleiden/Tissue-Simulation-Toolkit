@@ -1,4 +1,4 @@
-/*
+/* 
 
 Copyright 1996-2006 Roeland Merks
 
@@ -23,7 +23,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #define MBIG 1000000000
 #define MSEED 161803398
 #define MZ 0
-#define FAC (1.0 / MBIG)
+#define FAC (1.0/MBIG)
 
 double RANDOM();
 long Seed(long seed);

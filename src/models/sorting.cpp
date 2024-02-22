@@ -1,4 +1,4 @@
-/*
+/* 
 
 Copyright 1996-2006 Roeland Merks
 
@@ -24,112 +24,112 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef __APPLE__
 #include <malloc.h>
 #endif
-#include "cell.hpp"
+#include <iostream>
+#include <cstdlib>
+#include <algorithm>
+#include <fstream>
+#include <math.h>
 #include "dish.hpp"
-#include "graph.hpp"
+#include "random.hpp"
+#include "cell.hpp"
 #include "info.hpp"
-#include "inputoutput.hpp"
 #include "parameter.hpp"
+#include "sqr.hpp"
+#include "graph.hpp"
 #include "plotter.hpp"
 #include "profiler.hpp"
-#include "random.hpp"
-#include "sqr.hpp"
-#include <algorithm>
-#include <cstdlib>
-#include <fstream>
-#include <iostream>
-#include <math.h>
+#include "inputoutput.hpp"
 
 using namespace std;
 
 INIT {
   try {
-    if (par.initial_configuration_file ==
-        "None") { // If no configuration file is provided
+    if (par.initial_configuration_file == "None"){ // If no configuration file is provided
       // Define initial distribution of cells
-      CPM->GrowInCells(par.n_init_cells, par.size_init_cells, par.subfield);
+      CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
       CPM->ConstructInitCells(*this);
-
+      
       // If we have only one big cell and divide it a few times
-      // we start with a nice initial clump of cells.
-      //
-      // The behavior can be changed in the parameter file using
+      // we start with a nice initial clump of cells. 
+      // 
+      // The behavior can be changed in the parameter file using 
       // parameters n_init_cells, size_init_cells and divisions
-      for (int i = 0; i < par.divisions; i++) {
+      for (int i=0;i<par.divisions;i++) {
         CPM->DivideCells();
       }
-
+      
       // Assign a random type to each of the cells
       CPM->SetRandomTypes();
-    } else { // If a configuration file is provided
+    }
+    else{ //If a configuration file is provided
       io->ReadConfiguration();
     }
-
-    CPM->InitializeEdgeList();
-
-  } catch (const char *error) {
+    
+    CPM->InitialiseEdgeList();
+    
+  } catch(const char* error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
     exit(1);
   }
 }
 
-TIMESTEP {
+TIMESTEP { 
   try {
 
-    static int i = 0;
+    static int i=0;
     static Dish *dish;
-    if (i == 0) {
-      dish = new Dish();
+    if (i == 0 ){
+        dish=new Dish();
     }
-
-    static Info *info = new Info(*dish, *this);
-    static Plotter *plotter = new Plotter(dish, this);
-
-    if (par.graphics && !(i % par.storage_stride)) {
+    
+    static Info *info=new Info(*dish, *this);
+    static Plotter * plotter = new Plotter(dish, this);
+    
+    if (par.graphics && !(i%par.storage_stride)) {
       PROFILE(all_plots, plotter->Plot();)
       info->Menu();
-      dish->CPM->SetBoundingBox();
+      dish->CPM->FindBoundingBox();//old: Setboundingbox
     }
-
-    if (i == 0 && par.pause_on_start) {
+    
+    if (i == 0 && par.pause_on_start){ 
       info->set_Paused();
-      i++;
-    }
+    i++;}
 
-    if (!info->IsPaused()) {
+    if (!info->IsPaused()){
       PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
-    }
-    // cout << "Compactness = " << dish-> CPM -> Compactness() << endl;
+    }  
+    //cout << "Compactness = " << dish-> CPM -> Compactness() << endl;
 
-    if (i == par.mcs) {
+    if ( i == par.mcs){
       dish->ExportMultiCellDS(par.mcds_output);
     }
 
-    if (par.store && !(i % par.storage_stride)) {
-      char fname[200], fname_mcds[200];
-      snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
+    if (par.store && !(i%par.storage_stride)) {
+      char fname[200],fname_mcds[200];
+      snprintf(fname,199,"%s/extend%05d.png",par.datadir.c_str(),i);
       Write(fname);
+
     }
 
-    if (!info->IsPaused()) {
+    if (!info->IsPaused()){
       i++;
     }
-  } catch (const char *error) {
-    cerr << "Caught exception\n";
-    std::cerr << error << "\n";
-    exit(1);
+  } catch(const char* error) {
+      cerr << "Caught exception\n";
+      std::cerr << error << "\n";
+      exit(1);
   }
   PROFILE_PRINT
 }
 
-void Plotter::Plot() {
+void Plotter::Plot()  {
   graphics->BeginScene();
-  graphics->ClearImage();
-
+  graphics->ClearImage(); 
+  
   plotCPMCellTypes();
   plotCPMLines();
-
+ 
   graphics->EndScene();
 }
 
@@ -137,16 +137,16 @@ void Plotter::Plot() {
 std::vector<PDEFIELD_TYPE> PDE::DerivativesPDE(CellularPotts *cpm, int x, int y){}
 
 int PDE::MapColour(double val) {
-  return (((int)((val / ((val) + 1.)) * 100)) % 100) + 155;
+  return (((int)((val/((val)+1.))*100))%100)+155;
 }
 
 int main(int argc, char *argv[]) {
   extern Parameter par;
-  try {
+  try {  
     par.Read(argv[1]);
     Seed(par.rseed);
     start_graphics(argc, argv);
-  } catch (const char *error) {
+  } catch(const char* error) {
     std::cerr << error << std::endl;
     return 1;
   }

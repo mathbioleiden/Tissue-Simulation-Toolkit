@@ -1,4 +1,4 @@
-/*
+/* 
 
 Copyright 1996-2006 Roeland Merks
 
@@ -20,158 +20,168 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA
 
 */
-#include "sticky.hpp"
-#include <cstring>
-#include <locale.h>
 #include <stdio.h>
+#include <locale.h>
 #include <stdlib.h>
+#include <cstring>
+#include "sticky.hpp"
 
 /** PRIVATE **/
 
-static int ScanForNumbers(char *string) {
-  int i = 0;
-  int number, numpresent = FALSE;
+static int ScanForNumbers(char *string)
+{
+  int i=0;
+  int number,numpresent=FALSE;
   char tc;
-  while ((tc = string[i++]) != '\0') {
+  while ( (tc=string[i++])!='\0' ) {
     /* tc  = char to be tested, check for end-of-string */
-    number = (tc >= '0' && tc <= '9'); /* number==T if number */
-    if (!(number || tc == ' ' || tc == '.'))
-      return FALSE;
+    number=(tc>='0' && tc<='9'); /* number==T if number */
+    if ( !(number || tc==' ' || tc=='.')) return FALSE;
     /* return FALSE if alphanumerical char or no numbers encountered */
-    numpresent |= number;
-  }
+    numpresent|=number;
+  } 
   if (numpresent)
     return TRUE;
-  else
+  else 
     return FALSE;
 }
 
-static int ReadCleanLine(FILE *file, char *string) {
+
+static int ReadCleanLine(FILE *file, char *string) 
+{
   /* Reads a line, omit the remarks */
-  int c = 0;
+  int c=0;
   int result;
   char dummy;
-  while (((result = fscanf(file, "%c", &string[c])) != EOF) &&
-         (string[c] != '\n' && string[c] != '#'))
+  while( ((result=fscanf(file,"%c",&string[c]))!=EOF) 
+	 && ( string[c]!='\n' && string[c]!='#')) 
     c++;
   /* Fast Forward until end of line */
-  if (string[c] == '#')
-    while (fscanf(file, "%c", &dummy) != EOF)
-      if (dummy == '\n')
-        break;
+  if (string[c]=='#') 
+    while(fscanf(file,"%c",&dummy)!=EOF) 
+      if (dummy=='\n') break;
 
-  string[c] = '\0';
-
+  string[c]='\0';
+  
   return result;
 }
 
+
 /** PUBLIC **/
 
-int ReadNumber(FILE *file, int *number) {
-  int result = REMARK;
+int ReadNumber(FILE *file,int *number) {
+  int result=REMARK;
   char string[255];
   setlocale(LC_NUMERIC, "C");
-  while (result == REMARK) {
-    if ((result = ReadCleanLine(file, string)) != EOF) {
+  while (result==REMARK) {
+    if ((result=ReadCleanLine(file,string))!=EOF) {
       if (ScanForNumbers(string)) {
-        sscanf(string, "%d", number);
-        return OK;
+	sscanf(string,"%d",number);
+	return OK;
       } else
-        result = REMARK;
+	result=REMARK;
     }
   }
   return EOF;
 }
 
-int ReadDouble(FILE *file, double *number) {
-
-  int result = REMARK;
+int ReadDouble(FILE *file,double *number) {
+  
+  int result=REMARK;
   char string[255];
   setlocale(LC_NUMERIC, "C");
 
-  while (result == REMARK) {
-    if ((result = ReadCleanLine(file, string)) != EOF) {
+  while (result==REMARK) {
+    if ((result=ReadCleanLine(file,string))!=EOF) {
       if (ScanForNumbers(string)) {
-        sscanf(string, "%lf", number);
-        return OK;
+	sscanf(string,"%lf",number);
+	return OK;
       } else {
-        result = REMARK;
+	result=REMARK;
       }
     }
   }
   return EOF;
 }
 
-int FileExists(FILE **fp, const char *fname, const char *ftype) {
-
-  *fp = fopen(fname, ftype);
-  if (*fp == NULL)
+int FileExists(FILE **fp,const char *fname,const char *ftype) {
+  
+  *fp=fopen(fname,ftype);
+  if (*fp==NULL) 
     return FALSE;
+  
+  if (!strncmp(ftype,"a",1)) {
+    if (ftell(*fp)>0L) return TRUE;
+    else return FALSE;
+  } else return TRUE;
 
-  if (!strncmp(ftype, "a", 1)) {
-    if (ftell(*fp) > 0L)
-      return TRUE;
-    else
-      return FALSE;
-  } else
-    return TRUE;
 }
-
+		       
 int YesNoP(const char *message) {
   char answer[100];
   int res;
 
-  fprintf(stderr, "%s (y/n) ", message);
+  fprintf(stderr,"%s (y/n) ",message);
   fflush(stderr);
-
-  res = scanf("%s", answer);
-  while ((strcmp(answer, "y") && strcmp(answer, "n")) || res == EOF) {
-    fprintf(stderr, "\n\bPlease answer 'y' or 'n'. ");
+  
+  res = scanf("%s",answer);
+  while ((strcmp(answer,"y") && strcmp(answer,"n")) || res == EOF) {
+    fprintf(stderr,"\n\bPlease answer 'y' or 'n'. ");
     fflush(stderr);
-    res = scanf("%s", answer);
+    res = scanf("%s",answer);
   }
-
-  if (!strcmp(answer, "y"))
-    return TRUE;
-
+  
+  if (!strcmp(answer,"y")) return TRUE;
+  
   return FALSE;
+    
 }
 
-char *GetFileName(const char *message, const char *ftype) {
-  static char *fname = NULL;
+char *GetFileName(const char *message,const char *ftype) {
+  static char *fname=NULL;
   FILE *tmp;
   int tmpbool;
   int must_exist;
   int res;
   char tempstr[100];
 
-  if (!strncmp(ftype, "w", 1) || !strncmp(ftype, "a", 1)) {
-    must_exist = FALSE;
+  if (!strncmp(ftype,"w",1) || !strncmp(ftype,"a",1)) {
+    must_exist=FALSE;
   } else {
-    if (!strncmp(ftype, "r", 1))
-      must_exist = TRUE;
+    if (!strncmp(ftype,"r",1))
+      must_exist=TRUE;
     else {
-      fprintf(stderr, "Error in function GetFileName: flag '%s' unknown.\n",
-              ftype);
+      fprintf(stderr,"Error in function GetFileName: flag '%s' unknown.\n",ftype);
       exit(0);
     }
   }
 
-  if (fname == NULL)
-    fname = (char *)malloc(100 * sizeof(char));
-
-  fprintf(stderr, "%s", message);
+  if (fname==NULL) fname=(char *)malloc(100*sizeof(char));
+  
+  fprintf(stderr,"%s", message);
   fflush(stderr);
-
+  
   do {
-    res = scanf("%s", fname);
-  } while ((!(tmpbool = FileExists(&tmp, fname, "r")) && must_exist &&
-            fprintf(stderr, "File %s not found, try again\n", fname)) ||
-           (tmpbool && !must_exist &&
-            sprintf(tempstr, "File %s exists, overwrite? ", fname) &&
-            !YesNoP(tempstr)) ||
-           res == EOF);
-
+    res = scanf("%s",fname);
+  } while ((!(tmpbool=FileExists(&tmp, fname,"r")) && 
+	   must_exist && 
+	   fprintf(stderr,"File %s not found, try again\n",fname )) ||
+	   (tmpbool && !must_exist && sprintf(tempstr,"File %s exists, overwrite? ", fname) && 
+	   !YesNoP(tempstr)) || res == EOF);
+  
   fclose(tmp);
   return fname;
+
 }
+	   
+  
+   
+
+  
+  
+
+
+
+
+
+
