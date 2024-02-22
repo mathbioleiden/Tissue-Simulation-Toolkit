@@ -75,7 +75,12 @@ TIMESTEP {
       if (par.useopencl) {
         PROFILE(opencl_diff,
                 dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);)
-      } else {
+      } 
+      else if (i == par.relaxation){
+        dish->PDEfield->InitialisePDE(dish->CPM);
+        dish->PDEfield->InitialiseDiffusionCoefficients(dish->CPM);
+      }
+      else {
         for (int r = 0; r < par.pde_its; r++) {
           dish->PDEfield->ReactionDiffusion(dish->CPM);
           //dish->PDEfield->Secrete(dish->CPM);
@@ -115,6 +120,16 @@ void PDE::InitialisePDE(CellularPotts *cpm) {
   PROFILE_PRINT
 }
 
+void PDE::InitialiseDiffusionCoefficients(CellularPotts *cpm){
+  for (int x = 0; x < sizex; x++) {
+    for (int y = 0; y < sizey; y++) {
+      for (int l = 0; l < par.n_chem; l++){
+        DiffCoeffs[l][x][y] = par.diff_coeff[l];
+      }
+    }
+  }
+  PROFILE_PRINT
+}
 void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){
   // inside cells
   if (cpm->Sigma(x, y)) {

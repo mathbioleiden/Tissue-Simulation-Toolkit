@@ -187,6 +187,14 @@ class PDE {
   Called internally (optionally) by Diffuse(). */
   void PeriodicBoundaries(void);
 
+  /*! \brief Intialisation of diffusion coefficients
+  \param cpm: CellularPotts plane the PDE plane interacts with
+  The initial diffusion coefficients may be space dependent on 
+  the cpm configuration
+  */
+  void InitialiseDiffusionCoefficients(CellularPotts *cpm);
+
+
   /*! \brief Intialisation of PDE variables
   \param cpm: CellularPotts plane the PDE plane interacts with
   Initial conditions conditions for the PDE should be given here.
@@ -298,6 +306,8 @@ protected:
   // through user interface)
 
   PDEFIELD_TYPE ***alt_PDEvars;
+
+  PDEFIELD_TYPE ***DiffCoeffs;
 
   int sizex;
   int sizey;

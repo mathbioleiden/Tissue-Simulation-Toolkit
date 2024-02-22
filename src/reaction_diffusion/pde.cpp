@@ -49,6 +49,7 @@ PDE::PDE(const int l, const int sx, const int sy) {
   layers = l;
   PDEvars = AllocatePDEvars(l, sx, sy);
   alt_PDEvars = AllocatePDEvars(l, sx, sy);
+  DiffCoeffs = AllocatePDEvars(l,sx,sy);
 }
 
 
@@ -78,6 +79,12 @@ PDE::~PDE(void) {
     free(alt_PDEvars[0]);
     free(alt_PDEvars);
     alt_PDEvars = 0;
+  }
+  if (DiffCoeffs) {
+    free(DiffCoeffs[0][0]);
+    free(DiffCoeffs[0]);
+    free(DiffCoeffs);
+    DiffCoeffs = 0;
   }
 }
 
@@ -353,13 +360,13 @@ void PDE::Diffuse(int repeat) {
       for (int x = 1; x < sizex - 1; x++)
         for (int y = 1; y < sizey - 1; y++) {
           PDEFIELD_TYPE sum = 0.;
-          sum += PDEvars[l][x + 1][y];
-          sum += PDEvars[l][x - 1][y];
-          sum += PDEvars[l][x][y + 1];
-          sum += PDEvars[l][x][y - 1];
-          sum -= 4 * PDEvars[l][x][y];
+          sum += PDEvars[l][x + 1][y]*DiffCoeffs[l][x+1][y];
+          sum += PDEvars[l][x - 1][y]*DiffCoeffs[l][x-1][y];
+          sum += PDEvars[l][x][y + 1]*DiffCoeffs[l][x][y+1];
+          sum += PDEvars[l][x][y - 1]*DiffCoeffs[l][x][y-1];
+          sum -= PDEvars[l][x][y]*(DiffCoeffs[l][x+1][y] + DiffCoeffs[l][x-1][y] + DiffCoeffs[l][x][y+1]+DiffCoeffs[l][x][y-1]);
           alt_PDEvars[l][x][y] =
-              PDEvars[l][x][y] + sum * dt * par.diff_coeff[l] / dx2;
+              PDEvars[l][x][y] + sum * dt / dx2;
         }
     }
   }
