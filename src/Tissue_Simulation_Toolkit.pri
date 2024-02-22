@@ -27,6 +27,8 @@ GRAPHICS = qt
 #PROFILING = enabled
 PROFILING = disabled
 
+#USECUDA = enabled
+USECUDA = disabled
 
 LIBDIR = ../lib
 DESTDIR = ../bin
@@ -92,6 +94,26 @@ INCLUDEPATH += adhesions/ \
                xpm/ \
                compute/ \
                spatial/
+contains( USECUDA, enabled ){\
+   # File(s) containing CUDA code
+   CUDA_SOURCES = reaction_diffusion/pde.cu
+
+   # Location of CUDA on my system
+   CUDA_DIR = $$system(which nvcc | sed 's,/bin/nvcc$,,')
+   
+   INCLUDEPATH += ${CUDA_DIR/include}
+   QMAKE_LIBDIR += $$CUDA_DIR/lib
+   LIBS += -L$$CUDA_DIR/lib64 -lcuda -lcudart -lcusparse
+
+
+   cuda.input = CUDA_SOURCES
+   cuda.output = ${OBJECTS_DIR}${QMAKE_FILE_BASE}.o
+   cuda.commands = nvcc -c -Xcompiler $$join(QMAKE_CXXFLAGS,",") $$join(INCLUDEPATH,'" -I "','-I "','"') ${QMAKE_FILE_NAME} -o ${QMAKE_FILE_OUT}
+   cuda.dependcy_type = TYPE_C
+   cuda.depend_command = nvcc -M -Xcompiler $$join(QMAKE_CXXFLAGS,",") $$join(INCLUDEPATH,'" -I "','-I "','"') ${QMAKE_FILE_NAME} | sed "s,^.*: ,," | sed "s,^ *,," | tr -d '\\n'
+   QMAKE_EXTRA_COMPILERS += cuda
+}
+
 
 contains( GRAPHICS, qt ) {
    message("Using QT graphics")
