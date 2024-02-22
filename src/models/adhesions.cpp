@@ -85,7 +85,7 @@ INIT {
             CPM->DivideCells();
         }
 
-        CPM->InitialiseEdgeList();
+        CPM->InitializeEdgeList();
     }
     catch(const char* error) {
         cerr << "Caught exception\n";
@@ -206,6 +206,8 @@ void PDE::Secrete(CellularPotts *cpm) {
     }
     PROFILE_PRINT
 }
+
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){}
 
 int PDE::MapColour(double val) {
     return (((int)((val/((val) + 1.)) * 100)) % 100) + 155;

@@ -38,7 +38,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "plotter.hpp"
 #include "profiler.hpp"
 #include "graph.hpp"
-#include "array2d.hpp"
 
 using namespace std;
 
@@ -78,8 +77,10 @@ TIMESTEP {
                 dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);)
       } else {
         for (int r = 0; r < par.pde_its; r++) {
-          //dish->PDEfield->ReactionDiffusion(dish->CPM);
-          dish->PDEfield->SecretionDiffusion(dish->CPM);
+          dish->PDEfield->ReactionDiffusion(dish->CPM);
+          //dish->PDEfield->Secrete(dish->CPM);
+          //dish->PDEfield->Diffuse(1);
+
         }
       }
     }
@@ -108,7 +109,7 @@ TIMESTEP {
 void PDE::InitialisePDE(CellularPotts *cpm) {
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
-        PDEvars.set({x,y},0,0);
+        PDEvars[0][x][y] = 0;
     }
   }
   PROFILE_PRINT
@@ -120,12 +121,10 @@ void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y
     derivs[0] = par.secr_rate[0];
   } else {
     // outside cells
-    derivs[0] = -par.decay_rate[0] * PDEvars.get({x,y},0);
+    derivs[0] = -par.decay_rate[0] * PDEvars[0][x][y];
   }
   PROFILE_PRINT
 }
-
-
 
 void PDE::Secrete(CellularPotts *cpm) {
   const double dt=par.dt;
@@ -133,10 +132,10 @@ void PDE::Secrete(CellularPotts *cpm) {
     for (int y=0;y<sizey;y++) {
       // inside cells
       if (cpm->Sigma(x,y)) {
-        PDEvars.set({x,y},0,alt_PDEvars.get({x,y},0)+par.secr_rate[0]*dt);
+	      PDEvars[0][x][y]=alt_PDEvars[0][x][y]+par.secr_rate[0]*dt;
       } else {
       // outside cells
-	      PDEvars.set({x,y},0,alt_PDEvars.get({x,y},0)-par.decay_rate[0]*alt_PDEvars.get({x,y},0)*dt);
+	      PDEvars[0][x][y]=alt_PDEvars[0][x][y]-par.decay_rate[0]*dt*alt_PDEvars[0][x][y];
       }
     }
   }

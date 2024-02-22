@@ -97,10 +97,10 @@ TIMESTEP {
 void PDE::InitializeAgeLayer(int l, double value, CellularPotts *cpm) {
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
-      if (PDEvars.get({x,y},l) > 0) {
-        PDEvars.set({x,y},l,value);
+      if (PDEvars[l][x][y] > 0) {
+        PDEvars[l][x][y] = value;
       } else {
-        PDEvars.set({x,y},l,0);
+        PDEvars[l][x][y] = 0.;
       }
     }
   }
@@ -201,7 +201,7 @@ void PDE::MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish){
 }
 
 
-std::vector<PDEFIELD_TYPE> PDE::DerivativesPDE(CellularPotts *cpm, int x, int y) {}
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){}
 
 int PDE::MapColour(double val) {
   return (((int)((val/((val)+1.))*100))%100)+155;

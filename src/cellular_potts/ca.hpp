@@ -585,7 +585,7 @@ private:
 protected:
     /*! \brief Initialise CPM class
     */
-	void BaseInitialisation(std::vector<Cell> *cell);
+	void BaseInitialization(std::vector<Cell> *cell);
 
 protected:
   int **sigma;
