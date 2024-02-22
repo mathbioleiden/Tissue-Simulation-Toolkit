@@ -323,8 +323,14 @@ void PDE::Diffuse(int repeat) {
 }
 
 void PDE::ReactionDiffusion(CellularPotts *cpm){
-  Diffuse(1);
   ForwardEulerStep(1, cpm);
+  Diffuse(1); 
+  thetime += par.dt;
+} 
+
+void PDE::SecretionDiffusion(CellularPotts *cpm){
+  Secrete(cpm);
+  Diffuse(1);
   thetime += par.dt;
 }
 

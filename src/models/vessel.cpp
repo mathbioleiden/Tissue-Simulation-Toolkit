@@ -78,7 +78,8 @@ TIMESTEP {
                 dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);)
       } else {
         for (int r = 0; r < par.pde_its; r++) {
-          dish->PDEfield->ReactionDiffusion(dish->CPM);
+          //dish->PDEfield->ReactionDiffusion(dish->CPM);
+          dish->PDEfield->SecretionDiffusion(dish->CPM);
         }
       }
     }
@@ -123,6 +124,25 @@ void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y
   }
   PROFILE_PRINT
 }
+
+
+
+void PDE::Secrete(CellularPotts *cpm) {
+  const double dt=par.dt;
+  for (int x=0;x<sizex;x++) {
+    for (int y=0;y<sizey;y++) {
+      // inside cells
+      if (cpm->Sigma(x,y)) {
+        PDEvars.set({x,y},0,alt_PDEvars.get({x,y},0)+par.secr_rate[0]*dt);
+      } else {
+      // outside cells
+	      PDEvars.set({x,y},0,alt_PDEvars.get({x,y},0)-par.decay_rate[0]*alt_PDEvars.get({x,y},0)*dt);
+      }
+    }
+  }
+  PROFILE_PRINT
+}
+
 
 int PDE::MapColour(double val) {
   return (((int)((val/((val)+1.))*100))%100)+155;
