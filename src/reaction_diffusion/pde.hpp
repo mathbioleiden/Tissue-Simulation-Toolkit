@@ -102,8 +102,8 @@ class PDE {
   \param layer: the PDE plane to probe.
   \param x, y: grid point to probe.
   */
-  inline PDEFIELD_TYPE Sigma(const int layer, const int x, const int y) const {
-    return sigma[layer][x][y];
+  inline PDEFIELD_TYPE get_PDEvars(const int layer, const int x, const int y) const {
+    return PDEvars[layer][x][y];
   }
   
   /*! \brief Sets grid point x,y of PDE plane "layer" to value "value".
@@ -111,8 +111,9 @@ class PDE {
   \param x, y: grid point
   \param value: new contents
   */
-  inline void setValue(const int layer, const int x, const int y, const PDEFIELD_TYPE value) {
-    sigma[layer][x][y]=value;
+  inline void setValue(const int layer, const int x, const int y,
+                       const PDEFIELD_TYPE value) {
+    PDEvars[layer][x][y] = value;
   }
   
   /*! \brief Adds a number to a PDE grid point.
@@ -120,8 +121,9 @@ class PDE {
   \param x, y: grid point
   \param value: value to add
   */
-  inline void addtoValue(const int layer, const int x, const int y, const PDEFIELD_TYPE value) {
-    sigma[layer][x][y]+=value;
+  inline void addtoValue(const int layer, const int x, const int y,
+                         const PDEFIELD_TYPE value) {
+    PDEvars[layer][x][y] += value;
   }
 
   /*! \brief Gets the maximum value of PDE layer l.
@@ -129,11 +131,11 @@ class PDE {
   \return Maximum value in layer l.
   */
   inline PDEFIELD_TYPE Max(int l) {
-    PDEFIELD_TYPE max=sigma[l][0][0];
-    int loop=sizex*sizey;
-    for (int i=1;i<loop;i++)
-      if (sigma[l][0][i]>max) {
-	max=sigma[l][0][i];
+    PDEFIELD_TYPE max = PDEvars[l][0][0];
+    int loop = sizex * sizey;
+    for (int i = 1; i < loop; i++)
+      if (PDEvars[l][0][i] > max) {
+        max = PDEvars[l][0][i];
       }
     return max;
   }
@@ -142,11 +144,11 @@ class PDE {
   \return Minimum value in layer l.
   */
   inline PDEFIELD_TYPE Min(int l) {
-    PDEFIELD_TYPE min=sigma[l][0][0];
-    int loop=sizex*sizey;
-    for (int i=1;i<loop;i++)
-      if (sigma[l][0][i]<min) {
-	min=sigma[l][0][i];
+    PDEFIELD_TYPE min = PDEvars[l][0][0];
+    int loop = sizex * sizey;
+    for (int i = 1; i < loop; i++)
+      if (PDEvars[l][0][i] < min) {
+        min = PDEvars[l][0][i];
       }
     return min;
   }
@@ -168,19 +170,8 @@ class PDE {
   void PlotInCells(Graphics *g,CellularPotts *cpm, const int l=0);
   // lymphocyte matrix interaction function
 
-  void MILayerCA(int l,double value,CellularPotts *cpm, Dish *dish);
-  /*! \brief Carry out $n$ diffusion steps for all PDE planes.
+  void MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish);
 
-  We use a forward Euler method here. Can be replaced for better algorithm.
-
-  \param repeat: Number of steps.
-
-  Time step dt, space step dx, diffusion coefficient diff_coeff and
-  boundary conditions (bool periodic_boundary) are set as global
-  parameters in a parameter file using class Parameter.
-
-  */
-  void Diffuse(int repeat);
 
   /*! \brief Implementation of no-flux boundaries.
     
@@ -196,12 +187,57 @@ class PDE {
   Called internally (optionally) by Diffuse(). */
   void PeriodicBoundaries(void);
 
-  /*! \brief Reaction and interaction of CPM plane with PDE planes.
+  /*! \brief Intialisation of PDE variables
+  \param cpm: CellularPotts plane the PDE plane interacts with
+  Initial conditions conditions for the PDE should be given here.
+  */
+  void InitialisePDE(CellularPotts *cpm);
+
+  /*! \brief Derivatives of PDE variables.
   \param cpm: CellularPotts plane the PDE plane interacts with
   You should implement this member function as part of your main
   simulation code. See for an example vessel.cpp.
+  \return Derivatives at pixel (x,y)
+  */
+  void DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y);
+
+
+  /*! \brief Do a single forward Euler step to solve the ODE
+  \param repeat: Number of steps.
+  We solve with a simple forward Euler solver. Ths can be replaced with alternative ODE solvers.
+  */
+  void ForwardEulerStep(int repeat, CellularPotts *cpm);
+
+  /*! \brief Carry out $n$ diffusion steps for all PDE planes.
+
+  We use a forward Euler method here. Can be replaced for better algorithm.
+
+  \param repeat: Number of steps.
+
+  Time step dt, space step dx, diffusion coefficient diff_coeff and
+  boundary conditions (bool periodic_boundary) are set as global
+  parameters in a parameter file using class Parameter.
+
+  */
+  void Diffuse(int repeat);
+
+  /*! \brief Do a single reaction diffusion step based on the 
+  given PDE derivatives
+  */
+  void ReactionDiffusion(CellularPotts *cpm);
+
+
+
+
+ /*! \brief Reaction and interaction of CPM plane with PDE planes.
+  \param cpm: CellularPotts plane the PDE plane interacts with
+  You should implement this member function as part of your main
+  simulation code. See for an example vessel.cpp. This method
+  is slightly faster than the general PDE solver.
   */
   void Secrete(CellularPotts *cpm);
+
+
 
   //Secrete and diffuse functions accelerated using OpenCL
   void SecreteAndDiffuseCL(CellularPotts *cpm, int repeat);
@@ -247,24 +283,22 @@ class PDE {
 
   void reset_plot(){ highest = Max(0); lowest = Min(0);}
 
-  inline float *** getSigma(){
-    return sigma;
-  }
+  inline float ***getPDEvars() { return PDEvars; }
 
   double highest;
   double lowest;
 
-  protected:
+protected:
 
-  PDEFIELD_TYPE ***sigma;
+  PDEFIELD_TYPE ***PDEvars;
   
   // Used as temporary memory in the diffusion step
   // (addresses will be swapped for every time step, so
   // never directly use them!!! Access is guaranteed to be correct
   // through user interface)
 
-  PDEFIELD_TYPE ***alt_sigma;
- 
+  PDEFIELD_TYPE ***alt_PDEvars;
+
   int sizex;
   int sizey;
   int layers;
@@ -285,10 +319,10 @@ class PDE {
   /*! \brief Allocates a PDE plane (internal use). 
   For internal use, can be reimplemented in derived class to change
   method of memory allocation.
-  */   
-  virtual PDEFIELD_TYPE ***AllocateSigma(const int layers, const int sx, const int sy);
+  */
+  virtual PDEFIELD_TYPE ***AllocatePDEvars(const int layers, const int sx,
+                                         const int sy);
 
- 
 private:
   PDEFIELD_TYPE z[10];
   

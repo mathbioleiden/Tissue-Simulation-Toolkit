@@ -65,7 +65,7 @@ INIT {
       io->ReadConfiguration();
     }
     
-    CPM->InitializeEdgeList();
+    CPM->InitialiseEdgeList();
     
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -89,7 +89,7 @@ TIMESTEP {
     if (par.graphics && !(i%par.storage_stride)) {
       PROFILE(all_plots, plotter->Plot();)
       info->Menu();
-      dish->CPM->SetBoundingBox();
+      dish->CPM->FindBoundingBox();//old: Setboundingbox
     }
     
     if (i == 0 && par.pause_on_start){ 
@@ -132,6 +132,9 @@ void Plotter::Plot()  {
  
   graphics->EndScene();
 }
+
+
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){}
 
 int PDE::MapColour(double val) {
   return (((int)((val/((val)+1.))*100))%100)+155;

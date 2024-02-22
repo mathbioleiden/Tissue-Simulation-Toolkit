@@ -55,7 +55,7 @@ INIT {
       CPM->DivideCells();
     }
 
-    CPM->InitializeEdgeList();
+    CPM->InitialiseEdgeList();
         
   } catch(const char* error) {
     cerr << "Caught exception\n";
@@ -71,14 +71,16 @@ TIMESTEP {
     static Dish *dish=new Dish();
     static Info *info=new Info(*dish, *this);
     static Plotter plotter = Plotter(dish, this);
-    if (i>=par.relaxation) {
-      if (par.useopencl){
-        PROFILE(opencl_diff, dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);)
-      }
-      else{
-        for (int r=0;r<par.pde_its;r++) {
-	  dish->PDEfield->Secrete(dish->CPM);
-	  dish->PDEfield->Diffuse(1);
+    if (i >= par.relaxation) {
+      if (par.useopencl) {
+        PROFILE(opencl_diff,
+                dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);)
+      } else {
+        for (int r = 0; r < par.pde_its; r++) {
+          dish->PDEfield->ReactionDiffusion(dish->CPM);
+          //dish->PDEfield->Secrete(dish->CPM);
+          //dish->PDEfield->Diffuse(1);
+
         }
       }
     }
@@ -104,21 +106,42 @@ TIMESTEP {
   PROFILE_PRINT
 }
 
+void PDE::InitialisePDE(CellularPotts *cpm) {
+  for (int x = 0; x < sizex; x++) {
+    for (int y = 0; y < sizey; y++) {
+        PDEvars[0][x][y] = 0;
+    }
+  }
+  PROFILE_PRINT
+}
+
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){
+  // inside cells
+  if (cpm->Sigma(x, y)) {
+    derivs[0] = par.secr_rate[0];
+  } else {
+    // outside cells
+    derivs[0] = -par.decay_rate[0] * PDEvars[0][x][y];
+  }
+  PROFILE_PRINT
+}
+
 void PDE::Secrete(CellularPotts *cpm) {
   const double dt=par.dt;
   for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {
       // inside cells
       if (cpm->Sigma(x,y)) {
-	sigma[0][x][y]+=par.secr_rate[0]*dt;
+	      PDEvars[0][x][y]=alt_PDEvars[0][x][y]+par.secr_rate[0]*dt;
       } else {
       // outside cells
-	sigma[0][x][y]-=par.decay_rate[0]*dt*sigma[0][x][y];
+	      PDEvars[0][x][y]=alt_PDEvars[0][x][y]-par.decay_rate[0]*dt*alt_PDEvars[0][x][y];
       }
     }
   }
   PROFILE_PRINT
 }
+
 
 int PDE::MapColour(double val) {
   return (((int)((val/((val)+1.))*100))%100)+155;

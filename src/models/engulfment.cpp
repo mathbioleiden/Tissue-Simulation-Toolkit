@@ -101,6 +101,8 @@ TIMESTEP {
   }
 }
 
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){}
+
 int main(int argc, char *argv[]) {
   extern Parameter par;
   try {  
