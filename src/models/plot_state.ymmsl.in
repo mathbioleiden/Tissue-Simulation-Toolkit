@@ -1,0 +1,29 @@
+ymmsl_version: v0.1
+
+model:
+  name: adhesions
+  components:
+    state_viewer:
+      implementation: state_viewer
+      ports:
+        s:
+        - cpm_state_in
+        - ecm_state_in
+
+  conduits:
+    cellular_potts.state_out: state_viewer.cpm_state_in
+    simulate_ecm.state_out: state_viewer.ecm_state_in
+
+settings:
+  graphics: false
+  state_output_interval: 20
+  image_height: 600
+
+resources:
+  state_viewer:
+    threads: 1
+
+implementations:
+  state_viewer:
+    virtual_env: TST-HOOMD-MUSCLE3/venv
+    executable: state_viewer
