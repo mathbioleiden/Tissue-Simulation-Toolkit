@@ -124,6 +124,22 @@ void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y
   PROFILE_PRINT
 }
 
+void PDE::Secrete(CellularPotts *cpm) {
+  const double dt=par.dt;
+  for (int x=0;x<sizex;x++) {
+    for (int y=0;y<sizey;y++) {
+      // inside cells
+      if (cpm->Sigma(x,y)) {
+	      PDEvars[0][x][y]+=par.secr_rate[0]*dt;
+      } else {
+      // outside cells
+	      PDEvars[0][x][y]-=par.decay_rate[0]*dt*sigma[0][x][y];
+      }
+    }
+  }
+  PROFILE_PRINT
+}
+
 
 int PDE::MapColour(double val) {
   return (((int)((val/((val)+1.))*100))%100)+155;

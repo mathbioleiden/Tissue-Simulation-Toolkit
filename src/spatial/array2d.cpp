@@ -41,7 +41,7 @@ Array2d<DataType>::Array2d(int sizex, int sizey, int layers,
 }
 
 template <typename DataType>
-void Array2d<DataType>::initalize(int sizex, int sizey, int layers, BoundaryType boundary_type) {
+void Array2d<DataType>::initialise(int sizex, int sizey, int layers, BoundaryType boundary_type) {
     sizex_ = sizex;  
     sizey_ = sizey;  
     layers_ = layers;
