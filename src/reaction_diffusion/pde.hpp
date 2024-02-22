@@ -226,19 +226,14 @@ class PDE {
   */
   void ReactionDiffusion(CellularPotts *cpm);
 
-  /*! \brief Do a single secretion diffusion step
-  This special type of reaction diffusion is slightly faster
-  than the general reaction diffusion solver if you want to 
-  model a secretion-diffusion reaction equation
-  */
-  void SecretionDiffusion(CellularPotts *cpm);
 
 
 
  /*! \brief Reaction and interaction of CPM plane with PDE planes.
   \param cpm: CellularPotts plane the PDE plane interacts with
   You should implement this member function as part of your main
-  simulation code. See for an example vessel.cpp.
+  simulation code. See for an example vessel.cpp. This method
+  is slightly faster than the general PDE solver.
   */
   void Secrete(CellularPotts *cpm);
 

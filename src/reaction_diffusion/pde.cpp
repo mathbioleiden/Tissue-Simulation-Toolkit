@@ -362,24 +362,16 @@ void PDE::Diffuse(int repeat) {
               PDEvars[l][x][y] + sum * dt * par.diff_coeff[l] / dx2;
         }
     }
-    PDEFIELD_TYPE ***tmp;
-    tmp = PDEvars;
-    PDEvars = alt_PDEvars;
-    alt_PDEvars = tmp;
   }
 }
 
 void PDE::ReactionDiffusion(CellularPotts *cpm){
-  ForwardEulerStep(1, cpm);
   Diffuse(1); 
+  ForwardEulerStep(1, cpm);
   thetime += par.dt;
 } 
 
-void PDE::SecretionDiffusion(CellularPotts *cpm){
-  Secrete(cpm);
-  Diffuse(1);
-  thetime += par.dt;
-}
+
 
 double PDE::GetChemAmount(const int layer) {
   // Sum the total amount of chemical in the lattice

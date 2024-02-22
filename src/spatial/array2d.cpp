@@ -52,13 +52,13 @@ void Array2d<DataType>::initialise(int sizex, int sizey, int layers, BoundaryTyp
 }
 
 template <typename DataType>
-DataType Array2d<DataType>::get(Vec2<int> coordinate)
+DataType Array2d<DataType>::get(Vec2<int> coordinate) const
 {
     return get(coordinate, 0);
 }
 
 template <typename DataType>
-DataType Array2d<DataType>::get(Vec2<int> coordinate, int layer)
+DataType Array2d<DataType>::get(Vec2<int> coordinate, int layer) const
 {
     
     if (layer < 0 or layer >= layers_)
@@ -101,10 +101,6 @@ void Array2d<DataType>::set(Vec2<int> coordinate, int layer, DataType value)
           layer * sizex_ * sizey_] = value;
 }
 
-template <typename DataType>
-DataType* Array2d<DataType>::get_data(){
-    return data_.data();
-}
 
 template class Array2d<int>;
 template class Array2d<double>;

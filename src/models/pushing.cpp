@@ -115,7 +115,7 @@ TIMESTEP {
   }
 }
 
-std::vector<PDEFIELD_TYPE> PDE::DerivativesPDE(CellularPotts *cpm, int x, int y) {}
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){}
 
 
 int PDE::MapColour(double val) {
