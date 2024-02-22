@@ -37,7 +37,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cl_manager.hpp"
 #include "pdetype.h" 
 #include "graph.hpp"
-#include "array2d.hpp"
 
 class CellularPotts;
 class Dish;
@@ -104,7 +103,7 @@ class PDE {
   \param x, y: grid point to probe.
   */
   inline PDEFIELD_TYPE get_PDEvars(const int layer, const int x, const int y) const {
-    return PDEvars.get({x,y},layer);
+    return PDEvars[layer][x][y];
   }
   
   /*! \brief Sets grid point x,y of PDE plane "layer" to value "value".
@@ -114,7 +113,7 @@ class PDE {
   */
   inline void setValue(const int layer, const int x, const int y,
                        const PDEFIELD_TYPE value) {
-    PDEvars.set({x,y},layer, value);
+    PDEvars[layer][x][y] = value;
   }
   
   /*! \brief Adds a number to a PDE grid point.
@@ -124,7 +123,7 @@ class PDE {
   */
   inline void addtoValue(const int layer, const int x, const int y,
                          const PDEFIELD_TYPE value) {
-    PDEvars.set({x,y},layer, PDEvars.get({x,y},layer) + value);
+    PDEvars[layer][x][y] += value;
   }
 
   /*! \brief Gets the maximum value of PDE layer l.
@@ -132,12 +131,11 @@ class PDE {
   \return Maximum value in layer l.
   */
   inline PDEFIELD_TYPE Max(int l) {
-    PDEFIELD_TYPE max = PDEvars.get({0,0},l);
+    PDEFIELD_TYPE max = PDEvars[l][0][0];
     int loop = sizex * sizey;
-    for (int x = 1; x < sizex; x++)
-      for (int y = 1; y < sizey; y++)
-      if (PDEvars.get({x,y},l) > max) {
-        max = PDEvars.get({x,y},l);
+    for (int i = 1; i < loop; i++)
+      if (PDEvars[l][0][i] > max) {
+        max = PDEvars[l][0][i];
       }
     return max;
   }
@@ -146,12 +144,11 @@ class PDE {
   \return Minimum value in layer l.
   */
   inline PDEFIELD_TYPE Min(int l) {
-    PDEFIELD_TYPE min = PDEvars.get({0,0},l);
+    PDEFIELD_TYPE min = PDEvars[l][0][0];
     int loop = sizex * sizey;
-    for (int x = 1; x < sizex; x++)
-      for (int y = 1; y < sizey; y++)
-      if (PDEvars.get({x,y},l) < min) {
-        min = PDEvars.get({x,y},l);
+    for (int i = 1; i < loop; i++)
+      if (PDEvars[l][0][i] < min) {
+        min = PDEvars[l][0][i];
       }
     return min;
   }
@@ -291,20 +288,21 @@ class PDE {
 
   void reset_plot(){ highest = Max(0); lowest = Min(0);}
 
+  inline float ***getPDEvars() { return PDEvars; }
 
   double highest;
   double lowest;
 
 protected:
 
-  Array2d<PDEFIELD_TYPE> PDEvars; 
+  PDEFIELD_TYPE ***PDEvars;
   
   // Used as temporary memory in the diffusion step
   // (addresses will be swapped for every time step, so
   // never directly use them!!! Access is guaranteed to be correct
   // through user interface)
 
-  Array2d<PDEFIELD_TYPE>  alt_PDEvars; 
+  PDEFIELD_TYPE ***alt_PDEvars;
 
   int sizex;
   int sizey;
@@ -327,6 +325,9 @@ protected:
   For internal use, can be reimplemented in derived class to change
   method of memory allocation.
   */
+  virtual PDEFIELD_TYPE ***AllocatePDEvars(const int layers, const int sx,
+                                         const int sy);
+
 private:
   PDEFIELD_TYPE z[10];
   

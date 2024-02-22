@@ -38,7 +38,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "plotter.hpp"
 #include "profiler.hpp"
 #include "graph.hpp"
-#include "array2d.hpp"
 
 using namespace std;
 
@@ -108,7 +107,7 @@ TIMESTEP {
 void PDE::InitialisePDE(CellularPotts *cpm) {
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
-        PDEvars.set({x,y},0,0);
+        PDEvars[0][x][y] = 0;
     }
   }
   PROFILE_PRINT
@@ -120,25 +119,7 @@ void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y
     derivs[0] = par.secr_rate[0];
   } else {
     // outside cells
-    derivs[0] = -par.decay_rate[0] * PDEvars.get({x,y},0);
-  }
-  PROFILE_PRINT
-}
-
-
-
-void PDE::Secrete(CellularPotts *cpm) {
-  const double dt=par.dt;
-  for (int x=0;x<sizex;x++) {
-    for (int y=0;y<sizey;y++) {
-      // inside cells
-      if (cpm->Sigma(x,y)) {
-        PDEvars.set({x,y},0,alt_PDEvars.get({x,y},0)+par.secr_rate[0]*dt);
-      } else {
-      // outside cells
-	      PDEvars.set({x,y},0,alt_PDEvars.get({x,y},0)-par.decay_rate[0]*alt_PDEvars.get({x,y},0)*dt);
-      }
-    }
+    PDEderivs[0] = -par.decay_rate[0] * PDEvars[0][x][y];
   }
   PROFILE_PRINT
 }

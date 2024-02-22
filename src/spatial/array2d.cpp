@@ -40,9 +40,8 @@ Array2d<DataType>::Array2d(int sizex, int sizey, int layers,
 {
 }
 
-
 template <typename DataType>
-void Array2d<DataType>::initialise(int sizex, int sizey, int layers, BoundaryType boundary_type) {
+void Array2d<DataType>::initalize(int sizex, int sizey, int layers, BoundaryType boundary_type) {
     sizex_ = sizex;  
     sizey_ = sizey;  
     layers_ = layers;
@@ -53,13 +52,13 @@ void Array2d<DataType>::initialise(int sizex, int sizey, int layers, BoundaryTyp
 }
 
 template <typename DataType>
-DataType Array2d<DataType>::get(Vec2<int> coordinate) const
+DataType Array2d<DataType>::get(Vec2<int> coordinate)
 {
     return get(coordinate, 0);
 }
 
 template <typename DataType>
-DataType Array2d<DataType>::get(Vec2<int> coordinate, int layer) const
+DataType Array2d<DataType>::get(Vec2<int> coordinate, int layer)
 {
     
     if (layer < 0 or layer >= layers_)
@@ -71,7 +70,7 @@ DataType Array2d<DataType>::get(Vec2<int> coordinate, int layer) const
          coordinate.y > sizey_))
         return -1;
     auto mapped_coordinate = map_coordinate_torus(coordinate, sizex_, sizey_);
-    return data_[mapped_coordinate.x + mapped_coordinate.y * sizex_ +
+    return data_[mapped_coordinate.y + mapped_coordinate.x * sizey_ +
                  layer * sizex_ * sizey_];
 }
 
@@ -98,8 +97,13 @@ void Array2d<DataType>::set(Vec2<int> coordinate, int layer, DataType value)
          coordinate.y > sizey_))
         throw std::out_of_range("Setting outside of array");
     auto mapped_coordinate = map_coordinate_torus(coordinate, sizex_, sizey_);
-    data_[mapped_coordinate.x + mapped_coordinate.y * sizex_ +
+    data_[mapped_coordinate.y + mapped_coordinate.x * sizey_ +
           layer * sizex_ * sizey_] = value;
+}
+
+template <typename DataType>
+DataType* Array2d<DataType>::get_data(){
+    return data_.data();
 }
 
 template class Array2d<int>;

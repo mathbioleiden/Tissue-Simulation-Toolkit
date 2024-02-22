@@ -9,7 +9,7 @@ Grid::Grid() {
     if (!par.periodic_boundaries) 
         boundary_type = BoundaryType::wall;
 
-    spinfield_.initialise(
+    spinfield_.initalize(
         par.sizex,
         par.sizey,
         1,
@@ -21,7 +21,7 @@ void Grid::resize(int sizex, int sizey){
     auto boundary_type = BoundaryType::periodic;
     if (!par.periodic_boundaries) 
         boundary_type = BoundaryType::wall;
-    spinfield_.initialise(
+    spinfield_.initalize(
         sizex,
         sizey,
         1,
