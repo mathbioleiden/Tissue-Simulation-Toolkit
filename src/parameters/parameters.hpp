@@ -39,6 +39,14 @@ SECTION("General settings")
 
     PARAMETER(int, rseed, -1, "Random seed for the simulation")
 
+    PARAMETER(bool, usecuda, false, \
+            "Whether to use CUDA for PDE calculations")
+    PARAMETER(int, number_of_cores, 1, \
+            "Number of cores used in CUDA kernels, check for your device!")
+    PARAMETER(int, threads_per_core, 1, \
+            "Number of threads used per core in CUDA kernels, check for your device!")
+
+
 
 SECTION("MultiCellDS input/output")
 
@@ -136,6 +144,7 @@ SECTION("Chemotaxis - reaction-diffusion")
     PARAMETER(double, dx, 2.0e-6, "Reaction-diffusion grid spacing")
 
     PARAMETER(double, dt, 2.0, "Reaction-diffusion timestep")
+    PARAMETER(double, ddt, 1.0, "Reaction-step, must divide dt/2 exactly")
 
     PARAMETER(int, relaxation, 0, "Timestep from which to enable reaction-diffusion")
 

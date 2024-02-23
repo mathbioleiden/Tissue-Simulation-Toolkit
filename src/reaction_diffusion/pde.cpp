@@ -50,6 +50,8 @@ PDE::PDE(const int l, const int sx, const int sy) {
   PDEvars = AllocatePDEvars(l, sx, sy);
   alt_PDEvars = AllocatePDEvars(l, sx, sy);
   DiffCoeffs = AllocatePDEvars(l,sx,sy);
+  dt = par.dt;
+  ddt = par.ddt;
 }
 
 

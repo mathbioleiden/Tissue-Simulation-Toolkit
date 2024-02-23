@@ -27,8 +27,8 @@ GRAPHICS = qt
 #PROFILING = enabled
 PROFILING = disabled
 
-#USECUDA = enabled
-USECUDA = disabled
+USECUDA = enabled
+#USECUDA = disabled
 
 LIBDIR = ../lib
 DESTDIR = ../bin
@@ -75,13 +75,17 @@ SOURCES += adhesions/*.cpp \
            cellular_potts/*.cpp \
            parameters/*.cpp \
            plotting/*.cpp \
-           reaction_diffusion/*.cpp \
            util/*.cpp \
            compute/*.cpp \
            spatial/*.cpp \
            graphics/graph.cpp
 
 SOURCES += $$MAINFILE
+
+contains ( USECUDA, disabled ){
+   SOURCE += reaction_diffusion/*.cpp
+}
+
 
 INCLUDEPATH += adhesions/ \
                cellular_potts/ \
@@ -93,15 +97,18 @@ INCLUDEPATH += adhesions/ \
                util/ \
                xpm/ \
                compute/ \
-               spatial/
-contains( USECUDA, enabled ){\
+               spatial/ \
+               ./
+
+
+contains( USECUDA, enabled ){
    # File(s) containing CUDA code
    CUDA_SOURCES = reaction_diffusion/pde.cu
 
-   # Location of CUDA on my system
+   # Location of CUDA on system
    CUDA_DIR = $$system(which nvcc | sed 's,/bin/nvcc$,,')
-   
    INCLUDEPATH += ${CUDA_DIR/include}
+   INCLUDEPATH += $$QT.includePath/QtWidgets
    QMAKE_LIBDIR += $$CUDA_DIR/lib
    LIBS += -L$$CUDA_DIR/lib64 -lcuda -lcudart -lcusparse
 

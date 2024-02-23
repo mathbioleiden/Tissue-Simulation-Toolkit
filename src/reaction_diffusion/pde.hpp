@@ -309,6 +309,7 @@ protected:
 
   PDEFIELD_TYPE ***DiffCoeffs;
 
+
   int sizex;
   int sizey;
   int layers;
@@ -333,11 +334,27 @@ protected:
   virtual PDEFIELD_TYPE ***AllocatePDEvars(const int layers, const int sx,
                                          const int sy);
 
+  //CUDA variables
+  PDEFIELD_TYPE *d_PDEvars;
+  PDEFIELD_TYPE *d_alt_PDEvars;
+  PDEFIELD_TYPE *diffusioncoefficient;
+  PDEFIELD_TYPE *d_diffusioncoefficient;
+  int** celltype;
+  int *d_celltype;
+  int** sigmafield;
+  int *d_sigmafield;
+  PDEFIELD_TYPE *lowerH, *upperH, *diagH, *BH, *lowerV, *upperV, *diagV, *BV;
+
+
+
 private:
   PDEFIELD_TYPE z[10];
   
   static const int nx[9], ny[9];
   double thetime;
+  PDEFIELD_TYPE dt;
+  PDEFIELD_TYPE ddt;
+  PDEFIELD_TYPE dx2;
 
   inline double Z(double k, int steps);
 
@@ -350,6 +367,17 @@ private:
   cl::Program program;
   cl::Kernel kernel_SecreteAndDiffuse;
   bool first_round = true;
+
+  //CUDA functions
+
+  void InitialisePDEs(CellularPotts * cpm);
+  void InitialiseCuda(CellularPotts * cpm);
+  void InitialisePDEvars(CellularPotts * cpm, int* celltypes);
+
+  void cuPDEsteps(CellularPotts *cpm, int repeats);
+  void cuODEstep(void);
+  void cuHorizontalADIstep(void);
+  void cuVerticalADIstep(void);
 };
 
 #endif
