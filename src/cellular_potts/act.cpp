@@ -22,11 +22,11 @@ namespace
                 if (sigma[neighbour_pos.x][neighbour_pos.y] == mainspin)
                 {
                     double value = act_field.Value(neighbour_pos);
-                    if (value > 0.0)
-                    {
-                        count++;
-                        output *= value;
+                    if (value <= 0.0) {
+                        return 0.0;
                     }
+                    count++;
+                    output *= value;
                 }
             }
         if (count == 0.0)
