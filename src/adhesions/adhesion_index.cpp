@@ -204,7 +204,6 @@ void AdhesionIndex::setting_force_on_adhesions() {
                     acst.angle_cst_type.t0);
             }
             awe.tension = std::sqrt(force.dot(force));
-            std::cout << "Setting force on " << awe.par_id << " to " << force << " mag = " << awe.tension << '\n';
         }
     }
 }
@@ -223,7 +222,6 @@ void AdhesionIndex::setting_size_on_adhesions() {
     for (auto& pos_adhesions : adhesions_by_pixel_) {
         for (auto& awe : pos_adhesions.second) {
             awe.size = NS::integrate(awe.tension, awe.size, nspar);
-            std::cout << "Setting size on " << awe.par_id << " to " << awe.size << "\n";
         }
     }
 }
@@ -238,8 +236,6 @@ std::vector<AdhesionWithEnvironment> const& AdhesionIndex::get_adhesions(
 
 void AdhesionIndex::move_adhesions(PixelPos from, PixelPos to) {
     if (from == to) return;
-    std::cout << "Moving particles at pixel " << from.x << ',' << from.y
-              << "to" << from.x << ',' << from.y << std::endl;
     auto it = adhesions_by_pixel_.find(from);
     if (it != adhesions_by_pixel_.end()) {
         for (auto& awe : it->second) {
@@ -269,7 +265,6 @@ void AdhesionIndex::remove_adhesion(ParId particle) {
     ecm_interaction_tracker_.record_remove_particle(particle);
 }
 void AdhesionIndex::remove_adhesions(PixelPos pixel) {
-    std::cout << "Removing particles at pixel " << pixel.x << ',' << pixel.y << std::endl;
     auto it = adhesions_by_pixel_.find(pixel);
     if (it != adhesions_by_pixel_.end()) {
         for (auto& awe : it->second)
