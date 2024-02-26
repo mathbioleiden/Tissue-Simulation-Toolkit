@@ -19,8 +19,6 @@ import pyqtgraph as pg
 import numpy as np
 import numpy.typing as npt
 
-import cv2
-
 from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
 
