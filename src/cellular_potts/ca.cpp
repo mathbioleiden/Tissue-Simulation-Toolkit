@@ -56,7 +56,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include ZYGFILE(ZYGOTE)
 #endif
 
-/* STATIC DATA MEMBER INITIALIzATION */
+/* STATIC DATA MEMBER INITIALISATION */
 double copyprob[BOLTZMANN]; 
 
 
@@ -72,7 +72,7 @@ extern Parameter par;
 /** PRIVATE **/
 
 using namespace std;
-void CellularPotts::BaseInitialization(vector<Cell> *cells) {
+void CellularPotts::BaseInitialisation(vector<Cell> *cells) {
   CopyProb(par.T);
   cell=cells;
   if (par.neighbours>=1 && par.neighbours<=4)
@@ -94,7 +94,7 @@ CellularPotts::CellularPotts(vector<Cell> *cells,
   edgelist = nullptr;
   orderedgelist = nullptr;
   
-  BaseInitialization(cells);
+  BaseInitialisation(cells);
   sizex=sx;
   sizey=sy;
 
@@ -1884,7 +1884,7 @@ Dir *CellularPotts::FindCellDirections(void) const {
   if ( !(celldir=new Dir[cell->size()]) )
     MemoryWarning();
 
-  /* Initialization of the variables */
+  /* Initialisation of the variables */
   for (int i=0;i<(int)cell->size();i++) {
     sumx[i]=0.;
     sumy[i]=0.;

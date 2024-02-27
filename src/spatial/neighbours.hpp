@@ -3,7 +3,7 @@
 
 /* Lets you iterate through the neighbours of a pixel.
  *
- * Covers the 8 neighbours in a Mealy neighborhood, excluding the
+ * Covers the 8 neighbours in a Mealy neighbourhood, excluding the
  * center pixel itself.
  *
  * Note: This should eventually end up in a Grid class used by CellularPotts,
@@ -11,9 +11,9 @@
  *
  * Usage:
  *
- * for (PixelPos nb : Neighbors(pixel)) ...
+ * for (PixelPos nb : Neighbours(pixel)) ...
  */
-class Neighbors
+class Neighbours
 {
 public:
     class iterator
@@ -39,14 +39,14 @@ public:
         PixelPos operator*() const { return center_ + d_[i_]; }
 
     private:
-        friend class Neighbors;
+        friend class Neighbours;
         iterator(PixelPos center, int i) : center_(center), i_(i) {}
 
         PixelPos center_;
         int i_;
     };
 
-    Neighbors(PixelPos center) : center_(center) {}
+    Neighbours(PixelPos center) : center_(center) {}
 
     iterator begin() const { return iterator(center_, 0); }
 

@@ -18,7 +18,7 @@ class Grid {
         void resize(int,int);
         
         // TEMPORY ONLY HAS MOORE NEIGHBOURHOOD
-        Neighbors neighbors(PixelPos);
+        Neighbours neighbours(PixelPos);
     
     private:
         Array2d<int> spinfield_;

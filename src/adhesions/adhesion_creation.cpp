@@ -12,13 +12,13 @@ extern Parameter par;
  * The range is set by the **adhesion_zone_radius** parameter.
  *
  * Note that there's some overlap in functionality between this an the
- * Neighbors class in adhesion_movement.cpp. They're kept separate however
+ * Neighbours class in adhesion_movement.cpp. They're kept separate however
  * because that class is very performance-sensitive, and calculating the list
  * dynamically as is done here will likely be quite a bit slower. That doesn't
  * matter here, but it does there, so we have one fast and one flexible
  * implementation.
  */
-std::vector<PixelDisplacement> neighbor_list() {
+std::vector<PixelDisplacement> neighbour_list() {
     std::vector<PixelDisplacement> result;
     int radius = static_cast<int>(ceil(par.adhesion_zone_radius));
     for (int dy = -radius; dy <= radius; ++dy) {
@@ -34,7 +34,7 @@ std::vector<PixelDisplacement> neighbor_list() {
 std::vector<PixelPos> adhesion_zone(CellularPotts const & ca) {
     std::vector<PixelPos> result;
 
-    auto neighbors = neighbor_list();
+    auto neighbours = neighbour_list();
 
     for (int y = 0; y < par.sizey; ++y) {
         for (int x = 0; x < par.sizex; ++x) {
@@ -42,7 +42,7 @@ std::vector<PixelPos> adhesion_zone(CellularPotts const & ca) {
 
             int cur_cell = ca.Sigma(x, y);
             if (cur_cell > 0) {
-                for (PixelDisplacement nb : neighbors) {
+                for (PixelDisplacement nb : neighbours) {
                     PixelPos np = pixel + nb;
                     if (
                             (np.x >= 0) && (np.x < par.sizex) &&

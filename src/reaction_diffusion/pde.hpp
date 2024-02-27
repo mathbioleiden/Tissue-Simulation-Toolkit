@@ -156,9 +156,9 @@ class PDE {
   
   /*! \brief Carry out $n$ diffusion steps for all PDE planes.
   We use a forward Euler method here. Can be replaced for better algorithm.
-  Function for the Act model. The whole field is initialized, usually with 0
+  Function for the Act model. The whole field is initialised, usually with 0
   */
-  void InitializeAgeLayer(int l,double value,CellularPotts *cpm);
+  void InitialiseAgeLayer(int l,double value,CellularPotts *cpm);
 
  /* Function for the Act model. All the lattice sites within cells are "aged"
 	*  by decreasing their values, usually with 1.

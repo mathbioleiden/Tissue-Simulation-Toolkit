@@ -63,7 +63,7 @@ class QtGLGraphics : public QWindow, protected QOpenGLFunctions, public Graphics
     QtGLGraphics(int xfield, int yfield, const char *movie_file=0);
     QtGLGraphics(const char *name, int xfield, int yfield);
 
-    void initialize();
+    void initialise();
 
     virtual void BeginScene(void);
     virtual void EndScene(void);

@@ -1043,9 +1043,9 @@ public:
 
 
 namespace detail {
-#define __DEFAULT_NOT_INITIALIZED 1 
-#define __DEFAULT_BEING_INITIALIZED 2
-#define __DEFAULT_INITIALIZED 4
+#define __DEFAULT_NOT_INITIALISED 1 
+#define __DEFAULT_BEING_INITIALISED 2
+#define __DEFAULT_INITIALISED 4
 
     /*
      * Compare and exchange primitives are needed for handling of defaults
@@ -1096,7 +1096,7 @@ private:
     ::size_t data_[N];
 
 public:
-    //! \brief Initialize size_t to all 0s
+    //! \brief Initialise size_t to all 0s
     size_t()
     {
         for( int i = 0; i < N; ++i ) {
@@ -1988,10 +1988,10 @@ protected:
  */
 struct ImageFormat : public cl_image_format
 {
-    //! \brief Default constructor - performs no initialization.
+    //! \brief Default constructor - performs no initialisation.
     ImageFormat(){}
 
-    //! \brief Initializing constructor.
+    //! \brief Initialising constructor.
     ImageFormat(cl_channel_order order, cl_channel_type type)
     {
         image_channel_order = order;
@@ -2019,7 +2019,7 @@ struct ImageFormat : public cl_image_format
 class Device : public detail::Wrapper<cl_device_id>
 {
 public:
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Device() : detail::Wrapper<cl_type>() { }
 
     /*! \brief Constructor from cl_device_id.
@@ -2172,7 +2172,7 @@ public:
 class Platform : public detail::Wrapper<cl_platform_id>
 {
 public:
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Platform() : detail::Wrapper<cl_type>()  { }
 
     /*! \brief Constructor from cl_platform_id.
@@ -2457,9 +2457,9 @@ class Context
 private:
 
 #ifdef CL_HPP_CPP11_ATOMICS_SUPPORTED
-    static std::atomic<int> default_initialized_;
+    static std::atomic<int> default_initialised_;
 #else // !CL_HPP_CPP11_ATOMICS_SUPPORTED
-    static volatile int default_initialized_;
+    static volatile int default_initialised_;
 #endif // !CL_HPP_CPP11_ATOMICS_SUPPORTED
     static Context default_;
     static volatile cl_int default_error_;
@@ -2646,19 +2646,19 @@ public:
     static Context getDefault(cl_int * err = NULL) 
     {
         int state = detail::compare_exchange(
-            &default_initialized_, 
-            __DEFAULT_BEING_INITIALIZED, __DEFAULT_NOT_INITIALIZED);
+            &default_initialised_, 
+            __DEFAULT_BEING_INITIALISED, __DEFAULT_NOT_INITIALISED);
         
-        if (state & __DEFAULT_INITIALIZED) {
+        if (state & __DEFAULT_INITIALISED) {
             if (err != NULL) {
                 *err = default_error_;
             }
             return default_;
         }
 
-        if (state & __DEFAULT_BEING_INITIALIZED) {
+        if (state & __DEFAULT_BEING_INITIALISED) {
               // Assume writes will propagate eventually...
-              while(default_initialized_ != __DEFAULT_INITIALIZED) {
+              while(default_initialised_ != __DEFAULT_INITIALISED) {
                   detail::fence();
               }
 
@@ -2680,7 +2680,7 @@ public:
 
         default_error_ = error;
         // Assume writes will propagate eventually...
-        default_initialized_ = __DEFAULT_INITIALIZED;
+        default_initialised_ = __DEFAULT_INITIALISED;
 
         detail::fence();
 
@@ -2691,7 +2691,7 @@ public:
 
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Context() : detail::Wrapper<cl_type>() { }
 
     /*! \brief Constructor from cl_context - takes ownership.
@@ -2810,17 +2810,17 @@ inline Device Device::getDefault(cl_int * err)
 
 #ifdef _WIN32
 #ifdef CL_HPP_CPP11_ATOMICS_SUPPORTED
-__declspec(selectany) std::atomic<int> Context::default_initialized_;
+__declspec(selectany) std::atomic<int> Context::default_initialised_;
 #else // !CL_HPP_CPP11_ATOMICS_SUPPORTED
-__declspec(selectany) volatile int Context::default_initialized_ = __DEFAULT_NOT_INITIALIZED;
+__declspec(selectany) volatile int Context::default_initialised_ = __DEFAULT_NOT_INITIALISED;
 #endif // !CL_HPP_CPP11_ATOMICS_SUPPORTED
 __declspec(selectany) Context Context::default_;
 __declspec(selectany) volatile cl_int Context::default_error_ = CL_SUCCESS;
 #else // !_WIN32
 #ifdef CL_HPP_CPP11_ATOMICS_SUPPORTED
-__attribute__((weak)) std::atomic<int> Context::default_initialized_;
+__attribute__((weak)) std::atomic<int> Context::default_initialised_;
 #else // !CL_HPP_CPP11_ATOMICS_SUPPORTED
-__attribute__((weak)) volatile int Context::default_initialized_ = __DEFAULT_NOT_INITIALIZED;
+__attribute__((weak)) volatile int Context::default_initialised_ = __DEFAULT_NOT_INITIALISED;
 #endif // !CL_HPP_CPP11_ATOMICS_SUPPORTED
 __attribute__((weak)) Context Context::default_;
 __attribute__((weak)) volatile cl_int Context::default_error_ = CL_SUCCESS;
@@ -2837,7 +2837,7 @@ __attribute__((weak)) volatile cl_int Context::default_error_ = CL_SUCCESS;
 class Event : public detail::Wrapper<cl_event>
 {
 public:
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Event() : detail::Wrapper<cl_type>() { }
 
     /*! \brief Constructor from cl_event - takes ownership.
@@ -2976,7 +2976,7 @@ public:
         }
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     UserEvent() : Event() { }
 
     /*! \brief Sets the execution status of a user event object.
@@ -3016,7 +3016,7 @@ WaitForEvents(const VECTOR_CLASS<Event>& events)
 class Memory : public detail::Wrapper<cl_mem>
 {
 public:
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Memory() : detail::Wrapper<cl_type>() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -3259,7 +3259,7 @@ public:
     Buffer(const CommandQueue &queue, IteratorType startIterator, IteratorType endIterator,
         bool readOnly, bool useHostPtr = false, cl_int* err = NULL);
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Buffer() : Memory() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -3394,7 +3394,7 @@ public:
         }
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     BufferD3D10() : Buffer() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -3480,7 +3480,7 @@ public:
         }
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     BufferGL() : Buffer() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -3549,7 +3549,7 @@ public:
 class Image : public Memory
 {
 protected:
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Image() : Memory() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -3666,7 +3666,7 @@ public:
         }
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Image1D() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -3954,7 +3954,7 @@ public:
 #endif // #if !defined(CL_VERSION_1_2) || defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS)
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Image2D() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -4047,7 +4047,7 @@ public:
 
     }
     
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Image2DGL() : Image2D() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -4268,7 +4268,7 @@ public:
 #endif // #if !defined(CL_VERSION_1_2) || defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS)
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Image3D() : Image() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -4358,7 +4358,7 @@ public:
         }
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Image3DGL() : Image3D() { }
 
     /*! \brief Constructor from cl_mem - takes ownership.
@@ -4524,7 +4524,7 @@ public:
         }
     }
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
 #if defined(CL_VERSION_1_2)
     BufferRenderGL() : ImageGL() {};
 #else // #if defined(CL_VERSION_1_2)
@@ -4627,7 +4627,7 @@ public:
 class Sampler : public detail::Wrapper<cl_sampler>
 {
 public:
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Sampler() { }
 
     /*! \brief Constructs a Sampler in a specified context.
@@ -4846,7 +4846,7 @@ class Kernel : public detail::Wrapper<cl_kernel>
 public:
     inline Kernel(const Program& program, const char* name, cl_int* err = NULL);
 
-    //! \brief Default constructor - initializes to NULL.
+    //! \brief Default constructor - initialises to NULL.
     Kernel() { }
 
     /*! \brief Constructor from cl_kernel - takes ownership.
@@ -5478,9 +5478,9 @@ class CommandQueue : public detail::Wrapper<cl_command_queue>
 {
 private:
 #ifdef CL_HPP_CPP11_ATOMICS_SUPPORTED
-    static std::atomic<int> default_initialized_;
+    static std::atomic<int> default_initialised_;
 #else // !CL_HPP_CPP11_ATOMICS_SUPPORTED
-    static volatile int default_initialized_;
+    static volatile int default_initialised_;
 #endif // !CL_HPP_CPP11_ATOMICS_SUPPORTED
     static CommandQueue default_;
     static volatile cl_int default_error_;
@@ -5592,19 +5592,19 @@ public:
     static CommandQueue getDefault(cl_int * err = NULL) 
     {
         int state = detail::compare_exchange(
-            &default_initialized_, 
-            __DEFAULT_BEING_INITIALIZED, __DEFAULT_NOT_INITIALIZED);
+            &default_initialised_, 
+            __DEFAULT_BEING_INITIALISED, __DEFAULT_NOT_INITIALISED);
         
-        if (state & __DEFAULT_INITIALIZED) {
+        if (state & __DEFAULT_INITIALISED) {
             if (err != NULL) {
                 *err = default_error_;
             }
             return default_;
         }
 
-        if (state & __DEFAULT_BEING_INITIALIZED) {
+        if (state & __DEFAULT_BEING_INITIALISED) {
               // Assume writes will propagate eventually...
-              while(default_initialized_ != __DEFAULT_INITIALIZED) {
+              while(default_initialised_ != __DEFAULT_INITIALISED) {
                   detail::fence();
               }
 
@@ -5639,7 +5639,7 @@ public:
 
         default_error_ = error;
         // Assume writes will propagate eventually...
-        default_initialized_ = __DEFAULT_INITIALIZED;
+        default_initialised_ = __DEFAULT_INITIALISED;
 
         detail::fence();
 
@@ -6582,17 +6582,17 @@ typedef CL_API_ENTRY cl_int (CL_API_CALL *PFN_clEnqueueReleaseD3D10ObjectsKHR)(
 
 #ifdef _WIN32
 #ifdef CL_HPP_CPP11_ATOMICS_SUPPORTED
-__declspec(selectany) std::atomic<int> CommandQueue::default_initialized_;
+__declspec(selectany) std::atomic<int> CommandQueue::default_initialised_;
 #else // !CL_HPP_CPP11_ATOMICS_SUPPORTED
-__declspec(selectany) volatile int CommandQueue::default_initialized_ = __DEFAULT_NOT_INITIALIZED;
+__declspec(selectany) volatile int CommandQueue::default_initialised_ = __DEFAULT_NOT_INITIALISED;
 #endif // !CL_HPP_CPP11_ATOMICS_SUPPORTED
 __declspec(selectany) CommandQueue CommandQueue::default_;
 __declspec(selectany) volatile cl_int CommandQueue::default_error_ = CL_SUCCESS;
 #else // !_WIN32
 #ifdef CL_HPP_CPP11_ATOMICS_SUPPORTED
-__attribute__((weak)) std::atomic<int> CommandQueue::default_initialized_;
+__attribute__((weak)) std::atomic<int> CommandQueue::default_initialised_;
 #else // !CL_HPP_CPP11_ATOMICS_SUPPORTED
-__attribute__((weak)) volatile int CommandQueue::default_initialized_ = __DEFAULT_NOT_INITIALIZED;
+__attribute__((weak)) volatile int CommandQueue::default_initialised_ = __DEFAULT_NOT_INITIALISED;
 #endif // !CL_HPP_CPP11_ATOMICS_SUPPORTED
 __attribute__((weak)) CommandQueue CommandQueue::default_;
 __attribute__((weak)) volatile cl_int CommandQueue::default_error_ = CL_SUCCESS;
@@ -12922,9 +12922,9 @@ public:
 #undef __PARAM_NAME_DEVICE_FISSION
 #endif // USE_CL_DEVICE_FISSION
 
-#undef __DEFAULT_NOT_INITIALIZED 
-#undef __DEFAULT_BEING_INITIALIZED 
-#undef __DEFAULT_INITIALIZED
+#undef __DEFAULT_NOT_INITIALISED 
+#undef __DEFAULT_BEING_INITIALISED 
+#undef __DEFAULT_INITIALISED
 
 #undef CL_HPP_RVALUE_REFERENCES_SUPPORTED
 #undef CL_HPP_NOEXCEPT

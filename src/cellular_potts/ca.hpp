@@ -169,7 +169,7 @@ public:
    cells and for searching the neighbours the cell borders have to be
    determined. 
    
-   \return neighborhood array
+   \return neighbourhood array
    */
 
   int **SearchNandPlot(Graphics *g=0, bool get_neighbours=true);
@@ -188,7 +188,7 @@ public:
   void SearchNandPlotClear(Graphics *g=0);
 
   /*! \brief Obtain the neighbour matrix of cells
-  \return Neighborhood array
+  \return Neighbourhood array
   */
   int **SearchNeighboursMatrix();
 
@@ -585,7 +585,7 @@ private:
 protected:
     /*! \brief Initialise CPM class
     */
-	void BaseInitialization(std::vector<Cell> *cell);
+	void BaseInitialisation(std::vector<Cell> *cell);
 
 protected:
   int **sigma;

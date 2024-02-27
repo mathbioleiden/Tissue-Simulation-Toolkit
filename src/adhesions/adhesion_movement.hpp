@@ -83,7 +83,7 @@ std::vector<PixelDisplacement> extension_displacements(
 /* Choose where displacements will go during the copy.
  *
  * This implements a scenario where all adhesions are moved to the same
- * neighbor, which is picked randomly from the possibilities given.
+ * neighbour, which is picked randomly from the possibilities given.
  *
  * Returns the chosen displacement and the DH for moving all adhesions, doesn't
  * actually update anything.
@@ -101,7 +101,7 @@ std::tuple<PixelDisplacement, double> select_displacement_uniform(
 /* Choose where displacements will go during the copy.
  *
  * This implements a scenario where all adhesions are moved to the same
- * neighbor, the one for which it is energetically most favorable to do so.
+ * neighbour, the one for which it is energetically most favorable to do so.
  *
  * Returns the chosen displacement and the DH for moving all adhesions, doesn't
  * update anything.

@@ -162,14 +162,14 @@ void AdhesionIndex::rebuild(ECMBoundaryState const & ecm_boundary) {
             for (BondId bid: bonds_for[pid]) {
                 auto const & bond = ecm_boundary.bonds.at(bid);
 
-                ParPos neighbor_pos;
+                ParPos neighbour_pos;
                 if (bond.p1 == pid)
-                    neighbor_pos = ecm_boundary.particles.at(bond.p2).pos;
+                    neighbour_pos = ecm_boundary.particles.at(bond.p2).pos;
                 else
-                    neighbor_pos = ecm_boundary.particles.at(bond.p1).pos;
+                    neighbour_pos = ecm_boundary.particles.at(bond.p1).pos;
 
                 awe.bonds.emplace_back(
-                        neighbor_pos, ecm_boundary.bond_types.at(bond.type));
+                        neighbour_pos, ecm_boundary.bond_types.at(bond.type));
             }
 
             for (AngleCstId aid: angle_csts_for[pid]) {

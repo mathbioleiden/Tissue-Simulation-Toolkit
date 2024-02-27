@@ -30,7 +30,7 @@ std::vector<PixelDisplacement> retraction_displacements(
     std::vector<PixelDisplacement> displacements;
 
     int target_cell_id = ca.Sigma(target_pixel.x, target_pixel.y);
-    for (PixelPos nb : Neighbors(target_pixel))
+    for (PixelPos nb : Neighbours(target_pixel))
         if (ca.Sigma(nb.x, nb.y) == target_cell_id)
            displacements.push_back(nb - target_pixel);
 
@@ -49,7 +49,7 @@ std::vector<PixelDisplacement> extension_displacements_all(
     std::vector<PixelDisplacement> displacements= {{0, 0}};
 
     int source_cell = ca.Sigma(source_pixel.x, source_pixel.y);
-    for (PixelPos nb : Neighbors(source_pixel)) {
+    for (PixelPos nb : Neighbours(source_pixel)) {
         if ((ca.Sigma(nb.x, nb.y) == source_cell) || (nb == target_pixel))
             displacements.push_back(nb - source_pixel);
     }

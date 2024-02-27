@@ -37,7 +37,7 @@ void Grid::set(PixelPos coordinate, Spin value){
     spinfield_.set(coordinate, value);
 }
 
-Neighbors Grid::neighbors(PixelPos coordinate){
-    return Neighbors(coordinate);
+Neighbours Grid::neighbours(PixelPos coordinate){
+    return Neighbours(coordinate);
 }
 

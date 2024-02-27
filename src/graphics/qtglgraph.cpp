@@ -44,18 +44,18 @@ QtGLGraphics::QtGLGraphics(int xfield, int yfield, const char *movie_file) {
 
   timer = new QTimer( this );
   connect( timer, SIGNAL(timeout()), SLOT(TimeStepWrap()) );
-  initialize();
+  initialise();
   resize(xfield, yfield);
 }
 
 
-void QtGLGraphics::initialize() {
+void QtGLGraphics::initialise() {
   m_context = new QOpenGLContext(this);
   m_context->setFormat(requestedFormat());
   m_context->create();
 
   m_context->makeCurrent(this);
-  initializeOpenGLFunctions();
+  initialiseOpenGLFunctions();
   gl_extra = new QOpenGLExtraFunctions(m_context);
 
   glClearColor(1,1,1,1);

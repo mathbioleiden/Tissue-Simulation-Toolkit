@@ -39,7 +39,7 @@ TEST_CASE("Neighbours", "[grid]")
         {
             grid.set(PixelPos(5, 5) + x, 123);
         }
-        auto neighs = grid.neighbors({5, 5});
+        auto neighs = grid.neighbours({5, 5});
 
         for (auto neigh : neighs)
         {

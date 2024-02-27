@@ -43,7 +43,7 @@ using namespace std;
 INIT {
   try {
     // Define initial distribution of cells
-    cout << "Initialization" << endl;
+    cout << "Initialisation" << endl;
     CPM->ReadZygotePicture();
     //CPM->GrowInCells(par.n_init_cells,par.size_init_cells,par.subfield);
     CPM->ConstructInitCells(*this);
@@ -94,7 +94,7 @@ TIMESTEP {
   }
 }
 
-void PDE::InitializeAgeLayer(int l, double value, CellularPotts *cpm) {
+void PDE::InitialiseAgeLayer(int l, double value, CellularPotts *cpm) {
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
       if (PDEvars[l][x][y] > 0) {

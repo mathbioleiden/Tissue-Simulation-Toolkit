@@ -220,7 +220,7 @@ void GLGraphics::make_context(){
   glutCreateWindow("Tissue Simulation Toolkit");
   GLenum err = glewInit();
   if (err != GLEW_OK){
-    std::cout << "Failed to initialize OpenGL" << std::endl;
+    std::cout << "Failed to initialise OpenGL" << std::endl;
     exit(1);
   }
   if (!glewIsSupported("GL_VERSION_2_0")) {

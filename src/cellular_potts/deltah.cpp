@@ -46,7 +46,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 
 
-/* STATIC DATA MEMBER INITIALIzATION */
+/* STATIC DATA MEMBER INITIALISATION */
 const int nx2[21] = {0, 0, 1, 0,-1, 1, 1,-1,-1, 0, 2, 0, -2, 1, 2, 2, 1,-1,-2,-2,-1 };
 const int ny2[21] = {0,-1, 0, 1, 0,-1, 1, 1,-1,-2, 0, 2,  0,-2,-1, 1, 2, 2, 1,-1,-2 };
 
