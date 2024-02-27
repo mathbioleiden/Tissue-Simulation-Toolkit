@@ -285,19 +285,70 @@ class PDE {
        
   */
   void PlotVectorField(Graphics &g, int stride, int linelength, int first_grad_layer=1);
+  /*! \brief Initialise a linear gradient of the PDE variables in the Y direction
+    \param spec The layer that will be initialised
+    \param conc_top Concentration at the top of the matrix
+    \param conc_bottom Concentration at the bottom of the matrix
+  */
   void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
-   
+
+  /*! \brief Plots the PDE variables of a pixel
+  \param x x-coordinate
+  \param y y-coordinate
+  \param graphics Graphics interface
+  \param layer Layer that will be displayed
+  */ 
   bool plotPos(int x, int y, Graphics * graphics, int layer);
 
-  void reset_plot(){ highest = Max(0); lowest = Min(0);}
+  inline PDEFIELD_TYPE ***getPDEvars() { return PDEvars; }
 
-  inline float ***getPDEvars() { return PDEvars; }
 
-  double highest;
-  double lowest;
+  //CUDA functions
+
+  void InitialiseCuda();
+  /*! \brief Intialise the PDE variables
+  The variables will be used to solve the reaction diffusion equation
+  \param cpm Initialisation may depend on the CPM configuration
+  \param celltypes Initalisation may depend on the celltypes
+  This initialisation is used for both the CPU and CUDA solver
+  */
+  void InitialisePDEvars(CellularPotts * cpm, int* celltypes);
+
+  /*! \brief Do a single reaction diffusion step on CUDA of size dt
+    A reaction-diffusion step of time dt is performed on CUDA. The reaction part is solved
+    with the Forward Euler method on CUDA. The diffusion is solved with the alternating directions implicit (ADI) method.
+    Communication between host and device is only necessary before and after the reaction-diffusion step. The PDEvars vector 
+    is updated accordingly. PDEvars need to be initialised with InitialisePDEvars. 
+    The derivatives must be described in __device__ void DerivativesPDE
+    in pde.cu, rather than the PDE derivatives function from pde.hpp   
+    A single reaction-diffusion step is structured as follows:
+    1. Perform an Forward Euler steps of size dt/2 in increments of ddt
+    2. Perform a horizontal ADI sweep of size dt/2
+    3. Perform an Forward Euler steps of size dt/2 in increments of ddt
+    4. Perform a horizontal ADI sweep of size dt/2
+    \param cpm The current CPM configuration
+    \param repeats Number of reaction-diffusion steps that are performed
+  */
+  void cuPDEsteps(CellularPotts *cpm, int repeats);
+  /*! \brief Perform a single ODE step
+    Currently this is done with a forward Euler solver, but other solvers may be implemented
+    in a straight forward way.
+  */
+  void cuODEstep(void);
+  /*! \brief Perform the horizontal alternating directions implicit method step
+    This uses an interleaved format for solving which is taken care of by the initialisation functions
+  */
+  void cuHorizontalADIstep(void);
+  /*! \brief Perform the vertical alternating directions implicit method step
+    This uses an interleaved format for solving which is taken care of by the initialisation functions
+  */
+  void cuVerticalADIstep(void);
 
 protected:
 
+  /*! \brief first 3D array containing the PDE variables
+    PDEvars contains the values of the PDEvars prior to an ODE step
+  */
   PDEFIELD_TYPE ***PDEvars;
   
   // Used as temporary memory in the diffusion step
@@ -305,8 +356,14 @@ protected:
   // never directly use them!!! Access is guaranteed to be correct
   // through user interface)
 
+  /*! \brief second 3D array containing the PDE variables
+  PDEvars contains the values of the PDEvars prior to a diffusion step
+  */
   PDEFIELD_TYPE ***alt_PDEvars;
 
+  /*! \brief 3D array solving containing the spatial dependent diffusion coefficients
+  PDEvars contains the values of the PDEvars prior to a diffusion step
+  */
   PDEFIELD_TYPE ***DiffCoeffs;
 
 
@@ -334,11 +391,13 @@ protected:
   virtual PDEFIELD_TYPE ***AllocatePDEvars(const int layers, const int sx,
                                          const int sy);
 
-  //CUDA variables
+  //CUDA variables 
+  //Variables with d_ are only accesible on the GPU and memory is allocated in InitialiseCuda
   PDEFIELD_TYPE *d_PDEvars;
   PDEFIELD_TYPE *d_alt_PDEvars;
-  PDEFIELD_TYPE *diffusioncoefficient;
   PDEFIELD_TYPE *d_diffusioncoefficient;
+  PDEFIELD_TYPE *d_secr_rate;
+  PDEFIELD_TYPE *d_decay_rate;
   int** celltype;
   int *d_celltype;
   int** sigmafield;
@@ -360,7 +419,11 @@ private:
 
   
   std::vector<std::string> species_names;
- 
+
+  /*! \brief Initialise the OpenCL implementation of reaction diffusion solving
+    This solver is no longer supported. Use at your own risk. We recommend the CUDA
+    solver if you have access to an Nvidia GPU.
+  */
   void SetupOpenCL(); 
   //OpenCL variables
   bool openclsetup = false;
@@ -368,16 +431,6 @@ private:
   cl::Kernel kernel_SecreteAndDiffuse;
   bool first_round = true;
 
-  //CUDA functions
-
-  void InitialisePDEs(CellularPotts * cpm);
-  void InitialiseCuda(CellularPotts * cpm);
-  void InitialisePDEvars(CellularPotts * cpm, int* celltypes);
-
-  void cuPDEsteps(CellularPotts *cpm, int repeats);
-  void cuODEstep(void);
-  void cuHorizontalADIstep(void);
-  void cuVerticalADIstep(void);
 };
 
 #endif

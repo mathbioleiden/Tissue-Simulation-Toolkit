@@ -4,8 +4,11 @@
 #include <cuda_profiler_api.h>
 
 
-#define ARRAY_SIZE 2
+#define ARRAY_SIZE 1
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
+
+/*! \brief Check whether a GPU is available
+*/
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
 {
    if (code != cudaSuccess) 
@@ -15,6 +18,30 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
    }
 }
 
+/*! \brief Assign the derivatives to solve for the CUDA reaction diffusion solver
+  As an example, the PDE for secretion diffusion from vessel.cpp is implemented
+  Any ODE system can be implemented here
+  \param current_time The derivatives may be time dependent
+  \param y Current values of the PDE variables
+  \param dydt Vector that returns the derivatives at index id
+  \param sigmalfield The current CPM configuration
+  \param id The index for which the derivatives need to be computed
+  \param secr_rate Vector of secretion rates
+  \param decay_rate Vector of diffusion rates 
+*/
+__device__ void DerivativesPDE(PDEFIELD_TYPE current_time, PDEFIELD_TYPE* y, PDEFIELD_TYPE* dydt, int* sigmafield, int id, PDEFIELD_TYPE* secr_rate, PDEFIELD_TYPE* decay_rate ){
+  int sigma = sigmafield[id];
+  if (sigma > 0) {
+    dydt[0] = secr_rate[0];
+  } else {
+    // outside cells
+    dydt[0] = -decay_rate[0] * y[0];
+  }
+}
+
+/*! \brief Error checking function for CUDA functions
+  Can return synchronized and synchronized errors for CUDA code
+*/
 void cuErrorChecker(cudaError_t errSync, cudaError_t errAsync){
   errSync  = cudaGetLastError();
   errAsync = cudaDeviceSynchronize();
@@ -24,24 +51,28 @@ void cuErrorChecker(cudaError_t errSync, cudaError_t errAsync){
     printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 }
 
-
+/*! \buffer size required for the horizontal ADI sweep*/
 size_t pbuffersizeH; 
+/*! \brief location alloted to the buffer for the horizontal ADI sweep on the GPU*/
 void *pbufferH;
-//Needed for cuSparse horizontal and vertical sweeps of ADI
+/*! \brief status of horizontal ADI sweep*/
 cusparseStatus_t statusH; 
+/*! \brief handle for the  horizontal ADI sweep*/
 cusparseHandle_t handleH;
+/*! \buffer size required for the vertical ADI sweep*/
 size_t pbuffersizeV; 
+/*! \brief location alloted to the buffer for the vertical ADI sweep on the GPU*/
 void *pbufferV;
-//Needed for cuSparse horizontal and vertical sweeps of ADI
+/*! \brief status of vertical ADI sweep*/
 cusparseStatus_t statusV; 
+/*! \brief handle for the  vertical ADI sweep*/
 cusparseHandle_t handleV;
 
 
-void PDE::InitialiseCuda(CellularPotts *cpm){
+void PDE::InitialiseCuda(){
   cout << "Start cuda init" << endl;
-  //AllocateTridiagonalvars(sizex, sizey);
 
-  cudaMalloc((void**) &d_diffusioncoefficient, sizex*sizey*sizeof(PDEFIELD_TYPE));
+  cudaMalloc((void**) &d_diffusioncoefficient, layers*sizex*sizey*sizeof(PDEFIELD_TYPE));
   cudaMalloc((void**) &d_celltype, sizex*sizey*sizeof(int));
   cudaMalloc((void**) &d_sigmafield, sizex*sizey*sizeof(int));
 
@@ -49,6 +80,11 @@ void PDE::InitialiseCuda(CellularPotts *cpm){
   cudaMemcpy(d_PDEvars, PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
   cudaMalloc((void**) &d_alt_PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE));
   cudaMemcpy(d_alt_PDEvars, alt_PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
+  cudaMalloc((void**) &d_secr_rate, ARRAY_SIZE*sizeof(PDEFIELD_TYPE));
+  cudaMemcpy(d_secr_rate, par.secr_rate.data(), ARRAY_SIZE*sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
+  cudaMalloc((void**) &d_decay_rate, ARRAY_SIZE*sizeof(PDEFIELD_TYPE));
+  cudaMemcpy(d_decay_rate, par.decay_rate.data(), ARRAY_SIZE*sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
+
 
 
   //Needed for ADI steps
@@ -87,7 +123,10 @@ void PDE::InitialiseCuda(CellularPotts *cpm){
   cout << "End cuda init" << endl;
 }
 
-
+/*! \Initialises the diagonals required for alternating direction implicit methods
+    This initialises the tridiagonal diffusion matrices that are required for solving per row / column
+    For Ax=b, this initialises the matrix A for every row and column
+*/
 __global__ void InitialiseDiagonals(int sizex, int sizey, PDEFIELD_TYPE twooverdt, PDEFIELD_TYPE dx2, PDEFIELD_TYPE* lowerH, PDEFIELD_TYPE* upperH, PDEFIELD_TYPE* diagH, PDEFIELD_TYPE* lowerV, PDEFIELD_TYPE* upperV, PDEFIELD_TYPE* diagV, PDEFIELD_TYPE* diffusioncoefficient){
   //This function could in theory be parellelized further, split into 6 (each part only assigning 1 value.), but this is probably slower
   int index = blockIdx.x * blockDim.x + threadIdx.x;
@@ -137,6 +176,9 @@ __global__ void InitialiseDiagonals(int sizex, int sizey, PDEFIELD_TYPE twooverd
   }
 }
 
+/*! \brief Intialises the righthandside vectors of the implicit ADI solver for rows
+  For Ax=b, this initialises the vectorb b for every column
+*/
 __global__ void InitialiseHorizontalVectors(int sizex, int sizey, PDEFIELD_TYPE twooverdt, PDEFIELD_TYPE dx2, PDEFIELD_TYPE* BH, PDEFIELD_TYPE* diffusioncoefficient, PDEFIELD_TYPE* alt_PDEvars){
   
   int index = blockIdx.x * blockDim.x + threadIdx.x;
@@ -153,15 +195,15 @@ __global__ void InitialiseHorizontalVectors(int sizex, int sizey, PDEFIELD_TYPE 
       BH[id] = twooverdt*alt_PDEvars[idcc] + (diffusioncoefficient[idcc+1]*(alt_PDEvars[idcc+1] - alt_PDEvars[idcc]))/dx2; 
     else if (yloc == sizey-1)
       BH[id] = twooverdt*alt_PDEvars[idcc] + (diffusioncoefficient[idcc-1]*(alt_PDEvars[idcc-1] - alt_PDEvars[idcc]))/dx2;  
-    else 
+    else
       BH[id] = twooverdt*alt_PDEvars[idcc] + (diffusioncoefficient[idcc+1]*(alt_PDEvars[idcc+1] - alt_PDEvars[idcc]) + diffusioncoefficient[idcc-1]*(alt_PDEvars[idcc-1] - alt_PDEvars[idcc]))/dx2;
   }
 }
 
+/*! \brief Intialises the righthandside vectors of the implicit ADI solver for columns
+  For Ax=b, this initialises the vectorb b for every row
+*/
 __global__ void InitialiseVerticalVectors(int sizex, int sizey, PDEFIELD_TYPE twooverdt, PDEFIELD_TYPE dx2, PDEFIELD_TYPE* BV, PDEFIELD_TYPE* diffusioncoefficient, PDEFIELD_TYPE* alt_PDEvars){
-
-  //This function could in theory be parellelized further, split into 6 (each part only assigning 1 value.), but this is probably slower
-  
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int stride = blockDim.x * gridDim.x;
   int xloc;
@@ -183,15 +225,16 @@ __global__ void InitialiseVerticalVectors(int sizex, int sizey, PDEFIELD_TYPE tw
 }
 
 
-
+/*! \brief copy the solution of the first PDEvar layer by the horizontal ADI iteration back into PDE vars*/
 __global__ void NewPDEfieldH0(int sizex, int sizey, PDEFIELD_TYPE* BH, PDEFIELD_TYPE* PDEvars){ //Take the values from BH and assign the new values of the first layers of PDEvars
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int stride = blockDim.x * gridDim.x;
-  for (int id = index; id < sizex*sizey; id += stride)
+  for (int id = index; id < sizex*sizey; id += stride){
     PDEvars[id] = BH[id];      
+  }
 }
 
-
+/*! \brief copy the solution of the first PDEvar layer by the vertical ADI iteration back into PDE vars*/
 __global__ void NewPDEfieldV0(int sizex, int sizey, PDEFIELD_TYPE* BV, PDEFIELD_TYPE* PDEvars){ //Take the values from BV and assign the new values of the first layers of PDEvars
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int stride = blockDim.x * gridDim.x;
@@ -201,118 +244,105 @@ __global__ void NewPDEfieldV0(int sizex, int sizey, PDEFIELD_TYPE* BV, PDEFIELD_
 }
 
 
+/*! \brief Copy all values of alt_PDEvars, except the first value after diffusion
+  Only the first component of the PDEvars vector diffuses. This may be extended to 
+  diffuse any or all chemicals in an analogous way.
+*/
 __global__ void NewPDEfieldOthers(int sizex, int sizey, int layers, PDEFIELD_TYPE* BH, PDEFIELD_TYPE* PDEvars, PDEFIELD_TYPE* alt_PDEvars){ //copy the other values from alt_PDEvars to PDEvars
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int stride = blockDim.x * gridDim.x;
-  for (int id = index+sizex*sizey; id < layers*sizex*sizey; id += stride)
+  for (int id = 0; id < layers*sizex*sizey; id += stride){
     PDEvars[id] = alt_PDEvars[id]; 
+  }
 }
 
-__device__ void derivsFitzHughNagumo(PDEFIELD_TYPE current_time, PDEFIELD_TYPE* y, PDEFIELD_TYPE* dydt, bool celltype2, int* sigmafield, int id ){
-  
-    PDEFIELD_TYPE a = 0.1;
-    PDEFIELD_TYPE epsilon = 10;
-    PDEFIELD_TYPE beta = -1.0;
-    PDEFIELD_TYPE RIext = 0;
-    PDEFIELD_TYPE c = 0.191;
-    PDEFIELD_TYPE timescale = 40;
-  
-  dydt[0] = timescale*(epsilon*(y[0]*(1-y[0])*(y[0]-beta)) - y[1] + RIext);
-  dydt[1] = timescale*((y[0] -a*y[1]+c));      
 
-}
-
-__global__ void ODEstepFE(PDEFIELD_TYPE dt, PDEFIELD_TYPE ddt, double thetime, int layers, int sizex, int sizey, PDEFIELD_TYPE* PDEvars, PDEFIELD_TYPE* alt_PDEvars, int* celltype, int* sigmafield){
+/*! \brief Perform forward Euler step for a total of dt time in steps of size ddt 
+  The forward Euler steps are computed with time step ddt for a total of dt time
+  par.ddt must therefore divide par.dt/2
+  \param dt Total time for which the forward Euler steps are computed
+  \param ddt Time steps in which time steps of a total of dt are computed
+  \param layers Number of PDE variables
+  \param sizex Grid size in x direction
+  \param sizey Grid size in y direction
+  \param PDEvars PDE variables at the start of the forward Euler steps
+  \param alt_PDEvars Location where the new PDE vars need to be stored
+  \param sigmafield Current CPM field
+  \param secr_rate Secretion rates of chemicals
+  \param decay_rate Decay rate of chemicals.
+*/
+__global__ void ODEstepFE(PDEFIELD_TYPE dt, PDEFIELD_TYPE ddt, double thetime, int layers, int sizex, int sizey, PDEFIELD_TYPE* PDEvars, PDEFIELD_TYPE* alt_PDEvars, 
+                          int* sigmafield, PDEFIELD_TYPE* secr_rate, PDEFIELD_TYPE* decay_rate){
   
   int nr_of_iterations = round(dt/ddt);
   if (fabs(dt/ddt - nr_of_iterations) > 0.001)
     printf("dt and ddt do not divide properly!");
-  PDEFIELD_TYPE begin_time,stepsize_did,stepsize, end_time;
-  PDEFIELD_TYPE yscal[ARRAY_SIZE];
+  if (nr_of_iterations == 0)
+    printf("0 iterations!");
+  PDEFIELD_TYPE stepsize;
   PDEFIELD_TYPE y[ARRAY_SIZE];
-  PDEFIELD_TYPE y_new[ARRAY_SIZE];
   PDEFIELD_TYPE dydt[ARRAY_SIZE];
   PDEFIELD_TYPE current_time;
   PDEFIELD_TYPE MaxTimeError = 5e-7;
-  PDEFIELD_TYPE stepsize_overshot;
-  bool overshot = false;
-  bool celltype2 = false;
   int i;
 
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int stride = blockDim.x * gridDim.x;
   for (int id = index; id < sizex*sizey; id += stride){
-    if (celltype[id] < 1){
-      for (i = 0; i < layers; i++) //fill with current PDE values
-        alt_PDEvars[i*sizex*sizey + id]= PDEvars[i*sizex*sizey + id];
-    }
-    
-    else{
-      celltype2 = false; 
-      if (celltype[id] == 2)
-        celltype2 = true;
-      begin_time = thetime;
-      current_time = thetime;
-      end_time = thetime + dt;
-      for (i=0;i<layers;i++)
-        y[i]=PDEvars[i*sizex*sizey + id];
-      for (int it = 0; it < nr_of_iterations; it++){
-        derivsFitzHughNagumo(current_time,y,dydt,celltype2, sigmafield,  id);
-        current_time += ddt;
-        if (it == nr_of_iterations-1) { //Are we done?
-          for (i=0;i<layers;i++) {
-            alt_PDEvars[i*sizex*sizey + id] = y[i]+ddt*dydt[i];
-          }
-        }
-        else{  
-          for (i=0;i<layers;i++) {
-            y[i]=y[i]+ddt*dydt[i];  
-          }
+    current_time = thetime;
+    for (i=0;i<layers;i++)
+      y[i]=PDEvars[i*sizex*sizey + id];
+    for (int it = 0; it < nr_of_iterations; it++){
+      DerivativesPDE(current_time,y,dydt, sigmafield,  id, secr_rate, decay_rate );
+      current_time += ddt;
+      if (it == nr_of_iterations-1) { //Are we done?
+        for (i=0;i<layers;i++) {
+          alt_PDEvars[i*sizex*sizey + id] = y[i]+ddt*dydt[i];
         }
       }
-    }
+      else{ 
+        for (i=0;i<layers;i++) {
+          y[i]=y[i]+ddt*dydt[i];  
+        }
+      }
+    }    
   }
 }
 
 
-
-__global__ void CopyAltToOriginalPDEvars(int sizex, int sizey, int layers, PDEFIELD_TYPE* PDEvars, PDEFIELD_TYPE* alt_PDEvars){
+/*! \brief Utitility function that copies alt_PDEvars to PDEvars
+  \param sizex Grid size in x direction
+  \param sizey Grid size in y direction
+  \param layers Number of PDE variables
+  \param PDEsource Source vector
+  \param PDEtarget Target vector
+*/
+__global__ void CopyAltToOriginalPDEvars(int sizex, int sizey, int layers, PDEFIELD_TYPE* PDEsource, PDEFIELD_TYPE* PDEtarget){
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int stride = blockDim.x * gridDim.x;
   for (int id = index; id < layers*sizex*sizey; id += stride){
-    PDEvars[id] = alt_PDEvars[id]; 
+    PDEtarget[id] = PDEsource[id]; 
   }
 }
 
-__global__ void CopyOriginalToAltPDEvars(int sizex, int sizey, int layers, PDEFIELD_TYPE* PDEvars, PDEFIELD_TYPE* alt_PDEvars){
-  int index = blockIdx.x * blockDim.x + threadIdx.x;
-  int stride = blockDim.x * gridDim.x;
-  for (int id = index; id < layers*sizex*sizey; id += stride){
-    alt_PDEvars[id] = PDEvars[id]; 
-  }
-}
 
 void PDE::cuPDEsteps(CellularPotts * cpm, int repeat){
   //copy current diffusioncoefficient matrix and celltype matrix from host to device
-
   cudaError_t errSync;
   cudaError_t errAsync;
   sigmafield = cpm->getSigma(); 
-  cudaMemcpy(d_diffusioncoefficient, DiffCoeffs[0][0], sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice); 
-  cudaMemcpy(d_celltype, celltype[0], sizex*sizey*sizeof(int), cudaMemcpyHostToDevice); 
-  cudaMemcpy(d_sigmafield, sigmafield[0], sizex*sizey*sizeof(int), cudaMemcpyHostToDevice); 
-  cudaMemcpy(d_PDEvars, PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice); 
-
+  cudaMemcpy(d_diffusioncoefficient, DiffCoeffs[0][0], layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice); 
+  cudaMemcpy(d_sigmafield, sigmafield[0], sizex*sizey*sizeof(int), cudaMemcpyHostToDevice);
+  cudaMemcpy(d_PDEvars, PDEvars[0][0], layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
+  cudaDeviceSynchronize();
+  errSync  = cudaGetLastError();
+  errAsync = cudaDeviceSynchronize(); 
   
   int nr_blocks = sizex*sizey/par.threads_per_core + 1;
-  PDEFIELD_TYPE Cm_maleckar = 50; //in nF
-  PDEFIELD_TYPE I_m;
-  bool afterdiffusion;
 
-  for (int iteration = 0; iteration < repeat; iteration++){
-      //cout << "Iteration = " << iteration << endl;
+  for (int iteration = 0; iteration < repeat/repeat; iteration++){
 
-      //setup matrices for upperdiagonal, diagonal and lower diagonal for both the horizontal and vertical direction, since these remain the same during once MCS
+      //setup matrices for upperdiagonal, diagonal and lower diagonal for both the horizontal and vertical direction, since these remain the same during one PDE step
     InitialiseDiagonals<<<par.number_of_cores, par.threads_per_core>>>(sizex, sizey, 2/dt, dx2, lowerH, upperH, diagH, lowerV, upperV, diagV, d_diffusioncoefficient);
     cudaDeviceSynchronize();
     errSync  = cudaGetLastError();
@@ -322,28 +352,15 @@ void PDE::cuPDEsteps(CellularPotts * cpm, int repeat){
     if (errAsync != cudaSuccess)
       printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 
-
     cuODEstep();
-  
     cuHorizontalADIstep();
-
-    //increase time by dt/2
-    thetime = thetime + dt/2;  
+    thetime = thetime + dt/2;
     cuODEstep();
-
-
     cuVerticalADIstep();
-      
-    //cudaMemcpy(alt_PDEvars, d_alt_PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyDeviceToHost);
-    //cout << "After second FE step, alt_PDEvars[23885] = " << alt_PDEvars[23885] << endl;
-    
-
-    
-    //increase time by dt/2
     thetime = thetime + dt/2; 
  
   }
-  cudaMemcpy(PDEvars, d_PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyDeviceToHost);
+  cudaMemcpy(PDEvars[0][0], d_PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyDeviceToHost);
   cudaDeviceSynchronize();
 }
 
@@ -351,11 +368,7 @@ void PDE::cuODEstep(){
   //Do an ODE step of size dt/2
   cudaError_t errSync;
   cudaError_t errAsync;
-  ODEstepFE<<<par.number_of_cores, par.threads_per_core>>>(dt/2, ddt, thetime, layers, sizex, sizey, d_PDEvars, d_alt_PDEvars, d_celltype, d_sigmafield);
-  //CopyOriginalToAltPDEvars<<<par.number_of_cores, par.threads_per_core>>>(sizex, sizey, layers, d_PDEvars, d_alt_PDEvars);
-
-  //cudaMemcpy(alt_PDEvars, d_alt_PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyDeviceToHost);
-  //cout << "After second FE step, alt_PDEvars[4305] = " << alt_PDEvars[4305] << endl;
+  ODEstepFE<<<par.number_of_cores, par.threads_per_core>>>(dt/2, ddt, thetime, layers, sizex, sizey, d_PDEvars, d_alt_PDEvars, d_sigmafield, d_secr_rate, d_decay_rate);
   cuErrorChecker(errSync, errAsync);
 }
 
@@ -368,7 +381,7 @@ void PDE::cuHorizontalADIstep(){
   #ifdef PDEFIELD_DOUBLE
     statusH = cusparseDgtsvInterleavedBatch(handleH, 0, sizex, lowerH, diagH, upperH, BH, sizey, pbufferH);
   #else
-    statusH = cusparseSgtsvInterleavedBatch(handleH, 0, sizex, lowerH, diagH, upperH, BH, sizey, pbufferH);
+    //statusH = cusparseSgtsvInterleavedBatch(handleH, 0, sizex, lowerH, diagH, upperH, BH, sizey, pbufferH);
   #endif
   if (statusH != CUSPARSE_STATUS_SUCCESS)
   {
@@ -378,9 +391,6 @@ void PDE::cuHorizontalADIstep(){
   cuErrorChecker(errSync, errAsync);
   NewPDEfieldOthers<<<par.number_of_cores, par.threads_per_core>>>(sizex, sizey, layers, BV, d_PDEvars, d_alt_PDEvars); //////
   cuErrorChecker(errSync, errAsync);
-
-  //cudaMemcpy(PDEvars, d_PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyDeviceToHost);
-  //cout << "After second FE step, PDEvars[4305] = " << PDEvars[4305] << endl;
 
 }
 
@@ -409,9 +419,6 @@ void PDE::cuVerticalADIstep(){
     printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
   NewPDEfieldOthers<<<par.number_of_cores, par.threads_per_core>>>(sizex, sizey, layers, BV, d_PDEvars, d_alt_PDEvars); //////
   cuErrorChecker(errSync, errAsync);
-
-  //cudaMemcpy(PDEvars, d_PDEvars, layers*sizex*sizey*sizeof(PDEFIELD_TYPE), cudaMemcpyDeviceToHost);
-  //cout << "After second FE step, PDEvars[4305] = " << PDEvars[4305] << endl;
 
 }
 

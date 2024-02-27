@@ -15,6 +15,11 @@ chemotaxis = 1000
 extensiononly = false
 border_energy = 100
 
+# Cuda parameters
+usecuda = true
+number_of_cores = 272
+threads_per_core = 32
+
 # note: do not change the following parameters for "long" cells (lambda2>0)
 neighbours = 2
 periodic_boundaries = false
@@ -25,17 +30,18 @@ diff_coeff = 1e-13
 decay_rate = 1.8e-4
 secr_rate = 1.8e-4
 saturation = 0.
-dt = 2.
+dt = 2
+ddt = 1
 dx = 2e-6
 pde_its = 15
 
 # initial conditions (create a "blob" of cells in the middle)
 n_init_cells = 100
 size_init_cells = 10
-sizex = 200
-sizey = 200
+sizex = 500
+sizey = 500
 divisions = 0
-mcs = 10000
+mcs = 2000
 rseed = -1
 subfield = 1
 relaxation = 0

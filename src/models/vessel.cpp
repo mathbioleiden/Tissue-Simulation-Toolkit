@@ -79,13 +79,19 @@ TIMESTEP {
       else if (i == par.relaxation){
         dish->PDEfield->InitialisePDE(dish->CPM);
         dish->PDEfield->InitialiseDiffusionCoefficients(dish->CPM);
+        if (par.usecuda)
+          dish->PDEfield->InitialiseCuda();
       }
       else {
         for (int r = 0; r < par.pde_its; r++) {
-          dish->PDEfield->ReactionDiffusion(dish->CPM);
-          //dish->PDEfield->Secrete(dish->CPM);
-          //dish->PDEfield->Diffuse(1);
-
+          if (!par.usecuda){
+            dish->PDEfield->ReactionDiffusion(dish->CPM);
+            //dish->PDEfield->Secrete(dish->CPM);
+            //dish->PDEfield->Diffuse(1);
+          }
+          if (par.usecuda){
+            dish->PDEfield->cuPDEsteps(dish->CPM, par.pde_its);
+          }
         }
       }
     }
