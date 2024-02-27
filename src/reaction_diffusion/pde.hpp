@@ -305,6 +305,17 @@ class PDE {
 
   //CUDA functions
 
+  /*! \brief allocate memory required for the CUDA reaction-diffusion solver
+    To use this CUDA solver, the following steps must be taken.
+    -Make sure you have an Nvidia GPU
+    -Install CUDA 12.x or higher (contains required cuSparse version for 
+    cusparseDgtsvInterleavedBatch and cusparseSgtsvInterleavedBatch)
+    -Implement your derivatives function in __device__ void DerivativesPDE in pde.cu
+    -Enable CUDA by changing the USECUDA flag in Tissue_Similation_Toolkit.pri
+    -Recompile your code base by performing 'make clean' and 'qmake'
+    -Specify the desired number of cores and threads per core in the parameter file
+    -Enable CUDA by using 'usecuda = true' in the parameter file
+  */
   void InitialiseCuda();
   /*! \brief Intialise the PDE variables
   The variables will be used to solve the reaction diffusion equation
