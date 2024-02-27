@@ -115,7 +115,7 @@ test: Catch2 MCDS LIBCS
 	# Add new directories with C++ tests here and also below under clean:
 	$(MAKE) -C $(TST_DIR)/adhesions/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests run_all_tests
-	$(MAKE) -C $(TST_DIR)/spacial/tests run_all_tests
+	$(MAKE) -C $(TST_DIR)/spatial/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/parameters/tests run_all_tests
 
 
@@ -139,7 +139,7 @@ clean:
 	# Add new test directories here
 	$(MAKE) -C $(TST_DIR)/adhesions/tests clean
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests clean
-	$(MAKE) -C $(TST_DIR)/spacial/tests clean
+	$(MAKE) -C $(TST_DIR)/spatial/tests clean
 	$(MAKE) -C $(TST_DIR)/parameters/tests clean
 
 	@echo

@@ -9,6 +9,7 @@
 #include "ecm_boundary_state.cpp"
 #include "random.cpp"
 #include "vec2.cpp"
+#include "neighbours.cpp"
 
 // And add the mock implementations
 #include "mock_adhesion_index.cpp"
