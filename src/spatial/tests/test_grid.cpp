@@ -2,9 +2,11 @@
 #define _MOCK_PARAMETER_HPP_ "mock_parameter_spatial.hpp"
 
 // Load the code to be tested
+#include "mock_parameter_spatial.cpp"
+
 #include "array2d.cpp"
 #include "grid.cpp"
-#include "mock_parameter_spatial.cpp"
+#include "neighbours.cpp"
 
 // Dependencies for the test itself
 #include <catch2/catch_test_macros.hpp>
