@@ -12,7 +12,7 @@ QMAKE     = qmake
 MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
 
 .PHONY: all XSDE MCDS LIBCS Catch2 TST python mpi4py ecm
-.PHONY: test clean clean_hoomd
+.PHONY: test clean clean_hoomd doc
 
 
 # Derive Python install location
@@ -117,6 +117,8 @@ test: Catch2 MCDS LIBCS
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/spatial/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/parameters/tests run_all_tests
+
+
 
 
 # Cleanup
