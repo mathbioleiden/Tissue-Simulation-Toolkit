@@ -98,7 +98,7 @@ void Dish::ConstructorBody() {
   Cell::maxsigma=0;
   
   // Allocate the first "cell": this is the medium (tau=0)
-  cell.push_back(*(new Cell(*this,0)));
+  cell.push_back(Cell(*this,0)));
   
   // indicate that the first cell is the medium
   cell.front().sigma=0; 
