@@ -4,23 +4,22 @@
 #include "neighbours.hpp"
 
 typedef int Spin;
-typedef std::pair<PixelPos,PixelPos> CopyAttempt;
+typedef std::pair<PixelPos, PixelPos> CopyAttempt;
 
 /**
  * @brief Takes care of the CPM grid and all neighbour related things.
  */
 class Grid {
 
-    public:
-        Grid();
-        Spin get(PixelPos); 
-        void set(PixelPos, Spin value);
-        void resize(int,int);
-        
-        // TEMPORY ONLY HAS MOORE NEIGHBOURHOOD
-        Neighbours neighbours(PixelPos);
-    
-    private:
-        Array2d<int> spinfield_;
-};
+public:
+  Grid();
+  Spin get(PixelPos);
+  void set(PixelPos, Spin value);
+  void resize(int, int);
 
+  // TEMPORY ONLY HAS MOORE NEIGHBOURHOOD
+  Neighbours neighbours(PixelPos);
+
+private:
+  Array2d<int> spinfield_;
+};

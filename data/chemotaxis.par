@@ -38,8 +38,8 @@ pde_its = 15
 # initial conditions (create a "blob" of cells in the middle)
 n_init_cells = 100
 size_init_cells = 10
-sizex = 500
-sizey = 500
+sizex = 200
+sizey = 200
 divisions = 0
 mcs = 2000
 rseed = -1

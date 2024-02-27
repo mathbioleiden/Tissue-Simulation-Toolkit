@@ -5,7 +5,6 @@
 
 #include <vector>
 
-
 /** Find the adhesion zone.
  *
  * The adhesion zone is the area close to the edge of a cell where adhesions
@@ -20,5 +19,4 @@
  * @param ca The (initialised) CPM to calculate the adhesion zone of
  * @return The list of all pixels in the adhesion zone
  */
-std::vector<PixelPos> adhesion_zone(CellularPotts const & ca);
-
+std::vector<PixelPos> adhesion_zone(CellularPotts const &ca);

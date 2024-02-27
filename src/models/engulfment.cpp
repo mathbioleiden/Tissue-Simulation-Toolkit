@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -20,21 +20,21 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA
 
 */
-#include <stdio.h>
-#include <malloc.h>
-#include <iostream>
-#include <cstdlib>
-#include <algorithm>
-#include <fstream>
-#include <math.h>
-#include "dish.hpp"
-#include "random.hpp"
 #include "cell.hpp"
-#include "info.hpp"
-#include "parameter.hpp"
-#include "morphometry.hpp"
-#include "sqr.hpp"
+#include "dish.hpp"
 #include "graph.hpp"
+#include "info.hpp"
+#include "morphometry.hpp"
+#include "parameter.hpp"
+#include "random.hpp"
+#include "sqr.hpp"
+#include <algorithm>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <malloc.h>
+#include <math.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -44,72 +44,68 @@ INIT {
 
     CPM->SetRandomTypes();
 
-  } catch(const char* error) {
+  } catch (const char *error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
     exit(1);
   }
-
 }
 
-TIMESTEP { 
- 
+TIMESTEP {
+
   try {
 
-    static int i=0;
-  
-    static Dish *beast=new Dish();
-   
+    static int i = 0;
+
+    static Dish *beast = new Dish();
+
     beast->CPM->AmoebaeMove(beast->PDEfield);
-    
-    //cerr << "Done\n";
-    if (par.graphics && !(i%10)) {
-      
-      
-      int tx,ty;
+
+    // cerr << "Done\n";
+    if (par.graphics && !(i % 10)) {
+
+      int tx, ty;
       BeginScene();
       ClearImage();
       beast->Plot(this);
 
-      //char title[400];
-      //snprintf(title,399,"CellularPotts: %d MCS",i);
-      //ChangeTitle(title);
+      // char title[400];
+      // snprintf(title,399,"CellularPotts: %d MCS",i);
+      // ChangeTitle(title);
       EndScene();
-  
-     
     }
-  
-    if (par.store && !(i%par.storage_stride)) {
-      char fname[200],fname_mcds[200];
-      snprintf(fname,199,"%s/extend%05d.png",par.datadir.c_str(),i);
-    
+
+    if (par.store && !(i % par.storage_stride)) {
+      char fname[200], fname_mcds[200];
+      snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
+
       BeginScene();
-    
+
       beast->Plot(this);
-      
+
       EndScene();
-    
+
       Write(fname);
-        
     }
 
     i++;
-  } catch(const char* error) {
+  } catch (const char *error) {
     cerr << "Caught exception\n";
     std::cerr << error << "\n";
     exit(1);
   }
 }
 
-void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y){}
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE *derivs, int x,
+                         int y) {}
 
 int main(int argc, char *argv[]) {
   extern Parameter par;
-  try {  
+  try {
     par.Read(argv[1]);
     Seed(par.rseed);
     start_graphics(argc, argv);
-  } catch(const char* error) {
+  } catch (const char *error) {
     std::cerr << error << std::endl;
     return 1;
   }

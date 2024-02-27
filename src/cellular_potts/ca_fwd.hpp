@@ -5,8 +5,7 @@
  */
 
 #ifdef _MOCK_CA_FWD_HPP_
-    #include _MOCK_CA_FWD_HPP_
+#include _MOCK_CA_FWD_HPP_
 #else
-    class CellularPotts;
+class CellularPotts;
 #endif
-

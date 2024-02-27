@@ -27,8 +27,8 @@ GRAPHICS = qt
 #PROFILING = enabled
 PROFILING = disabled
 
-USECUDA = enabled
-#USECUDA = disabled
+#USECUDA = enabled
+USECUDA = disabled
 
 LIBDIR = ../lib
 DESTDIR = ../bin
@@ -83,7 +83,7 @@ SOURCES += adhesions/*.cpp \
 SOURCES += $$MAINFILE
 
 contains ( USECUDA, disabled ){
-   SOURCE += reaction_diffusion/*.cpp
+   SOURCES += reaction_diffusion/*.cpp
 }
 
 
@@ -119,6 +119,9 @@ contains( USECUDA, enabled ){
    cuda.dependcy_type = TYPE_C
    cuda.depend_command = nvcc -M -Xcompiler $$join(QMAKE_CXXFLAGS,",") $$join(INCLUDEPATH,'" -I "','-I "','"') ${QMAKE_FILE_NAME} | sed "s,^.*: ,," | sed "s,^ *,," | tr -d '\\n'
    QMAKE_EXTRA_COMPILERS += cuda
+
+   QMAKE_CXXFLAGS_RELEASE += -DCUDA_ENABLED
+   QMAKE_CXXFLAGS_DEBUG += -DCUDA_ENABLED
 }
 
 

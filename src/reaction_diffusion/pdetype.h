@@ -1,10 +1,9 @@
-//This file allows choosing wether the pdefield uses float
-//or double values. The OpenCL core should automatically
-//adopt this setting as well.
+// This file allows choosing wether the pdefield uses float
+// or double values. The OpenCL core should automatically
+// adopt this setting as well.
 
 #define PDEFIELD_FLOAT
 //#define PDEFIELD_DOUBLE
-
 
 #ifdef PDEFIELD_FLOAT
 #define PDEFIELD_TYPE float

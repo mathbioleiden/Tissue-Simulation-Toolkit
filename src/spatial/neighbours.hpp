@@ -13,46 +13,42 @@
  *
  * for (PixelPos nb : Neighbours(pixel)) ...
  */
-class Neighbours
-{
+class Neighbours {
 public:
-    class iterator
-    {
-    public:
-        iterator operator++()
-        {
-            ++i_;
-            return *this;
-        }
+  class iterator {
+  public:
+    iterator operator++() {
+      ++i_;
+      return *this;
+    }
 
-        iterator operator++(int)
-        {
-            iterator result = *this;
-            ++i_;
-            return result;
-        }
+    iterator operator++(int) {
+      iterator result = *this;
+      ++i_;
+      return result;
+    }
 
-        bool operator==(iterator const &rhs) { return i_ == rhs.i_; }
+    bool operator==(iterator const &rhs) { return i_ == rhs.i_; }
 
-        bool operator!=(iterator const &rhs) { return i_ != rhs.i_; }
+    bool operator!=(iterator const &rhs) { return i_ != rhs.i_; }
 
-        PixelPos operator*() const { return center_ + d_[i_]; }
+    PixelPos operator*() const { return center_ + d_[i_]; }
 
-    private:
-        friend class Neighbours;
-        iterator(PixelPos center, int i) : center_(center), i_(i) {}
+  private:
+    friend class Neighbours;
+    iterator(PixelPos center, int i) : center_(center), i_(i) {}
 
-        PixelPos center_;
-        int i_;
-    };
+    PixelPos center_;
+    int i_;
+  };
 
-    Neighbours(PixelPos center) : center_(center) {}
+  Neighbours(PixelPos center) : center_(center) {}
 
-    iterator begin() const { return iterator(center_, 0); }
+  iterator begin() const { return iterator(center_, 0); }
 
-    iterator end() const { return iterator(center_, 8); }
+  iterator end() const { return iterator(center_, 8); }
 
 private:
-    static const PixelDisplacement d_[8];
-    PixelPos center_;
+  static const PixelDisplacement d_[8];
+  PixelPos center_;
 };

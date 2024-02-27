@@ -5,7 +5,6 @@
 #include <array>
 #include <unordered_map>
 
-
 /// Typedef for particle ids, for clarity
 typedef int ParId;
 
@@ -20,7 +19,6 @@ typedef int AngleCstTypeId;
 
 ///// Typedef for angle constraint ids, for clarity
 typedef int AngleCstId;
-
 
 /** Types of particles in the ECM.
  *
@@ -40,35 +38,28 @@ typedef int AngleCstId;
  *   used as a marker to remove particles that e.g. would be inside a cell,
  *   which shouldn't happen.
  */
-enum class ParticleType {
-    free = 0,
-    boundary = 1,
-    adhesion = 2,
-    excluded = 3
-};
-
+enum class ParticleType { free = 0, boundary = 1, adhesion = 2, excluded = 3 };
 
 /** Defines a particle.
  *
  * Particles have a location in a 2D space, and a type.
  */
 struct Particle {
-    /// Create an uninitialised particle
-    Particle() = default;
+  /// Create an uninitialised particle
+  Particle() = default;
 
-    /// Create a Particle
-    Particle(ParId par_id, ParPos pos, ParticleType type);
+  /// Create a Particle
+  Particle(ParId par_id, ParPos pos, ParticleType type);
 
-    // Id
-    ParId par_id;
+  // Id
+  ParId par_id;
 
-    /// Location
-    ParPos pos;
+  /// Location
+  ParPos pos;
 
-    // Particle type
-    ParticleType type;
+  // Particle type
+  ParticleType type;
 };
-
 
 /** Defines a type of bond.
  *
@@ -76,38 +67,36 @@ struct Particle {
  * constant.
  */
 struct BondType {
-    /// Create an uninitialised bond type
-    BondType() = default;
+  /// Create an uninitialised bond type
+  BondType() = default;
 
-    /// Create a bond type with given parameters
-    BondType(double r0, double k);
+  /// Create a bond type with given parameters
+  BondType(double r0, double k);
 
-    /// Rest length
-    double r0;
+  /// Rest length
+  double r0;
 
-    /// Spring constant (stiffness)
-    double k;
+  /// Spring constant (stiffness)
+  double k;
 };
-
 
 /** Defines a bond.
  *
  * A bond connects two particles and is of a given type.
  */
 struct Bond {
-    /// Create an uninitialised bond
-    Bond() = default;
+  /// Create an uninitialised bond
+  Bond() = default;
 
-    /// Create a bond with the given parameters
-    Bond(ParId p1, ParId p2, BondTypeId type);
+  /// Create a bond with the given parameters
+  Bond(ParId p1, ParId p2, BondTypeId type);
 
-    /// Bonded particles
-    ParId p1, p2;
+  /// Bonded particles
+  ParId p1, p2;
 
-    /// Bond type
-    BondTypeId type;
+  /// Bond type
+  BondTypeId type;
 };
-
 
 /** Special named bond types in the ECM.
  *
@@ -115,10 +104,7 @@ struct Bond {
  * for convenience. The numerical value is the bond type id (see
  * MDState::bond_types).
  */
-enum class NamedBondTypes : BondTypeId {
-    fiber = 0
-};
-
+enum class NamedBondTypes : BondTypeId { fiber = 0 };
 
 /** Defines a type of angle constraint.
  *
@@ -128,19 +114,18 @@ enum class NamedBondTypes : BondTypeId {
  * angle.
  */
 struct AngleCstType {
-    /// Create an uninitialised angle constraint type
-    AngleCstType() = default;
+  /// Create an uninitialised angle constraint type
+  AngleCstType() = default;
 
-    /// Create an angle constraint type with given parameters
-    AngleCstType(double t0, double k);
+  /// Create an angle constraint type with given parameters
+  AngleCstType(double t0, double k);
 
-    /// Rest angle
-    double t0;
+  /// Rest angle
+  double t0;
 
-    /// Spring constant (stiffness)
-    double k;
+  /// Spring constant (stiffness)
+  double k;
 };
-
 
 /** Defines an angle constraint.
  *
@@ -148,19 +133,18 @@ struct AngleCstType {
  * relative to the other two.
  */
 struct AngleCst {
-    /// Create an uninitialised angle constraint
-    AngleCst() = default;
+  /// Create an uninitialised angle constraint
+  AngleCst() = default;
 
-    /// Create an angle constraint
-    AngleCst(ParId p1, ParId p2, ParId p3, AngleCstTypeId type);
+  /// Create an angle constraint
+  AngleCst(ParId p1, ParId p2, ParId p3, AngleCstTypeId type);
 
-    /// Involved particles
-    ParId p1, p2, p3;
+  /// Involved particles
+  ParId p1, p2, p3;
 
-    /// Constraint type
-    AngleCstTypeId type;
+  /// Constraint type
+  AngleCstTypeId type;
 };
-
 
 /** Boundary of the MD representation of the extracellular matrix (ECM).
  *
@@ -200,26 +184,25 @@ struct AngleCst {
  * example.
  */
 struct ECMBoundaryState {
-    /** Particles making up the ECM - CPM boundary.
-     *
-     * particles[ParId].pos.x, .pos.y or .type
-     */
-    std::unordered_map<ParId, Particle> particles;
+  /** Particles making up the ECM - CPM boundary.
+   *
+   * particles[ParId].pos.x, .pos.y or .type
+   */
+  std::unordered_map<ParId, Particle> particles;
 
-    /** The different types of bonds available.
-     */
-    std::unordered_map<BondTypeId, BondType> bond_types;
+  /** The different types of bonds available.
+   */
+  std::unordered_map<BondTypeId, BondType> bond_types;
 
-    /** Bonds between two particles.
-     */
-    std::unordered_map<BondId, Bond> bonds;
+  /** Bonds between two particles.
+   */
+  std::unordered_map<BondId, Bond> bonds;
 
-    /** Types of angle constraints.
-     */
-    std::unordered_map<AngleCstTypeId, AngleCstType> angle_cst_types;
+  /** Types of angle constraints.
+   */
+  std::unordered_map<AngleCstTypeId, AngleCstType> angle_cst_types;
 
-    /** Angle constraints.
-     */
-    std::unordered_map<AngleCstId, AngleCst> angle_csts;
+  /** Angle constraints.
+   */
+  std::unordered_map<AngleCstId, AngleCst> angle_csts;
 };
-
