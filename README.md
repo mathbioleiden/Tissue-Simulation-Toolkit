@@ -9,6 +9,7 @@ TST 2.0 is an efficient C++ library for two-dimensional Cellular Potts Simulatio
 TST 2.0 provides many recent extensions to the CPM, including
 * Efficient edgelist algorithm
 * Infinite number of PDE layers (forward Euler)
+* A reacion diffusion solver on the CPU and on CUDA
 * Interaction of CPM cells and PDE (secretion, absorption)
 * Chemotaxis
 * Length and connectivity constraints
@@ -47,7 +48,7 @@ To install the dependencies, we recommend installing [Homebrew](https://brew.sh)
 brew install qt@5 libpng zlib
 ```
 
-You may have to edit `src/Tissue-Simulation-Toolkit.pro` for qmake to be able to find them. 
+You may have to edit `src/Tissue-Simulation-Toolkit.pri` for qmake to be able to find them. 
 
 Note on Qt: If you have an existing Qt installation (e.g. the open source installation through qt.io)  do not install Qt again through homebrew. Instead, ensure that qmake is in the path or edit the Makefile such that the full path for qmake is given. 
 
