@@ -13,6 +13,7 @@ TST 2.0 provides many recent extensions to the CPM, including
 * Chemotaxis
 * Length and connectivity constraints
 * Act-CPM model (Niculescu et al., PLOS Comput Biol 2015)
+* Discrete fibrous extracellular matrix (molecular dynamics)
 
 The current version of the TST includes example programs for the
 following published simulations:
@@ -20,6 +21,7 @@ following published simulations:
 * Differential adhesion driven cell sorting (Glazier and Graner, 1993)
 * Cell elongation dependent vasculogenesis (blood vessel growth) (Merks et al., 2006) 
 * Contact-inhibition dependent vasculogenesis and angiogenesis (Merks and Glazier, 2005; Merks and Glazier, 2006; Merks et al, PLoS Comput Biol 2008)
+* Hybrid cellular Potts and bead-spring modeling of cells in fibrous extracellular matrix (Tsingos and Bakker et al, Biophys J. 2023)
 
 
 and visualization of:
@@ -29,7 +31,7 @@ and visualization of:
 
 ## Downloading and installing
 
-TST 2.0 is available from GitHub at https://github.com/rmerks/Tissue-Simulation-Toolkit. It can be built and run on Windows, macOS and Linux using the instructions below.
+TST 2.0 is available from GitHub at https://github.com/mathbioleiden/Tissue-Simulation-Toolkit. It can be built and run on Windows, macOS and Linux using the instructions below.
 
 ### Windows
 
