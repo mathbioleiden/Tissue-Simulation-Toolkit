@@ -27,8 +27,8 @@ GRAPHICS = qt
 #PROFILING = enabled
 PROFILING = disabled
 
-#USECUDA = enabled
-USECUDA = disabled
+USECUDA = enabled
+#USECUDA = disabled
 
 LIBDIR = ../lib
 DESTDIR = ../bin
