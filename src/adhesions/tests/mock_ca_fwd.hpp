@@ -3,4 +3,3 @@
 class MockCellularPotts;
 
 using CellularPotts = MockCellularPotts;
-

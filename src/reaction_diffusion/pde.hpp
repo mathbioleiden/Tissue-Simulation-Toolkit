@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -23,37 +23,34 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 #ifndef _PDE_HH_
 #define _PDE_HH_
-#include <stdio.h>
 #include <float.h>
-#include <vector>
-#include <string>
-#include <stdio.h>
 #include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
 
-#include <MultiCellDS.hpp>
 #include <MultiCellDS-pimpl.hpp>
 #include <MultiCellDS-simpl.hpp>
+#include <MultiCellDS.hpp>
 
 #include "cl_manager.hpp"
-#include "pdetype.h" 
 #include "graph.hpp"
+#include "pdetype.h"
 
 class CellularPotts;
 class Dish;
 class PDE {
 
- friend class Info;
+  friend class Info;
 
- public:
-
+public:
   /*! \brief Constructor for PDE object containing arbitrary number of planes.
   \param layers: Number of PDE planes
   \param sizex: horizontal size of PDE planes
   \param sizey: vertical size of PDE planes
   */
-  PDE(const int layers, const int sizex, 
-      const int sizey);
-      
+  PDE(const int layers, const int sizex, const int sizey);
+
   // destructor must also be virtual
   virtual ~PDE();
 
@@ -61,51 +58,48 @@ class PDE {
   \param g: Graphics window.
   \param layer: The PDE plane to be plotted. Default layer 0.
   */
-  void Plot(Graphics *g, const int layer=0);
-  /*! \brief Plots one layer of the PDE to a Graphics window, but not over the cells.
-    \param g: Graphics window.
-    \param cpm: CellularPotts object containing the cells.
-    \param layer: The PDE plane to be plotted. Default layer 0.
+  void Plot(Graphics *g, const int layer = 0);
+  /*! \brief Plots one layer of the PDE to a Graphics window, but not over the
+    cells. \param g: Graphics window. \param cpm: CellularPotts object
+    containing the cells. \param layer: The PDE plane to be plotted. Default
+    layer 0.
   */
-  void Plot(Graphics *g, CellularPotts *cpm, const int layer=0);
-  
+  void Plot(Graphics *g, CellularPotts *cpm, const int layer = 0);
+
   /*! \brief Plots the PDE field using contour lines.
-    
+
   \param g: Graphics window.
   \param layer: The PDE plane to be plotted. Default layer 0.
-  \param colour: Color to use for the contour lines, as defined in the "default.ctb" color map file, which should be in the same directory as the executable. Default color 1 (black in the default color map).
+  \param colour: Color to use for the contour lines, as defined in the
+  "default.ctb" color map file, which should be in the same directory as the
+  executable. Default color 1 (black in the default color map).
   */
-  void ContourPlot(Graphics *g, int layer=0, int colour=1);
-  
+  void ContourPlot(Graphics *g, int layer = 0, int colour = 1);
+
   //! \brief Returns the horizontal size of the PDE planes.
-  inline int SizeX() const {
-    return sizex;
-  }
+  inline int SizeX() const { return sizex; }
 
   //! \brief Returns the vertical size of the PDE planes.
-  inline int SizeY() const {
-    return sizey;
-  }
+  inline int SizeY() const { return sizey; }
 
   //! \brief Returns the number of PDE layers in the PDE object
-  inline int Layers() const {
-    return layers;
-  }
-    
+  inline int Layers() const { return layers; }
+
   //! \brief Set the \param name of the species in layer \param l
   void SetSpeciesName(int l, const char *name);
-    
+
   /*! \brief Returns the value of grid point x,y of PDE plane "layer".
-    
+
   Warning, no range checking done.
-  
+
   \param layer: the PDE plane to probe.
   \param x, y: grid point to probe.
   */
-  inline PDEFIELD_TYPE get_PDEvars(const int layer, const int x, const int y) const {
+  inline PDEFIELD_TYPE get_PDEvars(const int layer, const int x,
+                                   const int y) const {
     return PDEvars[layer][x][y];
   }
-  
+
   /*! \brief Sets grid point x,y of PDE plane "layer" to value "value".
   \param layer: PDE plane.
   \param x, y: grid point
@@ -115,7 +109,7 @@ class PDE {
                        const PDEFIELD_TYPE value) {
     PDEvars[layer][x][y] = value;
   }
-  
+
   /*! \brief Adds a number to a PDE grid point.
   \param layer: PDE plane.
   \param x, y: grid point
@@ -153,33 +147,32 @@ class PDE {
     return min;
   }
 
-  
   /*! \brief Carry out $n$ diffusion steps for all PDE planes.
   We use a forward Euler method here. Can be replaced for better algorithm.
   Function for the Act model. The whole field is initialized, usually with 0
   */
-  void InitializeAgeLayer(int l,double value,CellularPotts *cpm);
+  void InitializeAgeLayer(int l, double value, CellularPotts *cpm);
 
- /* Function for the Act model. All the lattice sites within cells are "aged"
-	*  by decreasing their values, usually with 1.
-	*/
-  void AgeLayer(int l,double value,CellularPotts *cpm, Dish *dish);
+  /* Function for the Act model. All the lattice sites within cells are "aged"
+   *  by decreasing their values, usually with 1.
+   */
+  void AgeLayer(int l, double value, CellularPotts *cpm, Dish *dish);
 
-  /* Function for the Act model. Plots the values of the activity into the cells.
-  */
-  void PlotInCells(Graphics *g,CellularPotts *cpm, const int l=0);
+  /* Function for the Act model. Plots the values of the activity into the
+   * cells.
+   */
+  void PlotInCells(Graphics *g, CellularPotts *cpm, const int l = 0);
   // lymphocyte matrix interaction function
 
   void MILayerCA(int l, double value, CellularPotts *cpm, Dish *dish);
 
-
   /*! \brief Implementation of no-flux boundaries.
-    
+
   Called internally (optionally) by Diffuse(). */
   void NoFluxBoundaries(void);
-  
+
   /*! \brief Implementation of absorbing boundaries.
-    
+
   Called internally (optionally) by Diffuse(). */
   void AbsorbingBoundaries(void);
 
@@ -199,12 +192,12 @@ class PDE {
   simulation code. See for an example vessel.cpp.
   \return Derivatives at pixel (x,y)
   */
-  void DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE* derivs, int x, int y);
-
+  void DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE *derivs, int x, int y);
 
   /*! \brief Do a single forward Euler step to solve the ODE
   \param repeat: Number of steps.
-  We solve with a simple forward Euler solver. Ths can be replaced with alternative ODE solvers.
+  We solve with a simple forward Euler solver. Ths can be replaced with
+  alternative ODE solvers.
   */
   void ForwardEulerStep(int repeat, CellularPotts *cpm);
 
@@ -221,37 +214,31 @@ class PDE {
   */
   void Diffuse(int repeat);
 
-  /*! \brief Do a single reaction diffusion step based on the 
+  /*! \brief Do a single reaction diffusion step based on the
   given PDE derivatives
   */
   void ReactionDiffusion(CellularPotts *cpm);
 
-
-
-
- /*! \brief Reaction and interaction of CPM plane with PDE planes.
-  \param cpm: CellularPotts plane the PDE plane interacts with
-  You should implement this member function as part of your main
-  simulation code. See for an example vessel.cpp. This method
-  is slightly faster than the general PDE solver.
-  */
+  /*! \brief Reaction and interaction of CPM plane with PDE planes.
+   \param cpm: CellularPotts plane the PDE plane interacts with
+   You should implement this member function as part of your main
+   simulation code. See for an example vessel.cpp. This method
+   is slightly faster than the general PDE solver.
+   */
   void Secrete(CellularPotts *cpm);
 
-
-
-  //Secrete and diffuse functions accelerated using OpenCL
+  // Secrete and diffuse functions accelerated using OpenCL
   void SecreteAndDiffuseCL(CellularPotts *cpm, int repeat);
 
   /*! \brief Returns cumulative "simulated" time,
     i.e. number of time steps * dt. */
-  inline double TheTime(void) const {
-    return thetime;
-  }
-  
+  inline double TheTime(void) const { return thetime; }
+
   /*! \brief Returns summed amount of chemical in PDE plane "layer".
-  \param layer: The PDE plane of which to sum the chemicals. layer=-1 (default) returns the summed amount of chemical in all planes.
+  \param layer: The PDE plane of which to sum the chemicals. layer=-1 (default)
+  returns the summed amount of chemical in all planes.
   */
-  double GetChemAmount(const int layer=-1);
+  double GetChemAmount(const int layer = -1);
 
   /*!   Calculates the first and second order gradients, i.e. gradx,
     grady, gradxx, gradxy and gradyy and puts them in the next
@@ -263,25 +250,29 @@ class PDE {
     (default 0) \param first_grad_layer: first plane of five in which
     to write the results (default 1).
   */
-  void GradC(int layer=0, int first_grad_layer=1); 
+  void GradC(int layer = 0, int first_grad_layer = 1);
 
   /*!   Plots a field of the first order gradients, i.e. gradx and
     grady; assumes you have called GradC before.
     Not currently used and might need some
-    redoing. 
+    redoing.
     \param g: Graphics window
-    \param stride: Number of grid points between vectors (drawn as lines, currently.
-    \param linelength: Length of vector lines, in pixels.
-    \param first_grad_layer: first plane of two which contain the
-    calculated gradients (default 1).
-       
-  */
-  void PlotVectorField(Graphics &g, int stride, int linelength, int first_grad_layer=1);
-  void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
-   
-  bool plotPos(int x, int y, Graphics * graphics, int layer);
+    \param stride: Number of grid points between vectors (drawn as lines,
+    currently. \param linelength: Length of vector lines, in pixels. \param
+    first_grad_layer: first plane of two which contain the calculated gradients
+    (default 1).
 
-  void reset_plot(){ highest = Max(0); lowest = Min(0);}
+  */
+  void PlotVectorField(Graphics &g, int stride, int linelength,
+                       int first_grad_layer = 1);
+  void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
+
+  bool plotPos(int x, int y, Graphics *graphics, int layer);
+
+  void reset_plot() {
+    highest = Max(0);
+    lowest = Min(0);
+  }
 
   inline float ***getPDEvars() { return PDEvars; }
 
@@ -289,9 +280,8 @@ class PDE {
   double lowest;
 
 protected:
-
   PDEFIELD_TYPE ***PDEvars;
-  
+
   // Used as temporary memory in the diffusion step
   // (addresses will be swapped for every time step, so
   // never directly use them!!! Access is guaranteed to be correct
@@ -302,8 +292,7 @@ protected:
   int sizex;
   int sizey;
   int layers;
- 
- 
+
   // Protected member functions
   /*! \brief Used in Plot. Takes a color and turns it into a grey value.
   \param val: Value from PDE plane.
@@ -311,31 +300,30 @@ protected:
   */
   virtual int MapColour(double val);
 
-  //virtual int MapColour3(double val, int l);
+  // virtual int MapColour3(double val, int l);
 
   //! empty constructor (necessary for derivation)
   PDE(void);
-  
-  /*! \brief Allocates a PDE plane (internal use). 
+
+  /*! \brief Allocates a PDE plane (internal use).
   For internal use, can be reimplemented in derived class to change
   method of memory allocation.
   */
   virtual PDEFIELD_TYPE ***AllocatePDEvars(const int layers, const int sx,
-                                         const int sy);
+                                           const int sy);
 
 private:
   PDEFIELD_TYPE z[10];
-  
+
   static const int nx[9], ny[9];
   double thetime;
 
   inline double Z(double k, int steps);
 
-  
   std::vector<std::string> species_names;
- 
-  void SetupOpenCL(); 
-  //OpenCL variables
+
+  void SetupOpenCL();
+  // OpenCL variables
   bool openclsetup = false;
   cl::Program program;
   cl::Kernel kernel_SecreteAndDiffuse;

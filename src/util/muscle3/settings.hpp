@@ -2,6 +2,4 @@
 
 #include <libmuscle/libmuscle.hpp>
 
-
-void set_parameters_from_settings(libmuscle::Instance const & instance);
-
+void set_parameters_from_settings(libmuscle::Instance const &instance);
