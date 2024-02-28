@@ -14,7 +14,7 @@ release = '2.0.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["breathe", 'sphinx.ext.autodoc', 'myst_parser']
+extensions = ["breathe", 'sphinx.ext.autodoc']
 
 source_suffix = ['.rst', '.md']
 
