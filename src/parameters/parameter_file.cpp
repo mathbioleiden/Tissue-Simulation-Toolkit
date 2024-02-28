@@ -133,39 +133,3 @@ ParameterFile::get<std::vector<double>>(std::string const &name) const {
   }
   return result;
 }
-
-template <>
-std::vector<float>
-ParameterFile::get<std::vector<float>>(std::string const &name) const {
-  std::string svalue = entries_.at(name);
-  std::size_t idx = 0u;
-  std::vector<float> result;
-
-  try {
-    result.emplace_back(std::stod(svalue, &idx));
-  } catch (std::invalid_argument const &e) {
-    throw std::invalid_argument(
-        "When reading parameter " + name + ":" +
-        " Expected a comma-separated list of floats but got " + svalue);
-  }
-  svalue = trim(svalue.substr(idx, svalue.npos));
-
-  while (!svalue.empty()) {
-    if (svalue[0] != ',')
-      throw std::invalid_argument("When reading parameter " + name + ":" +
-                                  " Expected a comma but found " + svalue);
-
-    svalue = trim(svalue.substr(1, svalue.npos));
-
-    try {
-      result.emplace_back(std::stod(svalue, &idx));
-    } catch (std::invalid_argument const &e) {
-      throw std::invalid_argument("When reading parameter " + name +
-                                  ": Expected a float value but" + " got " +
-                                  svalue);
-    }
-
-    svalue = trim(svalue.substr(idx, svalue.npos));
-  }
-  return result;
-}

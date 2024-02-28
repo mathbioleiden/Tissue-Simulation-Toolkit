@@ -88,14 +88,3 @@ void Parameter::WritePar(std::ostream &stream, std::string const &name,
     stream << ", " << value[i];
   stream << "\n";
 }
-
-template <>
-void Parameter::WritePar(std::ostream &stream, std::string const &name,
-                         std::vector<float> const &value) const {
-  stream << name << " = ";
-  if (value.size() > 0u)
-    stream << value[0];
-  for (std::size_t i = 1u; i < value.size(); ++i)
-    stream << ", " << value[i];
-  stream << "\n";
-}

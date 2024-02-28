@@ -21,8 +21,6 @@
  * it's better than nothing.
  */
 
-#include "pdetype.h"
-
 SECTION("General settings")
 
 PARAMETER(bool, useopencl, false, "Whether to use OpenCL for PDE calculations")
@@ -157,13 +155,13 @@ PARAMETER(int, pde_its, 15, "Number of PDE timesteps per CPM MCS")
 PARAMETER(int, n_chem, 1,
           "Number of chemicals in the reaction-diffusion (PDE) model")
 
-PARAMETER(std::vector<PDEFIELD_TYPE>, diff_coeff, {1e-13},
+PARAMETER(std::vector<double>, diff_coeff, {1e-13},
           "List of diffusion coefficients, one for each chemical")
 
 CONSTRAINT(diff_coeff.size() == n_chem,
            "Number of diff_coeff values does not match n_chem")
 
-PARAMETER(std::vector<PDEFIELD_TYPE>, decay_rate, {1.8e-4},
+PARAMETER(std::vector<double>, decay_rate, {1.8e-4},
           "List of decay rates, one for each chemical")
 
 CONSTRAINT(decay_rate.size() == n_chem,

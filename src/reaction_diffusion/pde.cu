@@ -91,11 +91,22 @@ void PDE::InitialiseCuda() {
              layers * sizex * sizey * sizeof(PDEFIELD_TYPE),
              cudaMemcpyHostToDevice);
   cudaMalloc((void **)&d_secr_rate, ARRAY_SIZE * sizeof(PDEFIELD_TYPE));
+  cudaMalloc((void **)&d_decay_rate, ARRAY_SIZE * sizeof(PDEFIELD_TYPE));
+  #ifdef PDEFIELD_DOUBLE
   cudaMemcpy(d_secr_rate, par.secr_rate.data(),
              ARRAY_SIZE * sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
-  cudaMalloc((void **)&d_decay_rate, ARRAY_SIZE * sizeof(PDEFIELD_TYPE));
   cudaMemcpy(d_decay_rate, par.decay_rate.data(),
              ARRAY_SIZE * sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
+  #else
+  vector<float> float_secr_rate (par.secr_rate.begin(), par.secr_rate.end());
+  vector<float> float_decay_rate (par.decay_rate.begin(), par.decay_rate.end());
+  cudaMemcpy(d_secr_rate, float_secr_rate.data(),
+             ARRAY_SIZE * sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
+  cudaMemcpy(d_decay_rate, float_decay_rate.data(),
+             ARRAY_SIZE * sizeof(PDEFIELD_TYPE), cudaMemcpyHostToDevice);
+
+  #endif
+
 
   // Needed for ADI steps
   gpuErrchk(cudaMallocManaged(&upperH, sizex * sizey * sizeof(PDEFIELD_TYPE)));

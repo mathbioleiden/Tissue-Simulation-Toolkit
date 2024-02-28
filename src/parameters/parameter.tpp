@@ -15,7 +15,3 @@ void Parameter::WritePar<>(std::ostream &stream, std::string const &name,
 template <>
 void Parameter::WritePar<>(std::ostream &stream, std::string const &name,
                            std::vector<double> const &value) const;
-
-template <>
-void Parameter::WritePar<>(std::ostream &stream, std::string const &name,
-                           std::vector<float> const &value) const;

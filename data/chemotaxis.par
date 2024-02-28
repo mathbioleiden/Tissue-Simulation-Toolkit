@@ -16,7 +16,7 @@ extensiononly = false
 border_energy = 100
 
 # Cuda parameters
-usecuda = false
+usecuda = true
 number_of_cores = 272
 threads_per_core = 32
 
