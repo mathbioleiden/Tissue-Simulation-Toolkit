@@ -32,6 +32,11 @@ and visualization of:
 * Cells, according to cell type or anything you wish
 * Chemical fields, using color ramps and contour lines (level sets)
 
+Documentation
+-------------
+
+Documentation is avaiable `here <https://www.mathbioleiden.nl/tst-docs/docs/html/index.html>`_. Note that this is work in process and not all functions are fully documented yet!
+
 Downloading and installing
 --------------------------
 
@@ -160,24 +165,28 @@ And remove the :code:`-s -mfpmath=both` so that it reads
 
     export COMPILE_CFLAGS := -O3 -m64 -std=c++11
 
-## Contributing
+Contributing
+-------------
 
 Contributions are very welcome! You can contribute by forking this repository and creating a pull request.
 
-### Formatting
-Code is easier to read if it formatted in a nice way. To format your code you can use `clang-format` with the `.clang_format` style file. 
+Formatting
+~~~~~~~~~~~~~~~
+Code is easier to read if it formatted in a nice way. To format your code you can use :code:`clang-format` with the :code:`.clang_format` style file. 
 To do this run 
 
-```
-clang-format --style=file:./clang_format YOUR_FILE
-```
+.. code-block:: bash
+    
+    clang-format --style=file:./clang_format YOUR_FILE
 
-We also created a script that automatically formats any file that you commit using `git commit`. To activate this script you have to let git know where it is located. You can do this by running:
 
-```
-git config --local core.hooksPath .githooks/
-```
+We also created a script that automatically formats any file that you commit using :code:`git commit`. To activate this script you have to let git know where it is located. You can do this by running:
 
-## Who do I talk to?
+.. code-block:: bash
+    git config --local core.hooksPath .githooks/
+
+
+Who do I talk to?
+-----------------
 
 * Roeland Merks
