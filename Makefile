@@ -11,7 +11,7 @@ QMAKE     = qmake
 
 MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
 
-.PHONY: all XSDE MCDS LIBCS Catch2 TST python mpi4py ecm
+.PHONY: all XSDE MCDS LIBCS Catch2 TST python mpi4py ecm docs
 .PHONY: test clean clean_hoomd
 
 
@@ -55,6 +55,8 @@ VENV = venv/bin/activate
 VENV_NUMPY = $(VENV_PKG)/numpy/__init__.py
 VENV_HOOMD = $(VENV_PKG)/hoomd/__init__.py
 
+VENV_DOCS = venv_docs/bin/activate
+
 
 # If MPI should be used, install mpi4py and compile hoomd with MPI enabled
 ifdef ENABLE_MPI
@@ -80,6 +82,16 @@ $(VENV_HOOMD): $(VENV) $(VENV_NUMPY)
 	@# The hoomd installer doesn't touch the file, so we do it here so we don't keep
 	@# reinstalling again and again.
 	touch $(VENV_HOOMD)
+	
+$(VENV_DOCS):
+	python3 -m venv venv_docs
+	. venv_docs/bin/activate && python -m pip install -r ./doc/requirements.txt
+
+docs: $(VENV_DOCS)
+	cd doc; doxygen Doxyfile.in 
+	. venv_docs/bin/activate && $(MAKE) -C doc html
+	rm -r doc/docs/* || true
+	mv doc/build/html doc/docs
 
 mpi4py: $(VENV)
 	. venv/bin/activate && python3 -m pip install mpi4py
@@ -117,6 +129,8 @@ test: Catch2 MCDS LIBCS
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/spatial/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/parameters/tests run_all_tests
+
+
 
 
 # Cleanup
