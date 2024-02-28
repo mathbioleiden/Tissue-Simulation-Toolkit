@@ -3,7 +3,7 @@
 
 /* Lets you iterate through the neighbours of a pixel.
  *
- * Covers the 8 neighbours in a Mealy neighborhood, excluding the
+ * Covers the 8 neighbours in a Mealy neighbourhood, excluding the
  * center pixel itself.
  *
  * Note: This should eventually end up in a Grid class used by CellularPotts,
@@ -11,48 +11,44 @@
  *
  * Usage:
  *
- * for (PixelPos nb : Neighbors(pixel)) ...
+ * for (PixelPos nb : Neighbours(pixel)) ...
  */
-class Neighbors
-{
+class Neighbours {
 public:
-    class iterator
-    {
-    public:
-        iterator operator++()
-        {
-            ++i_;
-            return *this;
-        }
+  class iterator {
+  public:
+    iterator operator++() {
+      ++i_;
+      return *this;
+    }
 
-        iterator operator++(int)
-        {
-            iterator result = *this;
-            ++i_;
-            return result;
-        }
+    iterator operator++(int) {
+      iterator result = *this;
+      ++i_;
+      return result;
+    }
 
-        bool operator==(iterator const &rhs) { return i_ == rhs.i_; }
+    bool operator==(iterator const &rhs) { return i_ == rhs.i_; }
 
-        bool operator!=(iterator const &rhs) { return i_ != rhs.i_; }
+    bool operator!=(iterator const &rhs) { return i_ != rhs.i_; }
 
-        PixelPos operator*() const { return center_ + d_[i_]; }
+    PixelPos operator*() const { return center_ + d_[i_]; }
 
-    private:
-        friend class Neighbors;
-        iterator(PixelPos center, int i) : center_(center), i_(i) {}
+  private:
+    friend class Neighbours;
+    iterator(PixelPos center, int i) : center_(center), i_(i) {}
 
-        PixelPos center_;
-        int i_;
-    };
+    PixelPos center_;
+    int i_;
+  };
 
-    Neighbors(PixelPos center) : center_(center) {}
+  Neighbours(PixelPos center) : center_(center) {}
 
-    iterator begin() const { return iterator(center_, 0); }
+  iterator begin() const { return iterator(center_, 0); }
 
-    iterator end() const { return iterator(center_, 8); }
+  iterator end() const { return iterator(center_, 8); }
 
 private:
-    static const PixelDisplacement d_[8];
-    PixelPos center_;
+  static const PixelDisplacement d_[8];
+  PixelPos center_;
 };

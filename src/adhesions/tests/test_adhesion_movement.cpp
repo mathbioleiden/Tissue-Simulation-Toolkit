@@ -35,7 +35,7 @@ using Catch::Matchers::UnorderedRangeEquals;
 TEST_CASE("Test retraction_displacements", "[adhesion_movement]") {
     MockCellularPotts mock_ca;
 
-    // check that all neighbors are considered
+    // check that all neighbours are considered
     mock_ca.sigma_return_values = {
             {{4, 6}, 1}, {{5, 6}, 1}, {{6, 6}, 1},
             {{4, 5}, 0}, {{5, 5}, 1}, {{6, 5}, 1},
@@ -82,7 +82,7 @@ TEST_CASE("Test retraction_displacements", "[adhesion_movement]") {
 TEST_CASE("Test extension_displacements_all", "[adhesion_movement]") {
     MockCellularPotts mock_ca;
 
-    // check that all neighbors are considered
+    // check that all neighbours are considered
     mock_ca.sigma_return_values = {
             {{4, 6}, 1}, {{5, 6}, 1}, {{6, 6}, 1},
             {{4, 5}, 1}, {{5, 5}, 1}, {{6, 5}, 0},

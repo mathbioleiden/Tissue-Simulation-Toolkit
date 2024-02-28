@@ -1,4 +1,4 @@
-/* 
+/*
 
 Copyright 1996-2006 Roeland Merks
 
@@ -30,7 +30,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 class Graphics;
 class Dish;
-//class ostream;
+// class ostream;
 
 class Info {
 
@@ -41,34 +41,36 @@ public:
   \param graphics: The Graphics window displaying the dish.
   \param out: (optional) Stream into which info is written. Default: console.
   */
-  Info(Dish &dish, Graphics &graphics, std::ostream &out=std::cout);
-  
+  Info(Dish &dish, Graphics &graphics, std::ostream &out = std::cout);
+
   /*! \brief Reads out key presses in the Graphics window and interprets them.
   If you want to define extra interactive queries, redefine this method.
 
   If you want a nice GUI menu, reimplement this method.
   */
   void Menu(void);
-  
+
   /*! \brief Writes center of mass of cell "cell_id" to stream out.
    */
-  void WriteCOM(int cell_id, std::ostream &out=std::cout);
+  void WriteCOM(int cell_id, std::ostream &out = std::cout);
 
   /*! \brief Waits until the user clicks a cell and returns a reference to it.
    */
   Cell &ClickCell(Graphics *g);
-  
+
   bool IsPaused(void);
   void set_Paused();
   void set_unPaused();
-  
+
   // writes center of mass for all cells
-  void WriteCOMs(std::ostream &out=std::cout);
-  // writes center of mass for all cells and keeps track of cells crossing a border
+  void WriteCOMs(std::ostream &out = std::cout);
+  // writes center of mass for all cells and keeps track of cells crossing a
+  // border
   void WriteCOMsTorus(std::ostream &out);
 
   // should write all the pixels containing adhesions
-  void WriteAdhesionsLocationsPerCell(int cell_id, int field_id, std::ostream &out=std::cout);
+  void WriteAdhesionsLocationsPerCell(int cell_id, int field_id,
+                                      std::ostream &out = std::cout);
 
 private:
   Info(void);

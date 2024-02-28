@@ -8,9 +8,8 @@
  * this file.
  */
 
-#include "ca.hpp"
 #include "adhesion_index.hpp"
-
+#include "ca.hpp"
 
 /** Calculate annihilation penalty.
  *
@@ -21,7 +20,6 @@
  * @param num_destroyed The number of adhesions to be destroyed in the copy.
  */
 int annihilation_penalty(int num_destroyed);
-
 
 /** Calculate overflow penalty.
  *
@@ -34,7 +32,6 @@ int annihilation_penalty(int num_destroyed);
  */
 int overflow_penalty(int num_present);
 
-
 /** Find all possible adhesion displacements for a to-be-overwritten pixel.
  *
  * If a copy attempt copies onto a pixel containing adhesions, then those
@@ -45,10 +42,9 @@ int overflow_penalty(int num_present);
  * @param source_pixel The pixel that will be copied from
  * @param target_pixel The pixel it will be copied to
  */
-std::vector<PixelDisplacement> retraction_displacements(
-        CellularPotts const & ca,
-        PixelPos source_pixel, PixelPos target_pixel);
-
+std::vector<PixelDisplacement> retraction_displacements(CellularPotts const &ca,
+                                                        PixelPos source_pixel,
+                                                        PixelPos target_pixel);
 
 /** List all possible displacements.
  *
@@ -59,10 +55,9 @@ std::vector<PixelDisplacement> retraction_displacements(
  * @param source_pixel The pixel that will be copied from
  * @param target_pixel The pixel that will be copied to
  */
-std::vector<PixelDisplacement> extension_displacements_all(
-        CellularPotts const & ca,
-        PixelPos source_pixel, PixelPos target_pixel);
-
+std::vector<PixelDisplacement>
+extension_displacements_all(CellularPotts const &ca, PixelPos source_pixel,
+                            PixelPos target_pixel);
 
 /** Find all possible adhesion displacements for a newly added pixel
  *
@@ -75,15 +70,14 @@ std::vector<PixelDisplacement> extension_displacements_all(
  * @param source_pixel The pixel that will be copied from
  * @param target_pixel The pixel that will be copied to
  */
-std::vector<PixelDisplacement> extension_displacements(
-        CellularPotts const & ca,
-        PixelPos source_pixel, PixelPos target_pixel);
-
+std::vector<PixelDisplacement> extension_displacements(CellularPotts const &ca,
+                                                       PixelPos source_pixel,
+                                                       PixelPos target_pixel);
 
 /* Choose where displacements will go during the copy.
  *
  * This implements a scenario where all adhesions are moved to the same
- * neighbor, which is picked randomly from the possibilities given.
+ * neighbour, which is picked randomly from the possibilities given.
  *
  * Returns the chosen displacement and the DH for moving all adhesions, doesn't
  * actually update anything.
@@ -94,14 +88,13 @@ std::vector<PixelDisplacement> extension_displacements(
  * @param possibilities Possible displacements
  */
 std::tuple<PixelDisplacement, double> select_displacement_uniform(
-        std::vector<AdhesionWithEnvironment> const & adhesions,
-        std::vector<PixelDisplacement> const & possibilities);
-
+    std::vector<AdhesionWithEnvironment> const &adhesions,
+    std::vector<PixelDisplacement> const &possibilities);
 
 /* Choose where displacements will go during the copy.
  *
  * This implements a scenario where all adhesions are moved to the same
- * neighbor, the one for which it is energetically most favorable to do so.
+ * neighbour, the one for which it is energetically most favorable to do so.
  *
  * Returns the chosen displacement and the DH for moving all adhesions, doesn't
  * update anything.
@@ -113,9 +106,8 @@ std::tuple<PixelDisplacement, double> select_displacement_uniform(
  * @return The chosen displacement and corresponding DH
  */
 std::tuple<PixelDisplacement, double> select_displacement_gradient(
-        std::vector<AdhesionWithEnvironment> const & adhesions,
-        std::vector<PixelDisplacement> const & possibilities);
-
+    std::vector<AdhesionWithEnvironment> const &adhesions,
+    std::vector<PixelDisplacement> const &possibilities);
 
 /* Choose where displacements will go during the copy.
  *
@@ -131,7 +123,6 @@ std::tuple<PixelDisplacement, double> select_displacement_gradient(
  * @param possibilities Possible directions to move them in
  * @return The chosen displacement and corresponding DH
  */
-std::tuple<PixelDisplacement, double> select_displacement(
-        AdhesionIndex const & index, PixelPos target_pixel,
-        std::vector<PixelDisplacement> const & possibilities);
-
+std::tuple<PixelDisplacement, double>
+select_displacement(AdhesionIndex const &index, PixelPos target_pixel,
+                    std::vector<PixelDisplacement> const &possibilities);

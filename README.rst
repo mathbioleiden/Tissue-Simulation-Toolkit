@@ -11,6 +11,7 @@ TST 2.0 provides many recent extensions to the CPM, including
 
 * Efficient edgelist algorithm
 * Infinite number of PDE layers (forward Euler)
+* A reacion diffusion solver on the CPU and on CUDA
 * Interaction of CPM cells and PDE (secretion, absorption)
 * Chemotaxis
 * Length and connectivity constraints
@@ -52,7 +53,7 @@ To install the dependencies, we recommend installing [Homebrew](https://brew.sh)
 
     brew install qt@5 libpng zlib
 
-You may have to edit :code:`src/Tissue-Simulation-Toolkit.pro` for qmake to be able to find them. 
+You may have to edit `src/Tissue-Simulation-Toolkit.pri` for qmake to be able to find them. 
 
 Note on Qt: If you have an existing Qt installation (e.g. the open source installation through qt.io)  do not install Qt again through homebrew. Instead, ensure that qmake is in the path or edit the Makefile such that the full path for qmake is given. 
 
@@ -158,6 +159,24 @@ And remove the :code:`-s -mfpmath=both` so that it reads
 .. code-block:: bash
 
     export COMPILE_CFLAGS := -O3 -m64 -std=c++11
+
+## Contributing
+
+Contributions are very welcome! You can contribute by forking this repository and creating a pull request.
+
+### Formatting
+Code is easier to read if it formatted in a nice way. To format your code you can use `clang-format` with the `.clang_format` style file. 
+To do this run 
+
+```
+clang-format --style=file:./clang_format YOUR_FILE
+```
+
+We also created a script that automatically formats any file that you commit using `git commit`. To activate this script you have to let git know where it is located. You can do this by running:
+
+```
+git config --local core.hooksPath .githooks/
+```
 
 ## Who do I talk to?
 
