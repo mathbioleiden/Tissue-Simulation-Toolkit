@@ -67,7 +67,7 @@ class FiberBin:
         Estimates fiber density based on interpolated bead positions (point_density).
         """
 
-        # initialize empty bins
+        # ise empty bins
         self.bondIDs_in_bin = self.generate_bin_array([])
         self.bonds_in_bin = self.generate_bin_array(0)
         

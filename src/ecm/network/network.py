@@ -1,7 +1,7 @@
 """
-Initializes the matrix network based on the passed parameter file 'par'.
+Initialises the matrix network based on the passed parameter file 'par'.
 Defines a network class, which uses the local binner module.
-Provides functions to initialize and query network properties. 
+Provides functions to initialise and query network properties. 
 """
 
 # system modules
@@ -165,7 +165,7 @@ class Network:
         """
         Assumption: Crosslink formation probability is proportional to local fiber density.
         The network is binned with a lattice (!= CPM lattice).
-        For each bin p, count the number n of distinct fibers going through p and its Moore neighborhood (duplicates are removed).
+        For each bin p, count the number n of distinct fibers going through p and its Moore neighbourhood (duplicates are removed).
         Divide n in each bin p by the sum of n_p over all bins to get the probability density.
         Draw a number of bins (sample size = number of crosslinks requested) with probability given by calculated density.
         Check the distance between any two pair of beads from different fibers in the bin.
@@ -254,7 +254,7 @@ class Network:
         num_bins_x = int(par.box_size_x / bin_size_x)
         num_bins_y = int(par.box_size_y / bin_size_y)
 
-        # initialize the binner
+        # initialise the binner
         crosslink_binner = binner.FiberBin(num_bins_x, num_bins_y, 
                                            bin_size_x, bin_size_y, 
                                            par.beads, par.strands, 
@@ -267,7 +267,7 @@ class Network:
         # number of bonds in each bin
         bonds_in_bin = np.array(crosslink_binner.bonds_in_bin)
 
-        # get the density = bond segments in the Moore neighborhood
+        # get the density = bond segments in the Moore neighbourhood
         filt = np.ones((3, 3))  # Moore NBH
         bonds_nbhd_sum = convolve2d(bonds_in_bin, filt, mode='same') # discard padding
 
@@ -281,7 +281,7 @@ class Network:
 
             for (ny, nx) in sampled_bins:
 
-                # collect all bonds in bin and its Moore neighborhood
+                # collect all bonds in bin and its Moore neighbourhood
                 bonds_in_nbhd = []
                 for dx, dy in itertools.product([-1, 0, 1], [-1, 0, 1]): # Moore NBH
                     if 0 <= nx+dx and nx+dx < num_bins_x and 0 <= ny+dy and ny+dy < num_bins_y:  # check for lattice boundaries
