@@ -32,6 +32,11 @@ and visualization of:
 * Cells, according to cell type or anything you wish
 * Chemical fields, using color ramps and contour lines (level sets)
 
+Documentation
+-------------
+
+Documentation is avaiable `here <https://www.mathbioleiden.nl/tst-docs/docs/html/index.html>`_. Note that this is work in process and not all functions are fully documented yet!
+
 Downloading and installing
 --------------------------
 
