@@ -165,7 +165,7 @@ public:
 
 
 
-  //Return the sum of all x-values of a cell.
+  //!Return the sum of all x-values of a cell.
   inline double getSumX(void) { return sum_x; }
   //!Return the sum of all y-values of a cell.
   inline double getSumY(void) { return sum_y; }

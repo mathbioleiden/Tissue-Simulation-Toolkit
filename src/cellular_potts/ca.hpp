@@ -166,6 +166,7 @@ public:
   inline void Plot(Graphics *g) { SearchNandPlot(g, false); }
 
   /*!  \brief Special plotting for Ising model
+
   Only plot lines between the two states.
   */
   void PlotIsing(Graphics *g, int mag);
@@ -211,12 +212,14 @@ public:
     return mass;
   }
 
-  /*! \brief Find a bounding box that contains all cells
+  /*! \brief Find a bounding box that contains all cells.
+
   Currently has no output
   */
   void FindBoundingBox(void);
 
   /*! \brief Plot the cells according to their cell identity, not their type.
+
   The black lines are omitted.
   */
   void PlotSigma(Graphics *g, int mag = 2);
@@ -242,28 +245,38 @@ public:
   */
   int AmoebaeMove(PDE *PDEfield = 0, bool anneal = false);
 
-  /*! Implements the core CPM algorithm including Act dynamics. Carries out one
+  /*! \brief Implements the core CPM algorithm including Act dynamics. 
+    
+    Carries out one
     MCS with the edge lsit algorithmAMo. \return Total energy change during MCS.
   */
   int Act_AmoebaeMove(PDE *PDEfield);
 
-  /*! Implements the core CPM algorithm with Kawasaki dynamics. Carries out one
-   MCS. \return Total energy change during MCS.
+  /*! \brief Implements the core CPM algorithm with Kawasaki dynamics. 
+  
+    Carries out one MCS. \return Total energy change during MCS.
    */
   int KawasakiMove(PDE *PDEfield = 0);
 
-  /*! Implements Metropolis dynamics for the Ising model. Carries out one MCS.
-   \return Total energy change during MCS.
+  /*! \brief 
+    
+    Implements Metropolis dynamics for the Ising model. Carries out one MCS.
+   * \return Total energy change during MCS.
    */
   int IsingMove(PDE *PDEfield = 0);
 
-  /*! Implements standard large q-Potts model. Carries out one MCS.
+  /*! \brief 
+  
+    Implements standard large q-Potts model. Carries out one MCS.
    \return Total energy change during MCS.
    */
   int PottsMove(PDE *PDEfield = 0);
 
-  /*! Implements standard large q-Potts model via Neighbour copies.  Carries out
-   one MCS. \return Total energy change during MCS.
+  /*! \brief 
+  
+    Implements standard large q-Potts model via Neighbour copies.  Carries out
+     one MCS. 
+   *\return Total energy change during MCS.
    */
   int PottsNeighbourMove(PDE *PDEfield);
 
@@ -281,6 +294,7 @@ public:
   void SetECMBoundaryState(ECMBoundaryState const &ecm_boundary_state);
 
   /*! \brief Read initial cell shape from XPM file.
+
     Reads the initial cell shape from an
     include xpm picture called "ZYGXPM(ZYGOTE)",
     and it allocates enough cells for it to the Dish */
@@ -302,9 +316,6 @@ public:
   //! Returns the number of completed Monte Carlo steps.
   inline int Time() const { return thetime; }
 
-  // not currently used? In Critter implementation (see Hogeweg
-  // 2000) this was used to have cells divide at double their original area.
-  inline int ZygoteArea() const { return zygote_area; }
 
   //! \brief Return the horizontal size of the CA plane.
   inline int SizeX() const { return sizex; }
@@ -316,10 +327,6 @@ public:
 
   i.e. This will return the index of the cell which occupies site (x,y). */
   inline int Sigma(const int x, const int y) const { return sigma[x][y]; }
-
-  // Was used to make it possible to enlarge the Graphics window in
-  // X11 and replace the contents interactively. Not currently supported.
-  void Replace(Graphics *g);
 
   /*! In this method the principal axes of the cells are computed using
    the method described in "Biometry", box 15.5
@@ -336,31 +343,36 @@ public:
   \param n: Number of cells.
   \param cellsize: Number of Eden growth iterations.
   \param subfield: Defines a centered frame of size (size/subfield)^2 in which
-  all cell will be positioned. \return Index of last cell inserted.
+  all cell will be positioned. 
+  * \return Index of last cell inserted.
   */
   int GrowInCells(int n_cells, int cellsize, double subfield = 1.,
                   int posx = -1, int posy = -1);
 
   /*! \brief Initialise the CA plane with n cells using an Eden growth
-  algorithm. \param n: Number of cells. \param cell_size: Number of Eden growth
-  iterations. \param sx: x-size of subfield. \param sy: y-size of subfield.
-  \param offset_x: x location for subfield.
-  \param offset_y: y location for subfield.
-  \return Index of last cell inserted.
+  algorithm. 
+  * \param n: Number of cells. 
+  * \param cell_size: Number of Eden growth
+  iterations. \param sx: x-size of subfield. 
+  * \param sy: y-size of subfield.
+  * \param offset_x: x location for subfield.
+  * \param offset_y: y location for subfield.
+  * \return Index of last cell inserted.
   */
   int GrowInCells(int n_cells, int cell_size, int sx, int sy, int offset_x,
                   int offset_y);
 
   /*! \brief Initialise cpm field with a random sigma of 0 or 1 of every pixel
-  \param prob: This fraction of pixels will be a medium pixel
+
+  * \param prob: This fraction of pixels will be a medium pixel
   */
   void RandomSpins(double prob);
 
   /*! \brief Initialise a square cell
-  \param sig: sigma value of the cell
-  \param cx: x-coordinate of the cell
-  \param cy: y-coordinate of the cell
-  \param size: length of the square cells
+  * \param sig: sigma value of the cell
+  * \param cx: x-coordinate of the cell
+  * \param cy: y-coordinate of the cell
+  * \param size: length of the square cells
   */
   int SquareCell(int sig, int cx, int cy, int size);
 
@@ -370,6 +382,7 @@ public:
     return cell->back();
   }
   /*! \brief Display the division planes returned by FindCellDirections.
+
   \param g: Graphics window
   \param celldir: cell axes as returned by FindCellDirections.
   */
@@ -385,13 +398,14 @@ public:
   */
   double CellDensity(void) const;
 
-  //! \brief Set target lengths of all cells to the value given in parameter
-  //! file.
+  /*! \brief Set target lengths of all cells to the value given in parameter
+  file.*/
   void ResetTargetLengths(void);
 
   int spins_converted;
 
   /*! \brief Give each cell a random cell type.
+
   The number of cell types is defined by the J parameter file. (See
   Jtable in parameter file).
   */
@@ -402,6 +416,8 @@ public:
   */
   void GrowAndDivideCells(int growth_rate);
 
+  /*! \brief Returns cell with sigma c.
+  */
   inline Cell &getCell(int c) { return (*cell)[c]; }
 
   inline vector<Cell> *getCellArray() { return cell; }
@@ -419,17 +435,20 @@ public:
   double Compactness(void);
 
   /*! \brief Assign random sigma to every lattice point
-    \par n_cells: total number of cells
+
+  *  \par n_cells: total number of cells
   */
   void RandomSigma(int n_cells);
 
-  /*! \brief Measure the initial cell sizes
-    Measure cell sizes of all initial size and assign them to the cells
+  /*! \brief Measure the initial cell sizes.
+
+  * Measure cell sizes of all initial size and assign them to the cells
   */
   void MeasureCellSizes(void);
 
   /*! \brief Measure the initial cell perimeters
-    Measure cell perimeters of all initial size and assign them to the cells
+
+  *  Measure cell perimeters of all initial size and assign them to the cells
   */
   void MeasureCellPerimeters();
 
@@ -437,16 +456,19 @@ public:
    */
   void anneal(int steps);
   /*! \brief Find the sigma field after annealing steps
-  \param steps: Number of annealing MCS
-  \return sigma-field after annealing
+
+  * \param steps: Number of annealing MCS
+  * \return sigma-field after annealing
   */
   int **get_annealed_sigma(int steps);
 
-  // Return Sigma Array for use on GPU
+  /*!  Return Sigma Array
+  */ 
   inline int **getSigma() { return sigma; }
 
   /*! \brief plot the sigma at (x,y)
-  \return True if cell belongs to medium
+
+  * \return True if cell belongs to medium
   */
   bool plotPos(int x, int y, Graphics *graphics);
   /*! \brief plot cell outlines
@@ -525,7 +547,8 @@ private:
    */
   void CopyProb(double T);
 
-  /*! \brief Check if the cell is locally connected at (x,y)
+  /*! \brief Check if the cell is locally connected at (x,y).
+
   From Durand, M., & Guesnet, E. (2016). An efficient Cellular Potts Model
   algorithm that forbids cell fragmentation. Computer Physics Communications,
   208, 54-63. Checks if cell sigma is locally connected at lattice point (x,y)
@@ -544,7 +567,8 @@ private:
    */
   bool ConnectivityPreservedPCluster(int x, int y);
 
-  // little debugging function to print the site and its neighbourhood
+  /*! Plot a cell and its neighbours
+  */
   inline void PrintSite(int x, int y) {
     std::cerr << "--------\n";
     std::cerr << "[" << sigma[x - 1][y - 1] << " " << sigma[x][y - 1] << " "

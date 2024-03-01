@@ -263,9 +263,11 @@ public:
     grady; assumes you have called GradC before.
     Not currently used and might need some
     redoing.
-    \param g: Graphics window
-    \param stride: Number of grid points between vectors (drawn as lines,
-    currently. \param linelength: Length of vector lines, in pixels. \param
+    * \param g: Graphics window
+    * \param stride: Number of grid points between vectors (drawn as lines,
+    currently. 
+    * \param linelength: Length of vector lines, in pixels. 
+    * \param
     first_grad_layer: first plane of two which contain the calculated gradients
     (default 1).
 
@@ -273,9 +275,10 @@ public:
   void PlotVectorField(Graphics &g, int stride, int linelength,
                        int first_grad_layer = 1);
   /*! \brief Initialise a linear gradient of the PDE variables in the Y
-    direction \param spec The layer that will be initialised \param conc_top
-    Concentration at the top of the matrix \param conc_bottom Concentration at
-    the bottom of the matrix
+    direction 
+  *  \param spec The layer that will be initialised 
+  * \param conc_top Concentration at the top of the matrix
+  * \param conc_bottom Concentration atthe bottom of the matrix
   */
   void InitLinearYGradient(int spec, double conc_top, double conc_bottom);
 
@@ -291,25 +294,26 @@ public:
 
   // CUDA functions
 
-  /*! \brief allocate memory required for the CUDA reaction-diffusion solver
-    To use this CUDA solver, the following steps must be taken.
-    *-Make sure you have an Nvidia GPU
-    *-Install CUDA 12.x or higher (contains required cuSparse version for
-    cusparseDgtsvInterleavedBatch and cusparseSgtsvInterleavedBatch)
-    *-Implement your derivatives function in __device__ void DerivativesPDE in
-    pde.cu 
-    *-Enable CUDA by changing the USECUDA flag in
-    Tissue_Similation_Toolkit.pri 
-    *-Recompile your code base by performing 'make
-    clean' and 'make' 
-    *-Specify the desired number of cores and threads per core
-    in the parameter file 
-    *-Enable CUDA by using 'usecuda = true' in the
-    parameter file
+  /*!
+  * @brief Allocate memory required for the CUDA reaction-diffusion solver.
+  *
+  * To use this CUDA solver, the following steps must be taken.
+  * - Make sure you have an Nvidia GPU
+  * - Install CUDA 12.x or higher (contains required cuSparse version for
+  *   cusparseDgtsvInterleavedBatch and cusparseSgtsvInterleavedBatch)
+  * - Implement your derivatives function in __device__ void DerivativesPDE in
+  *   pde.cu 
+  * - Enable CUDA by changing the USECUDA flag in Tissue_Similation_Toolkit.pri 
+  * - Recompile your code base by performing 'make clean' and 'make' 
+  * - Specify the desired number of cores and threads per core
+  *   in the parameter file 
+  * - Enable CUDA by using 'usecuda = true' in the
+  *   parameter file
   */
   void InitialiseCuda();
   /*! \brief Intialise the PDE variables
-  The variables will be used to solve the reaction diffusion equation
+
+  * The variables will be used to solve the reaction diffusion equation
   \param cpm Initialisation may depend on the CPM configuration
   \param celltypes Initalisation may depend on the celltypes
   This initialisation is used for both the CPU and CUDA solver
@@ -351,8 +355,8 @@ public:
   void cuVerticalADIstep(void);
 
 protected:
-  /*! \brief first 3D array containing the PDE variables
-    PDEvars contains the values of the PDEvars prior to an ODE step
+  /*! \brief First 3D array containing the PDE variables.
+  *  PDEvars contains the values of the PDEvars prior to an ODE step
   */
   PDEFIELD_TYPE ***PDEvars;
 
@@ -361,8 +365,8 @@ protected:
   // never directly use them!!! Access is guaranteed to be correct
   // through user interface)
 
-  /*! \brief second 3D array containing the PDE variables
-  PDEvars contains the values of the PDEvars prior to a diffusion step
+  /*! \brief Second 3D array containing the PDE variables.
+  * PDEvars contains the values of the PDEvars prior to a diffusion step
   */
   PDEFIELD_TYPE ***alt_PDEvars;
 

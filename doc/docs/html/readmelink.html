@@ -65,6 +65,10 @@ following published simulations:</p>
 <li><p>Cells, according to cell type or anything you wish</p></li>
 <li><p>Chemical fields, using color ramps and contour lines (level sets)</p></li>
 </ul>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h2>
+<p>Documentation is avaiable <a class="reference external" href="https://www.mathbioleiden.nl/tst-docs/docs/html/index.html">here</a>. Note that this is work in process and not all functions are fully documented yet!</p>
+</section>
 <section id="downloading-and-installing">
 <h2>Downloading and installing<a class="headerlink" href="#downloading-and-installing" title="Link to this heading">¶</a></h2>
 <p>TST 2.0 is available from GitHub at <a class="reference external" href="https://github.com/mathbioleiden/Tissue-Simulation-Toolkit">https://github.com/mathbioleiden/Tissue-Simulation-Toolkit</a>. It can be built and run on Windows, macOS and Linux using the instructions below.</p>
@@ -156,23 +160,26 @@ make:<span class="w"> </span>***<span class="w"> </span><span class="o">[</span>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
 </pre></div>
 </div>
-<p>## Contributing</p>
+</section>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">¶</a></h2>
 <p>Contributions are very welcome! You can contribute by forking this repository and creating a pull request.</p>
-<p>### Formatting
-Code is easier to read if it formatted in a nice way. To format your code you can use <cite>clang-format</cite> with the <cite>.clang_format</cite> style file.
+<section id="formatting">
+<h3>Formatting<a class="headerlink" href="#formatting" title="Link to this heading">¶</a></h3>
+<p>Code is easier to read if it formatted in a nice way. To format your code you can use <code class="code docutils literal notranslate"><span class="pre">clang-format</span></code> with the <code class="code docutils literal notranslate"><span class="pre">.clang_format</span></code> style file.
 To do this run</p>
-<p><code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">clang-format</span> <span class="pre">--style=file:./clang_format</span> <span class="pre">YOUR_FILE</span>
-<span class="pre">`</span></code></p>
-<p>We also created a script that automatically formats any file that you commit using <cite>git commit</cite>. To activate this script you have to let git know where it is located. You can do this by running:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">git</span> <span class="pre">config</span> <span class="pre">--local</span> <span class="pre">core.hooksPath</span> <span class="pre">.githooks/</span>
-<span class="pre">`</span></code></p>
-<p>## Who do I talk to?</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>clang-format<span class="w"> </span>--style<span class="o">=</span>file:./clang_format<span class="w"> </span>YOUR_FILE
+</pre></div>
+</div>
+<p>We also created a script that automatically formats any file that you commit using <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>. To activate this script you have to let git know where it is located. You can do this by running:</p>
+</section>
+</section>
+<section id="who-do-i-talk-to">
+<h2>Who do I talk to?<a class="headerlink" href="#who-do-i-talk-to" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Roeland Merks</p></li>
 </ul>
-</section>
 </section>
 </section>
 
@@ -197,9 +204,12 @@ To do this run</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Readme File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#tissue-simulation-toolkit-2-0">Tissue-Simulation-Toolkit 2.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#downloading-and-installing">Downloading and installing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#test-the-tissue-simulation-toolkit">Test the Tissue Simulation Toolkit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#who-do-i-talk-to">Who do I talk to?</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="build_system.html">How TST is built</a></li>
