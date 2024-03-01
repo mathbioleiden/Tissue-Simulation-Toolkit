@@ -1693,6 +1693,265 @@ Time step dt, space step dx, diffusion coefficient diff_coeff and boundary condi
 </section>
 <section id="cuda-pde-code">
 <h2>CUDA PDE code<a class="headerlink" href="#cuda-pde-code" title="Link to this heading">¶</a></h2>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv49gpuAssert11cudaError_tPKcib">
+<span id="_CPPv39gpuAssert11cudaError_tPKcib"></span><span id="_CPPv29gpuAssert11cudaError_tPKcib"></span><span id="gpuAssert__cudaError_t.cCP.i.b"></span><span class="target" id="pde__cuda_8cuh_1ab3e90881a2476fd461eb2bcfcaa7cf63"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gpuAssert</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cudaError_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">code</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">file</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">line</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">abort</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv49gpuAssert11cudaError_tPKcib" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Check whether a GPU is available. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv414DerivativesPDE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEPiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv314DerivativesPDE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEPiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv214DerivativesPDE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEPiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="DerivativesPDE__PDEFIELD_TYPE.PDEFIELD_TYPEP.PDEFIELD_TYPEP.iP.i.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1a26a2d22563ee1766740af112b11ce4f0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DerivativesPDE</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">current_time</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">y</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dydt</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">sigmafield</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">secr_rate</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">decay_rate</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414DerivativesPDE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEPiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Assign the derivatives to solve for the CUDA reaction diffusion solver As an example, the <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> for secretion diffusion from vessel.cpp is implemented Any ODE system can be implemented here. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current_time</strong> – The derivatives may be time dependent </p></li>
+<li><p><strong>y</strong> – Current values of the <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> variables </p></li>
+<li><p><strong>dydt</strong> – Vector that returns the derivatives at index id </p></li>
+<li><p><strong>sigmalfield</strong> – The current CPM configuration </p></li>
+<li><p><strong>id</strong> – The index for which the derivatives need to be computed </p></li>
+<li><p><strong>secr_rate</strong> – Vector of secretion rates </p></li>
+<li><p><strong>decay_rate</strong> – Vector of diffusion rates </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv414cuErrorChecker11cudaError_t11cudaError_t">
+<span id="_CPPv314cuErrorChecker11cudaError_t11cudaError_t"></span><span id="_CPPv214cuErrorChecker11cudaError_t11cudaError_t"></span><span id="cuErrorChecker__cudaError_t.cudaError_t"></span><span class="target" id="pde__cuda_8cuh_1a40aa80d76e60261ba0037f3851113dff"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cuErrorChecker</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cudaError_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">errSync</span></span>, <span class="n"><span class="pre">cudaError_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">errAsync</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414cuErrorChecker11cudaError_t11cudaError_t" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Error checking function for CUDA functions Can return synchronized and synchronized errors for CUDA code. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>errSync</strong> – Synchronized error handle </p></li>
+<li><p><strong>errAsync</strong> – Synchronized error handle </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv419InitialiseDiagonalsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv319InitialiseDiagonalsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv219InitialiseDiagonalsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="InitialiseDiagonals__i.i.PDEFIELD_TYPE.PDEFIELD_TYPE.PDEFIELD_TYPEP.PDEFIELD_TYPEP.PDEFIELD_TYPEP.PDEFIELD_TYPEP.PDEFIELD_TYPEP.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1afc958f9436dd570dee0dc12620fbebf1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitialiseDiagonals</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizey</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">twooverdt</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dx2</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">lowerH</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">upperH</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">diagH</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">lowerV</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">upperV</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">diagV</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">diffusioncoefficient</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419InitialiseDiagonalsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Initialises the diagonals required for alternating direction implicit method. </p>
+<p>\</p>
+<p>This initialises the tridiagonal diffusion matrices that are required for solving per row / column For Ax=b, this initialises the matrix A for every row and column. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sizex</strong> – x-dimension of grid </p></li>
+<li><p><strong>sizey</strong> – y-dimension of grid </p></li>
+<li><p><strong>twooverdt</strong> – 2/dt </p></li>
+<li><p><strong>dx2</strong> – dx*dx </p></li>
+<li><p><strong>lowerH</strong> – Lower-diagonal required for the horizontal ADI sweep. </p></li>
+<li><p><strong>upperH</strong> – Upper-diagonal for the horizontal ADI sweep. </p></li>
+<li><p><strong>diagH</strong> – Diagonal for the horizontal ADI sweep. </p></li>
+<li><p><strong>lowerV</strong> – Lower-diagonal required for the vertical ADI sweep. </p></li>
+<li><p><strong>upperV</strong> – Upper-diagonal required for the vertical ADI sweep. </p></li>
+<li><p><strong>diagV</strong> – Diagonal for the vertical ADI sweep. </p></li>
+<li><p><strong>diffusioncoefficient</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv427InitialiseHorizontalVectorsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv327InitialiseHorizontalVectorsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv227InitialiseHorizontalVectorsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="InitialiseHorizontalVectors__i.i.PDEFIELD_TYPE.PDEFIELD_TYPE.PDEFIELD_TYPEP.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1a32dcac3c798c00c9421a97252b70fd69"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitialiseHorizontalVectors</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizey</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">twooverdt</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dx2</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">BH</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">diffusioncoefficient</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">alt_PDEvars</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427InitialiseHorizontalVectorsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>For Ax=b, this initialises the vectorb b for every column. </p>
+<p>Intialises the righthandside vectors of the implicit ADI solver for rows.</p>
+<p>For Ax=b, this initialises the vectorb b for every row. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sizex</strong> – x-dimension of grid </p></li>
+<li><p><strong>sizey</strong> – y-dimension of grid </p></li>
+<li><p><strong>twooverdt</strong> – 2/dt </p></li>
+<li><p><strong>dx2</strong> – dx*dx </p></li>
+<li><p><strong>BH</strong> – The vector b for the horizontal ADI sweep </p></li>
+<li><p><strong>diffusioncoefficient</strong> – Vector of diffusion coefficients </p></li>
+<li><p><strong>alt_PDEvars</strong> – The second <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv425InitialiseVerticalVectorsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv325InitialiseVerticalVectorsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv225InitialiseVerticalVectorsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="InitialiseVerticalVectors__i.i.PDEFIELD_TYPE.PDEFIELD_TYPE.PDEFIELD_TYPEP.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1a1a350e71e607b01a022c8681decaeb82"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitialiseVerticalVectors</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizey</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">twooverdt</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dx2</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">BV</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">diffusioncoefficient</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">alt_PDEvars</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425InitialiseVerticalVectorsii13PDEFIELD_TYPE13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>For Ax=b, this initialises the vectorb b for every column. </p>
+<p>Intialises the righthandside vectors of the implicit ADI solver for columns.</p>
+<p>For Ax=b, this initialises the vectorb b for every column. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sizex</strong> – x-dimension of grid </p></li>
+<li><p><strong>sizey</strong> – y-dimension of grid </p></li>
+<li><p><strong>twooverdt</strong> – 2/dt </p></li>
+<li><p><strong>dx2</strong> – dx*dx </p></li>
+<li><p><strong>BV</strong> – The vector b for the verticall ADI sweep </p></li>
+<li><p><strong>diffusioncoefficient</strong> – Vector of diffusion coefficients </p></li>
+<li><p><strong>alt_PDEvars</strong> – The second <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv413NewPDEfieldH0iiP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv313NewPDEfieldH0iiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv213NewPDEfieldH0iiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="NewPDEfieldH0__i.i.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1af1f4caf9f756aa1c68898f32d917faa8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NewPDEfieldH0</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizey</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">BH</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">PDEvars</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413NewPDEfieldH0iiP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Copy the solution of the first PDEvar layer by the horizontal ADI iteration back into <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> vars. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sizex</strong> – x-dimension of grid </p></li>
+<li><p><strong>sizey</strong> – y-dimension of grid </p></li>
+<li><p><strong>BH</strong> – Contains the vector x for Ax = b for the horizontal sweep </p></li>
+<li><p><strong>PDEvars</strong> – The first <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv413NewPDEfieldV0iiP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv313NewPDEfieldV0iiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv213NewPDEfieldV0iiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="NewPDEfieldV0__i.i.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1a9714cdf728fb849a2447fbabc0c27c79"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NewPDEfieldV0</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizey</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">BV</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">PDEvars</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413NewPDEfieldV0iiP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Copy the solution of the first PDEvar layer by the vertical ADI iteration back into <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> vars. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sizex</strong> – x-dimension of grid </p></li>
+<li><p><strong>sizey</strong> – y-dimension of grid </p></li>
+<li><p><strong>BV</strong> – Contains the vector x for Ax = b for the vertical sweep </p></li>
+<li><p><strong>PDEvars</strong> – The first <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv417NewPDEfieldOthersiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv317NewPDEfieldOthersiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv217NewPDEfieldOthersiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="NewPDEfieldOthers__i.i.i.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1a00190f322fd8e38f903f934742ca8f77"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NewPDEfieldOthers</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizey</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">layers</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">PDEvars</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">alt_PDEvars</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417NewPDEfieldOthersiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Copy all values of alt_PDEvars, except the first value after diffusion Only the first component of the PDEvars vector diffuses. This may be extended to diffuse any or all chemicals in an analogous way. </p>
+<p>Copy all values of alt_PDEvars, except the first value after diffusion.</p>
+<p>Only the first component of the PDEvars vector diffuses. This may be extended to diffuse any or all chemicals in an analogous way. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sizex</strong> – x-dimension of grid </p></li>
+<li><p><strong>sizey</strong> – y-dimension of grid </p></li>
+<li><p><strong>layers</strong> – Bumber of <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field layers </p></li>
+<li><p><strong>PDEvars</strong> – First <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field </p></li>
+<li><p><strong>alt_PDEvars</strong> – Second <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv49ODEstepFE13PDEFIELD_TYPE13PDEFIELD_TYPEdiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPEPiP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv39ODEstepFE13PDEFIELD_TYPE13PDEFIELD_TYPEdiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPEPiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv29ODEstepFE13PDEFIELD_TYPE13PDEFIELD_TYPEdiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPEPiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="ODEstepFE__PDEFIELD_TYPE.PDEFIELD_TYPE.double.i.i.i.PDEFIELD_TYPEP.PDEFIELD_TYPEP.iP.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1a17b993a9aa002d05571bcb914985dce7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ODEstepFE</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dt</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ddt</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">thetime</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">layers</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizey</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">PDEvars</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">alt_PDEvars</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">sigmafield</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">secr_rate</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">decay_rate</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv49ODEstepFE13PDEFIELD_TYPE13PDEFIELD_TYPEdiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPEPiP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Perform forward Euler step for a total of dt time in steps of size ddt. </p>
+<p>The forward Euler steps are computed with time step ddt for a total of dt time par.ddt must therefore divide par.dt/2. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dt</strong> – Total time for which the forward Euler steps are computed </p></li>
+<li><p><strong>ddt</strong> – Time steps in which time steps of a total of dt are computed </p></li>
+<li><p><strong>thetime</strong> – The current time </p></li>
+<li><p><strong>layers</strong> – Number of <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> variables </p></li>
+<li><p><strong>sizex</strong> – x-dimension of grid </p></li>
+<li><p><strong>sizey</strong> – y-dimension of grid </p></li>
+<li><p><strong>PDEvars</strong> – First <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field </p></li>
+<li><p><strong>alt_PDEvars</strong> – Second <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> field </p></li>
+<li><p><strong>sigmafield</strong> – Current CPM field </p></li>
+<li><p><strong>secr_rate</strong> – Secretion rates of chemicals </p></li>
+<li><p><strong>decay_rate</strong> – Decay rate of chemicals </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv424CopyAltToOriginalPDEvarsiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE">
+<span id="_CPPv324CopyAltToOriginalPDEvarsiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="_CPPv224CopyAltToOriginalPDEvarsiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE"></span><span id="CopyAltToOriginalPDEvars__i.i.i.PDEFIELD_TYPEP.PDEFIELD_TYPEP"></span><span class="target" id="pde__cuda_8cuh_1ae1d9a225b5aad4e1097fe150a619767a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CopyAltToOriginalPDEvars</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sizey</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">layers</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">PDEsource</span></span>, <span class="n"><span class="pre">PDEFIELD_TYPE</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">PDEtarget</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424CopyAltToOriginalPDEvarsiiiP13PDEFIELD_TYPEP13PDEFIELD_TYPE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Utitility function that copies alt_PDEvars to PDEvars. </p>
+<p>
+Utitility function that copies alt_PDEvars to PDEvars </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sizex</strong> – Grid size in x direction </p></li>
+<li><p><strong>sizey</strong> – Grid size in y direction </p></li>
+<li><p><strong>layers</strong> – Number of <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> variables </p></li>
+<li><p><strong>PDEsource</strong> – Source vector </p></li>
+<li><p><strong>PDEtarget</strong> – Target vector</p></li>
+<li><p><strong>sizex</strong> – x-dimension of grid </p></li>
+<li><p><strong>sizey</strong> – y-dimension of grid </p></li>
+<li><p><strong>layers</strong> – Number of <a class="reference internal" href="#classPDE"><span class="std std-ref">PDE</span></a> variables </p></li>
+<li><p><strong>PDEsource</strong> – Source field that is used for the copy </p></li>
+<li><p><strong>PDEtarget</strong> – Target field that is used for the copy </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv412pbuffersizeH">
+<span id="_CPPv312pbuffersizeH"></span><span id="_CPPv212pbuffersizeH"></span><span id="pbuffersizeH__s"></span><span class="target" id="pde__cuda_8cuh_1a328e0f5d6527e93b48c5b6dedd42659c"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pbuffersizeH</span></span></span><a class="headerlink" href="#_CPPv412pbuffersizeH" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Buffer size required for the horizontal ADI sweep. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv48pbufferH">
+<span id="_CPPv38pbufferH"></span><span id="_CPPv28pbufferH"></span><span id="pbufferH__voidP"></span><span class="target" id="pde__cuda_8cuh_1a88c30752e3718c0b947d7c465609368b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pbufferH</span></span></span><a class="headerlink" href="#_CPPv48pbufferH" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Location alloted to the buffer for the horizontal ADI sweep on the GPU. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv47statusH">
+<span id="_CPPv37statusH"></span><span id="_CPPv27statusH"></span><span id="statusH__cusparseStatus_t"></span><span class="target" id="pde__cuda_8cuh_1a460a71500380442a497c66f34556ed47"></span><span class="n"><span class="pre">cusparseStatus_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">statusH</span></span></span><a class="headerlink" href="#_CPPv47statusH" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Status of horizontal ADI sweep. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv47handleH">
+<span id="_CPPv37handleH"></span><span id="_CPPv27handleH"></span><span id="handleH__cusparseHandle_t"></span><span class="target" id="pde__cuda_8cuh_1a5905e688219720c31089c0cfd8dbc9d0"></span><span class="n"><span class="pre">cusparseHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">handleH</span></span></span><a class="headerlink" href="#_CPPv47handleH" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Handle for the horizontal ADI sweep. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv412pbuffersizeV">
+<span id="_CPPv312pbuffersizeV"></span><span id="_CPPv212pbuffersizeV"></span><span id="pbuffersizeV__s"></span><span class="target" id="pde__cuda_8cuh_1a6d422cdf5f7ced109d356fd2f3ae4191"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pbuffersizeV</span></span></span><a class="headerlink" href="#_CPPv412pbuffersizeV" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Buffer size required for the vertical ADI sweep. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv48pbufferV">
+<span id="_CPPv38pbufferV"></span><span id="_CPPv28pbufferV"></span><span id="pbufferV__voidP"></span><span class="target" id="pde__cuda_8cuh_1a027b751002628884474245c386d030f6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pbufferV</span></span></span><a class="headerlink" href="#_CPPv48pbufferV" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Location alloted to the buffer for the vertical ADI sweep on the GPU. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv47statusV">
+<span id="_CPPv37statusV"></span><span id="_CPPv27statusV"></span><span id="statusV__cusparseStatus_t"></span><span class="target" id="pde__cuda_8cuh_1a45873bca81f6fbb90fa76760479b48a0"></span><span class="n"><span class="pre">cusparseStatus_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">statusV</span></span></span><a class="headerlink" href="#_CPPv47statusV" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Status of vertical ADI sweep. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv47handleV">
+<span id="_CPPv37handleV"></span><span id="_CPPv27handleV"></span><span id="handleV__cusparseHandle_t"></span><span class="target" id="pde__cuda_8cuh_1a6ca751eb6b5e3ffd1ae60fe6f68e8943"></span><span class="n"><span class="pre">cusparseHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">handleV</span></span></span><a class="headerlink" href="#_CPPv47handleV" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Handle for the vertical ADI sweep. </p>
+</dd></dl>
+
+</div>
 </section>
 <section id="ecm-and-adhesion-code">
 <h2>ECM and adhesion code<a class="headerlink" href="#ecm-and-adhesion-code" title="Link to this heading">¶</a></h2>

@@ -33,8 +33,8 @@ General PDE code
    
 CUDA PDE code
 -----------------------------   
-.. doxygenfile::  reaction_diffusion/pde.cu
-   :project: Tissue-Simulation-Toolkit  
+.. doxygenfile::  reaction_diffusion/pde_cuda.cuh
+   :project: Tissue-Simulation-Toolkit
 
 ECM and adhesion code
 -----------------------

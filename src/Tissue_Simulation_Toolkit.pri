@@ -27,8 +27,8 @@ GRAPHICS = qt
 #PROFILING = enabled
 PROFILING = disabled
 
-USECUDA = enabled
-#USECUDA = disabled
+#USECUDA = enabled
+USECUDA = disabled
 
 LIBDIR = ../lib
 DESTDIR = ../bin
@@ -104,7 +104,7 @@ INCLUDEPATH += adhesions/ \
 contains( USECUDA, enabled ){
    # File(s) containing CUDA code
    CUDA_SOURCES = reaction_diffusion/pde_cuda.cu
-   CUDA_HEADERS = reaction_diffusion/pde_cuda.h
+   CUDA_HEADERS = reaction_diffusion/pde_cuda.cuh
 
    # Location of CUDA on system
    CUDA_DIR = $$system(which nvcc | sed 's,/bin/nvcc$,,')

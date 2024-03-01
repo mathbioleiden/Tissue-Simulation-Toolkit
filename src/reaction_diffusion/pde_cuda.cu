@@ -1,5 +1,5 @@
 #include "pde.cpp"
-#include "pde_cuda.h"
+#include "pde_cuda.cuh"
 // Allow the CPU implementation for the PDE solver when CUDA is enabled.
 #include <cuda_profiler_api.h>
 #include <cusparse.h>
