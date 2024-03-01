@@ -107,8 +107,19 @@ public:
 
   void MeasureChemConcentrations(void);
 
-  // MultiCellDS Functions
+  /**
+   * @brief Export a cell configuration to an .xml format annotated
+   * by the MultiCellDS format
+   * @param fname Filename
+   * Warning: This function is currently broken.
+   */
   void ExportMultiCellDS(std::string const &fname);
+  /**
+   * @brief Import a cell configuration from an .xml format annotated
+   * by the MultiCellDS format
+   * @param fname Filename
+   * Warning: This function is currently broken.
+   */
   void ImportMultiCellDS(std::string const &fname);
 
 protected:
@@ -116,11 +127,26 @@ protected:
   void SetCellOwner(Cell &which_cell);
 
 private:
-  bool CellLonelyP(const Cell &c, int **neighbours) const;
+  /**
+   * @brief Returns wheter or not a cell is isolated,
+   * @param c Cell object.
+   * @param neighbours Neighbours of the cell.
+   */
+  bool CellIsolated(const Cell &c, int **neighbours) const;
+  /**
+   * @brief Import a cell annoted in .xml format annoted by
+   * MulticellDS
+   * Warning: This function is currently broken.
+  */ 
   void MCDS_import_cell(MCDS_io *mcds, int cell_id);
+    /**
+   * @brief Export a cell annoted in .xml format annoted by
+   * MulticellDS
+   * Warning: This function is currently broken.
+  */
   void MCDS_export_cell(MCDS_io *mcds, Cell *cell);
+
   bool sizechange = false;
-  void anneal(int count);
 
 protected:
   //! The cells in the Petri dish; accessible to derived classes

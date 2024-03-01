@@ -159,11 +159,6 @@ public:
   //! \brief Get the adhesive area of a cell, used for act model.
   inline int GetAdhesiveArea() { return adhesive_area; }
 
-  inline void SetBorderNumber(double n) { border = n; }
-  inline double GetBorderNumber() { return border; }
-  inline void IncrementBorderNumber(double n) { border += n; }
-  inline void DecrementBorderNumber(double n) { border -= n; }
-
 
   //! Return the cell type of this Cell.
   inline int getTau(void) { return tau; }
@@ -237,8 +232,6 @@ public:
   al. 2000). The current version of TST does not include such functionality.
   */
   static void ClearJ(void);
-  double polarvec[9];
-  void RenormPolarVec(void);
 
   /*! \brief Returns the maximum cell identity number in the Dish.
     This would normally be the number of cells in the Dish, although
@@ -320,8 +313,6 @@ public:
     call this function to set the moments and areas right.
   */
   void MeasureCellSize(Cell &c);
-
-  void setArea(int n_area) { area = n_area; }
 
   //! Increments the cell's actual adhesive area by 1 unit.
   inline int IncrementAdhesiveArea(int increment) {
