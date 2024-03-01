@@ -187,7 +187,6 @@ void Dish::ClearGrads(void) {
   }
 }
 
-int Dish::ZygoteArea(void) const { return CPM->ZygoteArea(); }
 
 int Dish::Time(void) const { return CPM->Time(); }
 

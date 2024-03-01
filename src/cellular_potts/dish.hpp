@@ -67,8 +67,6 @@ public:
   //! \brief Erase all cells
   void Erase(void);
 
-  int ZygoteArea(void) const;
-
   //! Returns the number of completed Monte Carlo Steps.
   int Time(void) const;
 
