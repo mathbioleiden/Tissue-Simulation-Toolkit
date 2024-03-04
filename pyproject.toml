@@ -6,7 +6,8 @@ dependencies = [
     # "mpi4py",         # Optional, installed by Makefile if needed
     "muscle3==0.7.1",
     "numpy",
-    "scipy"
+    "scipy",
+    "pyqtgraph"
 ]
 
 [project.scripts]
@@ -15,6 +16,7 @@ simulate_ecm = "tissue_simulation_toolkit.ecm.simulate_ecm:main"
 state_viewer = "tissue_simulation_toolkit.cpm_ecm.state_viewer:main"
 state_dumper = "tissue_simulation_toolkit.cpm_ecm.state_dumper:main"
 plot_states = "tissue_simulation_toolkit.scripts.plot_states:main"
+stretch_ecm = "tissue_simulation_toolkit.ecm.stretch_ecm:main"
 
 
 [build-system]

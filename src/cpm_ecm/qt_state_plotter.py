@@ -56,6 +56,8 @@ class QtStatePlotter:
             Ly: Half-length in the y direction of the model domain
             img_height: Height of the image in pixels
         """
+        PyQt5.QtWidgets.QApplication.setStyle("Fusion") 
+        
         self._Lx = Lx
         self._Ly = Ly
         self._img_height = img_height
@@ -68,7 +70,7 @@ class QtStatePlotter:
              self._image_scale*self._img_width / self._dpi,
              self._image_scale*self._img_height / self._dpi,
         )
-
+        
         self._plotwidget = pg.plot(title="I should put a more descriptive title")
 
         viewbox = self._plotwidget.getViewBox()

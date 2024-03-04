@@ -287,7 +287,7 @@ void Plotter::Plot() {
     plotCPMCellTypes();
     plotCPMLines();
     plotPDEContourLines();
-    // plotActModel();
+    plotActModel();
 
     graphics->EndScene();
 }

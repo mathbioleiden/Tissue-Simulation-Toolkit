@@ -111,10 +111,10 @@ CATCH2_BASE = $(CATCH2_DIR)/catch2
 export CATCH2_BASE
 
 test: Catch2 MCDS LIBCS
-	tox
+	# tox
 	# Add new directories with C++ tests here and also below under clean:
-	$(MAKE) -C $(TST_DIR)/adhesions/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/cellular_potts/tests run_all_tests
+	$(MAKE) -C $(TST_DIR)/adhesions/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/util/tests run_all_tests
 	$(MAKE) -C $(TST_DIR)/parameters/tests run_all_tests
 

@@ -496,7 +496,6 @@ class Simulation:
             self._boundary.add_adhesions(snapshot, selected_changes)
 
         tb = monotonic_ns()
-        _logger.debug(f'apply_particle_type_changes took {(tb - ta) * 1e-6} ms')
 
     def _apply_adhesion_particle_moves(
             self, move_adhesion_particles: MoveAdhesionParticles,
