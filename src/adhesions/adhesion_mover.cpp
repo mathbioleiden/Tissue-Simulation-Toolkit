@@ -133,7 +133,7 @@ double compute_yielding_penalty(const std::vector<AdhesionWithEnvironment> adhes
 
     Integrin resisting = std::max(0, total - par.adhesion_integrin_N0);
     // The 1.0 (with .0) makes the division a division of doubles instead of division of ints.
-    double fraction(resisting / (1.0 + resisting));
+    double fraction(resisting / (par.adhesion_yielding_Nh + resisting));
 
     return fraction * par.adhesion_yielding_lambda;
 }

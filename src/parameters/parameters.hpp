@@ -222,6 +222,7 @@ SECTION("Adhesion yielding")
     
     PARAMETER(int, adhesion_yielding_lambda, 0, \
             "The scale for the amount of work required for an adhesion to yield.")
+    PARAMETER(int, adhesion_yielding_Nh, 1, "Saturation parameter");
 
     PARAMETER(int, adhesion_integrin_N0, 50, \
             "The number of bound integrin for a nascent adhesions")
