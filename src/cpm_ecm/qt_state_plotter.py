@@ -15,6 +15,7 @@ from typing import List, Optional
 
 import PyQt5
 import pyqtgraph as pg
+from pyqtgraph.exporters import Exporter
 
 import numpy as np
 import numpy.typing as npt
@@ -58,6 +59,9 @@ class QtStatePlotter:
         """
         PyQt5.QtWidgets.QApplication.setStyle("Fusion") 
         
+
+        
+
         self._Lx = Lx
         self._Ly = Ly
         self._img_height = img_height
@@ -67,21 +71,31 @@ class QtStatePlotter:
         offset = 0.0
 
         self._figsize = (
-             self._image_scale*self._img_width / self._dpi,
-             self._image_scale*self._img_height / self._dpi,
+             int(self._image_scale*self._img_width / self._dpi),
+             int(self._image_scale*self._img_height / self._dpi),
         )
+        print(self._figsize)
         
+        # app = pg.mkQApp()
         self._plotwidget = pg.plot(title="I should put a more descriptive title")
 
-        viewbox = self._plotwidget.getViewBox()
-        viewbox.setAspectLocked(lock=True, ratio=1)
-        viewbox.setDefaultPadding(padding=0)
+        # self.mainwindow = PyQt5.QtWidgets.QMainWindow()
+        # self.mainwindow.setGeometry(0,0, self._figsize[0], self._figsize[1])
+        # self.mainwindow.setCentralWidget(self._plotwidget)
 
-        viewbox.setFixedWidth(self._figsize[0])
-        viewbox.setFixedHeight(self._figsize[1])
+        view = self._plotwidget.getPlotItem().getViewWidget()
+        view.setFixedWidth(self._figsize[0])
+        view.setFixedHeight(self._figsize[1])
+        # view.setAspectLocked(lock=True, ratio=1)
+        # viewbox = self._plotwidget.getViewBox()
+        # viewbox.setAspectLocked(lock=True, ratio=1)
+        # viewbox.setDefaultPadding(padding=0)
+
+        # viewbox.setFixedWidth(self._figsize[0])
+        # viewbox.setFixedHeight(self._figsize[1])
 
         # Disable auto-ranging
-        self._plotwidget.enableAutoRange(x=False, y=False)
+        # self._plotwidget.enableAutoRange(x=False, y=False)
 
         self._plotwidget.hideAxis("left")
         self._plotwidget.hideAxis("bottom")
@@ -89,11 +103,12 @@ class QtStatePlotter:
         self._plotwidget.hideAxis("top")
 
         self._plotwidget.setBackground("white")
-        self._plotwidget.setXRange(-offset*self._image_scale, self._image_scale*(offset + 2 * self._Lx))
+        self._plotwidget.getPlotItem().setXRange(0, self._image_scale*2*self._Lx, padding=0.0)
 
         # flip y-axis to match TST graphics
-        self._plotwidget.setYRange(-offset*self._image_scale,self._image_scale*( 2 * self._Ly + offset))
-        self._plotwidget.invertY()
+        # self._plotwidget.setYRange(-offset*self._image_scale,self._image_scale*( 2 * self._Ly + offset))
+        self._plotwidget.getPlotItem().setYRange(0, self._image_scale*2*self._Ly,padding=0.0)
+        #self._plotwidget.invertY()
 
     def draw(
         self,
@@ -131,7 +146,17 @@ class QtStatePlotter:
             if out_dir is None:
                 raise RuntimeError("Trying to save image, but no out_dir specified")
             file_name = str(out_dir / f"state_{i:05d}.png")
-            self._plotwidget.writeImage(file_name)
+            print(self._plotwidget.viewRange())
+            exporter = pg.exporters.ImageExporter(self._plotwidget.getPlotItem())
+            
+            print(self._plotwidget.getPlotItem().getViewWidget().rect())
+
+            
+            # set export parameters if needed
+            # exporter.parameters()['aspectratio'] = 1.0
+            exporter.parameters()['width'] = self._figsize[0]
+            # self._plotwidget.writeImage(file_name)
+            exporter.export(file_name)
 
         if draw:
             pass
