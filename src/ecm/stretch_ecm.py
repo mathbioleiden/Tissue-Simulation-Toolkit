@@ -59,7 +59,7 @@ def stretch_network(sim: Simulation,par: EvolutionParameters, stretch_steps: int
         for k, tp in enumerate(tagged_particles):
             move_adhesion_particles.new_pos[k,:] = ecm.particles.positions[tp.index, :] + np.array(tp.direction)
             move_adhesion_particles.par_id[k]  = tp.index
-            _logger.info("Request particle %s to move from %s to %s " % (tp.index, ecm.particles.positions[tp.index, :],move_adhesion_particles.new_pos[k, :]))
+            _logger.debug("Request particle %s to move from %s to %s " % (tp.index, ecm.particles.positions[tp.index, :],move_adhesion_particles.new_pos[k, :]))
 
         interactions = CellECMInteractions(
             ChangeTypeInArea(),

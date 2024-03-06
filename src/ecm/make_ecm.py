@@ -2,7 +2,7 @@ from tissue_simulation_toolkit.ecm.muscle3 import from_settings
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
 from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
-from ecmgen import random_network, single_strand, Network, single_spring
+from ecmgen import random_network, single_strand, Network, single_spring, ISV_network
 
 
 from libmuscle import Instance, Message
@@ -122,6 +122,20 @@ def main():
                 number_of_beads_per_strand=par.beads,
                 contour_length_of_strand=(par.beads - 1) * par.spring_r0,
                 seed=None,
+            )
+        elif nettype == "ISV_network":
+            net = ISV_network(
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                number_of_beads_per_strand=par.beads,
+                number_of_strands=par.strands,
+                contour_length_of_strand=par.contour_length,
+                crosslink_max_r=par.crosslink_max_r,
+                maximal_number_of_initial_crosslinks=par.num_init_crosslinks,
+                crosslink_bin_size=par.crosslink_bin_size,
+                seed=par.network_seed,
+                fix_boundary=par.fixed_boundary,
+                spread_xaxis=instance.get_setting("ISV_xaxis_spread", "float"),
             )
 
         instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par, net)))
