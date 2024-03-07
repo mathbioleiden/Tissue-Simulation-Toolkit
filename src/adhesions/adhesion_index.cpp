@@ -76,11 +76,11 @@ std::unordered_map<ParId, std::vector<BondId>> make_bond_index(
 
         ParticleType p1_type = ecm_boundary.particles.at(bond.p1).type;
         bool p1_adh = p1_type == ParticleType::adhesion;
-        bool p1_unfit = p1_adh || (p1_type == ParticleType::excluded);
+        bool p1_unfit = (p1_type == ParticleType::excluded); //|| p1_adh;
 
         ParticleType p2_type = ecm_boundary.particles.at(bond.p2).type;
         bool p2_adh = p2_type == ParticleType::adhesion;
-        bool p2_unfit = p2_adh || (p2_type == ParticleType::excluded);
+        bool p2_unfit = (p2_type == ParticleType::excluded); // || p2_adh;
 
         if (p1_adh && !p2_unfit)
             bond_index[bond.p1].push_back(bid);
@@ -101,11 +101,11 @@ std::unordered_map<ParId, std::vector<AngleCstId>> make_angle_cst_index(
 
         ParticleType p1_type = ecm_boundary.particles.at(angle_cst.p1).type;
         bool p1_adh = p1_type == ParticleType::adhesion;
-        bool p1_unfit = p1_adh || (p1_type == ParticleType::excluded);
+        bool p1_unfit = p1_adh; // || (p1_type == ParticleType::excluded);
 
         ParticleType p3_type = ecm_boundary.particles.at(angle_cst.p3).type;
         bool p3_adh = p3_type == ParticleType::adhesion;
-        bool p3_unfit = p3_adh || (p3_type == ParticleType::excluded);
+        bool p3_unfit = p3_adh; //|| (p3_type == ParticleType::excluded);
 
         if (p1_adh && !p3_unfit)
             angle_cst_index[angle_cst.p1].push_back(aid);
