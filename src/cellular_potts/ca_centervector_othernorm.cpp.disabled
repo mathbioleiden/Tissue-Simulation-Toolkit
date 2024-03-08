@@ -1954,7 +1954,7 @@ Dir *CellularPotts::FindCellDirections(void) const
     MemoryWarning();
 
 
-  /* Initialization of the variables */
+  /* Initialisation of the variables */
 
   for (int i=0;i<(int)cell->size();i++) {
 
@@ -2339,7 +2339,7 @@ bool CellularPotts::ConnectivityPreservedP(int x, int y) {
 
   static int stack[8]; // stack to count number of different surrounding cells
   int stackp=-1;
-  bool one_of_neighbors_medium=false;
+  bool one_of_neighbours_medium=false;
 
   for (int i=1;i<=8;i++) {
     int xcn=x+cyc_nx[i];
@@ -2395,12 +2395,12 @@ bool CellularPotts::ConnectivityPreservedP(int x, int y) {
 	stack[++stackp]=s_nb;
       }
     } else {
-      one_of_neighbors_medium=true;
+      one_of_neighbours_medium=true;
     }
   }
 
   // number of different neighbours is stackp+1;
-  if (n_borders>2 && ( (stackp+1)>2 || one_of_neighbors_medium) ) {
+  if (n_borders>2 && ( (stackp+1)>2 || one_of_neighbours_medium) ) {
     return false;
   }
   else
@@ -2426,7 +2426,7 @@ bool CellularPotts::ConnectivityPreservedPCluster(int x, int y) {
 
   static int stack[8]; // stack to count number of different surrounding cells
   int stackp=-1;
-  bool one_of_neighbors_medium=false;
+  bool one_of_neighbours_medium=false;
 
   for (int i=1;i<=8;i++) {
     int xcn=x+cyc_nx[i];
@@ -2464,7 +2464,7 @@ yncn=yncn-sizey+2;}
     }
     int j;
     bool on_stack_p=false;
-    // cout << "i="<<i <<" s_nb="<< s_nb << " stack p" << stackp << " j initialized as " << j<< endl;
+    // cout << "i="<<i <<" s_nb="<< s_nb << " stack p" << stackp << " j initialised as " << j<< endl;
     // we need the next heuristic to prevent stalling at
     // cell-cell borders
     // do not enforce constraint at two cell interface(no medium)
@@ -2485,12 +2485,12 @@ yncn=yncn-sizey+2;}
       }
     }
     else {
-      one_of_neighbors_medium=true;
+      one_of_neighbours_medium=true;
     }
   }
 
   // number of different neighbours is stackp+1;
-  if (n_borders>2 && ( (stackp+1)>2 || one_of_neighbors_medium) ) {
+  if (n_borders>2 && ( (stackp+1)>2 || one_of_neighbours_medium) ) {
     return false;
   }
   else

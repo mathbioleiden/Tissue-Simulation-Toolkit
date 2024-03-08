@@ -14,7 +14,7 @@ ifneq "$(filter $(MAKECMDGOALS),clean)" "clean"
     CXXFLAGS := $(CATCH2_INCLUDES) $(CXXFLAGS) -g
     CXXFLAGS += -I. -I.. -I../.. -I../../graphics -I../../models
     CXXFLAGS += -I../../parameters -I../../plotting -I../../reaction_diffusion
-    CXXFLAGS += -I../../util -I../../xpm -I../../compute -I../../cellular_potts
+    CXXFLAGS += -I../../util -I../../spatial -I../../xpm -I../../compute -I../../cellular_potts
     CXXFLAGS += -I../../../lib/MultiCellDS/v1.0/v1.0.0/libMCDS/mcds_api/
     CXXFLAGS += -I../../../lib/MultiCellDS/v1.0/v1.0.0/libMCDS/xsde/libxsde
     LDFLAGS := $(CATCH2_LIBS) $(LDFLAGS)

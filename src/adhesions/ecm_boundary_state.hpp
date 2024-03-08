@@ -5,7 +5,6 @@
 #include <array>
 #include <unordered_map>
 
-
 /// Typedef for particle ids, for clarity
 typedef int ParId;
 
@@ -20,7 +19,6 @@ typedef int AngleCstTypeId;
 
 ///// Typedef for angle constraint ids, for clarity
 typedef int AngleCstId;
-
 
 /** Types of particles in the ECM.
  *
@@ -40,13 +38,7 @@ typedef int AngleCstId;
  *   used as a marker to remove particles that e.g. would be inside a cell,
  *   which shouldn't happen.
  */
-enum class ParticleType {
-    free = 0,
-    boundary = 1,
-    adhesion = 2,
-    excluded = 3
-};
-
+enum class ParticleType { free = 0, boundary = 1, adhesion = 2, excluded = 3 };
 
 typedef int Integrin;
 
@@ -74,7 +66,6 @@ struct Particle {
     Integrin size;
 };
 
-
 /** Defines a type of bond.
  *
  * Bonds are linear compression/tension springs with given length and spring
@@ -94,7 +85,6 @@ struct BondType {
     double k;
 };
 
-
 /** Defines a bond.
  *
  * A bond connects two particles and is of a given type.
@@ -113,17 +103,13 @@ struct Bond {
     BondTypeId type;
 };
 
-
 /** Special named bond types in the ECM.
  *
  * Some bond types are treated specially by the code, and they're named here
  * for convenience. The numerical value is the bond type id (see
  * MDState::bond_types).
  */
-enum class NamedBondTypes : BondTypeId {
-    fiber = 0
-};
-
+enum class NamedBondTypes : BondTypeId { fiber = 0 };
 
 /** Defines a type of angle constraint.
  *
@@ -133,17 +119,17 @@ enum class NamedBondTypes : BondTypeId {
  * angle.
  */
 struct AngleCstType {
-    /// Create an uninitialised angle constraint type
-    AngleCstType() = default;
+  /// Create an uninitialised angle constraint type
+  AngleCstType() = default;
 
-    /// Create an angle constraint type with given parameters
-    AngleCstType(double t0, double k);
+  /// Create an angle constraint type with given parameters
+  AngleCstType(double t0, double k);
 
-    /// Rest angle
-    double t0;
+  /// Rest angle
+  double t0;
 
-    /// Spring constant (stiffness)
-    double k;
+  /// Spring constant (stiffness)
+  double k;
 };
 
 
@@ -165,7 +151,6 @@ struct AngleCst {
     /// Constraint type
     AngleCstTypeId type;
 };
-
 
 /** Boundary of the MD representation of the extracellular matrix (ECM).
  *
@@ -227,4 +212,3 @@ struct ECMBoundaryState {
      */
     std::unordered_map<AngleCstId, AngleCst> angle_csts;
 };
-

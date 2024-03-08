@@ -7,44 +7,39 @@
 #include "ca.hpp"
 #include "pde.hpp"
 
-Plotter::Plotter(Dish *dish_pointer, Graphics *graphics_pointer)
-{
-    extern Parameter par;
-    dish = dish_pointer;
-    graphics = graphics_pointer;
+Plotter::Plotter(Dish *dish_pointer, Graphics *graphics_pointer) {
+  extern Parameter par;
+  dish = dish_pointer;
+  graphics = graphics_pointer;
 #ifdef GLGRAPHICS
-    glgraphics = (GLGraphics *)graphics;
+  glgraphics = (GLGraphics *)graphics;
 #endif
 #ifdef QTGLGRAPHICS
-    glgraphics = (QtGLGraphics *)graphics;
+  glgraphics = (QtGLGraphics *)graphics;
 #endif
-    sigma_col = new int[par.sizex * par.sizey];
+  sigma_col = new int[par.sizex * par.sizey];
 }
 
 #if defined(GLGRAPHICS) || defined(QTGLGRAPHICS)
 
-void Plotter::plotPDEDensity()
-{
-    glgraphics->DensityPlot(dish->PDEfield->getSigma()[0][0], par.sizex,
-                            par.sizey, 0, 0, 0.3);
+void Plotter::plotPDEDensity() {
+  glgraphics->DensityPlot(dish->PDEfield->getSigma()[0][0], par.sizex,
+                          par.sizey, 0, 0, 0.3);
 }
 
-void Plotter::plotCPMLines()
-{
-    glgraphics->cpmLinePlot(dish->CPM->getSigma()[0], par.sizex, par.sizey, 0,
-                            0, 0);
+void Plotter::plotCPMLines() {
+  glgraphics->cpmLinePlot(dish->CPM->getSigma()[0], par.sizex, par.sizey, 0, 0,
+                          0);
 }
 
-void Plotter::plotPDEContourLines()
-{
-    glgraphics->contourPlot(dish->PDEfield->getSigma()[0][0], par.sizex,
-                            par.sizey, 0, 1.0, 0.0);
+void Plotter::plotPDEContourLines() {
+  glgraphics->contourPlot(dish->PDEfield->getSigma()[0][0], par.sizex,
+                          par.sizey, 0, 1.0, 0.0);
 }
 
-void Plotter::plotCPMCellTypes()
-{
-    dish->CPM->fillCellColArr(sigma_col);
-    glgraphics->intPlot(sigma_col, par.sizex, par.sizey);
+void Plotter::plotCPMCellTypes() {
+  dish->CPM->fillCellColArr(sigma_col);
+  glgraphics->intPlot(sigma_col, par.sizex, par.sizey);
 }
 
 #else

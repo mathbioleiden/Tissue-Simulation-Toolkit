@@ -12,7 +12,6 @@
 #include <unordered_map>
 #include <vector>
 
-
 /** A bond from the perspective of a particle it's attached to.
  *
  * This also implements the linear-spring physics of the bonds.

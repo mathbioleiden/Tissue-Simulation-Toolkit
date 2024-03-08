@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cellular Potts - Extracellular Matrix coupled simulation &#8212; Tissue-Simulation-Toolkit 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=51b770b3"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Source code documentation" href="sourcecode.html" />
+    <link rel="prev" title="C++ unit tests" href="cplusplus_tests.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="cellular-potts-extracellular-matrix-coupled-simulation">
+<h1>Cellular Potts - Extracellular Matrix coupled simulation<a class="headerlink" href="#cellular-potts-extracellular-matrix-coupled-simulation" title="Link to this heading">¶</a></h1>
+<p>The Cellular Potts Model (CPM) models one or more cells sitting on or in a
+substrate. In an organism, that substrate is the Extracellular Matrix (ECM). In
+the CPM, this matrix isn’t represented explicitly, which limits the amount of
+detail with which cell-ECM interactions can be modelled.</p>
+<p>The Tissue Simulation Toolkit solves this by adding a separate simulation of the
+ECM using coarse-grained molecular dynamics (MD). CPM cells can then form
+adhesions with which they can grab the ECM, thus applying a force to it, which
+is resisted by the ECM resulting in a counterforce. As the simulations run,
+these forces are exchanged as boundary conditions between the models.</p>
+<section id="simulation-design">
+<h2>Simulation design<a class="headerlink" href="#simulation-design" title="Link to this heading">¶</a></h2>
+<p>The CPM-ECM coupled simulation has two main components: the CPM and the ECM. The
+CPM models the cells and their adhesions on a grid of pixels, with each pixel
+containing the number of the cell it is a part of, or 0 if there is no cell
+present.</p>
+<p>The ECM is represented by a large number of simulated collagen fibrils, each
+represented by a small number of particles connected by bonds, which resist
+stretching, compression and bending loads. The fibrils are connected by
+crosslinkers to create a coherent material.</p>
+<p>Cells in the CPM can form adhesions, which are represented by a particle as
+well. This particle is connected to a CPM cell occupying the pixel it is inside
+of, and can be connected to the beads in the ECM fibrils by a bond. These bonds
+are modelled as linear springs, which stretch or compress as the cell tries to
+move.</p>
+<p>The models influence each other via the forces created by the bonds between
+the adhesion beads. If a cell in the CPM wants to move an adhesion particle,
+then it needs to stretch the bond(s) it is attached to, and the energy this
+takes is taken into account in the copy attempt. Likewise, if the ECM wants to
+move a fibril particle that is bonded to an adhesion, then it will have to
+stretch or compress the bond spring accordingly.</p>
+<p>Thus, the models occupy adjacent domains and exchange boundary conditions in the
+form of forces between MD particles. The ECM “sees” the adhesion particles of
+the CPM, while the CPM “sees” any fibril particles that share a bond or angle
+constraint with the ECM. This collection of adhesion and associated fibril
+particles we call the <em>boundary</em>.</p>
+<section id="coupling">
+<h3>Coupling<a class="headerlink" href="#coupling" title="Link to this heading">¶</a></h3>
+<p>A coupled simulation run starts with creating an initial ECM, which is done by a
+separate component (see below). The ECM is then equilibrated using the main
+simulation code, after which the CPM and the ECM run in parallel. After
+initialising (which is done internally for the CPM), the CPM sends a set of
+interaction attempts to the ECM model. These can be the creation of new
+adhesions, or movement of existing ones <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. At the same time, the ECM sends
+to the CPM the current location of all the fibril particles in the boundary, as
+well as the bonds and angle constraints involving them.</p>
+<p>The CPM stores the locations of the boundary particles and associated
+constraints in a data structure called the <code class="docutils literal notranslate"><span class="pre">AdhesionIndex</span></code>, which stores them
+in a form that allows for efficient access for calculating forces on the
+adhesion particles. The ECM meanwhile updates its state based on the requested
+interactions.</p>
+<p>Now both models run, the CPM performing one Monte Carlo step (MCS) and the ECM
+running a number of timesteps to re-equilibrate the forces between the
+particles. During the MCS, the CPM considers the fibrils to be fixed in space,
+it only (potentially) moves the adhesion particles. Vice versa, the adhesion
+particles are fixed in the ECM model, which only moves the fibrils.</p>
+<p>When the MCS and equilibration are done, the models loop back and communicate
+again as described above, and this process is repeated for however many
+timesteps are set in the configuration.</p>
+</section>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">¶</a></h2>
+<section id="muscle3-coupling">
+<h3>MUSCLE3 coupling<a class="headerlink" href="#muscle3-coupling" title="Link to this heading">¶</a></h3>
+<p>The CPM-ECM coupled simulation is implemented using the MUSCLE3 model coupling
+framework. MUSCLE3 coupled simulations consist of separate, independent programs
+that exchange messages as they run. The simulation consists of three main
+programs, plus an additional optional one that produces output. The main
+programs are <code class="docutils literal notranslate"><span class="pre">make_ecm</span></code>, which makes the initial extracellular matrix,
+<code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code>, which is used to equilibrate the initial ECM and also to
+simulate its behaviour during the main part of the run, and <code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code>,
+which simulates the cells.</p>
+<p>MUSCLE3 calls these programs simulation components, or components for short.
+Components communicate by sending messages to each other. Each component has a
+set of named <em>ports</em>, which it can send messages to or receive messages from.
+The MUSCLE3 configuration file specifies which components there are, and how
+their ports are connected. By changing the configuration file, the connections
+between the components can be changed as needed to do different kinds of things.</p>
+<p>The current simulation is defined in <code class="docutils literal notranslate"><span class="pre">src/models/adhesions.ymmsl.in</span></code>. It
+describes all four components described above, and then connects them together.
+The <code class="docutils literal notranslate"><span class="pre">make_ecm</span></code> component has a port named <code class="docutils literal notranslate"><span class="pre">ecm_out</span></code> on which it sends the
+ECM it creates. This port is associated with the so-called <code class="docutils literal notranslate"><span class="pre">o_f</span></code> <em>operator</em>,
+which specifies that this port is used to send the Final Output of the
+component. This port gets connected (via a <em>conduit</em>, which is a tube that the
+messages pass through from one port to another) to the <code class="docutils literal notranslate"><span class="pre">ecm_in</span></code> port on the
+<code class="docutils literal notranslate"><span class="pre">equilibrate_ecm</span></code> component. This <code class="docutils literal notranslate"><span class="pre">ecm_in</span></code> is an <code class="docutils literal notranslate"><span class="pre">f_init</span></code> port, meaning
+that <code class="docutils literal notranslate"><span class="pre">equilibrate_ecm</span></code> can receive messages on it that it uses to initialise
+its state at the beginning of the run.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">equilibrate_ecm</span></code> component then runs a number of MD steps to equilibrate
+the forces, during which it doesn’t communicate, and then it sends the final
+result on its <code class="docutils literal notranslate"><span class="pre">ecm_out</span></code> port (also <code class="docutils literal notranslate"><span class="pre">o_f</span></code> of course). This port is connected
+to the <code class="docutils literal notranslate"><span class="pre">ecm_in</span></code> port of <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code>, which initialises itself using the
+received equilibrated ECM data (and so that <code class="docutils literal notranslate"><span class="pre">ecm_in</span></code> port is an <code class="docutils literal notranslate"><span class="pre">f_init</span></code>
+port).  <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> then goes and runs, and while it does so it
+communicates with <code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code> model has its own built-in initialisation, so it does not
+have any <code class="docutils literal notranslate"><span class="pre">f_init</span></code> ports. It does have three other ports though, which are for
+communicating inside of its main loop (the one that does Monte Carlo steps). The
+first one of these is called <code class="docutils literal notranslate"><span class="pre">cell_ecm_interactions_out</span></code>, and it is used to,
+at each MCS, send the desired interactions with the ECM. This is not the final
+output but an intermediate one, so it’s an <code class="docutils literal notranslate"><span class="pre">o_i</span></code> type port. Then there is
+<code class="docutils literal notranslate"><span class="pre">state_out</span></code>, which is used once in a while to send out the entire state (see
+below). Finally there is an <code class="docutils literal notranslate"><span class="pre">ecm_boundary_state_in</span></code> port, on which
+<code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code> receives the current state of the boundary between the ECM
+and the CPM (more on that below). This is of type <code class="docutils literal notranslate"><span class="pre">s</span></code>, because the information
+received is used during the subsequent state update.</p>
+<p>As you can imagine, <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> has the opposite ports: an
+<code class="docutils literal notranslate"><span class="pre">ecm_boundary_state_out</span></code> to send the state of the boundary particles (of type
+<code class="docutils literal notranslate"><span class="pre">o_i</span></code>, this being an intermediate output), and a <code class="docutils literal notranslate"><span class="pre">cell_ecm_interactions_in</span></code>
+to receive the interactions (of type <code class="docutils literal notranslate"><span class="pre">s</span></code>). Like <code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code>,
+<code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> has a <code class="docutils literal notranslate"><span class="pre">state_out</span></code> port on which it periodically sends its
+whole state.</p>
+<p>As a result of this coupling scheme, the simulation runs by first running
+<code class="docutils literal notranslate"><span class="pre">make_ecm</span></code>, then <code class="docutils literal notranslate"><span class="pre">equilibrate_ecm</span></code>, and then <code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code> and
+<code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> simultaneously and in lock-step.</p>
+<p>The yMMSL file consists of three more sections, <code class="docutils literal notranslate"><span class="pre">settings</span></code>, <code class="docutils literal notranslate"><span class="pre">resources</span></code> and
+<code class="docutils literal notranslate"><span class="pre">implementations</span></code>. The <code class="docutils literal notranslate"><span class="pre">settings</span></code> are essentially a dictionary containing
+named values that can be used by the models. If an entry here starts with the
+name of a component, followed by a period and the name of the setting, then that
+setting applies specifically to that component. Otherwise, it applies to all of
+them. The TST C++ code has its own Parameters system (see
+<code class="docutils literal notranslate"><span class="pre">src/util/parameters.hpp</span></code>), which for the <code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code> model these
+parameters are loaded into. As a result, you only need to set them once in the
+yMMSL file, and they’ll show up everywhere automatically.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">resources</span></code> section specifies how many cores to use for each component. By
+default, the components all run as single-threaded programs, but for larger
+simulations the <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> program can be run with MPI, in which case it
+can use multiple cores. See <a class="reference internal" href="#going-faster">Going faster</a> below.</p>
+<p>Finally, the <code class="docutils literal notranslate"><span class="pre">implementations</span></code> section specifies how to start the different
+programs. For the Python programs, it activates the virtualenv at <code class="docutils literal notranslate"><span class="pre">venv/</span></code>
+(which all the Python code gets installed into, see the documentation on the
+build system) and runs a command (these are mapped to a specific Python function
+in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>). For the C++ code, it needs to set the
+<code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> to make MUSCLE3 available, and then it runs the executable
+in <code class="docutils literal notranslate"><span class="pre">bin/</span></code>. There are also some configurations for debugging and profiling,
+which are explained below in <a class="reference internal" href="#developing">Developing</a>.</p>
+<p>So this defines the overall structure. The rest of this section describes the
+components in more detail.</p>
+</section>
+<section id="cellular-potts-model">
+<h3>Cellular Potts Model<a class="headerlink" href="#cellular-potts-model" title="Link to this heading">¶</a></h3>
+<p>The CPM side of the simulation consists mostly of the <code class="docutils literal notranslate"><span class="pre">CellularPotts</span></code> class
+from TST, with an additional extension for computing the work required to move
+the adhesion particles. The source code for this can be found in the
+<code class="docutils literal notranslate"><span class="pre">src/adhesions/</span></code> directory.</p>
+<p>As described above, there are two things the CPM needs to do: 1) receive the
+locations of the particles in the boundary, and calculate the work required to
+move the adhesions, and 2) move the adhesions, and keep track of these moves so
+that they can be sent to the ECM.</p>
+<p>Part 1) starts with receiving an <code class="docutils literal notranslate"><span class="pre">ECMBoundaryState</span></code> object with the particles
+and the bonds. This is passed to an <code class="docutils literal notranslate"><span class="pre">AdhesionMover</span></code>, which is the main class
+implementing the adhesions. It uses the received data to (re)build its
+<code class="docutils literal notranslate"><span class="pre">AdhesionIndex</span></code>, which stores that data in an efficient-to-access way and
+which can use that stored data to calculate the work required to move an
+adhesion particle.</p>
+<p>The CPM simulation can then ask the <code class="docutils literal notranslate"><span class="pre">AdhesionMover</span></code> to calculate the
+additional work required to copy a cell that has an adhesion particle in it,
+and/or to copy a cell onto a cell that has an adhesion particle in it. This
+entails choosing whether and where to move the adhesion, the logic for which is
+in a number of functions in <code class="docutils literal notranslate"><span class="pre">adhesion_movement.cpp</span></code>, and the <code class="docutils literal notranslate"><span class="pre">AdhesionIndex</span></code>
+is used to calculate the resulting energy requirement.</p>
+<p>Part 2) starts when an adhesion is moved. As this move needs to be taken into
+account for subsequent copy attempts, the <code class="docutils literal notranslate"><span class="pre">AdhesionIndex</span></code> needs to be updated,
+so that is done by the <code class="docutils literal notranslate"><span class="pre">AdhesionMover</span></code>. The <code class="docutils literal notranslate"><span class="pre">AdhesionIndex</span></code> has an
+<code class="docutils literal notranslate"><span class="pre">ECMInteractionTracker</span></code> which keeps track of the changes that were made. At
+the end of the Monte Carlo step, <code class="docutils literal notranslate"><span class="pre">CellularPotts</span></code> will ask the
+<code class="docutils literal notranslate"><span class="pre">AdhesionMover</span></code> for these changes, which will get them from its
+<code class="docutils literal notranslate"><span class="pre">AdhesionIndex</span></code> which gets them from the <code class="docutils literal notranslate"><span class="pre">ECMInteractionTracker</span></code>. The
+tracker is then reset for the next MCS.</p>
+<p>The main program for the CPM side of the coupled simulation is in
+<code class="docutils literal notranslate"><span class="pre">src/models/adhesions.cpp</span></code>. This is currently basically the <code class="docutils literal notranslate"><span class="pre">chemotaxis.cpp</span></code>
+model, but with additional code for communicating with the ECM. When running
+with MUSCLE3, no <code class="docutils literal notranslate"><span class="pre">.par</span></code> file is used. Instead, parameter values are obtained
+from MUSCLE3 via its settings mechanism (see <a class="reference internal" href="#muscle3-coupling">MUSCLE3 coupling</a>) and loaded
+into the TST parameters object via a utility function in
+<code class="docutils literal notranslate"><span class="pre">src/util/muscle3/settings.hpp</span></code>.</p>
+<p>On timestep zero, the CPM sends a special interaction request which asks the ECM
+to randomly convert a number of fibril particles into adhesion particles.
+Conceptually, this is a bit funny, but it’s what was done in the original TST-MD
+code as a way of getting started. This and moving adhesions are currently the
+only kinds of interactions implemented, so a bit of work needs to be done to be
+able to dynamically add and remove adhesion particles. This is left as an
+exercise for the reader :).</p>
+<p>Note that the code in <code class="docutils literal notranslate"><span class="pre">src/models/adhesions.cpp</span></code> is a bit messy, and not a
+nice example of what a MUSCLE3 simulation component should look like. This is
+currently the way that TST models are written, so it is what it is at least for
+now. MUSCLE3 was designed to be flexible though specifically to cater to this
+situation, so it all does work.</p>
+</section>
+<section id="extracellular-matrix">
+<h3>Extracellular matrix<a class="headerlink" href="#extracellular-matrix" title="Link to this heading">¶</a></h3>
+<p>The ECM simulation is implemented in Python using the hoomd particle simulator.
+The implementation can be found in <code class="docutils literal notranslate"><span class="pre">src/ecm/</span></code>. The <code class="docutils literal notranslate"><span class="pre">Simulation</span></code> class
+implements the simulation of the ECM. It is initialised with an initial ECM via
+an object of type <code class="docutils literal notranslate"><span class="pre">MDState</span></code>, and it receives a set of parameters governing its
+operation. <code class="docutils literal notranslate"><span class="pre">apply_interactions()</span></code> can be used to apply a received interaction
+request represented by a <code class="docutils literal notranslate"><span class="pre">CellECMInteractions</span></code> object, after which the
+<code class="docutils literal notranslate"><span class="pre">run()</span></code> method runs a number of timesteps set by the parameters, and then
+<code class="docutils literal notranslate"><span class="pre">get_boundary_state()</span></code> is used to extract the state of the adhesion particles
+and the fibril particles attached to them as an object of class
+<code class="docutils literal notranslate"><span class="pre">ECMBoundaryState</span></code>, for sending to the CPM.</p>
+<p>The state of the ECM, i.e. the particles and bonds and angle constraints and
+their types, are kept by <code class="docutils literal notranslate"><span class="pre">hoomd</span></code>, possibly on the GPU. <code class="docutils literal notranslate"><span class="pre">Simulation</span></code> uses an
+instance of class <code class="docutils literal notranslate"><span class="pre">Boundary</span></code> (also in <code class="docutils literal notranslate"><span class="pre">simulation.py</span></code>) to keep track of
+which particles are in the boundary, so that it can extract only those as
+needed. Since the boundary is only a tiny fraction of the whole state, this
+saves a lot of time.</p>
+<p>The easiest way of interacting with <code class="docutils literal notranslate"><span class="pre">hoomd</span></code> is to use a so-called snapshot,
+which is a copy of the simulation state. When running on multiple cores with
+MPI, the snapshot conveniently collects all the data on the MPI process with
+rank 0, so that it’s easy to process. Unfortunately, this is also rather slow
+and it was holding up the simulation, so we use a <code class="docutils literal notranslate"><span class="pre">hoomd</span></code> local snapshot and a
+bunch of custom MPI communication to extract the data. For the ECM size I
+tested, this brought the duration of one ECM run down from 280 ms to 25 ms, so
+it’s worth the extra complexity.</p>
+<p>The main program is in <code class="docutils literal notranslate"><span class="pre">src/ecm/simulate_ecm.py</span></code>. It sets up the simulation,
+gets parameters from MUSCLE3, receives an initial ECM configuration, and then
+runs the main loop, on each iteration communicating with TST. It also sends the
+final state of the ECM out at the end of the simulation.</p>
+<p>Besides the main part of the code in <code class="docutils literal notranslate"><span class="pre">simulation.py</span></code> and <code class="docutils literal notranslate"><span class="pre">simulate_ecm.py</span></code>,
+there are various helpers in <code class="docutils literal notranslate"><span class="pre">src/ecm/</span></code> that require some explanation:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">parameters.py</span></code></dt><dd><p>Contains two data classes with the parameters used when generating and
+evolving the ECM. These are obtained from MUSCLE3 and loaded into an object
+of these classes by the <code class="docutils literal notranslate"><span class="pre">from_settings()</span></code> function in <code class="docutils literal notranslate"><span class="pre">muscle3.py</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">muscle3.py</span></code></dt><dd><p>Contains helper functions for encoding and decoding the data we’re
+exchanging between dictionaries (which MUSCLE3 knows how to send) and the
+classes we use to represent them in the rest of the code.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">muscle3_mpi_wrapper.py</span></code></dt><dd><p>This is a helper class to compensate for the fact that MUSCLE3 doesn’t
+support MPI in Python (yet). It defines an <code class="docutils literal notranslate"><span class="pre">Instance</span></code> class that wraps
+MUSCLE3’s <code class="docutils literal notranslate"><span class="pre">Instance</span></code> class and does the things that need to be done when
+running in parallel with MPI (see also <a class="reference internal" href="#going-faster">Going faster</a> below). This class
+also works if MPI is not installed at all; if you’re on a machine with a
+single GPU then MPI doesn’t really add anything so it’s nice for it to be
+optional. When MUSCLE3 gets MPI support for Python then this class can be
+removed.</p>
+</dd>
+</dl>
+</section>
+<section id="making-the-initial-ecm">
+<h3>Making the initial ECM<a class="headerlink" href="#making-the-initial-ecm" title="Link to this heading">¶</a></h3>
+<p>Before we can start the simulation, an initial ECM needs to be generated. This
+is done by a separate program at <code class="docutils literal notranslate"><span class="pre">src/ecm/make_ecm.py</span></code>. This generates the ECM
+using code taken from TST-MD, and then sends it out to the rest of the
+simulation. <code class="docutils literal notranslate"><span class="pre">make_ecm.py</span></code> is just a very simple MUSCLE3 component, the actual
+generation code is in <code class="docutils literal notranslate"><span class="pre">src/ecm/network/</span></code>.</p>
+</section>
+<section id="producing-output">
+<h3>Producing output<a class="headerlink" href="#producing-output" title="Link to this heading">¶</a></h3>
+<p>No science is complete without some pretty pictures, so the simulation needs to
+produce some output. The CPM part of the code will plot its state to the screen
+when running as usual, but it cannot show the ECM in the plot because it doesn’t
+have that information. Vice versa, the ECM component has its own state, but
+doesn’t know where the cells are.</p>
+<p>So, in order to create a plot showing both, this information needs to be brought
+together. This is optionally done every N timesteps, with N set by the
+<code class="docutils literal notranslate"><span class="pre">state_output_interval</span></code> setting. At these points, both ECM and CPM will send
+an extra message containing their entire state. These messages are routed to a
+separate component that either writes them to disk
+(<code class="docutils literal notranslate"><span class="pre">src/cpm_ecm/state_dumper.py</span></code>) or plots them on the screen
+(<code class="docutils literal notranslate"><span class="pre">src/cpm_ecm/state_viewer.py</span></code>). A little program in
+<code class="docutils literal notranslate"><span class="pre">src/scripts/plot_states.py</span></code> can be used to create a series of PNG files from
+the dumped states, which can then be encoded into a movie file.</p>
+<p>The extra simulation component is not in <code class="docutils literal notranslate"><span class="pre">src/models/adhesions.ymmsl.in</span></code>, but
+<code class="docutils literal notranslate"><span class="pre">src/models/dump_state.ymmsl.in</span></code> or <code class="docutils literal notranslate"><span class="pre">src/models/plot_state.ymmsl.in</span></code>. To
+enable either (or both), you can add them to the <code class="docutils literal notranslate"><span class="pre">muscle_manager</span></code> command
+line. See <a class="reference internal" href="#running-locally">Running locally</a> below for examples.</p>
+<p>Note that the plotting here is done using the Matplotlib-based plotting code
+from <code class="docutils literal notranslate"><span class="pre">TST-MD</span></code>. This is very slow. <code class="docutils literal notranslate"><span class="pre">TST-MD-V2</span></code> has some faster Qt-based code,
+and making a <code class="docutils literal notranslate"><span class="pre">qt_state_viewer.py</span></code> based on that is probably a very nice little
+project to get familiar with MUSCLE3 and the whole setup. Meanwhile, this works.</p>
+</section>
+</section>
+<section id="building-the-coupled-simulation">
+<h2>Building the coupled simulation<a class="headerlink" href="#building-the-coupled-simulation" title="Link to this heading">¶</a></h2>
+<p>(This is for running locally, see <a class="reference internal" href="#running-on-snellius">Running on Snellius</a> below if you’re on
+Snellius or another HPC machine.)</p>
+<p>The coupled simulation, and the components needed for it, aren’t built by
+default if you use <code class="docutils literal notranslate"><span class="pre">make</span></code>, they need to be built explicitly. This is supported
+on Linux and MacOS, and it may require installing some extra dependencies, in
+particular Python and possibly MPI and CUDA.</p>
+<p>The ECM simulation uses HOOMD, which can use a GPU (if you have one) and/or MPI
+(if you want to run on multiple CPUs or multiple GPUs). This will really speed
+things up, so it’s recommended to make the effort. Depending on your
+configuration, here’s what you need. (Note that we’re counting physical CPU
+cores, not hyperthreads, and that if you have a fairly recent midrange laptop or
+desktop, then you probably have more than two physical cores.)</p>
+<p>Note that the instructions below assume you’ve already followed the instructions
+from the README at least up to <code class="docutils literal notranslate"><span class="pre">make</span></code>, so that you have Qt and the other
+dependencies installed.</p>
+<section id="no-gpu-two-cpu-cores-or-less">
+<h3>No GPU, two CPU cores or less<a class="headerlink" href="#no-gpu-two-cpu-cores-or-less" title="Link to this heading">¶</a></h3>
+<p>Neither MPI or GPU support will help, so we’ll build without either. Use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span>make<span class="w"> </span>with_adhesions
+</pre></div>
+</div>
+</section>
+<section id="no-gpu-more-than-two-cpu-cores">
+<h3>No GPU, more than two CPU cores<a class="headerlink" href="#no-gpu-more-than-two-cpu-cores" title="Link to this heading">¶</a></h3>
+<p>Build with MPI support to use multiple CPU cores for the ECM simulation.</p>
+<p>You’ll need to install MPI first if you don’t have it already. On Ubuntu:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openmpi-dev
+</pre></div>
+</div>
+<p>On MacOS you can use Homebrew or MacPorts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>open-mpi
+$<span class="w"> </span>sudo<span class="w"> </span>port<span class="w"> </span>install<span class="w"> </span>openmpi
+</pre></div>
+</div>
+<p>Then, you can build using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span><span class="nv">ENABLE_MPI</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>make<span class="w"> </span>with_adhesions
+</pre></div>
+</div>
+</section>
+<section id="one-gpu">
+<h3>One GPU<a class="headerlink" href="#one-gpu" title="Link to this heading">¶</a></h3>
+<p>Build with GPU support, MPI won’t help and is not needed.</p>
+<p>On a local machine, you’ll need to install CUDA first following the instructions
+on the nVidia website. AMD GPUs can work in theory as long as they support HIP,
+but in practice this may be tricky.</p>
+<p>Then, you can build using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span><span class="nv">HOOMD_BUILD_OPTIONS</span><span class="o">=</span>-DENABLE_GPU<span class="o">=</span>ON<span class="w"> </span>make<span class="w"> </span>with_adhesions
+</pre></div>
+</div>
+</section>
+<section id="multiple-gpus">
+<h3>Multiple GPUs<a class="headerlink" href="#multiple-gpus" title="Link to this heading">¶</a></h3>
+<p>Build with both MPI and GPU support to use all of them.</p>
+<p>You’ll need to install MPI first if you don’t have it already. On Ubuntu:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openmpi-dev
+</pre></div>
+</div>
+<p>On MacOS you can use Homebrew or MacPorts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>open-mpi
+$<span class="w"> </span>sudo<span class="w"> </span>port<span class="w"> </span>install<span class="w"> </span>openmpi
+</pre></div>
+</div>
+<p>On a local machine, you’ll need to install CUDA first following the instructions
+on the nVidia website. AMD GPUs can work in theory as long as they support HIP,
+but in practice this may be tricky and we haven’t tried it.</p>
+<p>Once CUDA is there, you can build using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span><span class="nv">ENABLE_MPI</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">HOOMD_BUILD_OPTIONS</span><span class="o">=</span>-DENABLE_GPU<span class="o">=</span>ON<span class="w"> </span>make<span class="w"> </span>with_adhesions
+</pre></div>
+</div>
+</section>
+<section id="known-issues">
+<h3>Known issues<a class="headerlink" href="#known-issues" title="Link to this heading">¶</a></h3>
+<p>Building the coupled simulation will take some time, hoomd in particular is very
+slow to build. Not much to do about it other than to go have lunch, or go do
+something else for a bit. Note that almost all of that time is spent building
+hoomd and the other dependencies, so if you change something in TST and then
+rebuild, the rebuild will only rebuild TST, which is nice and quick. So this is
+a one time wait.</p>
+<p>If you get the following error</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">++</span><span class="p">:</span> <span class="n">fatal</span> <span class="n">error</span><span class="p">:</span> <span class="n">Killed</span> <span class="n">signal</span> <span class="n">terminated</span> <span class="n">program</span> <span class="n">cc1plus</span>
+</pre></div>
+</div>
+<p>then the hoomd build ran out of memory. Hoomd seems to need a large amount of
+memory to build, and we run multiple compilers in parallel to speed things up.
+If together they try to use more memory than you, have, this rather unhelpful
+error will appear. To solve it, you need to reduce the amount of parallelism by
+using fewer cores to build hoomd. The TST build system uses every core you have
+by default, but this can be changed by setting HOOMD_CORES:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span><span class="nv">HOOMD_CORES</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="nv">ENABLE_MPI</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>make<span class="w"> </span>with_adhesions
+</pre></div>
+</div>
+<p>or whichever combination of options you selected above.</p>
+</section>
+</section>
+<section id="running-locally">
+<h2>Running locally<a class="headerlink" href="#running-locally" title="Link to this heading">¶</a></h2>
+<p>Once the build is done, it’s time to run the simulation. The Python parts of the
+simulation will have been installed in a virtual environment called <code class="docutils literal notranslate"><span class="pre">venv</span></code>, in
+the top TST directory. MUSCLE3 is also in there, and we’re going to start the
+simulation via MUSCLE3, so we need to activate it first. Then, we can ask the
+MUSCLE3 manager to run the simulation for us:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span>.<span class="w"> </span>venv/bin/activate
+Tissue-Simulation-Toolkit$<span class="w"> </span>muscle_manager<span class="w"> </span>--start-all<span class="w"> </span>ymmsl/adhesions.ymmsl<span class="w"> </span>ymmsl/plot_state.ymmsl
+</pre></div>
+</div>
+<p>You will see a two windows pop up, one is the graphics output from the Cellular
+Potts Model, the other one the combined display described above under
+<a class="reference internal" href="#producing-output">Producing output</a>. It takes a few seconds for data to appear, because the ECM
+needs to be built first, and that has no visible output. Once the ECM is ready,
+it is sent to the ECM simulation component and that and the CPM can start
+running.</p>
+<p>Once the run is done, you’ll find a directory named
+<code class="docutils literal notranslate"><span class="pre">run_adhesions_&lt;date&gt;_&lt;time&gt;/</span></code>, which we call the <em>rundir</em>. This directory
+contains a file documenting the configuration of the model as run, a log file
+for the manager, performance information (see the <a class="reference external" href="https://muscle3.readthedocs.io">MUSCLE3 documentation</a>), and
+a subdirectory <code class="docutils literal notranslate"><span class="pre">instances/</span></code> in which you can find a directory with output for
+each of the components. It’s a good idea to have a look through these files and
+see what you can find where.</p>
+<p>One note: you may see something like this at the end of the
+<code class="docutils literal notranslate"><span class="pre">muscle3_manager.log</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">muscle_manager</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">14</span> <span class="mi">21</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="mi">489</span> <span class="n">INFO</span>    <span class="n">libmuscle</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">instance_manager</span><span class="p">:</span> <span class="n">Instance</span> <span class="n">make_ecm</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mi">0</span>
+<span class="n">muscle_manager</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">14</span> <span class="mi">21</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="mi">489</span> <span class="n">INFO</span>    <span class="n">libmuscle</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">instance_manager</span><span class="p">:</span> <span class="n">Instance</span> <span class="n">cellular_potts</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mi">0</span>
+<span class="n">muscle_manager</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">14</span> <span class="mi">21</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="mi">489</span> <span class="n">INFO</span>    <span class="n">libmuscle</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">instance_manager</span><span class="p">:</span> <span class="n">Instance</span> <span class="n">state_dumper</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mi">0</span>
+<span class="n">muscle_manager</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">14</span> <span class="mi">21</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="mi">489</span> <span class="n">INFO</span>    <span class="n">libmuscle</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">instance_manager</span><span class="p">:</span> <span class="n">Instance</span> <span class="n">equilibrate_ecm</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mi">0</span>
+<span class="n">muscle_manager</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">14</span> <span class="mi">21</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="mi">489</span> <span class="n">INFO</span>    <span class="n">libmuscle</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">instance_manager</span><span class="p">:</span> <span class="n">Instance</span> <span class="n">simulate_ecm</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mi">0</span>
+<span class="n">muscle_manager</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">14</span> <span class="mi">21</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="mi">489</span> <span class="n">ERROR</span>   <span class="n">libmuscle</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">instance_manager</span><span class="p">:</span> <span class="n">At</span> <span class="n">this</span> <span class="n">point</span><span class="p">,</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">instances</span> <span class="n">crashed</span> <span class="n">because</span> <span class="n">they</span> <span class="n">lost</span> <span class="n">their</span> <span class="n">connection</span> <span class="n">to</span> <span class="n">another</span> <span class="n">instance</span><span class="p">,</span> <span class="n">but</span> <span class="n">no</span> <span class="n">other</span> <span class="n">crashing</span> <span class="n">instance</span> <span class="n">was</span> <span class="n">found</span> <span class="n">that</span> <span class="n">could</span> <span class="n">have</span> <span class="n">caused</span> <span class="n">this</span><span class="o">.</span>
+<span class="n">muscle_manager</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">14</span> <span class="mi">21</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="mi">489</span> <span class="n">ERROR</span>   <span class="n">libmuscle</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">instance_manager</span><span class="p">:</span> <span class="n">This</span> <span class="n">means</span> <span class="n">that</span> <span class="n">either</span> <span class="n">another</span> <span class="n">instance</span> <span class="n">quit</span> <span class="n">before</span> <span class="n">it</span> <span class="n">was</span> <span class="n">supposed</span> <span class="n">to</span><span class="p">,</span> <span class="n">but</span> <span class="k">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mi">0</span><span class="p">,</span> <span class="ow">or</span> <span class="n">there</span> <span class="n">was</span> <span class="n">an</span> <span class="n">actual</span> <span class="n">network</span> <span class="n">problem</span> <span class="n">that</span> <span class="n">caused</span> <span class="n">the</span> <span class="n">connection</span> <span class="n">to</span> <span class="n">drop</span><span class="o">.</span>
+<span class="n">muscle_manager</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">14</span> <span class="mi">21</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="mi">489</span> <span class="n">ERROR</span>   <span class="n">libmuscle</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">instance_manager</span><span class="p">:</span> <span class="n">Here</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">output</span> <span class="n">of</span> <span class="n">the</span> <span class="n">instances</span> <span class="n">that</span> <span class="n">lost</span> <span class="n">connection</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>This looks like there was a problem, and there is a problem, but it’s in
+MUSCLE3, not in TST. What happened is that in the latest release, I redid the
+code that analyses the outcome of the simulation, so as to give a better error
+message. The new version now gives better explanations of all sorts of weird
+corner cases, but I somehow managed to mess up the case where everything goes
+well. So it prints the final three ERROR lines instead of saying that the
+simulation ran successfully. Doh!</p>
+<p>There’s already a fix for this in the MUSCLE3 git repository, which will
+be released with the next version, so when that’s out we’ll upgrade and this
+will disappear.</p>
+<section id="dumping-state">
+<h3>Dumping state<a class="headerlink" href="#dumping-state" title="Link to this heading">¶</a></h3>
+<p>If you want to make a movie (and who doesn’t like movies?), then you need to
+save the state of the simulation regularly. There’s a separate component that
+does this, which can be added to the simulation by adding the
+<code class="docutils literal notranslate"><span class="pre">ymmsl/dump_state.ymmsl</span></code> to the command line. You can remove the plotting, or
+run both. Now, in your rundir there will be an <code class="docutils literal notranslate"><span class="pre">instances/state_dumper/</span></code> which
+has in its <code class="docutils literal notranslate"><span class="pre">workdir/</span></code> a collection of data files. To plot the data in these
+files to PNG files, there’s a helper script in <code class="docutils literal notranslate"><span class="pre">src/scripts/plot_states.py</span></code>
+which gets installed in the virtual environment. So you can run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span>plot_states<span class="w"> </span>run_adhesions_&lt;date&gt;_&lt;time&gt;
+</pre></div>
+</div>
+<p>and it will write one PNG file next to each <code class="docutils literal notranslate"><span class="pre">.pickle</span></code> file. On Ubuntu, if you
+install <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> then you can convert that to a video using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>state_dumper/workdir$<span class="w"> </span>ffmpeg<span class="w"> </span>-f<span class="w"> </span>image2<span class="w"> </span>-framerate<span class="w"> </span><span class="m">20</span><span class="w"> </span>-i<span class="w"> </span>state_%04d0.png<span class="w"> </span>-c:v<span class="w"> </span>libx264<span class="w"> </span>-strict<span class="w"> </span>-2<span class="w"> </span>-preset<span class="w"> </span>slow<span class="w"> </span>-pix_fmt<span class="w"> </span>yuv420p<span class="w"> </span>-f<span class="w"> </span>mp4<span class="w"> </span>video.mp4
+</pre></div>
+</div>
+<p>if you saved every 10th state.</p>
+<p>Creating the PNG images is currently rather slow, because we’re using
+Matplotlib. Making a faster Qt-based version is left as an exercise for the
+reader (who can then also update this documentation :)).</p>
+</section>
+</section>
+<section id="developing">
+<h2>Developing<a class="headerlink" href="#developing" title="Link to this heading">¶</a></h2>
+<section id="debugging">
+<h3>Debugging<a class="headerlink" href="#debugging" title="Link to this heading">¶</a></h3>
+<p>The adhesion model included with TST should run out of the box, but
+scientifically it leaves something to be desired. A lot, actually, as it’s
+intended to be a reasonably representative (from a pure performance standpoint)
+simulation for benchmarking purposes. To make it scientifically accurate, you’re
+going to want to do some programming.</p>
+<p>Of course, when you’re programming your code is most of the time broken (it’s
+just the natural state of things), and you find yourself trying to fix it. It
+can be useful to run the model in a debugger, so that you can step through it.</p>
+<p>If you browse to the bottom of the <code class="docutils literal notranslate"><span class="pre">src/models/adhesions.ymmsl.in</span></code> file,
+you’ll find that there’s a <code class="docutils literal notranslate"><span class="pre">tst_adhesions_debug</span></code> implementation defined.
+You’ll probably want to modify it a bit to run your favourite terminal
+application, e.g. <code class="docutils literal notranslate"><span class="pre">gnome-terminal</span></code>. Next, scroll up to <code class="docutils literal notranslate"><span class="pre">components:</span></code> and
+change the implementation for <code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code> to <code class="docutils literal notranslate"><span class="pre">tst_adhesions_debug</span></code> to
+use it.</p>
+<p>Once you’ve done so, you can do <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ymmsl/adhesions.ymmsl</span></code> in the top
+directory to rebuild that file, and run again. Now when you start the model, a
+terminal window will pop up with <code class="docutils literal notranslate"><span class="pre">gdb</span></code> active, which will work normally. You
+can type <code class="docutils literal notranslate"><span class="pre">run</span></code> to start, and if it crashes <code class="docutils literal notranslate"><span class="pre">bt</span></code> will produce a backtrace.</p>
+<p>If your code throws a C++ exception, then it will crash at the place where the
+exception is handled, rather than where it was thrown. You probably don’t want
+that, because you won’t be able to see what the problem was. If you type <code class="docutils literal notranslate"><span class="pre">catch</span>
+<span class="pre">throw</span> <span class="pre">&lt;exception_type&gt;</span></code> before doing <code class="docutils literal notranslate"><span class="pre">run</span></code>, then GDB will stop when the
+exception is thrown, and you can do a backtrace there. We refer you to the GDB
+manual for more, and to the <a class="reference external" href="https://muscle3.readthedocs.io">MUSCLE3 documentation</a>.</p>
+</section>
+<section id="profiling">
+<h3>Profiling<a class="headerlink" href="#profiling" title="Link to this heading">¶</a></h3>
+<p>MUSCLE3 has built-in profiling functionality. If you’ve had a look around a
+run directory, you’ve probably seen a <code class="docutils literal notranslate"><span class="pre">performance.sqlite</span></code> file. If you
+activate the <code class="docutils literal notranslate"><span class="pre">venv</span></code> virtualenv in the top directory, then you’ll have the
+<code class="docutils literal notranslate"><span class="pre">muscle3</span> <span class="pre">profile</span></code> command available which will show you some statistics. See
+the <a class="reference external" href="https://muscle3.readthedocs.io">MUSCLE3 documentation</a> for how to use it.</p>
+</section>
+</section>
+<section id="going-faster">
+<h2>Going faster<a class="headerlink" href="#going-faster" title="Link to this heading">¶</a></h2>
+<section id="ecm-with-mpi-support">
+<h3>ECM with MPI support<a class="headerlink" href="#ecm-with-mpi-support" title="Link to this heading">¶</a></h3>
+<p>Simulating the extracellular matrix is quite expensive, and if your performance
+data show that it is the most expensive part of the simulation, then making it
+faster will get you your results sooner. One way to do this is to run on
+multiple CPU cores, or even on multiple GPUs.</p>
+<p>Hoomd can do that, but only if it’s built with MPI support (see above), and if
+we tell MUSCLE3 to start it with MPI. At the bottom of
+<code class="docutils literal notranslate"><span class="pre">src/models/adhesions.ymmsl.in</span></code> you’ll find a <code class="docutils literal notranslate"><span class="pre">simulate_ecm_mpi</span></code>
+implementation. It’s just like <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code>, except that we tell MUSCLE3 to
+start the submodel using OpenMPI. To use it, find <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> at the top
+under <code class="docutils literal notranslate"><span class="pre">model/components</span></code> and set its <code class="docutils literal notranslate"><span class="pre">implementation</span></code> to
+<code class="docutils literal notranslate"><span class="pre">simulate_ecm_mpi</span></code>.</p>
+<p>Next, we need to specify the number of MPI processes we want. This is done in
+the <code class="docutils literal notranslate"><span class="pre">resources</span></code> section, where without MPI we specify <code class="docutils literal notranslate"><span class="pre">threads:</span> <span class="pre">1</span></code> to start
+the simulation as an ordinary single-threaded program, but where we will now set
+<code class="docutils literal notranslate"><span class="pre">mpi_processes:</span> <span class="pre">&lt;N&gt;</span></code>. If you have M CPU cores in your machine, then you will
+want to set N to at most M-1 cores, so that the Cellular Potts model has a core
+to run on. You may also leave a core for the plotter or state dumper, and use
+the remaining M-2 cores for the ECM simulation. If you are running on GPU
+(see below), then you need to set N equal to the number of GPUs you are using,
+as hoomd is designed to use one MPI process per GPU.</p>
+<p>If you’re getting a message</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>RuntimeError: Error registering instance: An instance with name simulate_ecm was already registered. Did you start a non-MPI component using mpirun?
+</pre></div>
+</div>
+<p>then you probably somehow ended up with a virtual environment without <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>
+installed. You can use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>mpi4py
+</pre></div>
+</div>
+<p>in the <code class="docutils literal notranslate"><span class="pre">Tissue-Simulation-Toolkit</span></code> directory to resolve this.</p>
+</section>
+<section id="ecm-with-gpu-support">
+<h3>ECM with GPU support<a class="headerlink" href="#ecm-with-gpu-support" title="Link to this heading">¶</a></h3>
+<p>Molecular Dynamics simulations involve many particles, for each of which the
+same calculation needs to be done. GPUs are very good at this, so for large
+systems using one is a good idea. To run on a GPU, first hoomd needs to be
+compiled with GPU support (see above), and then the <code class="docutils literal notranslate"><span class="pre">md_use_gpu</span></code> setting needs
+to be set to <code class="docutils literal notranslate"><span class="pre">true</span></code> in the ymmsl file. And of course you need to have a GPU
+:).</p>
+<p>If you have multiple GPUs, as on some HPC machines, then you need to combine the
+MPI instructions with the GPU instructions, setting the number of MPI processes
+to the number of GPUs. Hoomd will then automatically distribute the work over
+the available GPUs.</p>
+</section>
+<section id="running-on-snellius">
+<h3>Running on Snellius<a class="headerlink" href="#running-on-snellius" title="Link to this heading">¶</a></h3>
+<p>If you have a large simulation (many pixels, many particles) then you may need
+more hardware to run it quickly. The national supercomputer Snellius has this
+hardware, in particular it has GPU nodes with four fast GPUs and 72 CPU cores.
+If your laptop or desktop isn’t quite keeping up, then it’s time to move to
+Snellius. Here’s how to do that.</p>
+<p>First, you need to get a Snellius account (talk to Roeland). Once you have one,
+you can use ssh to connect to it (see the <a class="reference external" href="https://servicedesk.surf.nl/wiki/display/WIKI/Snellius">Snellius documentation</a>), which will
+give you a Linux command line on a Snellius head node. This is where we will
+build TST.</p>
+<section id="getting-tst-onto-snellius">
+<h4>Getting TST onto Snellius<a class="headerlink" href="#getting-tst-onto-snellius" title="Link to this heading">¶</a></h4>
+<p>First though, we need to get it onto the machine. If TST were open source, then
+we could just <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> it, but since it isn’t, things get a bit more
+complicated. There are basically two options: 1) clone locally and then upload
+the files to Snellius using <code class="docutils literal notranslate"><span class="pre">scp</span></code>, or 2) set up SSH agent forwarding and <code class="docutils literal notranslate"><span class="pre">git</span>
+<span class="pre">clone</span></code> on Snellius itself. Option 1) doesn’t require any set-up, but is more
+cumbersome every time you do it, while option 2) requires some set-up but is
+then probably easier in use. Option 2) also has the advantage that you’ll be
+able to commit and push changes you make on Snellius back to Github directly, as
+opposed to having to download them again and push.</p>
+<p>To copy files to Snellius, you can use <code class="docutils literal notranslate"><span class="pre">scp</span></code>. For example, to copy the
+<code class="docutils literal notranslate"><span class="pre">Tissue-Simulation-Toolkit/</span></code> directory to the Snellius scratch file system,
+you can type this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>scp<span class="w"> </span>-r<span class="w"> </span>Tissue-Simulation-Toolkit<span class="w"> </span>snellius.surf.nl:/home/&lt;username&gt;/
+</pre></div>
+</div>
+<p>If you have any run directories from local runs in your
+<code class="docutils literal notranslate"><span class="pre">Tissue-Simulation-Toolkit</span></code> directory, then you’ll probably want to avoid
+copying those. I’ve used <code class="docutils literal notranslate"><span class="pre">tar</span></code> before to create a <code class="docutils literal notranslate"><span class="pre">.tar.bz2</span></code> with only the
+things I wanted (see its <code class="docutils literal notranslate"><span class="pre">--exclude</span></code> option) and copied that, then extracted
+it on the Snellius headnode. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tar<span class="w"> </span>-c<span class="w"> </span>-f<span class="w"> </span>TST2.tar.bz2<span class="w"> </span>--exclude<span class="w"> </span><span class="s1">&#39;Tissue-Simulation-Toolkit/run_*&#39;</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s1">&#39;Tissue-Simulation-Toolkit/venv&#39;</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s1">&#39;Tissue-Simulation-Toolkit/.tox&#39;</span><span class="w"> </span>Tissue-Simulation-Toolkit
+$<span class="w"> </span>scp<span class="w"> </span>TST2.tar.bz2<span class="w"> </span>snellius.surf.nl:/home/&lt;username&gt;/
+$<span class="w"> </span>ssh<span class="w"> </span>snellius.surf.nl
+<span class="c1"># on Snellius</span>
+$<span class="w"> </span>tar<span class="w"> </span>xf<span class="w"> </span>TST2.tar.bz2
+</pre></div>
+</div>
+<p>If you’re packing up a clean tree, which is definitely recommended, then you
+don’t need the <code class="docutils literal notranslate"><span class="pre">--exclude</span></code> options. It will work without them even if you
+don’t have a clean tree, but those folders contain a lot of files and a lot of
+bytes, so your upload may take a while…</p>
+<p>So that’s a bit of a hassle, and if you make any local changes to the code
+you’ll have to upload them again in the same way. Or if you make any changes on
+Snellius then you’ll have to download them. Git is designed for this of course,
+and you can use it if you go with option 2), which is explained in the <a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/using-ssh-agent-forwarding">Github
+documentation on SSH agent forwarding</a>.
+Once you have that set up, you can <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span>
+<span class="pre">push</span></code> on Snellius as usual. If you set up a work branch, then it becomes really
+easy to commit a change locally, push it, then pull it on Snellius, or vice
+versa, and keep everything nicely synchronised.</p>
+</section>
+<section id="compiling-tst-on-snellius">
+<h4>Compiling TST on Snellius<a class="headerlink" href="#compiling-tst-on-snellius" title="Link to this heading">¶</a></h4>
+<p>Since you’re on Snellius, you probably want to go fast, so we need MPI and GPU
+support. For this we need OpenMPI and CUDA as well as the other dependencies,
+and on Snellius (as on most HPC machines) these are already installed and made
+available via the <code class="docutils literal notranslate"><span class="pre">module</span></code> command. The <code class="docutils literal notranslate"><span class="pre">module</span></code> command changes your
+shell’s working environment in such a way that the program you ask for can be
+found. If you log out, your shell quits and the settings disappear, so you’ll
+have to run this every time you log in.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span><span class="m">2022</span>
+$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span>Qt5/5.15.5-GCCcore-11.3.0<span class="w"> </span>CMake/3.23.1-GCCcore-11.3.0<span class="w"> </span>OpenMPI/4.1.4-GCC-11.3.0<span class="w"> </span>Python/3.10.4-GCCcore-11.3.0<span class="w"> </span>CUDA/11.8.0
+</pre></div>
+</div>
+<p>With that done, and assuming that you have got the source code onto Snellius, we
+can compile everything:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>Tissue-Simulation-Toolkit
+Tissue-Simulation-Toolkit$<span class="w"> </span>make<span class="w"> </span>clean<span class="w"> </span>clean_hoomd
+Tissue-Simulation-Toolkit$<span class="w"> </span><span class="nv">HOOMD_BUILD_OPTIONS</span><span class="o">=</span><span class="s1">&#39;-DENABLE_GPU=ON -DENABLE_MPI=ON&#39;</span><span class="w"> </span><span class="nv">HOOMD_CORES</span><span class="o">=</span><span class="m">4</span><span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">16</span><span class="w"> </span>with_adhesions
+</pre></div>
+</div>
+<p>7:42 TODO -j 16 hoomd -j 4
+12:25 -&gt; 4:43 hours</p>
+<p>Compiling will take quite a while (more than an hour), so you’ll want to go do
+something else in the mean time. Do keep the connection open! Otherwise the
+shell will crash and compilation will stop.</p>
+<p>Once this is done the model is ready to run, except that starting programs works
+a bit differently on an HPC machine, and we need to tell MUSCLE3 about this in
+the <code class="docutils literal notranslate"><span class="pre">src/models/adhesions.ymmsl.in</span></code> file. You can edit this file using
+<code class="docutils literal notranslate"><span class="pre">nano</span></code> (or <code class="docutils literal notranslate"><span class="pre">vim</span></code>, if you are familiar with it), changing the implementations
+for <code class="docutils literal notranslate"><span class="pre">equilibrate_ecm</span></code> and <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> to <code class="docutils literal notranslate"><span class="pre">simulate_ecm_snellius</span></code>, and
+the implementation for <code class="docutils literal notranslate"><span class="pre">cellular_potts</span></code> to <code class="docutils literal notranslate"><span class="pre">tst_adhesions_snellius</span></code>.</p>
+<p>If you look at the bottom of the file, then you’ll see that these
+implementations differ from the local ones in that they load the modules
+required to run the corresponding model programs, and in that the
+<code class="docutils literal notranslate"><span class="pre">simulate_ecm_snellius</span></code> one uses MPI. Because of that, you need to go to
+<code class="docutils literal notranslate"><span class="pre">resources</span></code> and set the resources for <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> and <code class="docutils literal notranslate"><span class="pre">equilibrate_ecm</span></code>
+to <code class="docutils literal notranslate"><span class="pre">mpi_processes:</span> <span class="pre">&lt;N&gt;</span></code>, where &lt;N&gt; is the number of GPUs you want to use.</p>
+<p>Finally, we want to actually use the GPU, so set <code class="docutils literal notranslate"><span class="pre">use_gpu:</span> <span class="pre">true</span></code> under
+<code class="docutils literal notranslate"><span class="pre">settings</span></code>.</p>
+<p>In nano, you can use Ctrl-O to save your changes and Ctrl-X to quit, after which
+you can use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ymmsl/adhesions.ymmsl</span></code> to rebuild that file.</p>
+</section>
+<section id="running-tst-on-snellius">
+<h4>Running TST on Snellius<a class="headerlink" href="#running-tst-on-snellius" title="Link to this heading">¶</a></h4>
+<p>Running programs on a supercomputer works a bit different than locally. So far,
+you have logged in to a <em>head node</em>, which is a helper computer that is used for
+accessing the cluster and compiling software. The head node is not for running
+calculations however, and should never be used for that.</p>
+<p>To run simulations, you need to submit a job to the scheduler. The scheduler on
+Snellius is called Slurm, and its job is to keep a queue of jobs that users want
+to run, and run them on the available <em>worker nodes</em>. These worker nodes are
+often busy (there are many people using Snellius at any one time), so your job
+will typically sit in the queue for a bit until there’s a worker node available,
+after which it will be started on the worker node and run. Any output must be
+written to disk, so that you can pick it up when the job is done.</p>
+<p>Every job you run consumes a certain number of System Billing Units, or SBUs.
+Your account is associated with a budget, from which these SBUs are deducted.
+The <code class="docutils literal notranslate"><span class="pre">accinfo</span></code> will, after a few seconds, print an overview of the budget
+you’re using and how many SBUs are left. A full GPU node costs 512 SBUs per
+hour, a 1/4 node costs 1/4 of that.</p>
+<p>Submitting a job is done using the <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> command, which expects to be given
+a shell script with the commands to run. There’s one for running CPM-ECM on
+Snellius in <code class="docutils literal notranslate"><span class="pre">src/scripts/snellius_cpm_ecm.sh</span></code>. This file looks like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1">#SBATCH -J cpm_ecm</span>
+<span class="c1">#SBATCH --time=00:10:00</span>
+<span class="c1">#SBATCH --partition=gpu</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks=18</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --gpus=1</span>
+
+
+module<span class="w"> </span>load<span class="w"> </span><span class="m">2022</span>
+module<span class="w"> </span>load<span class="w"> </span>Python/3.10.4-GCCcore-11.3.0
+
+<span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/Tissue-Simulation-Toolkit
+
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">QT_QPA_PLATFORM</span><span class="o">=</span>offscreen
+
+muscle_manager<span class="w"> </span>--start-all<span class="w"> </span>ymmsl/adhesions.ymmsl<span class="w"> </span>ymmsl/dump_state.ymmsl
+</pre></div>
+</div>
+<p>Many of the commands here will look familiar if you’ve run locally and have
+built TST. There’s a new section at the top however which tells Slurm how many
+hardware resources we want. Here’s what these options mean:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-J <var>cpm_ecm</var></span></kbd></dt>
+<dd><p>Says that this job is called <code class="docutils literal notranslate"><span class="pre">cpm_ecm</span></code>. It will be listed as such in the
+queue.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>–time=00:10:00</dt><dd><p>Specifies for how long we will calculate. The simulation will be shut down
+by the system after this time, <em>even if it isn’t done yet</em>. The value here
+is 10 minutes. If your settings result in a simulation that takes longer to
+run, then you’ll have to ask for more time to make sure that it has a chance
+to finish. Note that it’s fine to ask for more time than you end up needing
+(you only pay for what you use), but the longer a period you ask for, the
+longer it may take for Slurm to find you a free worker node.</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">--partition=<var>gpu</var></span></kbd></dt>
+<dd><p>Snellius has different kinds of worker nodes, some with GPUs, some with
+extra memory, and so on. They are grouped by type into <em>partitions</em>, and
+this says that we want a node with GPUs.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>–nodes=1</dt><dd><p>We’re asking for one node here. One worker node in the GPU partition has 72
+CPU cores and four GPUs, which is a huge amount of compute power. It’s also
+the maximum we can run on at the moment, because of a limitation in MUSCLE3
+(it doesn’t know what a GPU is, and when running on multiple nodes it wouldn’t
+distribute the hoomd MPI processes over the nodes correctly). This is not
+much of an issue in practice, because with four GPUs the CPM is already the
+limiting factor so that adding more wouldn’t speed things up.</p>
+</dd>
+<dt>–ntasks=18</dt><dd><p>This tells Slurm that we want to have 18 CPU nodes, or 1/4 of the node.
+Since a single GPU node has such a large amount of compute capability, they
+are actually split into four quarter nodes. For large-but-not-huge
+simulations, using more than one GPU doesn’t help (it even slows things
+down, because there’s more communication overhead) and it doesn’t make sense
+to pay for a whole node. This option will ask for a quarter node (18 out of
+72 CPU cores). Note that the ECM model uses as many CPU cores as there are
+GPUs, CPM uses a single core, and so does the state dumper, so most of these
+cores will actually sit idle during the simulation. We could ask for less,
+but accounting is done by the quarter node so we’re paying for them anyway.</p>
+</dd>
+<dt>–cpus-per-task=1</dt><dd><p>Actually, what we’re doing here is to tell Slurm we’re going to start 18
+programs (ntasks=18) with one thread each (this option). That will get us 18
+CPU cores, which MUSCLE3 will then use to start our actual simulation. Slurm
+doesn’t understand coupled simulations, but it will just give us our CPUs
+and MUSCLE3 knows what to do with them, so it’s all good.</p>
+</dd>
+<dt>–gpus=1</dt><dd><p>This asks for a single GPU, which is one quarter of the total available.</p>
+</dd>
+</dl>
+<p>Depending on your settings, you will probably have to change the time requested,
+and if you need to go faster then you can go to 36 tasks and 2 GPUs, or even the
+full 72 and 4 (be user to set the <code class="docutils literal notranslate"><span class="pre">mpi_processes</span></code> for <code class="docutils literal notranslate"><span class="pre">simulate_ecm</span></code> to the
+number of GPUs too!). It’s good to experiment a little here with some short runs
+to see how fast you’re going and whether the additional resources help (or help
+enough to be worth it, paying four times as many SBUs per hour for a 10%
+increase in speed doesn’t make much sense for example, also because it costs
+more energy and we only have one planet) before launching a run with the full
+number of timesteps.</p>
+<p>If you have put the TST source code somewhere else than in
+<code class="docutils literal notranslate"><span class="pre">Tissue-Simulation-Toolkit</span></code> in your home directory, then you’ll have to modify
+the <code class="docutils literal notranslate"><span class="pre">cd</span></code> command to point to the right place.</p>
+<p>The line <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">QT_QPA_PLATFORM=offscreen</span></code> tells Qt to not create a window,
+and to draw nothing. Supercomputers don’t have monitors, so it would crash if it
+tried.</p>
+<p>If you’re producing large amounts of output, then it may be better to put the
+output on the scratch filesystem. The easiest way to do that is to put another
+<code class="docutils literal notranslate"><span class="pre">cd</span></code> command just before the <code class="docutils literal notranslate"><span class="pre">muscle_manager</span></code> one to change to the directory
+where you want your output. See the <a class="reference external" href="https://servicedesk.surf.nl/wiki/display/WIKI/Snellius">Snellius documentation</a>, in particular the
+page about file systems.</p>
+<p>With the script in order, we can now submit a job using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span>sbatch<span class="w"> </span>src/scripts/snellius_cpm_ecm.sh
+</pre></div>
+</div>
+<p>This will print a message saying that the job has been submitted, with its job
+id. You can see it in the queue using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>squeue
+</pre></div>
+</div>
+<p>and get more information with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>scontrol<span class="w"> </span>show<span class="w"> </span>job<span class="w"> </span>&lt;job<span class="w"> </span>id&gt;
+</pre></div>
+</div>
+<p>The job will only show in <code class="docutils literal notranslate"><span class="pre">squeue</span></code> while it is queued and waiting to run and
+while it is running. Once it’s done, it will disappear there.</p>
+<p>When the job is started, a <code class="docutils literal notranslate"><span class="pre">slurm-&lt;job</span> <span class="pre">id&gt;.out</span></code> file is created in the
+directory in which you ran the <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> command that contains the output that
+would otherwise have been printed to the screen. You can use <code class="docutils literal notranslate"><span class="pre">less</span> <span class="pre">slurm-&lt;job</span>
+<span class="pre">id&gt;.out</span></code> to view its contents while the job is running and after it’s done.</p>
+</section>
+<section id="debugging-on-snellius">
+<h4>Debugging on Snellius<a class="headerlink" href="#debugging-on-snellius" title="Link to this heading">¶</a></h4>
+<p>If something goes awry, then the first thing to do is to check the log output.
+The <code class="docutils literal notranslate"><span class="pre">slurm-&lt;job</span> <span class="pre">id&gt;.out</span></code> file will contain the things that are normally
+printed to the screen. If the simulation crashed, then there will be an error
+message here that will point you to the log files in the run directory. Those
+should contain more information, which will hopefully help you figure out what
+went wrong in the same way as when running locally.</p>
+<p>Note that because of the batch system, doing interactive debugging on an HPC
+machine isn’t so easy. It’s better to do that locally if the problem is with the
+code rather than the configuration, and then go back to the cluster with the fix
+in place.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>This will very likely be extended over time as more complex cell-ECM
+interactions are added.</p>
+</aside>
+</aside>
+</section>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Tissue-Simulation-Toolkit</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readmelink.html">Readme File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readmelink.html#tissue-simulation-toolkit-2-0">Tissue-Simulation-Toolkit 2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_system.html">How TST is built</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cplusplus_tests.html">C++ unit tests</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cellular Potts - Extracellular Matrix coupled simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simulation-design">Simulation design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-coupled-simulation">Building the coupled simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-locally">Running locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#developing">Developing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#going-faster">Going faster</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sourcecode.html">Source code documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="cplusplus_tests.html" title="previous chapter">C++ unit tests</a></li>
+      <li>Next: <a href="sourcecode.html" title="next chapter">Source code documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Roeland Mekrs.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/cpm_ecm.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

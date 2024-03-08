@@ -27,6 +27,8 @@ GRAPHICS = qt
 #PROFILING = enabled
 PROFILING = disabled
 
+#USECUDA = enabled
+USECUDA = disabled
 
 LIBDIR = ../lib
 DESTDIR = ../bin
@@ -65,19 +67,25 @@ HEADERS += adhesions/*.hpp \
            reaction_diffusion/*.hpp \
            reaction_diffusion/*.h \
            util/*.hpp \
-           compute/*.hpp
+           compute/*.hpp \
+           spatial/*.hpp
 
 
 SOURCES += adhesions/*.cpp \
            cellular_potts/*.cpp \
            parameters/*.cpp \
            plotting/*.cpp \
-           reaction_diffusion/*.cpp \
            util/*.cpp \
            compute/*.cpp \
+           spatial/*.cpp \
            graphics/graph.cpp
 
 SOURCES += $$MAINFILE
+
+contains ( USECUDA, disabled ){
+   SOURCES += reaction_diffusion/*.cpp
+}
+
 
 INCLUDEPATH += adhesions/ \
                cellular_potts/ \
@@ -88,7 +96,34 @@ INCLUDEPATH += adhesions/ \
                reaction_diffusion/ \
                util/ \
                xpm/ \
-               compute/
+               compute/ \
+               spatial/ \
+               ./
+
+
+contains( USECUDA, enabled ){
+   # File(s) containing CUDA code
+   CUDA_SOURCES = reaction_diffusion/pde.cu
+
+   # Location of CUDA on system
+   CUDA_DIR = $$system(which nvcc | sed 's,/bin/nvcc$,,')
+   INCLUDEPATH += ${CUDA_DIR/include}
+   INCLUDEPATH += $$QT.includePath/QtWidgets
+   QMAKE_LIBDIR += $$CUDA_DIR/lib
+   LIBS += -L$$CUDA_DIR/lib64 -lcuda -lcudart -lcusparse
+
+
+   cuda.input = CUDA_SOURCES
+   cuda.output = ${OBJECTS_DIR}${QMAKE_FILE_BASE}.o
+   cuda.commands = nvcc -c -Xcompiler $$join(QMAKE_CXXFLAGS,",") $$join(INCLUDEPATH,'" -I "','-I "','"') ${QMAKE_FILE_NAME} -o ${QMAKE_FILE_OUT}
+   cuda.dependcy_type = TYPE_C
+   cuda.depend_command = nvcc -M -Xcompiler $$join(QMAKE_CXXFLAGS,",") $$join(INCLUDEPATH,'" -I "','-I "','"') ${QMAKE_FILE_NAME} | sed "s,^.*: ,," | sed "s,^ *,," | tr -d '\\n'
+   QMAKE_EXTRA_COMPILERS += cuda
+
+   QMAKE_CXXFLAGS_RELEASE += -DCUDA_ENABLED
+   QMAKE_CXXFLAGS_DEBUG += -DCUDA_ENABLED
+}
+
 
 contains( GRAPHICS, qt ) {
    message("Using QT graphics")

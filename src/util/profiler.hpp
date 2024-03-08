@@ -1,13 +1,16 @@
-#include <iostream>
 #include <chrono>
+#include <iostream>
 #include <vector>
 
 #ifdef PROFILING_ENABLED
-#define PROFILE(a,b) static int a = profiler.new_timer(#a); profiler.start_timer(a); b profiler.stop_timer(a);
+#define PROFILE(a, b)                                                          \
+  static int a = profiler.new_timer(#a);                                       \
+  profiler.start_timer(a);                                                     \
+  b profiler.stop_timer(a);
 #define PROFILE_PRINT profiler.print_all();
 #else
-#define PROFILE(a,b) b
-#define PROFILE_PRINT 
+#define PROFILE(a, b) b
+#define PROFILE_PRINT
 #endif
 
 struct timer {
@@ -20,23 +23,22 @@ struct timer {
   int count;
 };
 
-
 class Profiler {
-  public:
-    int start_new_timer(std::string name);
-    int new_timer(std::string name);
-    void start_timer(int timer);
-    void stop_timer(int timer);
-    void stop_print(int timer);
-    timer get_timer(int timer);
-    void print_timer(int timer);
-    void print_all();
+public:
+  int start_new_timer(std::string name);
+  int new_timer(std::string name);
+  void start_timer(int timer);
+  void stop_timer(int timer);
+  void stop_print(int timer);
+  timer get_timer(int timer);
+  void print_timer(int timer);
+  void print_all();
 
-  private:
-    std::vector<timer> timers;
-    int index;
+private:
+  std::vector<timer> timers;
+  int index;
 };
 
 #ifdef PROFILING_ENABLED
 extern Profiler profiler;
-#endif 
+#endif

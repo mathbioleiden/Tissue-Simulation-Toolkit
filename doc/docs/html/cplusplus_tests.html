@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>C++ unit tests &#8212; Tissue-Simulation-Toolkit 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=51b770b3"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cellular Potts - Extracellular Matrix coupled simulation" href="cpm_ecm.html" />
+    <link rel="prev" title="How TST is built" href="build_system.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="c-unit-tests">
+<h1>C++ unit tests<a class="headerlink" href="#c-unit-tests" title="Link to this heading">¶</a></h1>
+<p>Some of the C++ code is covered by unit tests that test whether it works
+correctly. These tests can be found in <code class="docutils literal notranslate"><span class="pre">tests/</span></code> subdirectories within
+<code class="docutils literal notranslate"><span class="pre">src/</span></code>. They use the <code class="docutils literal notranslate"><span class="pre">Catch2</span></code> testing framework, which provides some useful
+macros for structuring tests and checking results. The best way to learn about
+this is to look at the existing tests’ source code and the <a class="reference external" href="https://github.com/catchorg/Catch2/blob/devel/docs/tutorial.md">Catch2 documentation</a>.</p>
+<section id="mocking">
+<h2>Mocking<a class="headerlink" href="#mocking" title="Link to this heading">¶</a></h2>
+<p>There is one somewhat non-standard aspect of these tests that deserves an
+explanation, and that’s the mocking system. When you’re testing a class or a
+function <code class="docutils literal notranslate"><span class="pre">A</span></code> that depends on another class or function <code class="docutils literal notranslate"><span class="pre">B</span></code>, you end up
+testing the whole combined collection of functions and classes. For a unit test,
+that’s not what you want.</p>
+<p>The solution to this is called mocking, which means that you replace the real
+<code class="docutils literal notranslate"><span class="pre">B</span></code> by a different class or function that has the same interface as the real
+<code class="docutils literal notranslate"><span class="pre">B</span></code>  (so that <code class="docutils literal notranslate"><span class="pre">A</span></code> can call it) but that records what <code class="docutils literal notranslate"><span class="pre">A</span></code> did, and feeds it
+a pre-set response. The recording in this mock class or mock function can then
+be checked after calling <code class="docutils literal notranslate"><span class="pre">A</span></code> to make sure everything worked as expected.</p>
+<p>In a language like Python, this replacement is easy to do because it’s a dynamic
+language, meaning that functions and classes are just objects that can be
+replaced from the test code. In C++, functions and classes are combined together
+at compile time, and cannot be changed at runtime unless you’ve explicitly
+programmed it like this. As a result, we cannot just replace <code class="docutils literal notranslate"><span class="pre">B</span></code> with a mock
+<code class="docutils literal notranslate"><span class="pre">B</span></code> from the test code.</p>
+</section>
+<section id="dependency-inversion">
+<h2>Dependency inversion<a class="headerlink" href="#dependency-inversion" title="Link to this heading">¶</a></h2>
+<p>One way to solve this is by a mechanism called dependency inversion. Instead of
+writing</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">B</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">g</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">f</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">b_</span><span class="p">.</span><span class="n">g</span><span class="p">()</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="k">private</span><span class="o">:</span>
+<span class="w">        </span><span class="n">B</span><span class="w"> </span><span class="n">b_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>we do</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Interface for B */</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">IB</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">g</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">B</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">g</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">A</span><span class="p">(</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">IB</span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="w">        </span><span class="n">f</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">b_</span><span class="o">-&gt;</span><span class="n">g</span><span class="p">()</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="k">private</span><span class="o">:</span>
+<span class="w">        </span><span class="n">IB</span><span class="w"> </span><span class="n">b_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Now we can put a real B into A when we create it in the real code, and a mock B
+(which also implements <code class="docutils literal notranslate"><span class="pre">IB</span></code>) in the test code.</p>
+<p>As you can see however, this means writing a lot more code because now there are
+these interfaces everywhere, and you need to make separate factory classes to
+make all the objects and wire them together, and it all gets very complicated,
+just to be able to write a unit test! This is the normal approach in Java, and
+one of the reasons that Java programs tends to have so much boilerplate.</p>
+</section>
+<section id="preprocessor-based-mocking">
+<h2>Preprocessor-based mocking<a class="headerlink" href="#preprocessor-based-mocking" title="Link to this heading">¶</a></h2>
+<p>In C++, there’s another way of doing mocks that avoids all this extra
+abstraction, and that is to use the preprocessor. If your C++ code is nicely
+organised, then every class is declared in a header (e.g. <code class="docutils literal notranslate"><span class="pre">class.hpp</span></code>) and
+defined in a corresponding source file (<code class="docutils literal notranslate"><span class="pre">class.cpp</span></code>). To compile the program,
+each source file is compiled, and then they are all linked together into a
+single executable. To use one class from another class, you <code class="docutils literal notranslate"><span class="pre">#include</span></code> the
+header, which contains all the information needed to use the class.</p>
+<p>Now it would be nice if, when building the test, we could just compile as usual
+except using a <code class="docutils literal notranslate"><span class="pre">mock_class.cpp</span></code> that contains a mock implementation. However,
+that’s unlikely to work because the mock probably needs different or at least
+some extra member variables to store information on how it was called, and those
+member variables are in the header. So the header needs to be replaced too.</p>
+<p>To make this possible, we make a small modification to <code class="docutils literal notranslate"><span class="pre">b.hpp</span></code> to make it look
+like this:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifdef _MOCK_B_HPP_</span>
+<span class="cp">#include _MOCK_B_HPP_</span>
+<span class="cp">#else</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">B</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">g</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<p>When we’re compiling the model normally, <code class="docutils literal notranslate"><span class="pre">_MOCK_B_HPP_</span></code> is not defined, and
+<code class="docutils literal notranslate"><span class="pre">B</span></code> works normally. When we’re compiling the test, we set <code class="docutils literal notranslate"><span class="pre">_MOCK_B_HPP_</span></code> to
+the name of a header file that declares a mock <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">B</span></code> with a compatible
+interface, but with test logic inside of it. The real <code class="docutils literal notranslate"><span class="pre">A</span></code> will then be
+compiled against the mock <code class="docutils literal notranslate"><span class="pre">B</span></code>, and linked to the mock <code class="docutils literal notranslate"><span class="pre">B</span></code> as well, after
+which the test can make an <code class="docutils literal notranslate"><span class="pre">A</span></code> and ask the mock <code class="docutils literal notranslate"><span class="pre">B</span></code> what <code class="docutils literal notranslate"><span class="pre">A</span></code> did.</p>
+<p>The tests are not actually built one file at a time. Instead, the test itself is
+a program defined in a <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> file which includes all the other necessary
+code directly. This is somewhat of an ugly hack, and there are corner cases for
+which it just plain doesn’t work, but the alternative is a very hacky
+<code class="docutils literal notranslate"><span class="pre">Makefile</span></code> to build it all and that’s not great either.</p>
+<p>If you look at the tests, for example
+<code class="docutils literal notranslate"><span class="pre">src/adhesions/tests/test_adhesion_mover.cpp</span></code>, you’ll see the following
+pattern:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Tell the preprocessor to replace some real files with mocks</span>
+<span class="cp">#define _MOCK_ADHESION_INDEX_HPP_ &quot;mock_adhesion_index.hpp&quot;</span>
+<span class="p">...</span>
+
+<span class="c1">// Now load the real implementations, which will now use the mocks</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;adhesion_mover.cpp&quot;</span>
+<span class="p">...</span>
+
+<span class="c1">// And add the mock implementations</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mock_adhesion_index.cpp&quot;</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+<p>When this file is compiled, the preprocessor will first run into the definition
+of <code class="docutils literal notranslate"><span class="pre">_MOCK_ADHESION_INDEX_HPP_</span></code>, which it sets. Then it goes and loads
+<code class="docutils literal notranslate"><span class="pre">adhesion_mover.cpp</span></code>, which includes <code class="docutils literal notranslate"><span class="pre">adhesion_index.hpp</span></code>, so it loads that
+as well. However, because <code class="docutils literal notranslate"><span class="pre">_MOCK_ADHESION_INDEX_HPP_</span></code> has been set, instead of
+taking the real <code class="docutils literal notranslate"><span class="pre">AdhesionIndex</span></code> class, it loads <code class="docutils literal notranslate"><span class="pre">mock_adhesion_index.hpp</span></code>
+which contains the mock declaration. Finally, it’ll include the mock’s
+implementation, so that we get this:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// begin adhesion_mover.cpp</span>
+
+<span class="w">    </span><span class="c1">// begin adhesion_mover.hpp</span>
+<span class="w">        </span><span class="c1">// real AdhesionMover declaration</span>
+<span class="w">    </span><span class="c1">// end adhesion_mover.hpp</span>
+
+<span class="w">    </span><span class="c1">// begin adhesion_index.hpp</span>
+
+<span class="w">        </span><span class="c1">// begin mock_adhesion_index.hpp</span>
+<span class="w">            </span><span class="c1">// mock AdhesionIndex declaration</span>
+<span class="w">        </span><span class="c1">// end mock_adhesion_index.hpp</span>
+
+<span class="w">        </span><span class="c1">// declaration of real AdhesionIndex omitted</span>
+<span class="w">    </span><span class="c1">// end adhesion_index.hpp</span>
+
+<span class="w">    </span><span class="c1">// real AdhesionMover implementation</span>
+<span class="c1">// end adhesion_mover.cpp</span>
+
+<span class="c1">// begin mock_adhesion_index.cpp</span>
+<span class="w">    </span><span class="c1">// mock AdhesionIndex implementation</span>
+<span class="c1">// end mock_adhesion_index.cpp</span>
+</pre></div>
+</div>
+<p>As you can see, we now have the real <code class="docutils literal notranslate"><span class="pre">AdhesionMover</span></code> declaration and
+definition, and the mock <code class="docutils literal notranslate"><span class="pre">AdhesionIndex</span></code>, with only four extra lines added to
+<code class="docutils literal notranslate"><span class="pre">adhesion_index.hpp</span></code> and no other changes to the code.</p>
+<p>Including source files (as opposed to headers) directly is pretty much always
+evidence of something having gone seriously wrong, but in this case I think it’s
+justifiable. The alternative would be a very complex make target that needs to
+be carefully kept in sync with the test. Including everything means that there’s
+a nice overview at the top of the file of what is real code under test, and what
+has been mocked, and that is easy to modify as needed as tests are added. Things
+will break if you have two <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> files that declare a local symbol with the
+same name, but we don’t have any of that here so it all works fine.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Tissue-Simulation-Toolkit</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readmelink.html">Readme File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readmelink.html#tissue-simulation-toolkit-2-0">Tissue-Simulation-Toolkit 2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_system.html">How TST is built</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">C++ unit tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mocking">Mocking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependency-inversion">Dependency inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preprocessor-based-mocking">Preprocessor-based mocking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cpm_ecm.html">Cellular Potts - Extracellular Matrix coupled simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sourcecode.html">Source code documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="build_system.html" title="previous chapter">How TST is built</a></li>
+      <li>Next: <a href="cpm_ecm.html" title="next chapter">Cellular Potts - Extracellular Matrix coupled simulation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Roeland Mekrs.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/cplusplus_tests.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

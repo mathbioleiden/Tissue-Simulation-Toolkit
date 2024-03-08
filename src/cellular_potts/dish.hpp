@@ -28,22 +28,17 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 #ifndef CRITTER_H_
 #define CRITTER_H_
-#include <vector>
-#include "mcds_io.h"
-#include "graph.hpp"
-#include "random.hpp"
-#include "pde.hpp"
-#include "cell.hpp"
 #include "ca.hpp"
+#include "cell.hpp"
+#include "graph.hpp"
 #include "inputoutput.hpp"
+#include "mcds_io.h"
+#include "pde.hpp"
+#include "random.hpp"
+#include <vector>
 
 namespace ColourMode {
-  enum {
-    State,
-    CellType,
-    Sigma,
-    Auxilliary
-  };
+enum { State, CellType, Sigma, Auxilliary };
 }
 
 class Dish {
@@ -53,7 +48,7 @@ public:
   Dish();
   /*! \brief Init defines the initial state of the virtual
     cell culture.
-    
+
     Define Init() in your main file describing the simulation set up,
     within the block INIT { }. See for examples vessel.cpp and
     sorting.cpp.
@@ -61,33 +56,33 @@ public:
   void Init(void);
 
   void ConstructorBody(void);
-  
+
   virtual ~Dish();
   /*! \brief Plot the Dish to graphics window g.
 
   Simply calls CPM->Plot.
   */
   void Plot(Graphics *g);
-    
+
   //! \brief Erase all cells
   void Erase(void);
-  
+
   int ZygoteArea(void) const;
-  
+
   //! Returns the number of completed Monte Carlo Steps.
   int Time(void) const;
-  
+
   //! Returns the number of cells in the dish, excluding apoptosed cells.
   int CountCells(void) const;
-  
+
   /*! \brief Stretched induced cell growth and division.
-    
+
   See Hogeweg (2000), Journal of Theoretical Biology.
 
   Find stretched cells, and increase their target area.
   Find enlarged cells, and divide them.*/
   void CellGrowthAndDivision(void);
-  
+
   //! \brief. Returns the summed area of all cells in the dish
   int Area(void) const;
 
@@ -96,15 +91,13 @@ public:
 
   //! \brief Returns the horizontal size of the dish.
   int SizeX(void);
-  
+
   //! \brief Returns the horizontal size of the dish.
   int SizeY(void);
 
   //! \brief Returns a reference to cell number "c"
-  inline Cell &getCell(int c) {
-    return cell[c];
-  }
-  
+  inline Cell &getCell(int c) { return cell[c]; }
+
   PDE *PDEfield;
   CellularPotts *CPM;
   IO *io;
@@ -113,12 +106,10 @@ public:
   void ClearGrads(void);
 
   void MeasureChemConcentrations(void);
-    
-  //MultiCellDS Functions
-  void ExportMultiCellDS(std::string const & fname);
-  void ImportMultiCellDS(std::string const & fname);
 
-
+  // MultiCellDS Functions
+  void ExportMultiCellDS(std::string const &fname);
+  void ImportMultiCellDS(std::string const &fname);
 
 protected:
   //! Assign a the cell to the current Dish
@@ -126,10 +117,10 @@ protected:
 
 private:
   bool CellLonelyP(const Cell &c, int **neighbours) const;
-  void MCDS_import_cell(MCDS_io * mcds, int cell_id);
-  void MCDS_export_cell(MCDS_io *mcds, Cell * cell);
+  void MCDS_import_cell(MCDS_io *mcds, int cell_id);
+  void MCDS_export_cell(MCDS_io *mcds, Cell *cell);
   bool sizechange = false;
-  void anneal(int count); 
+  void anneal(int count);
 
 protected:
   //! The cells in the Petri dish; accessible to derived classes

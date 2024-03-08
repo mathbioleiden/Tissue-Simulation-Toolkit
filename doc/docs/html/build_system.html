@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How TST is built &#8212; Tissue-Simulation-Toolkit 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=51b770b3"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="C++ unit tests" href="cplusplus_tests.html" />
+    <link rel="prev" title="Readme File" href="readmelink.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="how-tst-is-built">
+<h1>How TST is built<a class="headerlink" href="#how-tst-is-built" title="Link to this heading">¶</a></h1>
+<p>The Tissue Simulation Toolkit consists mainly of C++ code, but there are also
+parts written in Python, it depends on several externally developed libraries,
+and it uses the Qt framework for graphics. As a result, building a working model
+from the sources takes quite a few steps. It’s all automated, so doing it should
+be relatively easy, but if you need to change something then you need to
+understand how it all works, and that’s what this document explains.</p>
+<p>The compilation process is driven my the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> in the root of the
+repository. It defines two main targets as well as a number of additional
+targets that are useful while developing. The main targets are <code class="docutils literal notranslate"><span class="pre">all</span></code>, which
+builds all the C++ code and the C++-only models, and <code class="docutils literal notranslate"><span class="pre">with_adhesions</span></code> which
+builds everything needed for a coupled CPM-ECM simulation with adhesions, as
+needed to model adhesions in detail. This second target will also build Python
+and MUSCLE3, as they are needed for that setup. Some of the TST code comes with
+unit tests, which can be built and run using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code>.</p>
+<section id="c">
+<h2>C++<a class="headerlink" href="#c" title="Link to this heading">¶</a></h2>
+<p>The basic target in the central <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> for building the C++ CPM-only
+simulations is <code class="docutils literal notranslate"><span class="pre">all</span></code>. This builds a set of executables in the <code class="docutils literal notranslate"><span class="pre">bin/</span></code>
+subdirectory from the main model definitions in <code class="docutils literal notranslate"><span class="pre">src/models</span></code>.</p>
+<p>These models plot their state on the screen, for which they use the Qt
+framework. Qt comes with its own build tool called <code class="docutils literal notranslate"><span class="pre">qmake</span></code>, which generates a
+Makefile from which an executable can then be built. In the <code class="docutils literal notranslate"><span class="pre">src/</span></code> directory,
+you’ll find a <code class="docutils literal notranslate"><span class="pre">.pro</span></code> file for each model with settings specific to that model.
+The file <code class="docutils literal notranslate"><span class="pre">Tissue_Simulation_Toolkit.pri</span></code> contains all the shared definitions.</p>
+<p>So, to build a model binary, the main <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>, in its <code class="docutils literal notranslate"><span class="pre">bin/%</span></code> target,
+calls QMake in the <code class="docutils literal notranslate"><span class="pre">src/</span></code> directory to create a <code class="docutils literal notranslate"><span class="pre">src/Makefile</span></code> from
+<code class="docutils literal notranslate"><span class="pre">src/&lt;model&gt;.pro</span></code>, and then it calls <code class="docutils literal notranslate"><span class="pre">make</span></code> in <code class="docutils literal notranslate"><span class="pre">src/</span></code> to build the model.
+Running QMake again will overwrite the generated <code class="docutils literal notranslate"><span class="pre">src/Makefile</span></code>, so the models
+have to be built one after the other. Fortunately, GNU make can do that if we
+tell it to using <code class="docutils literal notranslate"><span class="pre">.NOTPARALLEL</span></code>.</p>
+</section>
+<section id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Link to this heading">¶</a></h2>
+<p>Some of the C++ code has unit tests, which are located in various <code class="docutils literal notranslate"><span class="pre">tests/</span></code>
+subdirectories within <code class="docutils literal notranslate"><span class="pre">src/</span></code>. Each of these directories has a <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>
+that can build and run the tests in that directory. These directories are
+referenced from the main <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> and they’re not discovered automatically,
+so if you add tests in a new directory, then that directory needs to be added in
+the main <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> for them to be built and run. <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> will call
+<code class="docutils literal notranslate"><span class="pre">make</span></code> in each of these directories to build and run the tests. Note that
+QMake isn’t used here.</p>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h2>
+<p>The C++ code has several dependencies, which can be found in the <code class="docutils literal notranslate"><span class="pre">lib/</span></code>
+directory. These are developed externally, but are included in the git
+repository as <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodules</a>. Git submodules
+are a nice idea, but the user interface is fairly awful, making them tricky to
+use. It does make sense to use them here though, so we do, and hope that the git
+maintainers will fix things in the future.</p>
+<p>Hopefully, you’ve cloned the repository using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">--recursive</span></code>. If you
+forgot the <code class="docutils literal notranslate"><span class="pre">--recursive</span></code> part, running <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">init</span></code> and then <code class="docutils literal notranslate"><span class="pre">git</span>
+<span class="pre">submodule</span> <span class="pre">update</span></code> should fix things up and get you a complete tree with the TST
+code in <code class="docutils literal notranslate"><span class="pre">src/</span></code> and also the dependencies in <code class="docutils literal notranslate"><span class="pre">lib/</span></code>.</p>
+<p>The main C++ code uses <code class="docutils literal notranslate"><span class="pre">MultiCellDS</span></code>, <code class="docutils literal notranslate"><span class="pre">libCellShape</span></code>, <code class="docutils literal notranslate"><span class="pre">json</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">Catch2</span></code> for the tests. For <code class="docutils literal notranslate"><span class="pre">MultiCellDS</span></code> and <code class="docutils literal notranslate"><span class="pre">libCellShape</span></code>, the main
+<code class="docutils literal notranslate"><span class="pre">Makefile</span></code> calls their own build systems (which are also make-based) directly.
+Note that <code class="docutils literal notranslate"><span class="pre">libCellShape</span></code> depends on <code class="docutils literal notranslate"><span class="pre">MultiCellDS</span></code> which in turn includes a
+dependency called <code class="docutils literal notranslate"><span class="pre">XSDE</span></code> that needs to be built separately, so it’s all a bit
+messy. You’re unlikely to need to touch this though.</p>
+<p><code class="docutils literal notranslate"><span class="pre">json</span></code> is a header-only library that does not need to be compiled separately.
+<code class="docutils literal notranslate"><span class="pre">Catch2</span></code> used to be header-only, but unfortunately feature creep has set in
+and it needs to be compiled and installed these days. There’s a separate
+<code class="docutils literal notranslate"><span class="pre">lib/Catch2/Makefile</span></code> that takes care of this. <code class="docutils literal notranslate"><span class="pre">Catch2</span></code> is built using
+CMake, so the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> calls <code class="docutils literal notranslate"><span class="pre">cmake</span></code> and <code class="docutils literal notranslate"><span class="pre">make</span></code> to build it, and then
+installs <code class="docutils literal notranslate"><span class="pre">Catch2</span></code> into <code class="docutils literal notranslate"><span class="pre">lib/Catch2/catch2</span></code>. The Makefiles for the tests will
+pick it up there (see below).</p>
+<p><code class="docutils literal notranslate"><span class="pre">hoomd</span></code> is a molecular dynamics package that we use to simulate the
+extracellular matrix in TST-ECM coupled simulations. It is written in C++ but
+has a Python interface, so it needs to be compiled first, and then installed
+with the rest of the Python code (see below for that). The setup is the same as
+for <code class="docutils literal notranslate"><span class="pre">Catch2</span></code>, there’s a <code class="docutils literal notranslate"><span class="pre">lib//hoomd/Makefile</span></code> which calls <code class="docutils literal notranslate"><span class="pre">hoomd</span></code>’s build
+system.</p>
+<p>MUSCLE3 is a model coupling framework that we use to connect the Cellular Potts
+Model and the hoomd-based ECM simulation together. Like <code class="docutils literal notranslate"><span class="pre">Catch2</span></code> it needs to
+be compiled and installed, which is done by <code class="docutils literal notranslate"><span class="pre">lib/muscle3/Makefile</span></code> after which
+<code class="docutils literal notranslate"><span class="pre">lib/muscle3/muscle3</span></code> contains a working <code class="docutils literal notranslate"><span class="pre">libmuscle</span></code> library that the C++
+code in <code class="docutils literal notranslate"><span class="pre">TST</span></code> can link against. There’s also a Python version of
+<code class="docutils literal notranslate"><span class="pre">libmuscle</span></code>, which is installed separately with the rest of the Python parts.</p>
+</section>
+<section id="python">
+<h2>Python<a class="headerlink" href="#python" title="Link to this heading">¶</a></h2>
+<p>Some parts of the Tissue Simulation Toolkit are written in Python, in particular
+the coarse-grained molecular dynamics-based simulation of the extracellular
+matrix. Python source code, like the C++ source code, lives in the <code class="docutils literal notranslate"><span class="pre">src/</span></code>
+subdirectory. When building with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">python</span></code>, a Python virtual environment
+will be set up in <code class="docutils literal notranslate"><span class="pre">venv/</span></code>, and the Python code will be installed into it. This
+is done using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span></code>, which results in a so-called editable install.
+What that means is that you don’t need to reinstall after changing any of the
+Python code, you can just rerun and the changed will be available immediately.</p>
+<p>The Python code does not currently have any unit tests, but it does have type
+annotations which can be checked using <code class="docutils literal notranslate"><span class="pre">mypy</span></code>. To do this, you need to install
+the <code class="docutils literal notranslate"><span class="pre">mypy</span></code> and <code class="docutils literal notranslate"><span class="pre">tox</span></code> Python packages, and then run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code>. Settings
+for all this are in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> as usual for Python packages.</p>
+<p>A few things are worth noting:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">src/</span></code> directory gets mapped to a top-level
+<code class="docutils literal notranslate"><span class="pre">tissue_simulation_toolkit</span></code> package, so that e.g. the class <code class="docutils literal notranslate"><span class="pre">MDState</span></code> in
+<code class="docutils literal notranslate"><span class="pre">/src/ecm/ecm.py</span></code> can be imported from Python using <code class="docutils literal notranslate"><span class="pre">from</span>
+<span class="pre">tissue_simulation_toolkit.ecm.ecm</span> <span class="pre">import</span> <span class="pre">MDState</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hoomd</span></code> cannot be installed from PyPI, so it’s not listed as a dependency in
+<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. Instead, the main <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> will build it (as described
+above) and then install it into the <code class="docutils literal notranslate"><span class="pre">venv/</span></code> virtual environment as needed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> can be installed from PyPI, but requires an MPI library with
+development headers to be available to install correctly. It’s installed by
+the main <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> only if building <code class="docutils literal notranslate"><span class="pre">with_adhesions</span></code>, because it’s needed
+for that. Building with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">python</span></code> will not install <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, so that
+any Python parts we may make in the future that don’t use MPI can be used
+without installing an MPI library.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">muscle3</span></code> can be installed from PyPI, but this will only install the main
+system and the Python bindings. The C++ bindings need to be compiled and
+installed separately (see above). The version needs to be the same on both
+sides for the Python-based ECM and the C++-based CPM to be able to talk to
+each other, so if you upgrade, make sure to update both the submodule and the
+<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to the same new version.</p></li>
+</ul>
+</section>
+<section id="muscle3">
+<h2>MUSCLE3<a class="headerlink" href="#muscle3" title="Link to this heading">¶</a></h2>
+<p>As mentioned, we use the MUSCLE3 model coupling framework to connect the
+Cellular Potts Model to the Extracellular Matrix simulation. In a MUSCLE3
+coupled simulation, each model is its own separate program. These programs run
+simultaneously and exchange messages over the network (see <a href="#id1"><span class="problematic" id="id2">`cpm_ecm.rst`_</span></a> for a
+detailed description).</p>
+<p>In the CPM-ECM case, the CPM part is a normal TST model (see
+<code class="docutils literal notranslate"><span class="pre">src/models/adhesions.cpp</span></code>) that is built as described above using QMake,
+except that it has an additional dependency on MUSCLE3 (which is built as
+described above). The ECM model is a Python script (see
+<code class="docutils literal notranslate"><span class="pre">src/ecm/simulate_ecm.py</span></code>) that gets installed into the virtual environment at
+<code class="docutils literal notranslate"><span class="pre">venv/</span></code> with the rest of the Python code.</p>
+<p>The coupled simulation is controlled by a configuration file called the yMMSL
+file. This is a YAML file that contains a description of which models there are,
+how they can be started, how they should be wired together, and it has a list of
+settings that models can access.</p>
+<p>The main configuration file for the CPM-ECM simulation is built from a source
+file in <code class="docutils literal notranslate"><span class="pre">src/models/</span></code> by the main <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>. This step really just replaces
+the string <code class="docutils literal notranslate"><span class="pre">Tissue-Simulation-Toolkit</span></code> with the actual directory that you
+cloned TST into, so that MUSCLE3 can find the virtual environment and the model
+executables. The result is placed in <code class="docutils literal notranslate"><span class="pre">ymmsl/</span></code>, from where it can be used to
+start the simulation as described in <a href="#id3"><span class="problematic" id="id4">`cpm_ecm.rst`_</span></a>.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Tissue-Simulation-Toolkit</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readmelink.html">Readme File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readmelink.html#tissue-simulation-toolkit-2-0">Tissue-Simulation-Toolkit 2.0</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How TST is built</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#c">C++</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#muscle3">MUSCLE3</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cplusplus_tests.html">C++ unit tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpm_ecm.html">Cellular Potts - Extracellular Matrix coupled simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sourcecode.html">Source code documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="readmelink.html" title="previous chapter">Readme File</a></li>
+      <li>Next: <a href="cplusplus_tests.html" title="next chapter">C++ unit tests</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Roeland Mekrs.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/build_system.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

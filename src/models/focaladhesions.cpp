@@ -82,7 +82,7 @@ INIT {
             CPM->DivideCells();
         }
 
-        CPM->InitializeEdgeList();
+        CPM->InitialiseEdgeList();
     } catch (const char *error) {
         cerr << "Caught exception\n";
         std::cerr << error << "\n";
@@ -217,7 +217,7 @@ TIMESTEP {
                     {"x", "y"},
                     StorageOrder::last_adjacent);
                 auto const &pde = dish->PDEfield;
-                auto *pde_sigma = pde->getSigma()[0][0];
+                auto *pde_sigma = pde->getPDEvars()[0][0];
                 Data pde_state = Data::grid(
                     pde_sigma,
                     {static_cast<std::size_t>(pde->Layers()),
@@ -258,6 +258,8 @@ TIMESTEP {
     }
     PROFILE_PRINT
 }
+void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE *derivs, int x,
+                         int y) {}
 
 void PDE::Secrete(CellularPotts *cpm) {
     const double dt = par.dt;
@@ -265,10 +267,10 @@ void PDE::Secrete(CellularPotts *cpm) {
         for (int y = 0; y < sizey; y++) {
             // inside cells
             if (cpm->Sigma(x, y)) {
-                sigma[0][x][y] += par.secr_rate[0] * dt;
+                PDEvars[0][x][y] += par.secr_rate[0] * dt;
             } else {
                 // outside cells
-                sigma[0][x][y] -= par.decay_rate[0] * dt * sigma[0][x][y];
+                PDEvars[0][x][y] -= par.decay_rate[0] * dt * PDEvars[0][x][y];
             }
         }
     }

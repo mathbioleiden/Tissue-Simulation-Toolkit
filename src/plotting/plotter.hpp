@@ -16,10 +16,10 @@ class Plotter {
     Graphics * graphics;
 
 #ifdef GLGRAPHICS
-    GLGraphics * glgraphics;
+  GLGraphics *glgraphics;
 #endif
 #ifdef QTGLGRAPHICS
-    QtGLGraphics * glgraphics;
+  QtGLGraphics *glgraphics;
 #endif
-    int * sigma_col;
+  int *sigma_col;
 };

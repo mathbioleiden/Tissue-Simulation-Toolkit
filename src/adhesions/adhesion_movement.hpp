@@ -8,9 +8,8 @@
  * this file.
  */
 
-#include "ca.hpp"
 #include "adhesion_index.hpp"
-
+#include "ca.hpp"
 
 /** Calculate annihilation penalty.
  *

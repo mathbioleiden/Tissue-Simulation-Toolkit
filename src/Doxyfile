@@ -352,15 +352,15 @@ GENERATE_DEPRECATEDLIST= YES
 
 ENABLED_SECTIONS       = 
 
-# The MAX_INITIALIZER_LINES tag determines the maximum number of lines 
+# The MAX_INITIALISER_LINES tag determines the maximum number of lines 
 # the initial value of a variable or define consists of for it to appear in 
-# the documentation. If the initializer consists of more lines than specified 
-# here it will be hidden. Use a value of 0 to hide initializers completely. 
-# The appearance of the initializer of individual variables and defines in the 
-# documentation can be controlled using \showinitializer or \hideinitializer 
+# the documentation. If the initialiser consists of more lines than specified 
+# here it will be hidden. Use a value of 0 to hide initialisers completely. 
+# The appearance of the initialiser of individual variables and defines in the 
+# documentation can be controlled using \showinitialiser or \hideinitialiser 
 # command in the documentation regardless of this setting.
 
-MAX_INITIALIZER_LINES  = 30
+MAX_INITIALISER_LINES  = 30
 
 # Set the SHOW_USED_FILES tag to NO to disable the list of files generated 
 # at the bottom of the documentation of classes and structs. If set to YES the 
