@@ -149,14 +149,14 @@ void PDE::Secrete(CellularPotts *cpm) {
       // inside cells
       if (ctype = cpm->Sigma(x, y)) {
 
-        sigma[1][x][y] -= par.decay_rate[1] * sigma[1][x][y] * dt;
+        PDEvars[1][x][y] -= par.decay_rate[1] * PDEvars[1][x][y] * dt;
         if (cpm->getCell(ctype).getTau() != 2) {
-          sigma[0][x][y] += dt * (par.secr_rate[0]);
+          PDEvars[0][x][y] += dt * (par.secr_rate[0]);
         }
       } else {
         // outside cells (source term)
-        sigma[1][x][y] = 1.;
-        sigma[0][x][y] -= dt * (par.decay_rate[0] * sigma[0][x][y]);
+        PDEvars[1][x][y] = 1.;
+        PDEvars[0][x][y] -= dt * (par.decay_rate[0] * PDEvars[0][x][y]);
       }
     }
 }
