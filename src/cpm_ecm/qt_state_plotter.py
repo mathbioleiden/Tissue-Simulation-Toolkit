@@ -74,7 +74,6 @@ class QtStatePlotter:
              int(self._image_scale*self._img_width / self._dpi),
              int(self._image_scale*self._img_height / self._dpi),
         )
-        print(self._figsize)
         
         # app = pg.mkQApp()
         self._plotwidget = pg.plot(title="I should put a more descriptive title")
@@ -146,11 +145,8 @@ class QtStatePlotter:
             if out_dir is None:
                 raise RuntimeError("Trying to save image, but no out_dir specified")
             file_name = str(out_dir / f"state_{i:05d}.png")
-            print(self._plotwidget.viewRange())
             exporter = pg.exporters.ImageExporter(self._plotwidget.getPlotItem())
             
-            print(self._plotwidget.getPlotItem().getViewWidget().rect())
-
             
             # set export parameters if needed
             # exporter.parameters()['aspectratio'] = 1.0
@@ -220,8 +216,8 @@ class QtStatePlotter:
             colors = [pg.mkColor((255, 255, tension)) for tension in tensions]
             sizes = [self._image_scale*2*i / 50 for i in integrins]
         else:
-            colors = "yellow"
-            sizes = self._image_scale*2
+            colors = "yellow" # type: ignore
+            sizes = self._image_scale*2 # type: ignore
             print("Warning: Not loaded adhesion data")
 
         spi = pg.ScatterPlotItem(

@@ -7,7 +7,8 @@ dependencies = [
     "muscle3==0.7.1",
     "numpy",
     "scipy",
-    "pyqtgraph"
+    "pyqtgraph", # Need for quicker plotting
+    "PyQt5"
 ]
 
 [project.scripts]
