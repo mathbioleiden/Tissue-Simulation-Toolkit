@@ -48,6 +48,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell_ecm_interactions.hpp"
 #include "extension_history.hpp"
 #include "act.hpp"
+#include "grid.hpp"
 
 using namespace std;
 
@@ -574,9 +575,9 @@ protected:
   int sizex;
   int sizey;
 public:
-  void GrowFocalAdhesion();
   ExtensionHistory history;
   void MoveAdhesions();
+  void setGrid(const Grid &grid);
 
 private:
   bool frozen;

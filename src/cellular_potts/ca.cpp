@@ -2736,3 +2736,9 @@ bool CellularPotts::LocalConnectedness(int x, int y, int s){
   else
     return true;
 }
+
+void CellularPotts::setGrid(const Grid &grid) {
+    for (int x = 0; x < par.sizex; x++)
+      for (int y = 0; y < par.sizey; y++) 
+        sigma[x][y] = grid.get({x,y});
+}
