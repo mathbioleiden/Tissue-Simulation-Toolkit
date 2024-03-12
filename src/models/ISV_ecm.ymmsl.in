@@ -1,0 +1,234 @@
+ymmsl_version: v0.1
+model:
+  name: adhesions
+  components:
+    make_ecm:
+      ports:
+        o_f:
+        - ecm_out
+      implementation: make_ecm
+    equilibrate_ecm:
+      ports:
+        f_init:
+        - ecm_in
+        o_f:
+        - ecm_out
+      implementation: simulate_ecm
+
+    stretch_ecm:
+      implementation: stretch_ecm
+      ports:
+        f_init: ecm_in
+        o_f: ecm_out
+
+    cellular_potts:
+      ports:
+        o_i:
+        - cell_ecm_interactions_out
+        - state_out
+        s:
+        - ecm_boundary_state_in
+      implementation: tst_adhesions
+    simulate_ecm:
+      ports:
+        f_init:
+        - ecm_in
+        o_i:
+        - ecm_boundary_state_out
+        - state_out
+        s:
+        - cell_ecm_interactions_in
+        o_f:
+        - ecm_out
+      implementation: simulate_ecm
+    state_dumper:
+      ports:
+        f_init:
+        - cpm_state_in
+        - ecm_state_in
+      implementation: state_dumper
+  conduits:
+    make_ecm.ecm_out: stretch_ecm.ecm_in
+    stretch_ecm.ecm_out: equilibrate_ecm.ecm_in
+    equilibrate_ecm.ecm_out: simulate_ecm.ecm_in
+    cellular_potts.cell_ecm_interactions_out: simulate_ecm.cell_ecm_interactions_in
+    simulate_ecm.ecm_boundary_state_out: cellular_potts.ecm_boundary_state_in
+    cellular_potts.state_out: state_dumper.cpm_state_in
+    simulate_ecm.state_out: state_dumper.ecm_state_in
+settings:
+  muscle_local_log_level: DEBUG
+  sizex: 200
+  sizey: 200
+  box_size_x: 200
+  box_size_y: 200
+  Lx: 100.0
+  Ly: 100.0
+  mcs: 5001
+  rseed: -1
+  make_ecm.fixed_boundary: false # for ISV_network, true fixes every boundary while false only north and south boundary
+  make_ecm.bottom_fixed: true
+  make_ecm.top_fixed: false
+  contour_length: 50.0
+  make_ecm.strands: 1200
+  make_ecm.beads: 9
+  make_ecm.spring_r0: 6.25
+  make_ecm.spring_k: 200.0
+  make_ecm.crosslink_k: 200.0
+  make_ecm.helix_angle: 0.0
+  make_ecm.bend_t0: 3.14159265358979312
+  make_ecm.bend_k: 200.0
+  make_ecm.num_init_crosslinks: 0
+  make_ecm.crosslink_max_r: 3.0
+  make_ecm.crosslink_quant_step: 0.3
+  make_ecm.crosslink_bin_size: 0.333333333333333315
+  make_ecm.network_seed: 0
+  make_ecm.network_type: ISV_network
+  make_ecm.ISV_xaxis_spread: 40.0
+  md_use_gpu: false
+  md_seed: 12345678
+  overdamped: true
+  md_kT: 0.001
+  viscosity: 10.0
+  md_dt: 0.01
+
+  stretch_ecm.number_of_stretch_steps: 0
+  stretch_ecm.md_its: 100
+
+  equilibrate_ecm.mcs: 1
+  equilibrate_ecm.md_its: 1000
+  simulate_ecm.md_its: 100
+  cellular_potts.storage_stride: 1
+  cellular_potts.graphics: true
+  cellular_potts.store: false
+  cellular_potts.datadir: ./pictures/
+  cellular_potts.colortable: Tissue-Simulation-Toolkit/data/default.ctb
+  cellular_potts.T: 50
+  cellular_potts.target_area: 50
+  cellular_potts.target_length: 20
+  cellular_potts.lambda: 50
+  cellular_potts.lambda2: 10.0
+  # cellular_potts.Jtable: Tissue-Simulation-Toolkit/data/J.dat
+  cellular_potts.Jtable: Tissue-Simulation-Toolkit/data/Jnotsticky.dat
+  cellular_potts.conn_diss: 50000
+  cellular_potts.vecadherinknockout: true
+  cellular_potts.chemotaxis: 300
+  cellular_potts.extensiononly: false
+  cellular_potts.border_energy: 10000
+  cellular_potts.neighbours: 2
+  cellular_potts.periodic_boundaries: false
+  cellular_potts.n_chem: 1
+  cellular_potts.diff_coeff: [150.0]
+  cellular_potts.decay_rate: [1.0]
+  cellular_potts.secr_rate: [10.0]
+  cellular_potts.saturation: 0.
+  cellular_potts.dt: 2.
+  cellular_potts.dx: 2e-6
+  cellular_potts.pde_its: 1
+  cellular_potts.useopencl: false
+  cellular_potts.n_init_cells: 70
+  cellular_potts.size_init_cells: 50
+  cellular_potts.divisions: 0
+  cellular_potts.subfield: 1
+  cellular_potts.relaxation: 0
+  cellular_potts.adhesions_enabled: true
+  cellular_potts.num_initial_adhesions: 0
+  cellular_potts.adhesion_extension_mechanism: lazy
+  cellular_potts.adhesion_yielding: true
+  cellular_potts.adhesion_maximum_contractile_percentage: 0.0
+  cellular_potts.adhesion_integrin_N0: 50
+  cellular_potts.adhesion_yielding_lambda: 200
+  cellular_potts.adhesion_contraction_force: 1
+  cellular_potts.ns_Nt: 390
+  cellular_potts.ns_phi_s: 4.02
+  cellular_potts.ns_phi_c: 7.76
+  cellular_potts.ns_d0: 0.01
+  cellular_potts.ns_gamma: 1
+  cellular_potts.ns_dt: 0.001
+  cellular_potts.ns_T: 0.01
+  cellular_potts.ns_f_star: 1
+  cellular_potts.lambda_Act: 0.0
+  cellular_potts.max_Act: 15
+  graphics: true
+  state_output_interval: 10
+implementations:
+  init_ecm:
+    virtual_env: Tissue-Simulation-Toolkit/venv
+    executable: init_ecm
+  make_ecm:
+    virtual_env: Tissue-Simulation-Toolkit/venv
+    executable: make_ecm
+  tst_adhesions:
+    env:
+      +LD_LIBRARY_PATH: :Tissue-Simulation-Toolkit/lib/muscle3/muscle3/lib
+    executable: Tissue-Simulation-Toolkit/bin/ISV
+  tst_adhesions_snellius:
+    modules:
+    - '2022'
+    - Qt5/5.15.5-GCCcore-11.3.0
+    env:
+      +LD_LIBRARY_PATH: :Tissue-Simulation-Toolkit/lib/muscle3/muscle3/lib
+    executable: Tissue-Simulation-Toolkit/bin/adhesions
+  tst_ISV_debug:
+    env:
+      +LD_LIBRARY_PATH: :Tissue-Simulation-Toolkit/lib/muscle3/muscle3/lib
+    executable: zsh
+    args:
+    - -e
+    - /usr/bin/lldb
+    - --
+    - Tissue-Simulation-Toolkit/bin/ISV
+  tst_adhesions_debug:
+    env:
+      +LD_LIBRARY_PATH: :Tissue-Simulation-Toolkit/lib/muscle3/muscle3/lib
+    executable: konsole
+    args:
+    - -e
+    - gdb
+    - --return-child-result
+    - --args
+    - Tissue-Simulation-Toolkit/bin/adhesions
+  simulate_ecm:
+    virtual_env: Tissue-Simulation-Toolkit/venv
+    executable: simulate_ecm
+  simulate_ecm_mpi:
+    virtual_env: Tissue-Simulation-Toolkit/venv
+    execution_model: openmpi
+    executable: simulate_ecm
+  simulate_ecm_snellius:
+    modules:
+    - '2022'
+    - OpenMPI/4.1.4-GCC-11.3.0
+    - Python/3.10.4-GCCcore-11.3.0
+    - CUDA/11.8.0
+    virtual_env: Tissue-Simulation-Toolkit/venv
+    execution_model: openmpi
+    executable: simulate_ecm
+  simulate_ecm_profile:
+    virtual_env: Tissue-Simulation-Toolkit/venv
+    executable: python3
+    args:
+    - -m
+    - cProfile
+    - -o
+    - cProfile.data
+    - -m
+    - ecm.simulate_ecm
+  state_dumper:
+    virtual_env: TST-HOOMD-MUSCLE3/venv
+    executable: state_dumper
+  stretch_ecm:
+    virtual_env: Tissue-Simulation-Toolkit/venv
+    executable: stretch_ecm
+resources:
+  make_ecm:
+    threads: 1
+  equilibrate_ecm:
+    threads: 1
+  cellular_potts:
+    threads: 1
+  simulate_ecm:
+    threads: 1
+  state_dumper:
+    threads: 1
+  stretch_ecm:
+    threads: 1 
