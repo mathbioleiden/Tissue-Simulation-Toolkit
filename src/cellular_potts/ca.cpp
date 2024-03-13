@@ -257,7 +257,7 @@ void CellularPotts::InitialiseEdgeList(void) {
       cp = -1;
     else
       cp = sigma[xp][yp];
-    if (cp != c && cp != -1) {
+    if (cp != c && cp != -1 && c != -1) {
       // if a pixel and its neighbour have a different sigma, add a unique
       // interger to edgelist
       edgelist[k] = sizeedgelist;
@@ -1077,11 +1077,11 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
             if (yp >= sizey - 1)
                 yp = yp - sizey + 2;
         }
-//         if (not(LocalConnectedness(x, y, sigma[x][y]) &&
-//                 LocalConnectedness(x, y, sigma[xp][yp])))
-//         {
-//             continue;
-//         }
+        if (not(LocalConnectedness(x, y, sigma[x][y]) &&
+                LocalConnectedness(x, y, sigma[xp][yp])))
+        {
+            continue;
+        }
 
         //    // connectivity dissipation:
         H_diss=0;
@@ -1125,7 +1125,8 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
                 if (xn > 0 && yn > 0 && xn < sizex - 1 && yn < sizey - 1)
                 { // if the neighbour site is within the lattice
                     if (edgelist[edgeadjusting] == -1 &&
-                        sigma[xn][yn] != sigma[x][y])
+                        sigma[xn][yn] != sigma[x][y] &&
+                        sigma[xn][yn] != -1)
                     {
                         // if there should be an edge between (x,y) and (xn,yn)
                         // and it is not there yet, add it
@@ -1134,7 +1135,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
                         loop += 2.0 / n_nb;
                     }
                     if (edgelist[edgeadjusting] != -1 &&
-                        sigma[xn][yn] == sigma[x][y])
+                        (sigma[xn][yn] == sigma[x][y] || sigma[xn][yn] == -1)) 
                     {
                         // if there should be no edge between (x,y) and (xn,yn),
                         // but there is an edge remove it
