@@ -159,8 +159,8 @@ __global__ void NewPDEfieldV0(
  * @param PDEvars First PDE field
  * @param alt_PDEvars Second PDE field
  */
-void NewPDEfieldOthers(
-    int sizex, int sizey, int layers, PDEFIELD_TYPE *PDEvars,
+__global__ void NewPDEfieldOthers(
+    int sizex, int sizey, int layers, PDEFIELD_TYPE *BV, PDEFIELD_TYPE *PDEvars,
     PDEFIELD_TYPE
         *alt_PDEvars);
 
