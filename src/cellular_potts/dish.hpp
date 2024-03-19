@@ -118,7 +118,7 @@ public:
    * @param fname Filename
    * Warning: This function is currently broken.
    */
-  void ImportMultiCellDS(std::string const &fname);f
+  void ImportMultiCellDS(std::string const &fname);
 
 protected:
   //! Assign a the cell to the current Dish
