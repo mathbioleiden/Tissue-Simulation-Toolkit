@@ -274,7 +274,7 @@ __global__ void NewPDEfieldV0(
 }
 
 __global__ void NewPDEfieldOthers(
-    int sizex, int sizey, int layers, PDEFIELD_TYPE *PDEvars,
+    int sizex, int sizey, int layers, PDEFIELD_TYPE *BV, PDEFIELD_TYPE *PDEvars,
     PDEFIELD_TYPE
         *alt_PDEvars) { // copy the other values from alt_PDEvars to PDEvars
   int index = blockIdx.x * blockDim.x + threadIdx.x;

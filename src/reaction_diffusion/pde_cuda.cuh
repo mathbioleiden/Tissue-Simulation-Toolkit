@@ -63,7 +63,7 @@ void cuErrorChecker(cudaError_t errSync, cudaError_t errAsync);
  * @param diagV Diagonal for the vertical ADI sweep.
  * @param diffusioncoefficient 
  */
-void InitialiseDiagonals(int sizex, int sizey,
+__global__ void InitialiseDiagonals(int sizex, int sizey,
                                     PDEFIELD_TYPE twooverdt, PDEFIELD_TYPE dx2,
                                     PDEFIELD_TYPE *lowerH,
                                     PDEFIELD_TYPE *upperH, PDEFIELD_TYPE *diagH,
@@ -88,7 +88,7 @@ void InitialiseDiagonals(int sizex, int sizey,
  * @param diffusioncoefficient Vector of diffusion coefficients
  * @param alt_PDEvars The second PDE field
  */
-void InitialiseHorizontalVectors(int sizex, int sizey,
+__global__ void InitialiseHorizontalVectors(int sizex, int sizey,
                                             PDEFIELD_TYPE twooverdt,
                                             PDEFIELD_TYPE dx2,
                                             PDEFIELD_TYPE *BH,
@@ -111,7 +111,7 @@ void InitialiseHorizontalVectors(int sizex, int sizey,
  * @param diffusioncoefficient Vector of diffusion coefficients
  * @param alt_PDEvars The second PDE field
  */
-void InitialiseVerticalVectors(int sizex, int sizey,
+__global__ void InitialiseVerticalVectors(int sizex, int sizey,
                                           PDEFIELD_TYPE twooverdt,
                                           PDEFIELD_TYPE dx2, PDEFIELD_TYPE *BV,
                                           PDEFIELD_TYPE *diffusioncoefficient,
@@ -126,7 +126,7 @@ void InitialiseVerticalVectors(int sizex, int sizey,
  * @param BH Contains the vector x for Ax = b for the horizontal sweep
  * @param PDEvars The first PDE field
  */
-void NewPDEfieldH0(
+__global__ void NewPDEfieldH0(
     int sizex, int sizey, PDEFIELD_TYPE *BH,
     PDEFIELD_TYPE *PDEvars);
 
@@ -138,7 +138,7 @@ void NewPDEfieldH0(
  * @param BV Contains the vector x for Ax = b for the vertical sweep
  * @param PDEvars The first PDE field
  */
-void NewPDEfieldV0(
+__global__ void NewPDEfieldV0(
     int sizex, int sizey, PDEFIELD_TYPE *BV,
     PDEFIELD_TYPE *PDEvars);
 
@@ -184,7 +184,7 @@ void NewPDEfieldOthers(
  * @param secr_rate Secretion rates of chemicals
  * @param decay_rate Decay rate of chemicals
  */
-void ODEstepFE(PDEFIELD_TYPE dt, PDEFIELD_TYPE ddt, double thetime,
+__global__ void ODEstepFE(PDEFIELD_TYPE dt, PDEFIELD_TYPE ddt, double thetime,
                           int layers, int sizex, int sizey,
                           PDEFIELD_TYPE *PDEvars, PDEFIELD_TYPE *alt_PDEvars,
                           int *sigmafield, PDEFIELD_TYPE *secr_rate,
@@ -207,7 +207,7 @@ void ODEstepFE(PDEFIELD_TYPE dt, PDEFIELD_TYPE ddt, double thetime,
  * @param PDEsource Source field that is used for the copy
  * @param PDEtarget Target field that is used for the copy
  */
-void CopyAltToOriginalPDEvars(int sizex, int sizey, int layers,
+__global__ void CopyAltToOriginalPDEvars(int sizex, int sizey, int layers,
                                          PDEFIELD_TYPE *PDEsource,
                                          PDEFIELD_TYPE *PDEtarget);
 
