@@ -54,7 +54,7 @@ On macOS, you need to install the XCode development environment from Apple to ge
 
 To install the dependencies, we recommend installing [Homebrew](https://brew.sh). Once you have that installed, you can install QT5, libpng and zlib using (see note on Qt below)
 
-.. code-block:: bash
+.. code-block::bash
 
     brew install qt@5 libpng zlib
 
@@ -64,25 +64,25 @@ Note on Qt: If you have an existing Qt installation (e.g. the open source instal
 
 Next, you can get the source by cloning the repository from GitHub. You can use the following commands in a Terminal:
 
-.. code-block:: bash
+.. code-block::bash
 
     git clone --recursive -b TST2.0 git@github.com:rmerks/Tissue-Simulation-Toolkit.git
 
 If you are on a Mac then you will have to modify the file :code:`lib/MultiCellDS/v1.0/v1.0.0/Makefile` to get the TST to compile. Find the line
 
-.. code-block:: bash
+.. code-block::bash
 
     export COMPILE_CFLAGS := -O3 -s -mfpmath=both -m64 -std=c++11
 
 And remove the :code:`-s -mfpmath=both` so that it reads
 
-.. code-block:: bash
+.. code-block::bash
 
     export COMPILE_CFLAGS := -O3 -m64 -std=c++11
 
 The TST can then be built using
 
-.. code-block:: bash
+.. code-block::bash
 
     Tissue-Simulation-Toolkit$ make
 
@@ -93,19 +93,19 @@ Linux
 
 To compile the TST, C and C++ compilers are needed, as well as the usual helper tools like :code:`ar` and :code:`ranlib`, and :code:`make` for the build system. The TST also requires the zlib, libpng, OpenCL and QT5 libraries. On a recent Ubuntu or another Debian-based distribution (we tested Ubuntu 22.04), you can install the requirements using
 
-.. code-block:: bash
+.. code-block::bash
 
     apt install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev
 
 To get the source, clone the repository from GitHub:
 
-.. code-block:: bash
+.. code-block::bash
 
     git clone --recursive -b TST2.0 git@github.com:rmerks/Tissue-Simulation-Toolkit.git
 
 The TST can then be built using
 
-.. code-block:: bash
+.. code-block::bash
 
     Tissue-Simulation-Toolkit$ make
 
@@ -116,7 +116,7 @@ Test the Tissue Simulation Toolkit
 
 If compilation was successful, then the 'bin/' folder contains an executable called 'vessel'. This executable needs to be run from the `bin/` folder, and passed the location of a parameter file. You can run a test simulation like this:
 
-.. code-block:: bash
+.. code-block::bash
 
     Tissue-Simulation-Toolkit$ cd bin
     Tissue-Simulation-Toolkit/bin$ ./vessel ../data/chemotaxis.par
@@ -129,13 +129,13 @@ MultiCellDS not found
 
 If you get the error
 
-.. code-block:: bash
+.. code-block::bash
 
     lib/MultiCellDS/v1.0/v1.0.0/libMCDS/xsde: No such file or directory
 
 you probablly forgot to specify the '--recursive' keyword when cloning from github. You can solve this with
 
-.. code-block:: bash
+.. code-block::bash
 
     cd Tissue-Simulation-Toolkit
     Tissue-Simulation-Toolkit$ git submodule init
@@ -146,7 +146,7 @@ Unkown FP unit
 
 If you get the error:
 
-.. code-block:: bash
+.. code-block::bash
 
     error: unknown FP unit 'both'
     make[2]: *** [MultiCellDS.o] Error 1
@@ -155,13 +155,13 @@ If you get the error:
 
 Find the line
 
-.. code-block:: bash
+.. code-block::bash
 
     export COMPILE_CFLAGS := -O3 -s -mfpmath=both -m64 -std=c++11
 
 And remove the :code:`-s -mfpmath=both` so that it reads
 
-.. code-block:: bash
+.. code-block::bash
 
     export COMPILE_CFLAGS := -O3 -m64 -std=c++11
 
@@ -175,14 +175,14 @@ Formatting
 Code is easier to read if it formatted in a nice way. To format your code you can use :code:`clang-format` with the :code:`.clang_format` style file. 
 To do this run 
 
-.. code-block:: bash
+.. code-block::bash
     
     clang-format --style=file:./clang_format YOUR_FILE
 
 
 We also created a script that automatically formats any file that you commit using :code:`git commit`. To activate this script you have to let git know where it is located. You can do this by running:
 
-.. code-block:: bash
+.. code-block::bash
     git config --local core.hooksPath .githooks/
 
 
