@@ -207,7 +207,7 @@ TEST_CASE("Act Model")
         auto GM_v = GeoMetricMean(act_field, sigma, {2,1});
         auto GM_u = GeoMetricMean(act_field, sigma, {1,2});
 
-        auto dh = ACT::DeltaH(act_field, sigma, {1,2}, {2,1}); 
+        auto dh = ACT::DeltaH(act_field, sigma, {1,2}, {2,1}, par.lambda_act, par.max_Act); 
 
         REQUIRE_THAT(dh * par.max_Act, WithinAbs(1.46 , 0.01));
     }

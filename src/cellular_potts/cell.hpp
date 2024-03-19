@@ -145,7 +145,7 @@ public:
     /* if (par.dynamicJ)
       return colour;
       else */
-    return tau + 1;
+    return colour;
   };
 
   //! Set cell type of this Cell.
@@ -495,6 +495,8 @@ private:
   }
 
   inline void setSigma(int nsigma) { sigma = nsigma; }
+public:  
+  double lambda_act;
 
 private:
   //! Increments the cell's actual area by 1 unit.

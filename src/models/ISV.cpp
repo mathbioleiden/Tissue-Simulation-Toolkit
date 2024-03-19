@@ -78,29 +78,30 @@ INIT
         int wall_height =
             par.sizey - static_cast<int>(0.1 * static_cast<double>(par.sizey));
 
-        for (int x = 0; x < par.sizex; x++)
-        {
-            PixelPos pos = {x, wall_height};
-            if (x >=50 && x<=150)
-                continue;
-            AddWall(grid, pos);
-        }
-
-         // Define initial distribution of cells
-//         GrowInCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-//                                    {1, wall_height+1}, {par.sizex-1, par.sizey-1});
          PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-                                    {1, wall_height+1}, {par.sizex-1, par.sizey-1});
+                                    {par.sizex / 2 -25, par.sizey - 50}, {par.sizex /2+25, par.sizey-1});
+//        for (int x = 0; x < par.sizex; x++)
+//        {
+//            PixelPos pos = {x, wall_height};
+//            if (x >=50 && x<=150)
+//                continue;
+//            AddWall(grid, pos);
+//        }
+//
+//         // Define initial distribution of cells
+//         PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
+//                                    {1, wall_height+1}, {par.sizex-1, par.sizey-1});
+//         // PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
+//         //                            {1, wall_height+1}, {par.sizex-1, par.sizey-1});
 
         CPM->setGrid(grid);
-        std::cout << "GrowInCelsl walls" << std::endl;
         CPM->ConstructInitCells(*this);
-        std::cout << "ConsturtedCelsl" << std::endl;
+
 
         CPM->InitialiseEdgeList();
 
         // Set all the PDEs to a steady state solution.
-        PDEfield->InitialisePDEvars(nullptr, nullptr);
+        // PDEfield->InitialisePDEvars(nullptr, nullptr);
     }
     catch (const char *error)
     {
@@ -176,6 +177,29 @@ TIMESTEP
 
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
 
+        int tipcell = -1;
+        for (int j = 0; j < par.sizey; j++) {
+            for (int i = 0; i<par.sizex; i++){
+                auto spin = dish->CPM->Sigma(i,j);
+                if (spin > 0 && tipcell == -1) {
+                    tipcell = spin; 
+                    break;
+                }
+            }
+            if (tipcell != -1)
+                break;
+        }
+         for (auto & c: dish->cell) {
+             c.SetColour(2);
+             c.lambda_act = 0.0;
+         }
+         if (tipcell > 0) {
+            dish->cell[tipcell].lambda_act = par.lambda_Act;
+            dish->cell[tipcell].SetColour(3);
+            std::cout << "Tip cell = " << tipcell << '\n';
+         }
+        
+
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
 
         if (par.adhesion_yielding)
@@ -211,7 +235,7 @@ TIMESTEP
                 }
 
                 Data state = Data::dict("cpm", cpm_state, "pde", pde_state,
-                                        "adh", adh_state);
+                                        "adh", adh_state, "tipcell", tipcell);
                 instance->send("state_out", Message(i, state));
             }
         }

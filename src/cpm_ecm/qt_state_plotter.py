@@ -122,6 +122,8 @@ class QtStatePlotter:
         draw: bool = True,
         save: bool = True,
         out_dir: Optional[Path] = None,
+        colour_options = None,
+        tipcell = None,
     ) -> None:
         """Update the diagram with new data
 
@@ -137,7 +139,7 @@ class QtStatePlotter:
         """
         self._plotwidget.clear()
         self._draw_pde(pde)
-        self._draw_cpm(cpm)
+        self._draw_cpm(cpm, tipcell=tipcell, colour_options=colour_options)
         self._draw_ecm(par_pos, par_type, bond_groups, bond_types)
         self._draw_adhesions(par_pos, par_type, adh)
 
@@ -235,7 +237,7 @@ class QtStatePlotter:
         def _pde_color_function(layer: int):
             return _color_map[-1]
 
-    def _draw_cpm(self, cpm: npt.NDArray[np.int32]) -> None:
+    def _draw_cpm(self, cpm: npt.NDArray[np.int32], colour_options=None, tipcell=None) -> None:
         """Update the CPM state part of the diagram
 
         Args:
@@ -251,6 +253,13 @@ class QtStatePlotter:
                 return _color_map[1]
             if spin == 0:
                 return _color_map[0]
+            print(colour_options)
+            print(tipcell)
+            if colour_options and tipcell:
+                if tipcell == spin:
+                    return _color_map[colour_options['tipcell']]
+                else:
+                    return _color_map[colour_options['cell']]
             return _color_map[2 + spin % (len(_color_map) - 2)]
 
         image_scale = self._image_scale

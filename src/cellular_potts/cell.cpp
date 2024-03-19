@@ -98,7 +98,7 @@ void Cell::CellBirth(Cell &mother_cell) {
 void Cell::ConstructorBody(int settau) {
   // Note: Constructor of Cytoplasm will be called first
   alive = true;
-  colour = 1; // undifferentiated
+  colour = settau + 1; // undifferentiated
 
   colour_of_birth = 1;
   date_of_birth = 0;
@@ -141,6 +141,8 @@ void Cell::ConstructorBody(int settau) {
   n_copies = 0;
 
   chem = new double[par.n_chem];
+  
+  lambda_act = par.lambda_Act;
 }
 
 /*! \brief Read a table of static Js.

@@ -34,10 +34,12 @@ namespace ACT
     /// @param sigma The spin configuration that should be used.
     /// @param from The source pixel
     /// @param to The target pixel
+    /// @param lambda_act Lambda value to use. 
+    /// @param max_act Maxium Actin value.
     /// @return DeltaH contribution, should be substracted from the total
     /// hamiltonian to give a discount for high act movements.
     double DeltaH(ActField const &act_field, int **sigma, PixelPos from,
-                  PixelPos to);
+                  PixelPos to, double const lambda_act, double const max_act);
 
     /// @brief Commit a move. If the move is an extension (spin of target > 0),
     /// sets the act value of the target to maxact. Should be called after a

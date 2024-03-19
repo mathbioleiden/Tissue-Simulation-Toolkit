@@ -33,6 +33,8 @@ def parse_args() -> Namespace:
             help='Height of the image in pixels')
     parser.add_argument("--matplotlib", action='store_true', default=False)
     parser.add_argument("--override", "-f", action='store_true', default=False)
+    parser.add_argument("--tipcellcolour", action='store', default=None, type=str, help="Colour of tipcell, if it is defined.")
+    parser.add_argument("--cellcolour", action='store', default=None, type=str, help="Colour of cell, if it is defined.")
     args = parser.parse_args()
     return args
 
@@ -76,6 +78,10 @@ def main() -> None:
             adh, = data['cpm_state']['adh'],
         else:
             adh = None
+        if 'tipcell' in data['cpm_state'].keys():
+            tipcell = data['cpm_state']['tipcell']
+        else:
+            tipcell = None
         plotter.draw(
                 mcs,
                 particles['positions'].array,
@@ -85,7 +91,13 @@ def main() -> None:
                 data['cpm_state']['pde'].array,
                 data['cpm_state']['cpm'].array,
                 adh,
-                draw=False, save=True, out_dir=data_dir)
+                draw=False, save=True, out_dir=data_dir,
+                tipcell=tipcell,
+                colour_options={
+                    'tipcell': 2,
+                    'cell': 3
+                }
+                )
 
 if __name__ == '__main__':
     main()

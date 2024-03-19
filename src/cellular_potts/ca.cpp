@@ -586,6 +586,11 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
                   DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x, y) -
                        (*cell)[sxy].TargetLength()))));
   }
+  if (par.max_Act > 0){
+    auto lambda_act =static_cast<double>( (*cell)[sxyp].lambda_act );
+    DH -= static_cast<int>(ACT::DeltaH(act_field, sigma, {xp,yp}, {x,y}, lambda_act, par.max_Act));
+  } 
+
   return DH;
 }
 
@@ -1077,11 +1082,11 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
             if (yp >= sizey - 1)
                 yp = yp - sizey + 2;
         }
-        if (not(LocalConnectedness(x, y, sigma[x][y]) &&
-                LocalConnectedness(x, y, sigma[xp][yp])))
-        {
-            continue;
-        }
+//        if (not(LocalConnectedness(x, y, sigma[x][y]) &&
+//                LocalConnectedness(x, y, sigma[xp][yp])))
+//        {
+//            continue;
+//        }
 
         //    // connectivity dissipation:
         H_diss=0;

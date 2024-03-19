@@ -122,7 +122,7 @@ private:
   bool sizechange = false;
   void anneal(int count);
 
-protected:
+public:
   //! The cells in the Petri dish; accessible to derived classes
   std::vector<Cell> cell;
 };
