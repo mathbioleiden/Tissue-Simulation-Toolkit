@@ -8,6 +8,7 @@
 #include "ecm_interaction_tracker.hpp"
 #include "vec2.hpp"
 #include "force_calculation.hpp"
+#include "act.hpp"
 
 #include <unordered_map>
 #include <vector>
@@ -93,6 +94,9 @@ struct AdhesionWithEnvironment {
     
     /// Tension on adhesion
     double tension;
+    
+    /// Force fraction applied by myosin
+    double myosin_force_fraction;
 
     /// Bond constraints for this particle
     std::vector<AttachedBond> bonds;
@@ -184,6 +188,8 @@ class AdhesionIndex {
             PixelPos, std::vector<AdhesionWithEnvironment>> get_all_adhesions() const;
         
         void remove_adhesion(ParId Particle);
+        
+        void set_myosin(const ACT::ActField);
 
     private:
         // TODO: short string optimisation?

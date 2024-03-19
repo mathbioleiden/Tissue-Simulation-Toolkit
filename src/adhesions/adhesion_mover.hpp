@@ -4,6 +4,7 @@
 #include "ca_fwd.hpp"
 #include "ecm_boundary_state.hpp"
 #include "vec2.hpp"
+#include "act.hpp"
 
 
 /** Describes where the adhesions go during a copy attempt. */
@@ -114,6 +115,10 @@ class AdhesionMover {
         void update(ECMBoundaryState const & ecm_boundary);
 
         void ContractAdhesionInCells(double); 
+        
+        void update_myosin(const ACT::ActField act_field); 
+
+        
         
     private:
         /// The CPM grid to work with

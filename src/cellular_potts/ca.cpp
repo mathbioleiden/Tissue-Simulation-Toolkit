@@ -1082,11 +1082,11 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
             if (yp >= sizey - 1)
                 yp = yp - sizey + 2;
         }
-//        if (not(LocalConnectedness(x, y, sigma[x][y]) &&
-//                LocalConnectedness(x, y, sigma[xp][yp])))
-//        {
-//            continue;
-//        }
+        if (not(LocalConnectedness(x, y, sigma[x][y]) &&
+                LocalConnectedness(x, y, sigma[xp][yp])))
+        {
+            continue;
+        }
 
         //    // connectivity dissipation:
         H_diss=0;
@@ -2595,6 +2595,7 @@ int **CellularPotts::get_annealed_sigma(int steps)
 
 void CellularPotts::MoveAdhesions()
 {
+    adhesion_mover.update_myosin(act_field);
     adhesion_mover.ContractAdhesionInCells(par.adhesion_contraction_force);
 }
 

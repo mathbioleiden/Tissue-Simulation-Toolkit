@@ -63,7 +63,7 @@ void AdhesionMover::ContractAdhesionInCells(double cell_force)
 
                 double delta_energy_ecm = adh.move_dh(delta);
                 double delta_energy_cyto =
-                    cell_force * 0.5 *
+                    cell_force * adh.myosin_force_fraction * 0.5 *
                     (new_deltaR.dot(new_deltaR) - deltaR.dot(deltaR));
                 double delta_energy = delta_energy_ecm + delta_energy_cyto;
                 if (delta_energy < 0)
@@ -152,6 +152,10 @@ void AdhesionMover::reset_cell_ecm_interactions()
 void AdhesionMover::update(ECMBoundaryState const &ecm_boundary)
 {
     index_.rebuild(ecm_boundary);
+}
+
+void AdhesionMover::update_myosin(const ACT::ActField act_field){
+    index_.set_myosin(act_field);
 }
 
 double

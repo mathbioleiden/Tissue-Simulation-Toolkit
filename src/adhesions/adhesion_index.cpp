@@ -3,6 +3,7 @@ extern Parameter par;
 #include "adhesion_index.hpp"
 #include "novikova_storm.hpp"
 #include "sqr.hpp"
+#include "act.hpp"
 
 AttachedBond::AttachedBond(
     ParPos const& neighbour, BondType const& bond_type)
@@ -182,6 +183,17 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
     }
     setting_force_on_adhesions();
     setting_size_on_adhesions();
+}
+
+void AdhesionIndex::set_myosin(const ACT::ActField act_field) {
+    for (auto & pos_adhesions : adhesions_by_pixel_) {
+        auto pos = pos_adhesions.first;
+        auto adhesions = pos_adhesions.second;
+        auto act_percentage = act_field.Value(pos) / par.max_Act;
+        for (auto & awe : adhesions) {
+            awe.myosin_force_fraction = 0.1 - 0.9 * act_percentage;
+        }
+    }
 }
 
 void AdhesionIndex::setting_force_on_adhesions() {
