@@ -80,86 +80,38 @@ following published simulations:</p>
 <h3>macOS<a class="headerlink" href="#macos" title="Link to this heading">¶</a></h3>
 <p>On macOS, you need to install the XCode development environment from Apple to get the required tools, including the command line tools. You will need to specifically select the command line tools in the installer.</p>
 <p>To install the dependencies, we recommend installing [Homebrew](<a class="reference external" href="https://brew.sh">https://brew.sh</a>). Once you have that installed, you can install QT5, libpng and zlib using (see note on Qt below)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>qt@5<span class="w"> </span>libpng<span class="w"> </span>zlib
-</pre></div>
-</div>
 <p>You may have to edit <cite>src/Tissue-Simulation-Toolkit.pri</cite> for qmake to be able to find them.</p>
 <p>Note on Qt: If you have an existing Qt installation (e.g. the open source installation through qt.io)  do not install Qt again through homebrew. Instead, ensure that qmake is in the path or edit the Makefile such that the full path for qmake is given.</p>
 <p>Next, you can get the source by cloning the repository from GitHub. You can use the following commands in a Terminal:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>-b<span class="w"> </span>TST2.0<span class="w"> </span>git@github.com:rmerks/Tissue-Simulation-Toolkit.git
-</pre></div>
-</div>
 <p>If you are on a Mac then you will have to modify the file <code class="code docutils literal notranslate"><span class="pre">lib/MultiCellDS/v1.0/v1.0.0/Makefile</span></code> to get the TST to compile. Find the line</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-s<span class="w"> </span>-mfpmath<span class="o">=</span>both<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
-</pre></div>
-</div>
 <p>And remove the <code class="code docutils literal notranslate"><span class="pre">-s</span> <span class="pre">-mfpmath=both</span></code> so that it reads</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
-</pre></div>
-</div>
 <p>The TST can then be built using</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span>make
-</pre></div>
-</div>
 <p>See below for how to run a simple simulation to test if it’s all working.</p>
 </section>
 <section id="linux">
 <h3>Linux<a class="headerlink" href="#linux" title="Link to this heading">¶</a></h3>
 <p>To compile the TST, C and C++ compilers are needed, as well as the usual helper tools like <code class="code docutils literal notranslate"><span class="pre">ar</span></code> and <code class="code docutils literal notranslate"><span class="pre">ranlib</span></code>, and <code class="code docutils literal notranslate"><span class="pre">make</span></code> for the build system. The TST also requires the zlib, libpng, OpenCL and QT5 libraries. On a recent Ubuntu or another Debian-based distribution (we tested Ubuntu 22.04), you can install the requirements using</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt<span class="w"> </span>install<span class="w"> </span>gcc<span class="w"> </span>g++<span class="w"> </span>binutils<span class="w"> </span>make<span class="w"> </span>zlib1g-dev<span class="w"> </span>libpng-dev<span class="w"> </span>ocl-icd-opencl-dev<span class="w"> </span>libqt5opengl5-dev
-</pre></div>
-</div>
 <p>To get the source, clone the repository from GitHub:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>-b<span class="w"> </span>TST2.0<span class="w"> </span>git@github.com:rmerks/Tissue-Simulation-Toolkit.git
-</pre></div>
-</div>
 <p>The TST can then be built using</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span>make
-</pre></div>
-</div>
 <p>See below for how to run a simple simulation to test if it’s all working.</p>
 </section>
 </section>
 <section id="test-the-tissue-simulation-toolkit">
 <h2>Test the Tissue Simulation Toolkit<a class="headerlink" href="#test-the-tissue-simulation-toolkit" title="Link to this heading">¶</a></h2>
 <p>If compilation was successful, then the ‘bin/’ folder contains an executable called ‘vessel’. This executable needs to be run from the <cite>bin/</cite> folder, and passed the location of a parameter file. You can run a test simulation like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Tissue-Simulation-Toolkit$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>bin
-Tissue-Simulation-Toolkit/bin$<span class="w"> </span>./vessel<span class="w"> </span>../data/chemotaxis.par
-</pre></div>
-</div>
 </section>
 <section id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
 <section id="multicellds-not-found">
 <h3>MultiCellDS not found<a class="headerlink" href="#multicellds-not-found" title="Link to this heading">¶</a></h3>
 <p>If you get the error</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lib/MultiCellDS/v1.0/v1.0.0/libMCDS/xsde:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
-</pre></div>
-</div>
 <p>you probablly forgot to specify the ‘–recursive’ keyword when cloning from github. You can solve this with</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>Tissue-Simulation-Toolkit
-Tissue-Simulation-Toolkit$<span class="w"> </span>git<span class="w"> </span>submodule<span class="w"> </span>init
-Tissue-Simulation-Toolkit$<span class="w"> </span>git<span class="w"> </span>submodule<span class="w"> </span>update
-</pre></div>
-</div>
 </section>
 <section id="unkown-fp-unit">
 <h3>Unkown FP unit<a class="headerlink" href="#unkown-fp-unit" title="Link to this heading">¶</a></h3>
 <p>If you get the error:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>error:<span class="w"> </span>unknown<span class="w"> </span>FP<span class="w"> </span>unit<span class="w"> </span><span class="s1">&#39;both&#39;</span>
-make<span class="o">[</span><span class="m">2</span><span class="o">]</span>:<span class="w"> </span>***<span class="w"> </span><span class="o">[</span>MultiCellDS.o<span class="o">]</span><span class="w"> </span>Error<span class="w"> </span><span class="m">1</span>
-make<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>***<span class="w"> </span><span class="o">[</span>objects<span class="o">]</span><span class="w"> </span>Error<span class="w"> </span><span class="m">2</span>
-make:<span class="w"> </span>***<span class="w"> </span><span class="o">[</span>MCDS<span class="o">]</span><span class="w"> </span>Error<span class="w"> </span><span class="m">2</span>
-</pre></div>
-</div>
 <p>Find the line</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-s<span class="w"> </span>-mfpmath<span class="o">=</span>both<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
-</pre></div>
-</div>
 <p>And remove the <code class="code docutils literal notranslate"><span class="pre">-s</span> <span class="pre">-mfpmath=both</span></code> so that it reads</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
-</pre></div>
-</div>
 </section>
 </section>
 <section id="contributing">
@@ -169,9 +121,6 @@ make:<span class="w"> </span>***<span class="w"> </span><span class="o">[</span>
 <h3>Formatting<a class="headerlink" href="#formatting" title="Link to this heading">¶</a></h3>
 <p>Code is easier to read if it formatted in a nice way. To format your code you can use <code class="code docutils literal notranslate"><span class="pre">clang-format</span></code> with the <code class="code docutils literal notranslate"><span class="pre">.clang_format</span></code> style file.
 To do this run</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>clang-format<span class="w"> </span>--style<span class="o">=</span>file:./clang_format<span class="w"> </span>YOUR_FILE
-</pre></div>
-</div>
 <p>We also created a script that automatically formats any file that you commit using <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>. To activate this script you have to let git know where it is located. You can do this by running:</p>
 </section>
 </section>
