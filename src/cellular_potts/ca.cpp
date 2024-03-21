@@ -590,6 +590,7 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
     auto lambda_act =static_cast<double>( (*cell)[sxyp].lambda_act );
     DH -= static_cast<int>(ACT::DeltaH(act_field, sigma, {xp,yp}, {x,y}, lambda_act, par.max_Act));
   } 
+  std::cout << "Total DH = " << DH << "\n";
 
   return DH;
 }

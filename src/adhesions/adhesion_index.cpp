@@ -46,7 +46,7 @@ double AttachedAngleCst::move_dh(ParPos from, ParPos to) const {
 
 AdhesionWithEnvironment::AdhesionWithEnvironment(
     ParId par_id, ParPos const& position, Integrin size)
-    : par_id(par_id), position(position), size(size) {}
+    : par_id(par_id), position(position), size(size), myosin_force_fraction(0.1) {}
 
 double AdhesionWithEnvironment::move_dh(PixelDisplacement move) const {
     double dh = 0.0;
@@ -185,13 +185,28 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
     setting_size_on_adhesions();
 }
 
+namespace {
+   double myosin_derivate(double act_percentage, double myosin) {
+        return par.myosin_creation_rate * ( 1 - myosin) - par.myosin_decay_rate * act_percentage * (myosin - 0.1); 
+   } 
+   double myosin_FE(double act_percentage, double myosin) {
+        double T = 0;
+        while (T < par.myosin_intergration_time) {
+            myosin += myosin_derivate(act_percentage, myosin) * par.myosin_intergration_timestep;
+            T += par.myosin_intergration_timestep;            
+        } 
+        return myosin;
+   }
+}
+
 void AdhesionIndex::set_myosin(const ACT::ActField act_field) {
     for (auto & pos_adhesions : adhesions_by_pixel_) {
         auto pos = pos_adhesions.first;
-        auto adhesions = pos_adhesions.second;
         auto act_percentage = act_field.Value(pos) / par.max_Act;
-        for (auto & awe : adhesions) {
-            awe.myosin_force_fraction = 0.1 - 0.9 * act_percentage;
+        for (auto & awe : pos_adhesions.second) {
+            awe.myosin_force_fraction = 1.0 - 0.9 * act_percentage;
+            std::cout << "Setting myosin_force_fraction of " << awe.par_id
+                      << " to " << awe.myosin_force_fraction << "\n";
         }
     }
 }

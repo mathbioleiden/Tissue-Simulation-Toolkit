@@ -55,6 +55,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "util/muscle3/settings.hpp"
 #include "grid.hpp"
 #include "domaininit.hpp"
+#include <sstream>
 
 using namespace std;
 
@@ -69,6 +70,10 @@ using ymmsl::Operator;
 extern Parameter par;
 
 std::unique_ptr<Instance> instance;
+#include "act.hpp"
+std::unordered_map<PixelPos, double> ACT::getValue(ACT::ActField act_field) {
+        return act_field.value_;
+}
 
 INIT
 {
@@ -77,9 +82,18 @@ INIT
         Grid grid;
         int wall_height =
             par.sizey - static_cast<int>(0.1 * static_cast<double>(par.sizey));
-
+        if (par.n_init_cells > 1) {
+         int sq = (std::sqrt(par.size_init_cells) + 1.0);
          PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-                                    {par.sizex / 2 -25, par.sizey - 50}, {par.sizex /2+25, par.sizey-1});
+                                    {par.sizex / 2 - 2 * sq, par.sizey - 2 * sq },
+                                    {par.sizex / 2 + 2 * sq, par.sizey-1});
+        }
+        else{ 
+         int hsq = 0.5 * (std::sqrt(par.size_init_cells) + 1.0);
+         PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
+                                    {par.sizex / 2 - hsq, 
+                                    par.sizey/2 -  hsq}, {par.sizex /2+ hsq, par.sizey/2 + hsq});
+        }
 //        for (int x = 0; x < par.sizex; x++)
 //        {
 //            PixelPos pos = {x, wall_height};
@@ -231,11 +245,19 @@ TIMESTEP
                 for (const auto &awe : dish->CPM->getAdhesions())
                 {
                     adh_state[std::to_string(awe.par_id)] =
-                        Data::dict("size", awe.size, "tension", awe.tension);
+                        Data::dict("size", awe.size, "tension", awe.tension,
+                        "myosin", awe.myosin_force_fraction);
+                }
+                Data act_state = Data::dict();
+                for (const auto &actpixel : ACT::getValue(dish->CPM->getActField()) )
+                {
+                    std::string name = std::to_string(actpixel.first.x) + "," + std::to_string(actpixel.first.y);
+                    act_state[name] = actpixel.second;
                 }
 
                 Data state = Data::dict("cpm", cpm_state, "pde", pde_state,
-                                        "adh", adh_state, "tipcell", tipcell);
+                                        "adh", adh_state, "tipcell", tipcell,
+                                        "act_state", act_state);
                 instance->send("state_out", Message(i, state));
             }
         }

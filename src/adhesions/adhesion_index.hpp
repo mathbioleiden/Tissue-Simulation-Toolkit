@@ -189,6 +189,10 @@ class AdhesionIndex {
         
         void remove_adhesion(ParId Particle);
         
+        /** Set the myosin concentration based on the actfield value.
+         * 
+         * @param act_field Actin field on which myosin is based.
+        */
         void set_myosin(const ACT::ActField);
 
     private:

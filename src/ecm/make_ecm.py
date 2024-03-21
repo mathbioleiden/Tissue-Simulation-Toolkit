@@ -105,9 +105,9 @@ def main():
             net = single_strand(
                 sizex=par.box_size_x,
                 sizey=par.box_size_y,
-                start_x=100,
-                start_y=93,
-                angle=0.0,
+                start_x=-par.spring_r0,
+                start_y=100,
+                angle=np.pi,
                 number_of_beads_per_strand=par.beads,
                 contour_length_of_strand=par.contour_length,
                 seed=None,

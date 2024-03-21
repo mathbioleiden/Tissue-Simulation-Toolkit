@@ -27,10 +27,9 @@ double NS::integrate(double force, double size, NS::Parameter par)
         double decay = size * decay_rate;
         size += par.dt * (growth - decay);
 
-        if (size > par.Nt) {
+        if (size > par.Nt) 
             size = par.Nt;
-        }
-        else if (size < par.N0)
+        if (size < par.N0)
             size = par.N0;
     }
     return size;

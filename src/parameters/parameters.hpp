@@ -251,6 +251,13 @@ SECTION("Adhesion yielding")
     PARAMETER(double, ns_f_star, 1, "force scale")
     PARAMETER(double, ns_dt, 0.001, "FE timestep")
     PARAMETER(double, ns_T, 0.01, "How long the NS equation is integrated")
+    
+SECTION("Myosin parameters")
+
+    PARAMETER(double, myosin_intergration_time, 1.0, "time that the myosin equation is integrated.")
+    PARAMETER(double, myosin_intergration_timestep, 0.001, "DeltaT used in FE myosin calculation")
+    PARAMETER(double, myosin_creation_rate, 0.001, "Rate with which myosin is created")
+    PARAMETER(double, myosin_decay_rate, 1, "Rate with which myosin is lost by actin")
 
 
 SECTION("Obsolete and unused")

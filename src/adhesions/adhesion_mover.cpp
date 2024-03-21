@@ -66,9 +66,16 @@ void AdhesionMover::ContractAdhesionInCells(double cell_force)
                     cell_force * adh.myosin_force_fraction * 0.5 *
                     (new_deltaR.dot(new_deltaR) - deltaR.dot(deltaR));
                 double delta_energy = delta_energy_ecm + delta_energy_cyto;
+                std::cout << "  Trying to move " 
+                          << adh.par_id 
+                          << ", " << adh.myosin_force_fraction
+                          << ", cyto=" << delta_energy_cyto
+                          << ", ecm=" << delta_energy_ecm
+                          << "\n";
                 if (delta_energy < 0)
                 {
                     index_.move_adhesion(adh.par_id, pos, new_pos);
+                    std::cout << "  Move " << adh.par_id << "\n";
                 }
             }
         }
@@ -162,15 +169,18 @@ double
 compute_yielding_penalty(const std::vector<AdhesionWithEnvironment> adhesions)
 {
     Integrin total(0);
+    std::cout << "Yielding DH of adhesions with sizes: ";
     for (auto const &adh : adhesions)
     {
+        std::cout << adh.size << ',';
         total += adh.size;
     }
+    std::cout << "\nGives DH = ";
 
     Integrin resisting = std::max(0, total - par.adhesion_integrin_N0);
     // The 1.0 (with .0) makes the division a division of doubles instead of
     // division of ints.
-    double fraction(resisting / (par.adhesion_yielding_Nh + resisting));
-
+    double fraction(1.0 * resisting / (1.0*(par.adhesion_yielding_Nh + resisting)));
+    std::cout << fraction * par.adhesion_yielding_lambda << "\n";
     return fraction * par.adhesion_yielding_lambda;
 }

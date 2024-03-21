@@ -9,6 +9,7 @@ from typing import Optional
 from tissue_simulation_toolkit.cpm_ecm.state_plotter import StatePlotter
 from tissue_simulation_toolkit.cpm_ecm.qt_state_plotter import QtStatePlotter
 
+import pyqtgraph as pg
 
 def find_data_dir(input_dir_str: str) -> Path:
     """Gets the correct path given the user-passed directory."""
@@ -35,6 +36,7 @@ def parse_args() -> Namespace:
     parser.add_argument("--override", "-f", action='store_true', default=False)
     parser.add_argument("--tipcellcolour", action='store', default=None, type=str, help="Colour of tipcell, if it is defined.")
     parser.add_argument("--cellcolour", action='store', default=None, type=str, help="Colour of cell, if it is defined.")
+    parser.add_argument("--show", action='store_true', default=False)
     args = parser.parse_args()
     return args
 
@@ -48,6 +50,7 @@ def main() -> None:
             if f.is_file() and f.name.endswith('.pickle')])
 
     plotter: Optional[StatePlotter] = None
+    
 
     for data_file in files:
         if not args.override and data_file.with_suffix('.png').exists():
@@ -82,6 +85,9 @@ def main() -> None:
             tipcell = data['cpm_state']['tipcell']
         else:
             tipcell = None
+
+        if args.show:
+            app = pg.mkQApp()
         plotter.draw(
                 mcs,
                 particles['positions'].array,
@@ -96,8 +102,12 @@ def main() -> None:
                 colour_options={
                     'tipcell': 2,
                     'cell': 3
-                }
+                },
+                act = data['cpm_state']['act_state']
                 )
+    
+        if args.show:
+            app.exec()
 
 if __name__ == '__main__':
     main()

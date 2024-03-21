@@ -119,6 +119,7 @@ class QtStatePlotter:
         pde: npt.NDArray[np.float64],
         cpm: npt.NDArray[np.int32],
         adh,
+        act = None,
         draw: bool = True,
         save: bool = True,
         out_dir: Optional[Path] = None,
@@ -142,6 +143,9 @@ class QtStatePlotter:
         self._draw_cpm(cpm, tipcell=tipcell, colour_options=colour_options)
         self._draw_ecm(par_pos, par_type, bond_groups, bond_types)
         self._draw_adhesions(par_pos, par_type, adh)
+        
+        if act:
+            self._draw_act(act)
 
         if save:
             if out_dir is None:
@@ -214,8 +218,13 @@ class QtStatePlotter:
             integrins = [
                 adh.get(str(i), {"size": 0.0})["size"] for i in adhesions_indices
             ]
+            myosin = [
+                adh.get(str(i), {"myosin": 0.0})["myosin"] for i in adhesions_indices
+            ]
+            # colors = [pg.mkColor((255, 255, tension)) for tension in tensions]
+            colors = [(0, 255, 255 * (1-m)) for m in myosin]
+            print(colors)
 
-            colors = [pg.mkColor((255, 255, tension)) for tension in tensions]
             sizes = [self._image_scale*2*i / 50 for i in integrins]
         else:
             colors = "yellow" # type: ignore
@@ -253,8 +262,6 @@ class QtStatePlotter:
                 return _color_map[1]
             if spin == 0:
                 return _color_map[0]
-            print(colour_options)
-            print(tipcell)
             if colour_options and tipcell:
                 if tipcell == spin:
                     return _color_map[colour_options['tipcell']]
@@ -300,10 +307,27 @@ class QtStatePlotter:
         image = pg.ImageItem()
         image.setImage(image_data)
         #image.setImage(cpm)
-        image.setRect(0, 0, 800, 800)
+        image.setRect(0, 0, self._Lx * 8, self._Ly * 8)
         #image.setRect(0, 0, self._image_scale*2*int(self._Lx), self._image_scale*2*int(self._Ly))
         
         self._plotwidget.addItem(image)
+        
+    def _draw_act(self, act):
+        X = [] 
+        Y = []
+        colors = []
+        for pos, value in act.items():
+            X.append(self._image_scale * int(pos.split(',')[0]))
+            Y.append(self._image_scale * int(pos.split(',')[1]))
+            color = 255 * ( 1 - value / 15) # 15 is act_Max
+            colors.append(
+                pg.mkColor((color,color,color))
+            )
+
+        spi = pg.ScatterPlotItem(
+            X, Y, pen=colors, brush=colors, alpha=0.5, size=5
+        )
+        self._plotwidget.addItem(spi)
 
     """
     """
