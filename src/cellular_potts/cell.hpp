@@ -151,40 +151,30 @@ public:
   //! Set cell type of this Cell.
   inline void setTau(int settau) { tau = settau; }
 
+  /*! \brief Set the adhesive area of a cell, used for act model.
+   * \param new_area: New area of the cell
+  */
   inline int SetAdhesiveArea(int new_area) { return adhesive_area = new_area; }
 
+  //! \brief Get the adhesive area of a cell, used for act model.
   inline int GetAdhesiveArea() { return adhesive_area; }
 
-  inline void SetBorderNumber(double n) { border = n; }
-  inline double GetBorderNumber() { return border; }
-  inline void IncrementBorderNumber(double n) { border += n; }
-  inline void DecrementBorderNumber(double n) { border -= n; }
 
-  //! Get cell type of this Cell.
+  //! Return the cell type of this Cell.
   inline int getTau(void) { return tau; }
 
-  inline double getCenterX(void) { return (double)sum_x / (double)area; }
 
+
+  //!Return the sum of all x-values of a cell.
   inline double getSumX(void) { return sum_x; }
+  //!Return the sum of all y-values of a cell.
   inline double getSumY(void) { return sum_y; }
 
-  // inline double recomputeCenterXFromSum(void){
-  //   center_x= (double) sum_x/ (double) area;
-  //   return center_x;
-  // }
-  //
-  // inline double recomputeCenterYFromSum(void){
-  //   center_y= (double) sum_y/ (double) area;
-  //   return center_y;
-  // }
-  //
+  //!Return the x-coordinate of the geometric cell center.
+  inline double getCenterX(void) { return (double)sum_x / (double)area; }
+  //!Return the y-coordinate of the geometric cell center.
   inline double getCenterY(void) { return (double)sum_y / (double)area; }
-  // inline void setCenterX(double newX){
-  //   center_x=newX;
-  // }
-  // inline void setCenterY(double newY){
-  //   center_y=newY;
-  // }
+
   //! Set color of this cell to new_colour, irrespective of type.
   inline int SetColour(const int new_colour) { return colour = new_colour; }
 
@@ -219,8 +209,8 @@ public:
   //! Set the Cell's target length
   inline double SetTargetLength(double l) { return target_length = l; }
 
-  //! Debugging function used to print the cell's current inertia tensor (as
-  //! used for calculations of the length )
+  /*! Debugging function used to print the cell's current inertia tensor (as
+  used for calculations of the length )*/
   inline void PrintInertia(void) {
     double ixx = (double)sum_xx - (double)sum_x * sum_x / (double)area;
     double iyy = (double)sum_yy - (double)sum_y * sum_y / (double)area;
@@ -242,8 +232,6 @@ public:
   al. 2000). The current version of TST does not include such functionality.
   */
   static void ClearJ(void);
-  double polarvec[9];
-  void RenormPolarVec(void);
 
   /*! \brief Returns the maximum cell identity number in the Dish.
     This would normally be the number of cells in the Dish, although
@@ -325,8 +313,6 @@ public:
     call this function to set the moments and areas right.
   */
   void MeasureCellSize(Cell &c);
-
-  void setArea(int n_area) { area = n_area; }
 
   //! Increments the cell's actual adhesive area by 1 unit.
   inline int IncrementAdhesiveArea(int increment) {

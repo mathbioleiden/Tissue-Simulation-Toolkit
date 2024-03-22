@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['x11graphics_0',['X11Graphics',['../class_x11_graphics.html',1,'']]]
+  ['x11graphics_697',['X11Graphics',['../classX11Graphics.html',1,'']]]
 ];

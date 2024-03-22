@@ -21,8 +21,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
-/*! \class Dish
-  \brief The virtual Petri dish.
+/** \class Dish
+  @brief The virtual Petri dish.
   Hosts the cells with states and the CA-plane.
 */
 
@@ -46,7 +46,7 @@ class Dish {
 
 public:
   Dish();
-  /*! \brief Init defines the initial state of the virtual
+  /** @brief Init defines the initial state of the virtual
     cell culture.
 
     Define Init() in your main file describing the simulation set up,
@@ -58,16 +58,14 @@ public:
   void ConstructorBody(void);
 
   virtual ~Dish();
-  /*! \brief Plot the Dish to graphics window g.
+  /** @brief Plot the Dish to graphics window g.
 
   Simply calls CPM->Plot.
   */
   void Plot(Graphics *g);
 
-  //! \brief Erase all cells
+  //! @brief Erase all cells
   void Erase(void);
-
-  int ZygoteArea(void) const;
 
   //! Returns the number of completed Monte Carlo Steps.
   int Time(void) const;
@@ -75,7 +73,7 @@ public:
   //! Returns the number of cells in the dish, excluding apoptosed cells.
   int CountCells(void) const;
 
-  /*! \brief Stretched induced cell growth and division.
+  /** @brief Stretched induced cell growth and division.
 
   See Hogeweg (2000), Journal of Theoretical Biology.
 
@@ -83,19 +81,19 @@ public:
   Find enlarged cells, and divide them.*/
   void CellGrowthAndDivision(void);
 
-  //! \brief. Returns the summed area of all cells in the dish
+  //! @brief. Returns the summed area of all cells in the dish
   int Area(void) const;
 
-  //! \brief Returns the summed of all cells target area in the dish
+  //! @brief Returns the summed of all cells target area in the dish
   int TargetArea(void) const;
 
-  //! \brief Returns the horizontal size of the dish.
+  //! @brief Returns the horizontal size of the dish.
   int SizeX(void);
 
-  //! \brief Returns the horizontal size of the dish.
+  //! @brief Returns the horizontal size of the dish.
   int SizeY(void);
 
-  //! \brief Returns a reference to cell number "c"
+  //! @brief Returns a reference to cell number "c"
   inline Cell &getCell(int c) { return cell[c]; }
 
   PDE *PDEfield;
@@ -107,8 +105,19 @@ public:
 
   void MeasureChemConcentrations(void);
 
-  // MultiCellDS Functions
+  /**
+   * @brief Export a cell configuration to an .xml format annotated
+   * by the MultiCellDS format
+   * @param fname Filename
+   * Warning: This function is currently broken.
+   */
   void ExportMultiCellDS(std::string const &fname);
+  /**
+   * @brief Import a cell configuration from an .xml format annotated
+   * by the MultiCellDS format
+   * @param fname Filename
+   * Warning: This function is currently broken.
+   */
   void ImportMultiCellDS(std::string const &fname);
 
 protected:
@@ -116,11 +125,26 @@ protected:
   void SetCellOwner(Cell &which_cell);
 
 private:
-  bool CellLonelyP(const Cell &c, int **neighbours) const;
+  /**
+   * @brief Returns wheter or not a cell is isolated,
+   * @param c Cell object.
+   * @param neighbours Neighbours of the cell.
+   */
+  bool CellIsolated(const Cell &c, int **neighbours) const;
+  /**
+   * @brief Import a cell annoted in .xml format annoted by
+   * MulticellDS
+   * Warning: This function is currently broken.
+  */ 
   void MCDS_import_cell(MCDS_io *mcds, int cell_id);
+    /**
+   * @brief Export a cell annoted in .xml format annoted by
+   * MulticellDS
+   * Warning: This function is currently broken.
+  */
   void MCDS_export_cell(MCDS_io *mcds, Cell *cell);
+
   bool sizechange = false;
-  void anneal(int count);
 
 protected:
   //! The cells in the Petri dish; accessible to derived classes

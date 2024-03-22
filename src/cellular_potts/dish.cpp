@@ -105,7 +105,7 @@ void Dish::ConstructorBody() {
   PDEfield = 0;
 }
 
-bool Dish::CellLonelyP(const Cell &c, int **neighbours) const {
+bool Dish::CellIsolated(const Cell &c, int **neighbours) const {
   int i;
   for (i = 0; i < (int)cell.size(); i++) {
     if (neighbours[c.sigma][i] == EMPTY)
@@ -187,7 +187,6 @@ void Dish::ClearGrads(void) {
   }
 }
 
-int Dish::ZygoteArea(void) const { return CPM->ZygoteArea(); }
 
 int Dish::Time(void) const { return CPM->Time(); }
 
