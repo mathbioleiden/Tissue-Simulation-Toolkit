@@ -205,8 +205,8 @@ void AdhesionIndex::set_myosin(const ACT::ActField act_field) {
         auto act_percentage = act_field.Value(pos) / par.max_Act;
         for (auto & awe : pos_adhesions.second) {
             awe.myosin_force_fraction = 1.0 - 0.9 * act_percentage;
-            std::cout << "Setting myosin_force_fraction of " << awe.par_id
-                      << " to " << awe.myosin_force_fraction << "\n";
+//            std::cout << "Setting myosin_force_fraction of " << awe.par_id
+//                      << " to " << awe.myosin_force_fraction << "\n";
         }
     }
 }
