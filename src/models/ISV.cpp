@@ -84,9 +84,13 @@ INIT
             par.sizey - static_cast<int>(0.1 * static_cast<double>(par.sizey));
         if (par.n_init_cells > 1) {
          int sq = (std::sqrt(par.size_init_cells) + 1.0);
-         PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-                                    {par.sizex / 2 - 2 * sq, par.sizey - 2 * sq },
-                                    {par.sizex / 2 + 2 * sq, par.sizey-1});
+         int hsq = static_cast<int>( 0.5 * (std::sqrt(par.size_init_cells) + 1.0));
+         PutCellsInRectangle(grid, par.n_init_cells - 1, par.size_init_cells,
+                                    {2,par.sizey - sq },
+                                    {par.sizex-2, par.sizey-2});
+         PutCellsInRectangle(grid, 1, par.size_init_cells,
+                                    {par.sizex / 2 - hsq, par.sizey - 2 * sq },
+                                    {par.sizex / 2 + hsq, par.sizey - sq});
         }
         else{ 
          int hsq = 0.5 * (std::sqrt(par.size_init_cells) + 1.0);
