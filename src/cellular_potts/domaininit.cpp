@@ -89,7 +89,7 @@ int GrowInCellsInRectangle(Grid &grid, int init_cells, int cell_size,
 int PutCellsInRectangle(Grid &grid, int n_cells, int cell_size, PixelPos upper_left, PixelPos lower_right) {
     int cell_num = 1; // Find the largest spin already in the grid
     for (int i = 0 ; i < par.sizex; i++)  
-    for (int j = 0 ; j < par.sizex; j++)  
+    for (int j = 0 ; j < par.sizey; j++)  
         {
             auto spin = grid.get({i,j});
             if (spin == cell_num)
@@ -107,6 +107,7 @@ int PutCellsInRectangle(Grid &grid, int n_cells, int cell_size, PixelPos upper_l
     std::cerr << "size_of_cell_side " << size_of_cell_side << std::endl;
     std::cerr << "num_cell_x " << num_cell_x << std::endl;
     std::cerr << "num_cell_y " << num_cell_y << std::endl;
+    std::cerr << "cell_num " << cell_num << std::endl;
 
     for (int y = upper_left.y; y < lower_right.y; y++) 
         for (int x = upper_left.x; x < lower_right.x; x++){
