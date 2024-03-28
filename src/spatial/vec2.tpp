@@ -27,6 +27,16 @@ constexpr Coordinate Vec2<Coordinate>::dot(Vec2 const &rhs) const {
   return x * rhs.x + y * rhs.y;
 }
 
+
+template <typename Coordinate>
+Vec2<Coordinate> operator*(Coordinate const &lhs,
+                           Vec2<Coordinate> const &rhs) {
+  Vec2<Coordinate> result(rhs);
+  result.x *= lhs;
+  result.y *= lhs;
+  return result;
+}
+
 template <typename Coordinate>
 Vec2<Coordinate> operator+(Vec2<Coordinate> const &lhs,
                            Vec2<Coordinate> const &rhs) {
