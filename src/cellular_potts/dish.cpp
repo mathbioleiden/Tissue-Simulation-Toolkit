@@ -142,7 +142,7 @@ void Dish::CellGrowthAndDivision(void) {
   }
   // Divide scheduled cells
   if (cell_division) {
-    CPM->DivideCells(which_cells);
+    CPM->DivideCells(which_cells, cell);
   }
 }
 
@@ -255,7 +255,8 @@ void Dish::MCDS_export_cell(MCDS_io *mcds, Cell *cell) {
   iocell->area = cell->area;
   cell->GetCentroid(&iocell->centroid_x, &iocell->centroid_y);
   double ovx, ovy;
-  cell->MajorMinorAxis(&iocell->major_axis, &iocell->minor_axis, &ovx, &ovy);
+  iocell->minor_axis = cell->MinorAxis();
+  iocell->major_axis = cell->MajorAxis();
 }
 
 void Dish::ExportMultiCellDS(std::string const &fname) {

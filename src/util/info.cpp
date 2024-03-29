@@ -233,8 +233,8 @@ void Info::WriteCOMsTorus(std::ostream &out) {
   int cell_number = par.n_init_cells;
   static int t;
   for (int s = 1; s < cell_number + 1; s++) {
-    double com_x = dish->getCell(s).sum_x / (double)dish->getCell(s).area;
-    double com_y = dish->getCell(s).sum_y / (double)dish->getCell(s).area;
+    double com_x = dish->getCell(s).getCenterX();
+    double com_y = dish->getCell(s).getCenterY();
     int n = dish->getCell(s).Area();
     int a = dish->getCell(s).GetAdhesiveArea();
     out << t << " " << s << " " << com_x << " " << com_y << " " << n << " " << a

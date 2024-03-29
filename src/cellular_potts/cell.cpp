@@ -74,9 +74,6 @@ void Cell::CellBirth(Cell &mother_cell) {
   mother_cell.daughter = this->sigma;
   mother = mother_cell.sigma;
   times_divided = ++mother_cell.times_divided;
-  owner = mother_cell.owner;
-
-  date_of_birth = owner->Time();
 
   colour_of_birth = mother_cell.colour;
   colour = mother_cell.colour;
@@ -125,13 +122,7 @@ void Cell::ConstructorBody(int settau) {
   perimeter = 0;
   target_perimeter = 0;
 
-  length = 0;
   target_length = par.target_length;
-  sum_x = 0;
-  sum_y = 0;
-  sum_xx = 0;
-  sum_yy = 0;
-  sum_xy = 0;
   border = 0;
 
   //  growth_threshold=par.dthres;
@@ -191,4 +182,24 @@ void Cell::ClearJ(void) {
   for (int i = 0; i < capacity * capacity; i++) {
     J[0][i] = EMPTY;
   }
+}
+
+Vec2<double> Cell::CenterVector() {
+  return fit_ellipse.center();
+}
+
+Vec2<double> Cell::MajorAxisVector() {
+  return fit_ellipse.major_axis();
+}
+
+Vec2<double> Cell::MinorAxisVector() {
+  return fit_ellipse.minor_axis();
+}
+
+double Cell::MajorAxis() {
+  return Length();
+}
+
+double Cell::MinorAxis() {
+  return fit_ellipse.minor();
 }

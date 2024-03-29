@@ -226,9 +226,11 @@ public:
 
   /** @brief Divide all cells.
   Divide along cell elongation axis */
-  void DivideCells(void) {
-    std::vector<bool> tmp;
-    DivideCells(tmp);
+  void DivideCells(vector<Cell> &cells) {
+    std::vector<bool> tmp(cells.size());
+    for (int i =1; i<cells.size(); i++)
+      tmp[i] = true;
+    DivideCells(tmp, cells);
   }
 
   /** Divide all cells marked "true" in which_cells.
@@ -238,7 +240,7 @@ public:
 
    If which_cells is empty, this method divides all cells.
   */
-  void DivideCells(std::vector<bool> which_cells);
+  void DivideCells(std::vector<bool> which_cells, vector<Cell> &cells);
 
   /** Implements the core CPM algorithm. Carries out one MCS.
   * \return Total energy change during MCS.
@@ -416,7 +418,7 @@ public:
   /** Cells grow until twice their original target_length, then
     divide, with rate "growth_rate"
   */
-  void GrowAndDivideCells(int growth_rate);
+  void GrowAndDivideCells(int growth_rate, std::vector<Cell> &cells);
 
   /** @brief Returns cell with sigma c.
   */

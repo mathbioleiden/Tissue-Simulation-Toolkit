@@ -89,7 +89,6 @@ namespace
         double minusCoverB = -C / B;
         double scale = 1.0 / std::sqrt(minusCoverB * minusCoverB + 1.0);
         Vec2<double> result = scale * Vec2<double>(minusCoverB, 1.0);
-        std::cout << A << ',' << B << ',' << C << ',' << result;
         return result;
     }
 }

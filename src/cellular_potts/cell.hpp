@@ -24,6 +24,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #define _CELL_HH_
 
 #include "parameter.hpp"
+#include "cell_direction.hpp"
 //#define EMPTY -1
 #include <iostream>
 #include <math.h>
@@ -36,6 +37,7 @@ class Cell {
   friend class CellularPotts;
   friend class Info;
   friend class IO;
+  friend void DivideCells(std::vector<bool> which_cells, std::vector<Cell> &cells, int**sigma );
 
 public:
   /*! \brief Constructor to insert a cell into Dish "who"
@@ -43,11 +45,11 @@ public:
   celtype).
   */
   Cell(const Dish &who, int settau = 1) {
-    owner = &who;
     ConstructorBody(settau);
+    std::cout << "sigma = " << sigma << std::endl;
   }
 
-  Cell(void) { chem = new double[par.n_chem]; };
+  Cell(void) {ConstructorBody(1);}
 
   ~Cell(void);
 
@@ -58,12 +60,10 @@ public:
     amount++;
     area = src.area;
     target_area = src.target_area;
-    length = src.length;
     adhesive_area = src.adhesive_area;
     ref_adhesive_area = src.ref_adhesive_area;
     perimeter = src.perimeter;
     target_perimeter = src.target_perimeter;
-    length = src.length;
     target_length = src.target_length;
     growth_threshold = src.growth_threshold;
     mother = src.mother;
@@ -76,16 +76,13 @@ public:
     v[0] = src.v[0];
     v[1] = src.v[1];
     n_copies = src.n_copies;
-    sum_x = src.sum_x;
-    sum_y = src.sum_y;
-    sum_xx = src.sum_xx;
-    sum_yy = src.sum_yy;
-    sum_xy = src.sum_xy;
     owner = src.owner;
 
     chem = new double[par.n_chem];
     for (int ch = 0; ch < par.n_chem; ch++)
       chem[ch] = src.chem[ch];
+    
+    fit_ellipse = src.fit_ellipse;
   }
 
   /*! \brief Add a new cell to the dish.
@@ -115,15 +112,9 @@ public:
     v[1] = src.v[1];
     n_copies = src.n_copies;
 
-    sum_x = src.sum_x;
-    sum_y = src.sum_y;
-    sum_xx = src.sum_xx;
-    sum_yy = src.sum_yy;
-    sum_xy = src.sum_xy;
 
     border = src.border;
 
-    length = src.length;
     target_length = src.target_length;
     amount++;
     owner = src.owner;
@@ -165,15 +156,11 @@ public:
 
 
 
-  //!Return the sum of all x-values of a cell.
-  inline double getSumX(void) { return sum_x; }
-  //!Return the sum of all y-values of a cell.
-  inline double getSumY(void) { return sum_y; }
 
   //!Return the x-coordinate of the geometric cell center.
-  inline double getCenterX(void) { return (double)sum_x / (double)area; }
+  inline double getCenterX(void) { return fit_ellipse.center().x; }
   //!Return the y-coordinate of the geometric cell center.
-  inline double getCenterY(void) { return (double)sum_y / (double)area; }
+  inline double getCenterY(void) { return fit_ellipse.center().y; }
 
   //! Set color of this cell to new_colour, irrespective of type.
   inline int SetColour(const int new_colour) { return colour = new_colour; }
@@ -185,7 +172,7 @@ public:
   int EnergyDifference(const Cell &cell2) const;
 
   //! Return Cell's actual area.
-  inline int Area() const { return area; }
+  inline int Area() const { return fit_ellipse.area(); }
 
   //! Return Cell's target area.
   inline int TargetArea() const { return target_area; }
@@ -209,20 +196,8 @@ public:
   //! Set the Cell's target length
   inline double SetTargetLength(double l) { return target_length = l; }
 
-  /*! Debugging function used to print the cell's current inertia tensor (as
-  used for calculations of the length )*/
-  inline void PrintInertia(void) {
-    double ixx = (double)sum_xx - (double)sum_x * sum_x / (double)area;
-    double iyy = (double)sum_yy - (double)sum_y * sum_y / (double)area;
-    double ixy = (double)sum_xy - (double)sum_x * sum_y / (double)area;
-
-    std::cerr << "ixx = " << ixx << "\n";
-    std::cerr << "iyy = " << iyy << "\n";
-    std::cerr << "ixy = " << ixy << "\n";
-  }
-
   // return the current length
-  inline double Length(void) { return length; }
+  inline double Length(void) { return fit_ellipse.length(); }
 
   /*! \brief Clears the table of J's.
 
@@ -336,148 +311,37 @@ private:
 
   // used internally by class CellularPotts
   inline void CleanMoments(void) {
-    sum_x = sum_y = sum_xx = sum_xy = sum_yy = area = target_area = 0;
+    fit_ellipse.clear();
+    target_area = 0;
   }
   // used internally by class CellularPotts
-  inline double AddSiteToMoments(int x, int y, double new_l = -1.) {
-
-    // Add a site to the raw moments, then update and return the
-    // length of the cell
-
-    // sum_x, sum_y, sum_xx, sum_xy and sum_yy are adjusted
-    // Eventually this function may be used to carry
-    // out all necessary adminstration at once
-    sum_x += x;
-    sum_y += y;
-    sum_xx += x * x;
-    sum_yy += y * y;
-    sum_xy += x * y;
-
-    // update length (see appendix. A, Zajac.jtb03), if length is not given
-    // NB. 24 NOV 2004. Found mistake in Zajac's paper. See remarks in
-    // method "Length(..)".
-
-    if (new_l < 0.) {
-      length = Length(sum_x, sum_y, sum_xx, sum_yy, sum_xy, area);
-    } else {
-      length = new_l;
-    }
-    return length;
+  inline double AddSiteToMoments(int x, int y) {
+    fit_ellipse.add_site({x,y});
   }
 
   // used internally by class CellularPotts
-  inline double RemoveSiteFromMoments(int x, int y, double new_l = -1.) {
-
-    // Remove a site from the raw moments, then update and return the
-    // length of the cell
-
-    // sum_x, sum_y, sum_xx, sum_xy and sum_yy are adjusted
-    // Eventually this function may be used to carry
-    // out all necessary adminstration at once
-    sum_x -= x;
-    sum_y -= y;
-    sum_xx -= x * x;
-    sum_yy -= y * y;
-    sum_xy -= x * y;
-
-    // update length (see app. A, Zajac.jtb03), if length is not given
-    if (new_l < 0.) {
-      length = Length(sum_x, sum_y, sum_xx, sum_yy, sum_xy, area);
-    } else {
-      length = new_l;
-    }
-    return length;
-  }
-
-  //! \brief Calculates the length based on the given inertia tensor
-  // components (used internally)
-  inline double Length(long int s_x, long int s_y, long int s_xx, long int s_yy,
-                       long int s_xy, long int n) {
-    // prevent NaN when last pixel is deleted
-    if (n == 0) {
-      return 0.;
-    }
-
-    // prevent NaN when last pixel is deleted
-    if (n == 0) {
-      return 0.;
-    }
-
-    // inertia tensor (constructed from the raw momenta, see notebook)
-    double iyy = (double)s_xx - (double)s_x * s_x / (double)n;
-    double ixx = (double)s_yy - (double)s_y * s_y / (double)n;
-    double ixy = -(double)s_xy + (double)s_x * s_y / (double)n;
-
-    double rhs1 = (ixx + iyy) / 2.,
-           rhs2 = sqrt((ixx - iyy) * (ixx - iyy) + 4 * ixy * ixy) / 2.;
-
-    double lambda_b = rhs1 + rhs2;
-    // double lambda_a=rhs1-rhs2;
-
-    // according to Zajac et al. 2003:
-    // return 2*sqrt(lambda_b);
-    // Grumble, this is not right!!!
-    // Must divide by mass!!!!!!
-
-    // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
-    //    std::cerr << "n = " << n << "\n";
-    return 4 * sqrt(lambda_b / n);
-
-    // 2*sqrt(lambda_b/n) give semimajor axis. We want the length.
-  }
-  //! \brief Calculates the major and minor axes based on the given inertia
-  //! tensor
-  // components
-  inline void MajorMinorAxis(double *major_axis, double *minor_axis, double *v1,
-                             double *v2) {
-
-    // inertia tensor (constructed from the raw momenta, see notebook)
-    double iyy = (double)sum_xx - (double)sum_x * sum_x / (double)area;
-    double ixx = (double)sum_yy - (double)sum_y * sum_y / (double)area;
-    double ixy = -(double)sum_xy + (double)sum_x * sum_y / (double)area;
-
-    double rhs1 = (ixx + iyy) / 2.,
-           rhs2 = sqrt((ixx - iyy) * (ixx - iyy) + 4 * ixy * ixy) / 2.;
-
-    double lambda_b = rhs1 + rhs2;
-    double lambda_a = rhs1 - rhs2;
-
-    // see: http://scienceworld.wolfram.com/physics/MomentofInertiaEllipse.html
-    //    std::cerr << "n = " << n << "\n";
-    *major_axis = 4 * sqrt(lambda_b / area);
-    *minor_axis = 4 * sqrt(lambda_a / area);
-
-    if (ixy != 0) {
-      *v1 = lambda_a - iyy;
-      *v2 = ixy;
-    } else {
-      *v1 = 0;
-      *v2 = 1;
-    }
-
-    // normalize vector
-    double norm = sqrt((*v1) * (*v1) + (*v2) * (*v2));
-    *v1 /= norm;
-    *v2 /= norm;
-
-    // 2*sqrt(lambda_b/n) give semimajor axis. We want the length.
+  inline double RemoveSiteFromMoments(int x, int y) {
+    fit_ellipse.remove_site({x,y});
   }
 
   // return the new length that the cell would have
   // if site (x,y) were added.
   // used internally by CellularPotts
   inline double GetNewLengthIfXYWereAdded(int x, int y) {
-    return Length(sum_x + x, sum_y + y, sum_xx + x * x, sum_yy + y * y,
-                  sum_xy + x * y, area + 1);
+    fit_ellipse.add_site({x,y});
+    auto length = fit_ellipse.length();
+    fit_ellipse.remove_site({x,y});
+    return length;
   }
 
   // return the new length that the cell would have
   // if site (x,y) were removed
   // used internally by CellularPotts
   inline double GetNewLengthIfXYWereRemoved(int x, int y) {
-
-    return Length(sum_x - x, sum_y - y, sum_xx - x * x, sum_yy - y * y,
-                  sum_xy - x * y, area - 1);
+    fit_ellipse.remove_site({x,y});
+    auto length = fit_ellipse.length();
+    fit_ellipse.add_site({x,y});
+    return length;
   }
 
   inline void setSigma(int nsigma) { sigma = nsigma; }
@@ -516,19 +380,53 @@ private:
   // (depends on Jtable)
   static int MaxTau(void) { return maxtau; }
 
+  /**
+   * @brief Retrieve the midpoint of the cell as vector.
+   * @return Vector with position of the cell.
+   */
+  Vec2<double> CenterVector();
+  
+  /**
+   * @brief Fit an ellipse to the cell, and retrieve the minor axis of said ellipse
+   * @return Unit vector in the direction of minor axis of the cell.
+   */
+  Vec2<double> MinorAxisVector();
+
+  /**
+   * @brief Fit an ellipse to the cell, and retrieve the major axis of said ellipse
+   * @return Unit vector in the direction of major axis of the cell.
+   */
+  Vec2<double> MajorAxisVector();
+  
+  /**
+   * @brief Fit an ellipse to the cell, and retrieve the size of the major axis of said ellipse. 
+   * (Same function as Length)
+   * @return Size of majoraxis.
+   */
+  double MajorAxis();
+
+  /**
+   * @brief Fit an ellipse to the cell, and retrieve the size of the minor axis of said ellipse. 
+   * (Same function as Length)
+   * @return Size of minoraxis.
+   */
+  double MinorAxis();
+
+
   inline void GetCentroid(double *cx, double *cy) {
-    *cx = sum_x / area;
-    *cy = sum_y / area;
+    auto pos = fit_ellipse.center();
+    *cx = pos.x;
+    *cy = pos.y;
   }
 
 protected:
+  FitEllipse fit_ellipse;
   int colour;
   bool alive;
   int sigma; // cell identity, 0 if medium
   int tau;   // Cell type, when dynamicJ's are not used
 
   // Two dimensional (square) array of ints, containing the J's.
-  double length; // length of the cell;
   double target_length;
 
   // Dynamically increased when cells are added to the system
@@ -572,11 +470,6 @@ protected:
   // and quickly calculated!
   // N.B: N is area!
 
-  long int sum_x;
-  long int sum_y;
-  long int sum_xx;
-  long int sum_yy;
-  long int sum_xy;
 
   double border;
 

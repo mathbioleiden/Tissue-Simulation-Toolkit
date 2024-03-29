@@ -42,6 +42,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "sqr.hpp"
 #include "sticky.hpp"
 
+#include "cell_division.hpp"
+
 #define ZYGFILE(Z) <Z.xpm>
 #define XPM(Z) Z##_xpm
 #define ZYGXPM(Z) XPM(Z)
@@ -1806,6 +1808,7 @@ void CellularPotts::MeasureCellSizes(void) {
   for (vector<Cell>::iterator c = cell->begin(); c != cell->end(); c++) {
     c->SetTargetArea(0);
     c->area = 0;
+    c->CleanMoments();
   }
 
   // calculate the area of the cells
@@ -1983,94 +1986,8 @@ void CellularPotts::ShowDirections(Graphics &g, const Dir *celldir) const {
              (int)((celldir[i].aa1 + celldir[i].bb1 * sizey) * 2), 2);
 }
 
-void CellularPotts::DivideCells(vector<bool> which_cells) {
-
-  // for the cell directions
-  Dir *celldir = 0;
-
-  /* Allocate space for divisionflags */
-  int *divflags = (int *)malloc((cell->size() * 2 + 5) * sizeof(int));
-
-  /* Clear divisionflags */
-  for (int i = 0; i < (int)(cell->size() * 2 + 5); i++)
-    divflags[i] = 0;
-
-  if (!(which_cells.size() == 0 || which_cells.size() >= cell->size())) {
-    throw "In CellularPotts::DivideCells, Too few elements in vector<int> "
-          "which_cells.";
-  }
-
-  /* division */
-  for (int i = 0; i < sizex; i++) {
-    for (int j = 0; j < sizey; j++)
-      if (sigma[i][j] > 0) { // i.e. not medium and not border state (-1)
-        // Pointer to mother. Warning: Renew pointer after a new
-        // cell is added (push_back). Then, the array *cell is relocated and
-        // the pointer will be lost...
-
-        Cell *motherp = &((*cell)[sigma[i][j]]);
-        Cell *daughterp;
-
-        /* Divide if NOT medium and if DIV bit set or divide_always is set */
-        // if which_cells is given, divide only if the cell
-        // is marked in which_cells.
-        if (!which_cells.size() || which_cells[motherp->sigma]) {
-          if (!(divflags[motherp->Sigma()])) {
-            // add daughter cell, copying states of mother
-            daughterp = new Cell(*(motherp->owner));
-            daughterp->CellBirth(*motherp);
-            cell->push_back(*daughterp);
-
-            // renew pointer to mother
-            motherp = &((*cell)[sigma[i][j]]);
-
-            divflags[motherp->Sigma()] = daughterp->Sigma();
-            delete daughterp;
-
-            // array may be relocated after "push_back"
-
-            // renew daughter pointers
-            daughterp = &(cell->back());
-
-            /* administration on the onset of mitosis */
-
-            /* Ancestry is taken care of in copy constructor of Cell
-               see cell.hh: Cell(const Cell &src, bool newcellP=false) :
-               Cytoplasm(src) {} */
-
-            /* inherit  polarity of mother */
-            // All that needs to be copied is copied in the copy constructor
-            // of Cell and in the default copy constr. of its base class
-            // Cytoplasm note: also the celltype is inherited
-          } else {
-            daughterp = &((*cell)[divflags[motherp->Sigma()]]);
-          }
-
-          /* Now the actual division takes place */
-
-          /* If celldirections where not yet computed: do it now */
-          if (!celldir)
-            celldir = FindCellDirections();
-
-          /* if site is below the minor axis of the cell: sigma of new cell */
-          if (j > ((int)(celldir[motherp->sigma].aa2 +
-                         celldir[motherp->sigma].bb2 * (double)i))) {
-            motherp->DecrementArea();
-            motherp->DecrementTargetArea();
-            motherp->RemoveSiteFromMoments(i, j);
-            sigma[i][j] = daughterp->Sigma();
-            daughterp->AddSiteToMoments(i, j);
-            daughterp->IncrementArea();
-            daughterp->IncrementTargetArea();
-          }
-        }
-      }
-  }
-  if (celldir)
-    delete[](celldir);
-
-  if (divflags)
-    free(divflags);
+void CellularPotts::DivideCells(vector<bool> which_cells, vector<Cell> &cells) {
+  ::DivideCells(which_cells, cells, sigma); // The :: tells the compiler to look for a function not in the class.
 }
 
 /**! Fill the plane with initial cells
@@ -2458,28 +2375,27 @@ void CellularPotts::SetRandomTypes(void) {
   }
 }
 
-void CellularPotts::GrowAndDivideCells(int growth_rate) {
+void CellularPotts::GrowAndDivideCells(int growth_rate, std::vector<Cell> &cells) {
   vector<Cell>::iterator c = cell->begin();
-  ++c;
   vector<bool> which_cells(cell->size());
-  for (; c != cell->end(); c++) {
+  for (auto &c : cells) {
     // only tumor cells grow and divide
-    if (c->getTau() == 2) {
-      c->SetTargetArea(c->TargetArea() + growth_rate);
+    if (c.getTau() == 2) {
+      c.SetTargetArea(c.TargetArea() + growth_rate);
 
-      if (c->Area() > par.target_area) {
-        which_cells[c->Sigma()] = true;
+      if (c.Area() > par.target_area) {
+        which_cells[c.Sigma()] = true;
       } else {
-        which_cells[c->Sigma()] = false;
+        which_cells[c.Sigma()] = false;
       }
-      if (c->chem[1] < 0.9) { // arbitrary oxygen threshold for the moment
-        c->setTau(3);
+      if (c.chem[1] < 0.9) { // arbitrary oxygen threshold for the moment
+        c.setTau(3);
       }
     } else {
-      which_cells[c->Sigma()] = false;
+      which_cells[c.Sigma()] = false;
     }
   }
-  DivideCells(which_cells);
+  DivideCells(which_cells, cells);
 }
 
 double CellularPotts::DrawConvexHull(Graphics *g, int color) {

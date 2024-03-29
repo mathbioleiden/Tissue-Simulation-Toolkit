@@ -52,7 +52,7 @@ INIT {
     //
     // The behavior can be changed in the parameter file.
     for (int i = 0; i < par.divisions; i++) {
-      CPM->DivideCells();
+      CPM->DivideCells(cell);
     }
 
     CPM->InitialiseEdgeList();

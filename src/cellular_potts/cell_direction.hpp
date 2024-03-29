@@ -1,29 +1,13 @@
 #pragma once;
 #include "vec2.hpp"
 
-struct Dir
-{
-    Dir()
-    {
-        aa1 = 0.;
-        aa2 = 0.;
-        bb1 = 0.;
-        bb2 = 0.;
-        lb1 = 0.;
-        lb2 = 0.;
-    }
-    double aa1, aa2;
-    double bb1, bb2;
-    double lb1, lb2;
-};
-
 /// Class used to effectivly keep track of a fitted ellipse to a changing shape.
 class FitEllipse
 {
 public:
     FitEllipse()
-        : sum_x_(), sum_y_(), sum_xy_(), sum_xx_(), sum_yy_(), area_(),
-          length_()
+        : sum_x_(0), sum_y_(0), sum_xy_(0), sum_xx_(0), sum_yy_(0), area_(0),
+          length_(0)
     {
     }
 
@@ -56,6 +40,12 @@ public:
      * @return Length of the shape.
      */
     double length() const;
+    
+    /**
+     * @brief Returns the computed area
+     * @return The area (total number of sites added).
+    */
+    double area() const {return area_;}
 
     /**
      * @brief Add a site to the shape.
