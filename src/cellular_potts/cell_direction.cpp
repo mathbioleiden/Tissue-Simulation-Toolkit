@@ -7,7 +7,7 @@ namespace
      * moments.
      *
      * This is how the major and minor axis are calculated:
-     * It is know that the inertia tensor of a 2d ellipse with axis a
+     * It is known that the inertia tensor of a 2d ellipse with axis a
      * and b is given by:
      *                     /                   \
      *                    |  1/4 a^2            |
