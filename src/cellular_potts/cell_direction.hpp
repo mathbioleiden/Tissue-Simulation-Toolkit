@@ -58,7 +58,7 @@ public:
     void remove_site(PixelPos);
     
     /**
-     * @brief Clears the moments of stored chape.
+     * @brief Clears the moments of stored shape.
     */
     void clear();
     
