@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
+#include <catch2/generators/catch_generators.hpp>
 
 #include "cell_direction.cpp"
 #include "vec2.cpp"
@@ -71,8 +72,8 @@ TEST_CASE("Length works", "[fitellipse_length]")
 
         auto vec = fit_ellipse.major_axis();
         
-        REQUIRE_THAT(vec.x, Catch::Matchers::WithinAbs(1.0, 0.1));
-        REQUIRE_THAT(vec.y, Catch::Matchers::WithinAbs(0.0, 0.1));
+        REQUIRE_THAT(vec.x, Catch::Matchers::WithinAbs(0.0, 0.1));
+        REQUIRE_THAT(vec.y, Catch::Matchers::WithinAbs(1.0, 0.1));
     }
     
     SECTION("Rotated 10 degrees") {
@@ -137,7 +138,138 @@ TEST_CASE("Length works", "[fitellipse_length]")
 
         auto length = fit_ellipse.minor();
         REQUIRE_THAT(length, Catch::Matchers::WithinAbs(A, 1));
-        
+    }
+}
+
+TEST_CASE("Test Major minor axis") {
+    FitEllipse fit_ellipse;
+    double x0 = 5.0;
+    double y0 = 10.0;
+    double A = 3.0;
+    double B = 5.0;
+    double theta = 0.0; // (11.0/180.0) * 3.1415;
+
+   for (int i = x0 - 10; i < x0 + 11; i++)
+   {
+       for (int j = y0 - 10; j < y0 + 11; j++)
+       {
+           double x = (i*1.0 - x0);
+           double y = (j*1.0 - y0);
+           double rotx = x * std::cos(theta) + y * std::sin(theta);
+           double roty = x * std::sin(theta) - y * std::cos(theta);
+           if ( (rotx/A) * (rotx/A) + (roty/B)* (roty/B) <= 1.0 ){
+               fit_ellipse.add_site({i,j});
+           }
+       }
+   }
+
+    auto minor = fit_ellipse.minor_axis();
+    auto major = fit_ellipse.major_axis();
+
+    // orthogonal
+    REQUIRE_THAT(minor.x * major.x + minor.y *major.y, Catch::Matchers::WithinAbs(0, 0.001));
+    if (minor.x < 0 ) 
+        minor = -1.0 * minor; 
+    REQUIRE_THAT(minor.x, Catch::Matchers::WithinAbs(1, 0.001));
+    REQUIRE_THAT(minor.y, Catch::Matchers::WithinAbs(0, 0.001));
+
+    if (major.y < 0 ) 
+        major = -1.0 * major; 
+
+    REQUIRE_THAT(major.x, Catch::Matchers::WithinAbs(0, 0.001));
+    REQUIRE_THAT(major.y, Catch::Matchers::WithinAbs(1, 0.001));
+}
+
+TEST_CASE("Linear Algebra test") {
+
+    SECTION("Symmetric matrix") {
+        double A = GENERATE(-5.0,-4.0,-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0);
+        double B = GENERATE(-5.0,-4.0,-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0);
+        double C = GENERATE(-5.0,-4.0,-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0);
+
+        if (A*C == B*B and !(A ==0 && B==0 && C==0)) {
+            auto solution = solve_symmetric_degenerate_matrix(A,B,C);
+            //std::cout << A << ',' << B << ',' << C << "->" << solution << '\n';
+            REQUIRE_THAT(A*solution.x + B*solution.y, Catch::Matchers::WithinAbs(0.0, 0.000001));
+            REQUIRE_THAT(B*solution.x + C*solution.y, Catch::Matchers::WithinAbs(0.0, 0.000001));
+        }
     }
 
+    SECTION("Eigenvalues") {
+        // Matrix [[1,3],[3,1]]
+        // should have eigen pairs ( [1,1], 4), ([-1,1], -2)
+        auto solution = solve_symmetric_degenerate_matrix(1-4,3,1-4);
+        REQUIRE(solution.x == solution.y);
+
+        solution = solve_symmetric_degenerate_matrix(1+2,3,1+2);
+        REQUIRE(solution.x + solution.y == 0);
+    }
+
+    double x0 = 5.0;
+    double y0 = 10.0;
+    double A = GENERATE(1.0, 2.0, 3.0);
+    double B = GENERATE(1.0, 2.0, 3.0);
+    double theta = (GENERATE(0.0, 11.0, 60.0)/180.0) * 3.1415;
+
+    int sum_xx = 0;
+    int sum_yy = 0;
+    int sum_xy = 0;
+    int sum_x = 0;
+    int sum_y = 0;
+    int area = 0;
+
+    double Ixx = 0.0;
+    double Ixy = 0.0;
+    double Iyy = 0.0;
+
+    for (int i = x0 - 10; i < x0 + 11; i++)
+    {
+        for (int j = y0 - 10; j < y0 + 11; j++)
+        {
+            double x = (i*1.0 - x0);
+            double y = (j*1.0 - y0);
+            double rotx = x * std::cos(theta) + y * std::sin(theta);
+            double roty = x * std::sin(theta) - y * std::cos(theta);
+            if ( (rotx/A) * (rotx/A) + (roty/B)* (roty/B) <= 1.0 ) { 
+                sum_x += x;
+                sum_y += y;
+                sum_yy += y*y;
+                sum_xx += x*x;
+                sum_xy += y*x;
+                area++;
+            }
+        }
+    }
+    double xbar = 1.0*sum_x / area;
+    double ybar = 1.0*sum_y / area;
+    
+    for (int i = x0 - 10; i < x0 + 11; i++)
+    {
+        for (int j = y0 - 10; j < y0 + 11; j++)
+        {
+            double x = (i*1.0 - x0);
+            double y = (j*1.0 - y0);
+            double rotx = x * std::cos(theta) + y * std::sin(theta);
+            double roty = x * std::sin(theta) - y * std::cos(theta);
+            if ( (rotx/A) * (rotx/A) + (roty/B)* (roty/B) <= 1.0 ) { 
+                Ixx += (y - ybar)*(y-ybar);
+                Iyy += (x - ybar)*(x-ybar);
+                Ixy += -(x - xbar)*(y-ybar);
+            }
+        }
+    }
+    InertiaTensor I(sum_x, sum_y, sum_xx, sum_yy, sum_xy, area);
+
+    SECTION("InertiaMatrix Construction") {
+        REQUIRE(I.xx == Ixx);
+        REQUIRE(I.yy == Iyy);
+        REQUIRE(I.xy == Ixy);
+    }
+
+    SECTION("InertiaMatrix Eigenvalue is large and small") {
+        auto max = I.largest_eigenvalue();
+        auto min = I.smallest_eigenvalue();
+        REQUIRE( max >= min);
+    }
+    
 }
