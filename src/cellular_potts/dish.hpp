@@ -146,7 +146,7 @@ private:
 
   bool sizechange = false;
 
-protected:
+public:
   //! The cells in the Petri dish; accessible to derived classes
   std::vector<Cell> cell;
 };

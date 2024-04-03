@@ -49,157 +49,161 @@ class Dish;
 
 using namespace std;
 
-Cell::~Cell(void) {
+Cell::~Cell(void)
+{
 
-  amount--;
-  if (amount == 0) {
-    // clear J if last cell has been destructed
-    free(J[0]);
-    free(J);
-    capacity = 0;
-    maxsigma = 0;
-    J = 0;
-  }
-  delete[] chem;
+    amount--;
+    if (amount == 0)
+    {
+        // clear J if last cell has been destructed
+        free(J[0]);
+        free(J);
+        capacity = 0;
+        maxsigma = 0;
+        J = 0;
+    }
+    delete[] chem;
 }
 
-void Cell::CellBirth(Cell &mother_cell) {
+void Cell::CellBirth(Cell &mother_cell)
+{
 
-  colour = mother_cell.colour;
-  alive = mother_cell.alive;
-  v[0] = mother_cell.v[0];
-  v[1] = mother_cell.v[1];
+    colour = mother_cell.colour;
+    alive = mother_cell.alive;
+    v[0] = mother_cell.v[0];
+    v[1] = mother_cell.v[1];
 
-  // Administrate ancestry
-  mother_cell.daughter = this->sigma;
-  mother = mother_cell.sigma;
-  times_divided = ++mother_cell.times_divided;
+    // Administrate ancestry
+    mother_cell.daughter = this->sigma;
+    mother = mother_cell.sigma;
+    times_divided = ++mother_cell.times_divided;
 
-  colour_of_birth = mother_cell.colour;
-  colour = mother_cell.colour;
+    colour_of_birth = mother_cell.colour;
+    colour = mother_cell.colour;
 
-  alive = mother_cell.alive;
+    alive = mother_cell.alive;
 
-  tau = mother_cell.tau;
-  target_length = mother_cell.target_length;
+    tau = mother_cell.tau;
+    target_length = mother_cell.target_length;
 
-  for (int ch = 0; ch < par.n_chem; ch++)
-    chem[ch] = mother_cell.chem[ch];
+    for (int ch = 0; ch < par.n_chem; ch++)
+        chem[ch] = mother_cell.chem[ch];
 
-  n_copies = 0;
+    n_copies = 0;
 
-  grad[0] = mother_cell.grad[0];
-  grad[1] = mother_cell.grad[1];
+    grad[0] = mother_cell.grad[0];
+    grad[1] = mother_cell.grad[1];
 }
 
-void Cell::ConstructorBody(int settau) {
-  // Note: Constructor of Cytoplasm will be called first
-  alive = true;
-  colour = 1; // undifferentiated
+void Cell::ConstructorBody(int settau)
+{
+    // Note: Constructor of Cytoplasm will be called first
+    alive = true;
+    colour = 1; // undifferentiated
 
-  colour_of_birth = 1;
-  date_of_birth = 0;
-  times_divided = 0;
-  mother = 0;
-  daughter = 0;
+    colour_of_birth = 1;
+    date_of_birth = 0;
+    times_divided = 0;
+    mother = 0;
+    daughter = 0;
 
-  // add new elements to each of the dimensions of "J"
+    // add new elements to each of the dimensions of "J"
 
-  // amount gives the total number of Cell instantiations (including copies)
-  amount++;
+    // amount gives the total number of Cell instantiations (including copies)
+    amount++;
 
-  // maxsigma keeps track of the last cell identity number given out to a cell
-  sigma = maxsigma++;
+    // maxsigma keeps track of the last cell identity number given out to a cell
+    sigma = maxsigma++;
 
-  if (!J) {
-    ReadStaticJTable(par.Jtable);
-  }
+    if (!J)
+    {
+        ReadStaticJTable(par.Jtable);
+    }
 
-  tau = settau;
-  area = 0;
-  target_area = 0;
+    tau = settau;
+    area = 0;
+    target_area = 0;
 
-  perimeter = 0;
-  target_perimeter = 0;
+    perimeter = 0;
+    target_perimeter = 0;
 
-  target_length = par.target_length;
-  border = 0;
+    target_length = par.target_length;
+    border = 0;
 
-  //  growth_threshold=par.dthres;
-  growth_threshold = 0;
-  v[0] = 0.;
-  v[1] = 0.;
-  n_copies = 0;
+    //  growth_threshold=par.dthres;
+    growth_threshold = 0;
+    v[0] = 0.;
+    v[1] = 0.;
+    n_copies = 0;
 
-  chem = new double[par.n_chem];
+    chem = new double[par.n_chem];
 }
 
 /*! \brief Read a table of static Js.
  First line: number of types (including medium)
  Next lines: diagonal matrix, starting with 1 element (0 0)
  ending with n elements */
-void Cell::ReadStaticJTable(std::string const &fname) {
-  cerr << "Reading J's...\n";
-  ifstream jtab(fname);
-  if (!jtab) {
-    perror(fname.c_str());
-    exit(1);
-  }
-
-  int n; // number of taus
-  jtab >> n;
-  cerr << "Number of celltypes:" << n << endl;
-  maxtau = n - 1;
-
-  // Allocate
-  if (J) {
-    free(J[0]);
-    free(J);
-  }
-  J = (int **)malloc(n * sizeof(int *));
-  J[0] = (int *)malloc(n * n * sizeof(int));
-  for (int i = 1; i < n; i++) {
-    J[i] = J[i - 1] + n;
-  }
-
-  capacity = n;
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j <= i; j++) {
-      jtab >> J[i][j];
-      // symmetric...
-      J[j][i] = J[i][j];
+void Cell::ReadStaticJTable(std::string const &fname)
+{
+    cerr << "Reading J's...\n";
+    ifstream jtab(fname);
+    if (!jtab)
+    {
+        perror(fname.c_str());
+        exit(1);
     }
-  }
+
+    int n; // number of taus
+    jtab >> n;
+    cerr << "Number of celltypes:" << n << endl;
+    maxtau = n - 1;
+
+    // Allocate
+    if (J)
+    {
+        free(J[0]);
+        free(J);
+    }
+    J = (int **)malloc(n * sizeof(int *));
+    J[0] = (int *)malloc(n * n * sizeof(int));
+    for (int i = 1; i < n; i++)
+    {
+        J[i] = J[i - 1] + n;
+    }
+
+    capacity = n;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= i; j++)
+        {
+            jtab >> J[i][j];
+            // symmetric...
+            J[j][i] = J[i][j];
+        }
+    }
 }
 
-int Cell::EnergyDifference(const Cell &cell2) const {
-  if (sigma == cell2.sigma)
-    return 0;
-  return J[tau][cell2.tau];
+int Cell::EnergyDifference(const Cell &cell2) const
+{
+    if (sigma == cell2.sigma)
+        return 0;
+    return J[tau][cell2.tau];
 }
 
-void Cell::ClearJ(void) {
-  for (int i = 0; i < capacity * capacity; i++) {
-    J[0][i] = EMPTY;
-  }
+void Cell::ClearJ(void)
+{
+    for (int i = 0; i < capacity * capacity; i++)
+    {
+        J[0][i] = EMPTY;
+    }
 }
 
-Vec2<double> Cell::CenterVector() {
-  return fit_ellipse.center();
-}
+Vec2<double> Cell::CenterVector() { return fit_ellipse.center(); }
 
-Vec2<double> Cell::MajorAxisVector() {
-  return fit_ellipse.major_axis();
-}
+Vec2<double> Cell::MajorAxisVector() { return fit_ellipse.major_axis(); }
 
-Vec2<double> Cell::MinorAxisVector() {
-  return fit_ellipse.minor_axis();
-}
+Vec2<double> Cell::MinorAxisVector() { return fit_ellipse.minor_axis(); }
 
-double Cell::MajorAxis() {
-  return Length();
-}
+double Cell::MajorAxis() { return Length(); }
 
-double Cell::MinorAxis() {
-  return fit_ellipse.minor();
-}
+double Cell::MinorAxis() { return fit_ellipse.minor(); }

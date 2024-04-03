@@ -42,7 +42,7 @@ namespace
     struct InertiaTensor
     {
         InertiaTensor(double sum_x, double sum_y, double sum_xx, double sum_yy,
-                       double sum_xy, double area)
+                      double sum_xy, double area)
         {
             xx = sum_yy - (1 / area) * sum_y * sum_y;
             yy = sum_xx - (1 / area) * sum_x * sum_x;
@@ -98,15 +98,17 @@ Vec2<double> FitEllipse::major_axis() const
     // Because the inertia is the lowest at the highest side of the ellipse.
     auto lambda = I.smallest_eigenvalue();
     // Matrix [A,B], [B, C] made by substracting largest eigenvalue from I.
-    return solve_symmetric_degenerate_matrix(I.xx-lambda, I.xy, I.yy-lambda);
+    return solve_symmetric_degenerate_matrix(I.xx - lambda, I.xy,
+                                             I.yy - lambda);
 }
 
 Vec2<double> FitEllipse::minor_axis() const
 {
     InertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
     // Because the inertia is the higest at the small side of the ellipse.
-    auto lambda = I.largest_eigenvalue(); 
-    return solve_symmetric_degenerate_matrix(I.xx-lambda, I.xy, I.yy-lambda);
+    auto lambda = I.largest_eigenvalue();
+    return solve_symmetric_degenerate_matrix(I.xx - lambda, I.xy,
+                                             I.yy - lambda);
 }
 
 double FitEllipse::length() const

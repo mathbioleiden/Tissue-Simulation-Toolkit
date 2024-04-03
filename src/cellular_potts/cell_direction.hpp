@@ -12,22 +12,22 @@ public:
     }
 
     /**
-     * \brief Returns a unit vector that lies on the major axis of the fitted ellips.
-     * \return Unit vector with positive y coordinate
-    */
+     * \brief Returns a unit vector that lies on the major axis of the fitted
+     * ellips. \return Unit vector with positive y coordinate
+     */
     Vec2<double> major_axis() const;
 
     /**
-     * \brief Returns a unit vector that lies on the minor axis of the fitted ellips.
-     * \return Unit vector with positive y coordinate.
-    */
+     * \brief Returns a unit vector that lies on the minor axis of the fitted
+     * ellips. \return Unit vector with positive y coordinate.
+     */
     Vec2<double> minor_axis() const;
 
     /**
      * @brief Computes the size of the major axis of the fitted ellipse.
      * @return Size of the major axis.
      */
-    double major() const; 
+    double major() const;
 
     /**
      * @brief Computes the size of the minor axis of the fitted ellipse.
@@ -36,32 +36,33 @@ public:
     double minor() const;
 
     /**
-     * @brief Computes the length the fitted ellipse (alias for FitEllipse::major)
+     * @brief Computes the length the fitted ellipse (alias for
+     * FitEllipse::major)
      * @return Length of the shape.
      */
     double length() const;
-    
+
     /**
      * @brief Returns the computed area
      * @return The area (total number of sites added).
-    */
-    double area() const {return area_;}
+     */
+    double area() const { return area_; }
 
     /**
      * @brief Add a site to the shape.
-    */
+     */
     void add_site(PixelPos);
 
     /**
      * @brief Removes a site of the shape.
-    */
+     */
     void remove_site(PixelPos);
-    
+
     /**
      * @brief Clears the moments of stored shape.
-    */
+     */
     void clear();
-    
+
     /**
      * @brief Returns the center of mass of the shape.
      * @return A vector with the x and y coordinates of the shape.
