@@ -227,10 +227,10 @@ public:
   /** @brief Divide all cells.
   Divide along cell elongation axis */
   void DivideCells(vector<Cell> &cells) {
-    std::vector<bool> tmp(cells.size());
+    std::vector<bool> which_cells(cells.size());
     for (int i =1; i<cells.size(); i++)
-      tmp[i] = true;
-    DivideCells(tmp, cells);
+      which_cells[i] = true;
+    DivideCells(which_cells, cells);
   }
 
   /** Divide all cells marked "true" in which_cells.
