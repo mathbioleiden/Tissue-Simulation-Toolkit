@@ -39,9 +39,9 @@ namespace
      * InertiaTensor which gets recomputed only if one of the aforementioned
      * methods was called.
      */
-    struct IntertiaTensor
+    struct InertiaTensor
     {
-        IntertiaTensor(double sum_x, double sum_y, double sum_xx, double sum_yy,
+        InertiaTensor(double sum_x, double sum_y, double sum_xx, double sum_yy,
                        double sum_xy, double area)
         {
             xx = sum_yy - (1 / area) * sum_y * sum_y;
@@ -95,7 +95,7 @@ namespace
 
 Vec2<double> FitEllipse::major_axis() const
 {
-    IntertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
+    InertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
     auto lambda = I.largest_eigenvalue();
     // Matrix [A,B], [B, C] made by substracting largest eigenvalue from I.
     return solve_symmetric_degenerate_matrix(I.xx-lambda, I.xy, I.yy-lambda);
@@ -103,14 +103,14 @@ Vec2<double> FitEllipse::major_axis() const
 
 Vec2<double> FitEllipse::minor_axis() const
 {
-    IntertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
+    InertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
     auto lambda = I.smallest_eigenvalue();
     return solve_symmetric_degenerate_matrix(I.xx-lambda, I.xy, I.yy-lambda);
 }
 
 double FitEllipse::length() const
 {
-    IntertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
+    InertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
     return std::sqrt(4 * I.largest_eigenvalue() / (1.0 * area_));
 }
 
@@ -118,7 +118,7 @@ double FitEllipse::major() const { return length(); }
 
 double FitEllipse::minor() const
 {
-    IntertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
+    InertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
     return std::sqrt(4 * I.smallest_eigenvalue() / (1.0 * area_));
 }
 
