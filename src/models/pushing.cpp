@@ -51,7 +51,7 @@ INIT {
     // The behavior can be changed in the parameter file using
     // parameters n_init_cells, size_init_cells and divisions
     for (int i = 0; i < par.divisions; i++) {
-      CPM->DivideCells();
+      CPM->DivideCells(cell);
     }
 
     // Assign a random type to each of the cells

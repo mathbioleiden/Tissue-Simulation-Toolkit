@@ -27,7 +27,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <malloc.h>
 #endif
 #include <math.h>
-
 #include <algorithm>
 #include <cstdint>
 #include <cstdlib>
@@ -194,6 +193,18 @@ TIMESTEP
             decode_ecm_boundary_state(ecm_boundary_state_msg.data());
 
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
+
+        {
+            std::vector<bool> which_cells(dish->cell.size());
+            for (int i = 1; i < dish->cell.size(); i++){
+                auto &cell = dish->cell[i];
+                if (cell.Area() > par.target_area)
+                    which_cells[i] = true;
+                if (cell.TargetArea() < par.target_area)
+                    cell.IncrementTargetArea();
+            }
+            dish->CPM->DivideCells(which_cells, dish->cell);
+        }
 
         int tipcell = -1;
         for (int j = 0; j < par.sizey; j++) {
