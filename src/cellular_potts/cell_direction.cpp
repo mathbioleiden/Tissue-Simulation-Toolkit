@@ -46,7 +46,7 @@ namespace
         {
             xx = sum_yy - (1 / area) * sum_y * sum_y;
             yy = sum_xx - (1 / area) * sum_x * sum_x;
-            xy = (sum_xy - (1 / area) * sum_y * sum_x);
+            xy = -(sum_xy - (1 / area) * sum_y * sum_x);
         }
 
         double xx;
@@ -75,14 +75,13 @@ namespace
      */
     Vec2<double> solve_symmetric_degenerate_matrix(double A, double B, double C)
     {
+        const double eps = 0.00001;
         // If B is super close to one of the coordinate axis return just the
         // coordinate axis.
-        if (std::abs(B) < 0.00001)
+        if (std::abs(B) < eps)
         {
-            if (A > C)
-            {
+            if (std::abs(A) < eps)
                 return {1.0, 0.0};
-            }
             return {0.0, 1.0};
         }
 
@@ -96,7 +95,8 @@ namespace
 Vec2<double> FitEllipse::major_axis() const
 {
     InertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
-    auto lambda = I.largest_eigenvalue();
+    // Because the inertia is the lowest at the highest side of the ellipse.
+    auto lambda = I.smallest_eigenvalue();
     // Matrix [A,B], [B, C] made by substracting largest eigenvalue from I.
     return solve_symmetric_degenerate_matrix(I.xx-lambda, I.xy, I.yy-lambda);
 }
@@ -104,7 +104,8 @@ Vec2<double> FitEllipse::major_axis() const
 Vec2<double> FitEllipse::minor_axis() const
 {
     InertiaTensor I(sum_x_, sum_y_, sum_xx_, sum_yy_, sum_xy_, area_);
-    auto lambda = I.smallest_eigenvalue();
+    // Because the inertia is the higest at the small side of the ellipse.
+    auto lambda = I.largest_eigenvalue(); 
     return solve_symmetric_degenerate_matrix(I.xx-lambda, I.xy, I.yy-lambda);
 }
 
