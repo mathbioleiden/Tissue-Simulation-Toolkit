@@ -28,12 +28,12 @@ void DivideCells(std::vector<bool> which_cells, std::vector<Cell> &cells, int**s
     for (int i=0; i<par.sizex; i++)
         for(int j=0; j<par.sizey; j++) {
             auto spin = sigma[i][j];
-            if (spin <= 0) continue;
+            if (spin <= 0 || !which_cells[spin]) continue;
 
             Cell* daughter = nullptr;
             Cell* mother = &cells[spin];
 
-            if (which_cells[spin] && (division_flags[spin].daughter_spin == 0)) { 
+            if (division_flags[spin].daughter_spin == 0) { 
                 daughter = CreateNewCell(cells, spin);
                 mother = &cells[spin];
                 division_flags[spin].daughter_spin = daughter->Sigma();
@@ -50,7 +50,7 @@ void DivideCells(std::vector<bool> which_cells, std::vector<Cell> &cells, int**s
             auto const & div_flag = division_flags[spin];
             auto relativecoords = Vec2<double>(1.0* i,1.0*j) - div_flag.center; 
 
-            if (div_flag.divide_axis.x * relativecoords.y >  div_flag.divide_axis.y * relativecoords.x) {
+            if (div_flag.divide_axis.y * relativecoords.x - div_flag.divide_axis.x * relativecoords.y > 0){
                 mother->DecrementArea();
                 mother->DecrementTargetArea();
                 mother->RemoveSiteFromMoments(i, j);
