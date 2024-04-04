@@ -20,6 +20,16 @@ namespace ACT
         /// @param value Value too which this pixel is set.
         void SetValue(PixelPos pos, double value);
 
+        /** @brief Increase the value at pos by a positive value.
+         * 
+         *  Increases the act value at position pos with value.
+         *  @param pos Position where act should be increased.
+         *  @param value The positive value with which act is increased.
+         *  @warning Is a negative value is used, the act value can be negative. 
+         *  I don't know what happends then..
+        */
+        void IncreaseValue(PixelPos pos, double value);
+
         /// @brief Decreases the act value of all pixels with 1. Removes the
         /// pixel if act value is 0
         void Decrease();

@@ -35,6 +35,10 @@ namespace
     }
 }
 
+void ActField::IncreaseValue(PixelPos pos, double value) {
+    value_[pos] += value;
+}
+
 double ActField::Value(PixelPos pos) const
 {
     auto it = value_.find(pos);
