@@ -199,7 +199,7 @@ void Cell::ClearJ(void)
     }
 }
 
-Vec2<double> Cell::CenterVector() { return fit_ellipse.center(); }
+Vec2<double> Cell::CenterVector() const { return fit_ellipse.center(); }
 
 Vec2<double> Cell::MajorAxisVector() { return fit_ellipse.major_axis(); }
 

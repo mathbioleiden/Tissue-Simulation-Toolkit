@@ -399,12 +399,12 @@ private:
     // returns the maximum cell type index
     // (depends on Jtable)
     static int MaxTau(void) { return maxtau; }
-
+public:
     /**
      * @brief Retrieve the midpoint of the cell as vector.
      * @return Vector with position of the cell.
      */
-    Vec2<double> CenterVector();
+    Vec2<double> CenterVector() const;
 
     /**
      * @brief Fit an ellipse to the cell, and retrieve the minor axis of said
