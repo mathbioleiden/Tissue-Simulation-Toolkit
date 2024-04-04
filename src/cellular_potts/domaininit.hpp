@@ -37,3 +37,5 @@ int PutCellsInRectangle(Grid &grid, int n_cells, int cell_size, PixelPos upper_l
  * @throw std::out_of_range when pos is not within the grid.
 */
 void AddWall(Grid &grid, PixelPos pos);
+
+int FillRectangleWithCell(Grid &grid, int spin, PixelPos upper_left, PixelPos lower_right);

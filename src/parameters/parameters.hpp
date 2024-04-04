@@ -259,6 +259,10 @@ SECTION("Myosin parameters")
     PARAMETER(double, myosin_creation_rate, 0.001, "Rate with which myosin is created")
     PARAMETER(double, myosin_decay_rate, 1, "Rate with which myosin is lost by actin")
 
+SECTION("Division parameters")
+ 
+    PARAMETER(double, division_rate_tipcell, 0.01, "Divsion rate of a tipcell");
+    PARAMETER(double, division_rate_stalkcell, 0.01, "Divsion rate of a stalkcell");
 
 SECTION("Obsolete and unused")
 

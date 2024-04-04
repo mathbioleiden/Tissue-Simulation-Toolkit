@@ -82,14 +82,39 @@ INIT
         int wall_height =
             par.sizey - static_cast<int>(0.1 * static_cast<double>(par.sizey));
         if (par.n_init_cells > 1) {
-         int sq = (std::sqrt(par.size_init_cells) + 1.0);
-         int hsq = static_cast<int>( 0.5 * (std::sqrt(par.size_init_cells) + 1.0));
-         PutCellsInRectangle(grid, par.n_init_cells - 1, par.size_init_cells,
-                                    {2,par.sizey - sq },
-                                    {par.sizex-2, par.sizey-2});
-         PutCellsInRectangle(grid, 1, par.size_init_cells,
-                                    {par.sizex / 2 - hsq, par.sizey - 2 * sq },
-                                    {par.sizex / 2 + hsq, par.sizey - sq});
+            int x = par.sizex / 2;
+            for (int i = 0; i< 3;i++){
+                FillRectangleWithCell(grid, i+1,
+                 {x-par.target_area/par.target_length/2, par.sizey-par.target_length*(i+1) },
+                 {x+par.target_area/par.target_length/2, par.sizey-par.target_length*(i) }
+                 );
+            }
+//            int num_cells = par.sizex / (par.target_length+1);
+//            for (int i = 0; i<num_cells; i++){
+//                FillRectangleWithCell(grid,i+1,
+//                    {1 + par.target_length * i,par.sizey - par.target_area/par.target_length},
+//                    { 1+par.target_length*(i+1), par.sizey-1});
+//            }
+//            FillRectangleWithCell(grid,num_cells,
+//                { par.target_length*num_cells / 2 - int(0.5*par.target_area/par.target_length), 
+//                  par.sizey - par.target_length -par.target_area/par.target_length},
+//                {par.target_length*num_cells / 2 + int(0.5*par.target_area/par.target_length),
+//                 par.sizey - par.target_area/par.target_length});
+//
+//            FillRectangleWithCell(grid,2,
+//                {1+70,1}, { 1+70*2, 11});
+//            FillRectangleWithCell(grid,3,
+//                {1+2*70,1}, { 1+70*3, 11});
+           // FillRectangleWithCell(grid,3,
+           //     {1+int(1.5*70),12}, { 1+int(70*1.75), 82});
+//         int sq = (std::sqrt(par.size_init_cells) + 1.0);
+//         int hsq = static_cast<int>( 0.5 * (std::sqrt(par.size_init_cells) + 1.0));
+//         PutCellsInRectangle(grid, par.n_init_cells - 1, par.size_init_cells,
+//                                    {2,par.sizey - sq },
+//                                    {par.sizex-2, par.sizey-2});
+//         PutCellsInRectangle(grid, 1, par.size_init_cells,
+//                                    {par.sizex / 2 - hsq, par.sizey - 2 * sq },
+//                                    {par.sizex / 2 + hsq, par.sizey - sq});
         }
         else{ 
          int hsq = 0.5 * (std::sqrt(par.size_init_cells) + 1.0);
@@ -198,8 +223,11 @@ TIMESTEP
             std::vector<bool> which_cells(dish->cell.size());
             for (int i = 1; i < dish->cell.size(); i++){
                 auto &cell = dish->cell[i];
-                if (cell.Area() > par.target_area)
-                    which_cells[i] = true;
+                if (cell.Area() > par.target_area) {
+                    double P = cell.lambda_act == par.lambda_Act ? par.division_rate_tipcell : par.division_rate_stalkcell;
+                    if (RANDOM() < P)
+                        which_cells[i] = true;
+                }
                 if (cell.TargetArea() < par.target_area)
                     cell.IncrementTargetArea();
             }
