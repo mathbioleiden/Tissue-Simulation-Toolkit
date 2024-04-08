@@ -180,6 +180,7 @@ void Cell::ReadStaticJTable(std::string const &fname)
             jtab >> J[i][j];
             // symmetric...
             J[j][i] = J[i][j];
+            std::cerr << "J[" << i << "][" << j << "] = " << J[i][j] << '\n';
         }
     }
 }
