@@ -19,7 +19,7 @@ const PixelDisplacement
                                        std::numeric_limits<int>::min());
 
 AdhesionMover::AdhesionMover(CellularPotts const &ca) : ca_(ca) {}
-
+#include "random.hpp"
 void AdhesionMover::ContractAdhesionInCells(double cell_force)
 {
     auto adhesion_list = index_.get_all_adhesions();
