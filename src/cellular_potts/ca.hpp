@@ -620,7 +620,7 @@ public:
   ExtensionHistory history;
   void MoveAdhesions();
   void setGrid(const Grid &grid);
-  ACT::ActField getActField() {
+  ACT::ActField& getActField() {
     return act_field;
   }
 

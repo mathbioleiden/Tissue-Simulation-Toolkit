@@ -662,6 +662,14 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
                     DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x, y) -
                          (*cell)[sxy].TargetLength()))));
     }
+
+    if (par.lambda_Act > 0) {
+        if ( sxyp > 0 )
+            DH -= ACT::DeltaH(act_field, sigma, {x,y}, {xp,yp}, (*cell)[sxyp].lambda_act,par.max_Act);
+        else 
+            DH -= ACT::DeltaH(act_field, sigma, {x,y}, {xp,yp}, (*cell)[sxy].lambda_act, par.max_Act);
+    }
+    std::cout << "DH = " << DH << " ";
     return DH;
 }
 

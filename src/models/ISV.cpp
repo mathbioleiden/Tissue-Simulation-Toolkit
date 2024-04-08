@@ -70,8 +70,9 @@ extern Parameter par;
 
 std::unique_ptr<Instance> instance;
 #include "act.hpp"
-std::unordered_map<PixelPos, double> ACT::getValue(ACT::ActField act_field) {
-        return act_field.value_;
+std::unordered_map<PixelPos, double> ACT::getValue(ACT::ActField act_field)
+{
+    return act_field.value_;
 }
 
 INIT
