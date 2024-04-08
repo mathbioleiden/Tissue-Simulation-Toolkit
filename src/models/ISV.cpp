@@ -26,13 +26,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #ifndef __APPLE__
 #include <malloc.h>
 #endif
-#include <math.h>
 #include <algorithm>
 #include <cstdint>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <libmuscle/libmuscle.hpp>
+#include <math.h>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -44,16 +44,16 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell.hpp"
 #include "cpm_ecm/io.hpp"
 #include "dish.hpp"
+#include "domaininit.hpp"
 #include "force_calculation.hpp"
 #include "graph.hpp"
+#include "grid.hpp"
 #include "info.hpp"
 #include "parameter.hpp"
 #include "plotter.hpp"
 #include "profiler.hpp"
 #include "random.hpp"
 #include "util/muscle3/settings.hpp"
-#include "grid.hpp"
-#include "domaininit.hpp"
 #include <sstream>
 
 using namespace std;
@@ -82,64 +82,80 @@ INIT
         Grid grid;
         int wall_height =
             par.sizey - static_cast<int>(0.1 * static_cast<double>(par.sizey));
-        if (par.n_init_cells > 1) {
+        if (par.n_init_cells > 1)
+        {
             int x = par.sizex / 2;
-            for (int i = 0; i< 3;i++){
-                FillRectangleWithCell(grid, i+1,
-                 {x-par.target_area/par.target_length/2, par.sizey-par.target_length*(i+1) },
-                 {x+par.target_area/par.target_length/2, par.sizey-par.target_length*(i) }
-                 );
+            for (int i = 0; i < 3; i++)
+            {
+                FillRectangleWithCell(
+                    grid, i + 1,
+                    {x - par.target_area / par.target_length / 2,
+                     par.sizey - par.target_length * (i + 1)},
+                    {x + par.target_area / par.target_length / 2,
+                     par.sizey - par.target_length * (i)});
             }
-//            int num_cells = par.sizex / (par.target_length+1);
-//            for (int i = 0; i<num_cells; i++){
-//                FillRectangleWithCell(grid,i+1,
-//                    {1 + par.target_length * i,par.sizey - par.target_area/par.target_length},
-//                    { 1+par.target_length*(i+1), par.sizey-1});
-//            }
-//            FillRectangleWithCell(grid,num_cells,
-//                { par.target_length*num_cells / 2 - int(0.5*par.target_area/par.target_length), 
-//                  par.sizey - par.target_length -par.target_area/par.target_length},
-//                {par.target_length*num_cells / 2 + int(0.5*par.target_area/par.target_length),
-//                 par.sizey - par.target_area/par.target_length});
-//
-//            FillRectangleWithCell(grid,2,
-//                {1+70,1}, { 1+70*2, 11});
-//            FillRectangleWithCell(grid,3,
-//                {1+2*70,1}, { 1+70*3, 11});
-           // FillRectangleWithCell(grid,3,
-           //     {1+int(1.5*70),12}, { 1+int(70*1.75), 82});
-//         int sq = (std::sqrt(par.size_init_cells) + 1.0);
-//         int hsq = static_cast<int>( 0.5 * (std::sqrt(par.size_init_cells) + 1.0));
-//         PutCellsInRectangle(grid, par.n_init_cells - 1, par.size_init_cells,
-//                                    {2,par.sizey - sq },
-//                                    {par.sizex-2, par.sizey-2});
-//         PutCellsInRectangle(grid, 1, par.size_init_cells,
-//                                    {par.sizex / 2 - hsq, par.sizey - 2 * sq },
-//                                    {par.sizex / 2 + hsq, par.sizey - sq});
+            //            int num_cells = par.sizex / (par.target_length+1);
+            //            for (int i = 0; i<num_cells; i++){
+            //                FillRectangleWithCell(grid,i+1,
+            //                    {1 + par.target_length * i,par.sizey -
+            //                    par.target_area/par.target_length}, {
+            //                    1+par.target_length*(i+1), par.sizey-1});
+            //            }
+            //            FillRectangleWithCell(grid,num_cells,
+            //                { par.target_length*num_cells / 2 -
+            //                int(0.5*par.target_area/par.target_length),
+            //                  par.sizey - par.target_length
+            //                  -par.target_area/par.target_length},
+            //                {par.target_length*num_cells / 2 +
+            //                int(0.5*par.target_area/par.target_length),
+            //                 par.sizey - par.target_area/par.target_length});
+            //
+            //            FillRectangleWithCell(grid,2,
+            //                {1+70,1}, { 1+70*2, 11});
+            //            FillRectangleWithCell(grid,3,
+            //                {1+2*70,1}, { 1+70*3, 11});
+            // FillRectangleWithCell(grid,3,
+            //     {1+int(1.5*70),12}, { 1+int(70*1.75), 82});
+            //         int sq = (std::sqrt(par.size_init_cells) + 1.0);
+            //         int hsq = static_cast<int>( 0.5 *
+            //         (std::sqrt(par.size_init_cells) + 1.0));
+            //         PutCellsInRectangle(grid, par.n_init_cells - 1,
+            //         par.size_init_cells,
+            //                                    {2,par.sizey - sq },
+            //                                    {par.sizex-2, par.sizey-2});
+            //         PutCellsInRectangle(grid, 1, par.size_init_cells,
+            //                                    {par.sizex / 2 - hsq,
+            //                                    par.sizey - 2 * sq },
+            //                                    {par.sizex / 2 + hsq,
+            //                                    par.sizey - sq});
         }
-        else{ 
-         int hsq = 0.5 * (std::sqrt(par.size_init_cells) + 1.0);
-         PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-                                    {par.sizex / 2 - hsq, 
-                                    par.sizey/2 -  hsq}, {par.sizex /2+ hsq, par.sizey/2 + hsq});
+        else
+        {
+            int hsq = 0.5 * (std::sqrt(par.size_init_cells) + 1.0);
+            PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
+                                {par.sizex / 2 - hsq, par.sizey / 2 - hsq},
+                                {par.sizex / 2 + hsq, par.sizey / 2 + hsq});
         }
-//        for (int x = 0; x < par.sizex; x++)
-//        {
-//            PixelPos pos = {x, wall_height};
-//            if (x >=50 && x<=150)
-//                continue;
-//            AddWall(grid, pos);
-//        }
-//
-//         // Define initial distribution of cells
-//         PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-//                                    {1, wall_height+1}, {par.sizex-1, par.sizey-1});
-//         // PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-//         //                            {1, wall_height+1}, {par.sizex-1, par.sizey-1});
+        //        for (int x = 0; x < par.sizex; x++)
+        //        {
+        //            PixelPos pos = {x, wall_height};
+        //            if (x >=50 && x<=150)
+        //                continue;
+        //            AddWall(grid, pos);
+        //        }
+        //
+        //         // Define initial distribution of cells
+        //         PutCellsInRectangle(grid, par.n_init_cells,
+        //         par.size_init_cells,
+        //                                    {1, wall_height+1}, {par.sizex-1,
+        //                                    par.sizey-1});
+        //         // PutCellsInRectangle(grid, par.n_init_cells,
+        //         par.size_init_cells,
+        //         //                            {1, wall_height+1},
+        //         {par.sizex-1, par.sizey-1});
 
         CPM->setGrid(grid);
         CPM->ConstructInitCells(*this);
-
 
         CPM->InitialiseEdgeList();
 
@@ -169,12 +185,53 @@ void PDE::InitialisePDEvars(CellularPotts *cpm, int *celltypes)
     // for (int y = sizey-1; y >= 0; y--)
     for (int y = 0; y < sizey; y++)
     {
-        double value =
-            par.secr_rate[0] *
-            std::exp(-static_cast<double>(y) * diffusion_length);
+        double value = par.secr_rate[0] *
+                       std::exp(-static_cast<double>(y) * diffusion_length);
         for (int x = 0; x < sizex; x++)
         {
             PDEvars[0][x][y] = value;
+        }
+    }
+}
+
+/**
+ * \brief My interpertation of part of eq 5.5 of the thsis of Daipeng blz 127.
+ * 
+ * 
+*/
+void add_vegf_bias_in_act(const Vec2<double> biasdirection,
+                          ACT::ActField &act_field, const vector<Cell> &cells,
+                          int** sigma)
+{
+    // Used to compute the max length of every cell
+    // i.e. the denominator in Figure 5.2 blz 126 thesis of Daipeng
+    std::vector<double> max_length(cells.size());
+    std::unordered_map<PixelPos, double> values_to_increase;
+    for (int i = 0; i<par.sizex; i++){
+        for (int j = 0; j < par.sizey; j++){
+            const int spin = sigma[i][j];
+            if (spin <= 0 ) continue;
+            const Vec2<double> pixel = {1.0*i,1.0*j};
+            const auto center = cells[spin].CenterVector();
+            const auto relative_position = pixel - center;
+            const auto length = relative_position.length();
+            if (length > max_length[spin])
+                max_length[spin] = length;
+
+            values_to_increase[{i,j}] = biasdirection.dot(relative_position);
+        }
+    }
+
+    /* We can delay dividing out the factor max_i=1^n |x_i - x_0| 
+     * because the innerproduct is an linear operation.
+    */ 
+    for (const auto & pixelvalue : values_to_increase) {
+        const auto pixel = pixelvalue.first;
+        const auto scale = max_length[sigma[pixel.x][pixel.y]];
+        const auto value = values_to_increase[pixel] / scale;
+        if (value > act_field.Value(pixel)) {
+            // act_field.IncreaseValue(pixel, value);
+            act_field.SetValue(pixel, value);
         }
     }
 }
@@ -222,10 +279,14 @@ TIMESTEP
 
         {
             std::vector<bool> which_cells(dish->cell.size());
-            for (int i = 1; i < dish->cell.size(); i++){
+            for (int i = 1; i < dish->cell.size(); i++)
+            {
                 auto &cell = dish->cell[i];
-                if (cell.Area() > par.target_area) {
-                    double P = cell.lambda_act == par.lambda_Act ? par.division_rate_tipcell : par.division_rate_stalkcell;
+                if (cell.Area() > par.target_area)
+                {
+                    double P = cell.lambda_act == par.lambda_Act
+                                   ? par.division_rate_tipcell
+                                   : par.division_rate_stalkcell;
                     if (RANDOM() < P)
                         which_cells[i] = true;
                 }
@@ -236,27 +297,40 @@ TIMESTEP
         }
 
         int tipcell = -1;
-        for (int j = 0; j < par.sizey; j++) {
-            for (int i = 0; i<par.sizex; i++){
-                auto spin = dish->CPM->Sigma(i,j);
-                if (spin > 0 && tipcell == -1) {
-                    tipcell = spin; 
+        for (int j = 0; j < par.sizey; j++)
+        {
+            for (int i = 0; i < par.sizex; i++)
+            {
+                auto spin = dish->CPM->Sigma(i, j);
+                if (spin > 0 && tipcell == -1)
+                {
+                    tipcell = spin;
                     break;
                 }
             }
             if (tipcell != -1)
                 break;
         }
-         for (auto & c: dish->cell) {
-             c.SetColour(2);
-             c.lambda_act = 0.0;
-         }
-         if (tipcell > 0) {
+        for (auto &c : dish->cell)
+        {
+            c.SetColour(2);
+            c.lambda_act = 0.0;
+        }
+        if (tipcell > 0)
+        {
             dish->cell[tipcell].lambda_act = par.lambda_Act;
             dish->cell[tipcell].SetColour(3);
             std::cout << "Tip cell = " << tipcell << '\n';
-         }
-        
+        }
+
+        {
+            add_vegf_bias_in_act(
+                {0.0, 1.0},
+                dish->CPM->getActField(),
+                dish->cell,
+                dish->CPM->getSigma()
+            );
+        }
 
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
 
@@ -290,12 +364,14 @@ TIMESTEP
                 {
                     adh_state[std::to_string(awe.par_id)] =
                         Data::dict("size", awe.size, "tension", awe.tension,
-                        "myosin", awe.myosin_force_fraction);
+                                   "myosin", awe.myosin_force_fraction);
                 }
                 Data act_state = Data::dict();
-                for (const auto &actpixel : ACT::getValue(dish->CPM->getActField()) )
+                for (const auto &actpixel :
+                     ACT::getValue(dish->CPM->getActField()))
                 {
-                    std::string name = std::to_string(actpixel.first.x) + "," + std::to_string(actpixel.first.y);
+                    std::string name = std::to_string(actpixel.first.x) + "," +
+                                       std::to_string(actpixel.first.y);
                     act_state[name] = actpixel.second;
                 }
 
