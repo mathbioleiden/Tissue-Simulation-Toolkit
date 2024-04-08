@@ -2,7 +2,7 @@ from tissue_simulation_toolkit.ecm.muscle3 import from_settings
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
 from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
-from ecmgen import random_network, single_strand, Network, single_spring, ISV_network
+from ecmgen import random_network, single_strand, Network, single_spring, ISV_network, regular
 
 
 from libmuscle import Instance, Message
@@ -137,6 +137,16 @@ def main():
                 fix_boundary=par.fixed_boundary,
                 spread_xaxis=instance.get_setting("ISV_xaxis_spread", "float"),
             )
+        elif nettype == "regular":
+            net = regular(
+                sizex = par.box_size_x,
+                sizey = par.box_size_y,
+                number_of_fibers_per_side= par.strands // 2,
+                number_of_beads_per_strand= par.beads,
+                fix_boundary=par.fixed_boundary
+            )
+        else:
+            raise NotImplementedError("Network type %s is not implemented." % nettype)
 
         instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par, net)))
         # encode_net(net)))
