@@ -50,7 +50,6 @@ public:
     Cell(const Dish &who, int settau = 1)
     {
         ConstructorBody(settau);
-        std::cout << "sigma = " << sigma << std::endl;
     }
 
     Cell(void) { ConstructorBody(1); }
