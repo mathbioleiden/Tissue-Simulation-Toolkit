@@ -223,7 +223,7 @@ void add_vegf_bias_in_act(const Vec2<double> biasdirection,
     }
 
     /* We can delay dividing out the factor max_i=1^n |x_i - x_0| 
-     * because the innerproduct is an linear operation.
+     * because the innerproduct is a linear operation.
     */ 
     for (const auto & pixelvalue : values_to_increase) {
         const auto pixel = pixelvalue.first;

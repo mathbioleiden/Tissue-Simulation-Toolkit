@@ -2,7 +2,7 @@ from tissue_simulation_toolkit.ecm.muscle3 import from_settings
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
 from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
-from ecmgen import random_network, single_strand, Network, single_spring, ISV_network, regular, random_directed_network
+from ecmgen import random_network, single_strand, Network, single_spring, ISV_network, regular, random_directed_network, laminin
 
 
 from libmuscle import Instance, Message
@@ -136,6 +136,27 @@ def main():
                 seed=par.network_seed,
                 fix_boundary=par.fixed_boundary,
                 spread_xaxis=instance.get_setting("ISV_xaxis_spread", "float"),
+            )
+        elif nettype == "ISV_network_laminin":
+            net = ISV_network(
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                number_of_beads_per_strand=par.beads,
+                number_of_strands=par.strands,
+                contour_length_of_strand=par.contour_length,
+                crosslink_max_r=par.crosslink_max_r,
+                maximal_number_of_initial_crosslinks=par.num_init_crosslinks,
+                crosslink_bin_size=par.crosslink_bin_size,
+                seed=par.network_seed,
+                fix_boundary=par.fixed_boundary,
+                spread_xaxis=instance.get_setting("ISV_xaxis_spread", "float"),
+            )
+            laminin(
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                amount_of_laminin=instance.get_setting("ISV_laminin_amount", "int"),
+                network=net,
+                seed=par.network_seed
             )
         elif nettype == "regular":
             net = regular(
