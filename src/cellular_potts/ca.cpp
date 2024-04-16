@@ -664,14 +664,10 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
     }
 
     if (par.lambda_Act > 0) {
-        std::cout << "DH without act " << DH << '\n';
         if ( sxyp > 0 )
             DH -= ACT::DeltaH(act_field, sigma, {xp,yp}, {x,y}, (*cell)[sxyp].lambda_act,par.max_Act);
         else 
             DH -= ACT::DeltaH(act_field, sigma, {xp,yp}, {x,y}, (*cell)[sxy].lambda_act, par.max_Act);
-        std::cout << "DH with act " << DH << '\n';
-        std::cout << (*cell)[sxyp].Sigma() << ' ' << (*cell)[sxyp].lambda_act << ' ';
-        std::cout << (*cell)[sxy].Sigma() << ' ' << (*cell)[sxy].lambda_act << '\n';
     }
     return DH;
 }
