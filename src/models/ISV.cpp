@@ -323,7 +323,7 @@ TIMESTEP
             std::cout << "Tip cell = " << tipcell << '\n';
         }
 
-        if (par.vegf_bias){
+        if (par.vegf_bias) {
             add_vegf_bias_in_act(
                 {0.0, 1.0},
                 dish->CPM->getActField(),
@@ -461,6 +461,9 @@ int main(int argc, char *argv[])
 
     instance->reuse_instance();
     set_parameters_from_settings(*instance);
+
+    par.Write(std::cout);
+
     Seed(par.rseed);
 
     try
