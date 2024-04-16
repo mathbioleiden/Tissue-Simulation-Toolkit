@@ -323,7 +323,7 @@ TIMESTEP
             std::cout << "Tip cell = " << tipcell << '\n';
         }
 
-        {
+        if (par.vegf_bias){
             add_vegf_bias_in_act(
                 {0.0, 1.0},
                 dish->CPM->getActField(),
