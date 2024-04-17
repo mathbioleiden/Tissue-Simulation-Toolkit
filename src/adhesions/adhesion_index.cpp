@@ -45,8 +45,8 @@ double AttachedAngleCst::move_dh(ParPos from, ParPos to) const {
 }
 
 AdhesionWithEnvironment::AdhesionWithEnvironment(
-    ParId par_id, ParPos const& position, Integrin size)
-    : par_id(par_id), position(position), size(size), myosin_force_fraction(0.1) {}
+    ParId par_id, ParPos const& position, Integrin size, double myosin_force_fraction)
+    : par_id(par_id), position(position), size(size), myosin_force_fraction(myosin_force_fraction) {}
 
 double AdhesionWithEnvironment::move_dh(PixelDisplacement move) const {
     double dh = 0.0;
@@ -129,10 +129,12 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
     // positions for adhesions particles we didn't have yet.
     std::unordered_map<ParId, ParPos> adh_par_pos;
     std::unordered_map<ParId, double> adh_par_size;
+    std::unordered_map<ParId, double> adh_par_myosin;
     for (auto const& pixel_awes : adhesions_by_pixel_)
         for (auto const& awe : pixel_awes.second) {
             adh_par_pos[awe.par_id] = awe.position;
             adh_par_size[awe.par_id] = awe.size;
+            adh_par_myosin[awe.par_id] = awe.myosin_force_fraction;
         }
 
     auto bonds_for = make_bond_index(ecm_boundary);
@@ -144,12 +146,14 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
         Particle const& particle = id_par.second;
 
         if (particle.type == ParticleType::adhesion) {
+            double myosin = adh_par_myosin.count(pid) ? adh_par_myosin[pid] : 0.1;
             double size = adh_par_size.count(pid) ? adh_par_size[pid] : par.adhesion_integrin_N0;
             ParPos pos = adh_par_pos.count(pid) ? adh_par_pos[pid] : particle.pos;
             PixelPos containing_pixel(floor(pos.x), floor(pos.y));
             adhesions_by_pixel_[containing_pixel].emplace_back(pid, pos);
             auto& awe = adhesions_by_pixel_[containing_pixel].back();
             awe.size = size;
+            awe.myosin_force_fraction = myosin;
 
             for (BondId bid : bonds_for[pid]) {
                 auto const& bond = ecm_boundary.bonds.at(bid);
@@ -181,8 +185,6 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
             }
         }
     }
-    setting_force_on_adhesions();
-    setting_size_on_adhesions();
 }
 
 namespace {
@@ -214,26 +216,37 @@ void AdhesionIndex::set_myosin(const ACT::ActField act_field) {
     }
 }
 
-void AdhesionIndex::setting_force_on_adhesions() {
+void AdhesionIndex::setting_force_on_adhesions(std::vector<ParPos> midpoints, int** sigma) {
     for (auto& pos_adhesions : adhesions_by_pixel_) {
         for (auto& awe : pos_adhesions.second) {
             Force force(0.0, 0.0);
+            auto spin = sigma[pos_adhesions.first.x][pos_adhesions.first.y];
+            auto center = midpoints[spin];
+            auto delta  = center - awe.position;
+            delta = (1.0 / delta.length()) * delta;
+
+            auto new_pos = awe.position + delta;
+
             for (auto const& bond : awe.bonds) {
                 force += getLinearHarmonicForceOnB(
                     bond.neighbour,
-                    awe.position,
+                    new_pos,
                     bond.bond_type.k,
                     bond.bond_type.r0);
             }
             for (auto const& acst : awe.angle_csts) {
                 force += getAngularHarmonicForceOnA(
-                    awe.position,
+                    new_pos,
                     acst.middle,
                     acst.far,
                     acst.angle_cst_type.k,
                     acst.angle_cst_type.t0);
             }
             awe.tension = std::sqrt(force.dot(force));
+//            awe.tension = std::sqrt(force.dot(force)) + 
+//                          par.adhesion_contraction_force * (
+//                              midpoints[spin] + (-1.0)*awe.position
+//                          ).length();
         }
     }
 }

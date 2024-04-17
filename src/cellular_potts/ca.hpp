@@ -485,7 +485,7 @@ public:
 
     /**  Return Sigma Array
      */
-    inline int **getSigma() { return sigma; }
+    inline int **getSigma() const { return sigma; }
 
     /** @brief plot the sigma at (x,y)
 

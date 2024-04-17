@@ -81,7 +81,7 @@ struct AdhesionWithEnvironment {
      *
      * @param position Position of the adhesion particle
      */
-    AdhesionWithEnvironment(ParId par_id, ParPos const & position, Integrin size = 1);
+    AdhesionWithEnvironment(ParId par_id, ParPos const & position, Integrin size = 1, double myosin_force_fraction = 0.1);
 
     /// Adhesion particle id
     ParId par_id;
@@ -195,6 +195,12 @@ class AdhesionIndex {
         */
         void set_myosin(const ACT::ActField);
 
+        /// Helper function in rebuild(), run before  setting_size.
+        void setting_force_on_adhesions(std::vector<ParPos> midpoints, int** sigma);
+        
+        /// Helper function in rebuild(), run after setting_force.
+        void setting_size_on_adhesions();
+
     private:
         // TODO: short string optimisation?
         /// Index of adhesion beads per grid cell, (re)created by update().
@@ -207,11 +213,6 @@ class AdhesionIndex {
         // Return value for get_adhesions if there are none
         static std::vector<AdhesionWithEnvironment> no_adhesions_;
         
-        /// Helper function in rebuild(), run before  setting_size.
-        void setting_force_on_adhesions();
-        
-        /// Helper function in rebuild(), run after setting_force.
-        void setting_size_on_adhesions();
 
         // accessor for tests
         friend std::unordered_map<

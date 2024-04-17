@@ -1,3 +1,4 @@
+#pragma once
 /*
 
 Copyright 1996-2006 Roeland Merks
@@ -20,8 +21,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA
 
 */
-#ifndef _CELL_HH_
-#define _CELL_HH_
+//#ifndef _CELL_HH_
+//#define _CELL_HH_
 
 #include "cell_direction.hpp"
 #include "parameter.hpp"
@@ -496,4 +497,4 @@ protected:
     const Dish *owner; // pointer to owner of cell
 };
 
-#endif
+//#endif

@@ -156,6 +156,13 @@ void AdhesionMover::reset_cell_ecm_interactions()
 void AdhesionMover::update(ECMBoundaryState const &ecm_boundary)
 {
     index_.rebuild(ecm_boundary);
+    std::vector<ParPos> midpoints;
+
+    for (auto const &cell : *ca_.getCellArray()) {
+        midpoints.push_back(cell.CenterVector());
+    }
+    index_.setting_force_on_adhesions(midpoints, ca_.getSigma());
+    index_.setting_size_on_adhesions();
 }
 
 void AdhesionMover::update_myosin(const ACT::ActField act_field){

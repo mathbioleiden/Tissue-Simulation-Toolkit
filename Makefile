@@ -9,7 +9,7 @@ QMAKE     = qmake
 # Edit the above line as necessary, e.g., as follows:
 #QMAKE    = /Applications/Qt5/6.4.0/macos/bin/qmake
 
-MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
+MODELS = bin/vessel bin/sorting bin/Act_model
 
 .PHONY: all XSDE MCDS LIBCS Catch2 TST python mpi4py ecm docs
 .PHONY: test clean clean_hoomd
@@ -26,7 +26,7 @@ VENV_PKG = venv/lib/$(PYTHON_VERSION)/site-packages
 all: $(MODELS)
 
 .NOTPARALLEL: with_adhesions
-with_adhesions: $(MODELS) bin/adhesions ecm ymmsl/focaladhesions.ymmsl ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl bin/focaladhesions
+with_adhesions: $(MODELS) bin/ISV ecm ymmsl/focaladhesions.ymmsl ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl
 
 
 # Dependencies
@@ -109,6 +109,7 @@ bin/%: MCDS LIBCS
 	$(MAKE) -C $(TST_DIR)
 
 bin/adhesions: MUSCLE3
+bin/ISV: MUSCLE3
 
 ymmsl:
 	mkdir ymmsl
