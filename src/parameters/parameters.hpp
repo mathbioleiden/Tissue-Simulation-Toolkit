@@ -253,6 +253,7 @@ SECTION("Adhesion yielding")
     PARAMETER(double, ns_T, 0.01, "How long the NS equation is integrated")
 
     PARAMETER(bool, vegf_bias, true, "")
+    PARAMETER(bool, polarity_bias, true, "")
 SECTION("Myosin parameters")
 
     PARAMETER(double, myosin_intergration_time, 1.0, "time that the myosin equation is integrated.")

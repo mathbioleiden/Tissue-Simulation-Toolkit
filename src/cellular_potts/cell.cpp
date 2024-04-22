@@ -138,6 +138,8 @@ void Cell::ConstructorBody(int settau) {
   chem = new double[par.n_chem];
   
   lambda_act = par.lambda_Act;
+  polarity = {0.0, 0.0};
+  previous_center_of_mass = {0.0, 0.0};
 }
 
 /*! \brief Read a table of static Js.

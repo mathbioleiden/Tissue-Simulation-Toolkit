@@ -29,6 +29,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 // #define EMPTY -1
 #include <iostream>
 #include <math.h>
+#include "vec2.hpp"
 
 extern Parameter par;
 class Dish;
@@ -43,6 +44,8 @@ class Cell
                             std::vector<Cell> &cells, int **sigma);
 
 public:
+    Vec2<double> polarity; 
+    Vec2<double> previous_center_of_mass; 
     double lambda_act;
     /*! \brief Constructor to insert a cell into Dish "who"
     Used to add a new Cell to the dish: new Cell(dish,
