@@ -2,7 +2,7 @@ from tissue_simulation_toolkit.ecm.muscle3 import from_settings
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
 from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
-from ecmgen import random_network, single_strand, Network, single_spring, ISV_network, regular, random_directed_network, laminin
+from ecmgen import random_network, single_strand, Network, single_spring, ISV_network, regular, random_directed_network, laminin, rotate_network
 
 
 from libmuscle import Instance, Message
@@ -50,14 +50,16 @@ def encode_net_as_dict(par, network: Network):
     bonds_possible_types = {
         "polymer": {"id": 0, "r0": par.spring_r0, "k": par.spring_k}
     }
+    print("Details of bond types are " , network.details_of_bondtypes)
     id_counter = 1
     for typ in network.bonds_types:
         if typ not in bonds_possible_types.keys():
             bonds_possible_types[typ] = {
                 "id": id_counter,
                 "r0": network.details_of_bondtypes[typ]["r0"],
-                "k": par.spring_k,
+                "k": network.details_of_bondtypes[typ]["k"]*par.spring_k,
             }
+            print("BONDS POSSIBLE K ", bonds_possible_types[typ])
             id_counter += 1
         bonds_types.append(bonds_possible_types[typ]["id"])
     bonds_types = np.array(bonds_types, dtype=np.int32)  # type: ignore
@@ -67,6 +69,7 @@ def encode_net_as_dict(par, network: Network):
     for name, value in sorted(
         bonds_possible_types.items(), key=lambda keyvalue: keyvalue[1]["id"]
     ):
+        print(f"Making bond {name} with type {value}")
         bonds_r0.append(value["r0"])
         bonds_k.append(value["k"])
     bonds_r0 = np.array(bonds_r0, dtype=np.float64)  # type: ignore
@@ -164,8 +167,43 @@ def main():
                 sizey = par.box_size_y,
                 number_of_fibers_per_side= par.strands // 2,
                 number_of_beads_per_strand= par.beads,
-                fix_boundary=par.fixed_boundary
+                fix_boundary=par.fixed_boundary,
+                single_side=instance.get_setting("regular_vertical", "bool"),
             )
+        elif nettype == "vertical_different_bonds":
+            horizonal = regular(
+                sizex = par.box_size_x,
+                sizey = par.box_size_y,
+                number_of_fibers_per_side= par.strands // 2,
+                number_of_beads_per_strand= par.beads,
+                fix_boundary=par.fixed_boundary,
+                single_side=True,
+            )
+             # rotate_network(horizonal, 3.1415 * 0.5) 
+            rotate_network(horizonal, 3.1415 * 0.5) 
+
+            vertical = regular(
+                sizex = par.box_size_x,
+                sizey = par.box_size_y,
+                number_of_fibers_per_side= par.strands // 2,
+                number_of_beads_per_strand= par.beads,
+                fix_boundary=par.fixed_boundary,
+                single_side=True,
+            )
+            vertical.bonds_types = [
+                typ + "_vertical" for typ in vertical.bonds_types 
+            ]
+            vertical.details_of_bondtypes.clear()
+            vertical.details_of_bondtypes["polymer_vertical"] = {
+                "k": instance.get_setting("vertical_horizontal_ratio", "float"),
+                'r0': par.spring_r0
+            }
+            print("vertical_polymer k is = ", instance.get_setting("vertical_horizontal_ratio", "float") * par.spring_k)
+
+            # net = horizonal + vertical
+            net =  horizonal + vertical
+
+            print(net.details_of_bondtypes)
         elif nettype == "directed":
             net = random_directed_network(
                 sizex=par.box_size_x,
