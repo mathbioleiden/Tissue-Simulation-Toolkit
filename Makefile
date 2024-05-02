@@ -111,6 +111,8 @@ bin/%: MCDS LIBCS
 bin/adhesions: MUSCLE3
 bin/ISV: MUSCLE3
 
+bin/twocells: MUSCLE3
+
 ymmsl:
 	mkdir ymmsl
 

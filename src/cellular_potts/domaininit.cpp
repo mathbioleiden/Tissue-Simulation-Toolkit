@@ -122,8 +122,10 @@ int PutCellsInRectangle(Grid &grid, int n_cells, int cell_size, PixelPos upper_l
             int spin = cell_num + (x - upper_left.x) / size_of_cell_side
                        + ((y-upper_left.y) / size_of_cell_side) * num_cell_x;
             std::cerr << "(" << x << ',' << y << ':' << spin << ')';
-            if (spin <= cell_num + n_cells) 
+            if (spin < cell_num + n_cells)  {
                 grid.set({x,y}, spin);
+                std::cout << "Setted cell " << spin << " at " << PixelPos(x,y) << '\n';
+            }
         }
 }
 
