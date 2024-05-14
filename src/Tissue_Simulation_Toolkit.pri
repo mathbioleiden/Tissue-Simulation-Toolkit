@@ -40,7 +40,7 @@ XSDE_DIR  = $$MCDS_DIR/xsde/libxsde
 LIBCS_DIR = $$LIBDIR/libCellShape
 
 LIBS += -L$$LIBCS_DIR -lcellshape
-LIBS += -L$$MCDS_DIR/mcds_api -lmcds
+# LIBS += -L$$MCDS_DIR/mcds_api -lmcds
 LIBS += -L$$XSDE_DIR/xsde/ -lxsde
 
 macx {

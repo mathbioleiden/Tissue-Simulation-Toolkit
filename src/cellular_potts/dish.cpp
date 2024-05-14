@@ -219,62 +219,15 @@ double round(double v, int n) {
 }
 
 void Dish::MCDS_import_cell(MCDS_io *mcds, int cell_id) {
-  io_cell *iocell = mcds->cell_by_id(cell_id);
-  Cell *n_cell = new Cell(*this, iocell->mcds_obj->phenotype_dataset().ID());
-  n_cell->setSigma(iocell->mcds_obj->ID());
-  cell.push_back(*n_cell);
-  n_cell->setTau(0);
-  n_cell->SetTargetArea(0);
 }
 
 void Dish::ImportMultiCellDS(std::string const &fname) {
-  MCDS_io mcds(fname);
-  mcds.process_cellshapes();
-  mcds.lattice_from_vector();
-  par.sizex = mcds.get_size_x();
-  par.sizey = mcds.get_size_y();
-  delete CPM;
-  CPM = new CellularPotts(&cell, par.sizex, par.sizey);
-  if (par.n_chem)
-    PDEfield = new PDE(par.n_chem, par.sizex, par.sizey);
-  int **sigma = CPM->getSigma();
-  int **lattice = mcds.get_lattice();
-  std::copy(*lattice, (*lattice) + (par.sizex * par.sizey), *sigma);
-  for (auto iocell : *mcds.get_cells()) {
-    MCDS_import_cell(&mcds, iocell.second.mcds_obj->ID());
-  }
-  CPM->MeasureCellSizes();
-  sizechange = true;
 }
 
 void Dish::MCDS_export_cell(MCDS_io *mcds, Cell *cell) {
-  int cell_id = cell->Sigma();
-  io_cell *iocell = mcds->get_new_cell(cell_id);
-  iocell->type = cell->tau;
-  iocell->target_area = cell->TargetArea();
-  iocell->area = cell->area;
-  cell->GetCentroid(&iocell->centroid_x, &iocell->centroid_y);
-  double ovx, ovy;
-  iocell->minor_axis = cell->MinorAxis();
-  iocell->major_axis = cell->MajorAxis();
 }
 
 void Dish::ExportMultiCellDS(std::string const &fname) {
-  int **sigma = CPM->get_annealed_sigma(par.mcds_anneal_steps);
-  MCDS_io mcds;
-  for (vector<Cell>::iterator c = cell.begin() + 1; c != cell.end(); c++) {
-    MCDS_export_cell(&mcds, &(*c));
-  }
-  mcds.set_lattice(sigma, par.sizex, par.sizey);
-  mcds.set_unit_mult(par.dx);
-  mcds.set_unit_name("micron");
-  mcds.denoise(par.mcds_denoise_steps);
-  mcds.vector_from_lattice();
-  mcds.finalize_cellshapes();
-  mcds.add_metadata("tst_metadata.xml");
-  mcds.add_time();
-  mcds.write(fname);
-  std::cout << "Done exporting!" << std::endl;
 }
 
 int Dish::SizeX(void) { return CPM->SizeX(); }

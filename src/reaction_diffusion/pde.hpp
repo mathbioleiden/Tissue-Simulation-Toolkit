@@ -29,9 +29,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <string>
 #include <vector>
 
-#include <MultiCellDS-pimpl.hpp>
-#include <MultiCellDS-simpl.hpp>
-#include <MultiCellDS.hpp>
 
 #include "cl_manager.hpp"
 #include "graph.hpp"
