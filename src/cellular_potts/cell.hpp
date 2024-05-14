@@ -316,7 +316,7 @@ public:
         return adhesive_area = adhesive_area - decrement;
     }
 
-private:
+public:
     /*! \brief Read a table of static Js.
       First line: number of types (including medium)
       Next lines: diagonal matrix, starting with 1 element (0 0)

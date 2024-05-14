@@ -1,3 +1,4 @@
+#pragma once
 /*
 
 Copyright 1996-2006 Roeland Merks
@@ -39,17 +40,26 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell_ecm_interactions.hpp"
 #include "pde.hpp"
 
-using namespace std;
-
 #include "parameter.hpp"
 #include <vector>
 
-//#define EMPTY -1
+// #define EMPTY -1
 #include <math.h>
-double sat2(double x);
-double DeltaH_AreaConstraint(vector<Cell> *cell, int sxy, int sxyp);
-double DeltaH_Chemotaxis(int x, int y, int xp, int yp, PDE *PDEfield);
-double DeltaH_Contactenergy(int n_nb, int x, int y, int xp, int yp, int **sigma,
-                            vector<Cell> *cell, int sxy, int sxyp);
-double DeltaH(int n_nb, int x, int y, int xp, int yp, int **sigma,
-              vector<Cell> *cell, PDE *PDEfield);
+
+struct DeltaH
+{
+    static double sat2(double x);
+    static double area_constraint(std::vector<Cell> *cell, int sxy, int sxyp);
+    static double linear_area_constraint(std::vector<Cell> *cell, int sxy, int sxyp);
+    static double chemotaxis(int x, int y, int xp, int yp, PDE *PDEfield);
+    static double contact_energy(int n_nb, int x, int y, int xp, int yp,
+                                 int **sigma, std::vector<Cell> *cell, int sxy,
+                                 int sxyp);
+    static double length_constraint(int n_nb, int x, int y, int xp, int yp,
+                                    int **sigma, std::vector<Cell> *cell, int sxy,
+                                    int sxyp);
+    static double spreading_constraint(std::vector<Cell> *cell, int sxy, int sxyp);
+
+    static double classical(int n_nb, int x, int y, int xp, int yp, int **sigma,
+                            std::vector<Cell> *cell, PDE *PDEfield);
+};

@@ -530,6 +530,7 @@ int CellularPotts::KawasakiDeltaH(int x, int y, int xp, int yp, PDE *PDEfield)
     return DH;
 }
 
+#include "deltah.hpp"
 int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
                           AdhesionDisplacements *adh_disp)
 {
@@ -541,67 +542,21 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
     sxy = sigma[x][y];
     sxyp = sigma[xp][yp];
 
-    /* DH due to cell adhesion */
-    for (i = 1; i <= n_nb; i++)
-    {
-        int xp2, yp2;
-        xp2 = x + nx[i];
-        yp2 = y + ny[i];
-        if (par.periodic_boundaries)
-        {
-            // since we are asynchronic, we cannot just copy the borders once
-            // every MCS
-            if (xp2 <= 0)
-                xp2 = sizex - 2 + xp2;
-            if (yp2 <= 0)
-                yp2 = sizey - 2 + yp2;
-            if (xp2 >= sizex - 1)
-                xp2 = xp2 - sizex + 2;
-            if (yp2 >= sizey - 1)
-                yp2 = yp2 - sizey + 2;
-            neighsite = sigma[xp2][yp2];
-        }
-        else
-        {
-            if (xp2 <= 0 || yp2 <= 0 || xp2 >= sizex - 1 || yp2 >= sizey - 1)
-                neighsite = -1;
-            else
-                neighsite = sigma[xp2][yp2];
-        }
-        if (neighsite == -1)
-        {
-            // border
-            DH += (sxyp == 0 ? 0 : par.border_energy) -
-                  (sxy == 0 ? 0 : par.border_energy);
-        }
-        else
-        {
-            DH += (*cell)[sxyp].EnergyDifference((*cell)[neighsite]) -
-                  (*cell)[sxy].EnergyDifference((*cell)[neighsite]);
-        }
-    }
-    // lambda is determined by chemical 0
-    // cerr << "[" << lambda << "]";
-    if (sxyp == MEDIUM)
-    {
-        DH +=
-            (int)(par.lambda * (1. - 2. * (double)((*cell)[sxy].Area() -
-                                                   (*cell)[sxy].TargetArea())));
-    }
-    else if (sxy == MEDIUM)
-    {
-        DH += (int)((par.lambda *
-                     (1. + 2. * (double)((*cell)[sxyp].Area() -
-                                         (*cell)[sxyp].TargetArea()))));
-    }
-    else
-        DH += (int)((
-            par.lambda *
-            (2. +
-             2. * (double)((*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea() -
-                           (*cell)[sxy].Area() + (*cell)[sxy].TargetArea()))));
+// if (par.target_area > 0 )
+        DH += DeltaH::area_constraint(cell, sxy, sxyp);
+//    else
+//        DH += DeltaH::linear_area_constraint(cell, sxy, sxyp);
 
-    /* Chemotaxis */
+    DH += DeltaH::length_constraint(n_nb, x, y, xp, yp, sigma, cell, sxy, sxyp);
+
+    /* DH due to cell adhesion */
+    DH += DeltaH::contact_energy(n_nb, x, y, xp, yp, sigma, cell, sxy, sxyp);
+
+    {
+        double dh = DeltaH::spreading_constraint(cell, sxy, sxyp);
+        std::cout << dh << " ";
+        DH -= dh;
+    }
     if (PDEfield && (par.vecadherinknockout || (sxyp == 0 || sxy == 0)))
     {
         // copying from (xp, yp) into (x,y)
@@ -609,10 +564,7 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
         // only chemotactic extensions contribute to energy change
         if (!(par.extensiononly && sxyp == 0))
         {
-            int DDH =
-                (int)(par.chemotaxis * (sat(PDEfield->get_PDEvars(0, x, y)) -
-                                        sat(PDEfield->get_PDEvars(0, xp, yp))));
-            DH -= DDH;
+            DH += DeltaH::chemotaxis(x, y, xp, yp, PDEfield);
         }
     }
 
@@ -630,37 +582,6 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
                 "Adhesions are enabled but not adh_disp argument was passed to"
                 " CellularPotts::DeltaH()");
         }
-    }
-
-    const double lambda2 = par.lambda2;
-    /* Length constraint */
-    // sp is expanding cell, s is retracting cell
-    if (sxyp == MEDIUM)
-    {
-        DH -= (int)(lambda2 *
-                    (DSQR((*cell)[sxy].Length() - (*cell)[sxy].TargetLength()) -
-                     DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x, y) -
-                          (*cell)[sxy].TargetLength())));
-    }
-    else if (sxy == MEDIUM)
-    {
-        DH -=
-            (int)(lambda2 *
-                  (DSQR((*cell)[sxyp].Length() - (*cell)[sxyp].TargetLength()) -
-                   DSQR((*cell)[sxyp].GetNewLengthIfXYWereAdded(x, y) -
-                        (*cell)[sxyp].TargetLength())));
-    }
-    else
-    {
-        DH -=
-            (int)(lambda2 *
-                  ((DSQR((*cell)[sxyp].Length() -
-                         (*cell)[sxyp].TargetLength()) -
-                    DSQR((*cell)[sxyp].GetNewLengthIfXYWereAdded(x, y) -
-                         (*cell)[sxyp].TargetLength())) +
-                   (DSQR((*cell)[sxy].Length() - (*cell)[sxy].TargetLength()) -
-                    DSQR((*cell)[sxy].GetNewLengthIfXYWereRemoved(x, y) -
-                         (*cell)[sxy].TargetLength()))));
     }
 
     if (par.lambda_Act > 0) {

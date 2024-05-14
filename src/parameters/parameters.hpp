@@ -98,8 +98,10 @@ PARAMETER(double, T, 50.0,
 
 PARAMETER(double, lambda, 50.0, "Energy parameter for copy or flip attempt")
 PARAMETER(double, lambda2, 5.0, "Energy parameter for copy or flip attempt")
+PARAMETER(double, lambda_spread, 50.0, "Energy parameter for copy or flip attempt")
 
 PARAMETER(int, target_area, 100, "Target area for all cells")
+PARAMETER(int, non_intergrin_binding_area, 100, "The Ah term in A/(A+A_h)")
 PARAMETER(int, target_perimeter, 0, "Target perimeter length for all cells")
 
 PARAMETER(int, conn_diss, 2000, "Energy required to split a cell in two")
