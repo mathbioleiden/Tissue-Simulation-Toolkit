@@ -35,25 +35,28 @@ void AdhesionMover::ContractAdhesionInCells(double cell_force)
 
         for (auto const &adh : adhs)
         {
-            std::vector<PixelPos> direction =  {
-                PixelPos(-1,-1), PixelPos(-1, 0), PixelPos(-1, 1),
-                PixelPos( 0, 1), PixelPos( 0,-1), PixelPos( 1,-1), PixelPos( 1, 0), PixelPos( 1, 1)};
-            std::shuffle(direction.begin(), direction.end(), std::default_random_engine(RANDOM())); 
+//            std::vector<PixelPos> direction =  {
+//                PixelPos(-1,-1), PixelPos(-1, 0), PixelPos(-1, 1),
+//                PixelPos( 0, 1), PixelPos( 0,-1), PixelPos( 1,-1), PixelPos( 1, 0), PixelPos( 1, 1)};
+//            std::shuffle(direction.begin(), direction.end(), std::default_random_engine(RANDOM())); 
             auto deltaR = cell_center - adh.position;
-            for (auto const delta : direction) {
+            //for (auto const delta : direction) {
                 // Use the infinty norm because we want to map the vector
                 // to the moore neighbourhood and moore neighbourhood = circle in
                 // (R^2, |.|_\infty).
-//                auto deltaR_norm = std::max(std::abs(deltaR.x), std::abs(deltaR.y));
-//                if ((deltaR_norm == 0.0) ||
+                auto deltaR_norm = std::max(std::abs(deltaR.x), std::abs(deltaR.y));
+                if ((deltaR_norm == 0.0) 
+//				||
 //                    (deltaR.dot(deltaR) <
 //                     par.adhesion_maximum_contractile_percentage *
 //                         par.adhesion_maximum_contractile_percentage *
-//                         par.target_area / 3.14))
-//                {
-//                    continue;
-//                }
-//                auto deltaR_normalized = (1.0 / deltaR_norm) * deltaR;
+//                         par.target_area / 3.14)
+                         )
+                {
+                    continue;
+                }
+                auto delta_normalized = (1.0 / deltaR_norm) * deltaR;
+		PixelPos delta(delta_normalized.x,delta_normalized.y);
 
                 ParPos new_pos = adh.position + ParPos(delta.x, delta.y);
                 PixelPos new_pixel = PixelPos(std::floor(new_pos.x), std::floor(new_pos.y));
@@ -71,10 +74,10 @@ void AdhesionMover::ContractAdhesionInCells(double cell_force)
                     if (delta_energy < 0)
                     {
                         index_.move_adhesion(adh.par_id, pos, new_pos);
-                        break;
+                        // break;
                     }
                 }
-            }
+            //}
         }
     }
 }
