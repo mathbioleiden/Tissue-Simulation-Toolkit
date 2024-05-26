@@ -178,10 +178,10 @@ compute_yielding_penalty(const std::vector<AdhesionWithEnvironment> adhesions)
     Integrin total(0);
     for (auto const &adh : adhesions)
     {
-        total += adh.size;
+        total += total - par.adhesion_integrin_N0;
     }
 
-    Integrin resisting = std::max(0, total - par.adhesion_integrin_N0);
+    Integrin resisting = std::max(0, total);
     // The 1.0 (with .0) makes the division a division of doubles instead of
     // division of ints.
     double fraction(1.0 * resisting / (1.0*(par.adhesion_yielding_Nh + resisting)));
