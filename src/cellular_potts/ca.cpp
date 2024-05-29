@@ -554,7 +554,6 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
 
     {
         double dh = DeltaH::spreading_constraint(cell, sxy, sxyp);
-        std::cout << dh << " ";
         DH -= dh;
     }
     if (PDEfield && (par.vecadherinknockout || (sxyp == 0 || sxy == 0)))

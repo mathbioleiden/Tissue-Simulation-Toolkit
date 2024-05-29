@@ -178,7 +178,7 @@ compute_yielding_penalty(const std::vector<AdhesionWithEnvironment> adhesions)
     Integrin total(0);
     for (auto const &adh : adhesions)
     {
-        total += total - par.adhesion_integrin_N0;
+        total += adh.size - par.adhesion_integrin_N0;
     }
 
     Integrin resisting = std::max(0, total);
