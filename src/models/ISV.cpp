@@ -87,12 +87,13 @@ INIT
             int x = par.sizex / 2;
             for (int i = 0; i < 3; i++)
             {
+                int length = 2 * std::sqrt(par.size_init_cells);
                 FillRectangleWithCell(
                     grid, i + 1,
-                    {x - par.target_area / par.target_length / 2,
-                     par.sizey - par.target_length * (i + 1)},
-                    {x + par.target_area / par.target_length / 2,
-                     par.sizey - par.target_length * (i)});
+                    {x - par.size_init_cells / length / 2,
+                     par.sizey - length * (i + 1) - 1},
+                    {x + par.size_init_cells / length / 2,
+                     par.sizey - length * (i) - 1});
             }
         }
         else
