@@ -29,8 +29,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <string>
 #include <vector>
 
-
+#ifdef CL_PDE
 #include "cl_manager.hpp"
+#endif
 #include "graph.hpp"
 #include "pdetype.h"
 
@@ -237,8 +238,10 @@ public:
    */
   void Secrete(CellularPotts *cpm);
 
+  #ifdef CL_PDE
   // Secrete and diffuse functions accelerated using OpenCL
   void SecreteAndDiffuseCL(CellularPotts *cpm, int repeat);
+  #endif
 
   /** \brief Returns cumulative "simulated" time,
     i.e. number of time steps * dt. */
@@ -430,6 +433,7 @@ private:
 
   std::vector<std::string> species_names;
 
+#ifdef CL_PDE
   /** \brief Initialise the OpenCL implementation of reaction diffusion solving
     This solver is no longer supported. Use at your own risk. We recommend the
     CUDA solver if you have access to an Nvidia GPU.
@@ -439,6 +443,7 @@ private:
   bool openclsetup = false;
   cl::Program program;
   cl::Kernel kernel_SecreteAndDiffuse;
+#endif
   bool first_round = true;
 };
 

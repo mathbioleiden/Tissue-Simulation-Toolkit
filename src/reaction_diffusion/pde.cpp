@@ -64,7 +64,11 @@ PDE::PDE(void) {
   layers = 0;
   thetime = 0;
   if (par.useopencl) {
+    #ifdef CL_PDE
     this->SetupOpenCL();
+    #else
+    std::cerr << "OpenCL not avaiable\n";
+    #endif
   }
 }
 
@@ -222,6 +226,7 @@ void PDE::PlotInCells(Graphics *g, CellularPotts *cpm, const int l) {
   }
 }
 
+#ifdef CL_PDE
 void PDE::SetupOpenCL() {
   extern CLManager clm;
 
@@ -275,7 +280,9 @@ void PDE::SetupOpenCL() {
 
   openclsetup = true;
 }
+#endif
 
+#ifdef CL_PDE
 void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat) {
   extern CLManager clm;
   if (!openclsetup) {
@@ -333,6 +340,7 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat) {
     cout << "error:" << errorcode << endl;
   thetime += par.dt;
 }
+#endif
 
 void PDE::ForwardEulerStep(int repeat, CellularPotts *cpm) {
   PDEFIELD_TYPE derivs[layers];
