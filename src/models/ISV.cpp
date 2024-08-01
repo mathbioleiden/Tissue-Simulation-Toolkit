@@ -169,7 +169,8 @@ void add_bias_to_act(const std::vector<Vec2<double>> biasdirections,
         }
     }
 
-    /* We can delay dividing out the factor max_i=1^n |x_i - x_0| 
+    /* 
+     * We can delay dividing out the factor max_i=1^n |x_i - x_0| 
      * because the innerproduct is a linear operation.
     */ 
     for (const auto & pixelvalue : values_to_increase) {

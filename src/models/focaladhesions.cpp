@@ -162,7 +162,11 @@ TIMESTEP {
 
         if (i >= par.relaxation) {
             if (par.useopencl) {
+            #ifdef CL_PDE
                 PROFILE(opencl_diff, dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);)
+            #else
+                std::cerr << "OpenCL is not installed!\n";
+            #endif
             } else {
                 for (int r = 0; r < par.pde_its; r++) {
                     dish->PDEfield->Secrete(dish->CPM);

@@ -72,8 +72,12 @@ TIMESTEP {
     static Plotter plotter = Plotter(dish, this);
     if (i >= par.relaxation) {
       if (par.useopencl) {
+        #ifdef CL_PDE
         PROFILE(opencl_diff,
                 dish->PDEfield->SecreteAndDiffuseCL(dish->CPM, par.pde_its);)
+        #else
+        std::cerr << "OpenCL is not installed!\n";
+        #endif
       } else if (i == par.relaxation) {
         dish->PDEfield->InitialisePDE(dish->CPM);
         dish->PDEfield->InitialiseDiffusionCoefficients(dish->CPM);
