@@ -44,11 +44,13 @@ LIBS += -L$$LIBCS_DIR -lcellshape
 # LIBS += -L$$MCDS_DIR/mcds_api -lmcds
 LIBS += -L$$XSDE_DIR/xsde/ -lxsde
 
-macx {
-  QMAKE_LFLAGS += -framework OpenCL
-}
-unix:!macx {
-  LIBS += -lOpenCL
+contains (CL_PDE, enabled ) {
+   macx {
+     QMAKE_LFLAGS += -framework OpenCL
+   }
+   unix:!macx {
+     LIBS += -lOpenCL
+   }
 }
 
 QMAKE_CXXFLAGS += -I$$LIBCS_DIR
