@@ -26,6 +26,7 @@ GRAPHICS = qt
 # defined in util/profiler.h.
 #PROFILING = enabled
 PROFILING = disabled
+CL_PDE = false
 
 #USECUDA = enabled
 USECUDA = disabled
@@ -67,7 +68,6 @@ HEADERS += adhesions/*.hpp \
            reaction_diffusion/*.hpp \
            reaction_diffusion/*.h \
            util/*.hpp \
-           compute/*.hpp \
            spatial/*.hpp
 
 
@@ -76,7 +76,6 @@ SOURCES += adhesions/*.cpp \
            parameters/*.cpp \
            plotting/*.cpp \
            util/*.cpp \
-           compute/*.cpp \
            spatial/*.cpp \
            graphics/graph.cpp
 
@@ -84,6 +83,11 @@ SOURCES += $$MAINFILE
 
 contains ( USECUDA, disabled ){
    SOURCES += reaction_diffusion/*.cpp
+}
+
+contains (CL_PDE, enabled ) {
+   SOURCES += compute/*.cpp
+   HEADERS += compute/*.hpp
 }
 
 
