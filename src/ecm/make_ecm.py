@@ -222,6 +222,18 @@ def main():
         else:
             raise NotImplementedError("Network type %s is not implemented." % nettype)
 
+        try:
+            laminin(
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                amount_of_laminin=instance.get_setting("ISV_laminin_amount", "int"),
+                network=net,
+                seed=par.network_seed
+            )
+        except KeyError as err:
+            _logger.debug(err)
+            raise err # remove after debuging
+
         instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par, net)))
         # encode_net(net)))
 
