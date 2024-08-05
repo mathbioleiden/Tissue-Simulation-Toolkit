@@ -265,6 +265,7 @@ SECTION("Myosin parameters")
 
 SECTION("Division parameters")
  
+    PARAMETER(int, division_area, 800, "Minimal area required for division");
     PARAMETER(double, division_rate_tipcell, 0.01, "Divsion rate of a tipcell");
     PARAMETER(double, division_rate_stalkcell, 0.01, "Divsion rate of a stalkcell");
 

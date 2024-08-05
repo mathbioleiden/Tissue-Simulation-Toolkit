@@ -245,7 +245,7 @@ TIMESTEP
 
         // Cell division, with a division rate that depends on if the cell is a tip-cell.
         {
-            int critical_division_area = par.target_area > 0 ? par.target_area : 800;
+            int critical_division_area = par.target_area > 0 ? par.target_area : par.division_area;
             std::vector<bool> which_cells(dish->cell.size());
             for (int i = 1; i < dish->cell.size(); i++)
             {
