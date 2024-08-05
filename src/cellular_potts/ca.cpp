@@ -2758,6 +2758,7 @@ void CellularPotts::MoveAdhesions()
 {
     adhesion_mover.update_myosin(act_field);
     adhesion_mover.ContractAdhesionInCells(par.adhesion_contraction_force);
+    adhesion_mover.remove_broken_adhesions();
 }
 
 vector<AdhesionWithEnvironment> CellularPotts::getAdhesions()

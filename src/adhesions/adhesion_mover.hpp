@@ -118,6 +118,7 @@ class AdhesionMover {
         
         void update_myosin(const ACT::ActField act_field); 
 
+        void remove_broken_adhesions(); 
         
         
     private:

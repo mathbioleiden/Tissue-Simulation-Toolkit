@@ -146,6 +146,22 @@ void AdhesionMover::commit_move(PixelPos source_pixel, PixelPos target_pixel,
     }
 }
 
+void AdhesionMover::remove_broken_adhesions() {
+
+    auto adhesion_list = index_.get_all_adhesions();
+
+    for (auto posadh : adhesion_list)
+    {
+        auto adhs = posadh.second;
+        for (auto adh : adhs){
+            if (adh.size <= par.adhesion_integrin_N0){
+                index_.remove_adhesion(adh.par_id);
+            }
+        }
+    }
+
+}
+
 CellECMInteractions AdhesionMover::get_cell_ecm_interactions() const
 {
     return index_.get_cell_ecm_interactions();
