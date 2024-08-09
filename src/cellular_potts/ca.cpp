@@ -542,10 +542,10 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
     sxy = sigma[x][y];
     sxyp = sigma[xp][yp];
 
-// if (par.target_area > 0 )
-        DH += DeltaH::area_constraint(cell, sxy, sxyp);
-//    else
-//        DH += DeltaH::linear_area_constraint(cell, sxy, sxyp);
+    // if (par.target_area > 0 )
+    DH += DeltaH::area_constraint(cell, sxy, sxyp);
+    //    else
+    //        DH += DeltaH::linear_area_constraint(cell, sxy, sxyp);
 
     DH += DeltaH::length_constraint(n_nb, x, y, xp, yp, sigma, cell, sxy, sxyp);
 
@@ -572,7 +572,13 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
     {
         if (adh_disp)
         {
+//          auto pos = Vec2<double>(x,y);
             double adh_dh = adhesion_mover.move_dh({xp, yp}, {x, y}, *adh_disp);
+//            if ( 
+//                (*cell)[sxy].Polarity().dot( pos - (*cell)[sxy].CenterVector() ) < 0
+//            )
+//                adh_dh *= 0.5;
+
             DH += static_cast<int>(round(adh_dh));
         }
         else
@@ -583,11 +589,14 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
         }
     }
 
-    if (par.lambda_Act > 0) {
-        if ( sxyp > 0 )
-            DH -= ACT::DeltaH(act_field, sigma, {xp,yp}, {x,y}, (*cell)[sxyp].lambda_act,par.max_Act);
-        else 
-            DH -= ACT::DeltaH(act_field, sigma, {xp,yp}, {x,y}, (*cell)[sxy].lambda_act, par.max_Act);
+    if (par.lambda_Act > 0)
+    {
+        if (sxyp > 0)
+            DH -= ACT::DeltaH(act_field, sigma, {xp, yp}, {x, y},
+                              (*cell)[sxyp].lambda_act, par.max_Act);
+        else
+            DH -= ACT::DeltaH(act_field, sigma, {xp, yp}, {x, y},
+                              (*cell)[sxy].lambda_act, par.max_Act);
     }
     return DH;
 }
@@ -1129,6 +1138,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
     if (frozen)
         return 0;
 
+
     loop = static_cast<float>(sizeedgelist) / static_cast<float>(n_nb);
     for (int i = 0; i < loop; i++)
     {
@@ -1168,7 +1178,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
         }
 
         //    // connectivity dissipation:
-        H_diss=0;
+        H_diss = 0;
         //    if (!ConnectivityPreservedP(x,y))
         //      H_diss=par.conn_diss;
 
@@ -1182,8 +1192,11 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
                 adhesion_mover.commit_move({xp, yp}, {x, y}, adh_disp);
             }
             ACT::commit_move(act_field, sigma, {xp, yp}, {x, y});
-            if (sigma[xp][yp] != 0)
-                history.add_extension({x, y}, sigma[xp][yp]);
+            if (sigma[xp][yp] != 0) {
+                auto c = (*cell)[sigma[xp][yp]];
+                if (c.Polarity().dot(ParPos(xp,yp) - c.CenterVector()) > 0)
+                    history.add_extension({x, y}, sigma[xp][yp]) ;
+            }
             ConvertSpin(
                 x, y, xp,
                 yp); // sigma(x,y) will get the same value as sigma(xp,yp)
@@ -1209,8 +1222,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
                 if (xn > 0 && yn > 0 && xn < sizex - 1 && yn < sizey - 1)
                 { // if the neighbour site is within the lattice
                     if (edgelist[edgeadjusting] == -1 &&
-                        sigma[xn][yn] != sigma[x][y] &&
-                        sigma[xn][yn] != -1)
+                        sigma[xn][yn] != sigma[x][y] && sigma[xn][yn] != -1)
                     {
                         // if there should be an edge between (x,y) and (xn,yn)
                         // and it is not there yet, add it
@@ -1219,7 +1231,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
                         loop += 2.0 / n_nb;
                     }
                     if (edgelist[edgeadjusting] != -1 &&
-                        (sigma[xn][yn] == sigma[x][y] || sigma[xn][yn] == -1)) 
+                        (sigma[xn][yn] == sigma[x][y] || sigma[xn][yn] == -1))
                     {
                         // if there should be no edge between (x,y) and (xn,yn),
                         // but there is an edge remove it
@@ -1233,7 +1245,20 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
         }
     }
     history.validate(sigma);
+
     act_field.Decrease();
+    for (auto &c : (*cell))
+    {
+        if (c.Sigma() > 0 and c.AliveP()){
+            c.UpdatePolarity();
+            std::cout << "Cell" << c.Sigma() << '=' << c.Polarity() << '\n';
+        }
+        else
+        { // Debug should be removed
+            std::cout << "Not updating polarity for c with sigma " << c.Sigma()
+                      << '\n';
+        }
+    }
     return SumDH;
 }
 
@@ -2756,9 +2781,46 @@ int **CellularPotts::get_annealed_sigma(int steps)
 
 void CellularPotts::MoveAdhesions()
 {
-    adhesion_mover.update_myosin(act_field);
+    std::unordered_map<PixelPos, double> myosin;
+    for (int i = 0; i < par.sizex; i++)
+    {
+        for (int j = 0; j < par.sizey; j++)
+        {
+            myosin[{i, j}] = 1.0;
+            // std::cout << "Polarity bias\n";
+//            if (par.polarity_bias)
+//            {
+//                int spin = sigma[i][j];
+//                if (spin <= 0)
+//                    myosin[{i, j}] = 0.0;
+//                // std::cout << "Polarity bias 1.5\n";
+//                auto polarity = (*cell)[spin].Polarity();
+//                // std::cout << "Polarity bias 2\n";
+//                // std::cout << polarity << ',' << sigma[i][j];
+//                auto com = (*cell)[spin].CenterVector();
+//                // std::cout << "Polarity bias 3\n";
+//                if (polarity.dot(Vec2<double>(1.0 * i, 1.0 * j) - com) > 0)
+//                    myosin[{i, j}] = 1.0;
+//                else
+//                    myosin[{i, j}] = 0.0;
+//            }
+//            else
+//            {
+//                myosin[{i, j}] = 1.0;
+//            }
+        }
+    }
+
+
+    // std::cout << "Polarity bias 4\n";
+    adhesion_mover.update_myosin(myosin);
+    // std::cout << "Polarity bias 5\n";
     adhesion_mover.ContractAdhesionInCells(par.adhesion_contraction_force);
     adhesion_mover.remove_broken_adhesions();
+    adhesion_mover.remove_trailing_adhesions();
+
+
+
 }
 
 vector<AdhesionWithEnvironment> CellularPotts::getAdhesions()
@@ -2782,132 +2844,145 @@ vector<AdhesionWithEnvironment> CellularPotts::getAdhesions()
     return output;
 }
 
-void CellularPotts::AddEdgeToEdgelist(
-    int edge) { // add an edge to the end of edgelist
-  int counteredge = CounterEdge(edge);
+void CellularPotts::AddEdgeToEdgelist(int edge)
+{ // add an edge to the end of edgelist
+    int counteredge = CounterEdge(edge);
 
-  // assign a unique integer to position 'edge' in the edgelist
-  edgelist[edge] = sizeedgelist;
-  // assign a unique integer at the end of orderedgelist, maintaining the
-  // bijection between the lists
-  orderedgelist[sizeedgelist] = edge;
-  // Increase the size of the array
-  sizeedgelist++;
+    // assign a unique integer to position 'edge' in the edgelist
+    edgelist[edge] = sizeedgelist;
+    // assign a unique integer at the end of orderedgelist, maintaining the
+    // bijection between the lists
+    orderedgelist[sizeedgelist] = edge;
+    // Increase the size of the array
+    sizeedgelist++;
 
-  // Repeat for the counteredge
-  edgelist[counteredge] = sizeedgelist;
-  orderedgelist[sizeedgelist] = counteredge;
-  sizeedgelist++;
+    // Repeat for the counteredge
+    edgelist[counteredge] = sizeedgelist;
+    orderedgelist[sizeedgelist] = counteredge;
+    sizeedgelist++;
 }
 
-void CellularPotts::RemoveEdgeFromEdgelist(
-    int edge) { // remove an edge from the edgelist
-  int counteredge = CounterEdge(edge);
+void CellularPotts::RemoveEdgeFromEdgelist(int edge)
+{ // remove an edge from the edgelist
+    int counteredge = CounterEdge(edge);
 
-  if (edgelist[edge] !=
-      sizeedgelist - 1) { // if edge is not the last edge in orderedgelist
-    // move the edge in the last position to the position of the edge that must
-    // be deleted
-    orderedgelist[edgelist[edge]] = orderedgelist[sizeedgelist - 1];
-    edgelist[orderedgelist[sizeedgelist - 1]] = edgelist[edge];
-  }
-  // remove the edge from the edgelist
-  edgelist[edge] = -1;
-  // free the last position of orderedgelist
-  orderedgelist[sizeedgelist - 1] = -1;
-  // decrease the size of the edgelist
-  sizeedgelist--;
-
-  // Repeat for counteredge
-  if (edgelist[counteredge] != sizeedgelist - 1) {
-    orderedgelist[edgelist[counteredge]] = orderedgelist[sizeedgelist - 1];
-    edgelist[orderedgelist[sizeedgelist - 1]] = edgelist[counteredge];
-  }
-  edgelist[counteredge] = -1;
-  orderedgelist[sizeedgelist - 1] = -1;
-  sizeedgelist--;
-}
-
-int CellularPotts::CounterEdge(int edge) {
-  // For an edge from (x,y) to (xn,yn), this function returns the edge from
-  // (xn,yn) to (x,y)
-
-  // find the corresponding lattice site and neighbour for the edge.
-  int which_site = edge / n_nb;
-  int which_neighbour = edge % n_nb + 1;
-  int counterneighbour = 0;
-
-  // find the x and y coordinate corresponding to the lattice site
-  int x = which_site % (sizex - 2) + 1;
-  int y = which_site / (sizex - 2) + 1;
-
-  // find the x and y coordinate corresponding at the other end of the edge
-  int xp = nx[which_neighbour] + x;
-  int yp = ny[which_neighbour] + y;
-
-  // correct for periodic boundaries of necessary
-  if (par.periodic_boundaries) {
-    // since we are asynchronic, we cannot just copy the borders once
-    // every MCS
-    if (xp <= 0)
-      xp = sizex - 2 + xp;
-    if (yp <= 0)
-      yp = sizey - 2 + yp;
-    if (xp >= sizex - 1)
-      xp = xp - sizex + 2;
-    if (yp >= sizey - 1)
-      yp = yp - sizey + 2;
-  }
-  // lattice site corresponding to other site of the edge
-  int neighbourlocation = xp - 1 + (yp - 1) * (par.sizex - 2);
-
-  // find the neighbour pointing the other direction
-  const int counterneighbourlist[20] = {3, 4,  1,  2,  7,  8,  5,  6,  11, 12,
-                                        9, 10, 17, 18, 19, 20, 13, 14, 15, 16};
-  counterneighbour = counterneighbourlist[which_neighbour - 1];
-  // compute the final counteredge
-  int counteredge = neighbourlocation * n_nb + counterneighbour - 1;
-  return counteredge;
-}
-
-bool CellularPotts::LocalConnectedness(int x, int y, int s){
-
-  //Algorithm from Durand, M., & Guesnet, E. (2016). An efficient Cellular Potts Model algorithm that forbids cell fragmentation. Computer Physics Communications, 208, 54-63.
-  //Checks if cell sigma is locally connected at lattice point (x,y) if using LocalConnectedness(x,y,sigma[x][y]) and LocalConnectedness(x,y,sigma[xp][yp] both are true
-
-
-   // Use local nx and ny in a cyclic order (starts at upper left corner)
-  const int cyc_nx[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
-  const int cyc_ny[8] = {0, -1, -1, -1, 0, 1, 1, 1};
-  bool connected_component = false; 
-  //Currently in a connected component
-  int nr_connected_components = 0;
-  //Total number of conncected components around x,y
-  for (int i = 0; i <= 7; i++){
-    int s_nb = sigma[x + cyc_nx[i]][y + cyc_ny[i]];
-    if (s_nb == s && !connected_component){
-      //start of a connected component
-      connected_component = true;
-      nr_connected_components++;
+    if (edgelist[edge] != sizeedgelist - 1)
+    { // if edge is not the last edge in orderedgelist
+        // move the edge in the last position to the position of the edge that
+        // must be deleted
+        orderedgelist[edgelist[edge]] = orderedgelist[sizeedgelist - 1];
+        edgelist[orderedgelist[sizeedgelist - 1]] = edgelist[edge];
     }
-    else if (s_nb != s && connected_component){
-      //end of a conencted component
-      connected_component = false;
+    // remove the edge from the edgelist
+    edgelist[edge] = -1;
+    // free the last position of orderedgelist
+    orderedgelist[sizeedgelist - 1] = -1;
+    // decrease the size of the edgelist
+    sizeedgelist--;
+
+    // Repeat for counteredge
+    if (edgelist[counteredge] != sizeedgelist - 1)
+    {
+        orderedgelist[edgelist[counteredge]] = orderedgelist[sizeedgelist - 1];
+        edgelist[orderedgelist[sizeedgelist - 1]] = edgelist[counteredge];
     }
-  }
-  bool looped = false;
-  if (sigma[x + cyc_nx[0]][y + cyc_ny[0]] == s && sigma[x + cyc_nx[7]][y + cyc_ny[7]] == s)
-    looped = true;
-  //Check if the first and last element are connected
-  if ((nr_connected_components >= 2 && !looped) || nr_connected_components >= 3 && looped)
-  //permit one more component when the first and last element are connected
-    return false;
-  else
-    return true;
+    edgelist[counteredge] = -1;
+    orderedgelist[sizeedgelist - 1] = -1;
+    sizeedgelist--;
 }
 
-void CellularPotts::setGrid(const Grid &grid) {
+int CellularPotts::CounterEdge(int edge)
+{
+    // For an edge from (x,y) to (xn,yn), this function returns the edge from
+    // (xn,yn) to (x,y)
+
+    // find the corresponding lattice site and neighbour for the edge.
+    int which_site = edge / n_nb;
+    int which_neighbour = edge % n_nb + 1;
+    int counterneighbour = 0;
+
+    // find the x and y coordinate corresponding to the lattice site
+    int x = which_site % (sizex - 2) + 1;
+    int y = which_site / (sizex - 2) + 1;
+
+    // find the x and y coordinate corresponding at the other end of the edge
+    int xp = nx[which_neighbour] + x;
+    int yp = ny[which_neighbour] + y;
+
+    // correct for periodic boundaries of necessary
+    if (par.periodic_boundaries)
+    {
+        // since we are asynchronic, we cannot just copy the borders once
+        // every MCS
+        if (xp <= 0)
+            xp = sizex - 2 + xp;
+        if (yp <= 0)
+            yp = sizey - 2 + yp;
+        if (xp >= sizex - 1)
+            xp = xp - sizex + 2;
+        if (yp >= sizey - 1)
+            yp = yp - sizey + 2;
+    }
+    // lattice site corresponding to other site of the edge
+    int neighbourlocation = xp - 1 + (yp - 1) * (par.sizex - 2);
+
+    // find the neighbour pointing the other direction
+    const int counterneighbourlist[20] = {
+        3, 4, 1, 2, 7, 8, 5, 6, 11, 12, 9, 10, 17, 18, 19, 20, 13, 14, 15, 16};
+    counterneighbour = counterneighbourlist[which_neighbour - 1];
+    // compute the final counteredge
+    int counteredge = neighbourlocation * n_nb + counterneighbour - 1;
+    return counteredge;
+}
+
+bool CellularPotts::LocalConnectedness(int x, int y, int s)
+{
+
+    // Algorithm from Durand, M., & Guesnet, E. (2016). An efficient Cellular
+    // Potts Model algorithm that forbids cell fragmentation. Computer Physics
+    // Communications, 208, 54-63. Checks if cell sigma is locally connected at
+    // lattice point (x,y) if using LocalConnectedness(x,y,sigma[x][y]) and
+    // LocalConnectedness(x,y,sigma[xp][yp] both are true
+
+    // Use local nx and ny in a cyclic order (starts at upper left corner)
+    const int cyc_nx[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+    const int cyc_ny[8] = {0, -1, -1, -1, 0, 1, 1, 1};
+    bool connected_component = false;
+    // Currently in a connected component
+    int nr_connected_components = 0;
+    // Total number of conncected components around x,y
+    for (int i = 0; i <= 7; i++)
+    {
+        int s_nb = sigma[x + cyc_nx[i]][y + cyc_ny[i]];
+        if (s_nb == s && !connected_component)
+        {
+            // start of a connected component
+            connected_component = true;
+            nr_connected_components++;
+        }
+        else if (s_nb != s && connected_component)
+        {
+            // end of a conencted component
+            connected_component = false;
+        }
+    }
+    bool looped = false;
+    if (sigma[x + cyc_nx[0]][y + cyc_ny[0]] == s &&
+        sigma[x + cyc_nx[7]][y + cyc_ny[7]] == s)
+        looped = true;
+    // Check if the first and last element are connected
+    if ((nr_connected_components >= 2 && !looped) ||
+        nr_connected_components >= 3 && looped)
+        // permit one more component when the first and last element are
+        // connected
+        return false;
+    else
+        return true;
+}
+
+void CellularPotts::setGrid(const Grid &grid)
+{
     for (int x = 0; x < par.sizex; x++)
-      for (int y = 0; y < par.sizey; y++) 
-        sigma[x][y] = grid.get({x,y});
+        for (int y = 0; y < par.sizey; y++)
+            sigma[x][y] = grid.get({x, y});
 }

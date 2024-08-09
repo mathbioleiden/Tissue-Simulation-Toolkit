@@ -25,6 +25,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 //#define _CELL_HH_
 
 #include "cell_direction.hpp"
+#include "cell_polarity.hpp"
 #include "parameter.hpp"
 // #define EMPTY -1
 #include <iostream>
@@ -44,24 +45,24 @@ class Cell
                             std::vector<Cell> &cells, int **sigma);
 
 public:
-    Vec2<double> polarity; 
-    Vec2<double> previous_center_of_mass; 
+//    Vec2<double> polarity; 
+//    Vec2<double> previous_center_of_mass; 
     double lambda_act;
     /*! \brief Constructor to insert a cell into Dish "who"
     Used to add a new Cell to the dish: new Cell(dish,
     celtype).
     */
-    Cell(const Dish &who, int settau = 1)
+    Cell(const Dish &who, int settau = 1): cell_polarity(0)
     {
         ConstructorBody(settau);
     }
 
-    Cell(void) { ConstructorBody(1); }
+    Cell(void) : cell_polarity(0) { ConstructorBody(1); }
 
     ~Cell(void);
 
     //! Default copy constructor.
-    Cell(const Cell &src)
+    Cell(const Cell &src) : cell_polarity(src.cell_polarity)
     {
         // make an exact copy (for internal use)
         sigma = src.sigma;
@@ -317,6 +318,16 @@ public:
     }
 
 public:
+    /**
+     * @brief Computes the polarity of cell, can be (0,0)
+     * @return Polarity of the cell
+     */
+    Vec2<double> Polarity();
+
+    void UpdatePolarity();
+
+    void FixPolarity(Vec2<double> direction);
+
     /*! \brief Read a table of static Js.
       First line: number of types (including medium)
       Next lines: diagonal matrix, starting with 1 element (0 0)
@@ -498,6 +509,7 @@ protected:
     double border;
 
     const Dish *owner; // pointer to owner of cell
+    CellPolarity cell_polarity;
 };
 
 //#endif

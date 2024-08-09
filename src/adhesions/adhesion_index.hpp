@@ -193,7 +193,7 @@ class AdhesionIndex {
          * 
          * @param act_field Actin field on which myosin is based.
         */
-        void set_myosin(const ACT::ActField);
+        void set_myosin(std::unordered_map<PixelPos, double> myosin_factor);
 
         /// Helper function in rebuild(), run before  setting_size.
         void setting_force_on_adhesions(std::vector<ParPos> midpoints, int** sigma);

@@ -35,48 +35,34 @@ void AdhesionMover::ContractAdhesionInCells(double cell_force)
 
         for (auto const &adh : adhs)
         {
-//            std::vector<PixelPos> direction =  {
-//                PixelPos(-1,-1), PixelPos(-1, 0), PixelPos(-1, 1),
-//                PixelPos( 0, 1), PixelPos( 0,-1), PixelPos( 1,-1), PixelPos( 1, 0), PixelPos( 1, 1)};
-//            std::shuffle(direction.begin(), direction.end(), std::default_random_engine(RANDOM())); 
             auto deltaR = cell_center - adh.position;
-            //for (auto const delta : direction) {
-                // Use the infinty norm because we want to map the vector
-                // to the moore neighbourhood and moore neighbourhood = circle in
-                // (R^2, |.|_\infty).
-                auto deltaR_norm = std::max(std::abs(deltaR.x), std::abs(deltaR.y));
-                if ((deltaR_norm == 0.0) 
-//				||
-//                    (deltaR.dot(deltaR) <
-//                     par.adhesion_maximum_contractile_percentage *
-//                         par.adhesion_maximum_contractile_percentage *
-//                         par.target_area / 3.14)
-                         )
+            auto deltaR_norm = std::max(std::abs(deltaR.x), std::abs(deltaR.y));
+            if (deltaR_norm == 0.0)
+                continue;
+
+            auto delta_normalized = (1.0 / deltaR_norm) * deltaR;
+            PixelPos delta(delta_normalized.x, delta_normalized.y);
+
+            ParPos new_pos = adh.position + ParPos(delta.x, delta.y);
+            PixelPos new_pixel =
+                PixelPos(std::floor(new_pos.x), std::floor(new_pos.y));
+
+            if (ca_.Sigma(new_pixel.x, new_pixel.y) == spin)
+            {
+                // Here should be a check on the tension
+                auto new_deltaR = cell_center - new_pos;
+
+                double delta_energy_ecm = adh.move_dh(delta);
+                double delta_energy_cyto =
+                    cell_force * adh.myosin_force_fraction * 0.5 *
+                    (new_deltaR.dot(new_deltaR) - deltaR.dot(deltaR));
+                double delta_energy = delta_energy_ecm + delta_energy_cyto;
+                if (delta_energy < 0)
                 {
-                    continue;
+                    index_.move_adhesion(adh.par_id, pos, new_pos);
+                    // break;
                 }
-                auto delta_normalized = (1.0 / deltaR_norm) * deltaR;
-		PixelPos delta(delta_normalized.x,delta_normalized.y);
-
-                ParPos new_pos = adh.position + ParPos(delta.x, delta.y);
-                PixelPos new_pixel = PixelPos(std::floor(new_pos.x), std::floor(new_pos.y));
-
-                if (ca_.Sigma(new_pixel.x, new_pixel.y) == spin)
-                {
-                    // Here should be a check on the tension
-                    auto new_deltaR = cell_center - new_pos;
-
-                    double delta_energy_ecm = adh.move_dh(delta);
-                    double delta_energy_cyto =
-                        cell_force * adh.myosin_force_fraction * 0.5 *
-                        (new_deltaR.dot(new_deltaR) - deltaR.dot(deltaR));
-                    double delta_energy = delta_energy_ecm + delta_energy_cyto;
-                    if (delta_energy < 0)
-                    {
-                        index_.move_adhesion(adh.par_id, pos, new_pos);
-                        // break;
-                    }
-                }
+            }
             //}
         }
     }
@@ -146,20 +132,40 @@ void AdhesionMover::commit_move(PixelPos source_pixel, PixelPos target_pixel,
     }
 }
 
-void AdhesionMover::remove_broken_adhesions() {
+void AdhesionMover::remove_trailing_adhesions(){
+    auto adhesion_list = index_.get_all_adhesions();
+
+     for (auto posadh : adhesion_list)
+     {
+        auto pos = posadh.first;
+        auto adhs = posadh.second;
+
+        auto cell = ca_.getCell(ca_.Sigma(pos.x, pos.y));
+        auto polarity = cell.Polarity();
+        auto com = cell.CenterVector();
+
+         if (polarity.dot(Vec2<double>(pos.x, pos.y) - com) < 0)
+             for (auto adh : adhs)
+                 index_.remove_adhesion(adh.par_id);
+     }
+}
+
+void AdhesionMover::remove_broken_adhesions()
+{
 
     auto adhesion_list = index_.get_all_adhesions();
 
     for (auto posadh : adhesion_list)
     {
         auto adhs = posadh.second;
-        for (auto adh : adhs){
-            if (adh.size <= par.adhesion_integrin_N0){
+        for (auto adh : adhs)
+        {
+            if (adh.size <= par.adhesion_integrin_N0)
+            {
                 index_.remove_adhesion(adh.par_id);
             }
         }
     }
-
 }
 
 CellECMInteractions AdhesionMover::get_cell_ecm_interactions() const
@@ -177,15 +183,17 @@ void AdhesionMover::update(ECMBoundaryState const &ecm_boundary)
     index_.rebuild(ecm_boundary);
     std::vector<ParPos> midpoints;
 
-    for (auto const &cell : *ca_.getCellArray()) {
+    for (auto const &cell : *ca_.getCellArray())
+    {
         midpoints.push_back(cell.CenterVector());
     }
     index_.setting_force_on_adhesions(midpoints, ca_.getSigma());
     index_.setting_size_on_adhesions();
 }
 
-void AdhesionMover::update_myosin(const ACT::ActField act_field){
-    index_.set_myosin(act_field);
+void AdhesionMover::update_myosin(std::unordered_map<PixelPos,double> myosin_factor)
+{
+    index_.set_myosin(myosin_factor);
 }
 
 double
@@ -200,6 +208,7 @@ compute_yielding_penalty(const std::vector<AdhesionWithEnvironment> adhesions)
     Integrin resisting = std::max(0, total);
     // The 1.0 (with .0) makes the division a division of doubles instead of
     // division of ints.
-    double fraction(1.0 * resisting / (1.0*(par.adhesion_yielding_Nh + resisting)));
-    return fraction * par.adhesion_yielding_lambda;
+    double fraction(1.0 * resisting /
+                    (1.0 * (par.adhesion_yielding_Nh + resisting)));
+    return fraction * par.adhesion_yielding_lambda ;
 }

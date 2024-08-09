@@ -95,6 +95,18 @@ void Cell::CellBirth(Cell &mother_cell)
     grad[1] = mother_cell.grad[1];
 }
 
+Vec2<double> Cell::Polarity(){
+    return cell_polarity.get();
+}
+
+void Cell::UpdatePolarity(){
+    cell_polarity.add_com(fit_ellipse.center());
+}
+
+void Cell::FixPolarity(Vec2<double> direction) {
+    cell_polarity.fix(direction);
+} 
+
 void Cell::ConstructorBody(int settau) {
   // Note: Constructor of Cytoplasm will be called first
   alive = true;
@@ -138,8 +150,7 @@ void Cell::ConstructorBody(int settau) {
   chem = new double[par.n_chem];
   
   lambda_act = par.lambda_Act;
-  polarity = {0.0, 0.0};
-  previous_center_of_mass = {0.0, 0.0};
+  cell_polarity.set_maximum_history(par.cell_polarity_history);
 }
 
 /*! \brief Read a table of static Js.

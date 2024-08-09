@@ -187,33 +187,43 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
     }
 }
 
-namespace {
-   double myosin_derivate(double act_percentage, double myosin) {
-        return par.myosin_creation_rate * ( 1.0 - myosin) - par.myosin_decay_rate * act_percentage * (myosin - 0.1); 
-   } 
-   double myosin_FE(double act_percentage, double myosin) {
-        double T = 0;
-        while (T < par.myosin_intergration_time) {
-            auto dm = myosin_derivate(act_percentage, myosin) * par.myosin_intergration_timestep;
-            myosin += dm;
-            T += par.myosin_intergration_timestep;            
-        } 
-        return myosin;
-   }
-}
-
-void AdhesionIndex::set_myosin(const ACT::ActField act_field) {
-    for (auto & pos_adhesions : adhesions_by_pixel_) {
-        auto pos = pos_adhesions.first;
-        auto act_percentage = act_field.Value(pos) / par.max_Act;
-        for (auto & awe : pos_adhesions.second) {
-            auto myosin = myosin_FE(
-                act_percentage,
-                awe.myosin_force_fraction
-            );
-            awe.myosin_force_fraction = myosin;
-        }
-    }
+// namespace {
+//    double myosin_derivate(double act_percentage, double myosin) {
+//         return par.myosin_creation_rate * ( 1.0 - myosin) - par.myosin_decay_rate * act_percentage * (myosin - 0.1); 
+//    } 
+//    double myosin_FE(double act_percentage, double myosin) {
+//         double T = 0;
+//         while (T < par.myosin_intergration_time) {
+//             auto dm = myosin_derivate(act_percentage, myosin) * par.myosin_intergration_timestep;
+//             myosin += dm;
+//             T += par.myosin_intergration_timestep;            
+//         } 
+//         return myosin;
+//    }
+// }
+// 
+// void AdhesionIndex::set_myosin(const ACT::ActField act_field) {
+//     for (auto & pos_adhesions : adhesions_by_pixel_) {
+//         auto pos = pos_adhesions.first;
+//         auto act_percentage = act_field.Value(pos) / par.max_Act;
+//         for (auto & awe : pos_adhesions.second) {
+//             auto myosin = myosin_FE(
+//                 act_percentage,
+//                 awe.myosin_force_fraction
+//             );
+//             awe.myosin_force_fraction = myosin;
+//         }
+//     }
+// }
+void AdhesionIndex::set_myosin(std::unordered_map<PixelPos, double> myosin_factor) {
+     for (auto & pos_adhesions : adhesions_by_pixel_) {
+         auto pos = pos_adhesions.first;
+         for (auto & awe : pos_adhesions.second) {
+            std::cout << "setting myosin ";
+            std::cout << myosin_factor[pos] << '\n';
+             awe.myosin_force_fraction = myosin_factor[pos];
+         }
+     }
 }
 
 void AdhesionIndex::setting_force_on_adhesions(std::vector<ParPos> midpoints, int** sigma) {

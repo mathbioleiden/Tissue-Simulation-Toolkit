@@ -4,7 +4,6 @@
 #include "ca_fwd.hpp"
 #include "ecm_boundary_state.hpp"
 #include "vec2.hpp"
-#include "act.hpp"
 
 
 /** Describes where the adhesions go during a copy attempt. */
@@ -116,9 +115,12 @@ class AdhesionMover {
 
         void ContractAdhesionInCells(double); 
         
-        void update_myosin(const ACT::ActField act_field); 
+        // void update_myosin(const ACT::ActField act_field); 
+        void update_myosin(std::unordered_map<PixelPos,double>); 
 
         void remove_broken_adhesions(); 
+
+        void remove_trailing_adhesions();
         
         
     private:

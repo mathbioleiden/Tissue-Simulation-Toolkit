@@ -269,6 +269,10 @@ SECTION("Division parameters")
     PARAMETER(double, division_rate_tipcell, 0.01, "Divsion rate of a tipcell");
     PARAMETER(double, division_rate_stalkcell, 0.01, "Divsion rate of a stalkcell");
 
+
+SECTION("Cell polarity")
+    PARAMETER(int, cell_polarity_history, 10, "Number of MCS that is used for polarity computation.");
+
 SECTION("Obsolete and unused")
 
     PARAMETER(bool, gradient, false, "Obsolete, unused")

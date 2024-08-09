@@ -2,7 +2,7 @@ from tissue_simulation_toolkit.ecm.muscle3 import from_settings
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
 from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
-from ecmgen import random_network, single_strand, Network, single_spring, ISV_network, regular, random_directed_network, laminin, rotate_network
+from ecmgen import random_network, single_strand, Network, single_spring, ISV_network, regular, random_directed_network, laminin, rotate_network, hexagonal
 
 
 from libmuscle import Instance, Message
@@ -219,6 +219,12 @@ def main():
                 seed=par.network_seed,
                 fix_boundary=par.fixed_boundary,
             )
+        elif nettype == 'laminin':
+            net = hexagonal(
+                par.box_size_x,
+                par.box_size_y,
+                instance.get_setting("laminin_size", "float")
+            )
         else:
             raise NotImplementedError("Network type %s is not implemented." % nettype)
 
@@ -232,7 +238,7 @@ def main():
             )
         except KeyError as err:
             _logger.debug(err)
-            raise err # remove after debuging
+#             raise err # remove after debuging
 
         instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par, net)))
         # encode_net(net)))

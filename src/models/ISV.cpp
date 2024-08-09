@@ -109,6 +109,10 @@ INIT
 
         CPM->InitialiseEdgeList();
 
+        for (auto &c : *(CPM->getCellArray())){ 
+            c.FixPolarity({0.0, 1.0}); 
+        }
+
         // Set all the PDEs to a steady state solution.
         // PDEfield->InitialisePDEvars(nullptr, nullptr);
     }
@@ -240,8 +244,9 @@ TIMESTEP
             instance->receive("ecm_boundary_state_in");
         auto ecm_boundary_state =
             decode_ecm_boundary_state(ecm_boundary_state_msg.data());
-
+        // std::cout << "Got here 1\n";
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
+        // std::cout << "Got here 2\n";
 
         // Cell division, with a division rate that depends on if the cell is a tip-cell.
         {
@@ -301,30 +306,30 @@ TIMESTEP
             );
         }
 
-        if (par.polarity_bias) {
-            std::vector<Vec2<double>> directions(dish->cell.size());
-            for (auto & cell : dish->cell) {
-                auto current_center = cell.CenterVector();
-                if (cell.previous_center_of_mass == Vec2<double>(0.0, 0.0)) { // New cell
-                    cell.previous_center_of_mass = current_center;
-                    directions[cell.Sigma()] = {0.0, 0.0};
-                    cell.polarity = {0.0, 0.0}; // 0.0 vectors are skipped
-                    continue;
-                }
-                cell.polarity = current_center - cell.previous_center_of_mass;
-                cell.polarity = (1.0/cell.polarity.length())*cell.polarity;
-                cell.previous_center_of_mass = current_center;
-
-                directions[cell.Sigma()] = cell.polarity;
-            }
-
-            add_bias_to_act(
-                directions,
-                dish->CPM->getActField(),
-                dish->cell,
-                dish->CPM->getSigma()
-            );
-        }
+//        if (par.polarity_bias) {
+//            std::vector<Vec2<double>> directions(dish->cell.size());
+//            for (auto & cell : dish->cell) {
+//                auto current_center = cell.CenterVector();
+//                if (cell.previous_center_of_mass == Vec2<double>(0.0, 0.0)) { // New cell
+//                    cell.previous_center_of_mass = current_center;
+//                    directions[cell.Sigma()] = {0.0, 0.0};
+//                    cell.polarity = {0.0, 0.0}; // 0.0 vectors are skipped
+//                    continue;
+//                }
+//                cell.polarity = current_center - cell.previous_center_of_mass;
+//                cell.polarity = (1.0/cell.polarity.length())*cell.polarity;
+//                cell.previous_center_of_mass = current_center;
+//
+//                directions[cell.Sigma()] = cell.polarity;
+//            }
+//
+//            add_bias_to_act(
+//                directions,
+//                dish->CPM->getActField(),
+//                dish->cell,
+//                dish->CPM->getSigma()
+//            );
+//        }
 
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
 
