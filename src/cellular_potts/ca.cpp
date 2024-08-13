@@ -1138,7 +1138,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
     if (frozen)
         return 0;
 
-
+    history.clear();
     loop = static_cast<float>(sizeedgelist) / static_cast<float>(n_nb);
     for (int i = 0; i < loop; i++)
     {
@@ -1251,7 +1251,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
     {
         if (c.Sigma() > 0 and c.AliveP()){
             c.UpdatePolarity();
-            std::cout << "Cell" << c.Sigma() << '=' << c.Polarity() << '\n';
+            // std::cout << "Cell" << c.Sigma() << '=' << c.Polarity() << '\n';
         }
         else
         { // Debug should be removed

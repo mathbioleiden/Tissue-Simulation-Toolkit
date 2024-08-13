@@ -9,7 +9,7 @@ void CellPolarity::add_com(Vec2<double> center)
     }
 }
 
-Vec2<double> CellPolarity::get()
+Vec2<double> CellPolarity::get() const
 {
     if (fixed)
         return fixed_direction;

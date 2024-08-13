@@ -25,7 +25,7 @@ public:
      * @return The unit vector in the direction of cell polarisation or
      * zerovector if there is no polarity yet
      */
-    Vec2<double> get();
+    Vec2<double> get() const;
 
     /**
      * @brief set the maximum history

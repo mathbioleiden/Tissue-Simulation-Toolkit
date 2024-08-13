@@ -206,6 +206,20 @@ void add_vegf_bias_in_act(const Vec2<double> biasdirection,
     );
 }
 
+std::vector<PixelPos> filter_adh_zone(const std::vector<PixelPos> adh_zone_to_filter,
+                               const std::vector<Cell> cell,
+                               int** sigma) {
+    std::vector<PixelPos> adh_zone;
+    for (auto const pos : adh_zone_to_filter) {
+        auto spin = sigma[pos.x][pos.y];
+        auto com = cell[spin].CenterVector();
+        auto polarity = cell[spin].Polarity();
+        if (polarity.dot(Vec2<double>(pos) - com) > 0)
+            adh_zone.push_back(pos);
+    }
+    return adh_zone;
+}
+
 TIMESTEP
 {
     try
@@ -228,7 +242,9 @@ TIMESTEP
         }
         else
         {
-            auto adh_zone = dish->CPM->history.get_positions();
+               auto adh_zone = dish->CPM->history.get_positions();
+    //         auto adh_zone_to_filter = dish->CPM->history.get_positions();
+    //         auto adh_zone = filter_adh_zone(adh_zone_to_filter, dish->cell, dish->CPM->getSigma());
             interactions.change_type_in_area.change_area = adh_zone;
             interactions.change_type_in_area.num_particles = adh_zone.size();
             interactions.change_type_in_area.from_type = ParticleType::free;

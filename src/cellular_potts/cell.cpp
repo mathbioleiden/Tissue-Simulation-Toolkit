@@ -95,7 +95,7 @@ void Cell::CellBirth(Cell &mother_cell)
     grad[1] = mother_cell.grad[1];
 }
 
-Vec2<double> Cell::Polarity(){
+Vec2<double> Cell::Polarity() const{
     return cell_polarity.get();
 }
 

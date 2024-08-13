@@ -144,9 +144,16 @@ void AdhesionMover::remove_trailing_adhesions(){
         auto polarity = cell.Polarity();
         auto com = cell.CenterVector();
 
+        // std::cout << " COM " << com << ','
+        //           << " POL" << polarity << ','
+        //           << " POS" << pos << ','
+        //           << " INP" << polarity.dot(Vec2<double>(pos.x, pos.y) - com) << '\n';
+
          if (polarity.dot(Vec2<double>(pos.x, pos.y) - com) < 0)
-             for (auto adh : adhs)
+             for (auto adh : adhs) {
+                // std::cout << "  Removing at " << adh.position << '\n';
                  index_.remove_adhesion(adh.par_id);
+             }
      }
 }
 

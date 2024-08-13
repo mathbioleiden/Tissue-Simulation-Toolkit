@@ -27,6 +27,10 @@ std::vector<PixelPos> ExtensionHistory::get_positions() {
     return output;
 }
 
+void ExtensionHistory::clear(){
+    extensions_.clear();
+}
+
 size_t ExtensionHistory::size() {
     return extensions_.size();
 }

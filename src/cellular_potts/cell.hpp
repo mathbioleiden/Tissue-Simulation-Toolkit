@@ -322,7 +322,7 @@ public:
      * @brief Computes the polarity of cell, can be (0,0)
      * @return Polarity of the cell
      */
-    Vec2<double> Polarity();
+    Vec2<double> Polarity() const;
 
     void UpdatePolarity();
 
