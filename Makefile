@@ -26,7 +26,7 @@ VENV_PKG = venv/lib/$(PYTHON_VERSION)/site-packages
 all: $(MODELS)
 
 .NOTPARALLEL: with_adhesions
-with_adhesions: $(MODELS) bin/ISV ecm ymmsl/focaladhesions.ymmsl ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl
+with_adhesions: $(MODELS) bin/ISV bin/singlecell bin/singlecell_dynamic_polarity ecm ymmsl/focaladhesions.ymmsl ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl
 
 
 # Dependencies
@@ -110,6 +110,8 @@ bin/%: MCDS LIBCS
 
 bin/adhesions: MUSCLE3
 bin/ISV: MUSCLE3
+bin/singlecell: MUSCLE3
+bin/singlecell_dynamic_polarity: MUSCLE3
 
 bin/twocells: MUSCLE3
 
