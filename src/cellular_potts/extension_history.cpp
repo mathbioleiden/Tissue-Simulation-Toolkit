@@ -27,6 +27,15 @@ std::vector<PixelPos> ExtensionHistory::get_positions() {
     return output;
 }
 
+std::vector<PixelPos> ExtensionHistory::get_positions(std::vector<int> spins_to_exclude) {
+    std::vector<PixelPos> output;
+    for (auto element : extensions_) {
+        if ( std::find(spins_to_exclude.begin(), spins_to_exclude.end(), element.second) == spins_to_exclude.end() )
+            output.push_back(element.first);
+    }
+    return output;
+}
+
 void ExtensionHistory::clear(){
     extensions_.clear();
 }
