@@ -10,7 +10,7 @@ class CellPolarity
 {
 public:
     CellPolarity(int maximum_history)
-        :  maximum_history(maximum_history), fixed(false)
+        :  maximum_history(maximum_history), fixed(false), polarity_on(true)
     {
     }
 
@@ -39,6 +39,9 @@ public:
      */
     void fix(Vec2<double> direction);
 
+    void PolarityOn();
+    void PolarityOff();
+
     /**
      * @brief Debugging getter for private data used for testing.
      * @return com_history 
@@ -49,4 +52,5 @@ private:
     std::deque<Vec2<double>> com_history;
     bool fixed;
     Vec2<double> fixed_direction;
+    bool polarity_on;
 };

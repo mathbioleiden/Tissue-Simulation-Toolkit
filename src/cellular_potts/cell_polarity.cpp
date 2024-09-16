@@ -11,6 +11,9 @@ void CellPolarity::add_com(Vec2<double> center)
 
 Vec2<double> CellPolarity::get() const
 {
+    if (polarity_on == false)
+        return {0.0, 0.0};
+
     if (fixed)
         return fixed_direction;
     int n = com_history.size();
@@ -26,6 +29,13 @@ Vec2<double> CellPolarity::get() const
     if (output_length == 0.0)
         return {0.0, 0.0};
     return (1.0 / output_length) * output;
+}
+
+void CellPolarity::PolarityOff() {
+    polarity_on = false;
+}
+void CellPolarity::PolarityOn() {
+    polarity_on = true;
 }
 
 void CellPolarity::fix(Vec2<double> direction) {
