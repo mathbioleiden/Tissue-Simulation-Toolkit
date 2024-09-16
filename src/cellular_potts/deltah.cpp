@@ -74,27 +74,15 @@ double DeltaH::linear_area_constraint(std::vector<Cell> *cell, int sxy, int sxyp
 
 double DeltaH::area_constraint(std::vector<Cell> *cell, int sxy, int sxyp)
 {
-    double DH;
-    // lambda is determined by chemical 0
-    // cerr << "[" << lambda << "]";
-    if (sxyp == MEDIUM)
-    {
-        DH = (double)(par.lambda *
-                      (1. - 2. * (double)((*cell)[sxy].Area() -
-                                          (*cell)[sxy].TargetArea())));
+    double DH = 0.0;
+    if (sxy != MEDIUM) {
+        const auto &c = (*cell)[sxy];
+        DH += c.Lambda() * (1.0 - 2.0 * (c.Area() - c.TargetArea()) );
     }
-    else if (sxy == MEDIUM)
-    {
-        DH = (double)((par.lambda *
-                       (1. + 2. * (double)((*cell)[sxyp].Area() -
-                                           (*cell)[sxyp].TargetArea()))));
+    if (sxyp != MEDIUM) {
+        const auto &cp = (*cell)[sxyp];
+        cp.Lambda() * (1.0 + 2.0 * (cp.Area() - cp.TargetArea()) );
     }
-    else
-        DH = (double)((
-            par.lambda *
-            (2. +
-             2. * (double)((*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea() -
-                           (*cell)[sxy].Area() + (*cell)[sxy].TargetArea()))));
 
     return DH;
 }

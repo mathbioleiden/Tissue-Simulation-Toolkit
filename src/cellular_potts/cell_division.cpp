@@ -47,6 +47,8 @@ void DivideCells(std::vector<bool> which_cells, std::vector<Cell> &cells,
                 division_flags[spin].daughter_spin = daughter->Sigma();
                 division_flags[spin].divide_axis = mother->MinorAxisVector();
                 division_flags[spin].center = mother->CenterVector();
+                std::cout << "Division mother   = " << mother->Sigma() << ',' << mother->getTau() << '\n';
+                std::cout << "Division daughter = " << daughter->Sigma() << ',' << daughter->getTau() << '\n';
             }
             else
             {
@@ -71,6 +73,8 @@ void DivideCells(std::vector<bool> which_cells, std::vector<Cell> &cells,
                 daughter->AddSiteToMoments(i, j);
                 daughter->IncrementArea();
                 daughter->IncrementTargetArea();
+                std::cout << "DecrementTargetArea mother   = " << mother->Sigma() << ',' << mother->getTau() << '\n';
+                std::cout << "IncrementTargetArea daughter = " << daughter->Sigma() << ',' << daughter->getTau() << '\n';
             }
         }
 }

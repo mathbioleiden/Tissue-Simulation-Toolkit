@@ -219,8 +219,8 @@ void AdhesionIndex::set_myosin(std::unordered_map<PixelPos, double> myosin_facto
      for (auto & pos_adhesions : adhesions_by_pixel_) {
          auto pos = pos_adhesions.first;
          for (auto & awe : pos_adhesions.second) {
-            std::cout << "setting myosin ";
-            std::cout << myosin_factor[pos] << '\n';
+//            std::cout << "setting myosin ";
+//            std::cout << myosin_factor[pos] << '\n';
              awe.myosin_force_fraction = myosin_factor[pos];
          }
      }

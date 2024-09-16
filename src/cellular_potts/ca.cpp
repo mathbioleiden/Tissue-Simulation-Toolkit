@@ -572,12 +572,13 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
     {
         if (adh_disp)
         {
-//          auto pos = Vec2<double>(x,y);
+            //          auto pos = Vec2<double>(x,y);
             double adh_dh = adhesion_mover.move_dh({xp, yp}, {x, y}, *adh_disp);
-//            if ( 
-//                (*cell)[sxy].Polarity().dot( pos - (*cell)[sxy].CenterVector() ) < 0
-//            )
-//                adh_dh *= 0.5;
+            //            if (
+            //                (*cell)[sxy].Polarity().dot( pos -
+            //                (*cell)[sxy].CenterVector() ) < 0
+            //            )
+            //                adh_dh *= 0.5;
 
             DH += static_cast<int>(round(adh_dh));
         }
@@ -1140,6 +1141,11 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
 
     history.clear();
     loop = static_cast<float>(sizeedgelist) / static_cast<float>(n_nb);
+    std::cout << "Spins not to update: " ;
+    for (auto x : spins_not_to_update) {
+        std::cout << x << ',';
+    }
+    std::cout << std::endl;
     for (int i = 0; i < loop; i++)
     {
         // take a random entry of the edgelist
@@ -1158,6 +1164,18 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
         // find the neighbouring site corresponding to this edge
         xp = nx[targetneighbour] + x;
         yp = ny[targetneighbour] + y;
+
+
+      if (std::find(spins_not_to_update.begin(), spins_not_to_update.end(),
+                    sigma[x][y]) != spins_not_to_update.end())
+          continue;
+      if (std::find(spins_not_to_update.begin(), spins_not_to_update.end(),
+                    sigma[xp][yp]) != spins_not_to_update.end())
+          continue;
+        if (y > par.sizey - 5)
+            continue;
+
+
         if (par.periodic_boundaries)
         {
             // since we are asynchronic, we cannot just copy the borders once
@@ -1171,11 +1189,11 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
             if (yp >= sizey - 1)
                 yp = yp - sizey + 2;
         }
-        if (not(LocalConnectedness(x, y, sigma[x][y]) &&
-                LocalConnectedness(x, y, sigma[xp][yp])))
-        {
-            continue;
-        }
+//         if (not(LocalConnectedness(x, y, sigma[x][y]) &&
+//                 LocalConnectedness(x, y, sigma[xp][yp])))
+//         {
+//             continue;
+//         }
 
         //    // connectivity dissipation:
         H_diss = 0;
@@ -1192,10 +1210,11 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
                 adhesion_mover.commit_move({xp, yp}, {x, y}, adh_disp);
             }
             ACT::commit_move(act_field, sigma, {xp, yp}, {x, y});
-            if (sigma[xp][yp] != 0) {
+            if (sigma[xp][yp] != 0)
+            {
                 auto c = (*cell)[sigma[xp][yp]];
-                if (c.Polarity().dot(ParPos(xp,yp) - c.CenterVector()) > 0)
-                    history.add_extension({x, y}, sigma[xp][yp]) ;
+                if (c.Polarity().dot(ParPos(xp, yp) - c.CenterVector()) > 0)
+                    history.add_extension({x, y}, sigma[xp][yp]);
             }
             ConvertSpin(
                 x, y, xp,
@@ -1249,7 +1268,8 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
     act_field.Decrease();
     for (auto &c : (*cell))
     {
-        if (c.Sigma() > 0 and c.AliveP()){
+        if (c.Sigma() > 0 and c.AliveP())
+        {
             c.UpdatePolarity();
             // std::cout << "Cell" << c.Sigma() << '=' << c.Polarity() << '\n';
         }
@@ -2788,29 +2808,29 @@ void CellularPotts::MoveAdhesions()
         {
             myosin[{i, j}] = 1.0;
             // std::cout << "Polarity bias\n";
-//            if (par.polarity_bias)
-//            {
-//                int spin = sigma[i][j];
-//                if (spin <= 0)
-//                    myosin[{i, j}] = 0.0;
-//                // std::cout << "Polarity bias 1.5\n";
-//                auto polarity = (*cell)[spin].Polarity();
-//                // std::cout << "Polarity bias 2\n";
-//                // std::cout << polarity << ',' << sigma[i][j];
-//                auto com = (*cell)[spin].CenterVector();
-//                // std::cout << "Polarity bias 3\n";
-//                if (polarity.dot(Vec2<double>(1.0 * i, 1.0 * j) - com) > 0)
-//                    myosin[{i, j}] = 1.0;
-//                else
-//                    myosin[{i, j}] = 0.0;
-//            }
-//            else
-//            {
-//                myosin[{i, j}] = 1.0;
-//            }
+            //            if (par.polarity_bias)
+            //            {
+            //                int spin = sigma[i][j];
+            //                if (spin <= 0)
+            //                    myosin[{i, j}] = 0.0;
+            //                // std::cout << "Polarity bias 1.5\n";
+            //                auto polarity = (*cell)[spin].Polarity();
+            //                // std::cout << "Polarity bias 2\n";
+            //                // std::cout << polarity << ',' << sigma[i][j];
+            //                auto com = (*cell)[spin].CenterVector();
+            //                // std::cout << "Polarity bias 3\n";
+            //                if (polarity.dot(Vec2<double>(1.0 * i, 1.0 * j) -
+            //                com) > 0)
+            //                    myosin[{i, j}] = 1.0;
+            //                else
+            //                    myosin[{i, j}] = 0.0;
+            //            }
+            //            else
+            //            {
+            //                myosin[{i, j}] = 1.0;
+            //            }
         }
     }
-
 
     // std::cout << "Polarity bias 4\n";
     adhesion_mover.update_myosin(myosin);
@@ -2818,9 +2838,6 @@ void CellularPotts::MoveAdhesions()
     adhesion_mover.ContractAdhesionInCells(par.adhesion_contraction_force);
     adhesion_mover.remove_broken_adhesions();
     adhesion_mover.remove_trailing_adhesions();
-
-
-
 }
 
 vector<AdhesionWithEnvironment> CellularPotts::getAdhesions()

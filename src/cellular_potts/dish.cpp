@@ -58,22 +58,22 @@ Dish::Dish() {
     if (par.n_chem)
       PDEfield = new PDE(par.n_chem, par.sizex, par.sizey);
     Init();
-    if (par.target_area > 0) {
-      for (std::vector<Cell>::iterator c = cell.begin(); c != cell.end(); c++) {
-        c->SetTargetArea(par.target_area);
-      }
-    }
+    // if (par.target_area > 0) {
+    //   for (std::vector<Cell>::iterator c = cell.begin(); c != cell.end(); c++) {
+    //     c->SetTargetArea(par.target_area);
+    //   }
+    // }
   }
-  if (par.target_area > 0)
-    for (std::vector<Cell>::iterator c = cell.begin(); c != cell.end(); c++) {
-      c->SetTargetArea(par.target_area);
-      c->SetTargetPerimeter(par.target_perimeter);
-    }
+  // if (par.target_area > 0)
+  //   for (std::vector<Cell>::iterator c = cell.begin(); c != cell.end(); c++) {
+  //     c->SetTargetArea(par.target_area);
+  //     c->SetTargetPerimeter(par.target_perimeter);
+  //   }
 
-  if (par.ref_adhesive_area > 0)
-    for (std::vector<Cell>::iterator c = cell.begin(); c != cell.end(); c++) {
-      c->SetReferenceAdhesiveArea(par.ref_adhesive_area);
-    }
+  // if (par.ref_adhesive_area > 0)
+  //   for (std::vector<Cell>::iterator c = cell.begin(); c != cell.end(); c++) {
+  //     c->SetReferenceAdhesiveArea(par.ref_adhesive_area);
+  //   }
 }
 
 Dish::~Dish() {

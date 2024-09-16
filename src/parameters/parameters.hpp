@@ -193,6 +193,13 @@ PARAMETER(bool, extensiononly, false,
           "Make only chemotactic extensions contribute to energy change"
           " (CompuCell's method)")
 
+SECTION("ISV structure")
+        PARAMETER(int, somite_somite_distance, 1, "Distance between two somites")
+        PARAMETER(int, somite_distance_from_boundary, 1, "Distance of somite from boundary")
+        PARAMETER(double, lambda_somite, 1.0, "Lambda somite")
+        PARAMETER(int, somite_hight, 100, "The height of a single somite")
+        PARAMETER(int, number_of_somites, 2, "Number of somites")
+
 SECTION("Adhesions")
 
     PARAMETER(bool, adhesions_enabled, false, \

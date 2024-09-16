@@ -144,6 +144,9 @@ void AdhesionMover::remove_trailing_adhesions(){
         auto polarity = cell.Polarity();
         auto com = cell.CenterVector();
 
+        if (polarity.x == 0 && polarity.y == 0)
+            continue;
+
         // std::cout << " COM " << com << ','
         //           << " POL" << polarity << ','
         //           << " POS" << pos << ','

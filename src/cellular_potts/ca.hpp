@@ -618,6 +618,7 @@ protected:
   int sizey;
 public:
   ExtensionHistory history;
+  std::vector<int> spins_not_to_update;
   void MoveAdhesions();
   void setGrid(const Grid &grid);
   ACT::ActField& getActField() {

@@ -103,6 +103,13 @@ void Cell::UpdatePolarity(){
     cell_polarity.add_com(fit_ellipse.center());
 }
 
+void Cell::FixPolarity(double on) {
+    if (on)
+        cell_polarity.PolarityOn();
+    else
+        cell_polarity.PolarityOff();
+} 
+
 void Cell::FixPolarity(Vec2<double> direction) {
     cell_polarity.fix(direction);
 } 
@@ -111,6 +118,7 @@ void Cell::ConstructorBody(int settau) {
   // Note: Constructor of Cytoplasm will be called first
   alive = true;
   colour = settau + 1; // undifferentiated
+  lambda = par.lambda;
 
     colour_of_birth = 1;
     date_of_birth = 0;

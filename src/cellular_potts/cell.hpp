@@ -48,6 +48,7 @@ public:
 //    Vec2<double> polarity; 
 //    Vec2<double> previous_center_of_mass; 
     double lambda_act;
+    double lambda;
     /*! \brief Constructor to insert a cell into Dish "who"
     Used to add a new Cell to the dish: new Cell(dish,
     celtype).
@@ -93,6 +94,7 @@ public:
 
         colour = src.colour;
         fit_ellipse = src.fit_ellipse;
+        lambda = src.lambda;
     }
 
     /*! \brief Add a new cell to the dish.
@@ -146,6 +148,7 @@ public:
     /* if (par.dynamicJ)
       return colour;
       else */
+    return tau;
     return colour;
   };
 
@@ -164,7 +167,7 @@ public:
     inline int GetAdhesiveArea() { return adhesive_area; }
 
     //! Return the cell type of this Cell.
-    inline int getTau(void) { return tau; }
+    inline int getTau(void) const { return tau; }
 
     //! Return the x-coordinate of the geometric cell center.
     inline double getCenterX(void) { return fit_ellipse.center().x; }
@@ -182,6 +185,7 @@ public:
 
     //! Return Cell's actual area.
     inline int Area() const { return fit_ellipse.area(); }
+    inline int Lambda() const { return lambda; }
 
     //! Return Cell's target area.
     inline int TargetArea() const { return target_area; }
@@ -326,6 +330,7 @@ public:
 
     void UpdatePolarity();
 
+    void FixPolarity(double);
     void FixPolarity(Vec2<double> direction);
 
     /*! \brief Read a table of static Js.

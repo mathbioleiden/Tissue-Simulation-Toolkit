@@ -86,9 +86,10 @@ int GrowInCellsInRectangle(Grid &grid, int init_cells, int cell_size,
 }
 
 int FillRectangleWithCell(Grid &grid, int spin, PixelPos upper_left, PixelPos lower_right) {
-    std::cout << "Filling " << upper_left << " to " << lower_right << '\n';
+    //std::cout << "Filling " << upper_left << " to " << lower_right << '\n';
     for (int i = upper_left.x; i < lower_right.x; i++) {
         for (int j = upper_left.y; j<lower_right.y; j++) {
+            // std::cout << "Putting " << PixelPos(i,j) << ' ';
             grid.set({i,j}, spin);
         }
     }
@@ -124,7 +125,7 @@ int PutCellsInRectangle(Grid &grid, int n_cells, int cell_size, PixelPos upper_l
             std::cerr << "(" << x << ',' << y << ':' << spin << ')';
             if (spin < cell_num + n_cells)  {
                 grid.set({x,y}, spin);
-                std::cout << "Setted cell " << spin << " at " << PixelPos(x,y) << '\n';
+                // std::cout << "Setted cell " << spin << " at " << PixelPos(x,y) << '\n';
             }
         }
 }

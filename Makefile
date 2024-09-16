@@ -112,6 +112,7 @@ bin/adhesions: MUSCLE3
 bin/ISV: MUSCLE3
 bin/singlecell: MUSCLE3
 bin/singlecell_dynamic_polarity: MUSCLE3
+bin/ISV_somite: MUSCLE3
 
 bin/twocells: MUSCLE3
 
