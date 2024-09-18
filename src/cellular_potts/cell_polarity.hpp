@@ -35,7 +35,7 @@ public:
 
     /**
      * @brief Fix the direction of cell polarity. This function deactivates the add_com function.
-     * @param direction that should be fixed
+     * @param direction that should be fixed if its a non-zero vector. A non-zero vector deactivates the fixed direction
      */
     void fix(Vec2<double> direction);
 
