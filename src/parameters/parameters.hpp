@@ -115,6 +115,9 @@ PARAMETER(int, neighbours, 2,
           " energy. 0: no neighbours, 1: 4 orthogonal neighbours (von Neumann),"
           "  2: 8 direct neighbours (Moore), 3: 5x5 block minus the corners.")
 
+PARAMETER(bool, connectivity_check_durand, true, "If true, enable the connectivity check"
+          "Algorithm from Durand, M., & Guesnet, E. (2016)")
+
 SECTION("Actin model")
 
 PARAMETER(int, ref_adhesive_area, 100,

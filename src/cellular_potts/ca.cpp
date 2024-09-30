@@ -1194,11 +1194,13 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
             if (yp >= sizey - 1)
                 yp = yp - sizey + 2;
         }
-//         if (not(LocalConnectedness(x, y, sigma[x][y]) &&
-//                 LocalConnectedness(x, y, sigma[xp][yp])))
-//         {
-//             continue;
-//         }
+        if (par.connectivity_check_durand) {
+             if (not(LocalConnectedness(x, y, sigma[x][y]) &&
+                     LocalConnectedness(x, y, sigma[xp][yp])))
+             {
+                 continue;
+             }
+        }
 
         //    // connectivity dissipation:
         H_diss = 0;
