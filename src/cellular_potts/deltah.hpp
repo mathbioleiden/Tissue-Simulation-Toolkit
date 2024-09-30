@@ -62,4 +62,6 @@ struct DeltaH
 
     static double classical(int n_nb, int x, int y, int xp, int yp, int **sigma,
                             std::vector<Cell> *cell, PDE *PDEfield);
+                    
+    static double somite_penalty(int x, int y, int xp, int yp, PDE *PDEfield);
 };

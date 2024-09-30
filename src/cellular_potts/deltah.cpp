@@ -241,3 +241,11 @@ double DeltaH::spreading_constraint(std::vector<Cell> *cell, int sxy, int sxyp)
                A_retraction  / (A_retraction + Ah) );
     }
 }
+
+double DeltaH::somite_penalty(int x, int y, int xp, int yp, PDE *PDEfield)
+{
+    double DDH;
+    DDH = (double)(par.somite_antitaxis * (sat2(PDEfield->get_PDEvars(0, x, y)) -
+                                      sat2(PDEfield->get_PDEvars(0, xp, yp))));
+    return DDH;
+}

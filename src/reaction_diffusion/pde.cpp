@@ -564,3 +564,13 @@ void PDE::InitLinearYGradient(int spec, double conc_top, double conc_bottom) {
     cerr << y << " " << val << endl;
   }
 }
+
+void PDE::InitialiseDiffusionCoefficients(CellularPotts *cpm) {
+  for (int x = 0; x < sizex; x++) {
+    for (int y = 0; y < sizey; y++) {
+      for (int l = 0; l < par.n_chem; l++) {
+        DiffCoeffs[l][x][y] = par.diff_coeff[l];
+      }
+    }
+  }
+}

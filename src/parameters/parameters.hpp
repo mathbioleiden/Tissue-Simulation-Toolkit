@@ -199,6 +199,7 @@ SECTION("ISV structure")
         PARAMETER(double, lambda_somite, 1.0, "Lambda somite")
         PARAMETER(int, somite_hight, 100, "The height of a single somite")
         PARAMETER(int, number_of_somites, 2, "Number of somites")
+        PARAMETER(int, somite_antitaxis, 100, "DeltaH penalty for somite")
 
 SECTION("Adhesions")
 
