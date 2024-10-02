@@ -280,7 +280,7 @@ TIMESTEP
         {
             std::vector<int> spins_to_exclude;
             for (const auto & c : dish->cell) {
-                if (c.getTau() == 1 )
+                if (i > 10 and c.getTau() == 1 )
                     spins_to_exclude.push_back(c.Sigma());
             }
             auto adh_zone = dish->CPM->history.get_positions(spins_to_exclude);
@@ -294,7 +294,6 @@ TIMESTEP
             for (const auto &c : dish->cell) 
                 if (c.getTau() == 1) {
                     dish->CPM->spins_not_to_update.push_back(c.Sigma());
-                    std::cout << "Not update " << c.getTau();
                 }
             for (int i = 0; i < 50; i++)
                 dish->PDEfield->ReactionDiffusion(dish->CPM);
@@ -317,16 +316,16 @@ TIMESTEP
         {
             int critical_division_area = par.target_area ; // par.target_area > 0 ? par.target_area : par.division_area;
             std::vector<bool> which_cells(dish->cell.size());
-            for (int i = 1; i < dish->cell.size(); i++)
+            for (int j = 0; j < dish->cell.size(); j++)
             {
-                auto &cell = dish->cell[i];
-                if (cell.getTau() > 1 && cell.Area() > critical_division_area)
+                auto &cell = dish->cell[j];
+                if (cell.getTau() > 1 && (i == 50 || ( i>50 && cell.Area() > critical_division_area)))
                 {
                     double P = cell.getTau() == 2
                                    ? par.division_rate_stalkcell
                                    : par.division_rate_tipcell;
-                    if (RANDOM() < P)
-                        which_cells[i] = true;
+                    if (i == 50 || RANDOM() < P)
+                        which_cells[j] = true;
                 }
                 if (cell.getTau() > 1 && cell.TargetArea() < par.target_area) {
                     cell.IncrementTargetArea();
@@ -343,12 +342,16 @@ TIMESTEP
             for (int i = 0; i < par.sizex; i++)
             {
                 auto spin = dish->CPM->Sigma(i, j);
-                if (tipcells.size() < 2){
-                    if (std::find(tipcells.begin(), tipcells.end(), spin) == tipcells.end()) {
-                        auto &c = dish->CPM->getCell(spin);
-                        if (c.getTau() > 1){
-                            tipcells.push_back(spin);
-                        }
+                auto thiscell = dish->CPM->getCell(spin);
+                if (tipcells.size() == 0 and thiscell.getTau() > 1) {
+                    tipcells.push_back(spin);
+                }
+                if (tipcells.size() == 1 and thiscell.getTau() > 1){
+                    auto other = dish->CPM->getCell(tipcells[0]);
+                    // auto distance = (thiscell.CenterVector() - other.CenterVector()).length();
+                    auto distance = std::abs(thiscell.CenterVector().x - other.CenterVector().x);
+                    if (other.Sigma() != thiscell.Sigma() and distance > 50 ){
+                        tipcells.push_back(spin);
                     }
                 }
             }
@@ -359,13 +362,15 @@ TIMESTEP
                 c.setTau(2);
                 c.FixPolarity(false);
             }
+            c.lambda_act = 0.0;
         }
         for (auto tipcell : tipcells)
         {
-            // dish->cell[tipcell].lambda_act = par.lambda_Act;
+            dish->cell[tipcell].lambda_act = par.lambda_Act;
             dish->cell[tipcell].setTau(3);
             dish->cell[tipcell].FixPolarity({0.0, -1.0});
             dish->cell[tipcell].FixPolarity(true);
+            std::cout << "Found tipcells " << tipcell << std::endl;
         }
 
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)

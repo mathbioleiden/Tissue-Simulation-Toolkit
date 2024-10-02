@@ -569,7 +569,6 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
     if (PDEfield) {
         auto DDH = DeltaH::somite_penalty(x, y, xp, yp, PDEfield);
         DH += DDH;
-        std::cout << "DH = " << DH << " DDH = " << DDH << std::endl;
     }
 
     /* Individual adhesions with ECM */
