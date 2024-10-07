@@ -238,6 +238,8 @@ SECTION("Adhesions")
     PARAMETER(int, adhesions_per_pixel_overflow_penalty, 600, \
             "Per-adhesion penalty (in DH units) in case of crowding")
 
+    PARAMETER(int, relaxation_time, 0, "Time before adhesion model takes effect")
+
 SECTION("Adhesion yielding")    
 
     PARAMETER(bool, adhesion_yielding, true, \
