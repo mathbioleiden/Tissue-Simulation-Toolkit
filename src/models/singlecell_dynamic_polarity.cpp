@@ -107,11 +107,16 @@ INIT
         CPM->setGrid(grid);
         CPM->ConstructInitCells(*this);
 
+        for (int i = 0; i < par.divisions; i++)
+            CPM->DivideCells(cell);
+
         CPM->InitialiseEdgeList();
 
         for (auto &c : *(CPM->getCellArray())){ 
             double theta = RANDOM() * 3.1415;
             c.FixPolarity({std::cos(theta), std::sin(theta)}); 
+            c.SetTargetArea(par.target_area);
+            c.setTau(2);
         }
 
         // Set all the PDEs to a steady state solution.
@@ -231,7 +236,7 @@ TIMESTEP
         static Plotter plotter = Plotter(dish, this);
 
         CellECMInteractions interactions = dish->CPM->GetCellECMInteractions();
-        if (i == 0)
+        if (i == par.relaxation_time)
         {
             // request creation of initial adhesions
             auto adh_zone = adhesion_zone(*(dish->CPM));
@@ -241,7 +246,7 @@ TIMESTEP
             interactions.change_type_in_area.from_type = ParticleType::free;
             interactions.change_type_in_area.to_type = ParticleType::adhesion;
         }
-        else
+        else if (i > par.relaxation_time)
         {
                auto adh_zone = dish->CPM->history.get_positions();
     //         auto adh_zone_to_filter = dish->CPM->history.get_positions();
