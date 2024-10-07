@@ -200,7 +200,7 @@ SECTION("ISV structure")
         PARAMETER(int, somite_somite_distance, 1, "Distance between two somites")
         PARAMETER(int, somite_distance_from_boundary, 1, "Distance of somite from boundary")
         PARAMETER(double, lambda_somite, 1.0, "Lambda somite")
-        PARAMETER(int, somite_hight, 100, "The height of a single somite")
+        PARAMETER(int, somite_height, 100, "The height of a single somite")
         PARAMETER(int, number_of_somites, 2, "Number of somites")
         PARAMETER(int, somite_antitaxis, 100, "DeltaH penalty for somite")
 

@@ -85,7 +85,7 @@ INIT
         int somite_offset_from_boundary = par.somite_distance_from_boundary;
         int somite_somite_distance = par.somite_somite_distance;
         int somite_width = (par.sizex - 2*somite_offset_from_boundary - (par.number_of_somites-1)*par.somite_somite_distance) / par.number_of_somites;
-        int somite_height = par.somite_hight;  // .sizey * 0.95; 
+        int somite_height = par.somite_height;  // .sizey * 0.95; 
 
 
         int spin = 1;
