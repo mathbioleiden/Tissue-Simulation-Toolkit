@@ -596,12 +596,18 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
 
     if (par.lambda_Act > 0)
     {
-        if (sxyp > 0)
+        if (sxy == 0) // on extension use lambda_act of extending cell
             DH -= ACT::DeltaH(act_field, sigma, {xp, yp}, {x, y},
                               (*cell)[sxyp].lambda_act, par.max_Act);
-        else
+        if (sxyp == 0) // On a retraction in medium, use act level of cell that retracts
             DH -= ACT::DeltaH(act_field, sigma, {xp, yp}, {x, y},
                               (*cell)[sxy].lambda_act, par.max_Act);
+//         if (sxyp > 0) // on extension use lambda_act of extending cell
+//             DH -= ACT::DeltaH(act_field, sigma, {xp, yp}, {x, y},
+//                               (*cell)[sxyp].lambda_act, par.max_Act);
+//         else // On a retraction in medium, use act level of cell that retracts
+//             DH -= ACT::DeltaH(act_field, sigma, {xp, yp}, {x, y},
+//                               (*cell)[sxy].lambda_act, par.max_Act);
     }
     return DH;
 }
