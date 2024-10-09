@@ -88,12 +88,11 @@ INIT
             for (int i = 0; i < 3; i++)
             {
                 int length = 2 * std::sqrt(par.size_init_cells);
-                FillRectangleWithCell(
-                    grid, i + 1,
-                    {x - par.size_init_cells / length / 2,
-                     par.sizey - length * (i + 1) - 1},
-                    {x + par.size_init_cells / length / 2,
-                     par.sizey - length * (i) - 1});
+                FillRectangleWithCell(grid, i + 1,
+                                      {x - par.size_init_cells / length / 2,
+                                       par.sizey - length * (i + 1) - 1},
+                                      {x + par.size_init_cells / length / 2,
+                                       par.sizey - length * (i)-1});
             }
         }
         else
@@ -112,11 +111,19 @@ INIT
 
         CPM->InitialiseEdgeList();
 
-        for (auto &c : *(CPM->getCellArray())){ 
-            double theta = RANDOM() * 3.1415;
-            c.FixPolarity({std::cos(theta), std::sin(theta)}); 
-            c.SetTargetArea(par.target_area);
-            c.setTau(2);
+        for (auto &c : *(CPM->getCellArray()))
+        {
+            if (par.polarity_bias)
+            {
+                double theta = RANDOM() * 2 * 3.1415;
+                c.FixPolarity({std::cos(theta), std::sin(theta)});
+                c.SetTargetArea(par.target_area);
+                c.setTau(2);
+            }
+            else
+            {
+                c.FixPolarity(false); // remove polarity
+            }
         }
 
         // Set all the PDEs to a steady state solution.
@@ -155,39 +162,43 @@ void PDE::InitialisePDEvars(CellularPotts *cpm, int *celltypes)
 }
 
 void add_bias_to_act(const std::vector<Vec2<double>> biasdirections,
-                     ACT::ActField &act_field,
-                     const vector<Cell> &cells,
+                     ACT::ActField &act_field, const vector<Cell> &cells,
                      int **sigma)
 {
     // Used to compute the max length of every cell
     // i.e. the denominator in Figure 5.2 blz 126 thesis of Daipeng
     std::vector<double> max_length(cells.size());
     std::unordered_map<PixelPos, double> values_to_increase;
-    for (int i = 0; i<par.sizex; i++){
-        for (int j = 0; j < par.sizey; j++){
+    for (int i = 0; i < par.sizex; i++)
+    {
+        for (int j = 0; j < par.sizey; j++)
+        {
             const int spin = sigma[i][j];
             auto biasdirection = biasdirections[spin];
-            if (spin <= 0 ) continue;
-            const Vec2<double> pixel = {1.0*i,1.0*j};
+            if (spin <= 0)
+                continue;
+            const Vec2<double> pixel = {1.0 * i, 1.0 * j};
             const auto center = cells[spin].CenterVector();
             const auto relative_position = pixel - center;
             const auto length = relative_position.length();
             if (length > max_length[spin])
                 max_length[spin] = length;
 
-            values_to_increase[{i,j}] = biasdirection.dot(relative_position);
+            values_to_increase[{i, j}] = biasdirection.dot(relative_position);
         }
     }
 
-    /* 
-     * We can delay dividing out the factor max_i=1^n |x_i - x_0| 
+    /*
+     * We can delay dividing out the factor max_i=1^n |x_i - x_0|
      * because the innerproduct is a linear operation.
-    */ 
-    for (const auto & pixelvalue : values_to_increase) {
+     */
+    for (const auto &pixelvalue : values_to_increase)
+    {
         const auto pixel = pixelvalue.first;
         const auto scale = max_length[sigma[pixel.x][pixel.y]];
         const auto value = values_to_increase[pixel] / scale;
-        if (value > act_field.Value(pixel)) {
+        if (value > act_field.Value(pixel))
+        {
             // act_field.IncreaseValue(pixel, value);
             act_field.SetValue(pixel, value);
         }
@@ -196,27 +207,24 @@ void add_bias_to_act(const std::vector<Vec2<double>> biasdirections,
 
 /**
  * \brief My interpertation of part of eq 5.5 of the thsis of Daipeng blz 127.
- * 
- * 
-*/
+ *
+ *
+ */
 void add_vegf_bias_in_act(const Vec2<double> biasdirection,
                           ACT::ActField &act_field, const vector<Cell> &cells,
-                          int** sigma)
+                          int **sigma)
 {
     std::vector<Vec2<double>> biasdirections(cells.size(), biasdirection);
-    add_bias_to_act(
-        biasdirections,
-        act_field,
-        cells,
-        sigma
-    );
+    add_bias_to_act(biasdirections, act_field, cells, sigma);
 }
 
-std::vector<PixelPos> filter_adh_zone(const std::vector<PixelPos> adh_zone_to_filter,
-                               const std::vector<Cell> cell,
-                               int** sigma) {
+std::vector<PixelPos>
+filter_adh_zone(const std::vector<PixelPos> adh_zone_to_filter,
+                const std::vector<Cell> cell, int **sigma)
+{
     std::vector<PixelPos> adh_zone;
-    for (auto const pos : adh_zone_to_filter) {
+    for (auto const pos : adh_zone_to_filter)
+    {
         auto spin = sigma[pos.x][pos.y];
         auto com = cell[spin].CenterVector();
         auto polarity = cell[spin].Polarity();
@@ -248,18 +256,21 @@ TIMESTEP
         }
         else if (i > par.relaxation_time)
         {
-               auto adh_zone = dish->CPM->history.get_positions();
-    //         auto adh_zone_to_filter = dish->CPM->history.get_positions();
-    //         auto adh_zone = filter_adh_zone(adh_zone_to_filter, dish->cell, dish->CPM->getSigma());
+            auto adh_zone = dish->CPM->history.get_positions();
+            //         auto adh_zone_to_filter =
+            //         dish->CPM->history.get_positions(); auto adh_zone =
+            //         filter_adh_zone(adh_zone_to_filter, dish->cell,
+            //         dish->CPM->getSigma());
             interactions.change_type_in_area.change_area = adh_zone;
             interactions.change_type_in_area.num_particles = adh_zone.size();
             interactions.change_type_in_area.from_type = ParticleType::free;
             interactions.change_type_in_area.to_type = ParticleType::adhesion;
         }
 
-        if (i == par.cell_polarity_history) {
-            for (auto &c : *(dish->CPM->getCellArray())){ 
-                double theta = RANDOM() * 3.1415;
+        if (par.polarity_bias and i == par.cell_polarity_history)
+        {
+            for (auto &c : *(dish->CPM->getCellArray()))
+            {
                 c.FixPolarity({0.0, 0.0}); // remove polarity
             }
         }
@@ -320,15 +331,17 @@ TIMESTEP
                     act_state[name] = actpixel.second;
                 }
                 Data cellpolarity = Data::dict();
-                for (auto c : dish->cell){
+                for (auto c : dish->cell)
+                {
                     auto vec = c.CenterVector();
-                    cellpolarity[std::to_string(c.Sigma())] = Data::dict("x", vec.x, "y", vec.y);
+                    cellpolarity[std::to_string(c.Sigma())] =
+                        Data::dict("x", vec.x, "y", vec.y);
                     std::cout << "Kom hier!\n";
                 }
 
-                Data state = Data::dict("cpm", cpm_state, "pde", pde_state,
-                                        "adh", adh_state, "tipcell", 1,
-                                        "act_state", act_state);
+                Data state =
+                    Data::dict("cpm", cpm_state, "pde", pde_state, "adh",
+                               adh_state, "tipcell", 1, "act_state", act_state);
                 instance->send("state_out", Message(i, state));
             }
         }

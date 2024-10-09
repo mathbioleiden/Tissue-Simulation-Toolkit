@@ -217,7 +217,7 @@ class Simulation:
         with self._sim.state.cpu_local_snapshot as snapshot:
             self._boundary = Boundary(self._comm, snapshot)
 
-    def get_state(self) -> Optional[MDState]:
+    def get_state(self, skip_bonds=False) -> Optional[MDState]:
         """Get the whole state of the MD system as an ECM
 
         When running under MPI, this returns the state only for rank 0, on
@@ -231,22 +231,23 @@ class Simulation:
             l_par_pos = self._comm.gather(
                     snapshot.particles.position[:, :2] - self._pos_offset)
             l_par_typeid = self._comm.gather(np.array(snapshot.particles.typeid))
+            if not skip_bonds:
+                l_bonds_group = self._comm.gather(np.array(snapshot.bonds.group))
+                l_bonds_typeid = self._comm.gather(np.array(snapshot.bonds.typeid))
 
-            l_bonds_group = self._comm.gather(np.array(snapshot.bonds.group))
-            l_bonds_typeid = self._comm.gather(np.array(snapshot.bonds.typeid))
-
-            l_angles_group = self._comm.gather(np.array(snapshot.angles.group))
-            l_angles_typeid = self._comm.gather(np.array(snapshot.angles.typeid))
+                l_angles_group = self._comm.gather(np.array(snapshot.angles.group))
+                l_angles_typeid = self._comm.gather(np.array(snapshot.angles.typeid))
 
         if self.device.communicator.rank == 0:
             # These are not None on the root rank, and now mypy knows that too
             assert l_par_tag is not None
             assert l_par_pos is not None
             assert l_par_typeid is not None
-            assert l_bonds_group is not None
-            assert l_bonds_typeid is not None
-            assert l_angles_group is not None
-            assert l_angles_typeid is not None
+            if not skip_bonds:
+                assert l_bonds_group is not None
+                assert l_bonds_typeid is not None
+                assert l_angles_group is not None
+                assert l_angles_typeid is not None
 
             n_par = sum([len(x) for x in l_par_tag])
             par_pos = np.zeros((n_par, 2))
@@ -258,37 +259,41 @@ class Simulation:
                 np.put_along_axis(par_typeid, tags, tids, 0)
 
             particles = Particles(par_pos, par_typeid)
+            if not skip_bonds:
+                r0 = np.array([
+                    self._bond_force.params[bt]['r0']
+                    for bt in sorted(self._bond_force.params.keys(), key=int)],
+                    dtype=np.float64)
+                k = np.array([
+                    self._bond_force.params[bt]['k']
+                    for bt in sorted(self._bond_force.params.keys(), key=int)],
+                    dtype=np.float64)
+                bond_types = BondTypes(r0, k)
 
-            r0 = np.array([
-                self._bond_force.params[bt]['r0']
-                for bt in sorted(self._bond_force.params.keys(), key=int)],
-                dtype=np.float64)
-            k = np.array([
-                self._bond_force.params[bt]['k']
-                for bt in sorted(self._bond_force.params.keys(), key=int)],
-                dtype=np.float64)
-            bond_types = BondTypes(r0, k)
+                bonds_group = np.concatenate(l_bonds_group)
+                bonds_typeid = np.concatenate(l_bonds_typeid)
+                bonds = Bonds(bonds_group, bonds_typeid)
 
-            bonds_group = np.concatenate(l_bonds_group)
-            bonds_typeid = np.concatenate(l_bonds_typeid)
-            bonds = Bonds(bonds_group, bonds_typeid)
+                t0 = np.array([
+                    self._angle_cst_force.params[act]['t0']
+                    for act in sorted(self._angle_cst_force.params.keys(), key=int)],
+                    dtype=np.float64)
+                k = np.array([
+                    self._angle_cst_force.params[act]['k']
+                    for act in sorted(self._angle_cst_force.params.keys(), key=int)],
+                    dtype=np.float64)
+                angle_cst_types = AngleCstTypes(t0, k)
 
-            t0 = np.array([
-                self._angle_cst_force.params[act]['t0']
-                for act in sorted(self._angle_cst_force.params.keys(), key=int)],
-                dtype=np.float64)
-            k = np.array([
-                self._angle_cst_force.params[act]['k']
-                for act in sorted(self._angle_cst_force.params.keys(), key=int)],
-                dtype=np.float64)
-            angle_cst_types = AngleCstTypes(t0, k)
-
-            angles_group = np.concatenate(l_angles_group)
-            angles_typeid = np.concatenate(l_angles_typeid)
-            angle_csts = AngleCsts(angles_group, angles_typeid)
-
-            result = MDState(
+                angles_group = np.concatenate(l_angles_group)
+                angles_typeid = np.concatenate(l_angles_typeid)
+                angle_csts = AngleCsts(angles_group, angles_typeid)
+                result = MDState(
                     particles, bond_types, bonds, angle_cst_types, angle_csts)
+            else:
+                result = MDState(
+                    particles, BondTypes(), Bonds(), AngleCstTypes(), AngleCsts()
+                )
+
             tb = monotonic_ns()
             _logger.debug(f'get_state took {(tb - ta) * 1e-6} ms')
             return result

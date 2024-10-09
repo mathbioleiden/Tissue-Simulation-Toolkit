@@ -23,7 +23,7 @@ public:
     /**
      * @brief Returns cell polarity based on the maximum_history number of COMs.
      * @return The unit vector in the direction of cell polarisation or
-     * zerovector if there is no polarity yet
+     * zerovector if there is no polarity yet, and the zerovector when polarity is turned off.
      */
     Vec2<double> get() const;
 
@@ -39,7 +39,14 @@ public:
      */
     void fix(Vec2<double> direction);
 
+    /**
+     * @brief Turn polarity on. Results in get() returning the polartiy vector based on history of COMs.
+     */
     void PolarityOn();
+
+    /**
+     * @brief Turn polarity off. Results in get() returning the zero vector
+     */
     void PolarityOff();
 
     /**

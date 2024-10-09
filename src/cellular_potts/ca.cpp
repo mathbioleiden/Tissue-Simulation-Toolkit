@@ -1225,7 +1225,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
             if (sigma[xp][yp] != 0)
             {
                 auto c = (*cell)[sigma[xp][yp]];
-                if (c.Polarity().dot(ParPos(xp, yp) - c.CenterVector()) > 0)
+                if (c.Polarity().dot(ParPos(xp, yp) - c.CenterVector()) >= 0)
                     history.add_extension({x, y}, sigma[xp][yp]);
             }
             ConvertSpin(

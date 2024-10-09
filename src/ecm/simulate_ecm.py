@@ -54,8 +54,11 @@ def main() -> None:
             instance.send('ecm_boundary_state_out', msg)
 
             if instance.is_connected('state_out'):
-                if i % state_output_interval == 0:
+                if i == 0:
                     state = sim.get_state()
+                    instance.send('state_out', Message(i, data=encode_mdstate(state)))
+                elif i % state_output_interval == 0:
+                    state = sim.get_state(skip_bonds=True)
                     instance.send('state_out', Message(i, data=encode_mdstate(state)))
 
 
