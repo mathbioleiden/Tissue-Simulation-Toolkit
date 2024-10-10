@@ -324,7 +324,7 @@ TIMESTEP
                     double P = cell.getTau() == 2
                                    ? par.division_rate_stalkcell
                                    : par.division_rate_tipcell;
-                    if (i == 50 || RANDOM() < P)
+                    if (i == 50 && (par.division_rate_stalkcell >0.0|| par.division_rate_tipcell > 0.0) || RANDOM() < P)
                         which_cells[j] = true;
                 }
                 if (cell.getTau() > 1 && cell.TargetArea() < par.target_area) {
