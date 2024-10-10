@@ -218,6 +218,10 @@ def main():
                 crosslink_bin_size=par.crosslink_bin_size,
                 seed=par.network_seed,
                 fix_boundary=par.fixed_boundary,
+                fix_boundary_north=par.top_fixed,
+                fix_boundary_south=par.bottom_fixed,
+                fix_boundary_east=par.right_side_fixed,
+                fix_boundary_west=par.left_side_fixed,
             )
         elif nettype == 'laminin':
             net = hexagonal(

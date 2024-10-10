@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -53,7 +53,6 @@ class GenerationParameters:
     fixed_boundary: bool
     bottom_fixed: bool
     top_fixed: bool
-
     contour_length: float
     strands: int
     beads: int
@@ -72,6 +71,8 @@ class GenerationParameters:
     crosslink_bin_size: float
     
     network_seed: int
+    right_side_fixed: bool = field(default=False)
+    left_side_fixed: bool = field(default=False)
 
 
 @dataclass
