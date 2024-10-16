@@ -53,6 +53,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "plotter.hpp"
 #include "profiler.hpp"
 #include "random.hpp"
+#include "erlang.hpp"
 #include "util/muscle3/settings.hpp"
 #include <sstream>
 
@@ -313,6 +314,7 @@ TIMESTEP
         // std::cout << "Got here 2\n";
 
                 // Cell division, with a division rate that depends on if the cell is a tip-cell.
+        if (par.division_algo == "area")
         {
             int critical_division_area = par.target_area ; // par.target_area > 0 ? par.target_area : par.division_area;
             std::vector<bool> which_cells(dish->cell.size());
@@ -329,6 +331,36 @@ TIMESTEP
                 }
                 if (cell.getTau() > 1 && cell.TargetArea() < par.target_area) {
                     cell.IncrementTargetArea();
+                }
+            }
+            dish->CPM->DivideCells(which_cells, dish->cell);
+        }
+        if (i > 0 and par.division_algo == "time") {
+            std::vector<bool> which_cells(dish->cell.size());
+            for (auto &cell : dish->cell) {
+                std::cout << "Cell type " << cell.getTau() << ',' << cell.Sigma() << std::endl;
+                if (cell.getTau() > 1 ) { // tip or stalk cell
+                    // Only tip cell
+                    if (cell.getTau() == 3 and cell.cell_division_time.can_divide){
+                        double when_to_divide = erlang(par.division_rate_erlang_k, par.division_rate_erlang_lambda);
+                        cell.cell_division_time.time_from_division = when_to_divide;
+                        cell.cell_division_time.can_divide = false;
+                        // std::cout << "Setting erlang time now to " << when_to_divide << std::endl;
+                    }  
+                    else {
+                        if (cell.cell_division_time.time_from_division > 0)
+                            cell.cell_division_time.time_from_division--;
+                        // std::cout << "decreasing division time to " << cell.cell_division_time.time_from_division << std::endl;
+                    }
+                    if (cell.cell_division_time.time_from_division == 1){
+                        cell.cell_division_time.can_divide = true;
+                        which_cells[cell.Sigma()] = true;
+                    }
+                }
+                if (cell.getTau() > 1 ) {
+                    if (cell.TargetArea() < par.target_area){
+                        cell.IncrementTargetArea();
+                    }
                 }
             }
             dish->CPM->DivideCells(which_cells, dish->cell);

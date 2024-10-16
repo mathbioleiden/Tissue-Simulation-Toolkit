@@ -4,14 +4,3 @@
 #include "cell.hpp"
 
 void DivideCells(std::vector<bool> which_cells, std::vector<Cell> &cells, int**sigma );
-
-
-
-
-
-
-
-
-
-
-

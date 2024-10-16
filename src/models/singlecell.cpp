@@ -98,10 +98,12 @@ INIT
         }
         else
         {
+            int x = par.single_cell_origin[0];
+            int y = par.single_cell_origin[1];
             int hsq = 0.5 * (std::sqrt(par.size_init_cells) + 1.0);
             PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-                                {par.sizex / 2 - hsq, par.sizey / 2 - hsq},
-                                {par.sizex / 2 + hsq, par.sizey / 2 + hsq});
+                                {x - hsq, y - hsq},
+                                {x + hsq, y + hsq});
         }
 
         CPM->setGrid(grid);

@@ -98,7 +98,8 @@ PARAMETER(double, T, 50.0,
 
 PARAMETER(double, lambda, 50.0, "Energy parameter for copy or flip attempt")
 PARAMETER(double, lambda2, 5.0, "Energy parameter for copy or flip attempt")
-PARAMETER(double, lambda_spread, 50.0, "Energy parameter for copy or flip attempt")
+PARAMETER(double, lambda_spread, 50.0,
+          "Energy parameter for copy or flip attempt")
 
 PARAMETER(int, target_area, 100, "Target area for all cells")
 PARAMETER(int, non_intergrin_binding_area, 100, "The Ah term in A/(A+A_h)")
@@ -115,7 +116,8 @@ PARAMETER(int, neighbours, 2,
           " energy. 0: no neighbours, 1: 4 orthogonal neighbours (von Neumann),"
           "  2: 8 direct neighbours (Moore), 3: 5x5 block minus the corners.")
 
-PARAMETER(bool, connectivity_check_durand, true, "If true, enable the connectivity check"
+PARAMETER(bool, connectivity_check_durand, true,
+          "If true, enable the connectivity check"
           "Algorithm from Durand, M., & Guesnet, E. (2016)")
 
 SECTION("Actin model")
@@ -197,100 +199,129 @@ PARAMETER(bool, extensiononly, false,
           " (CompuCell's method)")
 
 SECTION("ISV structure")
-        PARAMETER(int, somite_somite_distance, 1, "Distance between two somites")
-        PARAMETER(int, somite_distance_from_boundary, 1, "Distance of somite from boundary")
-        PARAMETER(double, lambda_somite, 1.0, "Lambda somite")
-        PARAMETER(int, somite_height, 100, "The height of a single somite")
-        PARAMETER(int, number_of_somites, 2, "Number of somites")
-        PARAMETER(int, somite_antitaxis, 100, "DeltaH penalty for somite")
-        PARAMETER(int, distance_from_bottom_not_to_update, 5, "The number of lattice sites from the bottom of the simulation not updated")
+PARAMETER(int, somite_somite_distance, 1, "Distance between two somites")
+PARAMETER(int, somite_distance_from_boundary, 1,
+          "Distance of somite from boundary")
+PARAMETER(double, lambda_somite, 1.0, "Lambda somite")
+PARAMETER(int, somite_height, 100, "The height of a single somite")
+PARAMETER(int, number_of_somites, 2, "Number of somites")
+PARAMETER(int, somite_antitaxis, 100, "DeltaH penalty for somite")
+PARAMETER(
+    int, distance_from_bottom_not_to_update, 5,
+    "The number of lattice sites from the bottom of the simulation not updated")
+
+SECTION("Single cell location")
+PARAMETER(std::vector<double>, single_cell_origin,
+          std::vector<double>({sizex * 0.5, sizex * 0.5}),
+          "Coordinates when single cell is used")
+
+CONSTRAINT(single_cell_origin.size() == 2,
+           "Single cell origin should have two components")
 
 SECTION("Adhesions")
 
-    PARAMETER(bool, adhesions_enabled, false, \
-            "Whether to use the adhesion simulation")
-    PARAMETER(double, adhesion_zone_radius, 10.0, \
-            "Radius of the adhesion creation zone\n"
-            "\n"
-            "Adhesions are created in the adhesion creation zone, which contains all\n"
-            "pixels that are in a cell and within a certain radius from the edge of\n"
-            "the cell. This parameter specifies that radius.\n")
-    PARAMETER(int, num_initial_adhesions, 50, \
-            "Number of adhesions to initially create.")
-    PARAMETER(std::string, adhesion_extension_mechanism, "sticky", \
-            "How to move adhesions at the source pixel of a copy attempt\n"
-            "\n"
-            "lazy: Leave them where they are\n"
-            "sticky: Move them to the target pixel\n"
-            "mixed: Randomly either leave them where they are, or move them to the\n"
-            "        target pixel\n"
-            "random: Move them in a random direction within the cell\n")
-    PARAMETER(std::string, adhesion_displacement_selection, "uniform", \
-            "How to select an adhesion displacement\n"
-            "\n"
-            "uniform: Pick one at random from the available possibilities\n"
-            "gradient: Pick the one with the lowest DH\n"
-            "\n"
-            "Formerly called nbhd_selection\n")
-    PARAMETER(int, adhesion_annihilation_penalty, 0, \
-            "Work required to annihilate an adhesion (in DH units)")
-    PARAMETER(int, adhesions_per_pixel_overflow, 0, \
-            "Number of adhesions per pixel above which a crowding penalty is applied")
-    PARAMETER(int, adhesions_per_pixel_overflow_penalty, 600, \
-            "Per-adhesion penalty (in DH units) in case of crowding")
+PARAMETER(bool, adhesions_enabled, false,
+          "Whether to use the adhesion simulation")
+PARAMETER(
+    double, adhesion_zone_radius, 10.0,
+    "Radius of the adhesion creation zone\n"
+    "\n"
+    "Adhesions are created in the adhesion creation zone, which contains all\n"
+    "pixels that are in a cell and within a certain radius from the edge of\n"
+    "the cell. This parameter specifies that radius.\n")
+PARAMETER(int, num_initial_adhesions, 50,
+          "Number of adhesions to initially create.")
+PARAMETER(
+    std::string, adhesion_extension_mechanism, "sticky",
+    "How to move adhesions at the source pixel of a copy attempt\n"
+    "\n"
+    "lazy: Leave them where they are\n"
+    "sticky: Move them to the target pixel\n"
+    "mixed: Randomly either leave them where they are, or move them to the\n"
+    "        target pixel\n"
+    "random: Move them in a random direction within the cell\n")
+PARAMETER(std::string, adhesion_displacement_selection, "uniform",
+          "How to select an adhesion displacement\n"
+          "\n"
+          "uniform: Pick one at random from the available possibilities\n"
+          "gradient: Pick the one with the lowest DH\n"
+          "\n"
+          "Formerly called nbhd_selection\n")
+PARAMETER(int, adhesion_annihilation_penalty, 0,
+          "Work required to annihilate an adhesion (in DH units)")
+PARAMETER(
+    int, adhesions_per_pixel_overflow, 0,
+    "Number of adhesions per pixel above which a crowding penalty is applied")
+PARAMETER(int, adhesions_per_pixel_overflow_penalty, 600,
+          "Per-adhesion penalty (in DH units) in case of crowding")
 
-    PARAMETER(int, relaxation_time, 0, "Time before adhesion model takes effect")
+PARAMETER(int, relaxation_time, 0, "Time before adhesion model takes effect")
 
-SECTION("Adhesion yielding")    
+SECTION("Adhesion yielding")
 
-    PARAMETER(bool, adhesion_yielding, true, \
-            "Whether the cell removes adhesions based on their size." \
-            "If false, the cell tries to move the adhesion around. " \
-            "If true, the cell can remove the adhesion for which some work is required.")
-    
-    PARAMETER(int, adhesion_yielding_lambda, 0, \
-            "The scale for the amount of work required for an adhesion to yield.")
-    PARAMETER(int, adhesion_yielding_Nh, 1, "Saturation parameter");
+PARAMETER(bool, adhesion_yielding, true,
+          "Whether the cell removes adhesions based on their size."
+          "If false, the cell tries to move the adhesion around. "
+          "If true, the cell can remove the adhesion for which some work is "
+          "required.")
 
-    PARAMETER(int, adhesion_integrin_N0, 50, \
-            "The number of bound integrin for a nascent adhesions")
-    
-    PARAMETER(double, adhesion_contraction_force, 0.001, \
-            "A constant with which adhesions are pulled inwards")
-    PARAMETER(double, adhesion_maximum_contractile_percentage, 0.9, " ")
-    
-    PARAMETER(double, ns_Nt, 1000, "max number of integrins in a FA")
-    PARAMETER(double, ns_phi_s, 5.0, "cut off where integrin slip bonds start playing a role")
-    PARAMETER(double, ns_phi_c, 5.0, "from where catch integrin start playing a role")
-    PARAMETER(double, ns_d0, 1.0, "degradation parameter")
-    PARAMETER(double, ns_gamma, 1.0, "binding parameter")
-    PARAMETER(double, ns_f_star, 1, "force scale")
-    PARAMETER(double, ns_dt, 0.001, "FE timestep")
-    PARAMETER(double, ns_T, 0.01, "How long the NS equation is integrated")
+PARAMETER(int, adhesion_yielding_lambda, 0,
+          "The scale for the amount of work required for an adhesion to yield.")
+PARAMETER(int, adhesion_yielding_Nh, 1, "Saturation parameter");
 
-    PARAMETER(bool, vegf_bias, false, "")
-    PARAMETER(bool, polarity_bias, false, "")
+PARAMETER(int, adhesion_integrin_N0, 50,
+          "The number of bound integrin for a nascent adhesions")
+
+PARAMETER(double, adhesion_contraction_force, 0.001,
+          "A constant with which adhesions are pulled inwards")
+PARAMETER(double, adhesion_maximum_contractile_percentage, 0.9, " ")
+
+PARAMETER(double, ns_Nt, 1000, "max number of integrins in a FA")
+PARAMETER(double, ns_phi_s, 5.0,
+          "cut off where integrin slip bonds start playing a role")
+PARAMETER(double, ns_phi_c, 5.0,
+          "from where catch integrin start playing a role")
+PARAMETER(double, ns_d0, 1.0, "degradation parameter")
+PARAMETER(double, ns_gamma, 1.0, "binding parameter")
+PARAMETER(double, ns_f_star, 1, "force scale")
+PARAMETER(double, ns_dt, 0.001, "FE timestep")
+PARAMETER(double, ns_T, 0.01, "How long the NS equation is integrated")
+
+PARAMETER(bool, vegf_bias, false, "")
+PARAMETER(bool, polarity_bias, false, "")
 SECTION("Myosin parameters")
 
-    PARAMETER(double, myosin_intergration_time, 1.0, "time that the myosin equation is integrated.")
-    PARAMETER(double, myosin_intergration_timestep, 0.001, "DeltaT used in FE myosin calculation")
-    PARAMETER(double, myosin_creation_rate, 0.001, "Rate with which myosin is created")
-    PARAMETER(double, myosin_decay_rate, 1, "Rate with which myosin is lost by actin")
+PARAMETER(double, myosin_intergration_time, 1.0,
+          "time that the myosin equation is integrated.")
+PARAMETER(double, myosin_intergration_timestep, 0.001,
+          "DeltaT used in FE myosin calculation")
+PARAMETER(double, myosin_creation_rate, 0.001,
+          "Rate with which myosin is created")
+PARAMETER(double, myosin_decay_rate, 1,
+          "Rate with which myosin is lost by actin")
 
 SECTION("Division parameters")
- 
-    PARAMETER(int, division_area, 800, "Minimal area required for division");
-    PARAMETER(double, division_rate_tipcell, 0.01, "Divsion rate of a tipcell");
-    PARAMETER(double, division_rate_stalkcell, 0.01, "Divsion rate of a stalkcell");
 
+PARAMETER(
+    std::string, division_algo, "area",
+    "How division is computed, can be either 'area' or 'time' or 'no division'")
+CONSTRAINT(par.division_algo == "time" || par.division_algo == "area" ||
+               par.division_algo == "no division",
+           "Can be either 'area' or 'time' or 'no division'")
+PARAMETER(int, division_area, 800, "Minimal area required for division");
+PARAMETER(double, division_rate_tipcell, 0.01, "Divsion rate of a tipcell");
+PARAMETER(double, division_rate_stalkcell, 0.01, "Divsion rate of a stalkcell");
+PARAMETER(int, division_rate_erlang_k, 4, "Division rate k variable");
+PARAMETER(double, division_rate_erlang_lambda, 1.0,
+          "Division rate lambda variable");
 
 SECTION("Cell polarity")
-    PARAMETER(int, cell_polarity_history, 10, "Number of MCS that is used for polarity computation.");
+PARAMETER(int, cell_polarity_history, 10,
+          "Number of MCS that is used for polarity computation.");
 
 SECTION("Obsolete and unused")
 
-    PARAMETER(bool, gradient, false, "Obsolete, unused")
-    PARAMETER(int, adhesion_storage_stride, 0, "Unused")
-    PARAMETER(int, target_length, 60, "Target cell length for all cells, unused")
-    PARAMETER(int, J_pol, 0, "Unused")
-
+PARAMETER(bool, gradient, false, "Obsolete, unused")
+PARAMETER(int, adhesion_storage_stride, 0, "Unused")
+PARAMETER(int, target_length, 60, "Target cell length for all cells, unused")
+PARAMETER(int, J_pol, 0, "Unused")

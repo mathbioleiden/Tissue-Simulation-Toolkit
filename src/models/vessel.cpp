@@ -131,16 +131,16 @@ void PDE::InitialisePDE(CellularPotts *cpm) {
   PROFILE_PRINT
 }
 
-void PDE::InitialiseDiffusionCoefficients(CellularPotts *cpm) {
-  for (int x = 0; x < sizex; x++) {
-    for (int y = 0; y < sizey; y++) {
-      for (int l = 0; l < par.n_chem; l++) {
-        DiffCoeffs[l][x][y] = par.diff_coeff[l];
-      }
-    }
-  }
-  PROFILE_PRINT
-}
+// void PDE::InitialiseDiffusionCoefficients(CellularPotts *cpm) {
+//   for (int x = 0; x < sizex; x++) {
+//     for (int y = 0; y < sizey; y++) {
+//       for (int l = 0; l < par.n_chem; l++) {
+//         DiffCoeffs[l][x][y] = par.diff_coeff[l];
+//       }
+//     }
+//   }
+//   PROFILE_PRINT
+// }
 void PDE::DerivativesPDE(CellularPotts *cpm, PDEFIELD_TYPE *derivs, int x,
                          int y) {
   // inside cells

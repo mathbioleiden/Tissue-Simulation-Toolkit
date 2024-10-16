@@ -35,6 +35,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 extern Parameter par;
 class Dish;
 
+struct CellDivisionTime {
+    bool can_divide;
+    int time_from_division;
+    CellDivisionTime() : can_divide(true), time_from_division(0) {}
+};
+
 class Cell
 {
     friend class Dish;
@@ -95,6 +101,7 @@ public:
         colour = src.colour;
         fit_ellipse = src.fit_ellipse;
         lambda = src.lambda;
+        cell_division_time = src.cell_division_time;
     }
 
     /*! \brief Add a new cell to the dish.
@@ -515,6 +522,8 @@ protected:
 
     const Dish *owner; // pointer to owner of cell
     CellPolarity cell_polarity;
+    public:
+    CellDivisionTime cell_division_time;
 };
 
 //#endif
