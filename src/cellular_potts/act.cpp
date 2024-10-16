@@ -6,43 +6,32 @@
 extern Parameter par;
 
 using namespace ACT;
-namespace
+
+double ACT::GeoMetricMean(ActField const &act_field, int **sigma, PixelPos pos)
 {
-    /**
-     * @brief Computes the geometric mean of the ACT values of all pixel with
-     * the same spin as the spin of the position argument.
-     * @param act_field
-     * @param sigma the CPM grid used
-     * @param pos The position on which the mean is computed
-     * @warning Ensure that pos is a valid position in the bounds of sigma.
-     * @return The geometric mean.
-     */
-    double GeoMetricMean(ActField const &act_field, int **sigma, PixelPos pos)
-    {
-        // NO BOUNDS CHECK for sigma
-        int mainspin = sigma[pos.x][pos.y];
-        double output = 1.0;
-        int count = 0;
-        for (int i = -1; i <= 1; i++)
-            for (int j = -1; j <= 1; j++)
+    // NO BOUNDS CHECK for sigma
+    int mainspin = sigma[pos.x][pos.y];
+    double output = 1.0;
+    int count = 0;
+    for (int i = -1; i <= 1; i++)
+        for (int j = -1; j <= 1; j++)
+        {
+            PixelPos neighbour_pos(i, j);
+            neighbour_pos += pos;
+            if (sigma[neighbour_pos.x][neighbour_pos.y] == mainspin)
             {
-                PixelPos neighbour_pos(i, j);
-                neighbour_pos += pos;
-                if (sigma[neighbour_pos.x][neighbour_pos.y] == mainspin)
+                double value = act_field.Value(neighbour_pos);
+                if (value <= 0.0)
                 {
-                    double value = act_field.Value(neighbour_pos);
-                    if (value <= 0.0)
-                    {
-                        return 0.0;
-                    }
-                    count++;
-                    output *= value;
+                    return 0.0;
                 }
+                count++;
+                output *= value;
             }
-        if (count == 0.0)
-            return 0.0;
-        return std::pow(output, 1.0 / count);
-    }
+        }
+    if (count == 0.0)
+        return 0.0;
+    return std::pow(output, 1.0 / count);
 }
 
 void ActField::IncreaseValue(PixelPos pos, double value)

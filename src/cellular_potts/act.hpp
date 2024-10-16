@@ -86,4 +86,15 @@ namespace ACT
      */
     void commit_move(ActField &act_field, int **sigma, PixelPos from,
                      PixelPos to);
+
+    /**
+     * @brief Computes the geometric mean of the ACT values of all pixel with
+     * the same spin as the spin of the position argument.
+     * @param act_field
+     * @param sigma the CPM grid used
+     * @param pos The position on which the mean is computed
+     * @warning Ensure that pos is a valid position in the bounds of sigma.
+     * @return The geometric mean.
+     */
+    double GeoMetricMean(ActField const &act_field, int **sigma, PixelPos pos);
 }
