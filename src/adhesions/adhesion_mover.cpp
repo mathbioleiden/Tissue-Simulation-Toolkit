@@ -198,7 +198,8 @@ void AdhesionMover::update(ECMBoundaryState const &ecm_boundary)
         midpoints.push_back(cell.CenterVector());
     }
     index_.setting_force_on_adhesions(midpoints, ca_.getSigma());
-    index_.setting_size_on_adhesions();
+    const ACT::ActField &act_field = ca_.getActField();
+    index_.setting_size_on_adhesions(act_field, ca_.getSigma());
 }
 
 void AdhesionMover::update_myosin(std::unordered_map<PixelPos,double> myosin_factor)

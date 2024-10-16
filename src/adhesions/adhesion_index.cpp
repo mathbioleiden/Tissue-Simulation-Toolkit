@@ -271,10 +271,30 @@ void AdhesionIndex::setting_size_on_adhesions() {
         par.ns_dt,
         par.ns_T,
         par.adhesion_integrin_N0,
-        par.ns_f_star);
+        par.ns_f_star,
+        par.d_FA);
     for (auto& pos_adhesions : adhesions_by_pixel_) {
         for (auto& awe : pos_adhesions.second) {
-            awe.size = NS::integrate(awe.tension, awe.size, nspar);
+            awe.size = NS::integrate(awe.tension, awe.size, 1.0, nspar);
+        }
+    }
+}
+void AdhesionIndex::setting_size_on_adhesions(const ACT::ActField &act_field, int** sigma) {
+    NS::Parameter nspar(
+        par.ns_Nt,
+        par.ns_phi_s,
+        par.ns_phi_c,
+        par.ns_d0,
+        par.ns_gamma,
+        par.ns_dt,
+        par.ns_T,
+        par.adhesion_integrin_N0,
+        par.ns_f_star,
+        par.d_FA);
+    for (auto& pos_adhesions : adhesions_by_pixel_) {
+        double act_level = ACT::GeoMetricMean(act_field, sigma, pos_adhesions.first) / par.max_Act;
+        for (auto& awe : pos_adhesions.second) {
+            awe.size = NS::integrate(awe.tension, awe.size, act_level, nspar);
         }
     }
 }

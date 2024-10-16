@@ -199,6 +199,7 @@ class AdhesionIndex {
         void setting_force_on_adhesions(std::vector<ParPos> midpoints, int** sigma);
         
         /// Helper function in rebuild(), run after setting_force.
+        void setting_size_on_adhesions(const ACT::ActField &act_field, int** sigma);
         void setting_size_on_adhesions();
 
     private:

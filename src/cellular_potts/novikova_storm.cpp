@@ -4,7 +4,8 @@
 
 #include <iostream>
 
-double NS::integrate(double force, double size, NS::Parameter par)
+
+double NS::integrate(double force, double size, double act_level, NS::Parameter par)
 {
     int timesteps(std::ceil(par.T / par.dt));
     for (int i = 0; i < timesteps; i++)
@@ -17,6 +18,8 @@ double NS::integrate(double force, double size, NS::Parameter par)
         {
             decay_rate = par.d0 * (std::exp(phi - par.phi_s) +
                                    std::exp(par.phi_c - phi));
+
+            decay_rate += par.d_FA * (1.0 - act_level);
         }
         catch (const std::exception &exc)
         {
@@ -45,7 +48,7 @@ std::vector<double> NS::integrate(std::vector<double> forces,
     {
         auto force = forces[i];
         auto size = sizes[i];
-        sizes[i] = NS::integrate(force, size, par);
+        sizes[i] = NS::integrate(force, size, 1.0, par);
     }
     return sizes;
 }

@@ -286,6 +286,7 @@ PARAMETER(double, ns_gamma, 1.0, "binding parameter")
 PARAMETER(double, ns_f_star, 1, "force scale")
 PARAMETER(double, ns_dt, 0.001, "FE timestep")
 PARAMETER(double, ns_T, 0.01, "How long the NS equation is integrated")
+PARAMETER(double, d_FA, 0.1, "Base degradation inhibited by Actin" )
 
 PARAMETER(bool, vegf_bias, false, "")
 PARAMETER(bool, polarity_bias, false, "")
