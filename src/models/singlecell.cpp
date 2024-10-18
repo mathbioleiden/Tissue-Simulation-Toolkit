@@ -218,7 +218,7 @@ std::vector<PixelPos> filter_adh_zone(const std::vector<PixelPos> adh_zone_to_fi
                                int** sigma,
                                ACT::ActField act_field) {
     std::vector<PixelPos> adh_zone;
-    double minimum_act = 0.75 * par.max_Act;
+    double minimum_act = par.FA_creation_threashold * par.max_Act;
     for (auto const pos : adh_zone_to_filter) {
         double avg_act = ACT::GeoMetricMean(act_field, sigma, pos);
         if (avg_act >= minimum_act){
