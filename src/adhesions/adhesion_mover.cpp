@@ -162,7 +162,6 @@ void AdhesionMover::remove_trailing_adhesions(){
 
 void AdhesionMover::remove_broken_adhesions()
 {
-
     auto adhesion_list = index_.get_all_adhesions();
 
     for (auto posadh : adhesion_list)
