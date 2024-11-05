@@ -286,7 +286,7 @@ PARAMETER(double, ns_gamma, 1.0, "binding parameter")
 PARAMETER(double, ns_f_star, 1, "force scale")
 PARAMETER(double, ns_dt, 0.001, "FE timestep")
 PARAMETER(double, ns_T, 0.01, "How long the NS equation is integrated")
-PARAMETER(double, d_FA, 0.1, "Base degradation inhibited by Actin" )
+PARAMETER(double, d_FA, 0.0, "Base degradation inhibited by Actin" )
 PARAMETER(double, FA_creation_threashold, 0., "Minimal fraction of max_Act needed to create adhesion." )
 
 PARAMETER(bool, vegf_bias, false, "")

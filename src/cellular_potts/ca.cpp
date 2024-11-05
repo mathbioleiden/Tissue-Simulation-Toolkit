@@ -1199,18 +1199,22 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
             if (yp >= sizey - 1)
                 yp = yp - sizey + 2;
         }
+
+        H_diss = 0; // connectivity dissipation:
         if (par.connectivity_check_durand) {
-             if (not(LocalConnectedness(x, y, sigma[x][y]) &&
+             if (sigma[x][y] > 0 && not(LocalConnectedness(x, y, sigma[x][y]) &&
                      LocalConnectedness(x, y, sigma[xp][yp])))
              {
                  continue;
              }
         }
+        else {
+            
+            if (!ConnectivityPreservedP(x,y))
+              H_diss=par.conn_diss;
+        }
 
-        //    // connectivity dissipation:
-        H_diss = 0;
-        //    if (!ConnectivityPreservedP(x,y))
-        //      H_diss=par.conn_diss;
+        
 
         AdhesionDisplacements adh_disp;
         D_H = DeltaH(x, y, xp, yp, PDEfield, &adh_disp);

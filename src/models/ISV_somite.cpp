@@ -92,14 +92,7 @@ INIT
         int spin = 1;
         std::vector<int> somite_ids;
 
-        // Create left most somite
-        FillRectangleWithCell(grid, spin,
-                              {somite_offset_from_boundary, par.sizey - somite_height},
-                              {somite_offset_from_boundary + somite_width,  par.sizey });
-        somite_ids.push_back(spin); 
-        spin++; // Yes I know I can put spin++ in the line above.
-
-        for (int i = 1; i < par.number_of_somites; i++) {
+        for (int i = 0; i < par.number_of_somites; i++) {
         // Create right most somite
             FillRectangleWithCell(
                 grid, spin,
@@ -110,13 +103,22 @@ INIT
         }
 
         int number_of_ecs = par.number_of_somites - 1;
-        auto ec_area_hq = 20;
+        auto ec_area_hq = 15;
+        auto ec_vertical = 15;
         for (int i = 1; i<=number_of_ecs; i++) {
             int x = somite_offset_from_boundary + somite_width*i + somite_somite_distance*(i-1) + somite_somite_distance*0.5;
-            FillRectangleWithCell(grid, spin,
-                                  {x - ec_area_hq/2, par.sizey - 2*ec_area_hq},
-                                  {x + ec_area_hq/2, par.sizey-1});
-            spin++;
+            for (int j = 0; j < par.n_init_cells; j++){
+                int x_offset = (-1 + 2* (j % 2) ) * ec_area_hq / 3;
+                x_offset = 0;
+                FillRectangleWithCell(grid, spin,
+                                      {x - ec_area_hq/2 + x_offset, par.sizey - ec_vertical* (j+1)},
+                                      {x + ec_area_hq/2 + x_offset, (int)(par.sizey-1 - ec_vertical*j)});
+                spin++;
+//                FillRectangleWithCell(grid, spin,
+//                                      {x - ec_area_hq/2 + x_offset, par.sizey - 2*ec_area_hq* (j+1)},
+//                                      {x + ec_area_hq/2 + x_offset, (int)(par.sizey-1 - 1.5*ec_area_hq*j)});
+//                spin++;
+            }
         }
 
         // PutCellsInRectangle(grid, 1, somite_height*somite_width,
