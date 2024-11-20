@@ -95,8 +95,19 @@ void Cell::CellBirth(Cell &mother_cell)
     grad[1] = mother_cell.grad[1];
 }
 
-Vec2<double> Cell::Polarity() const{
+Vec2<double> Cell::Polarity() {
     return cell_polarity.get();
+}
+
+double Cell::PolarityAngle() {
+    auto previous = cell_polarity.get_previous();
+    auto current = cell_polarity.get();
+    // std::cout << "Current / Previous = " << current << ',' << previous << '\n';
+
+    // the vectors current and previous are normalized
+    // hence the following computes the cosine of the angle
+    // between the two vectors.
+    return current.x * previous.x + current.y * previous.y;
 }
 
 void Cell::UpdatePolarity(){

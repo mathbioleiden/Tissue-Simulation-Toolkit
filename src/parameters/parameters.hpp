@@ -301,6 +301,13 @@ PARAMETER(double, myosin_creation_rate, 0.001,
           "Rate with which myosin is created")
 PARAMETER(double, myosin_decay_rate, 1,
           "Rate with which myosin is lost by actin")
+PARAMETER(std::string, polarity_kernel, "constant", "Which kernel to use for computation of directionality vector")
+CONSTRAINT(
+    par.polarity_kernel == "constant" || par.polarity_kernel == "exp",
+    "Can be either constant or exp"
+)
+PARAMETER(double, polarity_kernel_exp_rate, 1.0, "If polarity_kernel is exp, then this is the exponent")
+
 
 SECTION("Division parameters")
 

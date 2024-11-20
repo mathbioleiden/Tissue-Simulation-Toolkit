@@ -333,7 +333,12 @@ public:
      * @brief Computes the polarity of cell, can be (0,0)
      * @return Polarity of the cell
      */
-    Vec2<double> Polarity() const;
+    Vec2<double> Polarity();
+    /**
+     * @brief Returns the angle between the current polarity and polarity of one timestep ago.
+     * @return the angle between polarities.
+     */
+    double PolarityAngle();
 
     void UpdatePolarity();
 

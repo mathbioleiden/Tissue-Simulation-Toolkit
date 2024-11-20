@@ -1,3 +1,6 @@
+#define _MOCK_PARAMETER_HPP_ "mock_parameter.hpp"
+
+
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
@@ -11,6 +14,8 @@ using Catch::Matchers::WithinAbs;
 std::deque<Vec2<double>> get_com_history(CellPolarity &cell_polarity) {
     return cell_polarity.com_history;
 }
+
+extern Parameter par;
 
 TEST_CASE("cell polarity adding coms", "[cellpolarity]")
 {
@@ -112,4 +117,63 @@ TEST_CASE("Test that cell polarity keeps history", "[cell polarity history]")
         REQUIRE_THAT(polarity.x, Catch::Matchers::WithinAbs(result.x, 0.000001));
         REQUIRE_THAT(polarity.y, Catch::Matchers::WithinAbs(result.y, 0.000001));
     }
+}
+
+TEST_CASE("Test that exp works", "[cell polarity exp]")
+{
+    CellPolarity cell_polarity(10);
+    Vec2<double> polarity, result;
+    par.polarity_kernel = "exp";
+    par.polarity_kernel_exp_rate = 1.0;
+
+    SECTION("Rate = 1") {
+        double rate = GENERATE(1.0, 2.0, 5.0);
+        par.polarity_kernel_exp_rate = rate;
+        cell_polarity.add_com({0.0, 0.0});
+        cell_polarity.add_com({1.0, 0.0});
+        cell_polarity.add_com({1.0, 1.0});
+        polarity = cell_polarity.get();
+
+        auto hist = get_com_history(cell_polarity);
+        // result = std::sqrt(std::exp(-2) + 1) / (std::exp(-2) + 1)* Vec2<double>({1.0, std::exp(-1.0)});
+        result = Vec2<double>({std::exp(-rate), 1.0});
+        result = 1.0/result.length() * result;
+        REQUIRE_THAT(polarity.x, Catch::Matchers::WithinAbs(result.x, 0.000001));
+        REQUIRE_THAT(polarity.y, Catch::Matchers::WithinAbs(result.y, 0.000001));
+    }
+
+    SECTION("To right stays right") {
+        double rate = GENERATE(1.0);
+        par.polarity_kernel_exp_rate = rate;
+        for (int i =0; i< 10; i++){
+            cell_polarity.add_com({double(i), 0.0});
+        }
+        polarity = cell_polarity.get();
+
+        auto hist = get_com_history(cell_polarity);
+        result = Vec2<double>({1.0, 0.0});
+        result = 1.0/result.length() * result;
+        REQUIRE_THAT(polarity.x, Catch::Matchers::WithinAbs(result.x, 0.000001));
+        REQUIRE_THAT(polarity.y, Catch::Matchers::WithinAbs(result.y, 0.000001));
+    }
+
+    SECTION("5 times up and then 5 times right is more right than up") {
+        double rate = GENERATE(5.0);
+        par.polarity_kernel_exp_rate = rate;
+        for (int i =0; i<5; i++){
+            cell_polarity.add_com({0.0, double(i)});
+        }
+        for (int i =1; i<6; i++){
+            cell_polarity.add_com({double(i), 4.0});
+        }
+        polarity = cell_polarity.get();
+
+
+        result = Vec2<double>({1.0, 0.0});
+        result = 1.0/result.length() * result;
+        std::cout << "polarity = " << polarity << '\n';
+        REQUIRE_THAT(polarity.x, Catch::Matchers::WithinAbs(result.x, 0.000001));
+        REQUIRE_THAT(polarity.y, Catch::Matchers::WithinAbs(result.y, 0.000001));
+    }
+
 }

@@ -10,7 +10,7 @@ class CellPolarity
 {
 public:
     CellPolarity(int maximum_history)
-        :  maximum_history(maximum_history), fixed(false), polarity_on(true)
+        :  maximum_history(maximum_history), fixed(false), polarity_on(true), previous_polarity({0.0,0.0})
     {
     }
 
@@ -25,7 +25,9 @@ public:
      * @return The unit vector in the direction of cell polarisation or
      * zerovector if there is no polarity yet, and the zerovector when polarity is turned off.
      */
-    Vec2<double> get() const;
+    Vec2<double> get() ;
+
+    Vec2<double> get_previous();
 
     /**
      * @brief set the maximum history
@@ -60,4 +62,5 @@ private:
     bool fixed;
     Vec2<double> fixed_direction;
     bool polarity_on;
+    Vec2<double> previous_polarity;
 };

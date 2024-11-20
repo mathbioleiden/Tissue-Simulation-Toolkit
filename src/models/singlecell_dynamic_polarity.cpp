@@ -122,7 +122,7 @@ INIT
             }
             else
             {
-                c.FixPolarity(false); // remove polarity
+                c.FixPolarity(true); // remove polarity
             }
         }
 
@@ -220,10 +220,10 @@ void add_vegf_bias_in_act(const Vec2<double> biasdirection,
 
 std::vector<PixelPos>
 filter_adh_zone(const std::vector<PixelPos> adh_zone_to_filter,
-                const std::vector<Cell> cell, int **sigma)
+                std::vector<Cell> &cell, int **sigma)
 {
     std::vector<PixelPos> adh_zone;
-    for (auto const pos : adh_zone_to_filter)
+    for (auto pos : adh_zone_to_filter)
     {
         auto spin = sigma[pos.x][pos.y];
         auto com = cell[spin].CenterVector();
