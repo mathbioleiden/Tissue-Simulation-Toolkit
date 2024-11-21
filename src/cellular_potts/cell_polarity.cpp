@@ -24,8 +24,6 @@ namespace {
             Vec2<double> x = com_history[i+1];
             Vec2<double> y = com_history[i];
             auto scaler = kernel(com_history.size()-i-2);
-            std::cout << i << ", " << scaler << ", " << x-y
-                      << ", " << output << '\n';
             output = output + scaler * (x-y);
         }
         auto output_length = output.length();

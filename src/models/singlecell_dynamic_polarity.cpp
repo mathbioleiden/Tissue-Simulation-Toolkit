@@ -336,7 +336,6 @@ TIMESTEP
                     auto vec = c.CenterVector();
                     cellpolarity[std::to_string(c.Sigma())] =
                         Data::dict("x", vec.x, "y", vec.y);
-                    std::cout << "Kom hier!\n";
                 }
 
                 Data state =
