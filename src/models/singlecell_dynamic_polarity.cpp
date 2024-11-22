@@ -127,7 +127,7 @@ INIT
         }
 
         // Set all the PDEs to a steady state solution.
-        // PDEfield->InitialisePDEvars(nullptr, nullptr);
+        PDEfield->InitialisePDEvars(nullptr, nullptr);
     }
     catch (const char *error)
     {
@@ -145,18 +145,18 @@ INIT
 // Set a fixed gradient for the whole simulation. Say VEGF?
 void PDE::InitialisePDEvars(CellularPotts *cpm, int *celltypes)
 {
-    cout << par.secr_rate[0] << ", " << par.decay_rate[0] << ", "
-         << par.diff_coeff[0] << '\n';
-    double diffusion_length = par.decay_rate[0] / par.diff_coeff[0];
+    cout << par.secr_rate[1] << ", " << par.decay_rate[1] << ", "
+         << par.diff_coeff[1] << '\n';
+    double diffusion_length = par.decay_rate[1] / par.diff_coeff[1];
     cout << "Diffusion length " << diffusion_length << "\n";
     // for (int y = sizey-1; y >= 0; y--)
     for (int y = 0; y < sizey; y++)
     {
-        double value = par.secr_rate[0] *
+        double value = par.secr_rate[1] *
                        std::exp(-static_cast<double>(y) * diffusion_length);
         for (int x = 0; x < sizex; x++)
         {
-            PDEvars[0][x][y] = value;
+            PDEvars[1][x][y] = value;
         }
     }
 }

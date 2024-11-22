@@ -90,8 +90,8 @@ double DeltaH::area_constraint(std::vector<Cell> *cell, int sxy, int sxyp)
 double DeltaH::chemotaxis(int x, int y, int xp, int yp, PDE *PDEfield)
 {
     double DDH;
-    DDH = -(double)(par.chemotaxis * (sat2(PDEfield->get_PDEvars(0, x, y)) -
-                                      sat2(PDEfield->get_PDEvars(0, xp, yp))));
+    DDH = -(double)(par.chemotaxis * (sat2(PDEfield->get_PDEvars(1, x, y)) -
+                                      sat2(PDEfield->get_PDEvars(1, xp, yp))));
     return DDH;
 }
 

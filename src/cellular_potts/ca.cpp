@@ -556,16 +556,16 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
         double dh = DeltaH::spreading_constraint(cell, sxy, sxyp);
         DH -= dh;
     }
-//     if (PDEfield && (par.vecadherinknockout || (sxyp == 0 || sxy == 0)))
-//     {
-//         // copying from (xp, yp) into (x,y)
-//         // If par.extensiononly == true, apply CompuCell's method, i.e.
-//         // only chemotactic extensions contribute to energy change
-//         if (!(par.extensiononly && sxyp == 0))
-//         {
-//             DH += DeltaH::chemotaxis(x, y, xp, yp, PDEfield);
-//         }
-//     }
+    if (PDEfield) //  && (par.vecadherinknockout || (sxyp == 0 || sxy == 0)))
+    {
+        // copying from (xp, yp) into (x,y)
+        // If par.extensiononly == true, apply CompuCell's method, i.e.
+        // only chemotactic extensions contribute to energy change
+        // if (!(par.extensiononly && sxyp == 0))
+        {
+            DH += DeltaH::chemotaxis(x, y, xp, yp, PDEfield);
+        }
+    }
     if (PDEfield) {
         auto DDH = DeltaH::somite_penalty(x, y, xp, yp, PDEfield);
         DH += DDH;
