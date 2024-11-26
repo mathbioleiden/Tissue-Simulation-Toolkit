@@ -156,7 +156,21 @@ void PDE::InitialisePDEvars(CellularPotts *cpm, int *celltypes)
                        std::exp(-static_cast<double>(y) * diffusion_length);
         for (int x = 0; x < sizex; x++)
         {
+            // cout << "x,y,value" << x << ',' << y << ',' << value << '\n';
             PDEvars[1][x][y] = value;
+            PDEvars[0][x][y] = 0;
+        }
+    }
+    diffusion_length = par.decay_rate[0] / par.diff_coeff[0];
+    cout << "Diffusion length " << diffusion_length << "\n";
+    for (int x = 0; x < sizex / 2; x++)
+    {
+        double value = par.secr_rate[0] *
+                       std::exp(-static_cast<double>(x) * diffusion_length);
+        for (int y = 0; y < sizey; y++)
+        {
+        PDEvars[0][x][y] = value;
+        PDEvars[0][sizex - 1 - x][y] = value;
         }
     }
 }
@@ -313,8 +327,9 @@ TIMESTEP
                     pde_sigma,
                     {static_cast<std::size_t>(pde->Layers()),
                      static_cast<std::size_t>(pde->SizeX()),
-                     static_cast<std::size_t>(pde->SizeY())},
-                    {"layer", "x", "y"}, StorageOrder::first_adjacent);
+                     static_cast<std::size_t>(pde->SizeY())
+                     },
+                    {"layer", "x", "y"}, StorageOrder::last_adjacent);
                 Data adh_state = Data::dict();
                 for (const auto &awe : dish->CPM->getAdhesions())
                 {
@@ -406,7 +421,7 @@ void Plotter::Plot()
     graphics->BeginScene();
     graphics->ClearImage();
 
-    plotPDEDensity();
+    // plotPDEDensity();
     plotCPMCellTypes();
     plotCPMLines();
     plotPDEContourLines();
