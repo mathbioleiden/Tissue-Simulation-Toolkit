@@ -207,7 +207,7 @@ PARAMETER(int, somite_height, 100, "The height of a single somite")
 PARAMETER(int, number_of_somites, 2, "Number of somites")
 PARAMETER(int, somite_antitaxis, 100, "DeltaH penalty for somite")
 PARAMETER(
-    int, distance_from_bottom_not_to_update, 5,
+    int, distance_from_bottom_not_to_update, 0,
     "The number of lattice sites from the bottom of the simulation not updated")
 
 SECTION("Single cell location")

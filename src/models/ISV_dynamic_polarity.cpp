@@ -119,7 +119,7 @@ INIT
 
         for (auto &c : *(CPM->getCellArray()))
         {
-            if (par.polarity_bias)
+            if (c.Sigma() == par.n_init_cells)
             {
                 double theta = RANDOM() * 2 * 3.1415;
                 c.FixPolarity({std::cos(theta), std::sin(theta)});
