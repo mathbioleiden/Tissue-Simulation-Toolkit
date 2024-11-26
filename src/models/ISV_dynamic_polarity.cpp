@@ -128,7 +128,7 @@ INIT
             }
             else
             {
-                c.FixPolarity(true); // remove polarity
+                c.FixPolarity(false); // remove polarity
             }
         }
 
