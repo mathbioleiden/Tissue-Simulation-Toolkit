@@ -169,14 +169,15 @@ void PDE::InitialisePDEvars(CellularPotts *cpm, int *celltypes)
     }
     diffusion_length = par.decay_rate[0] / par.diff_coeff[0];
     cout << "Diffusion length " << diffusion_length << "\n";
-    for (int x = 0; x < sizex / 2; x++)
+    for (int x = 0; x < sizex; x++)
     {
-        double value = par.secr_rate[0] *
+        double value_left = par.secr_rate[0] *
                        std::exp(-static_cast<double>(x) * diffusion_length);
+        double value_right = par.secr_rate[0] *
+                       std::exp(-static_cast<double>(sizex - 1 -x) * diffusion_length);
         for (int y = 0; y < sizey; y++)
         {
-        PDEvars[0][x][y] = value;
-        PDEvars[0][sizex - 1 - x][y] = value;
+        PDEvars[0][x][y] = value_left + value_right;
         }
     }
 }
