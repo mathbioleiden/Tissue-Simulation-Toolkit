@@ -89,7 +89,7 @@ int FillRectangleWithCell(Grid &grid, int spin, PixelPos upper_left, PixelPos lo
     //std::cout << "Filling " << upper_left << " to " << lower_right << '\n';
     for (int i = upper_left.x; i < lower_right.x; i++) {
         for (int j = upper_left.y; j<lower_right.y; j++) {
-            // std::cout << "Putting " << PixelPos(i,j) << ' ';
+            std::cout << "Putting " << PixelPos(i,j) << ' ';
             grid.set({i,j}, spin);
         }
     }
