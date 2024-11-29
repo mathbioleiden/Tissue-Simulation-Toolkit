@@ -1125,6 +1125,11 @@ void CellularPotts::FreezeAmoebae(void)
         frozen = TRUE;
 }
 
+RemovedFA CellularPotts::getFALifetime() {
+    return adhesion_mover.index_.removed_fa;
+    // adhesion_mover.index_.removed_fa.reset();
+}
+
 //! Monte Carlo Step. Returns summed energy change
 int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
 {

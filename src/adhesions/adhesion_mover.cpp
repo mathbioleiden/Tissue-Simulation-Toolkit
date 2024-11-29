@@ -127,8 +127,9 @@ void AdhesionMover::commit_move(PixelPos source_pixel, PixelPos target_pixel,
             index_.move_adhesions(target_pixel,
                                   target_pixel + displacements.target);
         }
-        else
-            index_.remove_adhesions(target_pixel);
+        else{
+            index_.remove_adhesions(target_pixel,FA_BREAKING_OPTIONS::YIELD, ca_.Time());
+        }
     }
 }
 
@@ -155,7 +156,7 @@ void AdhesionMover::remove_trailing_adhesions(){
         if (polarity.dot(Vec2<double>(pos.x, pos.y) - com) < 0)
              for (auto adh : adhs) {
                 // std::cout << "  Removing at " << adh.position << '\n';
-                 index_.remove_adhesion(adh.par_id);
+                 index_.remove_adhesion(adh,FA_BREAKING_OPTIONS::TRAILING, ca_.Time());
              }
      }
 }
@@ -171,7 +172,7 @@ void AdhesionMover::remove_broken_adhesions()
         {
             if (adh.size <= par.adhesion_integrin_N0)
             {
-                index_.remove_adhesion(adh.par_id);
+                index_.remove_adhesion(adh,FA_BREAKING_OPTIONS::BROKEN, ca_.Time());
             }
         }
     }
@@ -189,7 +190,7 @@ void AdhesionMover::reset_cell_ecm_interactions()
 
 void AdhesionMover::update(ECMBoundaryState const &ecm_boundary)
 {
-    index_.rebuild(ecm_boundary);
+    index_.rebuild(ecm_boundary, ca_.Time());
     std::vector<ParPos> midpoints;
 
     for (auto const &cell : *ca_.getCellArray())
