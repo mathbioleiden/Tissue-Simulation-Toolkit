@@ -1176,12 +1176,12 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal)
         yp = ny[targetneighbour] + y;
 
 
-      if (std::find(spins_not_to_update.begin(), spins_not_to_update.end(),
-                    sigma[x][y]) != spins_not_to_update.end())
-          continue;
-      if (std::find(spins_not_to_update.begin(), spins_not_to_update.end(),
-                    sigma[xp][yp]) != spins_not_to_update.end())
-          continue;
+//       if (std::find(spins_not_to_update.begin(), spins_not_to_update.end(),
+//                     sigma[x][y]) != spins_not_to_update.end())
+//           continue;
+//       if (std::find(spins_not_to_update.begin(), spins_not_to_update.end(),
+//                     sigma[xp][yp]) != spins_not_to_update.end())
+//           continue;
         if (y > par.sizey - par.distance_from_bottom_not_to_update)
             continue;
 
