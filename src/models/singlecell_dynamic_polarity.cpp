@@ -365,7 +365,7 @@ TIMESTEP
                 Data fa_reason = Data::grid(
                     fa_lifetime.whats.data(), {fa_lifetime.whats.size()});
                 std::cout << "Hier 9\n";
-                Data fa_lt = Data::dict(); // Data::grid(fa_lifetime.lifetimes.data(), {fa_lifetime.lifetimes.size()});
+                Data fa_lt = Data::grid(fa_lifetime.lifetimes.data(), {fa_lifetime.lifetimes.size()});
                 std::cout << "Hier 10\n";
                 Data fas = Data::dict();
                 fas["reason"] = fa_reason;
