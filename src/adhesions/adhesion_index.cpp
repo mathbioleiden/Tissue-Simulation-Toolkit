@@ -157,6 +157,7 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary, int thetime) {
             auto& awe = adhesions_by_pixel_[containing_pixel].back();
             awe.size = size;
             awe.myosin_force_fraction = myosin;
+            awe.creation_time = creation_time;
 
             for (BondId bid : bonds_for[pid]) {
                 auto const& bond = ecm_boundary.bonds.at(bid);
