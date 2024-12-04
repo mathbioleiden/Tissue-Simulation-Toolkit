@@ -121,8 +121,9 @@ INIT
         {
             if (c.Sigma() == par.n_init_cells)
             {
-                double theta = RANDOM() * 2 * 3.1415;
-                c.FixPolarity({std::cos(theta), std::sin(theta)});
+//                double theta = 3.1415 *0.5 ;//  RANDOM() * 2 * 3.1415;
+//                c.FixPolarity({std::cos(theta), std::sin(theta)});
+                c.FixPolarity({0.0, -1.0});
                 c.SetTargetArea(par.target_area);
                 c.setTau(2);
             }
