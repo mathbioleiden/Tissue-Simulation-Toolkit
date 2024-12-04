@@ -102,6 +102,7 @@ public:
         fit_ellipse = src.fit_ellipse;
         lambda = src.lambda;
         cell_division_time = src.cell_division_time;
+        lambda_act = src.lambda_act;
     }
 
     /*! \brief Add a new cell to the dish.

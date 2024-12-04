@@ -89,7 +89,6 @@ double ACT::DeltaH(ActField const &act_field, int **sigma, PixelPos from,
     double GM_target = GeoMetricMean(act_field, sigma, to);
     if (sigma[to.x][to.y] == 0 && GM_target > 0)
         throw std::runtime_error("to medium has positive act!!");
-
     return (lambda_act / max_Act) * (GM_source - GM_target);
 }
 

@@ -84,22 +84,41 @@ INIT
             par.sizey - static_cast<int>(0.1 * static_cast<double>(par.sizey));
         if (par.n_init_cells > 1)
         {
-            int number_of_ecs = 1; // .number_of_somites - 1;
-            auto ec_area_hq = 15;
-            auto ec_vertical = 15;
-            int spin = 1;
-            for (int i = 1; i<=number_of_ecs; i++) {
-                int x = par.sizex/ 2; // somite_offset_from_boundary + somite_width*i + somite_somite_distance*(i-1) + somite_somite_distance*0.5;
-                for (int j = 0; j < par.n_init_cells; j++){
-                    int x_offset = (-1 + 2* (j % 2) ) * ec_area_hq / 3;
-                    x_offset = 0;
-                    FillRectangleWithCell(grid, spin,
-                        {x - ec_area_hq/2 + x_offset, par.sizey - ec_vertical* (j+1)},
-                        {x + ec_area_hq/2 + x_offset, (int)(par.sizey-1 - ec_vertical*j)}
-                    );
-                    spin++;
-                }
-            }
+            int breedte = 20;
+            int lengte = 40;
+            int middel = par.sizex / 2;
+            FillRectangleWithCell(
+                grid, 1,
+                {middel-breedte, par.sizey-2 - lengte},
+                {middel, par.sizey - 2}
+            );
+             FillRectangleWithCell(
+                 grid, 2,
+                 {middel, par.sizey-1 - lengte  - lengte / 2},
+                 {middel+breedte, par.sizey - 1 - lengte /2}
+             );
+             FillRectangleWithCell(
+                 grid, 3,
+                 {middel-breedte, par.sizey-2 - 2*lengte},
+                 {middel, par.sizey - 2 - lengte}
+             );
+
+//            int number_of_ecs = 1; // .number_of_somites - 1;
+//            auto ec_area_hq = 15;
+//            auto ec_vertical = 15;
+//            int spin = 1;
+//            for (int i = 1; i<=number_of_ecs; i++) {
+//                int x = par.sizex/ 2; // somite_offset_from_boundary + somite_width*i + somite_somite_distance*(i-1) + somite_somite_distance*0.5;
+//                for (int j = 0; j < par.n_init_cells; j++){
+//                    int x_offset = (-1 + 2* (j % 2) ) * ec_area_hq / 3;
+//                    x_offset = 0;
+//                    FillRectangleWithCell(grid, spin,
+//                        {x - ec_area_hq/2 + x_offset, par.sizey - ec_vertical* (j+1)},
+//                        {x + ec_area_hq/2 + x_offset, (int)(par.sizey-1 - ec_vertical*j)}
+//                    );
+//                    spin++;
+//                }
+//            }
         }
         else
         {
@@ -130,6 +149,7 @@ INIT
             else
             {
                 c.FixPolarity(false); // remove polarity
+                c.setTau(3);
             }
         }
 
@@ -168,19 +188,19 @@ void PDE::InitialisePDEvars(CellularPotts *cpm, int *celltypes)
             PDEvars[0][x][y] = 0;
         }
     }
-    diffusion_length = par.decay_rate[0] / par.diff_coeff[0];
-    cout << "Diffusion length " << diffusion_length << "\n";
-    for (int x = 0; x < sizex; x++)
-    {
-        double value_left = par.secr_rate[0] *
-                       std::exp(-static_cast<double>(x) * diffusion_length);
-        double value_right = par.secr_rate[0] *
-                       std::exp(-static_cast<double>(sizex - 1 -x) * diffusion_length);
-        for (int y = 0; y < sizey; y++)
-        {
-        PDEvars[0][x][y] = value_left + value_right;
-        }
-    }
+//     diffusion_length = par.decay_rate[0] / par.diff_coeff[0];
+//     cout << "Diffusion length " << diffusion_length << "\n";
+//     for (int x = 0; x < sizex; x++)
+//     {
+//         double value_left = par.secr_rate[0] *
+//                        std::exp(-static_cast<double>(x) * diffusion_length);
+//         double value_right = par.secr_rate[0] *
+//                        std::exp(-static_cast<double>(sizex - 1 -x) * diffusion_length);
+//         for (int y = 0; y < sizey; y++)
+//         {
+//         PDEvars[0][x][y] = value_left + value_right;
+//         }
+//     }
 }
 
 void add_bias_to_act(const std::vector<Vec2<double>> biasdirections,
@@ -310,7 +330,9 @@ TIMESTEP
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
         // std::cout << "Got here 2\n";
 
+        std::cout << "Before Move" << std::endl;
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
+        std::cout << "After Move" << std::endl;
 
         if (par.adhesion_yielding)
             dish->CPM->MoveAdhesions();

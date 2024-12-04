@@ -609,6 +609,7 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
 //             DH -= ACT::DeltaH(act_field, sigma, {xp, yp}, {x, y},
 //                               (*cell)[sxy].lambda_act, par.max_Act);
     }
+
     return DH;
 }
 
