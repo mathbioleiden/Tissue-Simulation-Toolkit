@@ -84,23 +84,24 @@ INIT
             par.sizey - static_cast<int>(0.1 * static_cast<double>(par.sizey));
         if (par.n_init_cells > 1)
         {
+            int offset_from_boundary = 1; // >= 1!
             int breedte = 20;
             int lengte = 40;
             int middel = par.sizex / 2;
             FillRectangleWithCell(
                 grid, 1,
-                {middel-breedte, par.sizey-2 - lengte},
-                {middel, par.sizey - 2}
+                {middel-breedte, par.sizey-offset_from_boundary - lengte},
+                {middel, par.sizey - offset_from_boundary}
             );
              FillRectangleWithCell(
                  grid, 2,
-                 {middel, par.sizey-1 - lengte  - lengte / 2},
-                 {middel+breedte, par.sizey - 1 - lengte /2}
+                 {middel, par.sizey- offset_from_boundary - lengte  - lengte / 2},
+                 {middel+breedte, par.sizey - offset_from_boundary - lengte /2}
              );
              FillRectangleWithCell(
                  grid, 3,
-                 {middel-breedte, par.sizey-2 - 2*lengte},
-                 {middel, par.sizey - 2 - lengte}
+                 {middel-breedte, par.sizey-offset_from_boundary - 2*lengte},
+                 {middel, par.sizey - offset_from_boundary - lengte}
              );
 
 //            int number_of_ecs = 1; // .number_of_somites - 1;
@@ -138,6 +139,8 @@ INIT
 
         for (auto &c : *(CPM->getCellArray()))
         {
+            if (c.Sigma() == 0)
+                continue;
             if (c.Sigma() == par.n_init_cells)
             {
 //                double theta = 3.1415 *0.5 ;//  RANDOM() * 2 * 3.1415;
@@ -149,7 +152,7 @@ INIT
             else
             {
                 c.FixPolarity(false); // remove polarity
-                c.setTau(3);
+                c.setTau(2);
             }
         }
 
@@ -188,19 +191,19 @@ void PDE::InitialisePDEvars(CellularPotts *cpm, int *celltypes)
             PDEvars[0][x][y] = 0;
         }
     }
-//     diffusion_length = par.decay_rate[0] / par.diff_coeff[0];
-//     cout << "Diffusion length " << diffusion_length << "\n";
-//     for (int x = 0; x < sizex; x++)
-//     {
-//         double value_left = par.secr_rate[0] *
-//                        std::exp(-static_cast<double>(x) * diffusion_length);
-//         double value_right = par.secr_rate[0] *
-//                        std::exp(-static_cast<double>(sizex - 1 -x) * diffusion_length);
-//         for (int y = 0; y < sizey; y++)
-//         {
-//         PDEvars[0][x][y] = value_left + value_right;
-//         }
-//     }
+     diffusion_length = par.decay_rate[0] / par.diff_coeff[0];
+     cout << "Diffusion length " << diffusion_length << "\n";
+     for (int x = 0; x < sizex; x++)
+     {
+         double value_left = par.secr_rate[0] *
+                        std::exp(-static_cast<double>(x) * diffusion_length);
+         double value_right = par.secr_rate[0] *
+                        std::exp(-static_cast<double>(sizex - 1 -x) * diffusion_length);
+         for (int y = 0; y < sizey; y++)
+         {
+         PDEvars[0][x][y] = value_left + value_right;
+         }
+     }
 }
 
 void add_bias_to_act(const std::vector<Vec2<double>> biasdirections,

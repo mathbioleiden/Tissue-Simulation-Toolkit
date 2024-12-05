@@ -550,6 +550,7 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
     DH += DeltaH::length_constraint(n_nb, x, y, xp, yp, sigma, cell, sxy, sxyp);
 
     /* DH due to cell adhesion */
+    // std::cout << "sxy sxyp" << sxy << ' ' << sxyp << '\n';
     DH += DeltaH::contact_energy(n_nb, x, y, xp, yp, sigma, cell, sxy, sxyp);
 
     {

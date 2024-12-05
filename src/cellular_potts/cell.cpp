@@ -221,6 +221,7 @@ int Cell::EnergyDifference(const Cell &cell2) const
 {
     if (sigma == cell2.sigma)
         return 0;
+    // std::cout << "tau tau2 J" << tau << " " << cell2.tau << " " << J[tau][cell2.tau] << '\n';
     return J[tau][cell2.tau];
 }
 
