@@ -54,6 +54,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "profiler.hpp"
 #include "random.hpp"
 #include "util/muscle3/settings.hpp"
+#include "erlang.hpp"
 #include <sstream>
 
 using namespace std;
@@ -147,7 +148,8 @@ INIT
 //                c.FixPolarity({std::cos(theta), std::sin(theta)});
                 c.FixPolarity({0.0, -1.0});
                 c.SetTargetArea(par.target_area);
-                c.setTau(2);
+                c.setTau(3);
+                // c.setTau(2);
             }
             else
             {
@@ -332,10 +334,56 @@ TIMESTEP
         // std::cout << "Got here 1\n";
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
         // std::cout << "Got here 2\n";
+        if (i>0 and par.division_algo == "time") {
+            std::vector<bool> which_cells(dish->cell.size());
+            for (auto &cell : dish->cell) {
+                if (cell.getTau() == 3 and cell.cell_division_time.can_divide) {
+                    double when_to_divide = erlang(par.division_rate_erlang_k, par.division_rate_erlang_lambda);
+                        cell.cell_division_time.time_from_division = when_to_divide;
+                        cell.cell_division_time.can_divide = false;
+                }
+                else if (cell.cell_division_time.time_from_division > 0) {
+                    cell.cell_division_time.time_from_division--;
+                }
+                if (cell.cell_division_time.time_from_division == 1) {
+                    cell.cell_division_time.can_divide = true;
+                    which_cells[cell.Sigma()] = true;
+                }
+                if (cell.getTau() > 1 and cell.TargetArea() < par.target_area) {
+                    cell.IncrementTargetArea();
+                }
+            }
+            dish->CPM->DivideCells(which_cells, dish->cell);
+        }
+        // Tip cell selection
+        int tipcell;
+        for (int j = 0; j < par.sizey; j++)
+        {
+            for (int i = 0; i < par.sizex; i++)
+            {
+                auto spin = dish->CPM->Sigma(i, j);
+                auto thiscell = dish->CPM->getCell(spin);
+                if (thiscell.getTau() > 1) {
+                    tipcell = spin;
+                    j = par.sizey;
+                    i = par.sizex;
+                }
+            }
+        }
+        for (auto &c : dish->cell)
+        {
+            if (c.getTau() == 3){
+                c.setTau(2);
+                c.FixPolarity(false);
+            }
+        }
+        dish->cell[tipcell].setTau(3);
+        dish->cell[tipcell].FixPolarity({0.0, -1.0});
+        
 
-        std::cout << "Before Move" << std::endl;
+
+
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
-        std::cout << "After Move" << std::endl;
 
         if (par.adhesion_yielding)
             dish->CPM->MoveAdhesions();
@@ -388,7 +436,7 @@ TIMESTEP
 
                 Data state =
                     Data::dict("cpm", cpm_state, "pde", pde_state, "adh",
-                               adh_state, "tipcell", 1, "act_state", act_state);
+                               adh_state, "tipcell", tipcell, "act_state", act_state);
                 instance->send("state_out", Message(i, state));
             }
         }
