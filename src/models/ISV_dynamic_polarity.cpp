@@ -144,9 +144,9 @@ INIT
                 continue;
             if (c.Sigma() == par.n_init_cells)
             {
-//                double theta = 3.1415 *0.5 ;//  RANDOM() * 2 * 3.1415;
-//                c.FixPolarity({std::cos(theta), std::sin(theta)});
-                c.FixPolarity({0.0, -1.0});
+                double theta = RANDOM() * 2 * 3.1415;
+                c.FixPolarity({std::cos(theta), std::sin(theta)});
+                // c.FixPolarity({0.0, -1.0});
                 c.SetTargetArea(par.target_area);
                 c.setTau(3);
                 // c.setTau(2);
@@ -363,25 +363,21 @@ TIMESTEP
             {
                 auto spin = dish->CPM->Sigma(i, j);
                 auto thiscell = dish->CPM->getCell(spin);
-                if (thiscell.getTau() > 1) {
+                if (spin > 0 and thiscell.getTau() > 1) {
                     tipcell = spin;
                     j = par.sizey;
                     i = par.sizex;
                 }
             }
         }
-        for (auto &c : dish->cell)
-        {
-            if (c.getTau() == 3){
-                c.setTau(2);
-                c.FixPolarity(false);
-            }
-        }
-        dish->cell[tipcell].setTau(3);
-        dish->cell[tipcell].FixPolarity({0.0, -1.0});
-        
-
-
+         for (auto &c : dish->cell)
+         {
+             c.setTau(2);
+             c.FixPolarity(false); 
+         }
+         dish->cell[tipcell].setTau(3);
+         dish->cell[tipcell].FixPolarity(true); // Turn polarity back on!
+         std::cout << "Tip cell = " << tipcell << '\n';
 
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
 
