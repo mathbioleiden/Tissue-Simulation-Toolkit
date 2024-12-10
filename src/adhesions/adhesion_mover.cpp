@@ -143,7 +143,6 @@ void AdhesionMover::remove_trailing_adhesions(){
         auto cell = ca_.getCell(ca_.Sigma(pos.x, pos.y));
         auto polarity = cell.Polarity();
         auto com = cell.CenterVector();
-        std::cout << "Cell " << cell.Sigma() << " polarity " << polarity << "\n";
 //
         if (polarity.x == 0 && polarity.y == 0)
             continue;
