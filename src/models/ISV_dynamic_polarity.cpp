@@ -372,12 +372,14 @@ TIMESTEP
         }
          for (auto &c : dish->cell)
          {
+            if (c.Sigma()>0) {
              c.setTau(2);
              c.FixPolarity(false); 
+            }
          }
          dish->cell[tipcell].setTau(3);
          dish->cell[tipcell].FixPolarity(true); // Turn polarity back on!
-         std::cout << "Tip cell = " << tipcell << '\n';
+         // std::cout << "Tip cell = " << tipcell << '\n';
 
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
 
