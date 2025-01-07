@@ -307,6 +307,7 @@ CONSTRAINT(
     "Can be either constant or exp"
 )
 PARAMETER(double, polarity_kernel_exp_rate, 1.0, "If polarity_kernel is exp, then this is the exponent")
+PARAMETER(bool, only_tipcell_adh, false, "Only create adhesions in the tipcell")
 
 
 SECTION("Division parameters")

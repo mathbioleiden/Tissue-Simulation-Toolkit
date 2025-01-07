@@ -273,10 +273,13 @@ filter_adh_zone(const std::vector<PixelPos> adh_zone_to_filter,
     for (auto pos : adh_zone_to_filter)
     {
         auto spin = sigma[pos.x][pos.y];
-        auto com = cell[spin].CenterVector();
-        auto polarity = cell[spin].Polarity();
-        if (polarity.dot(Vec2<double>(pos) - com) > 0)
-            adh_zone.push_back(pos);
+        auto c = cell[spin];
+        if (!par.only_tipcell_adh || c.getTau() == 2) {
+            auto com = c.CenterVector();
+            auto polarity = cell[spin].Polarity();
+            if (polarity.dot(Vec2<double>(pos) - com) > 0)
+                adh_zone.push_back(pos);
+        }
     }
     return adh_zone;
 }
