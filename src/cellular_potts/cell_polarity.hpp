@@ -10,7 +10,7 @@ class CellPolarity
 {
 public:
     CellPolarity(int maximum_history)
-        :  maximum_history(maximum_history), fixed(false), polarity_on(true), previous_polarity({0.0,0.0}), stored_polarity({0.0, 0.0}), recalculate(true)
+        :  maximum_history(maximum_history), fixed(false), polarity_on(true), previous_polarity({0.0,0.0})
     {
     }
 
@@ -63,6 +63,4 @@ private:
     Vec2<double> fixed_direction;
     bool polarity_on;
     Vec2<double> previous_polarity;
-    Vec2<double> stored_polarity;
-    bool recalculate;
 };

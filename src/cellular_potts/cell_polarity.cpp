@@ -6,7 +6,6 @@ extern Parameter par;
 
 void CellPolarity::add_com(Vec2<double> center)
 {
-    recalculate = true;
     com_history.push_back(center);
     // std::cout << "com " << center << ' ' << com_history.size() << '\n';
     if (com_history.size() > maximum_history)
@@ -49,10 +48,6 @@ Vec2<double> CellPolarity::get()
         previous_polarity ={0.0,0.0};
         return {0.0, 0.0};
     }
-    if (!recalculate) {
-        return stored_polarity;
-    }
-
     std::function<double(int)> kernel = [&](int time) {return 1.0;};
     if (par.polarity_kernel == "exp") {
         double rate = par.polarity_kernel_exp_rate;
@@ -63,23 +58,17 @@ Vec2<double> CellPolarity::get()
 
     auto output = integrate_history(com_history, kernel);
     previous_polarity = output;
-
-    recalculate = false;
-    stored_polarity = output;
-    return stored_polarity;
+    return output;
 }
 
 void CellPolarity::PolarityOff() {
-    recalculate = true;
     polarity_on = false;
 }
 void CellPolarity::PolarityOn() {
-    recalculate = true;
     polarity_on = true;
 }
 
 void CellPolarity::fix(Vec2<double> direction) {
-    recalculate = true;
     if (direction.x == 0.0 and direction.y == 0.0){
         fixed = false;
     }
@@ -90,7 +79,6 @@ void CellPolarity::fix(Vec2<double> direction) {
 }
 
 void CellPolarity::set_maximum_history(int max_history) {
-    recalculate = true;
     maximum_history = max_history;
     // com_history.resize(max_history);
 }

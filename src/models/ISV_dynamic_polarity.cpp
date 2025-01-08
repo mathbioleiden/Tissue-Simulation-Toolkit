@@ -274,11 +274,11 @@ filter_adh_zone(const std::vector<PixelPos> adh_zone_to_filter,
     {
         auto spin = sigma[pos.x][pos.y];
         auto c = cell[spin];
-        if (!par.only_tipcell_adh || c.getTau() == 2) {
+        if (!par.only_tipcell_adh || c.getTau() == 3) 
+        {
+            std::cout << "Adding to tau " << c.getTau() << '\n';
             auto com = c.CenterVector();
-            auto polarity = cell[spin].Polarity();
-            if (polarity.dot(Vec2<double>(pos) - com) > 0)
-                adh_zone.push_back(pos);
+            adh_zone.push_back(pos);
         }
     }
     return adh_zone;
@@ -306,11 +306,10 @@ TIMESTEP
         }
         else if (i > par.relaxation_time)
         {
-            auto adh_zone = dish->CPM->history.get_positions();
-            //         auto adh_zone_to_filter =
-            //         dish->CPM->history.get_positions(); auto adh_zone =
-            //         filter_adh_zone(adh_zone_to_filter, dish->cell,
-            //         dish->CPM->getSigma());
+            // auto adh_zone = dish->CPM->history.get_positions();
+                     auto adh_zone_to_filter =
+                     dish->CPM->history.get_positions();
+            auto adh_zone = filter_adh_zone(adh_zone_to_filter, dish->cell, dish->CPM->getSigma());
             interactions.change_type_in_area.change_area = adh_zone;
             interactions.change_type_in_area.num_particles = adh_zone.size();
             interactions.change_type_in_area.from_type = ParticleType::free;
