@@ -157,6 +157,14 @@ void AdhesionMover::remove_trailing_adhesions(){
                 // std::cout << "  Removing at " << adh.position << '\n';
                  index_.remove_adhesion(adh.par_id);
              }
+        else {
+            if (par.only_tipcell_adh && cell.getTau() == 2) {
+                 for (auto adh : adhs) {
+                     index_.remove_adhesion(adh.par_id);
+                 }
+
+            }
+        }
      }
 }
 

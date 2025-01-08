@@ -276,7 +276,6 @@ filter_adh_zone(const std::vector<PixelPos> adh_zone_to_filter,
         auto c = cell[spin];
         if (!par.only_tipcell_adh || c.getTau() == 3) 
         {
-            std::cout << "Adding to tau " << c.getTau() << '\n';
             auto com = c.CenterVector();
             adh_zone.push_back(pos);
         }
