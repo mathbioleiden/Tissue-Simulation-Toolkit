@@ -9,5 +9,6 @@ HEADERS += util/muscle3/*.hpp cpm_ecm/*.hpp
 SOURCES += util/muscle3/*.cpp cpm_ecm/*.cpp
 
 INCLUDEPATH += $$MUSCLE3_DIR/include
+INCLUDEPATH += $$MUSCLE3_DIR/../muscle3_src/libmuscle/cpp/build/msgpack/msgpack/include
 LIBS += -L$$MUSCLE3_DIR/lib -lmuscle -lymmsl
 

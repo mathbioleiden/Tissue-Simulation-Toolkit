@@ -80,48 +80,22 @@ INIT
     try
     {
         Grid grid;
-        int wall_height =
-            par.sizey - static_cast<int>(0.1 * static_cast<double>(par.sizey));
-        if (par.n_init_cells > 1)
-        {
-            int x = par.sizex / 2;
-            for (int i = 0; i < 3; i++)
-            {
-                int length = 2 * std::sqrt(par.size_init_cells);
-                FillRectangleWithCell(
-                    grid, i + 1,
-                    {x - par.size_init_cells / length / 2,
-                     par.sizey - length * (i + 1) - 1},
-                    {x + par.size_init_cells / length / 2,
-                     par.sizey - length * (i) - 1});
-            }
-        }
-        else
-        {
-            int x = par.single_cell_origin[0];
-            int y = par.single_cell_origin[1];
-            int hsq = 0.5 * (std::sqrt(par.size_init_cells) + 1.0);
-            PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
-                                {x - hsq, y - hsq},
-                                {x + hsq, y + hsq});
-        }
 
+        int x = par.single_cell_origin[0];
+        int y = par.single_cell_origin[1];
+        int hsq = 0.5 * (std::sqrt(par.size_init_cells) + 1.0);
+        PutCellsInRectangle(grid, par.n_init_cells, par.size_init_cells,
+                            {x - hsq, y - hsq},
+                            {x + hsq, y + hsq});
         CPM->setGrid(grid);
         CPM->ConstructInitCells(*this);
 
         CPM->InitialiseEdgeList();
 
         for (auto &c : *(CPM->getCellArray())){ 
-            if (par.polarity_bias) {
-                c.FixPolarity({0.0, 1.0}); 
-            }
-            else {
-                c.FixPolarity(false);
-            }
+            c.FixPolarity(false);
         }
 
-        // Set all the PDEs to a steady state solution.
-        // PDEfield->InitialisePDEvars(nullptr, nullptr);
     }
     catch (const char *error)
     {
@@ -155,63 +129,6 @@ void PDE::InitialisePDEvars(CellularPotts *cpm, int *celltypes)
     }
 }
 
-// void add_bias_to_act(const std::vector<Vec2<double>> biasdirections,
-//                      ACT::ActField &act_field,
-//                      const vector<Cell> &cells,
-//                      int **sigma)
-// {
-//     // Used to compute the max length of every cell
-//     // i.e. the denominator in Figure 5.2 blz 126 thesis of Daipeng
-//     std::vector<double> max_length(cells.size());
-//     std::unordered_map<PixelPos, double> values_to_increase;
-//     for (int i = 0; i<par.sizex; i++){
-//         for (int j = 0; j < par.sizey; j++){
-//             const int spin = sigma[i][j];
-//             auto biasdirection = biasdirections[spin];
-//             if (spin <= 0 ) continue;
-//             const Vec2<double> pixel = {1.0*i,1.0*j};
-//             const auto center = cells[spin].CenterVector();
-//             const auto relative_position = pixel - center;
-//             const auto length = relative_position.length();
-//             if (length > max_length[spin])
-//                 max_length[spin] = length;
-// 
-//             values_to_increase[{i,j}] = biasdirection.dot(relative_position);
-//         }
-//     }
-// 
-//     /* 
-//      * We can delay dividing out the factor max_i=1^n |x_i - x_0| 
-//      * because the innerproduct is a linear operation.
-//     */ 
-//     for (const auto & pixelvalue : values_to_increase) {
-//         const auto pixel = pixelvalue.first;
-//         const auto scale = max_length[sigma[pixel.x][pixel.y]];
-//         const auto value = values_to_increase[pixel] / scale;
-//         if (value > act_field.Value(pixel)) {
-//             // act_field.IncreaseValue(pixel, value);
-//             act_field.SetValue(pixel, value);
-//         }
-//     }
-// }
-
-/**
- * \brief My interpertation of part of eq 5.5 of the thsis of Daipeng blz 127.
- * 
- * 
-*/
-// void add_vegf_bias_in_act(const Vec2<double> biasdirection,
-//                           ACT::ActField &act_field, const vector<Cell> &cells,
-//                           int** sigma)
-// {
-//     std::vector<Vec2<double>> biasdirections(cells.size(), biasdirection);
-//     add_bias_to_act(
-//         biasdirections,
-//         act_field,
-//         cells,
-//         sigma
-//     );
-// }
 
 std::vector<PixelPos> filter_adh_zone(const std::vector<PixelPos> adh_zone_to_filter,
                                const std::vector<Cell> cell,
@@ -268,75 +185,17 @@ TIMESTEP
             instance->receive("ecm_boundary_state_in");
         auto ecm_boundary_state =
             decode_ecm_boundary_state(ecm_boundary_state_msg.data());
-        // std::cout << "Got here 1\n";
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
-        // std::cout << "Got here 2\n";
 
-        // Cell division, with a division rate that depends on if the cell is a tip-cell.
-        {
-            int critical_division_area = par.target_area > 0 ? par.target_area : par.division_area;
-            std::vector<bool> which_cells(dish->cell.size());
-            for (int i = 1; i < dish->cell.size(); i++)
-            {
-                auto &cell = dish->cell[i];
-                if (cell.Area() > critical_division_area)
-                {
-                    double P = cell.lambda_act == par.lambda_Act
-                                   ? par.division_rate_tipcell
-                                   : par.division_rate_stalkcell;
-                    if (RANDOM() < P)
-                        which_cells[i] = true;
-                }
-                if (par.target_area > 0 && cell.TargetArea() < par.target_area)
-                    cell.IncrementTargetArea();
-            }
-            dish->CPM->DivideCells(which_cells, dish->cell);
-        }
-
-        // Tip cell selection
-        int tipcell = -1;
-        for (int j = 0; j < par.sizey; j++)
-        {
-            for (int i = 0; i < par.sizex; i++)
-            {
-                auto spin = dish->CPM->Sigma(i, j);
-                if (spin > 0 && tipcell == -1)
-                {
-                    tipcell = spin;
-                    break;
-                }
-            }
-            if (tipcell != -1)
-                break;
-        }
-        for (auto &c : dish->cell)
-        {
-            c.SetColour(2);
-            c.lambda_act = 0.0;
-        }
-        if (tipcell > 0)
-        {
-            dish->cell[tipcell].lambda_act = par.lambda_Act;
-            dish->cell[tipcell].SetColour(3);
-            std::cout << "Tip cell = " << tipcell << '\n';
-        }
-
-//         if (par.vegf_bias) {
-//             add_vegf_bias_in_act(
-//                 {0.0, -1.0},
-//                 dish->CPM->getActField(),
-//                 dish->cell,
-//                 dish->CPM->getSigma()
-//             );
-//         }
-
-        PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
+        PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDE);)
 
         if (par.adhesion_yielding)
             dish->CPM->MoveAdhesions();
 
+
         if (instance->is_connected("state_out"))
         {
+            int tipcell = 1;
             if (i % instance->get_setting_as<int64_t>(
                         "state_output_interval") ==
                 0)

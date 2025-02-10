@@ -6,6 +6,7 @@ HOOMD_DIR = lib/hoomd
 MUSCLE3_DIR = lib/muscle3
 TST_DIR   = src
 QMAKE     = qmake
+PY = python3.11
 # Edit the above line as necessary, e.g., as follows:
 #QMAKE    = /Applications/Qt5/6.4.0/macos/bin/qmake
 
@@ -72,10 +73,10 @@ endif  # ENABLE_MPI
 
 
 $(VENV):
-	python3 -m venv venv
+	$(PY) -m venv venv
 
 $(VENV_NUMPY): $(VENV)
-	. venv/bin/activate && python3 -m pip install numpy
+	. venv/bin/activate && $(PY) -m pip install numpy
 
 $(VENV_HOOMD): $(VENV) $(VENV_NUMPY)
 	. venv/bin/activate && $(MAKE) -C $(HOOMD_DIR) install
@@ -84,7 +85,7 @@ $(VENV_HOOMD): $(VENV) $(VENV_NUMPY)
 	touch $(VENV_HOOMD)
 	
 $(VENV_DOCS):
-	python3 -m venv venv_docs
+	$(PY) -m venv venv_docs
 	. venv_docs/bin/activate && python -m pip install -r ./doc/requirements.txt
 
 docs: $(VENV_DOCS)
@@ -94,10 +95,10 @@ docs: $(VENV_DOCS)
 	mv doc/build/html doc/docs
 
 mpi4py: $(VENV)
-	. venv/bin/activate && python3 -m pip install mpi4py
+	. venv/bin/activate && $(PY) -m pip install mpi4py
 
 python: $(VENV)
-	. venv/bin/activate && python3 -m pip install -e .
+	. venv/bin/activate && $(PY) -m pip install -e .
 
 ecm: $(VENV_HOOMD) python
 
