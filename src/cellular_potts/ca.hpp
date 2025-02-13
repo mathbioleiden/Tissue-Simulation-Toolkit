@@ -305,6 +305,7 @@ public:
      * \return The accumulated changes
      */
     CellECMInteractions GetCellECMInteractions() const;
+    RemovedFA getFALifetime() ;
 
     /** Clears recorded changes to the adhesions.
      */
@@ -639,6 +640,7 @@ private:
   int n_nb;
   AdhesionMover adhesion_mover;
   ACT::ActField act_field;
+
 };
 
 #endif

@@ -6,6 +6,7 @@
 #include "vec2.hpp"
 
 
+
 /** Describes where the adhesions go during a copy attempt. */
 class AdhesionDisplacements {
     public:
@@ -121,9 +122,9 @@ class AdhesionMover {
         void remove_broken_adhesions(); 
 
         void remove_trailing_adhesions();
+
         
-        
-    private:
+    public:
         /// The CPM grid to work with
         CellularPotts const & ca_;
         

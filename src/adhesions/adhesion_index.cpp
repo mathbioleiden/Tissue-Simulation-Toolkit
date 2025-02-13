@@ -118,7 +118,7 @@ std::unordered_map<ParId, std::vector<AngleCstId>> make_angle_cst_index(
 }
 }  // namespace
 
-void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
+void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary, int thetime) {
     // Adhesion particles' positions are sent along by the other side,
     // but the adhesion particles are part of our state, so they don't
     // get to say where they are, we decided that. Unless they have
@@ -130,11 +130,13 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
     std::unordered_map<ParId, ParPos> adh_par_pos;
     std::unordered_map<ParId, double> adh_par_size;
     std::unordered_map<ParId, double> adh_par_myosin;
+    std::unordered_map<ParId, int> adh_par_creation_time;
     for (auto const& pixel_awes : adhesions_by_pixel_)
         for (auto const& awe : pixel_awes.second) {
             adh_par_pos[awe.par_id] = awe.position;
             adh_par_size[awe.par_id] = awe.size;
             adh_par_myosin[awe.par_id] = awe.myosin_force_fraction;
+            adh_par_creation_time[awe.par_id] = awe.creation_time;
         }
 
     auto bonds_for = make_bond_index(ecm_boundary);
@@ -149,11 +151,13 @@ void AdhesionIndex::rebuild(ECMBoundaryState const& ecm_boundary) {
             double myosin = adh_par_myosin.count(pid) ? adh_par_myosin[pid] : 0.1;
             double size = adh_par_size.count(pid) ? adh_par_size[pid] : par.adhesion_integrin_N0;
             ParPos pos = adh_par_pos.count(pid) ? adh_par_pos[pid] : particle.pos;
+            int creation_time = adh_par_creation_time.count(pid) ? adh_par_creation_time[pid] : thetime;
             PixelPos containing_pixel(floor(pos.x), floor(pos.y));
             adhesions_by_pixel_[containing_pixel].emplace_back(pid, pos);
             auto& awe = adhesions_by_pixel_[containing_pixel].back();
             awe.size = size;
             awe.myosin_force_fraction = myosin;
+            awe.creation_time = creation_time;
 
             for (BondId bid : bonds_for[pid]) {
                 auto const& bond = ecm_boundary.bonds.at(bid);
@@ -334,14 +338,15 @@ void AdhesionIndex::move_adhesion(ParId who, PixelPos from, ParPos to) {
     }
 }
 
-void AdhesionIndex::remove_adhesion(ParId particle) {
-    ecm_interaction_tracker_.record_remove_particle(particle);
+void AdhesionIndex::remove_adhesion(AdhesionWithEnvironment particle, FA_BREAKING_OPTIONS what, int time) {
+    removed_fa.remove_fa(what, particle.creation_time, time);
+    ecm_interaction_tracker_.record_remove_particle(particle.par_id);
 }
-void AdhesionIndex::remove_adhesions(PixelPos pixel) {
+void AdhesionIndex::remove_adhesions(PixelPos pixel, FA_BREAKING_OPTIONS what, int time) {
     auto it = adhesions_by_pixel_.find(pixel);
     if (it != adhesions_by_pixel_.end()) {
         for (auto& awe : it->second)
-            ecm_interaction_tracker_.record_remove_particle(awe.par_id);
+            remove_adhesion(awe, what, time);
         it->second.clear();
     }
 }

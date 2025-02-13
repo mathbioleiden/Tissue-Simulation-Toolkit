@@ -13,6 +13,25 @@
 #include <unordered_map>
 #include <vector>
 
+enum FA_BREAKING_OPTIONS{
+    YIELD = 0,
+    BROKEN = 1,
+    TRAILING = 2,
+};
+
+struct RemovedFA {
+        void remove_fa(FA_BREAKING_OPTIONS what, int creation, int death) {
+                whats.push_back(static_cast<int>(what));
+                lifetimes.push_back(death-creation);
+        }
+        void reset() {
+            whats.clear();
+            lifetimes.clear();
+        }
+        std::vector<int> whats;
+        std::vector<int> lifetimes;
+};
+
 /** A bond from the perspective of a particle it's attached to.
  *
  * This also implements the linear-spring physics of the bonds.
@@ -98,6 +117,8 @@ struct AdhesionWithEnvironment {
     /// Force fraction applied by myosin
     double myosin_force_fraction;
 
+    int creation_time;
+
     /// Bond constraints for this particle
     std::vector<AttachedBond> bonds;
 
@@ -131,7 +152,7 @@ class AdhesionIndex {
          *
          * @param ecm_boundary The current state of the ECM boundary
          */
-        void rebuild(ECMBoundaryState const & ecm_boundary);
+        void rebuild(ECMBoundaryState const & ecm_boundary, int thetime);
 
         /** Get adhesions at a given pixel.
          *
@@ -169,7 +190,7 @@ class AdhesionIndex {
          *
          * @param pixel Pixel to move adhesions from
          */
-        void remove_adhesions(PixelPos pixel);
+        void remove_adhesions(PixelPos pixel, FA_BREAKING_OPTIONS what, int time);
 
         /** Get accumulated changes to the adhesions.
          *
@@ -187,7 +208,7 @@ class AdhesionIndex {
         const std::unordered_map<
             PixelPos, std::vector<AdhesionWithEnvironment>> get_all_adhesions() const;
         
-        void remove_adhesion(ParId Particle);
+        void remove_adhesion(AdhesionWithEnvironment Particle, FA_BREAKING_OPTIONS what, int time);
         
         /** Set the myosin concentration based on the actfield value.
          * 
@@ -201,6 +222,8 @@ class AdhesionIndex {
         /// Helper function in rebuild(), run after setting_force.
         void setting_size_on_adhesions(const ACT::ActField &act_field, int** sigma);
         void setting_size_on_adhesions();
+
+        RemovedFA removed_fa;
 
     private:
         // TODO: short string optimisation?

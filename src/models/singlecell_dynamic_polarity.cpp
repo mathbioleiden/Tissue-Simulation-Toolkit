@@ -257,8 +257,9 @@ TIMESTEP
         static Dish *dish = new Dish();
         static Info *info = new Info(*dish, *this);
         static Plotter plotter = Plotter(dish, this);
-
+        std::cout << "Hier 1\n";
         CellECMInteractions interactions = dish->CPM->GetCellECMInteractions();
+        std::cout << "Hier 2\n";
         if (i == par.relaxation_time)
         {
             // request creation of initial adhesions
@@ -292,8 +293,10 @@ TIMESTEP
 
         auto data_mem = encode_cell_ecm_interactions(interactions);
         instance->send("cell_ecm_interactions_out", Message(i, data_mem.first));
+        std::cout << "Hier 3\n";
 
         dish->CPM->ResetCellECMInteractions();
+        std::cout << "Hier 4\n";
 
         auto ecm_boundary_state_msg =
             instance->receive("ecm_boundary_state_in");
@@ -303,10 +306,13 @@ TIMESTEP
         dish->CPM->SetECMBoundaryState(ecm_boundary_state);
         // std::cout << "Got here 2\n";
 
+        std::cout << "Hier 5\n";
         PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
+        std::cout << "Hier 6\n";
 
         if (par.adhesion_yielding)
             dish->CPM->MoveAdhesions();
+        std::cout << "Hier 7\n";
 
         if (instance->is_connected("state_out"))
         {
@@ -353,11 +359,24 @@ TIMESTEP
                     cellpolarity[std::to_string(c.Sigma())] =
                         Data::dict("x", vec.x, "y", vec.y);
                 }
-
+                std::cout << "Hier 7\n";
+                auto fa_lifetime = dish->CPM->getFALifetime();
+                std::cout << "Hier 8\n";
+                Data fa_reason = Data::grid(
+                    fa_lifetime.whats.data(), {fa_lifetime.whats.size()});
+                std::cout << "Hier 9\n";
+                Data fa_lt = Data::grid(fa_lifetime.lifetimes.data(), {fa_lifetime.lifetimes.size()});
+                std::cout << "Hier 10\n";
+                Data fas = Data::dict();
+                fas["reason"] = fa_reason;
+                fas["lifetime"] = fa_lt;
+                std::cout << "Hier 11\n";
                 Data state =
                     Data::dict("cpm", cpm_state, "pde", pde_state, "adh",
-                               adh_state, "tipcell", 1, "act_state", act_state);
+                               adh_state, "tipcell", 1, "act_state", act_state,
+                               "fa_lifetime", fas);
                 instance->send("state_out", Message(i, state));
+                std::cout << "Hier 9\n";
             }
         }
 
