@@ -434,9 +434,19 @@ TIMESTEP
                         Data::dict("x", vec.x, "y", vec.y);
                 }
 
+                auto fa_lifetime = dish->CPM->getFALifetime();
+                Data fa_reason = Data::grid(
+                    fa_lifetime.whats.data(), {fa_lifetime.whats.size()});
+                Data fa_lt = Data::grid(fa_lifetime.lifetimes.data(), {fa_lifetime.lifetimes.size()});
+                Data fas = Data::dict();
+                fas["reason"] = fa_reason;
+                fas["lifetime"] = fa_lt;
+
                 Data state =
                     Data::dict("cpm", cpm_state, "pde", pde_state, "adh",
-                               adh_state, "tipcell", tipcell, "act_state", act_state);
+                               adh_state, "tipcell", tipcell, "act_state", act_state,
+                               "fa_lifetime", fas 
+                               );
                 instance->send("state_out", Message(i, state));
             }
         }

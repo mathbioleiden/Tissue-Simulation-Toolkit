@@ -161,7 +161,7 @@ void AdhesionMover::remove_trailing_adhesions(){
         else {
             if (par.only_tipcell_adh && cell.getTau() == 2) {
                  for (auto adh : adhs) {
-                     index_.remove_adhesion(adh.par_id);
+                     index_.remove_adhesion(adh, FA_BREAKING_OPTIONS::TRAILING, ca_.Time() );
                  }
 
             }
