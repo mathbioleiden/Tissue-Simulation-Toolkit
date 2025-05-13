@@ -8,6 +8,7 @@
 #include <exception>
 #include <unordered_set>
 #include <random>
+#include <algorithm>
 
 extern Parameter par;
 
