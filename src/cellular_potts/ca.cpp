@@ -566,15 +566,18 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
         // only chemotactic extensions contribute to energy change
         // if (!(par.extensiononly && sxyp == 0))
         {
+            //std::cout << "before chemo" << std::endl;
             auto DDH = DeltaH::chemotaxis(x, y, xp, yp, PDEfield);
-            // std::cout << DDH << ' ';
+//            std::cout << "after chemo" << std::endl;
+//            std::cout << DDH << std::endl;
             DH += DDH;
 
         }
     }
     if (PDEfield) {
         auto DDH = DeltaH::somite_penalty(x, y, xp, yp, PDEfield);
-        // std::cout << DDH << '\n';
+            // std::cout << "after somite" << std::endl;
+        // std::cout << DDH << std::endl;;
         DH += DDH;
     }
 

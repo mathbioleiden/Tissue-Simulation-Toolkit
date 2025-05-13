@@ -199,6 +199,7 @@ PARAMETER(bool, extensiononly, false,
           " (CompuCell's method)")
 
 SECTION("ISV structure")
+PARAMETER(int, number_of_ISV, 1, "Number of ISVs")
 PARAMETER(int, somite_somite_distance, 1, "Distance between two somites")
 PARAMETER(int, somite_distance_from_boundary, 1,
           "Distance of somite from boundary")
@@ -335,3 +336,6 @@ PARAMETER(bool, gradient, false, "Obsolete, unused")
 PARAMETER(int, adhesion_storage_stride, 0, "Unused")
 PARAMETER(int, target_length, 60, "Target cell length for all cells, unused")
 PARAMETER(int, J_pol, 0, "Unused")
+
+
+PARAMETER(bool, isv_init, true, "If true, make nascent ISV otherwise dispearse cells randomly")

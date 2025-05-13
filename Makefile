@@ -6,7 +6,7 @@ HOOMD_DIR = lib/hoomd
 MUSCLE3_DIR = lib/muscle3
 TST_DIR   = src
 QMAKE     = qmake
-PY = python3.11
+PY = python3.11 # python3.11
 # Edit the above line as necessary, e.g., as follows:
 #QMAKE    = /Applications/Qt5/6.4.0/macos/bin/qmake
 
@@ -27,7 +27,8 @@ VENV_PKG = venv/lib/$(PYTHON_VERSION)/site-packages
 all: $(MODELS)
 
 .NOTPARALLEL: with_adhesions
-with_adhesions: $(MODELS) bin/ISV bin/singlecell bin/singlecell_dynamic_polarity ecm ymmsl/focaladhesions.ymmsl ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl
+with_adhesions: $(MODELS) ecm ymmsl/focaladhesions.ymmsl ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl
+# with_adhesions: $(MODELS) bin/ISV bin/singlecell bin/singlecell_dynamic_polarity ecm ymmsl/focaladhesions.ymmsl ymmsl/adhesions.ymmsl ymmsl/plot_state.ymmsl ymmsl/dump_state.ymmsl
 
 
 # Dependencies
@@ -146,13 +147,13 @@ clean:
 	# MCDS make clean is broken, so do it by hand here
 	rm -f $(MCDS_DIR)/libMCDS/mcds_api/*.o $(MCDS_DIR)/libMCDS/mcds_api/*.a
 
-	$(MAKE) -C $(LIBCS_DIR) clean
-	$(MAKE) -C $(CATCH2_DIR) clean
-	$(MAKE) -C $(MUSCLE3_DIR) clean
+#	$(MAKE) -C $(LIBCS_DIR) clean
+#	$(MAKE) -C $(CATCH2_DIR) clean
+#	$(MAKE) -C $(MUSCLE3_DIR) clean
 
 	# This fails if it hasn't been built and there's no Makefile, that's fine
 	-$(MAKE) -C $(TST_DIR) clean
-	rm -rf bin build_files/* $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash venv
+	rm -rf bin build_files/* $(TST_DIR)/Makefile $(TST_DIR)/.qmake.stash # venv
 	rm -rf build
 
 	# Add new test directories here
@@ -168,3 +169,7 @@ clean:
 
 clean_hoomd:
 	$(MAKE) -C $(HOOMD_DIR) clean
+	$(MAKE) -C $(LIBCS_DIR) clean
+	$(MAKE) -C $(CATCH2_DIR) clean
+	$(MAKE) -C $(MUSCLE3_DIR) clean
+	rm -rf venv

@@ -6,16 +6,67 @@
 #include <unordered_map>
 #include <vector>
 #include <exception>
+#include <unordered_set>
+#include <random>
 
 extern Parameter par;
 
+namespace {
+    /**
+     * This class keeps track of the border of a cell. 
+     */
+    class EdenGrowthHelper {
+        std::unordered_map<int, std::unordered_set<PixelPos>> border_pixels;
+        Grid &grid;
+    
+    public:
+        EdenGrowthHelper(Grid &g) : grid(g) {}
+    
+        void add_pixel(int cell_id, const PixelPos &pos) {
+            for (const auto &nbr : Neighbours(pos)) {
+                if (grid.get(nbr) == 0) {
+                    border_pixels[cell_id].insert(pos);
+                    return;
+                }
+            }
+        }
+    
+        void remove_pixel(int cell_id, const PixelPos &pos) {
+            border_pixels[cell_id].erase(pos);
+        }
+    
+        PixelPos get_random_border(int cell_id) {
+            const auto &borders = border_pixels[cell_id];
+            if (borders.empty())
+                return {-1, -1};
+            auto it = borders.begin();
+            std::advance(it, RandomNumber(borders.size()) - 1);
+            return *it;
+        }
+    
+        void update_border(int cell_id, const PixelPos &new_pixel) {
+            remove_pixel(cell_id, new_pixel);
+            for (const auto &nbr : Neighbours(new_pixel)) {
+                if (grid.get(nbr) == 0) {
+                    border_pixels[cell_id].insert(new_pixel);
+                    break;
+                }
+            }
+        }
+    
+        bool has_border(int cell_id) const {
+            return !border_pixels.at(cell_id).empty();
+        }
+    };
+}
 
 // Function doesn't work when there are already cells in the dish.
 int GrowInCellsInRectangle(Grid &grid, int init_cells, int cell_size,
                                           PixelPos upper_left,
                                           PixelPos lower_right)
 {
-    std::unordered_map<int, std::vector<PixelPos>> initial_positions;
+    std::unordered_map<int, int> cell_sizes;
+    EdenGrowthHelper growth(grid);
 
     // Put in inital cells, then do Eden Growth
     // Index is also the cell_number.
@@ -25,71 +76,58 @@ int GrowInCellsInRectangle(Grid &grid, int init_cells, int cell_size,
     {
         auto deltaX = lower_right.x - upper_left.x;
         auto deltaY = lower_right.y - upper_left.y;
-        std::cerr << "deltaX " << deltaX << "deltaY " << deltaY << "offsetX "
-                  << offset_x << "offsetY " << offset_y << "\n";
         int x = RandomNumber(deltaX) + offset_x - 1;
         int y = RandomNumber(deltaY) + offset_y - 1;
 
-        std::cerr << "Initial positions for cell " << i << " = "
-                  << PixelPos(x, y) << "\n";
-        initial_positions[i] = {{x, y}};
+        growth.add_pixel(i, {x,y});
     }
 
-    for (int i = 0; i < cell_size; i++)
-    {
-        for (int c = 1; c <= init_cells; c++)
-        {
-            // Get a random position of cell c.
-            auto positions = initial_positions[c];
-            auto pos = positions[RandomNumber(positions.size()) - 1];
+    std::mt19937 rng(par.rseed); 
 
-            auto neighbour_iterator = Neighbours(pos).begin();
-            for (int k = 1; k < RandomNumber(7); k++)
-                neighbour_iterator++;
-            auto neighbour_pos = *neighbour_iterator;
-            if (neighbour_pos.x < upper_left.x || neighbour_pos.y < upper_left.y ||
-                neighbour_pos.x >= lower_right.x || neighbour_pos.y >= lower_right.y)
+    bool any_cell_can_grow = true; // If there is a single cell that can grow, we try to grow it
+    while (any_cell_can_grow) {
+        any_cell_can_grow = false; // Turn it to true if we find a cell that can grow another step.
+        for (int c = 1; c <= init_cells; c++) {
+            if (cell_sizes[c] >= cell_size) // Cell is big enough
                 continue;
+            if (!growth.has_border(c)) // No space to grow
+                continue; 
 
-            auto neighbour_spin = grid.get(neighbour_pos);
-
-            // Skip if the neighbour not medium
-            if (neighbour_spin != 0)
+            PixelPos from = growth.get_random_border(c);
+            if (from.x == -1) { // encodes case that there is no border, should be caught already but just in case
                 continue;
+            }
 
-            // Assert that the cell stay simpliy connected.
-            // Trying to copy pos into neighbour_pos
-            if (not(LocalConnectedness(grid,neighbour_pos, neighbour_spin) &&
-                         LocalConnectedness(grid,neighbour_pos, c)))
-                 {
-                     continue;
-                 }
-            initial_positions[c].push_back(neighbour_pos);
-            grid.set(neighbour_pos, c);
-            std::cerr << "\nConsidering: (" << pos << "->" << neighbour_pos
-                      << ") ";
+            std::vector<PixelPos> nbhs;
+            for (auto n : Neighbours(from)) {
+                nbhs.push_back(n);
+            }
+            std::shuffle(nbhs.begin(), nbhs.end(), rng);
+            for (const auto &nbh : nbhs) {
+                if (nbh.x < upper_left.x || nbh.y < upper_left.y ||
+                    nbh.x >= lower_right.x || nbh.y >= lower_right.y)
+                    continue;
+                if (grid.get(nbh) != 0)
+                    continue;
+                grid.set(nbh, c);
+                cell_sizes[c]++;
+                growth.add_pixel(c, nbh);
+                growth.update_border(c, from);
+                any_cell_can_grow = true;
+                break;
+            }
+            
         }
+
     }
-    
-//    // Now copy the new data to the grid.
-//    for (auto const &spinpos : initial_positions)
-//    {
-//        auto spin = spinpos.first;
-//        auto positions = spinpos.second;
-////        if (positions.size() < cell_size*0.9)
-////          continue;
-//        for (auto const &pos : positions)
-//        {
-//            grid.set(pos, spin);
-//        }
-//    }
+    return 0;
 }
 
 int FillRectangleWithCell(Grid &grid, int spin, PixelPos upper_left, PixelPos lower_right) {
     //std::cout << "Filling " << upper_left << " to " << lower_right << '\n';
     for (int i = upper_left.x; i < lower_right.x; i++) {
         for (int j = upper_left.y; j<lower_right.y; j++) {
-            std::cout << "Putting " << PixelPos(i,j) << ' ';
+            // std::cout << "Putting " << PixelPos(i,j) << ' ';
             grid.set({i,j}, spin);
         }
     }

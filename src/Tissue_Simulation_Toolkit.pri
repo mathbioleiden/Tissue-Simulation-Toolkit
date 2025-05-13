@@ -56,6 +56,7 @@ contains (CL_PDE, enabled ) {
 QMAKE_CXXFLAGS += -I$$LIBCS_DIR
 QMAKE_CXXFLAGS += -I$$MCDS_DIR/mcds_api
 QMAKE_CXXFLAGS += -I$$XSDE_DIR
+# QMAKE_CXXFLAGS += -fsanitize=address 
 QMAKE_LFLAGS += -m64 -std=c++11 -O3
 QMAKE_CXXFLAGS += -Wno-unused-parameter
 

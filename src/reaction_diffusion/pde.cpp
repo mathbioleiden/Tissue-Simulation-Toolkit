@@ -343,18 +343,22 @@ void PDE::SecreteAndDiffuseCL(CellularPotts *cpm, int repeat) {
 #endif
 
 void PDE::ForwardEulerStep(int repeat, CellularPotts *cpm) {
-  PDEFIELD_TYPE derivs[layers];
+  PDEFIELD_TYPE derivs;
   for (int x = 0; x < sizex; x++) {
     for (int y = 0; y < sizey; y++) {
-      DerivativesPDE(cpm, derivs, x, y);
-      for (int l = 0; l < layers; l++)
-        PDEvars[l][x][y] = alt_PDEvars[l][x][y] + derivs[l] * par.dt;
+      
+      if (cpm->Sigma(x,y) >0){
+          derivs = par.secr_rate[1];
+      } else {
+          derivs = -par.decay_rate[1] * PDEvars[1][x][y];
+      }
+      PDEvars[1][x][y] = alt_PDEvars[1][x][y] + derivs * par.dt;
     }
   }
 }
 
 // public
-void PDE::Diffuse(int repeat) {
+void PDE::Diffuse(int repeat, int layer) {
 
   // Just diffuse everywhere (cells are transparent), using finite difference
   // (We're ignoring the problem of how to cope with moving cell
@@ -362,6 +366,9 @@ void PDE::Diffuse(int repeat) {
 
   const PDEFIELD_TYPE dt = par.dt;
   const PDEFIELD_TYPE dx2 = par.dx * par.dx;
+  if (layer < 0) {
+    layer = layers;
+  }
 
   for (int r = 0; r < repeat; r++) {
     // NoFluxBoundaries();
@@ -371,7 +378,8 @@ void PDE::Diffuse(int repeat) {
       AbsorbingBoundaries();
       // NoFluxBoundaries();
     }
-    for (int l = 0; l < layers; l++) {
+    if (layer < 0) {
+    for (int l = 0; l < layer; l++) {
       for (int x = 1; x < sizex - 1; x++)
         for (int y = 1; y < sizey - 1; y++) {
           PDEFIELD_TYPE sum = 0.;
@@ -385,11 +393,27 @@ void PDE::Diffuse(int repeat) {
           alt_PDEvars[l][x][y] = PDEvars[l][x][y] + sum * dt / dx2;
         }
     }
+  } else {
+      int l = layer;
+      for (int x = 1; x < sizex - 1; x++)
+        for (int y = 1; y < sizey - 1; y++) {
+          PDEFIELD_TYPE sum = 0.;
+          sum += PDEvars[l][x + 1][y] * DiffCoeffs[l][x + 1][y];
+          sum += PDEvars[l][x - 1][y] * DiffCoeffs[l][x - 1][y];
+          sum += PDEvars[l][x][y + 1] * DiffCoeffs[l][x][y + 1];
+          sum += PDEvars[l][x][y - 1] * DiffCoeffs[l][x][y - 1];
+          sum -= PDEvars[l][x][y] *
+                 (DiffCoeffs[l][x + 1][y] + DiffCoeffs[l][x - 1][y] +
+                  DiffCoeffs[l][x][y + 1] + DiffCoeffs[l][x][y - 1]);
+          alt_PDEvars[l][x][y] = PDEvars[l][x][y] + sum * dt / dx2;
+        }
+
+  }
   }
 }
 
-void PDE::ReactionDiffusion(CellularPotts *cpm) {
-  Diffuse(1);
+void PDE::ReactionDiffusion(CellularPotts *cpm, int layer) {
+  Diffuse(1, layer);
   ForwardEulerStep(1, cpm);
   thetime += par.dt;
 }

@@ -217,18 +217,19 @@ public:
   We use a forward Euler method here. Can be replaced for better algorithm.
 
   * * \param repeat: Number of steps.
+  * * \param layer: Layer number.
 
   Time step dt, space step dx, diffusion coefficient diff_coeff and
   boundary conditions (bool periodic_boundary) are set as global
   parameters in a parameter file using class Parameter.
 
   */
-  void Diffuse(int repeat);
+  void Diffuse(int repeat, int layer=-1);
 
   /** \brief Do a single reaction diffusion step based on the
   given PDE derivatives
   */
-  void ReactionDiffusion(CellularPotts *cpm);
+  void ReactionDiffusion(CellularPotts *cpm, int layer = -1);
 
   /** \brief Reaction and interaction of CPM plane with PDE planes.
    * \param cpm: CellularPotts plane the PDE plane interacts with

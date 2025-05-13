@@ -2,7 +2,18 @@ from tissue_simulation_toolkit.ecm.muscle3 import from_settings
 from tissue_simulation_toolkit.ecm.parameters import GenerationParameters
 from tissue_simulation_toolkit.ecm.ecm import ParticleType
 
-from ecmgen import random_network, single_strand, Network, single_spring, ISV_network, regular, random_directed_network, laminin, rotate_network, hexagonal
+from ecmgen import (
+    random_network,
+    single_strand,
+    Network,
+    single_spring,
+    ISV_network,
+    regular,
+    random_directed_network,
+    laminin,
+    rotate_network,
+    hexagonal,
+)
 
 
 from libmuscle import Instance, Message
@@ -50,14 +61,14 @@ def encode_net_as_dict(par, network: Network):
     bonds_possible_types = {
         "polymer": {"id": 0, "r0": par.spring_r0, "k": par.spring_k}
     }
-    print("Details of bond types are " , network.details_of_bondtypes)
+    print("Details of bond types are ", network.details_of_bondtypes)
     id_counter = 1
     for typ in network.bonds_types:
         if typ not in bonds_possible_types.keys():
             bonds_possible_types[typ] = {
                 "id": id_counter,
                 "r0": network.details_of_bondtypes[typ]["r0"],
-                "k": network.details_of_bondtypes[typ]["k"]*par.spring_k,
+                "k": network.details_of_bondtypes[typ]["k"] * par.spring_k,
             }
             print("BONDS POSSIBLE K ", bonds_possible_types[typ])
             id_counter += 1
@@ -126,6 +137,36 @@ def main():
                 contour_length_of_strand=(par.beads - 1) * par.spring_r0,
                 seed=None,
             )
+        elif nettype == "ISVs":
+            isv_positions = list()
+            n = instance.get_setting("number_of_ISV", "int")
+            bin_size = par.box_size_x * 1.0 / (2.0 * n)
+            for k in range(1, 1 + n):
+                pos = bin_size * (1 + 2 * (k - 1))
+                isv_positions.append(pos)
+            nets = list()
+            for pos in isv_positions:
+                net = random_network(
+                    sizex=bin_size,
+                    sizey=par.box_size_y,
+                    number_of_beads_per_strand=par.beads,
+                    number_of_strands=par.strands,
+                    contour_length_of_strand=par.contour_length,
+                    crosslink_max_r=par.crosslink_max_r,
+                    maximal_number_of_initial_crosslinks=par.num_init_crosslinks,
+                    crosslink_bin_size=par.crosslink_bin_size,
+                    seed=par.network_seed,
+                    fix_boundary=par.fixed_boundary,
+                )
+                net.beads_positions = list(
+                    map(
+                        lambda v: [v[0] + pos - bin_size * 0.5, v[1]],
+                        net.beads_positions,
+                    )
+                )
+                nets.append(net)
+            net = sum(nets)
+
         elif nettype == "ISV_network":
             net = ISV_network(
                 sizex=par.box_size_x,
@@ -159,49 +200,51 @@ def main():
                 sizey=par.box_size_y,
                 amount_of_laminin=instance.get_setting("ISV_laminin_amount", "int"),
                 network=net,
-                seed=par.network_seed
+                seed=par.network_seed,
             )
         elif nettype == "regular":
             net = regular(
-                sizex = par.box_size_x,
-                sizey = par.box_size_y,
-                number_of_fibers_per_side= par.strands // 2,
-                number_of_beads_per_strand= par.beads,
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                number_of_fibers_per_side=par.strands // 2,
+                number_of_beads_per_strand=par.beads,
                 fix_boundary=par.fixed_boundary,
                 single_side=instance.get_setting("regular_vertical", "bool"),
             )
         elif nettype == "vertical_different_bonds":
             horizonal = regular(
-                sizex = par.box_size_x,
-                sizey = par.box_size_y,
-                number_of_fibers_per_side= par.strands // 2,
-                number_of_beads_per_strand= par.beads,
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                number_of_fibers_per_side=par.strands // 2,
+                number_of_beads_per_strand=par.beads,
                 fix_boundary=par.fixed_boundary,
                 single_side=True,
             )
-             # rotate_network(horizonal, 3.1415 * 0.5) 
-            rotate_network(horizonal, 3.1415 * 0.5) 
+            # rotate_network(horizonal, 3.1415 * 0.5)
+            rotate_network(horizonal, 3.1415 * 0.5)
 
             vertical = regular(
-                sizex = par.box_size_x,
-                sizey = par.box_size_y,
-                number_of_fibers_per_side= par.strands // 2,
-                number_of_beads_per_strand= par.beads,
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                number_of_fibers_per_side=par.strands // 2,
+                number_of_beads_per_strand=par.beads,
                 fix_boundary=par.fixed_boundary,
                 single_side=True,
             )
-            vertical.bonds_types = [
-                typ + "_vertical" for typ in vertical.bonds_types 
-            ]
+            vertical.bonds_types = [typ + "_vertical" for typ in vertical.bonds_types]
             vertical.details_of_bondtypes.clear()
             vertical.details_of_bondtypes["polymer_vertical"] = {
                 "k": instance.get_setting("vertical_horizontal_ratio", "float"),
-                'r0': par.spring_r0
+                "r0": par.spring_r0,
             }
-            print("vertical_polymer k is = ", instance.get_setting("vertical_horizontal_ratio", "float") * par.spring_k)
+            print(
+                "vertical_polymer k is = ",
+                instance.get_setting("vertical_horizontal_ratio", "float")
+                * par.spring_k,
+            )
 
             # net = horizonal + vertical
-            net =  horizonal + vertical
+            net = horizonal + vertical
 
             print(net.details_of_bondtypes)
         elif nettype == "directed":
@@ -223,11 +266,11 @@ def main():
                 fix_boundary_east=par.right_side_fixed,
                 fix_boundary_west=par.left_side_fixed,
             )
-        elif nettype == 'laminin':
+        elif nettype == "laminin":
             net = hexagonal(
                 par.box_size_x,
                 par.box_size_y,
-                instance.get_setting("laminin_size", "float")
+                instance.get_setting("laminin_size", "float"),
             )
         else:
             raise NotImplementedError("Network type %s is not implemented." % nettype)
@@ -238,11 +281,11 @@ def main():
                 sizey=par.box_size_y,
                 amount_of_laminin=instance.get_setting("ISV_laminin_amount", "int"),
                 network=net,
-                seed=par.network_seed
+                seed=par.network_seed,
             )
         except KeyError as err:
             _logger.debug(err)
-#             raise err # remove after debuging
+        #             raise err # remove after debuging
 
         instance.send("ecm_out", Message(0.0, data=encode_net_as_dict(par, net)))
         # encode_net(net)))
