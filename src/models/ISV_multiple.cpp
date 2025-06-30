@@ -141,21 +141,30 @@ INIT
             {
                 if (c.Sigma() == 0)
                     continue;
-                if ( (c.Sigma()-1) % 3 == 2 )
-                {
-                    // double theta = RANDOM() * 2 * 3.1415;
-                    // c.FixPolarity({std::cos(theta), std::sin(theta)});
-                    // c.FixPolarity({0.0, -1.0});
-                    c.FixPolarity({0.0, 0.0});
-                    c.SetTargetArea(par.target_area);
-                    c.setTau(3);
-                    // c.setTau(2);
-                }
-                else
-                {
-                    c.FixPolarity(false); // remove polarity
-                    c.setTau(2);
-                }
+		if (par.only_tipcell_adh) {
+                    if (  (c.Sigma()-1) % 3 == 2 )
+                	{
+                	    // double theta = RANDOM() * 2 * 3.1415;
+                	    // c.FixPolarity({std::cos(theta), std::sin(theta)});
+                	    // c.FixPolarity({0.0, -1.0});
+                	    c.FixPolarity({0.0, 0.0});
+                	    c.SetTargetArea(par.target_area);
+                	    c.setTau(3);
+                	    // c.setTau(2);
+                	}
+                	else
+                	{
+                	    c.FixPolarity(false); // remove polarity
+                	    c.setTau(2);
+                	}
+		}
+		else {
+                   c.FixPolarity({0.0, 0.0});
+                   c.SetTargetArea(par.target_area);
+                   c.setTau(3);
+		}
+
+
             }
     
 
@@ -191,14 +200,17 @@ void InitPDE(PDE *pde, std::vector<int> somite_positions) {
 //        }
 //    }
     float diffusion_length = par.decay_rate[0] / par.diff_coeff[0];
-
+    std::cout << "Diffusion length: " << diffusion_length << '\n';
     for (auto pos : somite_positions) {
         for (int x = 0; x < par.sizex; x++){
             double r = abs(pos - x);
             double value = par.secr_rate[0] *
                 std::exp(-static_cast<double>(r) * diffusion_length);
+	    std::cout << "Adding "<< value << " to " << x << "\n";
             for (int y = 0; y < par.sizey; y++) {
+		std::cout << pde->get_PDEvars(0, x,y) << " -> " ;
                 pde->addtoValue(0, x, y, value);
+		std::cout << pde->get_PDEvars(0, x,y) << "\n";
             }
         }
     }
@@ -412,7 +424,7 @@ TIMESTEP
             {
                 // std::cout << "Looping " << i << ',' << j << ' ' << std::endl;
                 auto spin = dish->CPM->Sigma(i, j);
-                std::cout << "[" << i << ',' << j << ':' << spin << "] " ;
+                // std::cout << "[" << i << ',' << j << ':' << spin << "] " ;
                 auto thiscell = dish->CPM->getCell(spin);
                 if (spin > 0 and thiscell.getTau() > 1) {
                     tipcell = spin;
