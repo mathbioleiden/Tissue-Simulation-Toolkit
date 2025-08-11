@@ -13,6 +13,7 @@ from ecmgen import (
     laminin,
     rotate_network,
     hexagonal,
+    triangle_grid,
 )
 
 
@@ -166,7 +167,19 @@ def main():
                 )
                 nets.append(net)
             net = sum(nets)
-
+        elif nettype == "triangle":
+            net = triangle_grid(
+                # size=max(par.box_size_x, par.box_size_y),
+                sizex=par.box_size_x,
+                sizey=par.box_size_y,
+                delta=par.spring_r0 * 2,
+                seed=par.network_seed,
+                crosslink_probability=instance.get_setting("crosslink_prob", "float"),
+                fix_north=par.top_fixed,
+                fix_south=par.bottom_fixed,
+                fix_east=par.right_side_fixed,
+                fix_west=par.left_side_fixed,
+            )
         elif nettype == "ISV_network":
             net = ISV_network(
                 sizex=par.box_size_x,
