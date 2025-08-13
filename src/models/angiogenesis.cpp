@@ -88,19 +88,25 @@ INIT
         float scale = 1.5;
         int hoogte =  (1.0/scale) * sq;
         int lengte =  sq * scale;
+        
+        if (par.n_init_cells > 0) {
+            if (par.n_init_cells> par.sizex / lengte - 3) {
+                std::cout << "Too many initial cells, might crash soon" << std::endl;
+            }
 
-        if (par.n_init_cells> par.sizex / lengte - 3) {
-            std::cout << "Too many initial cells, might crash soon" << std::endl;
-        }
+            int off_set_x = (par.sizex - lengte * par.n_init_cells ) * 0.5;
+            for (int i =0; i< par.n_init_cells; i++) {
+                int x = off_set_x + i * lengte;
+                std::cout << off_set_x << "," << x << ',' << lengte << std::endl;
+                FillRectangleWithCell(grid, i+1, 
+                                    {x, par.sizey - hoogte},
+                                    {x + lengte, par.sizey - 2});
 
-        int off_set_x = (par.sizex - lengte * par.n_init_cells ) * 0.5;
-        for (int i =0; i< par.n_init_cells; i++) {
-            int x = off_set_x + i * lengte;
-            std::cout << off_set_x << "," << x << ',' << lengte << std::endl;
-            FillRectangleWithCell(grid, i+1, 
-                                {x, par.sizey - hoogte},
-                                {x + lengte, par.sizey - 2});
-
+            }
+        } else {
+            FillRectangleWithCell(grid, 1, 
+                                 {par.sizex / 2 - sq/ 2, par.sizey / 2 - sq / 2},
+                                    {par.sizex / 2 + sq / 2, par.sizey / 2 + sq  / 2});
         }
 
         CPM->setGrid(grid);
