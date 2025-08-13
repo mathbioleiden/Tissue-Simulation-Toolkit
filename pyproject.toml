@@ -18,7 +18,7 @@ state_viewer = "tissue_simulation_toolkit.cpm_ecm.state_viewer:main"
 state_dumper = "tissue_simulation_toolkit.cpm_ecm.state_dumper:main"
 plot_states = "tissue_simulation_toolkit.scripts.plot_states:main"
 stretch_ecm = "tissue_simulation_toolkit.ecm.stretch_ecm:main"
-
+loading_experiment = "tissue_simulation_toolkit.loading_experiment:main"
 
 [build-system]
 requires = [
