@@ -1,0 +1,1 @@
+Simulations of the elongated cell model, a hybrid CPM model of endothelial network-formation in which elongated endothelial cells are co-attracted via a secreted chemoattractant ~\citep{merksCell2006,vergroesenFalsifying2025}. Shown are three independent simulations of 100 cells in a $400\times400$ lattice. 

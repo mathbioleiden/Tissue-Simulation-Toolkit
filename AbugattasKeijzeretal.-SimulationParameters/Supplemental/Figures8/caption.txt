@@ -1,0 +1,4 @@
+A-B: Scatter plot of cell center of mass on different stiffnesses. 
+     C-D: The $y$-component of the center of mass of the migration cell.
+     Cell exposed to VEGF gradient finds the source only on stiff ECM and not on soft ECM (A,C). Increasing the sensitivity of the cell to the VEGF gradient makes the cell find the VEGF source on both stiff and soft ECM (B,D).
+     E-F: The mean squared displacement of migrating cell. On stiff ECM the cell migrates more than on soft ECM. With strong VEGF signaling, the cell starts migrating more also on soft ECM (F).

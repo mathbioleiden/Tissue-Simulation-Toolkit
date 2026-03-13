@@ -1,0 +1,3 @@
+Simulations of ISV sprouting as a function of   ECM density ($N_\text{fibers}$) and semaphorin concentration ($D_\text{sema})$.  
+A: Heatmap showing the percentage of fused vessels for combinations of $N_\text{fiber}$ and $D_\text{sema}$ with fiber stiffness $E_\text{fibre} = 100$. Low values indicate well-separated ISVs whereas high values indicate lateral fusion and network formation. 
+B: Percentage of fused vessels as a function of $D_\text{sema}$ and ECM density. 

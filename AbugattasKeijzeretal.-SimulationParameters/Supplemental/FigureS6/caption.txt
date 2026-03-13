@@ -1,0 +1,4 @@
+Simulations of ISV sprouting in for different $E_\text{spring}$ and $D_\text{sema}$.  
+A: Heatmap showing the percentage of fused vessels for combinations of $E_\text{spring}$ and $D_\text{sema}$. Low values indicate well-separated ISVs whereas high values indicate lateral fusion and network formation. 
+B: Plot showing the positive effect on network formation of $D_\text{sema}$. This effect is larger for stiffer ECM. 
+
