@@ -5,11 +5,13 @@ CATCH2_DIR = lib/Catch2
 HOOMD_DIR = lib/hoomd
 MUSCLE3_DIR = lib/muscle3
 TST_DIR   = src
-QMAKE     = /Applications/Qt/6.6.1/macos/bin/qmake
+QMAKE     = qmake
 # Edit the above line as necessary, e.g., as follows:
 #QMAKE    = /Applications/Qt5/6.6.1/macos/bin/qmake
+# or
+#QMAKE    = qmake
 
-MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model bin/openvt-persistentrandomwalk-model000-tst bin/openvt-persistentrandomwalk-model003-tst bin/openvt-persistentrandomwalk-model005-tst
+MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model bin/openvt-persistentrandomwalk-model003-tst bin/openvt-persistentrandomwalk-model005-tst bin/openvt-monolayer-11cells-tst bin/openvt-monolayer-11+10cells-tst bin/openvt-monolayer-type1-tst 
 
 .PHONY: all XSDE MCDS LIBCS Catch2 TST python mpi4py ecm docs
 .PHONY: test clean clean_hoomd

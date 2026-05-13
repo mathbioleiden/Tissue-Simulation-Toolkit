@@ -28,6 +28,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <iostream>
 #include <math.h>
 #include "MovementTracker.hpp"
+#include <array>
 
 extern Parameter par;
 class Dish;
@@ -94,8 +95,8 @@ public:
       chem[ch] = src.chem[ch];
       
     mov_tracker = new MovementTracker(*src.mov_tracker);
-      
-
+    membrane_pixels = src.membrane_pixels;
+    division_area = src.division_area;
   }
 
   /*! \brief Add a new cell to the dish.
@@ -150,6 +151,8 @@ public:
     target_perimeter = src.target_perimeter;
       //mov_tracker = src.mov_tracker;
       mov_tracker = new MovementTracker(*src.mov_tracker);
+    membrane_pixels = src.membrane_pixels;
+    division_area = src.division_area;
     return *this;
   }
 
@@ -170,11 +173,12 @@ public:
   inline bool AliveP(void) const { return alive; }
 
   //! Returns the cell colour.
-  inline int Colour(void) const {
-    /* if (par.dynamicJ)
+  int Colour(void) const {
+    if (par.programmatic_coloring){
       return colour;
-      else */
-    return tau + 1;
+    } else {
+      return tau + 1;
+    }
   };
 
   //! Set cell type of this Cell.
@@ -227,7 +231,7 @@ public:
   inline int Area() const { return area; }
 
   //! Return Cell's target area.
-  inline int TargetArea() const { return target_area; }
+  inline double TargetArea() const { return target_area; }
 
   // ! Return Cell's perimeter
   inline int Perimeter() { return perimeter; }
@@ -285,6 +289,10 @@ public:
 
   //! Sets the target area of the cell.
   inline int SetTargetArea(const int new_area) {
+    return target_area = static_cast<double>(new_area);
+  }
+
+  inline int SetTargetArea(const double new_area) {
     return target_area = new_area;
   }
 
@@ -292,9 +300,9 @@ public:
   inline void Apoptose() { alive = false; }
 
   //! Decrement the cell's target area by one unit.
-  inline int IncrementTargetArea() { return ++target_area; }
+  inline double IncrementTargetArea() { return ++target_area; }
   //! Increment the cell's target area by one unit.
-  inline int DecrementTargetArea() { return --target_area; }
+  inline double DecrementTargetArea() { return --target_area; }
 
   //! Cell lineage tracking: get the cell's parent
   inline int Mother(void) const { return mother; }
@@ -354,6 +362,14 @@ public:
     call this function to set the moments and areas right.
   */
   void MeasureCellSize(Cell &c);
+
+  void AddPixelToMembrane(std::array<int, 2> pix);
+
+  void RemovePixelFromMembrane(std::array<int, 2> pix);
+
+  std::vector<std::array<int, 2>>& GetMembranePixels();
+
+  void SetMembranePixels(std::vector<std::array<int, 2>>);
 
   void setArea(int n_area) { area = n_area; }
 
@@ -561,7 +577,7 @@ private:
 
   This is useful when reading an initial condition from an image.
   */
-  inline int SetAreaToTarget(void) { return area = target_area; }
+  inline int SetAreaToTarget(void) { return area = static_cast<int>(target_area); }
 
   //! Called whenever a cell is constructed, from constructor
   void ConstructorBody(int settau = 1);
@@ -604,7 +620,7 @@ protected:
   int colour_of_birth;
 
   int area;
-  int target_area;
+  double target_area;
   int adhesive_area;
   int ref_adhesive_area;
   int growth_threshold;
@@ -636,6 +652,8 @@ protected:
   static int sizex;
   static int sizey;
   double border;
+  std::vector<std::array<int, 2>> membrane_pixels;
+  double division_area;
 
     MovementTracker *mov_tracker;
   const Dish *owner; // pointer to owner of cell

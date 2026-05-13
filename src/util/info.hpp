@@ -64,9 +64,13 @@ public:
 
   // writes center of mass for all cells
   void WriteCOMs(std::ostream &out = std::cout);
+
   // writes center of mass for all cells and keeps track of cells crossing a
   // border
   void WriteCOMsTorus(std::ostream &out);
+  void WriteCOMsTorus(std::ostream &out,const std::string& delimiter);
+
+  void WriteOutputs(std::ostream &out,std::vector<std::string> output_list,const std::string& delimiter);
 
   // should write all the pixels containing adhesions
   void WriteAdhesionsLocationsPerCell(int cell_id, int field_id,

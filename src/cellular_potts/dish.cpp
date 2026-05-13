@@ -146,6 +146,20 @@ void Dish::CellGrowthAndDivision(void) {
   }
 }
 
+void Dish::SetTargetAreas(int target_area,std::vector<int> taus){
+  for (std::vector<Cell>::iterator c = cell.begin(); c != cell.end(); c++) {
+    if (std::find(taus.begin(), taus.end(), c->getTau()) != taus.end()){
+      c->SetTargetArea(target_area);
+    }
+  }
+}
+
+void Dish::SetTargetAreas(int target_area){
+  for (std::vector<Cell>::iterator c = cell.begin(); c != cell.end(); c++) {
+    c->SetTargetArea(target_area);
+  }
+}
+
 int Dish::CountCells(void) const {
   int amount = 0;
   vector<Cell>::const_iterator i;

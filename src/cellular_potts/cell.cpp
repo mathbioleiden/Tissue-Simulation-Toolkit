@@ -95,6 +95,20 @@ void Cell::CellBirth(Cell &mother_cell) {
 
   grad[0] = mother_cell.grad[0];
   grad[1] = mother_cell.grad[1];
+  membrane_pixels = mother_cell.membrane_pixels;
+
+  if (par.cell_division_area_mean >= 0) {
+    division_area = generateGaussianNoise(par.cell_division_area_mean, par.cell_division_area_std)*par.target_area;
+    // Ensure positive division area
+    while (division_area < 0) {
+        division_area = generateGaussianNoise(par.cell_division_area_mean, par.cell_division_area_std)*par.target_area;
+    }
+    mother_cell.division_area = generateGaussianNoise(par.cell_division_area_mean, par.cell_division_area_std)*par.target_area;
+    // Ensure positive division area
+    while (mother_cell.division_area < 0) {
+        mother_cell.division_area = generateGaussianNoise(par.cell_division_area_mean, par.cell_division_area_std)*par.target_area;
+    }
+  }
 }
 
 void Cell::ConstructorBody(int settau) {
@@ -139,6 +153,15 @@ void Cell::ConstructorBody(int settau) {
   sum_cos_x = 0.;
   sum_sin_y = 0.;
   sum_cos_y = 0.;
+  std::vector<std::array<int, 2>> membrane_pixels = std::vector<std::array<int, 2>>();
+
+  if (par.cell_division_area_mean >= 0) {
+    division_area = generateGaussianNoise(par.cell_division_area_mean, par.cell_division_area_std)*par.target_area;
+    // Ensure positive division area
+    while (division_area < 0) {
+      division_area = generateGaussianNoise(par.cell_division_area_mean, par.cell_division_area_std)*par.target_area;
+    }
+  }
 
   //  growth_threshold=par.dthres;
   growth_threshold = 0;
@@ -186,6 +209,25 @@ void Cell::ReadStaticJTable(std::string const &fname) {
       J[j][i] = J[i][j];
     }
   }
+}
+
+void Cell::AddPixelToMembrane(std::array<int, 2> pix) {
+    membrane_pixels.push_back(pix);
+}
+
+void Cell::RemovePixelFromMembrane(std::array<int, 2> pix) {
+    auto it = std::find(membrane_pixels.begin(), membrane_pixels.end(), pix);
+    if (it != membrane_pixels.end()) {
+        membrane_pixels.erase(it);
+    }
+}
+
+std::vector<std::array<int,2>>& Cell::GetMembranePixels() {
+    return membrane_pixels;
+}
+
+void Cell::SetMembranePixels(std::vector<std::array<int, 2>> pixels) {
+    membrane_pixels = pixels;
 }
 
 int Cell::EnergyDifference(const Cell &cell2) const {

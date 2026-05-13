@@ -1,0 +1,41 @@
+# Cellular Potts parameters
+T = 20
+target_area = 50
+lambda = 2
+
+# to be removed?
+lambda2 = 0                 
+
+Jtable = J20_10.dat
+
+# to be removed?
+conn_diss = 0               
+# to be removed?
+chemotaxis = 0              
+
+periodic_boundaries = true
+programmatic_coloring = true
+colortable = ./monolayer.ctb
+
+# initial conditions
+initial_configuration_file = ./monolayer-11cells.json
+sizex = 1601
+sizey = 1601
+
+# area_growth_rate = pi/5 *[(SQRT(target_area)/PI())^2/T] with (T = 154) []: unit conversion 
+area_growth_rate = 0.06493506
+CIP_area_ratio = 0.0
+CIP_neighbour_ratio = 0.0
+CIP_division_size_ratio = 2.0
+cell_division_area_mean = 2.0
+cell_division_area_std = 0.4
+
+mcs = 9999999 # The simulation will end based on cell number criterion inside the code.                  
+rseed = -1
+n_init_cells = 1
+
+# output
+storage_stride = 100
+graphics = true
+store = true
+datadir = ./monolayer-type1/

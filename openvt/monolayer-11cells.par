@@ -1,0 +1,36 @@
+# Cellular Potts parameters
+T = 20
+target_area = 50
+lambda = 2
+# to be removed?
+lambda2 = 0                 
+
+Jtable = J20_10.dat
+
+# to be removed?
+conn_diss = 0               
+# to be removed?
+chemotaxis = 0              
+
+periodic_boundaries = true
+
+# initial conditions
+initial_configuration_file = ./monolayer-11cells.json
+sizex = 150
+
+# 5 for the main field + 2 for border pixels
+sizey = 7
+
+# For the burn in phase
+relaxation = 200            
+
+# relaxation + 10xT (with T = 154 MCS)
+mcs = 1740                   
+rseed = -1
+n_init_cells = 11
+
+# output
+storage_stride = 10
+graphics = true
+store = true
+datadir = ./monolayer-11cells/

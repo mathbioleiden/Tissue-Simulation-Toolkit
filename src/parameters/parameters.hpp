@@ -35,6 +35,8 @@ PARAMETER(int, storage_stride, 10, "Interval at which to store/show plots")
 PARAMETER(std::string, datadir, "data_film", "Directory to store plots in")
 PARAMETER(std::string, colortable, "../data/default.ctb",
           "Colortable to use for plotting")
+PARAMETER(bool, programmatic_coloring, false,
+          "Whether to use programmatic coloring for cell types")
 
 PARAMETER(
     bool, pause_on_start, false,
@@ -99,7 +101,7 @@ PARAMETER(double, T, 50.0,
 PARAMETER(double, lambda, 50.0, "Energy parameter for copy or flip attempt")
 PARAMETER(double, lambda2, 5.0, "Energy parameter for copy or flip attempt")
 
-PARAMETER(int, target_area, 100, "Target area for all cells")
+PARAMETER(double, target_area, 100, "Target area for all cells")
 PARAMETER(int, target_perimeter, 0, "Target perimeter length for all cells")
 PARAMETER(int, target_length, 60, "Target cell length for all cells")
 
@@ -114,6 +116,13 @@ PARAMETER(int, neighbours, 2,
           "Size of neighbourhood to take into account when computing adjacency"
           " energy. 0: no neighbours, 1: 4 orthogonal neighbours (von Neumann),"
           "  2: 8 direct neighbours (Moore), 3: 5x5 block minus the corners.")
+
+PARAMETER(double, area_growth_rate, 0.0, "Growth rate for cell area in px^2/MCS")
+PARAMETER(double, CIP_area_ratio, 0.0, "The ratio of cell area to target area below which cells do not grow")
+PARAMETER(double, CIP_neighbour_ratio, 0.0, "The ratio of cell neibours in contact with medium to perimeter below which cells do not grow")
+PARAMETER(double, CIP_division_size_ratio, 0.0, "The ratio of cell area to target area above which cells divide")
+PARAMETER(double, cell_division_area_mean, -1.0, "The mean division area for cells using a Gaussian distribution. If negative, the random division is disabled.")
+PARAMETER(double, cell_division_area_std, 0.0, "The standard deviation of the division area for cells.")
 
 SECTION("Actin model")
 

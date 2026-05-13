@@ -9,10 +9,18 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Build and run the unit tests
+    - name: Install build dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev python3
+        sudo apt-get install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev libexpat1-dev python3
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Build and run the unit tests
+      run: |
         python3 -m pip install tox
         cd $GITHUB_WORKSPACE
         make -j 3 test

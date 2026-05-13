@@ -236,6 +236,7 @@ public:
    If which_cells is empty, this method divides all cells.
   */
   void DivideCells(std::vector<bool> which_cells);
+  void DivideCellsInheritTargetArea(std::vector<bool> which_cells);
 
   /*! Implements the core CPM algorithm. Carries out one MCS.
     \return Total energy change during MCS.
@@ -405,6 +406,50 @@ public:
   */
   void GrowAndDivideCells(int growth_rate);
 
+  /*! \brief Cells of specific type grow with the "growth_rate"
+  \param cell_type: the cell type to grow. A value of zero would result in growing of
+  all the cells.
+  \param growth_rate: the growing rate in pixels for each time GrowCells is called.
+  */
+  void GrowCells(int cell_type,int growth_rate);
+  void GrowCells(int cell_type,double growth_rate);
+
+  /*! \brief Cells of specific type grow with the "growth_rate"
+  \param cell_type: the cell type to grow. A value of zero would result in growing of
+  all the cells.
+  \param growth_rate: the growing rate in pixels for each time GrowCells is called.
+  \param size_threshold: the size threshold for growth.
+  */
+
+  void GrowCells(int cell_type,double growth_rate,double size_threshold);
+  void GrowCells(int cell_type,double growth_rate,double size_threshold,double neighbour_threshold);
+
+  /*! \brief Cells of specific type divide if their area is larger than the
+  area_threshold.
+  \param cell_type: the cell type to divide. A value of zero would result in
+  dividing of all the cells.
+  \param area_threshold: the area threshold for division.
+  */
+  void DivideCellsByArea(int cell_type,int area_threshold);
+
+  /*! \brief Cells of specific type divide if their area is larger than a randomly
+  drawn area threshold stored in the cell.
+  \param cell_type: the cell type to divide. A value of zero would result in
+  dividing of all the cells.
+  \return a vector<bool> indicating which cells will be divided.
+  */
+  vector<bool> DivideCellsByRandomArea(int cell_type);
+  void DivideCellsByTargetArea();
+
+  /*! \brief Cells of specific type divide if they satisfy a given rule.
+  \param cell_type: the cell type to divide. A value of zero would result in
+  dividing of all the cells.
+  \param method: method to determine division rule, currently only "random" is
+  implemented. If "random", division area is drawn from a Gaussian distribution with mean
+  and standard deviation defined in the parameter file.
+  */
+  void DivideCellsWithRule(std::string method,int cell_type=0);
+
   inline Cell &getCell(int c) { return (*cell)[c]; }
 
   inline vector<Cell> *getCellArray() { return cell; }
@@ -430,11 +475,34 @@ public:
     Measure cell sizes of all initial size and assign them to the cells
   */
   void MeasureCellSizes(void);
+  
+  /* Find the membrane pixels
+  */
+  std::vector<PixelPos> GetCellMembranePixels();
+  std::vector<PixelPos> GetCellMembranePixels2();
+
+  /*! \brief Get the number of membrane pixels of each cell that is in contact
+    with the medium.
+    \return A map with cell sigma values as key and number of membrane pixels in contact with medium as value.
+   */
+  std::unordered_map<int, int> MembraneMediumEdgeCount();
 
   /*! \brief Measure the initial cell perimeters
     Measure cell perimeters of all initial size and assign them to the cells
   */
   void MeasureCellPerimeters();
+  void RemoveMembranePixel(int sigma, std::array<int, 2> pixel);
+  void AddMembranePixel(int sigma, std::array<int, 2> pixel);
+
+  void UpdateMembraneOnDivision(int sigma);
+
+  void SetupCellMembranePixels();
+
+  bool isMembranePixel(int x, int y);
+
+  int CountNeighours(int sig);
+
+  void ReportCellData();
 
   /*! \brief Run amoebaemove while only accepting negative delta H
    */
@@ -467,6 +535,16 @@ public:
     }
   };
   void CalcPeriodicSafeCentroids(void);
+
+  /// @brief Fixes the coordinate CoordP with respect to periodic boundaries
+  //  if there is one.
+  // #TODO: This code can be further generalized for periodicity in only x, y or z directions.
+  /// @param CoordP x, y (or z) Coordinate of the pixel  
+  /// @param SizeCoord size of the box in x, y (or z) direction.
+  /// @return Fixed coordinate with respect to the periodic boundaries.
+  int FixPeriodic(int CoordP, int SizeCoord);
+
+  vector<array<int, 3>> CellPerimeterContact();
 
 private:
   /*! \brief Standard deltaH with are constraint, length constraint and

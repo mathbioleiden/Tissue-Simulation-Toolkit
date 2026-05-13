@@ -273,6 +273,97 @@ double sat(double x) {
   // return x;
 }
 
+int CellularPotts::FixPeriodic(int CoordP,int SizeCoord){
+  if (par.periodic_boundaries) {
+    if (CoordP <= 0)
+      CoordP = SizeCoord - 2 + CoordP;
+    if (CoordP >= SizeCoord - 1)
+      CoordP = CoordP - SizeCoord + 2;
+  }
+  return CoordP;
+}
+
+vector<array<int, 3>> CellularPotts::CellPerimeterContact() {
+  vector<array<int, 3>> perimeter_contact;
+  // perimeter_contact[cell_id][0] = cell_id
+  // perimeter_contact[cell_id][1] = perimeter length
+  // perimeter_contact[cell_id][2] = contact with medium
+
+  // The method 1 calculates the pixels inside the cells. The method 2 calculates the pixels outside the cells.
+  // and method 3 calculates the edges connecting two cells (consistent with other CPMs). 
+  int method = 3;
+
+  perimeter_contact.resize(cell->size());
+  for (int i = 0; i < cell->size(); i++) {
+    perimeter_contact[i] = {static_cast<int>(i), 0, 0};
+  }
+
+  // Get membrane data for all cells
+  for (vector<Cell>::iterator c = cell->begin(); c != cell->end(); ++c) {
+    auto membrane_data = c->GetMembranePixels();
+    int cell_id = c->Sigma();
+
+    if (method ==1){
+      perimeter_contact[cell_id][1] = membrane_data.size();
+      for (auto &pixel_info : membrane_data) {
+        for (int n = 1; n <= n_nb; n++) {
+            int xn = FixPeriodic(pixel_info[0] + nx[n], sizex);
+            int yn = FixPeriodic(pixel_info[1] + ny[n], sizey);
+          if (sigma[xn][yn] == 0){
+            perimeter_contact[cell_id][2] += 1;
+            break; // Count each membrane pixel only once for contact with medium
+            }
+          }
+        }
+
+    } else if (method ==2) {
+      std::vector<std::array<int, 2>> outside_pixels;// A vector containing outisde pixels
+      for (auto &pixel_info : membrane_data) {
+        int x = pixel_info[0];
+        int y = pixel_info[1];
+
+        for (int n = 1; n <= n_nb; n++) {
+            int xn = FixPeriodic(x + nx[n], sizex);
+            int yn = FixPeriodic(y + ny[n], sizey);
+          if (sigma[xn][yn] != cell_id){
+            outside_pixels.push_back({xn,yn});
+          }
+        }
+      }
+
+      // sorting and making a unique list of outside pixels
+      std::sort(outside_pixels.begin(), outside_pixels.end());
+      outside_pixels.erase(std::unique(outside_pixels.begin(), outside_pixels.end()), outside_pixels.end());
+      perimeter_contact[cell_id][1] = outside_pixels.size();
+
+      for (auto &pixel_info : outside_pixels){
+        if (sigma[pixel_info[0]][pixel_info[1]] == 0){
+          perimeter_contact[cell_id][2] += 1;
+        }
+      }
+
+    } else if (method ==3) {
+      for (auto &pixel_info : membrane_data) {
+        for (int n = 1; n <= n_nb; n++) {
+            int xn = FixPeriodic(pixel_info[0] + nx[n], sizex);
+            int yn = FixPeriodic(pixel_info[1] + ny[n], sizey);
+
+          // If pixel does not belong to the same cell
+          if (sigma[xn][yn] != cell_id){
+            perimeter_contact[cell_id][1] += 1;
+
+            // If pixel belongs to medium
+            if (sigma[xn][yn] == 0){
+              perimeter_contact[cell_id][2] += 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  return perimeter_contact;
+}
+
 int CellularPotts::IsingDeltaH(int x, int y, PDE *PDEfield) {
   int DH = 0, H_before = 0, H_after = 0;
   int i, sxy;
@@ -581,7 +672,6 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
            }
        }
     DH += DH_perimeter;
-
 
   /* Chemotaxis */
   if (PDEfield && (par.vecadherinknockout || (sxyp == 0 || sxy == 0))) {
@@ -1040,6 +1130,7 @@ void CellularPotts::ConvertSpin(int x, int y, int xp, int yp) {
     (*cell)[tmpcell].RemoveSiteFromMoments(x, y);
     (*cell)[tmpcell].SetPerimeter(
         GetNewPerimeterIfXYWereRemoved(tmpcell, x, y));
+    RemoveMembranePixel(tmpcell,std::array<int, 2> {x, y});
     if (!(*cell)[tmpcell].Area()) {
       (*cell)[tmpcell].Apoptose();
     }
@@ -1049,6 +1140,7 @@ void CellularPotts::ConvertSpin(int x, int y, int xp, int yp) {
     (*cell)[tmpcell].IncrementArea();
     (*cell)[tmpcell].AddSiteToMoments(x, y);
     (*cell)[tmpcell].SetPerimeter(GetNewPerimeterIfXYWereAdded(tmpcell, x, y));
+    AddMembranePixel(tmpcell,std::array<int, 2> {x, y});
   }
   sigma[x][y] = sigma[xp][yp];
 }
@@ -1523,6 +1615,23 @@ void CellularPotts::PlotIsing(Graphics *g, int mag) {
     }
 }
 
+int CellularPotts::CountNeighours(int sig){
+  vector<int> neighbour_sigmas;
+  auto membrane_pixels = (*cell)[sig].GetMembranePixels();
+  int xn, yn, neigh_sig;
+  for (const auto& pixel : membrane_pixels){
+    for (int i=0; i<n_nb; i++){
+      xn = FixPeriodic(nx[i] + pixel[0], sizex);
+      yn = FixPeriodic(ny[i] + pixel[1], sizey);
+      neigh_sig = sigma[xn][yn];
+      if (neigh_sig != sig && neigh_sig != 0 && std::find(neighbour_sigmas.begin(), neighbour_sigmas.end(), neigh_sig) == neighbour_sigmas.end()){
+        neighbour_sigmas.push_back(neigh_sig);
+      }
+    }
+  }
+  return neighbour_sigmas.size();
+}
+
 int **CellularPotts::SearchNandPlot(Graphics *g, bool get_neighbours) {
   int i, j, q;
   int **neighbours = 0;
@@ -1712,6 +1821,61 @@ int CellularPotts::GetNewPerimeterIfXYWereAdded(int sxyp, int x, int y) {
      n_nb=nbh_level[par.neighbours];
   */
   int perim = (*cell)[sxyp].Perimeter();
+  // Increase of perimeter due to addition of x,y
+  perim++;
+  /* the cell with sigma sxyp wants to extend by adding lattice site (x, y).
+ This means that the sxyp neighbours of (x,y) will not be borders anymore,so
+ they can be subtracted from the perimeter of sxyp.
+*/
+  for (int i = 1; i <= n_nb; i++) {
+
+    int xp2, yp2;
+
+    xp2 = x + nx[i];
+    yp2 = y + ny[i];
+
+    xp2 = FixPeriodic(xp2,sizex);
+    yp2 = FixPeriodic(yp2,sizey);
+
+    if (sigma[xp2][yp2] == sxyp) {
+      bool interior_pixel2 = true;
+
+      // looping through neighbours of xp2,yp2
+        for (int j = 1; j <= n_nb; j++){
+          int xp3, yp3;
+          xp3 = xp2 + nx[j];
+          yp3 = yp2 + ny[j];
+          xp3 = FixPeriodic(xp3,sizex);
+          yp3 = FixPeriodic(yp3,sizey);
+
+          // Jump to the next loop if you see pixels of other cells except for the x,y pixel
+          if ((sigma[xp3][yp3] != sxyp) && (xp3 != x || yp3 != y)){
+            interior_pixel2 = false;
+            break;
+          }
+      	}
+      if (interior_pixel2){
+	    perim--; // The pixel xp2,yp2 will be removed from membrane
+	  }
+	}
+    }
+
+  return perim;
+}
+
+void CellularPotts::AddMembranePixel(int sxyp, array<int, 2> pixel) {
+
+  /*int n_nb;
+
+   if (par.neighbours>=1 && par.neighbours<=4)
+     n_nb=nbh_level[par.neighbours];
+  */
+  // int perim = (*cell)[sxyp].Perimeter();
+  // Increase of perimeter due to addition of x,y
+  (*cell)[sxyp].AddPixelToMembrane(pixel);
+
+  int x = pixel[0];
+  int y = pixel[1];
 
   /* the cell with sigma sxyp wants to extend by adding lattice site (x, y).
  This means that the sxyp neighbours of (x,y) will not be borders anymore,so
@@ -1724,24 +1888,31 @@ int CellularPotts::GetNewPerimeterIfXYWereAdded(int sxyp, int x, int y) {
     xp2 = x + nx[i];
     yp2 = y + ny[i];
 
-    if (par.periodic_boundaries) {
+    xp2 = FixPeriodic(xp2,sizex);
+    yp2 = FixPeriodic(yp2,sizey);
 
-      if (xp2 <= 0)
-        xp2 = sizex - 2 + xp2;
-      if (yp2 <= 0)
-        yp2 = sizey - 2 + yp2;
-      if (xp2 >= sizex - 1)
-        xp2 = xp2 - sizex + 2;
-      if (yp2 >= sizey - 1)
-        yp2 = yp2 - sizey + 2;
-    }
     if (sigma[xp2][yp2] == sxyp) {
-      perim--;
-    } else {
-      perim++;
-    }
+      bool interior_pixel2 = true;
+
+      // looping through neighbours of xp2,yp2
+        for (int j = 1; j <= n_nb; j++){
+          int xp3, yp3;
+          xp3 = xp2 + nx[j];
+          yp3 = yp2 + ny[j];
+          xp3 = FixPeriodic(xp3,sizex);
+          yp3 = FixPeriodic(yp3,sizey);
+
+          // Jump to the next loop if you see pixels of other cells except for the x,y pixel
+          if ((sigma[xp3][yp3] != sxyp) && (xp3 != x || yp3 != y)){
+            interior_pixel2 = false;
+            break;
+          }
+      	}
+        if (interior_pixel2){
+          (*cell)[sxyp].RemovePixelFromMembrane(array<int, 2>{xp2, yp2}); // The pixel xp2,yp2 will be removed from membrane
+        }
+  	}
   }
-  return perim;
 }
 
 int CellularPotts::GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
@@ -1752,29 +1923,91 @@ int CellularPotts::GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
   int perim = (*cell)[sxy].Perimeter();
   /* the cell with sigma sxy loses xy
    */
+  // Reduction of perimeter due to deletion of x,y
+
+  perim--;
   for (int i = 1; i <= n_nb; i++) {
 
     int xp2, yp2;
     xp2 = x + nx[i];
     yp2 = y + ny[i];
-    if (par.periodic_boundaries) {
 
-      if (xp2 <= 0)
-        xp2 = sizex - 2 + xp2;
-      if (yp2 <= 0)
-        yp2 = sizey - 2 + yp2;
-      if (xp2 >= sizex - 1)
-        xp2 = xp2 - sizex + 2;
-      if (yp2 >= sizey - 1)
-        yp2 = yp2 - sizey + 2;
-    }
-    if (sigma[xp2][yp2] == sxy) {
-      perim++;
-    } else {
-      perim--;
+    xp2 = FixPeriodic(xp2,sizex);
+    yp2 = FixPeriodic(yp2,sizey);
+
+      if (sigma[xp2][yp2] == sxy){
+	bool membrane_pixel2 = false;
+
+        // looping through neighbours of xp2,yp2
+        for (int j = 1; j <= n_nb; j++){
+          int xp3, yp3;
+          xp3 = xp2 + nx[j];
+          yp3 = yp2 + ny[j];
+          xp3 = FixPeriodic(xp3,sizex);
+          yp3 = FixPeriodic(yp3,sizey);
+
+          // Jump to the next loop if you see pixels of other cells
+          if (sigma[xp3][yp3] != sxy){
+	    membrane_pixel2 = true;
+            break;
+          }
+	}
+      if (!membrane_pixel2){
+	  // The pixel xp2,yp2 will be a new membrane pixel!
+          perim++;
+      }
     }
   }
-  return perim;
+return perim;
+}
+
+void CellularPotts::RemoveMembranePixel(int sxy, std::array<int, 2> pixel) {
+  /*int n_nb;
+   if (par.neighbours>=1 && par.neighbours<=4)
+    int n_nb=nbh_level[par.neighbours];
+  */
+  int perim = (*cell)[sxy].Perimeter();
+
+  int x = pixel[0];
+  int y = pixel[1];
+
+  /* the cell with sigma sxy loses xy
+   */
+  // Reduction of perimeter due to deletion of x,y
+
+  (*cell)[sxy].RemovePixelFromMembrane(pixel);
+  for (int i = 1; i <= n_nb; i++) {
+
+    int xp2, yp2;
+    xp2 = x + nx[i];
+    yp2 = y + ny[i];
+
+    xp2 = FixPeriodic(xp2,sizex);
+    yp2 = FixPeriodic(yp2,sizey);
+
+      if (sigma[xp2][yp2] == sxy){
+      	bool membrane_pixel2 = false;
+
+        // looping through neighbours of xp2,yp2
+        for (int j = 1; j <= n_nb; j++){
+          int xp3, yp3;
+          xp3 = xp2 + nx[j];
+          yp3 = yp2 + ny[j];
+          xp3 = FixPeriodic(xp3,sizex);
+          yp3 = FixPeriodic(yp3,sizey);
+
+          // Jump to the next loop if you see pixels of other cells
+          if (sigma[xp3][yp3] != sxy){
+      	    membrane_pixel2 = true;
+            break;
+          }
+	      }   
+      if (!membrane_pixel2){
+    	  // The pixel xp2,yp2 will be a new membrane pixel!
+        (*cell)[sxy].AddPixelToMembrane(std::array<int, 2> {xp2, yp2});
+      }
+    }
+  }
 }
 
 int CellularPotts::GetActLevel(int x, int y) {
@@ -1941,6 +2174,54 @@ void CellularPotts::MeasureCellSize(Cell &c) {
   }
 }
 
+std::vector<PixelPos> CellularPotts::GetCellMembranePixels2() {
+  std::vector<PixelPos> pixels;
+  int loop = static_cast<float>(sizeedgelist) / static_cast<float>(n_nb);
+  std::cerr << "loop = " << loop << "\n";
+  for (int i = 0; i < loop; i++) {
+    // find the corresponding edge
+    int targetedge = orderedgelist[i];
+    // find the lattice site corresponding to this edge
+    int targetsite = targetedge / n_nb;
+
+    // find the x and y coordinate corresponding to the target site
+    int x = targetsite % (sizex - 2) + 1;
+    int y = targetsite / (sizex - 2) + 1;
+
+    PixelPos pixel(x, y);
+    pixels.push_back(pixel);
+  }
+  return pixels;
+}
+
+
+std::vector<PixelPos> CellularPotts::GetCellMembranePixels() {
+  std::vector<PixelPos> pixels;
+  for (int x = 1; x < sizex - 1; x++) {
+    for (int y = 1; y < sizey - 1; y++) {
+      if (sigma[x][y] > 0) {
+        for (int i = 1; i <= n_nb; i++) {
+          int xp2, yp2;
+          xp2 = x + nx[i];
+          yp2 = y + ny[i];
+
+          xp2 = FixPeriodic(xp2,sizex);
+          yp2 = FixPeriodic(yp2,sizey);
+
+          // did we find a border?
+          if (sigma[xp2][yp2] != sigma[x][y]) {
+            // add to the perimeter of the cell
+            PixelPos pixel(x, y);
+            pixels.push_back(pixel);
+            break; // to avoid double conunting
+          }
+        }
+      }
+    }
+  }
+  return pixels;
+}
+
 void CellularPotts::MeasureCellPerimeters() {
   for (int x = 1; x < sizex - 1; x++) {
     for (int y = 1; y < sizey - 1; y++) {
@@ -1949,26 +2230,64 @@ void CellularPotts::MeasureCellPerimeters() {
           int xp2, yp2;
           xp2 = x + nx[i];
           yp2 = y + ny[i];
-          if (par.periodic_boundaries) {
-            if (xp2 <= 0)
-              xp2 = sizex - 2 + xp2;
-            if (yp2 <= 0)
-              yp2 = sizey - 2 + yp2;
-            if (xp2 >= sizex - 1)
-              xp2 = xp2 - sizex + 2;
-            if (yp2 >= sizey - 1)
-              yp2 = yp2 - sizey + 2;
-          }
+
+          xp2 = FixPeriodic(xp2,sizex);
+          yp2 = FixPeriodic(yp2,sizey);
+
           // did we find a border?
           if (sigma[xp2][yp2] != sigma[x][y]) {
             // add to the perimeter of the cell
-            (*cell)[sigma[x][y]].IncrementTargetPerimeter();
             (*cell)[sigma[x][y]].IncrementPerimeter();
+            break; // to avoid double conunting
           }
         }
       }
     }
   }
+}
+
+void CellularPotts::SetupCellMembranePixels() {
+  for (int x = 1; x < sizex - 1; x++) {
+    for (int y = 1; y < sizey - 1; y++) {
+      if (sigma[x][y] > 0) {
+        for (int i = 1; i <= n_nb; i++) {
+          int xp2, yp2;
+          xp2 = x + nx[i];
+          yp2 = y + ny[i];
+
+          xp2 = FixPeriodic(xp2,sizex);
+          yp2 = FixPeriodic(yp2,sizey);
+
+          // did we find a border?
+          if (sigma[xp2][yp2] != sigma[x][y]) {
+            // add to the perimeter of the cell
+            (*cell)[sigma[x][y]].AddPixelToMembrane(array<int, 2>{x, y});
+            break; // to avoid double conunting
+          }
+        }
+      }
+    }
+  }
+}
+
+void CellularPotts::ReportCellData() {
+  std::cout << "Cell Data at time " << thetime << "\n";
+  std::cout << "Cell\tSigma\tArea\tTargetArea\tPerimeter\tTargetPerimeter\n";
+  for (vector<Cell>::iterator c = cell->begin(); c != cell->end(); c++) {
+    if (c->sigma == 0)
+      continue;
+    std::cout << c->sigma << "\t" << c->Area() << "\t" << c->TargetArea()
+              << "\t" << c->Perimeter() << "\t" << c->TargetPerimeter()
+              << "\n";
+    std::cout << "Pixels: ";
+    for (int x = 1; x < sizex - 1; x++) {
+      for (int y = 1; y < sizey - 1; y++) {
+        if (sigma[x][y] == c->sigma) {
+          std::cout << "[" << x << "\t" << y << "]\n";
+        }
+      }
+    }
+    }
 }
 
 Dir *CellularPotts::FindCellDirections(void) const {
@@ -2173,6 +2492,97 @@ void CellularPotts::DivideCells(vector<bool> which_cells) {
 
   if (divflags)
     free(divflags);
+
+  for (vector<Cell>::iterator c = cell->begin(); c != cell->end(); c++) {
+    int sig = c->Sigma();
+    if (which_cells[sig] || sig > which_cells.size()-1) {
+      UpdateMembraneOnDivision(sig);
+    }
+  }
+}
+
+bool CellularPotts::isMembranePixel(int x, int y){
+  // Check if the pixel at (x,y) is a membrane pixel
+  int sigma_xy = sigma[x][y];
+  for (int i = 1; i <= n_nb; i++) {
+    int xp2 = FixPeriodic(x + nx[i], sizex);
+    int yp2 = FixPeriodic(y + ny[i], sizey);
+    if (sigma[xp2][yp2] != sigma_xy) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void CellularPotts::UpdateMembraneOnDivision(int sig) {
+  // Update the cell's membrane pixels after division
+  std::vector<std::array<int, 2>> updated_membrane_pixels;
+
+  auto old_membrane_pixels = (*cell)[sig].GetMembranePixels();
+
+  // remove pixels that do not belong anymore to the cell
+  for (const auto& pixel : old_membrane_pixels) {
+    if (sigma[pixel[0]][pixel[1]] == sig) {
+      updated_membrane_pixels.push_back(pixel);
+    }
+  }
+
+  // Loop through existing membrane pixels to find where divisions occurred
+  int xn, yn, x_search, y_search;
+  bool division_found = false;
+
+  if (updated_membrane_pixels.size()==0) {
+    throw std::runtime_error("No membrane pixels found for cell with sigma " + std::to_string(sig));
+  }
+
+  for (const auto& pixel : updated_membrane_pixels) {
+    x_search = pixel[0];
+    y_search = pixel[1];
+    for (int i = 1; i <= n_nb; i++) {
+      xn = FixPeriodic(x_search + nx[i], sizex);
+      yn = FixPeriodic(y_search + ny[i], sizey);
+      if (sigma[xn][yn] == sig && isMembranePixel(xn, yn) && \
+          std::find(updated_membrane_pixels.begin(), updated_membrane_pixels.end(), std::array<int, 2>{xn, yn}) == updated_membrane_pixels.end()) {
+        division_found = true;
+        break; // Found a division pixel, no need to check further
+      }
+    }
+    if (division_found) {
+      break; // Exit outer loop as well
+    }
+  }
+
+  bool AllMembranePixelsUpdated = false;
+  // list of new membrane pixels to be added
+  std::vector<std::array<int, 2>> new_membrane_pixels;
+  std::vector<std::array<int, 2>> search_front_pixels;
+  search_front_pixels.push_back({x_search, y_search});
+  int loop_size = search_front_pixels.size();
+  for (int j = 0; j < loop_size; j++){
+    auto pixel = search_front_pixels[j];
+      int px = pixel[0];
+      int py = pixel[1];
+      for (int i = 1; i <= n_nb; i++) {
+
+        int x_new = FixPeriodic(px + nx[i], sizex);
+        int y_new = FixPeriodic(py + ny[i], sizey);
+      if (sigma[x_new][y_new] == sig && isMembranePixel(x_new, y_new) && \
+          std::find(updated_membrane_pixels.begin(), updated_membrane_pixels.end(), std::array<int, 2>{x_new, y_new}) == updated_membrane_pixels.end()) {
+          new_membrane_pixels.push_back({x_new, y_new});
+        search_front_pixels.push_back({x_new, y_new});
+        loop_size++;
+        }
+      }
+      if (new_membrane_pixels.size() == 0) {
+        AllMembranePixelsUpdated = true;
+      } else {
+        for (const auto& new_pixel : new_membrane_pixels) {
+          updated_membrane_pixels.push_back(new_pixel);
+      }
+    }
+    new_membrane_pixels.clear();
+  }
+  (*cell)[sig].SetMembranePixels(updated_membrane_pixels);
 }
 
 /**! Fill the plane with initial cells
@@ -2583,6 +2993,123 @@ void CellularPotts::GrowAndDivideCells(int growth_rate) {
   }
   DivideCells(which_cells);
 }
+
+void CellularPotts::GrowCells(int cell_type,int growth_rate) {
+  GrowCells(cell_type,static_cast<double>(growth_rate));
+}
+
+void CellularPotts::GrowCells(int cell_type,double growth_rate) {
+  // TODO: cell_type can be changed into a vector containing all the cell types that should grow
+  // growth_rate can be changed into a vector containing growth rates of different cell types.
+  vector<Cell>::iterator c = cell->begin();
+  ++c;
+  for (; c != cell->end(); c++) {
+    // grow specific cell type or all cells
+    if (c->getTau() == cell_type || cell_type == 0) {
+      c->SetTargetArea(c->TargetArea() + growth_rate);
+    }
+  }
+}
+
+void CellularPotts::GrowCells(int cell_type,double growth_rate,double size_threshold) {
+  // TODO: cell_type can be changed into a vector containing all the cell types that should grow
+  // growth_rate and size_threshold can be changed into vectors containing growth rates and thresholds of different cell types.
+  vector<Cell>::iterator c = cell->begin();
+  ++c;
+  for (; c != cell->end(); c++) {
+    // grow specific cell type or all cells
+    if (c->getTau() == cell_type || cell_type == 0) {
+      if (c->Area() >= size_threshold) {
+        // only grow if the cell is larger than the threshold
+        c->SetTargetArea(c->TargetArea() + growth_rate);
+      }
+    }
+  }
+}
+
+std::unordered_map<int, int> CellularPotts::MembraneMediumEdgeCount() {
+  std::unordered_map<int, int> MediumEdgeCount;
+  auto membrane_pixels = GetCellMembranePixels();
+  for (const auto &pixel : membrane_pixels) {
+    int x = pixel.x;
+    int y = pixel.y;
+    int cell_type = sigma[x][y];
+    MediumEdgeCount[cell_type] = 0; // initialize the free fraction for this cell type
+    for (int i = 1; i <= n_nb; i++) {
+      int xp2, yp2;
+      xp2 = x + nx[i];
+      yp2 = y + ny[i];
+
+      xp2 = FixPeriodic(xp2,sizex);
+      yp2 = FixPeriodic(yp2,sizey);
+
+      // did we find a medium in the neighbourhood?
+      if (sigma[xp2][yp2] == 0) { // medium state
+        // increment the free fraction for this cell type
+        MediumEdgeCount[cell_type]++;
+        break; // to avoid double conunting
+      }
+    }
+  }
+  return MediumEdgeCount;
+}
+
+void CellularPotts::DivideCellsByArea(int cell_type,int area_threshold) {
+  // TODO: cell_type can be changed into a vector containing all the cell types that can divide
+  // area_threshold can be changed into a vector containing area_thresholds for different cell types.
+  vector<Cell>::iterator c = cell->begin();
+  ++c;
+  vector<bool> which_cells(cell->size());
+
+  for (; c != cell->end(); c++) {
+    if (c->getTau() == cell_type || cell_type == 0) {
+      if (c->Area() >= area_threshold) {
+        which_cells[c->Sigma()] = true;
+      } else {
+        which_cells[c->Sigma()] = false;
+      }
+    } else {
+      which_cells[c->Sigma()] = false;
+    }
+  }
+  DivideCells(which_cells);
+}
+
+vector<bool> CellularPotts::DivideCellsByRandomArea(int cell_type) {
+  // TODO: cell_type can be changed into a vector containing all the cell types that can divide
+  // area_threshold can be changed into a vector containing area_thresholds for different cell types.
+  vector<Cell>::iterator c = cell->begin();
+  ++c;
+  vector<bool> which_cells(cell->size());
+
+  for (; c != cell->end(); c++) {
+    if (c->getTau() == cell_type || cell_type == 0) {
+      if (c->Area() >= c->division_area) {
+        which_cells[c->Sigma()] = true;
+      } else {
+        which_cells[c->Sigma()] = false;
+      }
+    } else {
+      which_cells[c->Sigma()] = false;
+    }
+  }
+  return which_cells;
+}
+
+void CellularPotts::DivideCellsWithRule(std::string method,int cell_type) {
+  // TODO: cell_type can be changed into a vector containing all the cell types that can divide
+  // if cell_type=0, all cell types can divide
+  vector<bool> which_cells(cell->size());
+  if (method == "random_area") {
+    which_cells = DivideCellsByRandomArea(cell_type);
+  } else {
+    throw "In CellularPotts::DivideCellsWithRule, unknown method.";
+  }
+  if (which_cells.size() > 0) {
+    DivideCells(which_cells);
+  }
+}
+
 
 double CellularPotts::DrawConvexHull(Graphics *g, int color) {
   // Draw the convex hull of the cells

@@ -146,12 +146,10 @@ class StatePlotter:
             cpm: Cellular Potts state, SizeX x SizeY array
         """
         if self._cpm_contours:
-            for c in self._cpm_contours.collections:
-                c.remove()
+                self._cpm_contours.remove()
 
         if self._cpm_contour_fill:
-            for c in self._cpm_contour_fill.collections:
-                c.remove()
+            self._cpm_contour_fill.remove()
 
         # this skips the contour at the edge, between -1 and 0
         levels = np.array([0.5, np.max(cpm) + 0.5])

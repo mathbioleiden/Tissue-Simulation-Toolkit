@@ -43,7 +43,7 @@ def from_settings(ParType: Type[T], instance: Instance) -> T:
     # the perceived problem.
     return ParType(**{
         field.name: instance.get_setting(
-            field.name, field.type.__name__)    # type: ignore [call-overload]
+            field.name, field.type.__name__)    # type: ignore [union-attr,arg-type]
         for field in fields(ParType)})          # type: ignore [arg-type]
 
 

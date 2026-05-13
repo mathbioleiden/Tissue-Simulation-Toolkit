@@ -72,6 +72,10 @@ public:
   //! Returns the number of completed Monte Carlo Steps.
   int Time(void) const;
 
+  // Set taget areas for a list of cells specfied by their tau value
+  void SetTargetAreas(int target_area,std::vector<int> taus);
+  void SetTargetAreas(int target_area); // all cells if not specifed.
+
   //! Returns the number of cells in the dish, excluding apoptosed cells.
   int CountCells(void) const;
 

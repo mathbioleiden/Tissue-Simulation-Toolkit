@@ -45,6 +45,7 @@ LIBS += -L$$XSDE_DIR/xsde/ -lxsde
 
 macx {
   QMAKE_LFLAGS += -framework OpenCL
+  QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 }
 unix:!macx {
   LIBS += -lOpenCL
