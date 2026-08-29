@@ -83,10 +83,8 @@ public:
     sum_xx = src.sum_xx;
     sum_yy = src.sum_yy;
     sum_xy = src.sum_xy;
-    sum_sin_x = src.sum_sin_x;
-    sum_cos_x = src.sum_cos_y;
-    sum_sin_y = src.sum_sin_y;
-    sum_cos_y = src.sum_cos_y;
+    sum_x_torus = src.sum_x_torus;
+    sum_y_torus = src.sum_y_torus;
 
     owner = src.owner;
 
@@ -131,10 +129,8 @@ public:
     sum_xx = src.sum_xx;
     sum_yy = src.sum_yy;
     sum_xy = src.sum_xy;
-    sum_sin_x = src.sum_sin_x;
-    sum_cos_x = src.sum_cos_y;
-    sum_sin_y = src.sum_sin_y;
-    sum_cos_y = src.sum_cos_y;
+    sum_x_torus = src.sum_x_torus;
+    sum_y_torus = src.sum_y_torus;
 
     border = src.border;
 
@@ -168,6 +164,8 @@ public:
       v[0]=alpha.first;
       v[1]=alpha.second;
   }
+
+ inline std::array<double, 2> GetMovementAngle() const {return {v[0], v[1]};}
 
   /*! \brief Returns false if Cell has apoptosed (vanished). */
   inline bool AliveP(void) const { return alive; }
@@ -384,14 +382,12 @@ public:
   }
 
   //! Track the cell's current center of mass
-  void TrackPosition(void) {
-      double cx,cy;
-      GetCentroid(&cx, &cy);
-      mov_tracker->add_position(cx,cy);
-  }
+  void TrackPosition(void);
 
   //! Update cell vector
 
+  //! Get the cell's current center of mass
+  void GetCentroid(double *cx, double *cy);
 private:
   /*! \brief Read a table of static Js.
     First line: number of types (including medium)
@@ -421,6 +417,40 @@ private:
     sum_yy += y * y;
     sum_xy += x * y;
 
+    if (par.periodic_boundaries) {
+      // calculating the centroids before the adding the moments
+      double com_x = (double)sum_x_torus / (double)(area-1); // area-1 = old cell area.
+      double com_y = (double)sum_y_torus / (double)(area-1);
+      sum_x_torus += x;
+      sum_y_torus += y;
+      double dx = x - com_x;
+      double dy = y - com_y;
+      if (dx > sizex / 2) {
+        sum_x_torus -= sizex - 2;
+      } else if (dx < -sizex / 2) {
+        sum_x_torus += sizex - 2;
+      }
+      if (dy > sizey / 2) {
+        sum_y_torus -= sizey - 2;
+      } else if (dy < -sizey / 2) {
+        sum_y_torus += sizey - 2;
+      }
+
+      // making sure that the final centroids are in the simulation box
+      com_x = (double)sum_x_torus / (double)area;
+      com_y = (double)sum_y_torus / (double)area;
+      if (com_x < 0.5){
+	sum_x_torus += (sizex - 2) * area;
+      } else if (com_x >= sizex - 1.5) {
+	sum_x_torus -= (sizex - 2) * area;
+      }
+      if (com_y < 0.5) {
+        sum_y_torus += (sizey - 2) * area;
+      } else if (com_y >= sizey - 1.5) {
+	sum_y_torus -= (sizey - 2) * area;
+      }
+    }
+
     // update length (see appendix. A, Zajac.jtb03), if length is not given
     // NB. 24 NOV 2004. Found mistake in Zajac's paper. See remarks in
     // method "Length(..)".
@@ -447,6 +477,39 @@ private:
     sum_xx -= x * x;
     sum_yy -= y * y;
     sum_xy -= x * y;
+
+    if (par.periodic_boundaries) {
+      double com_x = (double)sum_x_torus / (double)(area+1);
+      double com_y = (double)sum_y_torus / (double)(area+1);
+      sum_x_torus -= x;
+      sum_y_torus -= y;
+      double dx = x - com_x;
+      double dy = y - com_y;
+      if (dx > sizex / 2) {
+        sum_x_torus += sizex - 2;
+      } else if (dx < -sizex / 2) {
+        sum_x_torus -= sizex - 2;
+      }
+      if (dy > sizey / 2) {
+        sum_y_torus += sizey - 2;
+      } else if (dy < -sizey / 2) {
+        sum_y_torus -= sizey - 2;
+      }
+
+      // making sure that the final centroids are in the simulation box
+      com_x = (double)sum_x_torus / (double)area;
+      com_y = (double)sum_y_torus / (double)area;
+      if (com_x < 0.5){
+        sum_x_torus += (sizex - 2) * area;
+      } else if (com_x >= sizex - 1.5) {
+        sum_x_torus -= (sizex - 2) * area;
+      }
+      if (com_y < 0.5) {
+        sum_y_torus += (sizey - 2) * area;
+      } else if (com_y >= sizey - 1.5) {
+        sum_y_torus -= (sizey - 2) * area;
+      }
+    }
 
     // update length (see app. A, Zajac.jtb03), if length is not given
     if (new_l < 0.) {
@@ -585,10 +648,6 @@ private:
   // (depends on Jtable)
   static int MaxTau(void) { return maxtau; }
 
-  //! Get the cell's current center of mass
- void GetCentroid(double *cx, double *cy);
-
-
 protected:
   int colour;
   bool alive;
@@ -645,10 +704,8 @@ protected:
   long int sum_xx;
   long int sum_yy;
   long int sum_xy;
-  double sum_sin_x;
-  double sum_cos_x;
-  double sum_sin_y;
-  double sum_cos_y;
+  long int sum_x_torus;
+  long int sum_y_torus;
   static int sizex;
   static int sizey;
   double border;

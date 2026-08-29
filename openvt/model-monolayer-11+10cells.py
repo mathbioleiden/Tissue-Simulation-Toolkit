@@ -9,7 +9,7 @@ def main():
     parameter_file ="monolayer-11+10cells.par"
     output_path =  "monolayer-11+10cells/"
     simulate_flag = True # if set to False only the post-processing will be carried out.
-    n_reps=10
+    n_reps=100
 
     if simulate_flag:
         for rep in range(1,n_reps+1):
@@ -67,7 +67,7 @@ def main():
     tracks.to_csv(output_path+ "/" + "tracks.csv",float_format='%.7E')
 
     CD= 10 #px
-    T = 154 #MCS
+    T = 155 #MCS
     T_burnin=200 #MCS
     total_width_flag= True
     if total_width_flag:
@@ -84,9 +84,6 @@ def main():
                 width_per_rep.append(np.max(frame_data) - np.min(frame_data))
             width_df['Tissue width rep' + str(rep)+ ' (CD)'] = np.array(width_per_rep)/CD
 
-            # Plotting the width for ech replica
-            ax.plot(width_df['Normalized time (T)'], width_df['Tissue width rep' + str(rep)+' (CD)'],color='gray',linewidth=0.5,alpha=0.5)
-        
         width_data=width_df[['Tissue width rep'+ str(rep) + ' (CD)' for rep in range(1,n_reps+1)]].to_numpy()
         mean_data=np.mean(width_data,axis=1)
         std_data=np.std(width_data,axis=1)
@@ -115,9 +112,6 @@ def main():
             track_right_cell_per_rep = tracks.loc[(tracks["replica"] == rep) & (tracks["cell id"]==16)]
             inner_width_per_rep = track_right_cell_per_rep['com_1 (px)'].array-track_left_cell_per_rep['com_1 (px)'].array
             inner_width_df['Inner width rep' + str(rep)+ ' (CD)'] = np.array(inner_width_per_rep)/CD
-
-            # Plotting the inner width for ech replica
-            ax.plot(inner_width_df['Normalized time (T)'], inner_width_df['Inner width rep' + str(rep)+' (CD)'],color='gray',linewidth=0.5,alpha=0.5)
 
         inner_width_data=inner_width_df[['Inner width rep'+ str(rep) + ' (CD)' for rep in range(1,n_reps+1)]].to_numpy()
         mean_data=np.mean(inner_width_data,axis=1)

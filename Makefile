@@ -11,7 +11,7 @@ QMAKE     = qmake
 # or
 #QMAKE    = qmake
 
-MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model bin/openvt-persistentrandomwalk-model003-tst bin/openvt-persistentrandomwalk-model005-tst bin/openvt-monolayer-11cells-tst bin/openvt-monolayer-11+10cells-tst bin/openvt-monolayer-type1-tst 
+MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model bin/openvt-persistentrandomwalk-model003-tst bin/openvt-persistentrandomwalk-model005-tst bin/openvt-persistentrandomwalk-model006-tst bin/openvt-monolayer-11cells-tst bin/openvt-monolayer-11+10cells-tst bin/openvt-monolayer-type1-tst
 
 .PHONY: all XSDE MCDS LIBCS Catch2 TST python mpi4py ecm docs
 .PHONY: test clean clean_hoomd

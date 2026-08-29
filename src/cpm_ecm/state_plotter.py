@@ -6,7 +6,7 @@ import logging
 from pathlib import Path
 from typing import List, Optional
 
-import matplotlib.cm as cm
+from matplotlib import colormaps
 from matplotlib.contour import QuadContourSet
 from matplotlib.image import AxesImage
 from matplotlib.lines import Line2D
@@ -137,7 +137,7 @@ class StatePlotter:
             self._pde_image.remove()
 
         self._pde_image = plt.imshow(
-                pde[0], origin = 'upper', cmap = cm.get_cmap('Purples'))
+                pde[0], origin = 'upper', cmap = colormaps.get_cmap('Purples'))
 
     def _draw_cpm(self, cpm: npt.NDArray[np.int32]) -> None:
         """Update the CPM state part of the diagram

@@ -112,7 +112,7 @@ TIMESTEP {
     }
 
     dish->CPM->DivideCellsByTargetArea();
-    dish->CPM->GrowCells(0, par.area_growth_rate,par.CIP_area_ratio * par.target_area,par.CIP_neighbour_ratio);
+    dish->CPM->GrowCells(0, par.area_growth_rate,par.CIP_area_ratio,par.CIP_neighbour_ratio);
 
     if (par.graphics && !(i % par.storage_stride)) {
       PROFILE(all_plots, plotter->Plot();)
@@ -183,22 +183,22 @@ void CellularPotts::GrowCells(int cell_type,double growth_rate,double size_thres
   vector<Cell>::iterator c = cell->begin();
   ++c;
   auto CellContactData =  CellPerimeterContact();
-
+  
   // Writing cell properties
   int N_cells_to_report = 1000;
   bool write_to_file = false;
   std::ofstream file_write;
   std::string filename = par.datadir + "/cell_data_no_inhibition_" + std::to_string(thetime) + ".csv";
-  if ((cell->size()>=N_cells_to_report && cell->size()<N_cells_to_report+50)){
+  //if ((cell->size()>=N_cells_to_report && cell->size()<N_cells_to_report+50)){
     // Excluding cells that have zero area.
     int cell_count=0;
     for (; c != cell->end(); c++){
 	if (c->Area() >0){
 		cell_count++;
 	}
-    }
-    //if (cell_count > N_cells_to_report && (thetime % 46 == 0)){
-    if (cell_count > N_cells_to_report){
+  //  }
+    if (cell_count >= N_cells_to_report || (thetime % 39 == 0)){
+    //if (cell_count > N_cells_to_report){
 	// Checking if the file already exists (this helps to avoid double writing)
         std::ifstream file_read(filename);
 	if (!file_read.good()){
@@ -206,7 +206,6 @@ void CellularPotts::GrowCells(int cell_type,double growth_rate,double size_thres
 	   // The file does not exist. Now we are writing a header in the file.
 	   file_write.open(filename);
 	   write_to_file = true;
-	   //file_write << std::scientific << std::setprecision(6);  // Adjust precision as needed
 	   file_write << "x_pos,y_pos,radius_i,a_i,f_i\n";
 	}
     }
@@ -214,36 +213,38 @@ void CellularPotts::GrowCells(int cell_type,double growth_rate,double size_thres
 
   c = cell->begin();
   c++;
+  double R = sqrt(par.target_area/M_PI); // Cell radius, used for normalization
+  double area_fraction=0, surface_fraction = 0;
   for (; c != cell->end(); c++) {
     int cell_id = c->Sigma();
     bool Area_Threshold_Exceeded= false, Neighbour_Threshold_Exceeded= false;
-    // grow specific cell type or all cells
-    if (c->getTau() == cell_type || cell_type == 0) {
-      // check if size is larger than the threshold
-      if (c->Area() >= size_threshold) {
-        Area_Threshold_Exceeded = true;
-      }
-      if (static_cast<double>(CellContactData[cell_id][2]) >= static_cast<double>(CellContactData[cell_id][1]) * neighbour_threshold) {
-        Neighbour_Threshold_Exceeded = true;
-      }
 
-      // Writing cell properties
-      if (write_to_file && c->Area()>0){
-//file_write << thetime << "," << cell_id << "," << c->Area()/c->TargetArea() << "," << static_cast<double>(CellContactData[cell_id][2])/static_cast<double>(CellContactData[cell_id][1]) << "," << c->getCenterX() << "," << c->getCenterY() << "\n";
-        file_write << c->getCenterX() << "," << c->getCenterY() << "," << sqrt(c->TargetArea()/M_PI) << "," << c->Area()/c->TargetArea() << "," << static_cast<double>(CellContactData[cell_id][2])/static_cast<double>(CellContactData[cell_id][1]) <<  "\n";
-      }
+    area_fraction = c->Area()/c->TargetArea();
+    surface_fraction = static_cast<double>(CellContactData[cell_id][2])/static_cast<double>(CellContactData[cell_id][1]);
+    
+    // check if size is larger than the threshold
+    if (area_fraction >= size_threshold) {
+      Area_Threshold_Exceeded = true;
+    }
+    if (surface_fraction >= neighbour_threshold) {
+      Neighbour_Threshold_Exceeded = true;
+    }
 
-      // Growth and color assignment
-      if (Area_Threshold_Exceeded && Neighbour_Threshold_Exceeded) {
-          c->SetTargetArea(c->TargetArea() + growth_rate);
-          c->SetColour(5);
-      } else if (!Area_Threshold_Exceeded && Neighbour_Threshold_Exceeded) {
-        c->SetColour(3);
-      } else if (!Neighbour_Threshold_Exceeded && Area_Threshold_Exceeded) {
-        c->SetColour(4);
-        } else {
-        c->SetColour(2);
-      }
+    // Writing cell properties
+    if (write_to_file && c->Area()>0){
+      file_write << c->getCenterX()/R << "," << c->getCenterY()/R << "," << sqrt(c->TargetArea()/M_PI)/R << "," << area_fraction << "," << surface_fraction <<  "\n";
+    }
+
+    // Growth and color assignment
+    if (Area_Threshold_Exceeded && Neighbour_Threshold_Exceeded) {
+        c->SetTargetArea(c->TargetArea() + growth_rate);
+        c->SetColour(5);
+    } else if (!Area_Threshold_Exceeded && Neighbour_Threshold_Exceeded) {
+      c->SetColour(3);
+    } else if (!Neighbour_Threshold_Exceeded && Area_Threshold_Exceeded) {
+      c->SetColour(4);
+      } else {
+     c->SetColour(2);
     }
   }
 }

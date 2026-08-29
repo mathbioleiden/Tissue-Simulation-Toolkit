@@ -9,7 +9,7 @@ def main():
     parameter_file ="monolayer-11cells.par"
     output_path =  "monolayer-11cells/"
     simulate_flag = True # if set to False only the post-processing will be carried out.
-    n_reps=10
+    n_reps=100
 
     if simulate_flag:
         for rep in range(1,n_reps+1):
@@ -68,7 +68,7 @@ def main():
 
     width_flag= True
     CD= 10 #px
-    T = 154 #MCS
+    T = 155 #MCS
     T_burnin=200 #MCS
     if width_flag:
         # Plotting the width for each replica
@@ -84,9 +84,6 @@ def main():
                 width_per_rep.append(np.max(frame_data) - np.min(frame_data))
             width_df['Tissue width rep' + str(rep)+ ' (CD)'] = np.array(width_per_rep)/CD
 
-            # Plotting the width for ech replica
-            ax.plot(width_df['Normalized time (T)'], width_df['Tissue width rep' + str(rep)+' (CD)'],color='gray',linewidth=0.5,alpha=0.5)
-        
         width_data=width_df[['Tissue width rep'+ str(rep) + ' (CD)' for rep in range(1,n_reps+1)]].to_numpy()
         mean_data=np.mean(width_data,axis=1)
         std_data=np.std(width_data,axis=1)

@@ -318,8 +318,8 @@ public:
   i.e. This will return the index of the cell which occupies site (x,y). */
   inline int Sigma(const int x, const int y) const { return sigma[x][y]; }
 
-    /** @brief Set the value of lattice site (x,y) to s */
-      inline int setSigma(const int x, const int y, const int s) { sigma[x][y]=s;}
+  /** @brief Set the value of lattice site (x,y) to s */
+  inline void setSigma(const int x, const int y, const int s) { sigma[x][y]=s;}
 
   // Was used to make it possible to enlarge the Graphics window in
   // X11 and replace the contents interactively. Not currently supported.

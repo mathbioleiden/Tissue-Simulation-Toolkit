@@ -24,8 +24,8 @@ sizey = 7
 # For the burn in phase
 relaxation = 200            
 
-# relaxation + 10xT (with T = 154 MCS)
-mcs = 1740                   
+# relaxation + 10xT (with T = 155 MCS)
+mcs = 1750                   
 rseed = -1
 n_init_cells = 11
 

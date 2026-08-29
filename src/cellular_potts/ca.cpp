@@ -41,6 +41,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "random.hpp"
 #include "sqr.hpp"
 #include "sticky.hpp"
+#include <stdexcept>
 
 #define ZYGFILE(Z) <Z.xpm>
 #define XPM(Z) Z##_xpm
@@ -729,51 +730,112 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
 }
 
 double CellularPotts::VectorMoveDeltaH(int x, int y, int xp, int yp) {
-    
-    double vec_move[2] = {0.,0.};
-    vec_move[0]=(double)x-(double)xp;
-    vec_move[1]=(double)y-(double)yp;
+  int sxy=sigma[x][y]; // target
+  int sxyp=sigma[xp][yp]; // source
+  double cv[2]={0.,0.};
+	
+  std::string persistence_force_mode = par.persistence_force_mode;
 
-    // average
-    int sxy=sigma[x][y];
-    int sxyp=sigma[xp][yp];
-    
-    //cerr << "cells: " << sxy << ", " << sxyp << endl;
-    double cv[2]={0.,0.};
-    // extension-retraction
-   /* if (sxy && sxyp) {
-        cv[0]=((*cell)[sxy].v[0]+(*cell)[sxyp].v[0])/2.;
-        cv[1]=((*cell)[sxy].v[1]+(*cell)[sxyp].v[1])/2.;
+  if (persistence_force_mode == "extension"){
+    if (sxyp > 0) {
+      cv[0]=(*cell)[sxyp].v[0];
+      cv[1]=(*cell)[sxyp].v[1];
     } else {
-        if (sxy) {
-            cv[0]=(*cell)[sxy].v[0];
-            cv[1]=(*cell)[sxy].v[1];
-        } else {
-            if (sxyp) {
-                cv[0]=(*cell)[sxyp].v[0];
-                cv[1]=(*cell)[sxyp].v[1];
-            } else {
-                return 0.;
-            }
-        }
-    }*/
-    
-    // extension only
-    if (sxyp) {
+      if (sxy > 0) {
+        return 0.;
+      }
+    }
+  } else if (persistence_force_mode =="retraction"){
+    if (sxy > 0) {
+      cv[0]=(*cell)[sxy].v[0];
+      cv[1]=(*cell)[sxy].v[1];
+    } else {
+      if (sxyp > 0) {
+        return 0.;
+      }
+    }
+  } else if (persistence_force_mode == "reciprocal"){
+    if (sxy>0 && sxyp > 0) {
+      cv[0]=((*cell)[sxy].v[0]+(*cell)[sxyp].v[0])/2.;
+      cv[1]=((*cell)[sxy].v[1]+(*cell)[sxyp].v[1])/2.;
+    } else if (sxy > 0) { //retraction
+        cv[0]=(*cell)[sxy].v[0];
+        cv[1]=(*cell)[sxy].v[1];
+    } else if (sxyp > 0) { // extension
         cv[0]=(*cell)[sxyp].v[0];
         cv[1]=(*cell)[sxyp].v[1];
-    } else {
-        if (sxy) {
-            return 0.;
-        }
     }
-    
-    
-    //cerr << "cv = " << cv[0] << ", "  << cv[1] << endl;
-    double dotproduct = cv[0] * vec_move[0] + cv[1] * vec_move[1];
-    
-    return par.lambda_move * dotproduct;
-    
+  } else {
+    throw std::runtime_error("Invalid persistence_force_mode: " + persistence_force_mode);
+  }
+
+  double vec_move[2] = {0.,0.};
+  std::string persistence_update_direction = par.persistence_update_direction;
+
+  if (persistence_update_direction == "source-to-target-unnorm"){
+    	vec_move[0]=(double)x-(double)xp;
+    	vec_move[1]=(double)y-(double)yp;
+  } else if (persistence_update_direction == "source-to-target-norm"){
+
+    vec_move[0]=(double)x-(double)xp;
+    vec_move[1]=(double)y-(double)yp;
+  	double norm = std::sqrt(vec_move[0] * vec_move[0] + vec_move[1] * vec_move[1]);
+    vec_move[0] /= norm;
+    vec_move[1] /= norm;
+
+  } else if (persistence_update_direction == "cell-mass-displacement"){
+    // Extension move (also applied in cell-to-cell copy attempts)
+    if (sxyp > 0){
+      double cx, cy, area;
+      double x_torus = (double)x, y_torus = (double)y;
+      (*cell)[sxyp].GetCentroid(&cx,&cy);
+      area = (double)(*cell)[sxyp].Area();
+      double dx = cx - x_torus;
+      double dy = cy - y_torus;
+      // Account for toroidal geometry
+      if (par.periodic_boundaries) {
+        if (dx > sizex / 2.0) {
+            x_torus += (double)(sizex - 2);
+        } else if (dx < -sizex / 2.0) {
+            x_torus -= (double)(sizex - 2);
+        }
+        if (dy > sizey / 2.0) {
+            y_torus += (double)(sizey - 2);
+        } else if (dy < -sizey / 2.0) {
+            y_torus -= (double)(sizey - 2);
+        }
+      }
+      vec_move[0] = area *((cx * area + x_torus)/(area+1) - cx);
+      vec_move[1] = area *((cy * area + y_torus)/(area+1) - cy);
+
+    } else if (sxy > 0) { // Retraction move
+      double cxp, cyp, area;
+      double xp_torus = (double)xp, yp_torus = (double)yp;
+      (*cell)[sxy].GetCentroid(&cxp,&cyp);
+      area = (double)(*cell)[sxy].Area();
+      double dxp = cxp - xp_torus;
+      double dyp = cyp - yp_torus;
+      // Account for toroidal geometry
+      if (par.periodic_boundaries) {
+        if (dxp > sizex / 2.0) {
+            xp_torus += (double)(sizex - 2);
+        } else if (dxp < -sizex / 2.0) {
+            xp_torus -= (double)(sizex - 2);
+        }
+        if (dyp > sizey / 2.0) {
+            yp_torus += (double)(sizey - 2);
+        } else if (dyp < -sizey / 2.0) {
+            yp_torus -= (double)(sizey - 2);
+        }
+      }
+      vec_move[0] = area *((cxp * area - xp_torus)/(area-1) - cxp);
+      vec_move[1] = area *((cyp * area - yp_torus)/(area-1) - cyp);
+    }
+  }
+
+  double dotproduct = cv[0] * vec_move[0] + cv[1] * vec_move[1];
+
+  return par.lambda_move * dotproduct;
 }
 
 int CellularPotts::Act_AmoebaeMove(PDE *PDEfield) {
@@ -1265,13 +1327,18 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
         yp = yp - sizey + 2;
     }
 
+    // Avoid copying borders to cells or background and same cell to the same cell and to cell with single lattice.
+    if (sigma[xp][yp]== -1 || sigma[x][y]== -1 || sigma[x][y]== sigma[xp][yp] || (*cell)[sigma[x][y]].Area()==1){
+      continue;
+    }
+
     // connectivity dissipation:
     H_diss = 0;
     if (!ConnectivityPreservedP(x, y))
       H_diss = par.conn_diss;
 
     AdhesionDisplacements adh_disp;
-    D_H = DeltaH(x, y, xp, yp, PDEfield, &adh_disp) - VectorMoveDeltaH(x, y, xpr,ypr);
+    D_H = DeltaH(x, y, xp, yp, PDEfield, &adh_disp) - VectorMoveDeltaH(x, y, xp,yp);
 
     if ((p = CopyvProb(D_H, H_diss, anneal)) > 0) {
       if (par.adhesions_enabled)
@@ -1821,8 +1888,7 @@ int CellularPotts::GetNewPerimeterIfXYWereAdded(int sxyp, int x, int y) {
      n_nb=nbh_level[par.neighbours];
   */
   int perim = (*cell)[sxyp].Perimeter();
-  // Increase of perimeter due to addition of x,y
-  perim++;
+
   /* the cell with sigma sxyp wants to extend by adding lattice site (x, y).
  This means that the sxyp neighbours of (x,y) will not be borders anymore,so
  they can be subtracted from the perimeter of sxyp.
@@ -1838,28 +1904,11 @@ int CellularPotts::GetNewPerimeterIfXYWereAdded(int sxyp, int x, int y) {
     yp2 = FixPeriodic(yp2,sizey);
 
     if (sigma[xp2][yp2] == sxyp) {
-      bool interior_pixel2 = true;
-
-      // looping through neighbours of xp2,yp2
-        for (int j = 1; j <= n_nb; j++){
-          int xp3, yp3;
-          xp3 = xp2 + nx[j];
-          yp3 = yp2 + ny[j];
-          xp3 = FixPeriodic(xp3,sizex);
-          yp3 = FixPeriodic(yp3,sizey);
-
-          // Jump to the next loop if you see pixels of other cells except for the x,y pixel
-          if ((sigma[xp3][yp3] != sxyp) && (xp3 != x || yp3 != y)){
-            interior_pixel2 = false;
-            break;
-          }
-      	}
-      if (interior_pixel2){
-	    perim--; // The pixel xp2,yp2 will be removed from membrane
-	  }
-	}
+      perim--;
+    } else {
+      perim++;
     }
-
+  }
   return perim;
 }
 
@@ -1923,9 +1972,6 @@ int CellularPotts::GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
   int perim = (*cell)[sxy].Perimeter();
   /* the cell with sigma sxy loses xy
    */
-  // Reduction of perimeter due to deletion of x,y
-
-  perim--;
   for (int i = 1; i <= n_nb; i++) {
 
     int xp2, yp2;
@@ -1935,30 +1981,13 @@ int CellularPotts::GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
     xp2 = FixPeriodic(xp2,sizex);
     yp2 = FixPeriodic(yp2,sizey);
 
-      if (sigma[xp2][yp2] == sxy){
-	bool membrane_pixel2 = false;
-
-        // looping through neighbours of xp2,yp2
-        for (int j = 1; j <= n_nb; j++){
-          int xp3, yp3;
-          xp3 = xp2 + nx[j];
-          yp3 = yp2 + ny[j];
-          xp3 = FixPeriodic(xp3,sizex);
-          yp3 = FixPeriodic(yp3,sizey);
-
-          // Jump to the next loop if you see pixels of other cells
-          if (sigma[xp3][yp3] != sxy){
-	    membrane_pixel2 = true;
-            break;
-          }
-	}
-      if (!membrane_pixel2){
-	  // The pixel xp2,yp2 will be a new membrane pixel!
-          perim++;
-      }
+    if (sigma[xp2][yp2] == sxy) {
+      perim++;
+    } else {
+      perim--;
     }
   }
-return perim;
+  return perim;
 }
 
 void CellularPotts::RemoveMembranePixel(int sxy, std::array<int, 2> pixel) {
@@ -2223,6 +2252,10 @@ std::vector<PixelPos> CellularPotts::GetCellMembranePixels() {
 }
 
 void CellularPotts::MeasureCellPerimeters() {
+  // initializing cell perimeters from zero to avoid problems with reusing this function
+  for (vector<Cell>::iterator c = cell->begin(); c != cell->end(); c++) {
+    c->SetPerimeter(0);
+  }
   for (int x = 1; x < sizex - 1; x++) {
     for (int y = 1; y < sizey - 1; y++) {
       if (sigma[x][y] > 0) {
@@ -2238,7 +2271,6 @@ void CellularPotts::MeasureCellPerimeters() {
           if (sigma[xp2][yp2] != sigma[x][y]) {
             // add to the perimeter of the cell
             (*cell)[sigma[x][y]].IncrementPerimeter();
-            break; // to avoid double conunting
           }
         }
       }
@@ -3110,7 +3142,6 @@ void CellularPotts::DivideCellsWithRule(std::string method,int cell_type) {
   }
 }
 
-
 double CellularPotts::DrawConvexHull(Graphics *g, int color) {
   // Draw the convex hull of the cells
   // using Andrew's Monotone Chain Algorithm (see hull.cpp)
@@ -3394,35 +3425,58 @@ int **CellularPotts::get_annealed_sigma(int steps) {
 }
 
 void CellularPotts::CalcPeriodicSafeCentroids(void) {
-
-    Cell::sizex=sizex;
-    Cell::sizey=sizey;
-
-    const double two_pi = 2.0 * M_PI;
-    for (Cell &c : *cell) {
-        c.sum_sin_x=0.;
-        c.sum_cos_x=0.;
-        c.sum_sin_y=0.;
-        c.sum_cos_y=0.;
-    }
-
-    for (int x=1;x<=sizex-2;x++) {
-        for (int y=1;y<=sizey-2;y++) {
-            if (sigma[x][y]>0) {
-
-                        double theta_x = two_pi * static_cast<double>(x) / (sizex-2);
-                        double theta_y = two_pi * static_cast<double>(y) / (sizey-2);
-                        (*cell)[sigma[x][y]].sum_cos_x += std::cos(theta_x);
-                        (*cell)[sigma[x][y]].sum_sin_x += std::sin(theta_x);
-                        (*cell)[sigma[x][y]].sum_cos_y += std::cos(theta_y);
-                        (*cell)[sigma[x][y]].sum_sin_y += std::sin(theta_y);
-                    }
-
-                    //double avg_theta = std::atan2(sum_sin, sum_cos);
-                    //if (avg_theta < 0) avg_theta += two_pi;  // normalize to [0, 2π)
-
-                    //return domain_size * avg_theta / two_pi;
-                }
-            }
+  // Construct an array of the first pixel of each cell, to be used as a starting point for the algorithm to find the centroids with periodic boundaries.
+  vector<array<int,2>> cell_first_pixel(cell->size(),{-1,-1});
+  // full scan of the lattice 
+  for (int x = 1; x <= sizex - 2; x++){
+    for (int y = 1; y <= sizey - 2; y++) {
+      if (sigma[x][y] > 0) {
+        int s = sigma[x][y];
+        // if the first pixel of this cell has not been found yet, set it to the current pixel
+        if (cell_first_pixel[s - 1][0] == -1) {
+          cell_first_pixel[s - 1] = {x, y};
+          (*cell)[s].sum_x_torus = x;
+          (*cell)[s].sum_y_torus = y;
+        } else {
+          // if the first pixel of this cell has already been found, add the current pixel to the sum of x and y coordinates of the cell, taking into account periodic boundaries
+          int dx = x - cell_first_pixel[s - 1][0];
+          int dy = y - cell_first_pixel[s - 1][1];
+	  (*cell)[s].sum_x_torus += x;
+          (*cell)[s].sum_y_torus += y;
+          if (dx > sizex / 2) {
+            (*cell)[s].sum_x_torus -= sizex - 2;
+          } else if (dx < -sizex / 2) {
+            (*cell)[s].sum_x_torus += sizex - 2;
+          }
+          if (dy > sizey / 2) {
+            (*cell)[s].sum_y_torus -= sizey - 2;
+          } else if (dy < -sizey / 2) {
+            (*cell)[s].sum_y_torus += sizey - 2;
+          }
         }
+      }
+    }
+  }
+
+  
+  // Adjust the sum_x_torus and sum_y_torus of each cell to make sure the centroid is inside the domain.
+  for (vector<Cell>::iterator c = cell->begin(); c != cell->end(); c++){
+    if (c->Sigma() > 0) {
+      int area = c->Area();
+      double cx = (double)c->sum_x_torus / (double)area;
+      double cy = (double)c->sum_y_torus / (double)area;
+      if (cx < 0.5) {
+        c->sum_x_torus += (sizex - 2) * area;
+      } else if (cx >= sizex - 1.5) {
+        c->sum_x_torus -= (sizex - 2) * area;
+      }
+      if (cy < 0.5) {
+        c->sum_y_torus += (sizey - 2) * area;
+      } else if (cy >= sizey - 1.5) { 
+        c->sum_y_torus -= (sizey - 2) * area;
+      }
+    }
+  }
+}
+
 

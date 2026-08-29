@@ -147,6 +147,9 @@ PARAMETER(int, lambda_perimeter, 0,
 PARAMETER(double, lambda_matrix, 0.0, "Energy required to retract a lattice site that contains an adhesion")
 PARAMETER(double, lambda_move, 0.0, "Lagrange multiplier for directed motion")
 PARAMETER(int, cell_move_dt, 0, "Time interval (in MCS) over which we evaluate the cell's recent displacement; this determines persistence time of the random walk.")
+PARAMETER(std::string, persistence_force_mode, "extension", "Whether the force acts on the extension, retraction or both parts of the cell. This can take values 'extension' or 'reciprocal'. Retraction is not implemented.")
+PARAMETER(std::string, persistence_update_direction, "source-to-target-norm", "Method to calculate movement of cell in persistence model. This can take values 'source-to-target-unnorm', 'source-to-target-norm', or 'cell-mass-displacement'.")
+PARAMETER(double, persistence_noise, 0.0, "Standard deviation of normal destribution of noise in persistence model.")
 
 PARAMETER(double, spontaneous_p, 0.001,
           "Something to do with adhesion generation?")
