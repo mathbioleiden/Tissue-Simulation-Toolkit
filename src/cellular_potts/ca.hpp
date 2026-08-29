@@ -317,6 +317,13 @@ public:
   i.e. This will return the index of the cell which occupies site (x,y). */
   inline int Sigma(const int x, const int y) const { return sigma[x][y]; }
 
+  /*! \brief Mark lattice site (x,y) as a fixed wall.
+
+  Fixed walls use the special CPM state sigma == -1 and do not participate
+  in Cellular Potts copy attempts.
+  */
+  void SetWall(int x, int y);
+
   // Was used to make it possible to enlarge the Graphics window in
   // X11 and replace the contents interactively. Not currently supported.
   void Replace(Graphics *g);
