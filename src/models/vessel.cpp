@@ -38,6 +38,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <iostream>
 #include <math.h>
 #include <thread>
+#include <QtGlobal>
 
 using namespace std;
 
@@ -187,6 +188,12 @@ int main(int argc, char *argv[]) {
   try {
     par.Read(argv[1]);
     Seed(par.rseed);
+
+    // A graphics-disabled simulation still initialises Qt. Select a
+    // headless platform automatically unless the user chose one explicitly.
+    if (!par.graphics && qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM"))
+      qputenv("QT_QPA_PLATFORM", QByteArray("minimal"));
+
     start_graphics(argc, argv);
   } catch (const char *error) {
     std::cerr << error << std::endl;
