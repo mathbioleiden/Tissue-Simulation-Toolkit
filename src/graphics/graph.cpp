@@ -4,10 +4,21 @@
 #include "parameter.hpp"
 #include "random.hpp"
 
+#if defined(QTGRAPHICS) || defined(QTGLGRAPHICS)
+#include <QtGlobal>
+#endif
+
 void start_graphics(int argc, char **argv) {
   extern Parameter par;
   int window_size_x = par.sizex * 2;
   int window_size_y = par.sizey * 2;
+
+#if defined(QTGRAPHICS) || defined(QTGLGRAPHICS)
+  // Select a headless Qt platform automatically for non-graphical runs,
+  // while respecting an explicit user choice.
+  if (!par.graphics && !qEnvironmentVariableIsSet("QT_QPA_PLATFORM"))
+    qputenv("QT_QPA_PLATFORM", "minimal");
+#endif
 
 #ifdef QTGRAPHICS
   QApplication a(argc, argv);

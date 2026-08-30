@@ -91,6 +91,13 @@ TIMESTEP {
       info->Menu();
       dish->CPM->FindBoundingBox(); // old: Setboundingbox
     }
+      
+    if (par.store && !(i % par.storage_stride)) {
+        char fname[200], fname_mcds[200];
+        snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
+        PROFILE(all_plots, plotter->Plot();)
+        Write(fname);
+    }
 
     if (i == 0 && par.pause_on_start) {
       info->set_Paused();
@@ -106,11 +113,7 @@ TIMESTEP {
       dish->ExportMultiCellDS(par.mcds_output);
     }
 
-    if (par.store && !(i % par.storage_stride)) {
-      char fname[200], fname_mcds[200];
-      snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
-      Write(fname);
-    }
+  
 
     if (!info->IsPaused()) {
       i++;
