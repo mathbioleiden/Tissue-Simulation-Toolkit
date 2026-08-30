@@ -68,20 +68,20 @@ TIMESTEP {
 
     static Dish *dish = new Dish();
     static Info *info = new Info(*dish, *this);
-    static Plotter *plotter = new Plotter(dish, this);
-
+    static Plotter plotter(dish, this);
+      
     dish->CPM->PottsNeighbourMove(dish->PDEfield);
     // dish->CPM->AmoebaeMove(dish->PDEfield);
     if (par.graphics && !(i % par.storage_stride)) {
       // cerr << "Plot " << i << endl;
-      plotter->Plot();
+      plotter.Plot();
       info->Menu();
       // dish->CPM->SetBoundingBox();
     }
     if (par.store && !(i % par.storage_stride)) {
       char fname[200], fname_mcds[200];
       snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
-      plotter->Plot();
+      plotter.Plot();
       Write(fname);
     }
     i++;
