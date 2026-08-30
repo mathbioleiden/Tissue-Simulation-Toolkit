@@ -4,7 +4,7 @@ target_area = 50
 target_length = 0
 lambda = 50
 lambda2 = 0
-Jtable = ../data/Jpepperandsalt.dat
+Jtable = Jpepperandsalt.dat
 conn_diss = 0
 vecadherinknockout = true
 chemotaxis = 0
@@ -31,13 +31,15 @@ size_init_cells = 50
 sizex = 200
 sizey = 200
 divisions = 7
-mcs = 1000000
+mcs = 101
 rseed = -1
 subfield = 1.0
 relaxation = 0
 
 # output
 storage_stride = 100
-graphics = true
+graphics = false
 store = true
 datadir = ../out
+mcds_output = test.xml
+

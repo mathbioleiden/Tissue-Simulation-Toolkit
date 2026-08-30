@@ -149,14 +149,18 @@ void Cell::ConstructorBody(int settau) {
  ending with n elements */
 void Cell::ReadStaticJTable(std::string const &fname) {
   cerr << "Reading J's...\n";
-  ifstream jtab(fname);
-  if (!jtab) {
-    perror(fname.c_str());
-    exit(1);
-  }
+    
+    std::string j_path = par.ResolveInputPath(fname);
+    std::ifstream jfile(j_path);
 
-  int n; // number of taus
-  jtab >> n;
+    if (!jfile) {
+      perror(j_path.c_str());
+      exit(1);
+    }
+
+    int n; // number of taus
+    jfile >> n;
+
   cerr << "Number of celltypes:" << n << endl;
   maxtau = n - 1;
 
@@ -174,7 +178,7 @@ void Cell::ReadStaticJTable(std::string const &fname) {
   capacity = n;
   for (int i = 0; i < n; i++) {
     for (int j = 0; j <= i; j++) {
-      jtab >> J[i][j];
+      jfile >> J[i][j];
       // symmetric...
       J[j][i] = J[i][j];
     }

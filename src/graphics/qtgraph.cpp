@@ -119,13 +119,15 @@ void QtGraphics::Line(float x1, float y1, float x2, float y2, int colour) {
 void QtGraphics::ReadColorTable(QPen *pens) {
   extern Parameter par;
   FILE *fpc;
-  if ((fpc = fopen(par.colortable.c_str(), "r")) == NULL) {
+    
+    std::string colortable_path = par.ResolveInputPath(par.colortable);
+  if ((fpc = fopen(colortable_path.c_str(), "r")) == NULL) {
     char *message = new char[2000];
     if (message == 0) {
       throw "Memory panic in QtGraphics::ReadColorTable\n";
     }
     sprintf(message, "QtGraphics::ReadColorTable: Colormap '%s' not found.",
-            par.colortable.c_str());
+            colortable_path.c_str());
     throw(message);
   }
   int r, g, b, a;

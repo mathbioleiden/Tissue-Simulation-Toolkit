@@ -35,6 +35,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include <math.h>
 #include <string.h>
 #include <vector>
+#include <filesystem>
 
 #include "../lib/json/json.hpp"
 using json = nlohmann::json_abi_v3_11_2::json;
@@ -229,7 +230,7 @@ void Dish::MCDS_import_cell(MCDS_io *mcds, int cell_id) {
 }
 
 void Dish::ImportMultiCellDS(std::string const &fname) {
-  MCDS_io mcds(fname);
+  MCDS_io mcds(par.ResolveInputPath(fname));
   mcds.process_cellshapes();
   mcds.lattice_from_vector();
   par.sizex = mcds.get_size_x();
@@ -260,8 +261,18 @@ void Dish::MCDS_export_cell(MCDS_io *mcds, Cell *cell) {
 }
 
 void Dish::ExportMultiCellDS(std::string const &fname) {
+    
+    std::filesystem::path output_path(fname);
+
+     // Write a bare filename to datadir, but respect an explicitly
+     // specified relative or absolute path.
+     if (!output_path.has_parent_path())
+       output_path = std::filesystem::path(par.datadir) / output_path;
+    
   int **sigma = CPM->get_annealed_sigma(par.mcds_anneal_steps);
   MCDS_io mcds;
+    
+    
   for (vector<Cell>::iterator c = cell.begin() + 1; c != cell.end(); c++) {
     MCDS_export_cell(&mcds, &(*c));
   }
@@ -271,10 +282,11 @@ void Dish::ExportMultiCellDS(std::string const &fname) {
   mcds.denoise(par.mcds_denoise_steps);
   mcds.vector_from_lattice();
   mcds.finalize_cellshapes();
-  mcds.add_metadata("tst_metadata.xml");
+  mcds.add_metadata(par.ResolveInputPath("tst_metadata.xml"));
   mcds.add_time();
-  mcds.write(fname);
-  std::cout << "Done exporting!" << std::endl;
+    mcds.write(output_path.string());
+
+      std::cout << "Done exporting to " << output_path << std::endl;
 }
 
 int Dish::SizeX(void) { return CPM->SizeX(); }

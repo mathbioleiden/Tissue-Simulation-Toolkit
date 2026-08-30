@@ -1,8 +1,10 @@
 #include "parameter.hpp"
 #include "parameter_file.hpp"
 
+#include <filesystem>
 #include <iomanip>
 #include <vector>
+
 
 Parameter par;
 
@@ -17,19 +19,33 @@ Parameter::Parameter() {
 }
 
 void Parameter::Read(std::string const &filename) {
+
+  std::filesystem::path parameter_path(filename);
+
+  if (parameter_path.has_parent_path())
+    parameter_directory = parameter_path.parent_path().string();
+  else
+    parameter_directory = ".";
+
   ParameterFile file(filename);
 
 #define SECTION(TEXT)
-#define PARAMETER(TYPE, NAME, DEFAULT, DESC)                                   \
-  if (file.has(#NAME))                                                         \
+
+#define PARAMETER(TYPE, NAME, DEFAULT, DESC)                                  \
+  if (file.has(#NAME))                                                        \
     NAME = file.get<TYPE>(#NAME);
+
 #define CONSTRAINT(EXPR, MESSAGE)
+
 #include "parameters.hpp"
+
 #undef CONSTRAINT
 #undef PARAMETER
 #undef SECTION
+
   Validate();
 }
+
 
 void Parameter::Write(std::ostream &stream) const {
 #define SECTION(TEXT) WriteComment(stream, TEXT);
@@ -88,3 +104,14 @@ void Parameter::WritePar(std::ostream &stream, std::string const &name,
     stream << ", " << value[i];
   stream << "\n";
 }
+
+std::string Parameter::ResolveInputPath(std::string const &path) const {
+
+  std::filesystem::path input_path(path);
+
+  if (input_path.is_absolute())
+    return input_path.string();
+
+  return (std::filesystem::path(parameter_directory) / input_path).string();
+}
+

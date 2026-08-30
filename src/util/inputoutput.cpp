@@ -319,7 +319,10 @@ void IO::WriteConfiguration(char *write_loc) {
 }
 
 void IO::ReadConfiguration(void) {
-  ifstream f(par.initial_configuration_file);
+    std::string configuration_path =
+        par.ResolveInputPath(par.initial_configuration_file);
+    ifstream f(configuration_path);
+    
   json Configuration = json::parse(f);
 
   /* Fill CA plane with imported configuration */

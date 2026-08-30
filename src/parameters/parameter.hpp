@@ -27,6 +27,13 @@ public:
    * @param filename Name of the file to read
    */
   void Read(std::string const &filename);
+    
+    /** Resolve an input path relative to the parameter file.
+      *
+      * Absolute paths are returned unchanged.
+      */
+     std::string ResolveInputPath(std::string const &path) const;
+
 
   /** Write parameters to a stream
    *
@@ -67,6 +74,8 @@ private:
    * @param text The text to write
    */
   void WriteComment(std::ostream &stream, std::string const &text) const;
+    
+    std::string parameter_directory;
 };
 
 #include "parameter.tpp"
