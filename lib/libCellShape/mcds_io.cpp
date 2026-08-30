@@ -72,12 +72,15 @@ mesh::nodes_edges_faces* MCDS_io::finalize_shape(io_cell& cell){
 	mesh::faces* faces_ds = new mesh::faces;
 	mesh::edges* edges_ds = new mesh::edges;
 	mesh::nodes* nodes_ds = new mesh::nodes;
-//////BUG IN MCDS forces placing a string in nodes->custom////
-//	std::string * test_nds = new std::string("-");
-//	common::custom * custom_node = new common::custom;
-//	custom_node->custom_data().push_back((void *) (test_nds));
-//	nodes_ds->custom(custom_node);
-////////////////////////////////////////////////////////////// 
+
+    // Work around a MultiCellDS serializer bug: mesh::nodes requires
+    // a non-null custom field even when no custom data are used.
+    std::string *custom_placeholder = new std::string("-");
+    common::custom *custom_nodes = new common::custom;
+    custom_nodes->custom_data().push_back(
+        static_cast<void *>(custom_placeholder));
+    nodes_ds->custom(custom_nodes);
+    
 	shape_ds->faces(faces_ds);
 	shape_ds->nodes(nodes_ds);
 	shape_ds->edges(edges_ds);
@@ -125,7 +128,7 @@ cell::cell* MCDS_io::finalize_cell(int id){
 	target_volume->units(unit_n + " squared");
 	target_volume->base_value(cell.target_area);
 	volumes_target->total_volume(target_volume);
-	gp_target->volumes(volumes);
+	gp_target->volumes(volumes_target);
 	phenotype_target_ds->geometrical_properties(gp_target);
 	
 	phenotype_common::lengths * lengths = new phenotype_common::lengths();

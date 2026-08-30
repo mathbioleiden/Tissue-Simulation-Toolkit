@@ -104,14 +104,13 @@ TIMESTEP {
       i++;
     }
 
-    if (!info->IsPaused()) {
-      PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
-    }
-    // cout << "Compactness = " << dish-> CPM -> Compactness() << endl;
-
-    if (i == par.mcs) {
-      dish->ExportMultiCellDS(par.mcds_output);
-    }
+      if (!info->IsPaused()) {
+          PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
+          
+          if (i == par.mcs-1) {
+              dish->ExportMultiCellDS(par.mcds_output);
+          }
+      }
 
   
 
