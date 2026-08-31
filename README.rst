@@ -175,6 +175,30 @@ Run the following command to set the minimum CMake version to 3.5:
 
     CMAKE_POLICY_VERSION_MINIMUM=3.5 make with_adhesions
 
+
+Legal
+-----
+
+Tissue Simulation Toolkit is Copyright © 2006, 2010, 2014, 2019, 2024, 2026 by its contributors.
+
+Tissue Simulation Toolkit is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.
+
+Tissue Simulation Toolkit is distributed in the hope that it will
+be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Tissue Simulation Toolkit; if not, write to the Free
+Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+02110-1301 USA
+
+
+Note that TST uses MultiCellDS, which is BSD-licensed but contains some GPLv2-only files. TST can optionally be compiled with support for MUSCLE3, which is licensed under the Apache License 2.0. This may make binaries compiled with both impossible to distribute legally, as the licenses are widely considered incompatible.
+
 Contributing
 -------------
 
