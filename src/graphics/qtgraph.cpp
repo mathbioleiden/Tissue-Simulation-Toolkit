@@ -135,6 +135,10 @@ void QtGraphics::ReadColorTable(QPen *pens) {
   int res = EOF;
   col_num = 0;
   while (fscanf(fpc, "%d", &i) != EOF || res == EOF) {
+    if (i > 255){
+      cerr << "Warning: All the colors are not read. A maximum of 256 colors can be defined in the colortable. \n";
+      break;
+    }
     res = fscanf(fpc, "%d %d %d %d\n", &r, &g, &b, &a);
     QPen p(QColor(r, g, b, a));
     pens[i] = p;

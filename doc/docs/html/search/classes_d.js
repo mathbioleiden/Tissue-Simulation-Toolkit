@@ -10,7 +10,8 @@ var searchData=
   ['pickset_7',['PickSet',['../struct_pick_set.html',1,'']]],
   ['platform_8',['Platform',['../classcl_1_1_platform.html',1,'cl']]],
   ['plotter_9',['Plotter',['../class_plotter.html',1,'']]],
-  ['point_10',['point',['../structpoint.html',1,'point'],['../class_point.html',1,'Point']]],
-  ['profiler_11',['Profiler',['../class_profiler.html',1,'']]],
-  ['program_12',['Program',['../classcl_1_1_program.html',1,'cl']]]
+  ['point_10',['Point',['../class_point.html',1,'']]],
+  ['point_11',['point',['../structpoint.html',1,'']]],
+  ['profiler_12',['Profiler',['../class_profiler.html',1,'']]],
+  ['program_13',['Program',['../classcl_1_1_program.html',1,'cl']]]
 ];

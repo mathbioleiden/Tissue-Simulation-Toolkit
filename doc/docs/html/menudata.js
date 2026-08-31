@@ -100,7 +100,8 @@ var menudata={children:[
 {text:"t",url:"functions_vars.html#index_t"}]},
 {text:"Typedefs",url:"functions_type.html",children:[
 {text:"r",url:"functions_type.html#index_r"},
-{text:"t",url:"functions_type.html#index_t"}]}]}]},
+{text:"t",url:"functions_type.html#index_t"}]},
+{text:"Related Symbols",url:"functions_rela.html"}]}]},
 {text:"Files",url:"files.html",children:[
 {text:"File List",url:"files.html"},
 {text:"File Members",url:"globals.html",children:[

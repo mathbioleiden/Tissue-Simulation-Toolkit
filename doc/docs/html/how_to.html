@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to … &#8212; Tissue-Simulation-Toolkit 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=51b770b3"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How TST is built" href="build_system.html" />
+    <link rel="prev" title="Readme File" href="readmelink.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="how-to">
+<h1>How to …<a class="headerlink" href="#how-to" title="Link to this heading">¶</a></h1>
+<p>This section outlines various common procedures and tasks using the Tissue Simulation Toolkit 2.0.</p>
+<section id="how-to-add-a-new-model">
+<h2>How to add a new model?<a class="headerlink" href="#how-to-add-a-new-model" title="Link to this heading">¶</a></h2>
+<p>There are a list of default models in the Tissue Simulation Toolkit in the <code class="docutils literal notranslate"><span class="pre">src/models/</span></code> directory. However, you can add your own models as well. To add a model named, say <code class="docutils literal notranslate"><span class="pre">my_model</span></code>, following steps should be taken:</p>
+<ol class="arabic">
+<li><p>Create a new model definition file, <code class="docutils literal notranslate"><span class="pre">my_model.cpp</span></code>, in the <code class="docutils literal notranslate"><span class="pre">src/models/</span></code> directory. For this you can copy one of existing <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> files and modify it to suit your needs, or you can create a new one from scratch.</p></li>
+<li><dl>
+<dt>Add a file named <code class="docutils literal notranslate"><span class="pre">my_model.pro</span></code> to the <code class="docutils literal notranslate"><span class="pre">src/</span></code> directory. This file configures a Qt project to build an executable named my_model.</dt><dd><ul>
+<li><p>If your model uses only Cellular Potts Model (CPM), you can use the following template:</p>
+<blockquote>
+<div><div class="highlight-pro notranslate"><div class="highlight"><pre><span></span>TARGET = my_model
+MAINFILE = &quot;models/my_model.cpp&quot;
+
+include(Tissue_Simulation_Toolkit.pri)
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>If your model requires ECM model to be built, you can use the following template:</p>
+<blockquote>
+<div><div class="highlight-pro notranslate"><div class="highlight"><pre><span></span>MUSCLE3_DIR = &quot;../lib/muscle3/muscle3&quot;
+
+TARGET = my_model
+MAINFILE = &quot;models/my_model.cpp&quot;
+
+include(Tissue_Simulation_Toolkit.pri)
+
+HEADERS += util/muscle3/*.hpp cpm_ecm/*.hpp
+SOURCES += util/muscle3/*.cpp cpm_ecm/*.cpp
+
+INCLUDEPATH += $$MUSCLE3_DIR/include
+LIBS += -L$$MUSCLE3_DIR/lib -lmuscle -lymmsl
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Add the new model definition file to the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> in the root of the repository, so that it will be built.</dt><dd><ul>
+<li><p>If your model only includes CPM components. Add the model name to the <code class="docutils literal notranslate"><span class="pre">MODELS</span></code> variable in the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>. For example, if your model is named <code class="docutils literal notranslate"><span class="pre">my_model</span></code>, you can add it like this below the existing models:</p>
+<blockquote>
+<div><div class="highlight-make notranslate"><div class="highlight"><pre><span></span><span class="nv">MODELS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>bin/vessel<span class="w"> </span>bin/qPotts<span class="w"> </span>bin/sorting<span class="w"> </span>bin/Act_model<span class="w">    </span><span class="c1"># already present models</span>
+<span class="nv">MODELS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>bin/my_model<span class="w">                                      </span><span class="c1"># Newly added model</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>If your model requires a connection to the ECM model. You can add it to the <code class="docutils literal notranslate"><span class="pre">with_adhesions</span></code> target in the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> like this:</p>
+<blockquote>
+<div><div class="highlight-make notranslate"><div class="highlight"><pre><span></span><span class="nf">with_adhesions</span><span class="o">:</span><span class="w"> </span><span class="k">$(</span><span class="nv">MODELS</span><span class="k">)</span> <span class="n">bin</span>/<span class="n">adhesions</span> <span class="n">bin</span>/<span class="n">my_model</span> <span class="n">ecm</span> <span class="n">ymmsl</span>/<span class="n">my_model</span>.<span class="n">ymmsl</span> <span class="n">ymmsl</span>/<span class="n">plot_state</span>.<span class="n">ymmsl</span> <span class="n">ymmsl</span>/<span class="n">dump_state</span>.<span class="n">ymmsl</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>Alternativly, you can also add a new target to the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> for your model, so that it can be built separately.</p>
+<blockquote>
+<div><div class="highlight-make notranslate"><div class="highlight"><pre><span></span><span class="nf">.NOTPARALLEL</span><span class="o">:</span><span class="w"> </span><span class="n">with_my_model</span>
+<span class="nf">with_my_model</span><span class="o">:</span><span class="w"> </span><span class="k">$(</span><span class="nv">MODELS</span><span class="k">)</span> <span class="n">bin</span>/<span class="n">my_model</span> <span class="n">ecm</span> <span class="n">ymmsl</span>/<span class="n">my_model</span>.<span class="n">ymmsl</span> <span class="n">ymmsl</span>/<span class="n">plot_state</span>.<span class="n">ymmsl</span> <span class="n">ymmsl</span>/<span class="n">dump_state</span>.<span class="n">ymmsl</span>
+</pre></div>
+</div>
+<p>here <code class="docutils literal notranslate"><span class="pre">my_model.ymmsl</span></code> is an YAML file containing parameters that defines the model.</p>
+</div></blockquote>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
+<section id="how-to-run-tissue-simulation-toolkit-2-0-without-a-graphical-user-interface">
+<h2>How to run Tissue Simulation Toolkit 2.0 without a graphical user interface?<a class="headerlink" href="#how-to-run-tissue-simulation-toolkit-2-0-without-a-graphical-user-interface" title="Link to this heading">¶</a></h2>
+<p>Tissue Simulation Toolkit 2.0 can be executed in headless (offscreen) mode, which is useful for remote or automated environments without graphical display support. The following steps describe how to configure and run the simulation in this mode and how to post-process the results.</p>
+<section id="running">
+<h3>Running<a class="headerlink" href="#running" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p>Set environment variables in the main <code class="docutils literal notranslate"><span class="pre">.ymmsl</span></code> file.</p>
+<p>Update the <code class="docutils literal notranslate"><span class="pre">implementations</span></code> section of main <code class="docutils literal notranslate"><span class="pre">.ymmsl</span></code> file (here <code class="docutils literal notranslate"><span class="pre">adhesions.ymmsl</span></code>) to include the environment variable <code class="docutils literal notranslate"><span class="pre">QT_QPA_PLATFORM:</span> <span class="pre">offscreen</span></code> under the <code class="docutils literal notranslate"><span class="pre">tst_adhesions</span></code> entry. This ensures that Qt operates in offscreen mode.</p>
+<p>Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tst_adhesions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">+LD_LIBRARY_PATH</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">:/PATH/TO/Tissue-Simulation-Toolkit/lib/muscle3/muscle3/lib</span>
+<span class="w">    </span><span class="nt">QT_QPA_PLATFORM</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">offscreen</span>
+<span class="w">  </span><span class="nt">executable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/PATH/TO/Tissue-Simulation-Toolkit/bin/adhesions</span>
+</pre></div>
+</div>
+</li>
+<li><p>Do not disable graphics output.</p>
+<p>Ensure that <code class="docutils literal notranslate"><span class="pre">cellular_potts.graphics</span></code> is <strong>not</strong> explicitly set to <code class="docutils literal notranslate"><span class="pre">false</span></code> in <code class="docutils literal notranslate"><span class="pre">adhesions.ymmsl</span></code>. Disabling this option may interfere with certain internal processing steps.</p>
+</li>
+<li><p>Run the simulation with <code class="docutils literal notranslate"><span class="pre">dump_state.ymmsl</span></code> instead of <code class="docutils literal notranslate"><span class="pre">plot_state.ymmsl</span></code>.</p>
+<p>Replace the <code class="docutils literal notranslate"><span class="pre">plot_state.ymmsl</span></code> configuration with <code class="docutils literal notranslate"><span class="pre">dump_state.ymmsl</span></code> when executing the simulation with the <code class="docutils literal notranslate"><span class="pre">muscle_manager</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">muscle_manager --start-all ymmsl/adhesions.ymmsl ymmsl/dump_state.ymmsl</span>
+</pre></div>
+</div>
+<p>During execution, simulation data will be written to <code class="docutils literal notranslate"><span class="pre">.pickle</span></code> files located in the directory <code class="docutils literal notranslate"><span class="pre">run_adhesions_&lt;date&gt;_&lt;time&gt;/instances/state_dumper/workdir</span></code>. These files contain state information for both cellular components and the extracellular matrix (ECM).</p>
+</li>
+</ol>
+</section>
+<section id="post-processing">
+<h3>Post-processing<a class="headerlink" href="#post-processing" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p>Generate images from the outputs.</p>
+<blockquote>
+<div><p>To generate plots from the output files, activate the appropriate Python virtual environment and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">plot_states /PATH/TO/run_adhesions_&lt;date&gt;_&lt;time&gt;</span>
+</pre></div>
+</div>
+<p>You can also run <code class="docutils literal notranslate"><span class="pre">plot_states</span></code> in a offscreen mode by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">plot_states -offscreen /PATH/TO/run_adhesions_&lt;date&gt;_&lt;time&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Generate a video</p>
+<blockquote>
+<div><p>Instructions for generating a video from the output data can be found <a class="reference internal" href="cpm_ecm.html#dumping-state"><span class="std std-ref">here</span></a>.</p>
+</div></blockquote>
+</li>
+</ol>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Tissue-Simulation-Toolkit</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readmelink.html">Readme File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readmelink.html#tissue-simulation-toolkit-2-0">Tissue-Simulation-Toolkit 2.0</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to …</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-add-a-new-model">How to add a new model?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-run-tissue-simulation-toolkit-2-0-without-a-graphical-user-interface">How to run Tissue Simulation Toolkit 2.0 without a graphical user interface?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build_system.html">How TST is built</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cplusplus_tests.html">C++ unit tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpm_ecm.html">Cellular Potts - Extracellular Matrix coupled simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sourcecode.html">Source code documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="readmelink.html" title="previous chapter">Readme File</a></li>
+      <li>Next: <a href="build_system.html" title="next chapter">How TST is built</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Roeland Mekrs.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/how_to.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

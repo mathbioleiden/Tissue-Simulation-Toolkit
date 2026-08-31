@@ -37,6 +37,7 @@ extern Parameter par;
 using namespace std;
 
 Info::Info(Dish &d, Graphics &g, std::ostream &out) {
+  dish = &d;
   graphics = &g;
   os = &out;
   ispaused = false;

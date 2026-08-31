@@ -18,17 +18,18 @@ hoomd: $(HOOMD_LIB)
 # Set HOOMD_BUILD_OPTIONS to e.g. -DENABLE_GPU=ON -DENABLE_MPI=ON
 # Build with venv enabled, hoomd will pick it up and install into it later
 $(HOOMD_LIB):
-	python3 hoomd-blue/install-prereq-headers.py -y
+	python3 -m pip install --upgrade pip
+	python3 -m pip install cmake
 	mkdir -p build/hoomd
 	cd build/hoomd && cmake ../../hoomd-blue -DBUILD_TESTING=OFF $(HOOMD_BUILD_OPTIONS)
-	cmake --build build/hoomd -j $(HOOMD_CORES)
+	cmake  --build build/hoomd -j $(HOOMD_CORES)
 
-# Build with venv enabled to install dependencies correctly
+
+# Build with venv install directory specified with --prefix=$$VIRTUAL_ENV/$(VENV_DIR)
+# Note that $VENV_DIR is passed as a variable from the root Makefile
 .PHONY: install
 install: $(HOOMD_LIB)
-	python3 hoomd-blue/install-prereq-headers.py -y
-	cmake --install build/hoomd
-
+	cmake --install build/hoomd --prefix=$$VIRTUAL_ENV/$(VENV_DIR)
 .PHONY: clean
 clean:
 	rm -rf build

@@ -13,7 +13,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="How TST is built" href="build_system.html" />
+    <link rel="next" title="How to …" href="how_to.html" />
     <link rel="prev" title="Welcome to Tissue-Simulation-Toolkit’s documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -65,16 +65,20 @@ following published simulations:</p>
 <li><p>Cells, according to cell type or anything you wish</p></li>
 <li><p>Chemical fields, using color ramps and contour lines (level sets)</p></li>
 </ul>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h2>
+<p>Documentation is available <a class="reference external" href="https://www.mathbioleiden.nl/tst-docs/docs/html/index.html">here</a>. Note that this is work in process and not all functions are fully documented yet!</p>
+</section>
 <section id="downloading-and-installing">
 <h2>Downloading and installing<a class="headerlink" href="#downloading-and-installing" title="Link to this heading">¶</a></h2>
-<p>TST 2.0 is available from GitHub at <a class="reference external" href="https://github.com/mathbioleiden/Tissue-Simulation-Toolkit">https://github.com/mathbioleiden/Tissue-Simulation-Toolkit</a>. It can be built and run on Windows, macOS and Linux using the instructions below.</p>
+<p>TST 2.0 is available from GitHub at <a class="reference external" href="https://github.com/mathbioleiden/Tissue-Simulation-Toolkit">https://github.com/mathbioleiden/Tissue-Simulation-Toolkit</a>. It can be built and run on <strong>Windows</strong>, <strong>MacOS</strong> and <strong>Linux</strong> using the instructions below. Alternatively, you can use the Docker-based setup to run TST on any platform that supports <strong>Docker</strong>. For instructions on using the Docker implementation, see the <a class="reference external" href="./docker/">docker folder</a>.</p>
 <section id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Link to this heading">¶</a></h3>
 <p>The easiest way to install and work with the TST on Windows is via the Windows Subsystem for Linux. This provides an Ubuntu Linux-like environment within Windows, within which you can install TST. Opening a WSL2 terminal and following the Linux instructions should get you there.</p>
 </section>
 <section id="macos">
-<h3>macOS<a class="headerlink" href="#macos" title="Link to this heading">¶</a></h3>
-<p>On macOS, you need to install the XCode development environment from Apple to get the required tools, including the command line tools. You will need to specifically select the command line tools in the installer.</p>
+<h3>MacOS<a class="headerlink" href="#macos" title="Link to this heading">¶</a></h3>
+<p>On MacOS, you need to install the XCode development environment from Apple to get the required tools, including the command line tools. You will need to specifically select the command line tools in the installer.</p>
 <p>To install the dependencies, we recommend installing [Homebrew](<a class="reference external" href="https://brew.sh">https://brew.sh</a>). Once you have that installed, you can install QT5, libpng and zlib using (see note on Qt below)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>qt@5<span class="w"> </span>libpng<span class="w"> </span>zlib
 </pre></div>
@@ -82,15 +86,7 @@ following published simulations:</p>
 <p>You may have to edit <cite>src/Tissue-Simulation-Toolkit.pri</cite> for qmake to be able to find them.</p>
 <p>Note on Qt: If you have an existing Qt installation (e.g. the open source installation through qt.io)  do not install Qt again through homebrew. Instead, ensure that qmake is in the path or edit the Makefile such that the full path for qmake is given.</p>
 <p>Next, you can get the source by cloning the repository from GitHub. You can use the following commands in a Terminal:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>-b<span class="w"> </span>TST2.0<span class="w"> </span>git@github.com:rmerks/Tissue-Simulation-Toolkit.git
-</pre></div>
-</div>
-<p>If you are on a Mac then you will have to modify the file <code class="code docutils literal notranslate"><span class="pre">lib/MultiCellDS/v1.0/v1.0.0/Makefile</span></code> to get the TST to compile. Find the line</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-s<span class="w"> </span>-mfpmath<span class="o">=</span>both<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
-</pre></div>
-</div>
-<p>And remove the <code class="code docutils literal notranslate"><span class="pre">-s</span> <span class="pre">-mfpmath=both</span></code> so that it reads</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>-b<span class="w"> </span>TST2.0<span class="w"> </span>git@github.com:mathbioleiden/Tissue-Simulation-Toolkit.git
 </pre></div>
 </div>
 <p>The TST can then be built using</p>
@@ -148,7 +144,7 @@ make<span class="o">[</span><span class="m">1</span><span class="o">]</span>:<sp
 make:<span class="w"> </span>***<span class="w"> </span><span class="o">[</span>MCDS<span class="o">]</span><span class="w"> </span>Error<span class="w"> </span><span class="m">2</span>
 </pre></div>
 </div>
-<p>Find the line</p>
+<p>Find the line below the file <code class="code docutils literal notranslate"><span class="pre">lib/MultiCellDS/v1.0/v1.0.0/Makefile</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-s<span class="w"> </span>-mfpmath<span class="o">=</span>both<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
 </pre></div>
 </div>
@@ -156,23 +152,44 @@ make:<span class="w"> </span>***<span class="w"> </span><span class="o">[</span>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span>COMPILE_CFLAGS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span>-O3<span class="w"> </span>-m64<span class="w"> </span>-std<span class="o">=</span>c++11
 </pre></div>
 </div>
-<p>## Contributing</p>
+</section>
+<section id="cmake-minumum-requirement">
+<h3>CMake minumum requirement<a class="headerlink" href="#cmake-minumum-requirement" title="Link to this heading">¶</a></h3>
+<p>If you get the error below when running <code class="code docutils literal notranslate"><span class="pre">make</span> <span class="pre">with_adhesions</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CMake<span class="w"> </span>Error<span class="w"> </span>at<span class="w"> </span>CMakeLists.txt:1<span class="w"> </span><span class="o">(</span>CMAKE_MINIMUM_REQUIRED<span class="o">)</span>:
+<span class="w">  </span>Compatibility<span class="w"> </span>with<span class="w"> </span>CMake<span class="w"> </span>&lt;<span class="w"> </span><span class="m">3</span>.5<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>removed<span class="w"> </span>from<span class="w"> </span>CMake.
+
+<span class="w">  </span>Update<span class="w"> </span>the<span class="w"> </span>VERSION<span class="w"> </span>argument<span class="w"> </span>&lt;min&gt;<span class="w"> </span>value.<span class="w">  </span>Or,<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span>&lt;min&gt;...&lt;max&gt;<span class="w"> </span>syntax
+<span class="w">  </span>to<span class="w"> </span>tell<span class="w"> </span>CMake<span class="w"> </span>that<span class="w"> </span>the<span class="w"> </span>project<span class="w"> </span>requires<span class="w"> </span>at<span class="w"> </span>least<span class="w"> </span>&lt;min&gt;<span class="w"> </span>but<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>updated
+<span class="w">  </span>to<span class="w"> </span>work<span class="w"> </span>with<span class="w"> </span>policies<span class="w"> </span>introduced<span class="w"> </span>by<span class="w"> </span>&lt;max&gt;<span class="w"> </span>or<span class="w"> </span>earlier.
+
+<span class="w">  </span>Or,<span class="w"> </span>add<span class="w"> </span>-DCMAKE_POLICY_VERSION_MINIMUM<span class="o">=</span><span class="m">3</span>.5<span class="w"> </span>to<span class="w"> </span>try<span class="w"> </span>configuring<span class="w"> </span>anyway.
+</pre></div>
+</div>
+<p>Run the following command to set the minimum CMake version to 3.5:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CMAKE_POLICY_VERSION_MINIMUM</span><span class="o">=</span><span class="m">3</span>.5<span class="w"> </span>make<span class="w"> </span>with_adhesions
+</pre></div>
+</div>
+</section>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">¶</a></h2>
 <p>Contributions are very welcome! You can contribute by forking this repository and creating a pull request.</p>
-<p>### Formatting
-Code is easier to read if it formatted in a nice way. To format your code you can use <cite>clang-format</cite> with the <cite>.clang_format</cite> style file.
+<section id="formatting">
+<h3>Formatting<a class="headerlink" href="#formatting" title="Link to this heading">¶</a></h3>
+<p>Code is easier to read if it formatted in a nice way. To format your code you can use <code class="code docutils literal notranslate"><span class="pre">clang-format</span></code> with the <code class="code docutils literal notranslate"><span class="pre">.clang_format</span></code> style file.
 To do this run</p>
-<p><code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">clang-format</span> <span class="pre">--style=file:./clang_format</span> <span class="pre">YOUR_FILE</span>
-<span class="pre">`</span></code></p>
-<p>We also created a script that automatically formats any file that you commit using <cite>git commit</cite>. To activate this script you have to let git know where it is located. You can do this by running:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">git</span> <span class="pre">config</span> <span class="pre">--local</span> <span class="pre">core.hooksPath</span> <span class="pre">.githooks/</span>
-<span class="pre">`</span></code></p>
-<p>## Who do I talk to?</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>clang-format<span class="w"> </span>--style<span class="o">=</span>file:./clang_format<span class="w"> </span>YOUR_FILE
+</pre></div>
+</div>
+<p>We also created a script that automatically formats any file that you commit using <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>. To activate this script you have to let git know where it is located. You can do this by running:</p>
+</section>
+</section>
+<section id="who-do-i-talk-to">
+<h2>Who do I talk to?<a class="headerlink" href="#who-do-i-talk-to" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Roeland Merks</p></li>
 </ul>
-</section>
 </section>
 </section>
 
@@ -197,11 +214,15 @@ To do this run</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Readme File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#tissue-simulation-toolkit-2-0">Tissue-Simulation-Toolkit 2.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#downloading-and-installing">Downloading and installing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#test-the-tissue-simulation-toolkit">Test the Tissue Simulation Toolkit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#who-do-i-talk-to">Who do I talk to?</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="how_to.html">How to …</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_system.html">How TST is built</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cplusplus_tests.html">C++ unit tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpm_ecm.html">Cellular Potts - Extracellular Matrix coupled simulation</a></li>
@@ -213,7 +234,7 @@ To do this run</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Welcome to Tissue-Simulation-Toolkit’s documentation!</a></li>
-      <li>Next: <a href="build_system.html" title="next chapter">How TST is built</a></li>
+      <li>Next: <a href="how_to.html" title="next chapter">How to …</a></li>
   </ul></li>
 </ul>
 </div>

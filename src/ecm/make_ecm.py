@@ -19,6 +19,7 @@ def main():
             {Operator.O_F: ['ecm_out']}, KEEPS_NO_STATE_FOR_NEXT_USE)
 
     while instance.reuse_instance():
+        impose_default_settings(instance)
         par = from_settings(GenerationParameters, instance)
         net = generate_network(par)
         instance.send('ecm_out', Message(0.0, data=encode_net(net)))
@@ -27,3 +28,16 @@ def main():
         _logger.info(f'Generated {len(net.bonds_typeid)} bonds')
         _logger.info(f'Generated {len(net.angles_typeid)} angle constraints')
         _logger.info(f'Generated {len(net.crosslink_typeid)} crosslinkers')
+
+def impose_default_settings(instance):
+    # This is a function used for setting default settings in the instance
+    # in case it was not specified in the ymmsl file.
+
+    default_setting_dic = { "network_type":         "random",
+                            "network_square_size":  -1.0, # This is used as a default value to avoid errors.
+                            "network_file_path":    ""}
+
+    for key in default_setting_dic.keys():
+        if not key in instance._settings_manager.base.keys():
+            instance._settings_manager.base[key] = default_setting_dic[key]
+    return instance

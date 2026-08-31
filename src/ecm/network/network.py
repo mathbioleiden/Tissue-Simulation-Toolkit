@@ -9,6 +9,7 @@ import itertools
 import decimal
 from collections import defaultdict
 import logging
+from PIL import Image
 
 # installed modules
 import numpy as np
@@ -90,47 +91,88 @@ class Network:
         num_fibers          = par.strands
         particles_per_fiber = par.beads
 
-        # The particles are seeded in a slightly larger area than the simulation box.
-        # This prevents low fiber concentration at the edges.
-        xbox = par.Lx * 2.0 + par.contour_length
-        ybox = par.Ly *2.0 + par.contour_length
+        if par.network_type == "random":
 
-        pos = np.zeros((num_fibers, particles_per_fiber, 2))
-        pos[:, 0, 0] = np.random.uniform(-par.contour_length, xbox, size=num_fibers)
-        pos[:, 0, 1] = np.random.uniform(-par.contour_length, ybox, size=num_fibers)
+            # The particles are seeded in a slightly larger area than the simulation box.
+            # This prevents low fiber concentration at the edges.
+            xbox = par.sizex + par.contour_length
+            ybox = par.sizey + par.contour_length
 
-        angles = np.random.uniform(0, 2*np.pi, size=num_fibers)
+            pos = np.zeros((num_fibers, particles_per_fiber, 2))
+            pos[:, 0, 0] = np.random.uniform(-par.contour_length, xbox, size=num_fibers)
+            pos[:, 0, 1] = np.random.uniform(-par.contour_length, ybox, size=num_fibers)
 
-        # compute segment length based upon contour length
-        # if the helix angle is 0, this is equivalent to (particles_per_fiber-1)*par.spring_r0
-        segment_rest_length = par.contour_length / (particles_per_fiber-1)
+            angles = np.random.uniform(0, 2*np.pi, size=num_fibers)
 
-        if np.cos(par.helix_angle) != 0:
-            h = segment_rest_length / np.cos(par.helix_angle)   # was: h = par.contour_length / (particles_per_fiber - 1)
-        else:
-            _logger.warning("np.cos(par.helix_angle) = 0, check stand generation!")
-            h = par.contour_length / (particles_per_fiber - 1) # I don't think this is right, but let's leave it for now.
+            # compute segment length based upon contour length
+            # if the helix angle is 0, this is equivalent to (particles_per_fiber-1)*par.spring_r0
+            segment_rest_length = par.contour_length / (particles_per_fiber-1)
 
-        for bead in range(particles_per_fiber)[1:]:
-            coss = np.cos(angles)
-            sins = np.sin(angles)
-            pos[:, bead, :] = pos[:, bead-1, :] + h*np.column_stack([coss, sins])
+            if np.cos(par.helix_angle) != 0:
+                h = segment_rest_length / np.cos(par.helix_angle)   # was: h = par.contour_length / (particles_per_fiber - 1)
+            else:
+                _logger.warning("np.cos(par.helix_angle) = 0, check stand generation!")
+                h = par.contour_length / (particles_per_fiber - 1) # I don't think this is right, but let's leave it for now.
+
+            for bead in range(particles_per_fiber)[1:]:
+                coss = np.cos(angles)
+                sins = np.sin(angles)
+                pos[:, bead, :] = pos[:, bead-1, :] + h*np.column_stack([coss, sins])
+
+        elif par.network_type == "outside square":
+            # The particles are seeded in a slightly larger area than the simulation box.
+            # This prevents low fiber concentration at the edges.
+            xbox = par.sizex + par.contour_length
+            ybox = par.sizey + par.contour_length
+
+            if par.network_square_size == -1.0:
+                raise RuntimeError("For using the 'outside square' method the value of network_square_size should be specified.")
+            square_size = par.network_square_size
+            pos = np.zeros((num_fibers, particles_per_fiber, 2))
+            for i in range(num_fibers):
+                pos_x =  np.random.uniform(-par.contour_length, xbox)
+                pos_y =  np.random.uniform(-par.contour_length, ybox)
+                while (pos_x <= par.sizex/2 + square_size and pos_x >= par.sizex/2 - square_size) and (pos_y <= par.sizey/2 + square_size and pos_y >= par.sizey/2 - square_size):
+                    pos_x =  np.random.uniform(-par.contour_length, xbox)
+                    pos_y =  np.random.uniform(-par.contour_length, ybox)
+                pos[i, 0, 0] = pos_x
+                pos[i, 0, 1] = pos_y
+
+            angles = np.random.uniform(0, 2*np.pi, size=num_fibers)
+
+            # compute segment length based upon contour length
+            # if the helix angle is 0, this is equivalent to (particles_per_fiber-1)*par.spring_r0
+            segment_rest_length = par.contour_length / (particles_per_fiber-1)
+
+            if np.cos(par.helix_angle) != 0:
+                h = segment_rest_length / np.cos(par.helix_angle)   # was: h = par.contour_length / (particles_per_fiber - 1)
+            else:
+                _logger.warning("np.cos(par.helix_angle) = 0, check stand generation!")
+                h = par.contour_length / (particles_per_fiber - 1) # I don't think this is right, but let's leave it for now.
+
+            for bead in range(particles_per_fiber)[1:]:
+                coss = np.cos(angles)
+                sins = np.sin(angles)
+                pos[:, bead, :] = pos[:, bead-1, :] + h*np.column_stack([coss, sins])
+
+        elif par.network_type=="file":
+            pos = self.network_from_image(par)
 
         # populate position array
         self.pos = pos.reshape( (num_total_particles, 2))
 
         self.particles_typeid = np.zeros( num_total_particles, dtype=int ) # 0 is the id for type 'free'
         if par.fixed_boundary:
-            boundary_particles = ( abs(self.pos[:, 0]) > par.Lx ) | ( abs( self.pos[:,1] ) > par.Ly )
+            boundary_particles = ( abs(self.pos[:, 0]) > par.sizex/2 ) | ( abs( self.pos[:,1] ) > par.sizey/2 )
             self.particles_typeid[boundary_particles] = 1
             _logger.info("all boundary particles are fixed")
         else:
             if par.bottom_fixed:
-                boundary_particles = ( self.pos[:,1] < -par.Ly )
+                boundary_particles = ( self.pos[:,1] < -par.sizey/2 )
                 self.particles_typeid[boundary_particles] = 1
                 _logger.info("bottom particles are fixed")
             if par.top_fixed:
-                boundary_particles = ( self.pos[:,1] > par.Ly )
+                boundary_particles = ( self.pos[:,1] > par.sizey/2 )
                 self.particles_typeid[boundary_particles] = 1
                 _logger.info("top particles are fixed")
 
@@ -251,14 +293,14 @@ class Network:
         # bin the network - note that the binning lattice is not the same as the CPM lattice!
         bin_size_x = par.crosslink_bin_size
         bin_size_y = par.crosslink_bin_size
-        num_bins_x = int(par.box_size_x / bin_size_x)
-        num_bins_y = int(par.box_size_y / bin_size_y)
+        num_bins_x = int(par.sizex / bin_size_x)
+        num_bins_y = int(par.sizey / bin_size_y)
 
         # initialise the binner
         crosslink_binner = binner.FiberBin(num_bins_x, num_bins_y, 
                                            bin_size_x, bin_size_y, 
                                            par.beads, par.strands, 
-                                           par.Lx, par.Ly)
+                                           par.sizex, par.sizey)
                 
         # bin by taking all fiber beads and interpolating points between them
         # also generates 'bonds_in_bin' -- count of bonds in each bin
@@ -369,7 +411,10 @@ class Network:
         _logger.info('')
 
         # Created crosslinks may be fewer than requested, e.g. due to low strand density
-        _logger.info(f"Number of crosslinks requested: {len(sampled_bins)}")
+        try:
+            _logger.info(f"Number of crosslinks requested: {len(sampled_bins)}")
+        except UnboundLocalError:
+            _logger.info(f"Number of crosslinks requested: 0")
         _logger.info(f"Number of crosslinks created: {len(self.crosslink_list)}")
         
         self.bonds_group.extend(self.crosslink_list)
@@ -388,6 +433,114 @@ class Network:
         self.angle_types.append("noangle")
         self.dummy_angleID = len(self.angle_types) - 1
 
+    def addDummyParticles(self,par):
+        """
+        Add exclusion particles as dummy particles. During the membrane updating some of these
+        particles turn into membrane particles and interact with the ECM.
+        """
+        frac = 0.01 # The fraction of the number of pixels reserved for membrane particles.
+        n_added_particles=int(par.sizex*par.sizey*frac)
+        # placing the reserved beads in the origin
+        bead_positions = [0,0]
+        particle_type=3
+        # Adding particles with the specific location
+        self.pos = np.vstack((self.pos,
+                              np.hstack((bead_positions[0]*np.ones((n_added_particles,1)),
+                                         bead_positions[1]*np.ones((n_added_particles,1))))))
+        self.particles_typeid = np.hstack((self.particles_typeid,particle_type*np.ones(n_added_particles,dtype=int)))
+
+    def network_from_image(self,par):
+        """ enerating the position of strands using an image file.
+        The darker the pixel the more probable to have a fiber.
+        """
+
+        if len(par.network_file)==0:
+            raise RuntimeError("For using the 'file' method the path to the file should be specified via network_file parameter.")
+
+        num_fibers          = par.strands
+        pos_cen = np.zeros((num_fibers, 2))
+
+        # Reading the image
+        img = Image.open(par.network_file)
+
+        # Checking the image aspect ratio
+        if (img.width != par.sizex or img.height != par.sizey):
+            _logger.warning(f'The image size ({img.width}x{img.height}) is not the same as the simulation box ({par.sizex}x{par.sizey}).')
+            if abs(img.width/img.height - par.sizex/par.sizey) <= 0.1:
+                _logger.warning(f'The aspect ratios are compatible. The image is resized to match the simulation box.')
+                img = img.resize((par.sizex, par.sizey))
+            else:
+                raise RuntimeError("Please resize the image to match the simulation box.")
+
+        # convert to RGB image if it is not so.
+        if img.mode!= 'RGB':
+            img=img.convert('RGB')        
+        # We only use red channgels for this usage.
+        # If you are using grayscale images it is not a problem.
+        red_channel, _ , _ = img.split()
+        img=np.asarray(red_channel)
+        img = 255-img
+
+        # Calculating the probability densities of fiber positions
+        pmf_2d = img/np.sum(img[:])
+        pmf_x = np.sum(img,axis=0)/np.sum(img[:])
+        cmf_x = [np.sum(pmf_x[0:i+1]) for i in range(0,len(pmf_x))]
+
+        # Generating the random positions using inverse sampling method
+        U_x = np.random.uniform(0, 1, size=num_fibers)
+        U_y = np.random.uniform(0, 1, size=num_fibers)
+
+        # Generating the x-coordinates of the center of the fibers
+        for j in range(num_fibers):
+            # Mapping the U_x values to position by invertiing the cumulative mass function (cmf)
+            p = U_x[j]
+            for i in range(len(cmf_x)):
+                if p<cmf_x[i]:
+                    break
+            if i == 0:
+                cmf_i0 = 0
+            else:
+                cmf_i0 = cmf_x[i-1]
+            cmf_i1 = cmf_x[i]
+            pos_cen[j,0] = i-1 + (p - cmf_i0)/(cmf_i1-cmf_i0)
+
+        # Generating the y-coordinates of the center of the fibers
+        for j in range(num_fibers):
+            # Calculaing the cumulative mass function for the y-coordinates based on the given x-coordinate
+            x = pos_cen[j,0]
+            x0 = np.floor(x)
+            if x0 == -1:
+                pmf_x_sam = pmf_2d[:,0]
+            else:
+                x1 = x0+1
+                pmf_x_sam = (x-x0)*pmf_2d[:,int(x0)] + (x1-x)*pmf_2d[:,int(x1)]
+            pmf_x_sam = pmf_x_sam /np.sum(pmf_x_sam)
+            cmf_x_sam = [np.sum(pmf_x_sam[0:i+1]) for i in range(0,pmf_2d.shape[0])]
+            
+            # Mapping the U_y values to position by invertiing the cumulative mass function
+            p = U_y[j]
+            for i in range(len(cmf_x_sam)):
+                if p<cmf_x_sam[i]:
+                    break
+            if i == 0:
+                cmf_i0 = 0
+            else:
+                cmf_i0 = cmf_x_sam[i-1]
+            cmf_i1 = cmf_x_sam[i]
+            pos_cen[j,1] = i-1 + (p - cmf_i0)/(cmf_i1-cmf_i0)
+
+        # Generating the fiber bead locations from the center locations.
+        particles_per_fiber = par.beads
+        l_c = par.contour_length
+        pos = np.zeros((num_fibers, particles_per_fiber, 2))
+        angles = np.random.uniform(0, 2*np.pi, size=num_fibers)
+        for i in range(num_fibers):
+            for j in range(particles_per_fiber):
+                r = l_c / 2 - j * l_c / (particles_per_fiber - 1)
+                pos[i,j,0] = pos_cen[i,0] + r * np.cos(angles[i])
+                pos[i,j,1] = pos_cen[i,1] + r * np.sin(angles[i])
+
+        return pos
 
 def generate_network(par):
     """

@@ -76,7 +76,7 @@ separate component (see below). The ECM is then equilibrated using the main
 simulation code, after which the CPM and the ECM run in parallel. After
 initialising (which is done internally for the CPM), the CPM sends a set of
 interaction attempts to the ECM model. These can be the creation of new
-adhesions, or movement of existing ones <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. At the same time, the ECM sends
+adhesions, or movement of existing ones <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. At the same time, the ECM sends
 to the CPM the current location of all the fibril particles in the boundary, as
 well as the bonds and angle constraints involving them.</p>
 <p>The CPM stores the locations of the boundary particles and associated
@@ -452,7 +452,7 @@ simulation ran successfully. Doh!</p>
 be released with the next version, so when that’s out we’ll upgrade and this
 will disappear.</p>
 <section id="dumping-state">
-<h3>Dumping state<a class="headerlink" href="#dumping-state" title="Link to this heading">¶</a></h3>
+<span id="id2"></span><h3>Dumping state<a class="headerlink" href="#dumping-state" title="Link to this heading">¶</a></h3>
 <p>If you want to make a movie (and who doesn’t like movies?), then you need to
 save the state of the simulation regularly. There’s a separate component that
 does this, which can be added to the simulation by adding the
@@ -809,7 +809,7 @@ machine isn’t so easy. It’s better to do that locally if the problem is with
 code rather than the configuration, and then go back to the cluster with the fix
 in place.</p>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id2" role="doc-footnote">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>This will very likely be extended over time as more complex cell-ECM
 interactions are added.</p>
@@ -841,6 +841,7 @@ interactions are added.</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readmelink.html">Readme File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="readmelink.html#tissue-simulation-toolkit-2-0">Tissue-Simulation-Toolkit 2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to.html">How to …</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_system.html">How TST is built</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cplusplus_tests.html">C++ unit tests</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Cellular Potts - Extracellular Matrix coupled simulation</a><ul>

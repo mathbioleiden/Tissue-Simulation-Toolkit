@@ -46,6 +46,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "cell.hpp"
 #include "cell_ecm_interactions.hpp"
 #include "pde.hpp"
+#include "act.hpp"
 
 using namespace std;
 
@@ -118,6 +119,9 @@ public:
   std::unordered_set<std::array<int, 2>> alivePixels;
   std::unordered_map<std::array<int, 2>, int> actPixels;
   int **matrix;
+
+  /* Adding an instance of the ActField class to the CellularPotts class */
+  ACT::ActField act_field;
 
   //! \brief Constructs a CA field. This should be done in "Dish".
   CellularPotts(std::vector<Cell> *cells, const int sizex = 200,
@@ -409,6 +413,11 @@ public:
   */
   void GrowAndDivideCells(int growth_rate);
 
+  bool isInsideHexagonalArray(int x, int y, double r, double d);
+
+  void AddHexPillars(int r, int gap_width);
+
+
   inline Cell &getCell(int c) { return (*cell)[c]; }
 
   inline vector<Cell> *getCellArray() { return cell; }
@@ -477,6 +486,14 @@ private:
    */
   int DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
              AdhesionDisplacements *adh_disp);
+
+  /*! \brief DeltaH, for harmonic potential for cell area
+   */
+  int Area_DeltaH(int x,int y,int xp, int yp);
+
+  /*! \brief DeltaH, for harmonic potential for cell perimeter
+   */
+  int Perimeter_DeltaH(int x,int y,int xp, int yp);
 
   /*! \brief DeltaH, including act dynamics
    */

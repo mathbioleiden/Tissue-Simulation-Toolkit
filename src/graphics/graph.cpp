@@ -28,25 +28,26 @@ void start_graphics(int argc, char **argv) {
   a.exec();
 #endif
 
-#ifdef GLGRAPHICS
-  extern GLGraphics *graphics_object;
-  glutInit(&argc, argv);
-  graphics_object = new GLGraphics(window_size_x, window_size_y);
-  glutMainLoop();
-#endif
+  #ifdef GLGRAPHICS
+    extern GLGraphics *graphics_object;
+    glutInit(&argc, argv);
+    graphics_object = new GLGraphics(window_size_x, window_size_y);
+    glutMainLoop();
+  #endif
 
-#ifdef QTGLGRAPHICS
-  QGuiApplication app(argc, argv);
-  QtGLGraphics graphics(window_size_x, window_size_y);
-  graphics.show();
-  app.exec();
-#endif
+  #ifdef QTGLGRAPHICS
+    QGuiApplication app(argc, argv);
+    QtGLGraphics graphics(window_size_x, window_size_y);
+    graphics.show();
+    app.exec();
+  #endif
 
-#ifdef X11GRAPHICS
-  X11Graphics g(window_size_x, window_size_y);
-  int t;
-  for (t = 0; t < par.mcs; t++) {
-    g.TimeStep();
-  }
-#endif
+  #ifdef X11GRAPHICS
+    X11Graphics g(window_size_x, window_size_y);
+    int t;
+    for (t = 0; t < par.mcs; t++) {
+      g.TimeStep();
+    }
+  #endif
+  
 }

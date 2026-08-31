@@ -173,15 +173,15 @@ class Simulation:
         # Set up box
         box_offset = 4
         safety_margin = par.contour_length
-        box_x = par.box_size_x + box_offset * par.contour_length + safety_margin
-        box_y = par.box_size_y + box_offset * par.contour_length + safety_margin
+        box_x = par.sizex + box_offset * par.contour_length + safety_margin
+        box_y = par.sizey + box_offset * par.contour_length + safety_margin
         snapshot.configuration.box = [box_x, box_y, 0.0, 0.0, 0.0, 0.0]
 
-        # Our standard coordinate ranges are [0, box_size_x] and [0, box_size_y]
+        # Our standard coordinate ranges are [0, sizex] and [0, sizey]
         # Hoomd wants everything centered at the origin. Add this to get from
         # standard to hoomd coordinates, subtract it to go from hoomd to standard.
         self._pos_offset = np.array([
-            -par.box_size_x / 2.0, -par.box_size_y / 2.0])
+            -par.sizex / 2.0, -par.sizey / 2.0])
 
         # Set up initial types
         if self.device.communicator.rank == 0:
@@ -363,10 +363,10 @@ class Simulation:
 
             bond_types_ids = np.unique(bonds_typeids)
             bond_types_r0 = np.array([
-                self._bond_force_cache[i][1]
+                self._bond_force_cache[i][1]    # type: ignore[index]
                 for i in bond_types_ids], dtype=np.float64)
             bond_types_k = np.array([
-                self._bond_force_cache[i][0]
+                self._bond_force_cache[i][0]    # type: ignore[index]
                 for i in bond_types_ids], dtype=np.float64)
 
             angle_csts_ids = np.concatenate(angle_cst_ids_list, dtype=np.int32)
@@ -375,10 +375,10 @@ class Simulation:
 
             angle_cst_types_ids = np.unique(angle_csts_typeids)
             angle_cst_types_t0 = np.array([
-                self._angle_cst_force_cache[i][1]
+                self._angle_cst_force_cache[i][1]   # type: ignore[index]
                 for i in angle_csts_typeids], dtype=np.float64)
             angle_cst_types_k = np.array([
-                self._angle_cst_force_cache[i][0]
+                self._angle_cst_force_cache[i][0]   # type: ignore[index]
                 for i in angle_csts_typeids], dtype=np.float64)
 
             result = ECMBoundaryState(
@@ -424,7 +424,7 @@ class Simulation:
 
         # Find all particles in the change area
         from_type_id = change_type_in_area.from_type.value
-        change_zone = {(x[0], x[1]) for x in change_type_in_area.change_area}
+        change_zone = {(x[0], x[1]) for x in change_type_in_area.change_area} # type: ignore[index]
 
         potential_changes = list()
         for i in range(snapshot.particles.typeid.shape[0]):
@@ -437,12 +437,18 @@ class Simulation:
         all_potential_changes = self._comm.allgather(potential_changes)
         potential_changes = [par_id for l in all_potential_changes for par_id in l]
 
+
+        # TODO: print a warning message that gets picked up by muscle3
+        
         if len(potential_changes) < change_type_in_area.num_particles:
-            raise RuntimeError(
+
+            print(
                     'There are not enough particles in the adhesion zone to'
                     ' create the requested number of adhesions. Please increase'
                     ' adhesion_zone_radius, decrease num_initial_adhesions, or'
                     ' provide an ECM with higher particle density.')
+
+            return()
 
         # Randomly select the required number of particles
         selected_changes = list()

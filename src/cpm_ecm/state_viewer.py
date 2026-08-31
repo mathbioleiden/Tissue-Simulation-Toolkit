@@ -30,10 +30,10 @@ def main() -> None:
         Operator.S: ['cpm_state_in', 'ecm_state_in']})
 
     while instance.reuse_instance():
-        Lx = instance.get_setting('Lx', 'float')
-        Ly = instance.get_setting('Ly', 'float')
+        sizex = instance.get_setting('sizex', 'int')
+        sizey = instance.get_setting('sizey', 'int')
         image_height = instance.get_setting('image_height', 'int')
-        plotter = StatePlotter(Lx, Ly, image_height)
+        plotter = StatePlotter(sizex, sizey, image_height)
 
         state_output_interval = instance.get_setting('state_output_interval', 'int')
         mcs = instance.get_setting('mcs', 'int')
@@ -51,7 +51,9 @@ def main() -> None:
                         particles['types'].array,
                         ecm_state_msg.data['bonds']['groups'].array,
                         cpm_state_msg.data['pde'].array,
-                        cpm_state_msg.data['cpm'].array, save=False)
+                        cpm_state_msg.data['cpm'].array,
+                        cpm_state_msg.data['act_field'],
+                        save=False)
 
 if __name__ == '__main__':
     main()

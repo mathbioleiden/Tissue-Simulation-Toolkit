@@ -11,6 +11,11 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev libexpat1-dev
+
     - name: Set up Python 3.11
       uses: actions/setup-python@v6
       with:
@@ -18,9 +23,6 @@ jobs:
 
     - name: Build and run the unit tests
       run: |
-        sudo apt-get update
-        sudo apt-get install gcc g++ binutils make zlib1g-dev libpng-dev ocl-icd-opencl-dev libqt5opengl5-dev
         python -m pip install tox
         cd $GITHUB_WORKSPACE
         make -j 3 test
-

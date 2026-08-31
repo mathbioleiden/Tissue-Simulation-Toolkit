@@ -229,6 +229,12 @@ PARAMETER(
 PARAMETER(int, adhesions_per_pixel_overflow_penalty, 600,
           "Per-adhesion penalty (in DH units) in case of crowding")
 
+PARAMETER(int, pillar_gapwidth, 0,
+          "Size of the most narrow gap in a hexagonal pillar array.")
+
+PARAMETER(int, pillar_radius, 0,
+          "Radius of circular pillars.")
+
 SECTION("Obsolete and unused")
 
 PARAMETER(bool, gradient, false, "Obsolete, unused")

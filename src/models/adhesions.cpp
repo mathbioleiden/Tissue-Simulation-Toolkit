@@ -22,38 +22,46 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 */
 
-#include <stdio.h>
-#ifndef __APPLE__
-#include <malloc.h>
-#endif
-#include "adhesion_creation.hpp"
-#include "cell.hpp"
-#include "cpm_ecm/io.hpp"
-#include "dish.hpp"
-#include "graph.hpp"
-#include "info.hpp"
-#include "parameter.hpp"
-#include "plotter.hpp"
-#include "profiler.hpp"
-#include "random.hpp"
-#include "util/muscle3/settings.hpp"
-#include <algorithm>
-#include <cstdint>
-#include <cstdlib>
-#include <fstream>
+// Standard library headers for input-output operations, 
+// memory management, and mathematical functions
 #include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <cstdint>
+#include <algorithm>
 #include <math.h>
 #include <memory>
+#include <stdio.h>
 #include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
 
+// Platform-specific header for memory allocation functions
+#ifndef __APPLE__
+#include <malloc.h>
+#endif
+
+// Tissue Simulation Toolkit components
+#include "cell.hpp"              // cellular potts: cell-related definitions and operations
+#include "dish.hpp"              // cellular potts: manages the simulation environment
+
+#include "adhesion_creation.hpp" // adhesions:
+#include "cpm_ecm/io.hpp"        // cpm_ecm:
+
+#include "graph.hpp"             // graphics: graphics-related functions and definitions
+#include "parameter.hpp"         // parameter: manages simulation parameters
+#include "plotter.hpp"           // plotter: handles plotting and visualization of the simulation
+
+#include "info.hpp"              // util: handles simulation information and user interactions
+#include "profiler.hpp"          // util: profiler functions for performance measurement
+#include "random.hpp"            // util: random number generation functions
+
+// Muscle 3 components
+#include "util/muscle3/settings.hpp"
 #include <libmuscle/libmuscle.hpp>
 #include <ymmsl/ymmsl.hpp>
 
-#include <iostream>
-#include <vector>
 
 using namespace std;
 
@@ -69,53 +77,70 @@ extern Parameter par;
 
 std::unique_ptr<Instance> instance;
 
+/* Implements the function to initialize the simulation state
+   INIT is defined as a macro in dish.hpp 
+   the code will be added to the Dish::Init method
+   dish.hpp declares the pointer CPM to an instance of the 
+   CellularPotts class, which is itself defined in ca.hpp.
+*/
 INIT {
   try {
-    // Define initial distribution of cells
-    CPM->GrowInCells(par.n_init_cells, par.size_init_cells, par.subfield);
-    CPM->ConstructInitCells(*this);
+    	// Define initial distribution of cells
+      	CPM -> GrowInCells(par.n_init_cells, par.size_init_cells, par.subfield);
+		CPM -> ConstructInitCells(*this);
 
-    // If we have only one big cell and divide it a few times
-    // we start with a nice initial clump of cells.
-    //
-    // The behavior can be changed in the parameter file.
-    for (int i = 0; i < par.divisions; i++) {
-      CPM->DivideCells();
+		// Start with only one big cell and divide it a few times
+		// to generate a clump of cells.
+		// The behavior can be changed in the parameter file using
+		// parameters n_init_cells, size_init_cells, and divisions.
+		for (int i = 0; i < par.divisions; i++) {
+    		CPM -> DivideCells();
+      	}
+
+		// The edgelist keeps track of pairs of lattice points  
+		// that are eligible to change the CPM configuration.
+		CPM -> InitialiseEdgeList();
+
+    } catch (const char *error) {
+    	cerr << "Caught exception\n";
+    	std::cerr << error << "\n";
+    	exit(1);
     }
-
-    CPM->InitialiseEdgeList();
-  } catch (const char *error) {
-    cerr << "Caught exception\n";
-    std::cerr << error << "\n";
-    exit(1);
-  }
 }
 
 TIMESTEP {
-  try {
-    static int i = 0;
-    static Dish *dish = new Dish();
-    static Info *info = new Info(*dish, *this);
-    static Plotter plotter = Plotter(dish, this);
+	try {
 
-    /* cell-ECM model */
-    if (i == 0) {
-      // request creation of initial adhesions
-      CellECMInteractions interactions;
-      auto adh_zone = adhesion_zone(*(dish->CPM));
-      interactions.change_type_in_area.change_area = adh_zone;
-      interactions.change_type_in_area.num_particles =
-          par.num_initial_adhesions;
-      interactions.change_type_in_area.from_type = ParticleType::free;
-      interactions.change_type_in_area.to_type = ParticleType::adhesion;
-      auto data_mem = encode_cell_ecm_interactions(interactions);
-      instance->send("cell_ecm_interactions_out", Message(i, data_mem.first));
-    } else {
-      // get any adhesion particle movements from CPM and send them out
-      auto interactions = dish->CPM->GetCellECMInteractions();
-      auto data_mem = encode_cell_ecm_interactions(interactions);
-      instance->send("cell_ecm_interactions_out", Message(i, data_mem.first));
-    }
+		// Initialize static variables and pointers
+		static int i = 0;
+		static Dish *dish = new Dish();
+		static Info *info = new Info(*dish, *this);
+		static Plotter plotter = Plotter(dish, this);
+
+		/* cell-ECM model */
+		if (i == 0) {
+
+			// request creation of initial adhesions
+			CellECMInteractions interactions;
+
+			auto adh_zone = adhesion_zone(*(dish->CPM));
+
+			interactions.change_type_in_area.change_area = adh_zone;
+			interactions.change_type_in_area.num_particles = par.num_initial_adhesions;
+			interactions.change_type_in_area.from_type = ParticleType::free;
+			interactions.change_type_in_area.to_type = ParticleType::adhesion;
+
+			auto data_mem = encode_cell_ecm_interactions(interactions);
+
+			instance -> send("cell_ecm_interactions_out", Message(i, data_mem.first));
+
+		} else {
+			// get any adhesion particle movements from CPM and send them out
+			auto interactions = dish -> CPM -> GetCellECMInteractions();
+			auto data_mem = encode_cell_ecm_interactions(interactions);
+
+			instance -> send("cell_ecm_interactions_out", Message(i, data_mem.first));
+    	}
 
     dish->CPM->ResetCellECMInteractions();
 
@@ -171,7 +196,11 @@ TIMESTEP {
                         static_cast<std::size_t>(pde->SizeX()),
                         static_cast<std::size_t>(pde->SizeY())},
                        {"layer", "x", "y"}, StorageOrder::first_adjacent);
-        Data state = Data::dict("cpm", cpm_state, "pde", pde_state);
+
+        ACT::ActField act_field = dish->CPM->act_field;
+        Data ActField2DataDict(ACT::ActField act_field);
+        Data act_field_dic = ActField2DataDict(act_field);
+        Data state = Data::dict("cpm", cpm_state, "pde", pde_state,"act_field",act_field_dic);
         instance->send("state_out", Message(i, state));
       }
     }
@@ -194,6 +223,27 @@ TIMESTEP {
     std::terminate();
   }
   PROFILE_PRINT
+}
+
+// Converting Actfield dictionary into a MUSCLE data dictionary   
+Data ActField2DataDict(ACT::ActField AF){
+  Data AF_dic = Data::dict();
+  for (int i = 0; i < par.sizex; i++){
+    for (int j = 0; j < par.sizey; j++ ){
+      PixelPos pos(i,j);
+      // Writing only non-zero values for speed
+      if (AF.Value(pos) !=0){
+        // assuming a comma seperated format for keys
+        // keys should be strings as required by MUSCLE
+        std::string str;
+        str.append(std::to_string(i));
+        str.append(",");
+        str.append(std::to_string(j));
+        AF_dic[str]= std::int32_t (AF.Value(pos));
+        }
+    }
+  }
+  return AF_dic;
 }
 
 void PDE::InitialisePDE(CellularPotts *cpm) {

@@ -41,6 +41,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 #include "random.hpp"
 #include "sqr.hpp"
 #include "sticky.hpp"
+#include "act.hpp"
 
 #define ZYGFILE(Z) <Z.xpm>
 #define XPM(Z) Z##_xpm
@@ -545,6 +546,9 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
         (2. + 2. * (double)((*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea() -
                             (*cell)[sxy].Area() + (*cell)[sxy].TargetArea()))));
 
+  /* Perimeter Hamiltonian */
+  DH += Perimeter_DeltaH(x,y,xp,yp);
+
   /* Chemotaxis */
   if (PDEfield && (par.vecadherinknockout || (sxyp == 0 || sxy == 0))) {
     // copying from (xp, yp) into (x,y)
@@ -555,6 +559,12 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
                                         sat(PDEfield->get_PDEvars(0, xp, yp))));
       DH -= DDH;
     }
+  }
+
+  /* ACT model */
+  if (par.lambda_Act && par.max_Act) {
+    auto dh_act = ACT::DeltaH(act_field, sigma, {xp,yp}, {x,y}, par.lambda_Act, par.max_Act); 
+    DH -=  dh_act;
   }
 
   /* Individual adhesions with ECM */
@@ -592,6 +602,69 @@ int CellularPotts::DeltaH(int x, int y, int xp, int yp, PDE *PDEfield,
                        (*cell)[sxy].TargetLength()))));
   }
   return DH;
+}
+
+int CellularPotts::Perimeter_DeltaH(int x,int y,int xp, int yp){
+  int sxy = sigma[x][y];
+  int sxyp = sigma[xp][yp];
+  int tau_source = (*cell)[sigma[xp][yp]].tau;
+  int tau_target = (*cell)[sigma[x][y]].tau;
+  int DH_perimeter=0;
+
+  if (sxyp == MEDIUM) {
+    DH_perimeter -=
+        par.lambda_perimeter *
+        (DSQR((*cell)[sxy].Perimeter() - (*cell)[sxy].TargetPerimeter()) -
+        DSQR(GetNewPerimeterIfXYWereRemoved(sxy, x, y) -
+              (*cell)[sxy].TargetPerimeter()));
+
+  } else if (sxy == MEDIUM) {
+
+    DH_perimeter -=
+        par.lambda_perimeter *
+        (DSQR((*cell)[sxyp].Perimeter() - (*cell)[sxyp].TargetPerimeter()) -
+        DSQR(GetNewPerimeterIfXYWereAdded(sxyp, x, y) -
+              (*cell)[sxyp].TargetPerimeter()));
+
+  }
+  // they're both cells
+  else {
+
+    DH_perimeter -=
+        par.lambda_perimeter *
+        ((DSQR((*cell)[sxyp].Perimeter() - (*cell)[sxyp].TargetPerimeter()) -
+          DSQR(GetNewPerimeterIfXYWereAdded(sxyp, x, y) -
+              (*cell)[sxyp].TargetPerimeter())));
+
+    DH_perimeter -=
+        par.lambda_perimeter *
+        (DSQR((*cell)[sxy].Perimeter() - (*cell)[sxy].TargetPerimeter()) -
+        DSQR(GetNewPerimeterIfXYWereRemoved(sxy, x, y) -
+              (*cell)[sxy].TargetPerimeter()));
+  }
+  return DH_perimeter;
+}
+
+int CellularPotts::Area_DeltaH(int x,int y,int xp, int yp){
+  int sxy = sigma[x][y];
+  int sxyp = sigma[xp][yp];
+  int tau_source = (*cell)[sigma[xp][yp]].tau;
+  int tau_target = (*cell)[sigma[x][y]].tau;
+  int DH_area=0;
+
+  if (sxyp == MEDIUM) {
+    DH_area += (int)(par.lambda * (1. - 2. * (double)((*cell)[sxy].Area() -
+                                                (*cell)[sxy].TargetArea())));
+  } else if (sxy == MEDIUM) {
+    DH_area +=
+        (int)((par.lambda * (1. + 2. * (double)((*cell)[sxyp].Area() -
+                                                (*cell)[sxyp].TargetArea()))));
+  } else
+    DH_area += (int)((
+        par.lambda *
+        (2. + 2. * (double)((*cell)[sxyp].Area() - (*cell)[sxyp].TargetArea() -
+                            (*cell)[sxy].Area() + (*cell)[sxy].TargetArea()))));
+  return DH_area;
 }
 
 int CellularPotts::Act_AmoebaeMove(PDE *PDEfield) {
@@ -782,42 +855,10 @@ int CellularPotts::Act_DeltaH(int x, int y, int xp, int yp, PDE *PDEfield) {
   //! Perimeter constraint, only available when par.area_constraint_type==0, in
   //! other words,
   // when the target area constraint is in place
-  int DH_perimeter = 0;
-  if (par.area_constraint_type == 0) {
-    if (sxyp == MEDIUM) {
 
-      DH_perimeter -=
-          par.lambda_perimeter *
-          (DSQR((*cell)[sxy].Perimeter() - (*cell)[sxy].TargetPerimeter()) -
-           DSQR(GetNewPerimeterIfXYWereRemoved(sxy, x, y) -
-                (*cell)[sxy].TargetPerimeter()));
+  /* Perimeter Hamiltonian */
+  DH += Perimeter_DeltaH(x,y,xp,yp);
 
-    } else if (sxy == MEDIUM) {
-
-      DH_perimeter -=
-          par.lambda_perimeter *
-          (DSQR((*cell)[sxyp].Perimeter() - (*cell)[sxyp].TargetPerimeter()) -
-           DSQR(GetNewPerimeterIfXYWereAdded(sxyp, x, y) -
-                (*cell)[sxyp].TargetPerimeter()));
-
-    }
-    // they're both cells
-    else {
-
-      DH_perimeter -=
-          par.lambda_perimeter *
-          ((DSQR((*cell)[sxyp].Perimeter() - (*cell)[sxyp].TargetPerimeter()) -
-            DSQR(GetNewPerimeterIfXYWereAdded(sxyp, x, y) -
-                 (*cell)[sxyp].TargetPerimeter())));
-
-      DH_perimeter -=
-          par.lambda_perimeter *
-          (DSQR((*cell)[sxy].Perimeter() - (*cell)[sxy].TargetPerimeter()) -
-           DSQR(GetNewPerimeterIfXYWereRemoved(sxy, x, y) -
-                (*cell)[sxy].TargetPerimeter()));
-    }
-  }
-  DH += DH_perimeter;
   /* Chemotaxis */
   int DDH = 0;
   if (PDEfield && (par.vecadherinknockout || (sxyp == 0 || sxy == 0))) {
@@ -1077,9 +1118,10 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
         yp = yp - sizey + 2;
     }
 
-    // Fixed wall sites (sigma == -1) do not participate in copy attempts.
-    if (sigma[x][y] == -1 || sigma[xp][yp] == -1)
+    // Avoid copying borders to cells or background and same cell to the same cell
+    if (sigma[xp][yp]== -1 || sigma[x][y]== -1 || sigma[x][y]== sigma[xp][yp]){
       continue;
+    }
 
     // connectivity dissipation:
     H_diss = 0;
@@ -1092,6 +1134,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
     if ((p = CopyvProb(D_H, H_diss, anneal)) > 0) {
       if (par.adhesions_enabled)
         adhesion_mover.commit_move({xp, yp}, {x, y}, adh_disp);
+        ACT::commit_move(act_field,sigma,{xp, yp}, {x, y});
       ConvertSpin(x, y, xp,
                   yp); // sigma(x,y) will get the same value as sigma(xp,yp)
       for (int j = 1; j <= n_nb; j++) {
@@ -1133,6 +1176,7 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
       SumDH += D_H;
     }
   }
+  act_field.Decrease();
   return SumDH;
 }
 
@@ -2508,6 +2552,35 @@ void CellularPotts::GrowAndDivideCells(int growth_rate) {
   }
   DivideCells(which_cells);
 }
+// Function to check if (x, y) is inside the hexagonal array of circles
+bool CellularPotts::isInsideHexagonalArray(int x, int y, double r, double d) {
+    int dx = d;                 // Horizontal distance between centers
+    int dy = round(std::sqrt(3) * d); // Vertical distance between centers
+
+    int reduced_x = x % dx;
+    int reduced_y = y % dy;
+
+    reduced_x = std::min(reduced_x,dx-reduced_x);
+    reduced_y = std::min(reduced_y,dy-reduced_y);
+
+    // Check if (x, y) is inside the circle
+    if ((std::pow(reduced_x, 2) + std::pow(reduced_y, 2)) <= std::pow(r, 2)) {
+        return true;
+    } else if ((std::pow(reduced_x-dx/2, 2) + std::pow(reduced_y-dy/2, 2)) <= std::pow(r, 2)){
+        return true;
+    }
+    return false;
+}
+
+// 
+void CellularPotts::AddHexPillars(int r, int gap_width){
+  for (int x = 1; x < sizex - 1; x++)
+    for (int y = 1; y < sizey - 1; y++) {
+      if (isInsideHexagonalArray(x,y,r,gap_width+2*r)) {
+        sigma[x][y]=-1;
+      }
+    }
+  }
 
 double CellularPotts::DrawConvexHull(Graphics *g, int color) {
   // Draw the convex hull of the cells

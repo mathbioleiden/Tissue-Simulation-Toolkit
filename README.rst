@@ -40,17 +40,17 @@ Documentation is available `here <https://www.mathbioleiden.nl/tst-docs/docs/htm
 Downloading and installing
 --------------------------
 
-TST 2.0 is available from GitHub at https://github.com/mathbioleiden/Tissue-Simulation-Toolkit. It can be built and run on Windows, macOS and Linux using the instructions below.
+TST 2.0 is available from GitHub at https://github.com/mathbioleiden/Tissue-Simulation-Toolkit. It can be built and run on **Windows**, **MacOS** and **Linux** using the instructions below. Alternatively, you can use the Docker-based setup to run TST on any platform that supports **Docker**. For instructions on using the Docker implementation, see the `docker folder <./docker/>`_.
 
 Windows
 ~~~~~~~
 
 The easiest way to install and work with the TST on Windows is via the Windows Subsystem for Linux. This provides an Ubuntu Linux-like environment within Windows, within which you can install TST. Opening a WSL2 terminal and following the Linux instructions should get you there.
 
-macOS
+MacOS
 ~~~~~~~
 
-On macOS, you need to install the XCode development environment from Apple to get the required tools, including the command line tools. You will need to specifically select the command line tools in the installer.
+On MacOS, you need to install the XCode development environment from Apple to get the required tools, including the command line tools. You will need to specifically select the command line tools in the installer.
 
 To install the dependencies, we recommend installing [Homebrew](https://brew.sh). Once you have that installed, you can install QT5, libpng and zlib using (see note on Qt below)
 
@@ -67,18 +67,6 @@ Next, you can get the source by cloning the repository from GitHub. You can use 
 .. code-block:: bash
 
     git clone --recursive -b TST2.0 git@github.com:mathbioleiden/Tissue-Simulation-Toolkit.git
-
-If you are on a Mac then you will have to modify the file :code:`lib/MultiCellDS/v1.0/v1.0.0/Makefile` to get the TST to compile. Find the line
-
-.. code-block:: bash
-
-    export COMPILE_CFLAGS := -O3 -s -mfpmath=both -m64 -std=c++11
-
-And remove the :code:`-s -mfpmath=both` so that it reads
-
-.. code-block:: bash
-
-    export COMPILE_CFLAGS := -O3 -m64 -std=c++11
 
 The TST can then be built using
 
@@ -153,7 +141,7 @@ If you get the error:
     make[1]: *** [objects] Error 2
     make: *** [MCDS] Error 2
 
-Find the line
+Find the line below the file :code:`lib/MultiCellDS/v1.0/v1.0.0/Makefile`:
 
 .. code-block:: bash
 
@@ -164,6 +152,28 @@ And remove the :code:`-s -mfpmath=both` so that it reads
 .. code-block:: bash
 
     export COMPILE_CFLAGS := -O3 -m64 -std=c++11
+
+CMake minumum requirement
+~~~~~~~~~~~~~~
+
+If you get the error below when running :code:`make with_adhesions`:
+
+.. code-block:: bash
+
+    CMake Error at CMakeLists.txt:1 (CMAKE_MINIMUM_REQUIRED):
+      Compatibility with CMake < 3.5 has been removed from CMake.
+
+      Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+      to tell CMake that the project requires at least <min> but has been updated
+      to work with policies introduced by <max> or earlier.
+
+      Or, add -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to try configuring anyway.
+
+Run the following command to set the minimum CMake version to 3.5:
+
+.. code-block:: bash
+
+    CMAKE_POLICY_VERSION_MINIMUM=3.5 make with_adhesions
 
 Contributing
 -------------

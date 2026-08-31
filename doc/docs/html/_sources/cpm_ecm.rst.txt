@@ -517,7 +517,7 @@ There's already a fix for this in the MUSCLE3 git repository, which will
 be released with the next version, so when that's out we'll upgrade and this
 will disappear.
 
-
+.. _dumping-state:
 Dumping state
 '''''''''''''
 
