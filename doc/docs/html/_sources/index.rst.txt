@@ -11,7 +11,7 @@ Welcome to Tissue-Simulation-Toolkit's documentation!
    :maxdepth: 2
 
    readmelink.rst
-
+   how_to.rst
    build_system.rst
    cplusplus_tests.rst
    cpm_ecm.rst

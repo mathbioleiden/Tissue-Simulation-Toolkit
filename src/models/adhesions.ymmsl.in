@@ -44,10 +44,6 @@ settings:
 
   sizex: 200
   sizey: 200
-  box_size_x: 200
-  box_size_y: 200
-  Lx: 100.0
-  Ly: 100.0
 
   mcs: 2000
   rseed: -1

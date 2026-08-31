@@ -6,23 +6,21 @@ from typing import Union
 class GenerationParameters:
     """Relevant parameters for ECM generation
 
-    The spatial domain of the model is [-Lx, Lx] x [-Ly, Ly], but fibers will
+    The spatial domain of the model is [-sizex/2, sizex/2] x [-sizey/2, sizey/2], but fibers will
     be generated outside of this to ensure density is uniform also near the
     edges.
 
     Attributes:
-        box_size_x (int): Twice Lx, make sure it matches `sizex` in the .par
-                file
-        box_size_y (int): Twice Ly, make sure it matches `sizey` in the .par
-                file
-        Lx (float): Maximum absolute coordinate in the x direction
-        Ly (float): Maximum absolute coordinate in the y direction
+        sizex (int): Size of the x dimension of the domain same as the 
+                number of pixels in the x direction of the CPM model.
+        sizey (int): Size of the y dimension of the domain same as the 
+                number of pixels in the y direction of the CPM model.
 
         fixed_boundary (bool): Whether to fix particles outside the domain
-        bottom_fixed (bool): Whether to fix particles below the bottom (-Ly)
+        bottom_fixed (bool): Whether to fix particles below the bottom (-sizey/2)
                 border of the domain. Only applies if `fixed_boundary` is
                 False.
-        top_fixed (bool): Whether to fix particles above the top (+Ly)
+        top_fixed (bool): Whether to fix particles above the top (+sizey/2)
                 border of the domain. Only applies if `fixed_boundary` is
                 False.
 
@@ -50,10 +48,8 @@ class GenerationParameters:
         crosslink_bin_size (float): Size of bins used to distribute
                 crosslinkers evenly.
     """
-    box_size_x: int
-    box_size_y: int
-    Lx: float
-    Ly: float
+    sizex: int
+    sizey: int
 
     fixed_boundary: bool
     bottom_fixed: bool
@@ -86,10 +82,10 @@ class EvolutionParameters:
     """Relevant parameters for ECM evolution.
 
     Attributes:
-        box_size_x (int): Twice Lx, make sure it matches `sizex` in the .par
-                file
-        box_size_y (int): Twice Ly, make sure it matches `sizey` in the .par
-                file
+        sizex (int): Size of the x dimension of the domain same as the 
+                number of pixels in the x direction of the CPM model.
+        sizey (int): Size of the y dimension of the domain same as the 
+                number of pixels in the y direction of the CPM model.
 
         contour_length (float): Length of fiber along the curve
 
@@ -105,8 +101,8 @@ class EvolutionParameters:
         md_kT (float): Integrator kT
         viscosity (float): Integrator viscosity setting
     """
-    box_size_x: int
-    box_size_y: int
+    sizex: int
+    sizey: int
     contour_length: float
 
     md_use_gpu: bool

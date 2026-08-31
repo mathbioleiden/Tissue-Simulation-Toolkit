@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['ecmboundarystate_0',['ecmboundarystate',['../struct_e_c_m_boundary_state.html',1,'ECMBoundaryState'],['../classsrc_1_1ecm_1_1ecm__boundary__state_1_1_e_c_m_boundary_state.html',1,'src.ecm.ecm_boundary_state.ECMBoundaryState']]],
+  ['ecmboundarystate_0',['ECMBoundaryState',['../struct_e_c_m_boundary_state.html',1,'ECMBoundaryState'],['../classsrc_1_1ecm_1_1ecm__boundary__state_1_1_e_c_m_boundary_state.html',1,'src.ecm.ecm_boundary_state.ECMBoundaryState']]],
   ['ecminteractiontracker_1',['ECMInteractionTracker',['../class_e_c_m_interaction_tracker.html',1,'']]],
   ['edges_2',['Edges',['../class_edges.html',1,'']]],
   ['edgeselector_3',['EdgeSelector',['../class_edge_selector.html',1,'']]],

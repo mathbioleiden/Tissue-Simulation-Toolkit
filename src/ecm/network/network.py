@@ -95,8 +95,8 @@ class Network:
 
             # The particles are seeded in a slightly larger area than the simulation box.
             # This prevents low fiber concentration at the edges.
-            xbox = par.Lx * 2.0 + par.contour_length
-            ybox = par.Ly *2.0 + par.contour_length
+            xbox = par.sizex + par.contour_length
+            ybox = par.sizey + par.contour_length
 
             pos = np.zeros((num_fibers, particles_per_fiber, 2))
             pos[:, 0, 0] = np.random.uniform(-par.contour_length, xbox, size=num_fibers)
@@ -122,8 +122,8 @@ class Network:
         elif par.network_type == "outside square":
             # The particles are seeded in a slightly larger area than the simulation box.
             # This prevents low fiber concentration at the edges.
-            xbox = par.Lx * 2.0 + par.contour_length
-            ybox = par.Ly *2.0 + par.contour_length
+            xbox = par.sizex + par.contour_length
+            ybox = par.sizey + par.contour_length
 
             if par.network_square_size == -1.0:
                 raise RuntimeError("For using the 'outside square' method the value of network_square_size should be specified.")
@@ -132,7 +132,7 @@ class Network:
             for i in range(num_fibers):
                 pos_x =  np.random.uniform(-par.contour_length, xbox)
                 pos_y =  np.random.uniform(-par.contour_length, ybox)
-                while (pos_x <= par.Lx + square_size and pos_x >= par.Lx - square_size) and (pos_y <= par.Ly + square_size and pos_y >= par.Ly - square_size):
+                while (pos_x <= par.sizex/2 + square_size and pos_x >= par.sizex/2 - square_size) and (pos_y <= par.sizey/2 + square_size and pos_y >= par.sizey/2 - square_size):
                     pos_x =  np.random.uniform(-par.contour_length, xbox)
                     pos_y =  np.random.uniform(-par.contour_length, ybox)
                 pos[i, 0, 0] = pos_x
@@ -163,16 +163,16 @@ class Network:
 
         self.particles_typeid = np.zeros( num_total_particles, dtype=int ) # 0 is the id for type 'free'
         if par.fixed_boundary:
-            boundary_particles = ( abs(self.pos[:, 0]) > par.Lx ) | ( abs( self.pos[:,1] ) > par.Ly )
+            boundary_particles = ( abs(self.pos[:, 0]) > par.sizex/2 ) | ( abs( self.pos[:,1] ) > par.sizey/2 )
             self.particles_typeid[boundary_particles] = 1
             _logger.info("all boundary particles are fixed")
         else:
             if par.bottom_fixed:
-                boundary_particles = ( self.pos[:,1] < -par.Ly )
+                boundary_particles = ( self.pos[:,1] < -par.sizey/2 )
                 self.particles_typeid[boundary_particles] = 1
                 _logger.info("bottom particles are fixed")
             if par.top_fixed:
-                boundary_particles = ( self.pos[:,1] > par.Ly )
+                boundary_particles = ( self.pos[:,1] > par.sizey/2 )
                 self.particles_typeid[boundary_particles] = 1
                 _logger.info("top particles are fixed")
 
@@ -293,14 +293,14 @@ class Network:
         # bin the network - note that the binning lattice is not the same as the CPM lattice!
         bin_size_x = par.crosslink_bin_size
         bin_size_y = par.crosslink_bin_size
-        num_bins_x = int(par.box_size_x / bin_size_x)
-        num_bins_y = int(par.box_size_y / bin_size_y)
+        num_bins_x = int(par.sizex / bin_size_x)
+        num_bins_y = int(par.sizey / bin_size_y)
 
         # initialise the binner
         crosslink_binner = binner.FiberBin(num_bins_x, num_bins_y, 
                                            bin_size_x, bin_size_y, 
                                            par.beads, par.strands, 
-                                           par.Lx, par.Ly)
+                                           par.sizex, par.sizey)
                 
         # bin by taking all fiber beads and interpolating points between them
         # also generates 'bonds_in_bin' -- count of bonds in each bin
@@ -439,7 +439,7 @@ class Network:
         particles turn into membrane particles and interact with the ECM.
         """
         frac = 0.01 # The fraction of the number of pixels reserved for membrane particles.
-        n_added_particles=int(par.box_size_x*par.box_size_y*frac)
+        n_added_particles=int(par.sizex*par.sizey*frac)
         # placing the reserved beads in the origin
         bead_positions = [0,0]
         particle_type=3
@@ -464,11 +464,11 @@ class Network:
         img = Image.open(par.network_file)
 
         # Checking the image aspect ratio
-        if (img.width != par.box_size_x or img.height != par.box_size_y):
-            _logger.warning(f'The image size ({img.width}x{img.height}) is not the same as the simulation box ({par.box_size_x}x{par.box_size_y}).')
-            if abs(img.width/img.height - par.box_size_x/par.box_size_y) <= 0.1:
+        if (img.width != par.sizex or img.height != par.sizey):
+            _logger.warning(f'The image size ({img.width}x{img.height}) is not the same as the simulation box ({par.sizex}x{par.sizey}).')
+            if abs(img.width/img.height - par.sizex/par.sizey) <= 0.1:
                 _logger.warning(f'The aspect ratios are compatible. The image is resized to match the simulation box.')
-                img = img.resize((par.box_size_x, par.box_size_y))
+                img = img.resize((par.sizex, par.sizey))
             else:
                 raise RuntimeError("Please resize the image to match the simulation box.")
 

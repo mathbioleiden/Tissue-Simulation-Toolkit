@@ -23,21 +23,21 @@ _logger = logging.getLogger(__name__)
 
 class StatePlotter:
     """Plots the simulation state on the screen or to a file."""
-    def __init__(self, Lx: float, Ly: float, img_height: int = 480) -> None:
+    def __init__(self, sizex: int, sizey: int, img_height: int = 480) -> None:
         """Create a Viewer
 
-        Image width will be set automatically based on the height and the Lx/Ly
+        Image width will be set automatically based on the height and the sizex/sizey
         aspect ratio.
 
         Args:
-            Lx: Half-length in the x direction of the model domain
-            Ly: Half-length in the y direction of the model domain
+            sizex: Length in the x direction of the model domain
+            sizey: Length in the y direction of the model domain
             img_height: Height of the image in pixels
         """
-        self._Lx = Lx
-        self._Ly = Ly
+        self._sizex = sizex
+        self._sizey = sizey
         self._img_height = img_height
-        self._img_width = int(img_height * Lx / Ly)
+        self._img_width = int(img_height * sizex / sizey)
         self._dpi = 100.0
         offset = 75.0
 
@@ -45,12 +45,12 @@ class StatePlotter:
         self._fig = plt.figure(figsize=figsize, dpi=self._dpi)
         self._ax = plt.axes((0, 0, 1, 1), frameon = False, xticks=[], yticks=[])
         
-        self._ax.set_xlim(-offset, 2 * self._Lx + offset)
+        self._ax.set_xlim(-offset, self._sizex + offset)
         # flip y-axis to match TST graphics
-        self._ax.set_ylim(2 * self._Ly + offset, -offset)
+        self._ax.set_ylim(self._sizey + offset, -offset)
 
-        x = np.linspace(0.0, 2 * self._Lx, int(2 * self._Lx))
-        y = np.linspace(0.0, 2 * self._Ly, int(2 * self._Ly))
+        x = np.linspace(0.0, self._sizex, self._sizex)
+        y = np.linspace(0.0, self._sizey, self._sizey)
         self._cpm_grid = np.meshgrid(x, y, indexing='ij')
 
         self._bond_lines: List[Line2D] = []
@@ -120,7 +120,7 @@ class StatePlotter:
         # in parallel simulations
         unique_dic  = {}
         for i in range(len(bond_groups)):
-            unique_dic[tuple(sorted(bond_groups[i,:]))] = i
+            unique_dic[tuple(sorted(bond_groups[i,:]))] = i # type: ignore[type-var]
         bond_groups =  np.array(list(unique_dic.keys()))
 
         _logger.debug(f'bond_groups: {len(bond_groups)}')
@@ -166,7 +166,7 @@ class StatePlotter:
             self._act_image.remove()
 
         # Converting the dictonary data into an integer grid
-        act_grid= np.zeros((int(2 * self._Ly),int(2 * self._Lx)),dtype=int)
+        act_grid= np.zeros((self._sizey,self._sizex),dtype=int)
         for key in actfield.keys():
             comma_loc = key.find(',')
             i = int(key[:comma_loc])

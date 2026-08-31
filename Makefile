@@ -63,23 +63,16 @@ PYVER_MINOR := $(word 2,$(PYTHON_VERNUM))
 # Check the python version
 PYVER_MAJOR_REQ :=3
 PYVER_MINOR_MIN :=9
-PYVER_MINOR_MAX :=11
 
 PYVER_MINOR_MIN_OK := $(shell [ $(PYVER_MINOR) -ge $(PYVER_MINOR_MIN) ] && echo "1" || echo "0")
-PYVER_MINOR_MAX_OK := $(shell [ $(PYVER_MINOR) -le $(PYVER_MINOR_MAX) ] && echo "1" || echo "0")
 
 pyver:
-	@echo "Python must be >= $(PYVER_MAJOR_REQ).$(PYVER_MINOR_MIN) and <= $(PYVER_MAJOR_REQ).$(PYVER_MINOR_MAX). Current Python is $(PYTHON_VERSION)."
+	@echo "Python must be >= $(PYVER_MAJOR_REQ).$(PYVER_MINOR_MIN). Current Python is $(PYTHON_VERSION)."
 	@if [ $(PYVER_MAJOR) -ne $(PYVER_MAJOR_REQ) ]; then \
 		echo "Major version too low, python must be >= $(PYVER_MAJOR_REQ).$(PYVER_MINOR_MIN)".; \
 		exit 1; \
 	fi
-	@if [ $(PYVER_MINOR_MIN_OK) -eq 1 ]; then \
-		if [ $(PYVER_MINOR_MAX_OK) -eq 0 ]; then \
-			echo "Minor version too high, python must be <= $(PYVER_MAJOR_REQ).$(PYVER_MINOR_MAX)".; \
-			exit 1; \
-		fi \
-	else \
+	@if [ $(PYVER_MINOR_MIN_OK) -eq 0 ]; then \
 		echo "Minor version too low, python must be >= $(PYVER_MAJOR_REQ).$(PYVER_MINOR_MIN)".; \
 		exit 1; \
 	fi
@@ -110,20 +103,25 @@ python: mpi4py
 endif  # ENABLE_MPI
 
 
-# Due to dependency issues with Python3.12 and Muscle3, we create a VENV with the highest available python less than 3.12
-# Numpy also got a major update recently, and some dependencies do not work with the newer version unfortunately.
+# Check the python version
 $(VENV): pyver
 	${PY} -m venv venv
 
+# Install numpy in the virtual environment
 $(VENV_NUMPY): $(VENV)
-	. venv/bin/activate && python3 -m pip install numpy==1.25.0
+	. venv/bin/activate && python3 -m pip install numpy
 
-$(VENV_HOOMD): $(VENV) $(VENV_NUMPY)
+# Install other dependencies in the virtual environment
+venv_dependencies: $(VENV)
+	. venv/bin/activate && python3 -m pip install pybind11[global]
+
+# Install hoomd in the virtual environment (calls the Makefile in the lib/hoomd/ subdirectory)
+$(VENV_HOOMD): $(VENV) $(VENV_NUMPY) venv_dependencies
 	. venv/bin/activate && $(MAKE) -C $(HOOMD_DIR) install
 	@# The hoomd installer doesn't touch the file, so we do it here so we don't keep
 	@# reinstalling again and again.
-	touch $(VENV_HOOMD)
-	
+	touch ./$(VENV_HOOMD)
+
 $(VENV_DOCS):
 	python3 -m venv venv_docs
 	. venv_docs/bin/activate && python -m pip install -r ./doc/requirements.txt

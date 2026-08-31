@@ -55,16 +55,16 @@ def main() -> None:
             data = pickle.load(f)
 
         mcs = data['mcs']
-        Lx = data['Lx']
-        Ly = data['Ly']
+        sizex = data['sizex']
+        sizey = data['sizey']
         print(f'mcs: {mcs}')
 
         if plotter is None:
-            plotter = StatePlotter(Lx, Ly, args.image_height)
-            set_Lx = Lx
-            set_Ly = Ly
+            plotter = StatePlotter(sizex, sizey, args.image_height)
+            set_sizex = sizex
+            set_sizey = sizey
         else:
-            if Lx != set_Lx or Ly != set_Ly:
+            if sizex != set_sizex or sizey != set_sizey:
                 raise RuntimeError(f'Domain size changed when loading {data_file}')
 
         particles = data['ecm_state']['particles']

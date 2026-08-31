@@ -53,7 +53,8 @@ RUN apt-get update \
         wget \
         libssl-dev libbz2-dev \
         libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev \
-        xz-utils tk-dev libffi-dev liblzma-dev python-openssl
+        xz-utils tk-dev libffi-dev liblzma-dev python-openssl ninja-build \
+        libeigen3-dev
 
 RUN curl https://pyenv.run | bash
 
@@ -61,14 +62,10 @@ ENV PYENV_ROOT="/root/.pyenv"
 ENV PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
         
 RUN pyenv install 3.10.13 && pyenv global 3.10.13
-
-RUN mkdir -p /etc/ssh \
-    && ssh-keyscan github.com >> /etc/ssh/ssh_known_hosts
-
+        
 RUN mkdir -p /home/mduser
 
-RUN --mount=type=ssh \
-    git clone --recursive -b TST2.0 \
+RUN git clone --recursive -b TST2.0 \
         https://github.com/sbr-shakibi/Tissue-Simulation-Toolkit.git \
         /home/mduser/Tissue-Simulation-Toolkit \
     && cd /home/mduser/Tissue-Simulation-Toolkit
@@ -76,9 +73,5 @@ RUN --mount=type=ssh \
 WORKDIR /home/mduser/Tissue-Simulation-Toolkit/
 RUN make
 
-ENV PATH="/path/to/venv/bin:$PATH"
-# There is an error in the hoomd installation, so we need to install it manually
-RUN make HOOMD_CORES=4 with_adhesions || true
-RUN make -C lib/hoomd/build/hoomd install
 RUN make HOOMD_CORES=4 with_adhesions
 USER mduser

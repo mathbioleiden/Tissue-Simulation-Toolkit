@@ -19,8 +19,8 @@ def main() -> None:
         Operator.F_INIT: ['cpm_state_in', 'ecm_state_in']})
 
     while instance.reuse_instance():
-        Lx = instance.get_setting('Lx', 'float')
-        Ly = instance.get_setting('Ly', 'float')
+        sizex = instance.get_setting('sizex', 'int')
+        sizey = instance.get_setting('sizey', 'int')
 
         cpm_state_msg = instance.receive('cpm_state_in')
         ecm_state_msg = instance.receive('ecm_state_in')
@@ -28,8 +28,8 @@ def main() -> None:
         mcs = int(cpm_state_msg.timestamp)
 
         snapshot = {
-                'Lx': Lx,
-                'Ly': Ly,
+                'sizex': sizex,
+                'sizey': sizey,
                 'mcs': mcs,
                 'cpm_state': cpm_state_msg.data,
                 'ecm_state': ecm_state_msg.data}
