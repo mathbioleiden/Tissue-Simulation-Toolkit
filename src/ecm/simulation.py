@@ -105,24 +105,24 @@ class Boundary:
         new_bond_ids = set()
         new_angle_cst_ids = set()
 
-        matches = np.in1d(snapshot.bonds.group[:, 0], par_ids)
+        matches = np.inid(snapshot.bonds.group[:, 0], par_ids)
         new_bond_ids.update(snapshot.bonds.tag[matches])
         new_par_ids.update(snapshot.bonds.group[matches, 1])
 
-        matches = np.in1d(snapshot.bonds.group[:, 1], par_ids)
+        matches = np.inid(snapshot.bonds.group[:, 1], par_ids)
         new_bond_ids.update(snapshot.bonds.tag[matches])
         new_par_ids.update(snapshot.bonds.group[matches, 0])
 
-        matches = np.in1d(snapshot.angles.group[:, 0], par_ids)
+        matches = np.inid(snapshot.angles.group[:, 0], par_ids)
         new_angle_cst_ids.update(snapshot.angles.tag[matches])
         new_par_ids.update(int_array_to_set(snapshot.angles.group[matches, 1:3]))
 
-        matches = np.in1d(snapshot.angles.group[:, 1], par_ids)
+        matches = np.inid(snapshot.angles.group[:, 1], par_ids)
         new_angle_cst_ids.update(snapshot.angles.tag[matches])
         new_par_ids.update(snapshot.angles.group[matches, 0])
         new_par_ids.update(snapshot.angles.group[matches, 2])
 
-        matches = np.in1d(snapshot.angles.group[:, 2], par_ids)
+        matches = np.inid(snapshot.angles.group[:, 2], par_ids)
         new_angle_cst_ids.update(snapshot.angles.tag[matches])
         new_par_ids.update(int_array_to_set(snapshot.angles.group[matches, 0:2]))
 
@@ -448,7 +448,7 @@ class Simulation:
                     ' adhesion_zone_radius, decrease num_initial_adhesions, or'
                     ' provide an ECM with higher particle density.')
 
-            return()
+            return
 
         # Randomly select the required number of particles
         selected_changes = list()
