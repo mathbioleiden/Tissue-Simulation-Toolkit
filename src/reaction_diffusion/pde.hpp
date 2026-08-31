@@ -1,6 +1,7 @@
 /*
 
 Copyright 1996-2006 Roeland Merks
+Copyright 2006-2026 Tissue Simulation Toolkit contributors
 
 This file is part of Tissue Simulation Toolkit.
 
