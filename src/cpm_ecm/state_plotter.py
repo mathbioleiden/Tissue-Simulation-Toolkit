@@ -183,7 +183,7 @@ class StatePlotter:
             cpm: Cellular Potts state, SizeX x SizeY array
         """
         if self._cpm_contours:
-                self._cpm_contours.remove()
+            self._cpm_contours.remove()
 
         if self._cpm_contour_fill:
             self._cpm_contour_fill.remove()

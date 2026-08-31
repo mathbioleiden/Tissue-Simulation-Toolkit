@@ -12,6 +12,13 @@ PY=python3 # python3.11
 
 MODELS = bin/vessel bin/qPotts bin/sorting bin/Act_model
 
+ifeq ($(shell uname -s),Darwin)
+export MACOSX_DEPLOYMENT_TARGET ?= 14.0
+MCDS_MAKE_FLAGS = COMPILE_CFLAGS="-O3 -std=c++11"
+else
+MCDS_MAKE_FLAGS =
+endif
+
 .PHONY: all XSDE MCDS LIBCS Catch2 TST python mpi4py ecm docs
 .PHONY: test clean clean_hoomd
 

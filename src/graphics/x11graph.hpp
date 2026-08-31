@@ -189,14 +189,15 @@ void X11Graphics::ReadColorTable(XColor *cols) {
   char name[50];
   FILE *fpc;
 
-  sprintf(name, "default.ctb");
-  if ((fpc = fopen(name, "r")) == NULL) {
+std::string colortable_path = par.ResolveInputPath(par.colortable);
+    
+  if ((fpc = fopen(colortable_path.c_str(), "r")) == NULL) {
     char *message = (char *)malloc(200 * sizeof(char));
     if (message == 0) {
       throw "Memory panic in X11Graphics::ReadColorTable\n";
     }
     snprintf(message, 199,
-             "X11Graphics::ReadColorTable: Colormap '%s' not found.", name);
+             "X11Graphics::ReadColorTable: Colormap '%s' not found.", olortable_path.c_str());
     // cerr << message << endl;
     throw(message);
   }

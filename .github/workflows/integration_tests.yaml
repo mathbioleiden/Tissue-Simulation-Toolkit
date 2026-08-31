@@ -2,14 +2,14 @@
 # This is somewhat limited, as it doesn't check whether the results make sense,
 # just that it doesn't crash.
 
-name: Test running an example
+name: Test running examples
 on: push
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
       with:
         submodules: recursive
 
@@ -22,8 +22,25 @@ jobs:
 
     - name: Run the vessel example
       run: |
-        cd $GITHUB_WORKSPACE/bin
-        sed -i -e 's/mcs = .*/mcs = 100/' ../data/chemotaxis.par
-        echo 'useopencl = false' >>../data/chemotaxis.par
-        sed -i -e 's/^graphics.*/graphics = false/' ../data/chemotaxis.par
+        cd $GITHUB_WORKSPACE
+        rm -rf out
+        mkdir -p out
+        sed -i -e 's/mcs = .*/mcs = 100/' data/chemotaxis.par
+        echo 'useopencl = false' >> data/chemotaxis.par
+        sed -i -e 's/^graphics.*/graphics = false/' data/chemotaxis.par
+        sed -i -e 's/^store.*/store = true/' data/chemotaxis.par
+        cd bin
         ./vessel ../data/chemotaxis.par -platform offscreen
+        test -n "$(find ../out -type f -name '*.png' -size +0c -print -quit)"
+
+    - name: Run the sorting example
+      run: |
+        cd $GITHUB_WORKSPACE
+        rm -rf out
+        mkdir -p out
+        sed -i -e 's/mcs = .*/mcs = 100/' data/sorting.par
+        sed -i -e 's/^graphics.*/graphics = false/' data/sorting.par
+        sed -i -e 's/^store.*/store = true/' data/sorting.par
+        cd bin
+        ./sorting ../data/sorting.par -platform offscreen
+        test -n "$(find ../out -type f -name '*.png' -size +0c -print -quit)"

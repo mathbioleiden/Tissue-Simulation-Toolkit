@@ -61,7 +61,7 @@ TIMESTEP {
     static int i = 0;
     static Dish *dish = new Dish();
     static Info *info = new Info(*dish, *this);
-    static Plotter *plotter = new Plotter(dish, this);
+    static Plotter plotter(dish, this);
     dish->CPM->Act_AmoebaeMove(dish->PDEfield);
     if (par.max_Act && par.lambda_Act) {
       dish->PDEfield->MILayerCA(3, 1., dish->CPM, dish);
@@ -75,7 +75,7 @@ TIMESTEP {
     // info->WriteCOMsTorus(out);
     // plot to screen and file
     if (par.graphics && !(i % par.storage_stride)) {
-      plotter->Plot();
+      plotter.Plot();
       char title[400];
       snprintf(title, 399, "CellularPotts: %d MCS", i);
       info->Menu();
@@ -83,7 +83,7 @@ TIMESTEP {
     if (par.store && !(i % par.storage_stride)) {
       char fname[200], fname_mcds[200];
       snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
-      plotter->Plot();
+      plotter.Plot();
       Write(fname);
     }
     i++;

@@ -225,7 +225,8 @@ void PDE::PlotInCells(Graphics *g, CellularPotts *cpm, const int l) {
 void PDE::SetupOpenCL() {
   extern CLManager clm;
 
-  program = clm.make_program(par.opencl_core_path, OPENCL_PDE_TYPE);
+    program = clm.make_program(
+        par.ResolveInputPath(par.opencl_core_path), OPENCL_PDE_TYPE);
 
   // Secretion and diffusion variables
   PDEFIELD_TYPE dt = (PDEFIELD_TYPE)par.dt;

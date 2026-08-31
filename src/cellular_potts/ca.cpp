@@ -184,6 +184,12 @@ void CellularPotts::AllocateSigma(int sx, int sy) {
   }
 }
 
+void CellularPotts::SetWall(int x, int y) {
+  if (x < 0 || x >= sizex || y < 0 || y >= sizey)
+    throw "CellularPotts::SetWall: coordinates outside CPM lattice.";
+  sigma[x][y] = -1;
+}
+
 void CellularPotts::AllocateMatrix(Dish &beast) {
   // sizex; sizey=sy;
 
@@ -257,7 +263,7 @@ void CellularPotts::InitialiseEdgeList(void) {
       cp = -1;
     else
       cp = sigma[xp][yp];
-    if (cp != c && cp != -1) {
+    if (c != -1 && cp != c && cp != -1) {
       // if a pixel and its neighbour have a different sigma, add a unique
       // interger to edgelist
       edgelist[k] = sizeedgelist;
@@ -1150,9 +1156,10 @@ int CellularPotts::AmoebaeMove(PDE *PDEfield, bool anneal) {
         }
         if (xn > 0 && yn > 0 && xn < sizex - 1 &&
             yn < sizey - 1) { // if the neighbour site is within the lattice
-          if (edgelist[edgeadjusting] == -1 && sigma[xn][yn] != sigma[x][y]) {
-            // if there should be an edge between (x,y) and (xn,yn) and it is
-            // not there yet, add it
+          if (edgelist[edgeadjusting] == -1 && sigma[xn][yn] != -1 &&
+              sigma[xn][yn] != sigma[x][y]) {
+            // Add an edge only between CPM states that may participate
+            // in copy attempts. Fixed wall sites have sigma == -1.
             AddEdgeToEdgelist(edgeadjusting);
             // adjust loop because two edges were removeed
             loop += 2.0 / n_nb;
@@ -1680,11 +1687,19 @@ int CellularPotts::GetNewPerimeterIfXYWereAdded(int sxyp, int x, int y) {
         xp2 = xp2 - sizex + 2;
       if (yp2 >= sizey - 1)
         yp2 = yp2 - sizey + 2;
-    }
-    if (sigma[xp2][yp2] == sxyp) {
-      perim--;
+
+      if (sigma[xp2][yp2] == sxyp)
+        perim--;
+      else
+        perim++;
     } else {
-      perim++;
+      // Outside the lattice counts as a cell boundary.
+      if (xp2 < 0 || yp2 < 0 || xp2 >= sizex || yp2 >= sizey)
+        perim++;
+      else if (sigma[xp2][yp2] == sxyp)
+        perim--;
+      else
+        perim++;
     }
   }
   return perim;
@@ -1713,11 +1728,19 @@ int CellularPotts::GetNewPerimeterIfXYWereRemoved(int sxy, int x, int y) {
         xp2 = xp2 - sizex + 2;
       if (yp2 >= sizey - 1)
         yp2 = yp2 - sizey + 2;
-    }
-    if (sigma[xp2][yp2] == sxy) {
-      perim++;
+
+      if (sigma[xp2][yp2] == sxy)
+        perim++;
+      else
+        perim--;
     } else {
-      perim--;
+      // Outside the lattice counts as a cell boundary.
+      if (xp2 < 0 || yp2 < 0 || xp2 >= sizex || yp2 >= sizey)
+        perim--;
+      else if (sigma[xp2][yp2] == sxy)
+        perim++;
+      else
+        perim--;
     }
   }
   return perim;

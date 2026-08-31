@@ -89,7 +89,7 @@ To get the source, clone the repository from GitHub:
 
 .. code-block:: bash
 
-    git clone --recursive -b TST2.0 git@github.com:rmerks/Tissue-Simulation-Toolkit.git
+    git clone --recursive -b TST2.0 git@github.com:mathbioleiden/Tissue-Simulation-Toolkit.git
 
 The TST can then be built using
 

@@ -33,7 +33,7 @@ PARAMETER(bool, graphics, true, "Whether to enable graphics")
 PARAMETER(bool, store, true, "Whether to store output to disk")
 PARAMETER(int, storage_stride, 10, "Interval at which to store/show plots")
 PARAMETER(std::string, datadir, "data_film", "Directory to store plots in")
-PARAMETER(std::string, colortable, "../data/default.ctb",
+PARAMETER(std::string, colortable, "default.ctb",
           "Colortable to use for plotting")
 
 PARAMETER(
@@ -56,7 +56,8 @@ PARAMETER(bool, load_mcds, false, "Whether to load an MCDS file to start from")
 
 PARAMETER(std::string, mcds_input, "false", "Path to MCDS file to load")
 
-PARAMETER(std::string, mcds_output, "outstate.xml", "MCDS output file path")
+PARAMETER(std::string, mcds_output, "outstate.xml",
+          "MCDS output filename or path")
 
 PARAMETER(int, mcds_anneal_steps, 0,
           "Number of annealing steps to perform when saving MCDS")

@@ -84,12 +84,19 @@ TIMESTEP {
     }
 
     static Info *info = new Info(*dish, *this);
-    static Plotter *plotter = new Plotter(dish, this);
+    static Plotter plotter(dish, this);
 
     if (par.graphics && !(i % par.storage_stride)) {
-      PROFILE(all_plots, plotter->Plot();)
+      PROFILE(all_plots, plotter.Plot();)
       info->Menu();
       dish->CPM->FindBoundingBox(); // old: Setboundingbox
+    }
+      
+    if (par.store && !(i % par.storage_stride)) {
+        char fname[200], fname_mcds[200];
+        snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
+        PROFILE(all_plots, plotter.Plot();)
+        Write(fname);
     }
 
     if (i == 0 && par.pause_on_start) {
@@ -97,20 +104,15 @@ TIMESTEP {
       i++;
     }
 
-    if (!info->IsPaused()) {
-      PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
-    }
-    // cout << "Compactness = " << dish-> CPM -> Compactness() << endl;
+      if (!info->IsPaused()) {
+          PROFILE(amoebamove, dish->CPM->AmoebaeMove(dish->PDEfield);)
+          
+          if (i == par.mcs-1) {
+              dish->ExportMultiCellDS(par.mcds_output);
+          }
+      }
 
-    if (i == par.mcs) {
-      dish->ExportMultiCellDS(par.mcds_output);
-    }
-
-    if (par.store && !(i % par.storage_stride)) {
-      char fname[200], fname_mcds[200];
-      snprintf(fname, 199, "%s/extend%05d.png", par.datadir.c_str(), i);
-      Write(fname);
-    }
+  
 
     if (!info->IsPaused()) {
       i++;

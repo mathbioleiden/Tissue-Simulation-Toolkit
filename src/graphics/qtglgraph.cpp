@@ -319,13 +319,14 @@ void QtGLGraphics::Line(float x1, float y1, float x2, float y2, int color) {
 void QtGLGraphics::ReadColorTable() {
   extern Parameter par;
   FILE *fpc;
-  if ((fpc = fopen(par.colortable, "r")) == NULL) {
+    std::string colortable_path = par.ResolveInputPath(par.colortable);
+  if ((fpc = fopen(colortable_path.c_str(), "r")) == NULL) {
     char *message = new char[2000];
     if (message == 0) {
       throw "Memory panic in GLGraphics::ReadColorTable\n";
     }
     sprintf(message, "GLGraphics::ReadColorTable: Colormap '%s' not found.",
-            par.colortable);
+            colortable_path.c_str());
     throw(message);
   }
   int r, g, b, a;

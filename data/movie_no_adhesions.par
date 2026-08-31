@@ -8,7 +8,7 @@ area_constraint_type = 0
 lambda = 50
 
 lambda2 = 0
-Jtable = ../data/simp3.dat
+Jtable = simp3.dat
 conn_diss = 1000
 cluster_connectivity = true
 
