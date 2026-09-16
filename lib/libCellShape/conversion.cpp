@@ -31,7 +31,7 @@ void MCDS_io::nodes_from_lattice(){
 						node->x = x -0.5;
 						node->y = y -0.5;
 						for(int cell_id : cells){
-							std::cout << "Adding node " << node_id << " to " << cell_id << "" << std::endl;
+							//std::cout << "Adding node " << node_id << " to " << cell_id << "" << std::endl;
 							cell_by_id(cell_id)->node_ids.push_back(node_id);
 						}
 						node->cell_ids = std::vector<int>(cells.begin(), cells.end()); 
