@@ -31,14 +31,14 @@ size_init_cells = 50
 sizex = 200
 sizey = 200
 divisions = 7
-mcs = 101
+mcs = 10001
 rseed = -1
 subfield = 1.0
 relaxation = 0
 
 # output
-storage_stride = 100
-graphics = false
+storage_stride = 10
+graphics = true
 store = true
 datadir = ../out
 mcds_output = test.xml

@@ -38,9 +38,9 @@ jobs:
         cd $GITHUB_WORKSPACE
         rm -rf out
         mkdir -p out
-        sed -i -e 's/mcs = .*/mcs = 100/' data/sorting.par
-        sed -i -e 's/^graphics.*/graphics = false/' data/sorting.par
-        sed -i -e 's/^store.*/store = true/' data/sorting.par
+        sed -i -e 's/mcs = .*/mcs = 100/' data/sorting-smoketest.par
+        sed -i -e 's/^graphics.*/graphics = false/' data/sorting-smoketest.par
+        sed -i -e 's/^store.*/store = true/' data/sorting-smoketest.par
         cd bin
-        ./sorting ../data/sorting.par -platform offscreen
+        ./sorting ../data/sorting-smoketest.par -platform offscreen
         test -n "$(find ../out -type f -name '*.png' -size +0c -print -quit)"
